@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Immersive Traveler Companion AI - Explore destinations with VR previews, AI-powered itineraries, and smart booking recommendations." />
+  <meta name="theme-color" content="#0ea5e9" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <title>SafarX - Immersive Traveler Companion AI</title>
+</head>
+
+<body class="dark">
+  <div id="root">
+    <!-- Inline AI Loader: shows instantly before React mounts, then replaced -->
+    <div id="ai-inline-loader"
+      style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#0a0a14;">
+      <div style="display:flex;align-items:center;gap:1rem;font-family:'Inter','Outfit',system-ui,sans-serif;">
+        <span
+          style="font-size:clamp(1.75rem,5vw,3.75rem);font-weight:800;color:#fff;letter-spacing:-0.02em;">SafarX</span>
+        <span
+          style="font-size:clamp(1.75rem,5vw,3.75rem);font-weight:800;color:#fff;background:#8B5CF6;padding:0.15em 0.4em;border-radius:0.5em;letter-spacing:-0.02em;">Loading</span>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

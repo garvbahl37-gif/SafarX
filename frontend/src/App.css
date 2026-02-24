@@ -1,0 +1,105 @@
+/* App.css - Minimal overrides for Safar360 */
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Ensure full height */
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Smooth page transitions */
+#root {
+  transition: opacity 0.3s ease;
+}
+
+/* Remove default focus outlines, use custom */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(0, 102, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Prevent text selection on UI elements */
+button,
+[role="button"],
+.chip,
+.badge {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 768px) {
+
+  button,
+  [role="button"],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Loading skeleton animation */
+@keyframes skeleton {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.03) 100%);
+  background-size: 200% 100%;
+  animation: skeleton 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Custom cursor for interactive elements */
+button:not(:disabled),
+[role="button"],
+a,
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Disabled state */
+button:disabled,
+[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .glass,
+  .glass-panel,
+  .glass-strong,
+  .glass-card {
+    background: white !important;
+    border: 1px solid #e5e7eb !important;
+  }
+}
