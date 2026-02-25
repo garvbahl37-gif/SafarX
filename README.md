@@ -1,86 +1,106 @@
-# 🌍 Safar360 - Immersive Traveler Companion AI
+# ✈️ SafarX — AI-Powered Travel Companion
 
-A hackathon-winning AI-powered travel assistant with VR destination previews, intelligent itinerary generation, and real-time booking search.
+An AI travel assistant with real-time flight search, smart itinerary generation, and a premium glassmorphism UI — built for hackathon glory.
 
-![Tech Stack](https://img.shields.io/badge/Stack-FastAPI%20%7C%20React%20%7C%20Gemini%20%7C%20Tavily-blue)
+![Stack](https://img.shields.io/badge/Stack-FastAPI%20%7C%20React%20%7C%20Gemini%20%7C%20TBO-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
+
+---
 
 ## ✨ Features
 
-- 🤖 **AI Travel Agent** - Powered by Google Gemini with function calling
-- 🌐 **VR Previews** - Explore destinations in 3D via Google Earth
-- 📅 **Smart Itineraries** - AI-generated day-by-day travel plans
-- 🔍 **Real-time Search** - Tavily-powered booking site discovery
-- 🎨 **Premium UI** - Glassmorphism, animations, dark mode
+- 🤖 **AI Travel Agent** — Google Gemini with function calling for natural-language travel queries
+- ✈️ **Live Flight Search** — Real-time flight availability via the TBO (TekTravels) API
+- 🔍 **Smart Booking Discovery** — Tavily-powered web search for hotels, trains & packages
+- 📅 **Itinerary Generator** — AI-generated day-by-day travel plans
+- 🎛️ **Flight Filter & Sort** — Filter by stops, airline, price slider; sort by price/duration/time
+- 🎨 **Premium UI** — Glassmorphism, Framer Motion animations, dark mode
+
+---
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- **Python 3.11+**
-- **FastAPI** - High-performance async API
-- **Google Gemini** - LLM with function calling
-- **Tavily** - Web search API
+| Library | Purpose |
+|---------|---------|
+| **FastAPI** | Async API server |
+| **Google Gemini** | LLM with function calling |
+| **TBO API** | Real-time flight search & booking |
+| **Tavily** | Web search for travel discovery |
 
 ### Frontend
-- **Vite + React**
-- **Tailwind CSS**
-- **Framer Motion**
-- **Lucide React Icons**
+| Library | Purpose |
+|---------|---------|
+| **Vite + React** | App framework |
+| **Tailwind CSS** | Utility-first styling |
+| **Framer Motion** | Animations & transitions |
+| **Lucide React** | Icon library |
+| **Axios** | HTTP client |
+
+---
 
 ## 📁 Project Structure
 
 ```
-Agent Safar360/
+SafarX/
 ├── backend/
-│   ├── main.py           # FastAPI app & endpoints
-│   ├── agent.py          # Gemini AI agent
-│   ├── tools.py          # Tool implementations
-│   ├── tavily_client.py  # Tavily API client
-│   ├── prompts.py        # System prompts
+│   ├── main.py              # FastAPI app & core endpoints
+│   ├── agent.py             # Gemini AI agent with tool routing
+│   ├── config.py            # Settings & env variable loader
+│   ├── tools.py             # AI tool implementations
+│   ├── tavily_client.py     # Tavily search client
+│   ├── prompts.py           # System prompts
 │   ├── requirements.txt
-│   └── .env.example
+│   ├── .env.example         # ← copy this to .env
+│   ├── models/              # Pydantic request/response models
+│   ├── routers/
+│   │   └── flights.py       # Flight search & booking endpoints
+│   └── services/
+│       └── tbo_service.py   # TBO API integration layer
 │
 └── frontend/
     ├── src/
-    │   ├── App.jsx
-    │   ├── api.js
-    │   ├── index.css
+    │   ├── App.jsx           # Root layout & panel state
+    │   ├── index.css         # Global styles & design tokens
     │   ├── main.jsx
-    │   └── components/
-    │       ├── Chat.jsx
-    │       ├── VRViewer.jsx
-    │       ├── Header.jsx
-    │       ├── Itinerary.jsx
-    │       └── BookingResults.jsx
+    │   ├── components/
+    │   │   ├── Chat.jsx               # Main AI chat interface
+    │   │   ├── FlightBookingPanel.jsx # Flight search form
+    │   │   ├── FlightResultsPanel.jsx # Results with filter/sort
+    │   │   ├── HotelBookingPanel.jsx  # Hotel search form
+    │   │   ├── Header.jsx
+    │   │   └── Itinerary.jsx
+    │   └── services/
+    │       └── flightApi.js  # TBO API client + formatters
     ├── index.html
     ├── vite.config.js
     └── package.json
 ```
 
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.11+
+- Python 3.10+
 - Node.js 18+
-- Gemini API Key ([Get one here](https://makersuite.google.com/app/apikey))
-- Tavily API Key ([Get one here](https://tavily.com))
+- API keys (see environment variables below)
 
 ### 1. Backend Setup
 
 ```bash
-# Navigate to backend
 cd backend
 
-# Create virtual environment
+# Create & activate virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate        # Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Create .env file
+# Configure environment
 cp .env.example .env
-# Edit .env and add your API keys
+# → Open .env and fill in your API keys
 
 # Run the server
 python main.py
@@ -91,108 +111,106 @@ Backend runs at: `http://localhost:8000`
 ### 2. Frontend Setup
 
 ```bash
-# Navigate to frontend
 cd frontend
 
-# Install dependencies
 npm install
-
-# Run dev server
 npm run dev
 ```
 
 Frontend runs at: `http://localhost:5173`
 
+---
+
 ## 🔑 Environment Variables
 
-Create a `.env` file in the backend folder:
+Copy `backend/.env.example` to `backend/.env` and fill in your values:
 
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
-TAVILY_API_KEY=your_tavily_api_key_here
+# Google Gemini
+GEMINI_API_KEY=your_gemini_api_key
+
+# Tavily Search
+TAVILY_API_KEY=your_tavily_api_key
+
+# TBO (TekTravels) Flight API
+TBO_CLIENT_ID=ApiIntegrationNew
+TBO_USERNAME=your_tbo_username
+TBO_PASSWORD=your_tbo_password
+TBO_END_USER_IP=
+
+# TBO Endpoints (defaults work for production)
+TBO_AUTH_URL=http://Sharedapi.tektravels.com/SharedData.svc/rest/Authenticate
+TBO_SEARCH_URL=http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/Search
+
+# Server
 HOST=0.0.0.0
 PORT=8000
+FRONTEND_URL=http://localhost:5173
 ```
+
+---
 
 ## 📡 API Endpoints
 
+### AI Agent
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/agent` | POST | Main AI chat |
+| `/agent` | POST | Main AI chat with function calling |
 | `/search` | POST | Web search via Tavily |
-| `/vr` | POST | Get VR preview link |
-| `/itinerary` | POST | Generate itinerary |
-| `/recommend` | POST | Get destination recommendations |
-| `/destinations` | GET | List VR destinations |
+| `/itinerary` | POST | Generate travel itinerary |
+| `/recommend` | POST | Destination recommendations |
 
-## 🎮 Demo Scenarios
+### Flights (TBO)
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/flights/search` | POST | Search available flights |
+| `/flights/book` | POST | Book a Non-LCC flight (PNR hold) |
+| `/flights/ticket/lcc` | POST | Ticket an LCC flight directly |
+| `/flights/ticket/non-lcc` | POST | Ticket a Non-LCC after booking |
 
-### Scenario 1: Plan a Trip
-```
-User: "Plan a 3-day Goa trip"
-→ AI generates itinerary
-→ VR preview loads
-→ User can explore in 3D
-```
+---
 
-### Scenario 2: Find Bookings
-```
-User: "Where should I book flights to Bali?"
-→ Agent uses Tavily search
-→ Returns booking site options
-→ User clicks to visit sites
-```
+## 🎮 Usage Examples
 
-### Scenario 3: Discover Destinations
+**AI Chat:**
 ```
-User: "I want a peaceful beach destination under $1000"
-→ AI recommends destinations
-→ Offers VR previews for each
-→ Can generate itinerary for any
+"Plan a 3-day trip to Goa"         → AI generates full itinerary
+"Best places to visit in Europe"   → Destination recommendations
+"Find me cheap hotels in Bali"     → Tavily-powered search results
 ```
 
-## 🗣️ Example Queries
+**Flight Search:**
+```
+Click ✈️ in the chat → opens Flight Booking Panel
+Enter DEL → DXB, pick a date → live results from TBO
+Filter: Direct only, sort by price → instant re-sort
+```
 
-**Discovery:**
-- "Suggest a romantic getaway in Europe"
-- "Best adventure destinations in Asia"
-- "Budget-friendly beach destinations"
+---
 
-**Planning:**
-- "Plan a 5-day Tokyo itinerary"
-- "Create a cultural tour of Jaipur"
-- "Weekend trip to Paris"
+## 🎨 UI Highlights
 
-**Booking:**
-- "Find best flight deals to Dubai"
-- "Where to book hotels in Maldives"
-- "Compare train tickets to Goa"
+- **Side-by-Side Panels** — Chat + Flight/Hotel booking panel without overlap
+- **Animated Flight Cards** — Staggered entry, hover lift, airline-colored gradient bars
+- **Filter Panel** — Collapsible, with stops filter, airline selector & price range slider
+- **Next-Day Indicator** — "+1" badge on flights arriving the next day
+- **Refundable Badge** — Clear ✓/✗ refundability label per flight
 
-**VR Preview:**
-- "Show me Santorini in VR"
-- "Preview Machu Picchu"
-- "Explore the streets of Tokyo"
-
-## 🎨 UI Features
-
-- **Split Layout**: Chat + VR side by side
-- **Glassmorphism**: Frosted glass effects
-- **Micro-animations**: Smooth transitions
-- **Dark Mode**: Default with light mode toggle
-- **Responsive**: Works on all devices
-- **Quick Actions**: Preset query chips
+---
 
 ## 🏆 Hackathon Highlights
 
-1. **End-to-End AI Integration** - Full function calling pipeline
-2. **Immersive VR** - Google Earth embedded previews
-3. **Real-time Search** - Live booking site discovery
-4. **Premium Design** - Production-quality UI
-5. **Scalable Architecture** - Clean separation of concerns
+1. **Full AI Function Calling Pipeline** — Gemini routes user queries to the right tool automatically
+2. **Live TBO Integration** — Actual bookable flights, not mock data
+3. **Robust Date Parsing** — Handles TBO's `.NET /Date(timestamp)/` format
+4. **Production-Quality UI** — Glassmorphism, micro-animations, responsive layout
+5. **Secure by Default** — `.env` excluded from git, `.env.example` provided for onboarding
+
+---
 
 ## 📝 License
 
-MIT License - feel free to use for your projects!
+MIT — feel free to fork and build on it!
 
 ---
 
