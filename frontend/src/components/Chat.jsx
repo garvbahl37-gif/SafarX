@@ -3,21 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Send,
     Mic,
-    Sparkles,
     MapPin,
     Plane,
     Compass,
     User,
     Bot,
     Plus,
-    Image,
-    Paperclip,
     Globe,
-    Zap
+    Zap,
+    Hotel,
 } from 'lucide-react';
 import { sendMessage } from '../api';
 
-const Chat = ({ onItineraryUpdate, onSearchResults }) => {
+const Chat = ({ onItineraryUpdate, onSearchResults, onOpenFlightPanel, onOpenHotelPanel }) => {
 
     const [messages, setMessages] = useState([
         {
@@ -50,6 +48,13 @@ const Chat = ({ onItineraryUpdate, onSearchResults }) => {
         setInput('');
         setIsLoading(true);
 
+        // Keyword detection for auto-opening booking panels
+        const lower = input.toLowerCase();
+        const flightKeywords = /book.*flight|flight.*book|book.*ticket|fly\s+to|flights?\s+(to|from)|search.*flight/;
+        const hotelKeywords = /book.*hotel|hotel.*book|find.*hotel|stay\s+in|accommodation|where.*stay|search.*hotel/;
+        if (flightKeywords.test(lower)) onOpenFlightPanel?.();
+        else if (hotelKeywords.test(lower)) onOpenHotelPanel?.();
+
         try {
             const response = await sendMessage(input);
             const aiMessage = {
@@ -61,7 +66,6 @@ const Chat = ({ onItineraryUpdate, onSearchResults }) => {
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, aiMessage]);
-
 
             if (response.itinerary) onItineraryUpdate?.(response.itinerary);
             if (response.search_results) onSearchResults?.(response.search_results);
@@ -119,6 +123,43 @@ const Chat = ({ onItineraryUpdate, onSearchResults }) => {
                         <button className="p-2 rounded-lg hover:bg-white/5 transition-colors text-slate-400 hover:text-white">
                             <Zap size={16} />
                         </button>
+
+                        {/* Divider */}
+                        <div className="w-px h-5 bg-white/10 mx-1" />
+
+                        {/* Flight Booking Button */}
+                        <motion.button
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.93 }}
+                            onClick={() => onOpenFlightPanel?.()}
+                            title="Flight Booking"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(0,102,255,0.25) 0%, rgba(0,229,255,0.15) 100%)',
+                                border: '1px solid rgba(0,102,255,0.3)',
+                                color: '#3d8bff',
+                            }}
+                        >
+                            <Plane size={13} />
+                            <span>Flights</span>
+                        </motion.button>
+
+                        {/* Hotel Booking Button */}
+                        <motion.button
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.93 }}
+                            onClick={() => onOpenHotelPanel?.()}
+                            title="Hotel Booking"
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(139,92,246,0.25) 0%, rgba(0,229,255,0.1) 100%)',
+                                border: '1px solid rgba(139,92,246,0.3)',
+                                color: '#a78bfa',
+                            }}
+                        >
+                            <Hotel size={13} />
+                            <span>Hotels</span>
+                        </motion.button>
                     </div>
                 </div>
             </div>

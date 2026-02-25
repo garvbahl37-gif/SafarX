@@ -14,6 +14,9 @@ from agent import get_agent
 from tavily_client import get_tavily_client
 from tools import recommend_destinations, generate_itinerary
 
+# ── NEW: Import flight router ─────────────────────────────────
+from routers.flights import router as flights_router
+# ─────────────────────────────────────────────────────────────
 
 load_dotenv()
 
@@ -33,8 +36,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ── NEW: Mount flight booking routes ──────────────────────────
+# All flight routes will be prefixed with /flights
+# e.g. POST /flights/search, POST /flights/book
+app.include_router(flights_router)
+# ─────────────────────────────────────────────────────────────
+
 
 # ============== Pydantic Models ==============
+# (all your existing models stay completely unchanged)
 
 class ChatRequest(BaseModel):
     message: str
@@ -50,7 +60,6 @@ class ChatResponse(BaseModel):
     error: Optional[str] = None
 
 
-
 class SearchRequest(BaseModel):
     query: str
     max_results: Optional[int] = 5
@@ -63,9 +72,6 @@ class SearchResponse(BaseModel):
     error: Optional[str] = None
 
 
-
-
-
 class ItineraryRequest(BaseModel):
     destination: str
     days: int
@@ -76,7 +82,6 @@ class ItineraryResponse(BaseModel):
     destination: str
     days: int
     itinerary: str
-
 
 
 class RecommendRequest(BaseModel):
@@ -93,6 +98,7 @@ class RecommendResponse(BaseModel):
 
 
 # ============== API Endpoints ==============
+# (all your existing endpoints stay completely unchanged)
 
 @app.get("/")
 async def root():
@@ -106,10 +112,7 @@ async def root():
 
 @app.post("/agent", response_model=ChatResponse)
 async def agent_chat(request: ChatRequest):
-    """
-    Main chat endpoint for the AI travel agent.
-    Handles all travel queries with automatic tool calling.
-    """
+    """Main chat endpoint for the AI travel agent."""
     try:
         agent = get_agent()
         result = await agent.chat(request.message, request.session_id)
@@ -120,10 +123,7 @@ async def agent_chat(request: ChatRequest):
 
 @app.post("/search", response_model=SearchResponse)
 async def web_search(request: SearchRequest):
-    """
-    Direct web search endpoint using Tavily.
-    Use for finding booking websites, travel deals, etc.
-    """
+    """Direct web search endpoint using Tavily."""
     try:
         client = get_tavily_client()
         result = await client.search(request.query, request.max_results)
@@ -132,45 +132,29 @@ async def web_search(request: SearchRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-
-
-
 @app.post("/itinerary", response_model=ItineraryResponse)
 async def create_itinerary(request: ItineraryRequest):
-    """
-    Generate a detailed travel itinerary.
-    Uses Gemini to create day-by-day plans.
-    """
+    """Generate a detailed travel itinerary."""
     try:
         agent = get_agent()
-        
-        # Generate itinerary via agent
         prompt = f"Generate a detailed {request.days}-day itinerary for {request.destination}"
         if request.preferences:
             prompt += f" with focus on: {request.preferences}"
-        
         result = await agent.chat(prompt, session_id=f"itinerary_{request.destination}")
-        
         return ItineraryResponse(
             destination=request.destination,
             days=request.days,
             itinerary=result["response"]
         )
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/recommend", response_model=RecommendResponse)
 async def get_recommendations(request: RecommendRequest):
-    """
-    Get personalized destination recommendations.
-    Based on budget, style, interests, etc.
-    """
+    """Get personalized destination recommendations."""
     try:
         agent = get_agent()
-        
-        # Build recommendation prompt
         preferences = []
         if request.budget:
             preferences.append(f"budget: {request.budget}")
@@ -182,12 +166,11 @@ async def get_recommendations(request: RecommendRequest):
             preferences.append(f"duration: {request.duration}")
         if request.season:
             preferences.append(f"season: {request.season}")
-        
+
         pref_str = ", ".join(preferences) if preferences else "no specific preferences"
         prompt = f"Recommend travel destinations based on: {pref_str}"
-        
         result = await agent.chat(prompt, session_id="recommendations")
-        
+
         return RecommendResponse(
             recommendations=result["response"],
             preferences={
@@ -213,15 +196,10 @@ async def clear_session(session_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-
-
-
 # ============== Run Server ==============
 
 if __name__ == "__main__":
     import uvicorn
-    
     host = os.getenv("HOST", "0.0.0.0")
     port = int(os.getenv("PORT", 8000))
-    
     uvicorn.run("main:app", host=host, port=port, reload=True)

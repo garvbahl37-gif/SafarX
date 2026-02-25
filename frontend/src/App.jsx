@@ -5,6 +5,8 @@ import Chat from './components/Chat';
 import Itinerary from './components/Itinerary';
 import BookingResults from './components/BookingResults';
 import AILoadingScreen from './components/LoadingScreen';
+import FlightBookingPanel from './components/FlightBookingPanel';
+import HotelBookingPanel from './components/HotelBookingPanel';
 
 import './index.css';
 
@@ -14,6 +16,9 @@ function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [itinerary, setItinerary] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
+
+  /* ── Booking panel state: null | 'flight' | 'hotel' ── */
+  const [activePanel, setActivePanel] = useState(null);
 
   /* ── Loading state ── */
   const [isLoading, setIsLoading] = useState(true);
@@ -39,8 +44,6 @@ function App() {
     }
   }, []);
 
-
-
   /* Called after the loader exit animation finishes */
   const handleLoadingComplete = useCallback(() => {
     setAppReady(true);
@@ -48,6 +51,12 @@ function App() {
     const inlineLoader = document.getElementById('ai-inline-loader');
     if (inlineLoader) inlineLoader.remove();
   }, []);
+
+  const openFlightPanel = useCallback(() => setActivePanel('flight'), []);
+  const openHotelPanel = useCallback(() => setActivePanel('hotel'), []);
+  const closePanel = useCallback(() => setActivePanel(null), []);
+
+  const panelOpen = activePanel !== null;
 
   return (
     <>
@@ -132,25 +141,61 @@ function App() {
         {/* Main Application Container */}
         <div className="relative z-10 flex flex-col h-screen max-w-[1920px] mx-auto p-3 sm:p-4 md:p-6 lg:p-8 gap-4 md:gap-6">
 
-          {/* Header */}
+          {/* Main Content Area — flex row with chat + optional side panel */}
+          <div className="flex-1 flex gap-4 md:gap-6 min-h-0 items-stretch">
 
-
-          {/* Main Content Area */}
-          <div className="flex-1 flex flex-col items-center justify-center min-h-0">
+            {/* Chat Window — shrinks when panel is open */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-              className="w-full max-w-4xl h-full flex flex-col"
+              layout
+              transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
+              className="flex flex-col min-h-0 min-w-0"
+              style={{
+                flex: panelOpen ? '1 1 0%' : '1 1 100%',
+                maxWidth: panelOpen ? '100%' : '56rem',
+                marginLeft: 'auto',
+                marginRight: panelOpen ? 0 : 'auto',
+              }}
             >
-              <div className="flex-1 glass-panel rounded-2xl md:rounded-3xl overflow-hidden relative flex flex-col">
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                <Chat
-                  onItineraryUpdate={setItinerary}
-                  onSearchResults={setSearchResults}
-                />
-              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                className="h-full flex flex-col"
+              >
+                <div className="flex-1 glass-panel rounded-2xl md:rounded-3xl overflow-hidden relative flex flex-col">
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                  <Chat
+                    onItineraryUpdate={setItinerary}
+                    onSearchResults={setSearchResults}
+                    onOpenFlightPanel={openFlightPanel}
+                    onOpenHotelPanel={openHotelPanel}
+                  />
+                </div>
+              </motion.div>
             </motion.div>
+
+            {/* Booking Side Panel */}
+            <AnimatePresence mode="wait">
+              {panelOpen && (
+                <motion.div
+                  key={activePanel}
+                  initial={{ opacity: 0, x: 80, width: 0 }}
+                  animate={{ opacity: 1, x: 0, width: '420px' }}
+                  exit={{ opacity: 0, x: 80, width: 0 }}
+                  transition={{ type: 'spring', damping: 28, stiffness: 260 }}
+                  className="relative flex-shrink-0 min-h-0"
+                  style={{ width: '420px', minWidth: '340px', maxWidth: '440px', overflow: 'hidden' }}
+                >
+                  {activePanel === 'flight' && (
+                    <FlightBookingPanel onClose={closePanel} />
+                  )}
+                  {activePanel === 'hotel' && (
+                    <HotelBookingPanel onClose={closePanel} />
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
           </div>
 
         </div>
