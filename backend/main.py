@@ -14,6 +14,10 @@ from agent import get_agent
 from tavily_client import get_tavily_client
 from tools import recommend_destinations, generate_itinerary
 
+# Add this to your existing main FastAPI file
+from routers.hotel_routes import router as hotel_router
+
+
 # ── NEW: Import flight router ─────────────────────────────────
 from routers.flights import router as flights_router
 # ─────────────────────────────────────────────────────────────
@@ -41,7 +45,7 @@ app.add_middleware(
 # e.g. POST /flights/search, POST /flights/book
 app.include_router(flights_router)
 # ─────────────────────────────────────────────────────────────
-
+app.include_router(hotel_router)
 
 # ============== Pydantic Models ==============
 # (all your existing models stay completely unchanged)

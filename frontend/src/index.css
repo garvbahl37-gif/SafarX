@@ -87,22 +87,7 @@
   --radius-full: 9999px;
 }
 
-/* ══════════════════════════════════════════════════════════
-   TAILWIND THEME EXTENSION
-   ══════════════════════════════════════════════════════════ */
-@theme {
-  --font-sans: 'Inter', 'SF Pro Display', system-ui, sans-serif;
-  --font-display: 'Cal Sans', 'Satoshi', 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  --color-ocean: var(--ocean);
-  --color-teal: var(--teal);
-  --color-violet: var(--violet);
-  --color-coral: var(--coral);
-  --color-gold: var(--gold);
-  --color-emerald: var(--emerald);
-  --color-rose: var(--rose);
-}
 
 /* ══════════════════════════════════════════════════════════
    BASE STYLES
@@ -754,6 +739,7 @@ body {
   0% {
     transform: translateX(-200%);
   }
+
   100% {
     transform: translateX(500%);
   }
@@ -761,13 +747,16 @@ body {
 
 /* Core orb breathing pulse (for inline HTML loader) */
 @keyframes ai-core-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translate(-50%, -50%) scale(1);
     box-shadow:
       0 0 30px rgba(0, 229, 255, 0.3),
       0 0 60px rgba(139, 92, 246, 0.15),
       inset 0 0 20px rgba(0, 229, 255, 0.2);
   }
+
   50% {
     transform: translate(-50%, -50%) scale(1.12);
     box-shadow:
@@ -779,19 +768,34 @@ body {
 
 /* Orbital rotation for inline particles */
 @keyframes ai-orbit {
-  from { transform: rotate(0deg) translateX(var(--orbit-r)) rotate(0deg); }
-  to   { transform: rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg); }
+  from {
+    transform: rotate(0deg) translateX(var(--orbit-r)) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg);
+  }
 }
 
 @keyframes ai-orbit-reverse {
-  from { transform: rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg); }
-  to   { transform: rotate(0deg) translateX(var(--orbit-r)) rotate(0deg); }
+  from {
+    transform: rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg);
+  }
+
+  to {
+    transform: rotate(0deg) translateX(var(--orbit-r)) rotate(0deg);
+  }
 }
 
 /* Gentle ring rotation */
 @keyframes ai-ring-spin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 /* Entrance fade */
@@ -800,6 +804,7 @@ body {
     opacity: 0;
     transform: scale(0.92);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -838,21 +843,27 @@ body {
 }
 
 .ai-inline-ring--1 {
-  width: 160px; height: 160px;
-  margin-left: -80px; margin-top: -80px;
+  width: 160px;
+  height: 160px;
+  margin-left: -80px;
+  margin-top: -80px;
   animation: ai-ring-spin 20s linear infinite;
 }
 
 .ai-inline-ring--2 {
-  width: 280px; height: 280px;
-  margin-left: -140px; margin-top: -140px;
+  width: 280px;
+  height: 280px;
+  margin-left: -140px;
+  margin-top: -140px;
   border-color: rgba(139, 92, 246, 0.06);
   animation: ai-ring-spin 30s linear infinite reverse;
 }
 
 .ai-inline-ring--3 {
-  width: 420px; height: 420px;
-  margin-left: -210px; margin-top: -210px;
+  width: 420px;
+  height: 420px;
+  margin-left: -210px;
+  margin-top: -210px;
   border-color: rgba(0, 229, 255, 0.04);
   animation: ai-ring-spin 40s linear infinite;
 }
@@ -875,6 +886,7 @@ body {
 
 /* Reduced motion: disable all AI animations */
 @media (prefers-reduced-motion: reduce) {
+
   .ai-inline-core,
   .ai-inline-ring,
   .ai-inline-ring--1,
@@ -890,4 +902,34 @@ body {
       0 0 40px rgba(0, 229, 255, 0.3),
       0 0 80px rgba(139, 92, 246, 0.15);
   }
+}
+
+/* Hide scrollbars but keep scrolling */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glass input style if not already defined */
+.glass-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s;
+}
+
+.glass-input:focus {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Glass panel */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
 }

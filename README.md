@@ -11,7 +11,8 @@ An AI travel assistant with real-time flight search, smart itinerary generation,
 
 - 🤖 **AI Travel Agent** — Google Gemini with function calling for natural-language travel queries
 - ✈️ **Live Flight Search** — Real-time flight availability via the TBO (TekTravels) API
-- 🔍 **Smart Booking Discovery** — Tavily-powered web search for hotels, trains & packages
+- 🏨 **Live Hotel Search** — Real-time hotel discovery, filters, and details via RapidAPI/TripAdvisor
+- 🔍 **Smart Web Discovery** — Tavily-powered web search for trains, packages & alternative accommodations
 - 📅 **Itinerary Generator** — AI-generated day-by-day travel plans
 - 🎛️ **Flight Filter & Sort** — Filter by stops, airline, price slider; sort by price/duration/time
 - 🎨 **Premium UI** — Glassmorphism, Framer Motion animations, dark mode
@@ -26,6 +27,7 @@ An AI travel assistant with real-time flight search, smart itinerary generation,
 | **FastAPI** | Async API server |
 | **Google Gemini** | LLM with function calling |
 | **TBO API** | Real-time flight search & booking |
+| **RapidAPI** | TripAdvisor hotel search & room details |
 | **Tavily** | Web search for travel discovery |
 
 ### Frontend
@@ -68,6 +70,9 @@ SafarX/
     │   │   ├── FlightBookingPanel.jsx # Flight search form
     │   │   ├── FlightResultsPanel.jsx # Results with filter/sort
     │   │   ├── HotelBookingPanel.jsx  # Hotel search form
+    │   │   ├── HotelSearchResults.jsx # Hotel results with filters
+    │   │   ├── HotelCard.jsx          # Individual hotel card UI
+    │   │   ├── HotelDetailModal.jsx   # Detailed hotel view modal
     │   │   ├── Header.jsx
     │   │   └── Itinerary.jsx
     │   └── services/
@@ -132,6 +137,10 @@ GEMINI_API_KEY=your_gemini_api_key
 # Tavily Search
 TAVILY_API_KEY=your_tavily_api_key
 
+# RapidAPI / TripAdvisor Hotel Credentials
+RAPIDAPI_KEY=your_rapidapi_key
+RAPIDAPI_HOST=tripadvisor16.p.rapidapi.com
+
 # TBO (TekTravels) Flight API
 TBO_CLIENT_ID=ApiIntegrationNew
 TBO_USERNAME=your_tbo_username
@@ -168,6 +177,15 @@ FRONTEND_URL=http://localhost:5173
 | `/flights/ticket/lcc` | POST | Ticket an LCC flight directly |
 | `/flights/ticket/non-lcc` | POST | Ticket a Non-LCC after booking |
 
+### Hotels (RapidAPI)
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/hotels/search-location` | GET | Search for hotel locations |
+| `/api/hotels/filters` | GET | Get hotel filters for a location |
+| `/api/hotels/search` | GET | Search hotels by location ID |
+| `/api/hotels/search-by-location` | GET | Search hotels by coordinates |
+| `/api/hotels/details` | GET | Get details for a specific hotel |
+
 ---
 
 ## 🎮 Usage Examples
@@ -184,6 +202,13 @@ FRONTEND_URL=http://localhost:5173
 Click ✈️ in the chat → opens Flight Booking Panel
 Enter DEL → DXB, pick a date → live results from TBO
 Filter: Direct only, sort by price → instant re-sort
+```
+
+**Hotel Search:**
+```
+Click 🏨 in the chat → opens Hotel Booking Panel
+Search "Bali" → find location and view live hotel results
+Filter: by rating, price, view room details & photos
 ```
 
 ---
