@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import Chat from './components/Chat';
-import Itinerary from './components/Itinerary';
 import BookingResults from './components/BookingResults';
 import AILoadingScreen from './components/LoadingScreen';
 import FlightBookingPanel from './components/FlightBookingPanel';
@@ -14,7 +13,6 @@ const MIN_LOADER_DURATION = 4500; // ms – ensures the animation is visible eve
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
-  const [itinerary, setItinerary] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
 
   /* ── Booking panel state: null | 'flight' | 'hotel' ── */
@@ -54,9 +52,12 @@ function App() {
 
   const openFlightPanel = useCallback(() => setActivePanel('flight'), []);
   const openHotelPanel = useCallback(() => setActivePanel('hotel'), []);
-  const closePanel = useCallback(() => setActivePanel(null), []);
+  const closePanel = useCallback(() => {
+    setActivePanel(null);
+    setSearchResults(null);
+  }, []);
 
-  const panelOpen = activePanel !== null;
+  const panelOpen = activePanel !== null || searchResults !== null;
 
   return (
     <>
@@ -165,8 +166,10 @@ function App() {
                 <div className="flex-1 glass-panel rounded-2xl md:rounded-3xl overflow-hidden relative flex flex-col">
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                   <Chat
-                    onItineraryUpdate={setItinerary}
-                    onSearchResults={setSearchResults}
+                    onSearchResults={(results) => {
+                      setSearchResults(results);
+                      setActivePanel('results');
+                    }}
                     onOpenFlightPanel={openFlightPanel}
                     onOpenHotelPanel={openHotelPanel}
                   />
@@ -178,7 +181,7 @@ function App() {
             <AnimatePresence mode="wait">
               {panelOpen && (
                 <motion.div
-                  key={activePanel}
+                  key={activePanel || (searchResults ? 'results' : 'none')}
                   initial={{ opacity: 0, x: 80, width: 0 }}
                   animate={{ opacity: 1, x: 0, width: '420px' }}
                   exit={{ opacity: 0, x: 80, width: 0 }}
@@ -192,6 +195,9 @@ function App() {
                   {activePanel === 'hotel' && (
                     <HotelBookingPanel onClose={closePanel} />
                   )}
+                  {(activePanel === 'results' || searchResults) && (
+                    <BookingResults results={searchResults} onClose={closePanel} />
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -199,27 +205,6 @@ function App() {
           </div>
 
         </div>
-
-        {/* Overlay Panels */}
-        <AnimatePresence>
-          {itinerary && (
-            <Itinerary
-              itinerary={itinerary}
-              onClose={() => setItinerary(null)}
-            />
-          )}
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {searchResults && (
-            <BookingResults
-              results={searchResults}
-              onClose={() => setSearchResults(null)}
-            />
-          )}
-        </AnimatePresence>
-
-
 
       </motion.div>
     </>

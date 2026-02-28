@@ -19,29 +19,44 @@ export const useHotelSearch = () => {
     const [hasSearched, setHasSearched] = useState(false);
 
     const debounceTimer = useRef(null);
+    const lastQueryRef = useRef('');
 
     // ── Debounced location search ──────────────────────────────
     const searchLocation = useCallback((query) => {
         if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
-        if (!query || query.length < 2) {
+        const normalized = query.trim().toLowerCase();
+
+        // skip short queries
+        if (!normalized || normalized.length < 3) {
             setLocationSuggestions([]);
             return;
         }
 
+        // skip duplicate queries
+        if (lastQueryRef.current === normalized) {
+            return;
+        }
+
         debounceTimer.current = setTimeout(async () => {
+            lastQueryRef.current = normalized;
             setLoadingLocation(true);
             setError(null);
+
             try {
-                const result = await hotelApi.searchLocation(query);
+                const result = await hotelApi.searchLocation(normalized);
                 setLocationSuggestions(result.data || []);
             } catch (err) {
+                if (err.response?.status === 429) {
+                    // silently ignore rate limit
+                    return;
+                }
                 setError(err.message);
                 setLocationSuggestions([]);
             } finally {
                 setLoadingLocation(false);
             }
-        }, 400);
+        }, 700);
     }, []);
 
     // ── Search hotels ──────────────────────────────────────────

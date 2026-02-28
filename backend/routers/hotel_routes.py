@@ -13,14 +13,19 @@ router = APIRouter(prefix="/api/hotels", tags=["hotels"])
 
 @router.get("/search-location")
 async def api_search_location(query: str = Query(..., description="Location name")):
-    """Search for hotel locations."""
-    if not query or len(query.strip()) < 2:
-        raise HTTPException(status_code=400, detail="Query must be at least 2 characters")
+    if not query or len(query.strip()) < 3:
+        raise HTTPException(status_code=400, detail="Query must be at least 3 characters")
     
     result = search_location(query.strip())
     
     if not result["success"]:
-        raise HTTPException(status_code=500, detail=result.get("error", "Search failed"))
+        error_msg = result.get("error", "Search failed")
+        
+        # propagate rate limit correctly
+        if "429" in error_msg or "Too Many Requests" in error_msg:
+            raise HTTPException(status_code=429, detail="Rate limit reached. Please type slower.")
+        
+        raise HTTPException(status_code=500, detail=error_msg)
     
     return result
 

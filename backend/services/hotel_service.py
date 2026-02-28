@@ -4,7 +4,7 @@ import requests
 import logging
 import re
 from typing import Optional, Dict, Any
-
+from functools import lru_cache
 from config import get_settings
 
 logger = logging.getLogger(__name__)
@@ -61,12 +61,16 @@ def _extract_geo_id(raw_geo_id: str) -> str:
 
 
 # ── Public service functions ──────────────────────────────────────────────────
+def _normalize_query(q: str) -> str:
+    return q.strip().lower()
 
-def search_location(query: str) -> Dict[str, Any]:
-    """Search for hotel locations by query string."""
+
+@lru_cache(maxsize=200)
+def _search_location_cached(norm_query: str) -> Dict[str, Any]:
+    """Cached internal location search."""
     try:
-        url    = f"{_get_base_url()}/searchLocation"
-        params = {"query": query}
+        url = f"{_get_base_url()}/searchLocation"
+        params = {"query": norm_query}
 
         response = requests.get(
             url,
@@ -81,31 +85,34 @@ def search_location(query: str) -> Dict[str, Any]:
         if data.get("status"):
             items = data.get("data", [])
             for item in items:
-                # Clean HTML bold tags from title
                 if "title" in item:
                     item["title"] = (
                         item["title"]
                         .replace("<b>", "")
                         .replace("</b>", "")
                     )
-                # Add a clean numeric geoId alongside the raw documentId
                 if "documentId" in item:
                     item["geoId"] = _extract_geo_id(item["documentId"])
 
             return {"success": True, "data": items}
 
-        return {
-            "success": False,
-            "error":   data.get("message", "Unknown error"),
-            "data":    [],
-        }
+        return {"success": False, "error": data.get("message", "Unknown error"), "data": []}
 
     except requests.exceptions.Timeout:
-        logger.error("Timeout searching location: %s", query)
+        logger.error("Timeout searching location: %s", norm_query)
         return {"success": False, "error": "Request timed out", "data": []}
     except requests.exceptions.RequestException as e:
         logger.error("Error searching location: %s", str(e))
         return {"success": False, "error": str(e), "data": []}
+
+
+def search_location(query: str) -> Dict[str, Any]:
+    norm = _normalize_query(query)
+
+    if len(norm) < 3:
+        return {"success": True, "data": []}
+
+    return _search_location_cached(norm)
 
 
 def get_hotels_filter(

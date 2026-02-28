@@ -2,44 +2,121 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Tooltip = ({ children, content, position = 'top' }) => {
-    const [isVisible, setIsVisible] = useState(false);
+    const [visible, setVisible] = useState(false);
 
-    const positions = {
-        top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
-        bottom: 'top-full left-1/2 -translate-x-1/2 mt-2',
-        left: 'right-full top-1/2 -translate-y-1/2 mr-2',
-        right: 'left-full top-1/2 -translate-y-1/2 ml-2',
+    /* ── Position maps ── */
+    const wrapperPos = {
+        top: 'bottom-full left-1/2 -translate-x-1/2 mb-2.5',
+        bottom: 'top-full  left-1/2 -translate-x-1/2 mt-2.5',
+        left: 'right-full top-1/2 -translate-y-1/2 mr-2.5',
+        right: 'left-full  top-1/2 -translate-y-1/2 ml-2.5',
     };
 
-    const arrowPositions = {
-        top: 'top-full left-1/2 -translate-x-1/2 border-t-slate-800',
-        bottom: 'bottom-full left-1/2 -translate-x-1/2 border-b-slate-800',
-        left: 'left-full top-1/2 -translate-y-1/2 border-l-slate-800',
-        right: 'right-full top-1/2 -translate-y-1/2 border-r-slate-800',
+    /* Entry/exit direction */
+    const entryVariants = {
+        top: { initial: { opacity: 0, y: 6, scale: 0.93 }, animate: { opacity: 1, y: 0, scale: 1 } },
+        bottom: { initial: { opacity: 0, y: -6, scale: 0.93 }, animate: { opacity: 1, y: 0, scale: 1 } },
+        left: { initial: { opacity: 0, x: 6, scale: 0.93 }, animate: { opacity: 1, x: 0, scale: 1 } },
+        right: { initial: { opacity: 0, x: -6, scale: 0.93 }, animate: { opacity: 1, x: 0, scale: 1 } },
     };
+
+    /* Arrow styles */
+    const arrowConfig = {
+        top: {
+            className: 'absolute left-1/2 -translate-x-1/2 top-full',
+            style: {
+                width: 0, height: 0,
+                borderLeft: '5px solid transparent',
+                borderRight: '5px solid transparent',
+                borderTop: '5px solid rgba(255,255,255,0.95)',
+                filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.06))',
+            },
+        },
+        bottom: {
+            className: 'absolute left-1/2 -translate-x-1/2 bottom-full',
+            style: {
+                width: 0, height: 0,
+                borderLeft: '5px solid transparent',
+                borderRight: '5px solid transparent',
+                borderBottom: '5px solid rgba(255,255,255,0.95)',
+                filter: 'drop-shadow(0 -1px 1px rgba(0,0,0,0.06))',
+            },
+        },
+        left: {
+            className: 'absolute top-1/2 -translate-y-1/2 left-full',
+            style: {
+                width: 0, height: 0,
+                borderTop: '5px solid transparent',
+                borderBottom: '5px solid transparent',
+                borderLeft: '5px solid rgba(255,255,255,0.95)',
+                filter: 'drop-shadow(1px 0 1px rgba(0,0,0,0.06))',
+            },
+        },
+        right: {
+            className: 'absolute top-1/2 -translate-y-1/2 right-full',
+            style: {
+                width: 0, height: 0,
+                borderTop: '5px solid transparent',
+                borderBottom: '5px solid transparent',
+                borderRight: '5px solid rgba(255,255,255,0.95)',
+                filter: 'drop-shadow(-1px 0 1px rgba(0,0,0,0.06))',
+            },
+        },
+    };
+
+    const ev = entryVariants[position] || entryVariants.top;
+    const arrow = arrowConfig[position] || arrowConfig.top;
 
     return (
         <div
             className="relative inline-block"
-            onMouseEnter={() => setIsVisible(true)}
-            onMouseLeave={() => setIsVisible(false)}
+            onMouseEnter={() => setVisible(true)}
+            onMouseLeave={() => setVisible(false)}
+            onFocus={() => setVisible(true)}
+            onBlur={() => setVisible(false)}
         >
             {children}
 
             <AnimatePresence>
-                {isVisible && (
+                {visible && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.15 }}
-                        className={`absolute z-50 ${positions[position]}`}
+                        role="tooltip"
+                        initial={ev.initial}
+                        animate={ev.animate}
+                        exit={ev.initial}
+                        transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
+                        className={`absolute z-[9999] ${wrapperPos[position]}`}
+                        style={{ pointerEvents: 'none' }}
                     >
-                        <div className="px-3 py-2 text-xs font-medium text-white bg-slate-800 rounded-lg shadow-xl border border-white/10 whitespace-nowrap">
+                        {/* Bubble */}
+                        <div
+                            className="relative px-3.5 py-2 rounded-xl text-xs font-semibold
+                                       whitespace-nowrap"
+                            style={{
+                                background:
+                                    'linear-gradient(135deg,rgba(255,255,255,0.97) 0%,rgba(250,245,255,0.97) 100%)',
+                                border: '1.5px solid rgba(139,92,246,0.18)',
+                                color: '#334155',
+                                boxShadow:
+                                    '0 8px 24px rgba(0,0,0,0.1),0 2px 8px rgba(139,92,246,0.12),' +
+                                    'inset 0 1px 0 rgba(255,255,255,0.9)',
+                                backdropFilter: 'blur(12px)',
+                            }}
+                        >
+                            {/* Gradient accent line */}
+                            <div
+                                className="absolute top-0 left-3 right-3 h-px rounded-full"
+                                style={{
+                                    background:
+                                        'linear-gradient(90deg,transparent,rgba(139,92,246,0.4),transparent)',
+                                }}
+                            />
+
                             {content}
                         </div>
+
                         {/* Arrow */}
-                        <div className={`absolute w-0 h-0 border-4 border-transparent ${arrowPositions[position]}`} />
+                        <div className={arrow.className} style={arrow.style} />
                     </motion.div>
                 )}
             </AnimatePresence>

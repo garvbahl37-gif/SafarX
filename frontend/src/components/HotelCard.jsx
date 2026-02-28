@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Star, MapPin, Award, Wifi } from 'lucide-react';
+import { Star, MapPin, Award } from 'lucide-react';
 
 const RatingBubbles = ({ rating }) => {
     const filled = Math.floor(rating);
@@ -9,12 +9,14 @@ const RatingBubbles = ({ rating }) => {
             {[1, 2, 3, 4, 5].map((i) => (
                 <div
                     key={i}
-                    className={`w-2.5 h-2.5 rounded-full ${i <= filled
-                        ? 'bg-green-400'
-                        : i === filled + 1 && half
-                            ? 'bg-green-400/50'
-                            : 'bg-white/10'
-                        }`}
+                    className="w-2 h-2 rounded-full transition-all"
+                    style={{
+                        background: i <= filled
+                            ? 'linear-gradient(135deg, #10B981, #34D399)'
+                            : i === filled + 1 && half
+                                ? 'rgba(16,185,129,0.45)'
+                                : 'rgba(0,0,0,0.08)',
+                    }}
                 />
             ))}
         </div>
@@ -27,92 +29,138 @@ const HotelCard = ({ hotel, checkIn, checkOut, adults, rooms, onClick }) => {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.01, y: -2 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            whileHover={{ scale: 1.015, y: -3 }}
+            transition={{ type: 'spring', damping: 22, stiffness: 280 }}
             onClick={() => onClick(hotel)}
-            className="relative glass-panel rounded-2xl overflow-hidden cursor-pointer group"
+            className="relative rounded-2xl overflow-hidden cursor-pointer group"
             style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.07)',
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(250,245,255,0.97) 100%)',
+                border: '1.5px solid rgba(255,255,255,0.9)',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
             }}
         >
-            {/* Image Section */}
+            {/* Colored top accent */}
+            <div
+                className="absolute top-0 left-0 right-0 h-0.5 z-10"
+                style={{ background: 'linear-gradient(90deg, #8B5CF6, #EC4899, #F97316)' }}
+            />
+
+            {/* Hover glow overlay */}
+            <motion.div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none rounded-2xl"
+                style={{
+                    background: 'linear-gradient(135deg, rgba(139,92,246,0.04) 0%, rgba(236,72,153,0.03) 100%)',
+                    boxShadow: 'inset 0 0 0 1.5px rgba(139,92,246,0.2)',
+                }}
+            />
+
+            {/* Image */}
             <div className="relative h-44 overflow-hidden">
                 {hotel.thumbnail ? (
                     <img
                         src={hotel.thumbnail}
                         alt={hotel.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        onError={(e) => {
-                            e.target.style.display = 'none';
-                        }}
+                        className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-108"
+                        style={{ transition: 'transform 0.6s ease' }}
+                        onError={(e) => { e.target.style.display = 'none'; }}
                     />
                 ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-violet/20 to-purple-900/30 flex items-center justify-center">
-                        <span className="text-slate-500 text-sm">No image</span>
+                    <div
+                        className="w-full h-full flex items-center justify-center"
+                        style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.1))' }}
+                    >
+                        <span className="text-sm font-medium" style={{ color: '#94a3b8' }}>No image</span>
                     </div>
                 )}
 
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute inset-0"
+                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)' }} />
 
                 {/* Badges */}
-                <div className="absolute top-2 left-2 flex gap-1.5 flex-wrap">
+                <div className="absolute top-2.5 left-2.5 flex gap-1.5 flex-wrap z-10">
                     {isBestOfBest && (
-                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold"
-                            style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#fff' }}>
+                        <motion.span
+                            initial={{ scale: 0 }} animate={{ scale: 1 }}
+                            className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black text-white"
+                            style={{ background: 'linear-gradient(135deg, #F59E0B, #D97706)', boxShadow: '0 2px 8px rgba(245,158,11,0.4)' }}
+                        >
                             <Award size={9} /> Best of Best
-                        </span>
+                        </motion.span>
                     )}
                     {isTravellersChoice && (
-                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold"
-                            style={{ background: 'rgba(34,197,94,0.85)', color: '#fff' }}>
-                            <Star size={9} className="fill-white" />
-                            Travellers' Choice
-                        </span>
+                        <motion.span
+                            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.05 }}
+                            className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black text-white"
+                            style={{ background: 'linear-gradient(135deg, #10B981, #059669)', boxShadow: '0 2px 8px rgba(16,185,129,0.4)' }}
+                        >
+                            <Star size={9} style={{ fill: '#fff' }} /> Travellers' Choice
+                        </motion.span>
                     )}
-                    {hotel.primaryInfo?.includes('breakfast') && (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold"
-                            style={{ background: 'rgba(6,182,212,0.8)', color: '#fff' }}>
-                            🍳 Breakfast included
+                    {hotel.primaryInfo?.toLowerCase().includes('breakfast') && (
+                        <span
+                            className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
+                            style={{ background: 'linear-gradient(135deg, #06B6D4, #0EA5E9)', boxShadow: '0 2px 8px rgba(14,165,233,0.3)' }}
+                        >
+                            🍳 Breakfast
                         </span>
                     )}
                 </div>
 
-                {/* Rating bubble bottom-right of image */}
-                <div className="absolute bottom-2 right-2">
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl"
-                        style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}>
+                {/* Rating pill */}
+                <div className="absolute bottom-2.5 right-2.5 z-10">
+                    <div
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl"
+                        style={{
+                            background: 'rgba(255,255,255,0.92)',
+                            backdropFilter: 'blur(8px)',
+                            border: '1px solid rgba(255,255,255,0.95)',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+                        }}
+                    >
                         <RatingBubbles rating={hotel.rating} />
-                        <span className="text-white text-xs font-bold">{hotel.rating}</span>
+                        <span className="font-black text-xs" style={{ color: '#059669' }}>{hotel.rating}</span>
                     </div>
                 </div>
             </div>
 
-            {/* Info Section */}
-            <div className="p-3.5 space-y-2.5">
+            {/* Info */}
+            <div className="p-4 space-y-2.5">
                 <div>
-                    <h3 className="text-white font-semibold text-sm leading-tight line-clamp-1 group-hover:text-violet-300 transition-colors">
+                    <h3
+                        className="font-bold text-sm leading-tight line-clamp-1 transition-colors duration-200"
+                        style={{ color: '#0f172a' }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#7C3AED'}
+                        onMouseLeave={e => e.currentTarget.style.color = '#0f172a'}
+                    >
                         {hotel.title}
                     </h3>
                     {hotel.secondaryInfo && (
-                        <div className="flex items-center gap-1 mt-0.5">
-                            <MapPin size={11} className="text-slate-500 flex-shrink-0" />
-                            <span className="text-slate-400 text-xs truncate">{hotel.secondaryInfo}</span>
+                        <div className="flex items-center gap-1 mt-1">
+                            <MapPin size={11} style={{ color: '#94a3b8', flexShrink: 0 }} />
+                            <span className="text-xs truncate" style={{ color: '#64748b' }}>
+                                {hotel.secondaryInfo}
+                            </span>
                         </div>
                     )}
                 </div>
 
-                {/* Reviews & Provider */}
+                {/* Reviews + Provider */}
                 <div className="flex items-center justify-between">
-                    <span className="text-slate-500 text-[11px]">
+                    <span className="text-[11px] font-medium" style={{ color: '#94a3b8' }}>
                         {hotel.reviewCount} reviews
                     </span>
                     {hotel.provider && (
-                        <span className="text-[10px] px-2 py-0.5 rounded-full"
-                            style={{ background: 'rgba(139,92,246,0.15)', color: '#a78bfa' }}>
+                        <span
+                            className="text-[10px] px-2.5 py-0.5 rounded-full font-semibold"
+                            style={{
+                                background: 'rgba(139,92,246,0.08)',
+                                color: '#7C3AED',
+                                border: '1px solid rgba(139,92,246,0.18)',
+                            }}
+                        >
                             via {hotel.provider}
                         </span>
                     )}
@@ -120,11 +168,13 @@ const HotelCard = ({ hotel, checkIn, checkOut, adults, rooms, onClick }) => {
 
                 {/* View Details Button */}
                 <motion.div
-                    className="w-full py-2 rounded-xl text-xs font-semibold text-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    initial={{ opacity: 0, y: 4 }}
+                    whileHover={{ opacity: 1, y: 0 }}
+                    className="w-full py-2 rounded-xl text-xs font-bold text-center opacity-0 group-hover:opacity-100 transition-all duration-300"
                     style={{
-                        background: 'linear-gradient(135deg, rgba(139,92,246,0.3), rgba(124,58,237,0.3))',
-                        border: '1px solid rgba(139,92,246,0.4)',
-                        color: '#c4b5fd'
+                        background: 'linear-gradient(135deg, rgba(139,92,246,0.12), rgba(236,72,153,0.08))',
+                        border: '1.5px solid rgba(139,92,246,0.25)',
+                        color: '#7C3AED',
                     }}
                 >
                     View Details →
