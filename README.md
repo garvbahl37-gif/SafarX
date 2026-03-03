@@ -7,41 +7,43 @@ An AI travel assistant with real-time flight search, smart itinerary generation,
 
 ---
 
-## ✨ Features
+## Features
 
-- 🤖 **AI Travel Agent** — Google Gemini with function calling for natural-language travel queries
-- ✈️ **Live Flight Search** — Real-time flight availability via the TBO (TekTravels) API
-- 🏨 **Live Hotel Search** — Real-time hotel discovery, filters, and details via RapidAPI/TripAdvisor
-- 🔍 **Smart Web Discovery** — Tavily-powered web search for trains, packages & alternative accommodations
-- 📅 **Itinerary Generator** — AI-generated day-by-day travel plans
-- 🎛️ **Flight Filter & Sort** — Filter by stops, airline, price slider; sort by price/duration/time
-- 🎨 **Premium UI** — Glassmorphism, Framer Motion animations, dark mode
+* **AI Travel Agent** — Google Gemini with function calling for natural-language travel queries
+* **Live Flight Search** — Real-time flight availability via the TBO (TekTravels) API
+* **Live Hotel Search** — Real-time hotel discovery, filters, and details via RapidAPI/TripAdvisor
+* **Smart Web Discovery** — Tavily-powered web search for trains, packages & alternative accommodations
+* **Itinerary Generator** — AI-generated day-by-day travel plans
+* **Flight Filter & Sort** — Filter by stops, airline, price slider; sort by price/duration/time
+* **Premium UI** — Glassmorphism, Framer Motion animations, dark mode
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
-| Library | Purpose |
-|---------|---------|
-| **FastAPI** | Async API server |
-| **Google Gemini** | LLM with function calling |
-| **TBO API** | Real-time flight search & booking |
-| **RapidAPI** | TripAdvisor hotel search & room details |
-| **Tavily** | Web search for travel discovery |
+
+| Library           | Purpose                                 |
+| ----------------- | --------------------------------------- |
+| **FastAPI**       | Async API server                        |
+| **Google Gemini** | LLM with function calling               |
+| **TBO API**       | Real-time flight search & booking       |
+| **RapidAPI**      | TripAdvisor hotel search & room details |
+| **Tavily**        | Web search for travel discovery         |
 
 ### Frontend
-| Library | Purpose |
-|---------|---------|
-| **Vite + React** | App framework |
-| **Tailwind CSS** | Utility-first styling |
+
+| Library           | Purpose                  |
+| ----------------- | ------------------------ |
+| **Vite + React**  | App framework            |
+| **Tailwind CSS**  | Utility-first styling    |
 | **Framer Motion** | Animations & transitions |
-| **Lucide React** | Icon library |
-| **Axios** | HTTP client |
+| **Lucide React**  | Icon library             |
+| **Axios**         | HTTP client              |
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 SafarX/
@@ -53,7 +55,7 @@ SafarX/
 │   ├── tavily_client.py     # Tavily search client
 │   ├── prompts.py           # System prompts
 │   ├── requirements.txt
-│   ├── .env.example         # ← copy this to .env
+│   ├── .env.example         # copy this to .env
 │   ├── models/              # Pydantic request/response models
 │   ├── routers/
 │   │   └── flights.py       # Flight search & booking endpoints
@@ -84,12 +86,13 @@ SafarX/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Python 3.10+
-- Node.js 18+
-- API keys (see environment variables below)
+
+* Python 3.10+
+* Node.js 18+
+* API keys (see environment variables below)
 
 ### 1. Backend Setup
 
@@ -105,7 +108,7 @@ pip install -r requirements.txt
 
 # Configure environment
 cp .env.example .env
-# → Open .env and fill in your API keys
+# Open .env and fill in your API keys
 
 # Run the server
 python main.py
@@ -126,7 +129,7 @@ Frontend runs at: `http://localhost:5173`
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 Copy `backend/.env.example` to `backend/.env` and fill in your values:
 
@@ -159,84 +162,80 @@ FRONTEND_URL=http://localhost:5173
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### AI Agent
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/agent` | POST | Main AI chat with function calling |
-| `/search` | POST | Web search via Tavily |
-| `/itinerary` | POST | Generate travel itinerary |
-| `/recommend` | POST | Destination recommendations |
+
+| Endpoint     | Method | Description                        |
+| ------------ | ------ | ---------------------------------- |
+| `/agent`     | POST   | Main AI chat with function calling |
+| `/search`    | POST   | Web search via Tavily              |
+| `/itinerary` | POST   | Generate travel itinerary          |
+| `/recommend` | POST   | Destination recommendations        |
 
 ### Flights (TBO)
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/flights/search` | POST | Search available flights |
-| `/flights/book` | POST | Book a Non-LCC flight (PNR hold) |
-| `/flights/ticket/lcc` | POST | Ticket an LCC flight directly |
-| `/flights/ticket/non-lcc` | POST | Ticket a Non-LCC after booking |
+
+| Endpoint                  | Method | Description                      |
+| ------------------------- | ------ | -------------------------------- |
+| `/flights/search`         | POST   | Search available flights         |
+| `/flights/book`           | POST   | Book a Non-LCC flight (PNR hold) |
+| `/flights/ticket/lcc`     | POST   | Ticket an LCC flight directly    |
+| `/flights/ticket/non-lcc` | POST   | Ticket a Non-LCC after booking   |
 
 ### Hotels (RapidAPI)
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/hotels/search-location` | GET | Search for hotel locations |
-| `/api/hotels/filters` | GET | Get hotel filters for a location |
-| `/api/hotels/search` | GET | Search hotels by location ID |
-| `/api/hotels/search-by-location` | GET | Search hotels by coordinates |
-| `/api/hotels/details` | GET | Get details for a specific hotel |
+
+| Endpoint                         | Method | Description                      |
+| -------------------------------- | ------ | -------------------------------- |
+| `/api/hotels/search-location`    | GET    | Search for hotel locations       |
+| `/api/hotels/filters`            | GET    | Get hotel filters for a location |
+| `/api/hotels/search`             | GET    | Search hotels by location ID     |
+| `/api/hotels/search-by-location` | GET    | Search hotels by coordinates     |
+| `/api/hotels/details`            | GET    | Get details for a specific hotel |
 
 ---
 
-## 🎮 Usage Examples
+## Usage Examples
 
-**AI Chat:**
+**AI Chat**
+
 ```
 "Plan a 3-day trip to Goa"         → AI generates full itinerary
 "Best places to visit in Europe"   → Destination recommendations
 "Find me cheap hotels in Bali"     → Tavily-powered search results
 ```
 
-**Flight Search:**
+**Flight Search**
+
 ```
-Click ✈️ in the chat → opens Flight Booking Panel
+Click the flight icon in chat → opens Flight Booking Panel
 Enter DEL → DXB, pick a date → live results from TBO
 Filter: Direct only, sort by price → instant re-sort
 ```
 
-**Hotel Search:**
+**Hotel Search**
+
 ```
-Click 🏨 in the chat → opens Hotel Booking Panel
+Click the hotel icon in chat → opens Hotel Booking Panel
 Search "Bali" → find location and view live hotel results
 Filter: by rating, price, view room details & photos
 ```
 
 ---
 
-## 🎨 UI Highlights
+## UI Highlights
 
-- **Side-by-Side Panels** — Chat + Flight/Hotel booking panel without overlap
-- **Animated Flight Cards** — Staggered entry, hover lift, airline-colored gradient bars
-- **Filter Panel** — Collapsible, with stops filter, airline selector & price range slider
-- **Next-Day Indicator** — "+1" badge on flights arriving the next day
-- **Refundable Badge** — Clear ✓/✗ refundability label per flight
-
----
-
-## 🏆 Hackathon Highlights
-
-1. **Full AI Function Calling Pipeline** — Gemini routes user queries to the right tool automatically
-2. **Live TBO Integration** — Actual bookable flights, not mock data
-3. **Robust Date Parsing** — Handles TBO's `.NET /Date(timestamp)/` format
-4. **Production-Quality UI** — Glassmorphism, micro-animations, responsive layout
-5. **Secure by Default** — `.env` excluded from git, `.env.example` provided for onboarding
+* Side-by-Side Panels — Chat + Flight/Hotel booking panel without overlap
+* Animated Flight Cards — Staggered entry, hover lift, airline-colored gradient bars
+* Filter Panel — Collapsible, with stops filter, airline selector & price range slider
+* Next-Day Indicator — "+1" badge on flights arriving the next day
+* Refundable Badge — Clear refundability label per flight
 
 ---
 
-## 📝 License
+## Hackathon Highlights
 
-MIT — feel free to fork and build on it!
-
----
-
-Built with ❤️ for hackathon glory 🏆
+1. Full AI Function Calling Pipeline — Gemini routes user queries to the right tool automatically
+2. Live TBO Integration — Actual bookable flights, not mock data
+3. Robust Date Parsing — Handles TBO's `.NET /Date(timestamp)/` format
+4. Production-Quality UI — Glassmorphism, micro-animations, responsive layout
+5. Secure by Default — `.env` excluded from git, `.env.example` provided for onboarding
