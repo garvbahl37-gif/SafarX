@@ -1,4 +1,4 @@
-# ✈️ SafarX — AI-Powered Travel Companion
+# SafarX — AI-Powered Travel Companion
 
 An AI travel assistant with real-time flight search, smart itinerary generation, and a premium glassmorphism UI — built for hackathon glory.
 
