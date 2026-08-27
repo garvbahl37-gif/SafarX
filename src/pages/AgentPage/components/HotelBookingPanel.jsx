@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import {
     X, Hotel, Calendar, Users, MapPin, Search,
-    Star, BedDouble, ChevronDown, Loader, MapPinned, Sparkles,
+    Star, BedDouble, ChevronDown, MapPinned, Moon, Info,
 } from 'lucide-react';
 import { useHotelSearch } from '../hooks/useHotelSearch';
 import HotelSearchResults from './HotelSearchResults';
 import HotelDetailModal from './HotelDetailModal';
+
+const EASE = [0.22, 1, 0.36, 1];
 
 const HotelBookingPanel = ({ onClose }) => {
     const [destination, setDestination] = useState('');
@@ -29,14 +31,12 @@ const HotelBookingPanel = ({ onClose }) => {
         searchHotels, getHotelDetails, clearResults, closeDetails,
     } = useHotelSearch();
 
-
-
     const sortOptions = [
         { label: 'Popular', value: '' },
-        { label: 'Best Value', value: 'BEST_VALUE' },
-        { label: 'Price: Low to High', value: 'PRICE_LOW_TO_HIGH' },
-        { label: 'Traveller Ranking', value: 'POPULARITY' },
-        { label: 'Distance to Centre', value: 'DISTANCE_FROM_CITY_CENTER' },
+        { label: 'Best value', value: 'BEST_VALUE' },
+        { label: 'Price — low to high', value: 'PRICE_LOW_TO_HIGH' },
+        { label: 'Traveller ranking', value: 'POPULARITY' },
+        { label: 'Distance to centre', value: 'DISTANCE_FROM_CITY_CENTER' },
     ];
 
     const today = new Date().toISOString().split('T')[0];
@@ -61,8 +61,6 @@ const HotelBookingPanel = ({ onClose }) => {
         setShowSuggestions(false);
         setLocationSuggestions([]);
     };
-
-
 
     const handleSearch = async () => {
         if (!isFormValid) return;
@@ -108,24 +106,22 @@ const HotelBookingPanel = ({ onClose }) => {
                 {(hotelDetails || loadingDetails) && (
                     <HotelDetailModal
                         hotel={hotelDetails} loading={loadingDetails}
-                        onClose={closeDetails} checkIn={checkIn} checkOut={checkOut}
+                        onClose={closeDetails}
                     />
                 )}
             </AnimatePresence>
 
-            <motion.div
-                initial={{ opacity: 0, x: 60, scale: 0.97 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 60, scale: 0.97 }}
+            <Motion.div
+                initial={{ opacity: 0, x: 60 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 60 }}
                 transition={{ type: 'spring', damping: 28, stiffness: 300 }}
                 className="h-full flex flex-col"
                 style={{ width: '100%' }}
             >
                 <AnimatePresence mode="wait">
 
-                    {/* ══════════════════════════════
-                        RESULTS VIEW
-                    ══════════════════════════════ */}
+                    {/* ══════════════ RESULTS VIEW ══════════════ */}
                     {showResults ? (
                         <HotelSearchResults
                             key="results"
@@ -140,283 +136,189 @@ const HotelBookingPanel = ({ onClose }) => {
                         />
                     ) : (
 
-                        /* ══════════════════════════════
-                            SEARCH FORM VIEW
-                        ══════════════════════════════ */
-                        <motion.div
+                        /* ══════════════ SEARCH FORM VIEW ══════════════ */
+                        <Motion.div
                             key="form"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="flex flex-col h-full rounded-2xl md:rounded-3xl overflow-hidden relative"
-                            style={{
-                                background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(250,245,255,0.97) 100%)',
-                                border: '1.5px solid rgba(255,255,255,0.9)',
-                                boxShadow: '0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(139,92,246,0.1)',
-                            }}
+                            className="agent-panel flex flex-col h-full rounded-2xl md:rounded-3xl overflow-hidden relative shadow-[0_24px_64px_rgba(0,0,0,0.45)]"
                         >
-                            {/* Rainbow top accent line */}
+                            {/* Gold filament */}
                             <div
-                                className="absolute top-0 left-0 right-0 h-1 z-10"
-                                style={{ background: 'linear-gradient(90deg, #8B5CF6, #EC4899, #F97316, #F59E0B, #10B981)' }}
-                            />
-
-                            {/* Decorative background blobs */}
-                            <div
-                                className="absolute top-0 right-0 w-64 h-64 pointer-events-none"
-                                style={{
-                                    background: 'radial-gradient(circle at 80% 20%, rgba(139,92,246,0.1) 0%, transparent 65%)',
-                                    opacity: 0.6,
-                                }}
-                            />
-                            <div
-                                className="absolute bottom-24 left-0 w-48 h-48 pointer-events-none"
-                                style={{
-                                    background: 'radial-gradient(circle at 20% 80%, rgba(236,72,153,0.08) 0%, transparent 65%)',
-                                    opacity: 0.5,
-                                }}
+                                className="absolute top-0 left-0 right-0 h-px z-20 bg-gradient-to-r from-transparent via-saffron/50 to-transparent"
+                                aria-hidden="true"
                             />
 
                             {/* ── Header ── */}
-                            <div
-                                className="relative p-4 md:p-5 border-b flex-shrink-0"
-                                style={{
-                                    borderColor: 'rgba(139,92,246,0.1)',
-                                    background: 'rgba(255,255,255,0.65)',
-                                }}
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <motion.div
-                                            className="relative"
-                                            whileHover={{ scale: 1.08 }}
-                                            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                            <div className="relative p-4 md:p-5 border-b border-white/[0.07] bg-ink-950/30 shrink-0">
+                                <div className="flex items-center justify-between gap-3">
+                                    <div className="flex items-center gap-3 min-w-0">
+                                        <span
+                                            className="w-10 h-10 rounded-xl flex items-center justify-center bg-saffron/10 border border-saffron/25 shrink-0"
+                                            aria-hidden="true"
                                         >
-                                            {/* Glow */}
-                                            <div
-                                                className="absolute inset-0 rounded-xl blur-md opacity-55"
-                                                style={{ background: 'linear-gradient(135deg, #8B5CF6, #EC4899)' }}
-                                            />
-                                            <div
-                                                className="relative w-11 h-11 rounded-xl flex items-center justify-center shadow-lg"
-                                                style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)' }}
-                                            >
-                                                <Hotel size={18} className="text-white" />
-                                            </div>
-                                        </motion.div>
-                                        <div>
-                                            <h3 className="font-bold text-base" style={{ color: '#0f172a' }}>
-                                                Hotel Booking
-                                            </h3>
-                                            <p className="text-xs flex items-center gap-1.5" style={{ color: '#64748b' }}>
-                                                <span
-                                                    className="w-1.5 h-1.5 rounded-full animate-pulse"
-                                                    style={{ background: '#8B5CF6' }}
-                                                />
-                                                Find perfect stays worldwide
+                                            <Hotel size={17} className="text-saffron" />
+                                        </span>
+                                        <div className="min-w-0">
+                                            <h3 className="font-display text-[17px] leading-tight text-ivory">Stays</h3>
+                                            <p className="flex items-center gap-1.5 mt-1">
+                                                <span className="route-dot" aria-hidden="true" />
+                                                <span className="font-data text-[9.5px] uppercase tracking-[0.18em] text-ivory-faint">
+                                                    Heritage hotels to homestays
+                                                </span>
                                             </p>
                                         </div>
                                     </div>
 
-                                    <motion.button
-                                        whileHover={{ scale: 1.1, rotate: 90 }}
-                                        whileTap={{ scale: 0.9 }}
+                                    <button
                                         onClick={onClose}
-                                        className="p-2 rounded-xl transition-all"
-                                        style={{ background: 'rgba(0,0,0,0.04)', color: '#64748b' }}
+                                        className="agent-icon-btn p-2 shrink-0"
+                                        aria-label="Close hotel search"
                                     >
-                                        <X size={18} />
-                                    </motion.button>
+                                        <X size={17} />
+                                    </button>
                                 </div>
                             </div>
 
-                            {/* ── Scrollable Form Body ── */}
-                            <div className="flex-1 overflow-y-auto p-4 md:p-5 space-y-5 scrollbar-hide">
+                            {/* ── Scrollable form body ── */}
+                            <div className="agent-scroll flex-1 overflow-y-auto p-4 md:p-5 space-y-6">
 
                                 {/* ── Destination ── */}
                                 <div className="space-y-2.5">
-                                    <label
-                                        className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
-                                        style={{ color: '#64748b' }}
-                                    >
-                                        <span
-                                            className="w-1.5 h-1.5 rounded-full"
-                                            style={{ background: 'linear-gradient(135deg, #8B5CF6, #EC4899)' }}
-                                        />
+                                    <label htmlFor="hotel-destination" className="eyebrow-muted block">
                                         Destination
                                     </label>
 
                                     <div className="relative" ref={destinationRef}>
-                                        <MapPin
-                                            size={14}
-                                            className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10"
-                                            style={{ color: '#8B5CF6' }}
-                                        />
+                                        <MapPin size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 z-10 text-saffron" aria-hidden="true" />
                                         <input
+                                            id="hotel-destination"
                                             type="text"
                                             value={destination}
                                             onChange={(e) => handleDestinationChange(e.target.value)}
                                             onFocus={() =>
                                                 locationSuggestions.length > 0 && setShowSuggestions(true)
                                             }
-                                            placeholder="City, region, or hotel name"
-                                            className="w-full rounded-xl pl-9 pr-10 py-3 text-sm font-medium focus:outline-none glass-input"
-                                            style={{ color: '#0f172a' }}
+                                            placeholder="City, region, or property name"
+                                            autoComplete="off"
+                                            aria-expanded={showSuggestions}
+                                            className="agent-field w-full pl-9 pr-10 py-3 text-sm"
                                         />
 
-                                        {/* Spinner */}
+                                        {/* Looking-up indicator */}
                                         {loadingLocation && (
-                                            <Loader
-                                                size={14}
-                                                className="absolute right-3.5 top-1/2 -translate-y-1/2 animate-spin"
-                                                style={{ color: '#8B5CF6' }}
-                                            />
+                                            <span
+                                                className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center gap-1"
+                                                aria-hidden="true"
+                                            >
+                                                <span className="agent-waypoint" />
+                                                <span className="agent-waypoint" />
+                                                <span className="agent-waypoint" />
+                                            </span>
                                         )}
 
-                                        {/* Green confirmed dot */}
+                                        {/* Confirmed */}
                                         {selectedLocation && !loadingLocation && (
-                                            <motion.div
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                className="absolute right-3.5 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
-                                                style={{
-                                                    background: '#10B981',
-                                                    boxShadow: '0 0 8px rgba(16,185,129,0.55)',
-                                                }}
+                                            <span
+                                                className="route-dot absolute right-4 top-1/2 -translate-y-1/2"
+                                                aria-hidden="true"
                                             />
                                         )}
 
                                         {/* ── Suggestions dropdown ── */}
                                         <AnimatePresence>
                                             {showSuggestions && locationSuggestions.length > 0 && (
-                                                <motion.div
+                                                <Motion.div
                                                     ref={suggestionsRef}
-                                                    initial={{ opacity: 0, y: -8, scale: 0.97 }}
-                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                    exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                                                    initial={{ opacity: 0, y: -8 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, y: -8 }}
                                                     transition={{ duration: 0.18 }}
-                                                    className="absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl overflow-hidden"
-                                                    style={{
-                                                        background: 'rgba(255,255,255,0.98)',
-                                                        border: '1.5px solid rgba(139,92,246,0.15)',
-                                                        boxShadow: '0 16px 48px rgba(0,0,0,0.1), 0 4px 16px rgba(139,92,246,0.1)',
-                                                        backdropFilter: 'blur(20px)',
-                                                        maxHeight: '240px',
-                                                        overflowY: 'auto',
-                                                    }}
+                                                    role="listbox"
+                                                    aria-label="Destination suggestions"
+                                                    className="agent-scroll absolute top-full left-0 right-0 mt-2 z-50 rounded-2xl overflow-y-auto
+                                                               bg-ink-800 border border-white/[0.1] shadow-[0_20px_48px_rgba(0,0,0,0.55)]"
+                                                    style={{ maxHeight: '240px' }}
                                                 >
                                                     {locationSuggestions.map((s, idx) => (
-                                                        <motion.button
+                                                        <Motion.button
                                                             key={s.documentId}
-                                                            initial={{ opacity: 0, x: -8 }}
+                                                            initial={{ opacity: 0, x: -6 }}
                                                             animate={{ opacity: 1, x: 0 }}
                                                             transition={{ delay: idx * 0.04 }}
                                                             onClick={() => handleSelectSuggestion(s)}
-                                                            className="w-full flex items-center gap-3 px-4 py-3 text-left border-b transition-colors last:border-0"
-                                                            style={{ borderColor: 'rgba(139,92,246,0.07)' }}
-                                                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(139,92,246,0.05)'}
-                                                            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                                                            role="option"
+                                                            aria-selected={selectedLocation?.documentId === s.documentId}
+                                                            className="w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer
+                                                                       border-b border-white/[0.05] last:border-0
+                                                                       hover:bg-saffron/[0.07] transition-colors"
                                                         >
-                                                            {/* Icon */}
-                                                            <div
-                                                                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                                                                style={s.trackingItems === 'hotel'
-                                                                    ? { background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.2)' }
-                                                                    : { background: 'rgba(6,182,212,0.1)', border: '1px solid rgba(6,182,212,0.2)' }
-                                                                }
+                                                            <span
+                                                                className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-white/[0.04] border border-white/[0.07]"
+                                                                aria-hidden="true"
                                                             >
                                                                 {s.trackingItems === 'hotel'
-                                                                    ? <Hotel size={13} style={{ color: '#8B5CF6' }} />
-                                                                    : <MapPinned size={13} style={{ color: '#06B6D4' }} />
+                                                                    ? <Hotel size={13} className="text-saffron" />
+                                                                    : <MapPinned size={13} className="text-saffron" />
                                                                 }
-                                                            </div>
+                                                            </span>
 
-                                                            {/* Text */}
-                                                            <div className="flex-1 min-w-0">
-                                                                <p
-                                                                    className="text-sm font-semibold truncate"
-                                                                    style={{ color: '#0f172a' }}
+                                                            <span className="flex-1 min-w-0">
+                                                                <span
+                                                                    className="block text-[13px] font-medium truncate text-ivory"
                                                                     dangerouslySetInnerHTML={{ __html: s.title }}
                                                                 />
-                                                                <p className="text-xs truncate" style={{ color: '#94a3b8' }}>
+                                                                <span className="block text-[11px] truncate text-ivory-faint">
                                                                     {s.secondaryText}
-                                                                </p>
-                                                            </div>
+                                                                </span>
+                                                            </span>
 
-                                                            {/* Thumbnail */}
                                                             {s.image?.urlTemplate && (
                                                                 <img
                                                                     src={s.image.urlTemplate
                                                                         .replace('{width}', '48')
                                                                         .replace('{height}', '48')}
                                                                     alt=""
-                                                                    className="w-9 h-9 rounded-xl object-cover flex-shrink-0"
+                                                                    className="w-9 h-9 rounded-xl object-cover shrink-0"
                                                                 />
                                                             )}
-                                                        </motion.button>
+                                                        </Motion.button>
                                                     ))}
-                                                </motion.div>
+                                                </Motion.div>
                                             )}
                                         </AnimatePresence>
                                     </div>
 
-                                    {/* Selected location badge */}
+                                    {/* Selected location */}
                                     <AnimatePresence>
                                         {selectedLocation && (
-                                            <motion.div
-                                                initial={{ opacity: 0, scale: 0.9, y: -4 }}
-                                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                                exit={{ opacity: 0, scale: 0.9 }}
-                                                className="flex items-center gap-2 px-3 py-1.5 rounded-xl w-fit"
-                                                style={{
-                                                    background: 'rgba(16,185,129,0.08)',
-                                                    border: '1.5px solid rgba(16,185,129,0.22)',
-                                                }}
+                                            <Motion.div
+                                                initial={{ opacity: 0, y: -4 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0 }}
+                                                className="agent-tag agent-tag-jade px-3 py-1.5 text-[10px] w-fit"
                                             >
-                                                <div
-                                                    className="w-2 h-2 rounded-full"
-                                                    style={{ background: '#10B981', boxShadow: '0 0 6px rgba(16,185,129,0.5)' }}
-                                                />
-                                                <span
-                                                    className="text-xs font-semibold truncate max-w-[200px]"
-                                                    style={{ color: '#059669' }}
-                                                >
+                                                <span className="truncate max-w-[220px] normal-case tracking-normal">
                                                     {selectedLocation.secondaryText}
                                                 </span>
-                                            </motion.div>
+                                            </Motion.div>
                                         )}
                                     </AnimatePresence>
                                 </div>
 
-
-
-
-                                {/* ── Stay Dates ── */}
+                                {/* ── Stay dates ── */}
                                 <div className="space-y-2.5">
-                                    <label
-                                        className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
-                                        style={{ color: '#64748b' }}
-                                    >
-                                        <span
-                                            className="w-1.5 h-1.5 rounded-full"
-                                            style={{ background: 'linear-gradient(135deg, #F97316, #F59E0B)' }}
-                                        />
-                                        Stay Dates
-                                    </label>
+                                    <span className="eyebrow-muted block">Stay dates</span>
                                     <div className="grid grid-cols-2 gap-2.5">
-
-                                        {/* Check-in */}
-                                        <div className="flex flex-col gap-1">
-                                            <label className="text-xs text-slate-400 pl-1">Check-in</label>
-
+                                        <div className="flex flex-col gap-1.5">
+                                            <label htmlFor="hotel-checkin" className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint pl-1">
+                                                Check-in
+                                            </label>
                                             <div className="relative">
-                                                <Calendar
-                                                    size={14}
-                                                    className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-10"
-                                                    style={{ color: '#94a3b8' }}
-                                                />
-
+                                                <Calendar size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-10 text-ivory-faint" aria-hidden="true" />
                                                 <input
+                                                    id="hotel-checkin"
                                                     type="date"
                                                     value={checkIn}
                                                     min={today}
@@ -424,218 +326,160 @@ const HotelBookingPanel = ({ onClose }) => {
                                                         setCheckIn(e.target.value);
                                                         if (checkOut && e.target.value >= checkOut) setCheckOut('');
                                                     }}
-                                                    className="w-full rounded-xl pl-9 pr-3 py-3 text-sm focus:outline-none appearance-none glass-input text-[15px]"
-                                                    style={{ colorScheme: 'light', color: checkIn ? '#0f172a' : '#94a3b8' }}
+                                                    className="agent-field w-full pl-9 pr-3 py-3 font-data text-[13px] appearance-none cursor-pointer"
+                                                    style={{ colorScheme: 'dark' }}
                                                 />
                                             </div>
                                         </div>
 
-                                        {/* Check-out */}
-                                        <div className="flex flex-col gap-1">
-                                            <label className="text-xs text-slate-400 pl-1">Check-out</label>
-
+                                        <div className="flex flex-col gap-1.5">
+                                            <label htmlFor="hotel-checkout" className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint pl-1">
+                                                Check-out
+                                            </label>
                                             <div className="relative">
-                                                <Calendar
-                                                    size={14}
-                                                    className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-10"
-                                                    style={{ color: '#94a3b8' }}
-                                                />
-
+                                                <Calendar size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-10 text-ivory-faint" aria-hidden="true" />
                                                 <input
+                                                    id="hotel-checkout"
                                                     type="date"
                                                     value={checkOut}
                                                     min={checkIn || today}
                                                     onChange={(e) => setCheckOut(e.target.value)}
-                                                    className="w-full rounded-xl pl-9 pr-3 py-3 text-sm focus:outline-none appearance-none glass-input text-[15px]"
-                                                    style={{ colorScheme: 'light', color: checkOut ? '#0f172a' : '#94a3b8' }}
+                                                    className="agent-field w-full pl-9 pr-3 py-3 font-data text-[13px] appearance-none cursor-pointer"
+                                                    style={{ colorScheme: 'dark' }}
                                                 />
                                             </div>
                                         </div>
-
                                     </div>
 
-                                    {/* Night count pill */}
+                                    {/* Night count */}
                                     <AnimatePresence>
                                         {nightCount > 0 && (
-                                            <motion.div
-                                                initial={{ opacity: 0, y: -4, scale: 0.9 }}
-                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            <Motion.div
+                                                initial={{ opacity: 0, y: -4 }}
+                                                animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: -4 }}
-                                                className="flex items-center gap-2 w-fit px-3 py-1.5 rounded-xl"
-                                                style={{
-                                                    background: 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(236,72,153,0.06))',
-                                                    border: '1.5px solid rgba(139,92,246,0.18)',
-                                                }}
+                                                className="agent-tag agent-tag-gold px-3 py-1.5 text-[10px] w-fit"
                                             >
-                                                <span
-                                                    className="w-1.5 h-1.5 rounded-full"
-                                                    style={{ background: '#8B5CF6' }}
-                                                />
-                                                <span className="text-xs font-bold" style={{ color: '#7C3AED' }}>
-                                                    🌙 {nightCount} night{nightCount > 1 ? 's' : ''} stay
-                                                </span>
-                                            </motion.div>
+                                                <Moon size={10} aria-hidden="true" />
+                                                {nightCount} night{nightCount > 1 ? 's' : ''}
+                                            </Motion.div>
                                         )}
                                     </AnimatePresence>
                                 </div>
 
                                 {/* ── Guests & Rooms ── */}
                                 <div className="grid grid-cols-2 gap-3">
-                                    {/* Guests */}
-                                    <div className="space-y-2">
-                                        <label
-                                            className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
-                                            style={{ color: '#64748b' }}
-                                        >
-                                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#0EA5E9' }} />
-                                            Guests
-                                        </label>
-                                        <div className="rounded-xl flex items-center justify-between px-3 py-3 glass-input">
-                                            <Users size={14} style={{ color: '#94a3b8' }} />
+                                    <div className="space-y-2.5">
+                                        <span className="eyebrow-muted block">Guests</span>
+                                        <div className="agent-field flex items-center justify-between px-3 py-2.5">
+                                            <Users size={14} className="text-ivory-faint" aria-hidden="true" />
                                             <div className="flex items-center gap-2">
-                                                <motion.button
-                                                    whileTap={{ scale: 0.85 }}
-                                                    whileHover={{ scale: 1.1 }}
+                                                <button
                                                     onClick={() => setGuests(Math.max(1, guests - 1))}
-                                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-black transition-all"
-                                                    style={{ background: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }}
-                                                >−</motion.button>
-                                                <span className="font-black text-sm w-5 text-center" style={{ color: '#0f172a' }}>
+                                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-semibold cursor-pointer
+                                                               bg-white/[0.05] border border-white/[0.07] text-ivory hover:border-saffron/35"
+                                                    aria-label="Remove a guest"
+                                                >−</button>
+                                                <span className="font-data text-sm w-5 text-center text-ivory tabular-nums" aria-live="polite">
                                                     {guests}
                                                 </span>
-                                                <motion.button
-                                                    whileTap={{ scale: 0.85 }}
-                                                    whileHover={{ scale: 1.1 }}
+                                                <button
                                                     onClick={() => setGuests(Math.min(10, guests + 1))}
-                                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-black transition-all"
-                                                    style={{ background: 'rgba(139,92,246,0.1)', color: '#8B5CF6' }}
-                                                >+</motion.button>
+                                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-semibold cursor-pointer
+                                                               bg-white/[0.05] border border-white/[0.07] text-ivory hover:border-saffron/35"
+                                                    aria-label="Add a guest"
+                                                >+</button>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Rooms */}
-                                    <div className="space-y-2">
-                                        <label
-                                            className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
-                                            style={{ color: '#64748b' }}
-                                        >
-                                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#EC4899' }} />
-                                            Rooms
-                                        </label>
-                                        <div className="rounded-xl flex items-center justify-between px-3 py-3 glass-input">
-                                            <BedDouble size={14} style={{ color: '#94a3b8' }} />
+                                    <div className="space-y-2.5">
+                                        <span className="eyebrow-muted block">Rooms</span>
+                                        <div className="agent-field flex items-center justify-between px-3 py-2.5">
+                                            <BedDouble size={14} className="text-ivory-faint" aria-hidden="true" />
                                             <div className="flex items-center gap-2">
-                                                <motion.button
-                                                    whileTap={{ scale: 0.85 }}
-                                                    whileHover={{ scale: 1.1 }}
+                                                <button
                                                     onClick={() => setRooms(Math.max(1, rooms - 1))}
-                                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-black transition-all"
-                                                    style={{ background: 'rgba(236,72,153,0.1)', color: '#EC4899' }}
-                                                >−</motion.button>
-                                                <span className="font-black text-sm w-5 text-center" style={{ color: '#0f172a' }}>
+                                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-semibold cursor-pointer
+                                                               bg-white/[0.05] border border-white/[0.07] text-ivory hover:border-saffron/35"
+                                                    aria-label="Remove a room"
+                                                >−</button>
+                                                <span className="font-data text-sm w-5 text-center text-ivory tabular-nums" aria-live="polite">
                                                     {rooms}
                                                 </span>
-                                                <motion.button
-                                                    whileTap={{ scale: 0.85 }}
-                                                    whileHover={{ scale: 1.1 }}
+                                                <button
                                                     onClick={() => setRooms(Math.min(5, rooms + 1))}
-                                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-black transition-all"
-                                                    style={{ background: 'rgba(236,72,153,0.1)', color: '#EC4899' }}
-                                                >+</motion.button>
+                                                    className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-semibold cursor-pointer
+                                                               bg-white/[0.05] border border-white/[0.07] text-ivory hover:border-saffron/35"
+                                                    aria-label="Add a room"
+                                                >+</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* ── Star Rating ── */}
+                                {/* ── Star rating ── */}
                                 <div className="space-y-2.5">
-                                    <label
-                                        className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
-                                        style={{ color: '#64748b' }}
+                                    <span className="eyebrow-muted flex items-center gap-1.5">
+                                        <Star size={10} className="text-saffron" aria-hidden="true" />
+                                        Minimum rating
+                                    </span>
+                                    <div
+                                        className="flex gap-1 p-1 rounded-full bg-white/[0.03] border border-white/[0.07]"
+                                        role="group"
+                                        aria-label="Minimum star rating"
                                     >
-                                        <Star size={11} style={{ color: '#F59E0B' }} />
-                                        Minimum Star Rating
-                                    </label>
-                                    <div className="flex gap-2 p-1 rounded-2xl"
-                                        style={{ background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.1)' }}>
-                                        {/* Any */}
-                                        <motion.button
-                                            whileTap={{ scale: 0.95 }}
-                                            whileHover={{ scale: 1.04 }}
+                                        <button
                                             onClick={() => setStarRating(0)}
-                                            className="flex-1 py-2 rounded-xl text-xs font-bold transition-all"
-                                            style={starRating === 0
-                                                ? {
-                                                    background: 'linear-gradient(135deg, #8B5CF6, #7C3AED)',
-                                                    color: '#fff',
-                                                    boxShadow: '0 4px 12px rgba(139,92,246,0.3)',
-                                                }
-                                                : { color: '#94a3b8' }
-                                            }
+                                            aria-pressed={starRating === 0}
+                                            className={`flex-1 py-2 rounded-full font-data text-[10px] uppercase tracking-[0.14em] transition-all cursor-pointer ${starRating === 0
+                                                ? 'bg-gradient-to-br from-saffron-bright to-saffron text-ink-950 font-semibold'
+                                                : 'text-ivory-muted hover:text-ivory'
+                                                }`}
                                         >
                                             Any
-                                        </motion.button>
+                                        </button>
 
                                         {[3, 4, 5].map((s) => (
-                                            <motion.button
+                                            <button
                                                 key={s}
-                                                whileTap={{ scale: 0.95 }}
-                                                whileHover={{ scale: 1.04 }}
                                                 onClick={() => setStarRating(s)}
-                                                className="flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1"
-                                                style={starRating === s
-                                                    ? {
-                                                        background: 'linear-gradient(135deg, #F59E0B, #D97706)',
-                                                        color: '#fff',
-                                                        boxShadow: '0 4px 12px rgba(245,158,11,0.35)',
-                                                    }
-                                                    : { color: '#94a3b8' }
-                                                }
+                                                aria-pressed={starRating === s}
+                                                aria-label={`${s} stars and up`}
+                                                className={`flex-1 py-2 rounded-full font-data text-[10px] transition-all cursor-pointer flex items-center justify-center gap-1 ${starRating === s
+                                                    ? 'bg-gradient-to-br from-saffron-bright to-saffron text-ink-950 font-semibold'
+                                                    : 'text-ivory-muted hover:text-ivory'
+                                                    }`}
                                             >
                                                 <Star
-                                                    size={11}
-                                                    style={starRating === s ? { fill: '#fff', color: '#fff' } : {}}
+                                                    size={10}
+                                                    className={starRating === s ? 'fill-current' : ''}
+                                                    aria-hidden="true"
                                                 />
                                                 {s}
-                                            </motion.button>
+                                            </button>
                                         ))}
                                     </div>
                                 </div>
 
-                                {/* ── Sort By ── */}
+                                {/* ── Sort by ── */}
                                 <div className="space-y-2.5">
-                                    <label
-                                        className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
-                                        style={{ color: '#64748b' }}
-                                    >
-                                        <span
-                                            className="w-1.5 h-1.5 rounded-full"
-                                            style={{ background: 'linear-gradient(135deg, #06B6D4, #0EA5E9)' }}
-                                        />
-                                        Sort By
-                                    </label>
+                                    <label htmlFor="hotel-sort" className="eyebrow-muted block">Sort by</label>
                                     <div className="relative">
                                         <select
+                                            id="hotel-sort"
                                             value={sortBy}
                                             onChange={(e) => setSortBy(e.target.value)}
-                                            className="w-full rounded-xl px-3 py-3 text-sm focus:outline-none appearance-none cursor-pointer font-medium glass-input"
-                                            style={{ colorScheme: 'light', color: '#0f172a', background: 'transparent' }}
+                                            className="agent-field w-full px-3 py-3 pr-9 text-sm appearance-none cursor-pointer"
                                         >
                                             {sortOptions.map((o) => (
-                                                <option
-                                                    key={o.value}
-                                                    value={o.value}
-                                                    style={{ background: '#fff', color: '#0f172a' }}
-                                                >
-                                                    {o.label}
-                                                </option>
+                                                <option key={o.value} value={o.value}>{o.label}</option>
                                             ))}
                                         </select>
                                         <ChevronDown
                                             size={14}
-                                            className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-                                            style={{ color: '#94a3b8' }}
+                                            className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-ivory-faint"
+                                            aria-hidden="true"
                                         />
                                     </div>
                                 </div>
@@ -643,92 +487,64 @@ const HotelBookingPanel = ({ onClose }) => {
                                 {/* ── Validation hint ── */}
                                 <AnimatePresence>
                                     {!isFormValid && (
-                                        <motion.div
+                                        <Motion.div
                                             initial={{ opacity: 0, y: -4 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0 }}
-                                            className="flex items-start gap-2.5 p-3 rounded-xl"
-                                            style={{
-                                                background: 'rgba(14,165,233,0.06)',
-                                                border: '1px solid rgba(14,165,233,0.15)',
-                                            }}
+                                            className="flex items-start gap-2.5 p-3 rounded-xl bg-white/[0.03] border border-white/[0.07]"
                                         >
-                                            <span className="text-base leading-none mt-0.5">ℹ️</span>
-                                            <span className="text-xs font-medium" style={{ color: '#0284C7' }}>
+                                            <Info size={14} className="text-saffron shrink-0 mt-0.5" aria-hidden="true" />
+                                            <span className="text-xs leading-relaxed text-ivory-muted">
                                                 {!selectedLocation
-                                                    ? 'Select a destination from the suggestions to continue.'
+                                                    ? 'Pick a destination from the suggestions to continue.'
                                                     : !checkIn
                                                         ? 'Choose a check-in date to continue.'
                                                         : 'Choose a check-out date to continue.'
                                                 }
                                             </span>
-                                        </motion.div>
+                                        </Motion.div>
                                     )}
                                 </AnimatePresence>
                             </div>
 
-                            {/* ── Search Button ── */}
-                            <div
-                                className="p-4 md:p-5 border-t flex-shrink-0"
-                                style={{
-                                    borderColor: 'rgba(139,92,246,0.1)',
-                                    background: 'rgba(255,255,255,0.65)',
-                                }}
-                            >
-                                <motion.button
-                                    whileHover={isFormValid ? { scale: 1.02, y: -1 } : {}}
-                                    whileTap={isFormValid ? { scale: 0.98 } : {}}
+                            {/* ── Search button ── */}
+                            <div className="p-4 md:p-5 border-t border-white/[0.07] bg-ink-950/30 shrink-0">
+                                <Motion.button
+                                    whileHover={isFormValid && !loadingSearch ? { y: -1 } : undefined}
+                                    whileTap={isFormValid && !loadingSearch ? { scale: 0.99 } : undefined}
+                                    transition={{ duration: 0.25, ease: EASE }}
                                     onClick={handleSearch}
                                     disabled={!isFormValid || loadingSearch}
-                                    className="w-full relative overflow-hidden rounded-2xl py-3.5 flex items-center justify-center gap-2.5 font-semibold text-sm transition-all"
-                                    style={isFormValid
-                                        ? {
-                                            background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
-                                            color: 'white',
-                                            boxShadow: '0 6px 24px rgba(139,92,246,0.4), 0 2px 8px rgba(236,72,153,0.2)',
-                                            cursor: 'pointer',
-                                        }
-                                        : {
-                                            background: 'rgba(148,163,184,0.15)',
-                                            color: '#94a3b8',
-                                            cursor: 'not-allowed',
-                                        }
-                                    }
+                                    className="agent-btn-gold w-full py-3.5 text-sm"
+                                    aria-label="Search stays"
                                 >
-                                    {/* Shimmer on hover */}
-                                    {isFormValid && (
-                                        <motion.div
-                                            className="absolute inset-0 pointer-events-none"
-                                            style={{
-                                                background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%)',
-                                            }}
-                                            animate={{ x: ['-100%', '200%'] }}
-                                            transition={{ duration: 2.5, repeat: Infinity, ease: 'linear', repeatDelay: 1 }}
-                                        />
-                                    )}
-
                                     {loadingSearch ? (
                                         <>
-                                            <Loader size={17} className="animate-spin relative z-10" />
-                                            <span className="relative z-10 font-semibold">Searching Hotels...</span>
+                                            <span className="flex items-center gap-1.5" aria-hidden="true">
+                                                <span className="agent-waypoint" />
+                                                <span className="agent-waypoint" />
+                                                <span className="agent-waypoint" />
+                                            </span>
+                                            <span className="font-data text-[11px] uppercase tracking-[0.18em]">
+                                                Searching stays…
+                                            </span>
                                         </>
                                     ) : (
                                         <>
-                                            <Search size={17} className="relative z-10" />
-                                            <span className="relative z-10 font-semibold">Search Hotels</span>
-                                            <Hotel size={14} className="relative z-10 opacity-75" />
+                                            <Search size={16} />
+                                            <span>Search stays</span>
                                         </>
                                     )}
-                                </motion.button>
+                                </Motion.button>
 
-                                <p className="text-center text-[10px] mt-2.5 font-medium" style={{ color: '#94a3b8' }}>
-                                    🏨 Best rates guaranteed · Free cancellation available
+                                <p className="text-center font-data text-[9.5px] uppercase tracking-[0.18em] text-ivory-faint mt-3">
+                                    Free cancellation on many stays
                                 </p>
                             </div>
-                        </motion.div>
+                        </Motion.div>
                     )}
                 </AnimatePresence>
-            </motion.div>
+            </Motion.div>
         </>
     );
 };

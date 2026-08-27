@@ -4,21 +4,24 @@
 //          Panoramax, Wikipedia images, Generated panoramas
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import * as THREE from "three";
-import { Loader2, AlertCircle, Image as ImageIcon } from "lucide-react";
+import { AlertCircle, Image as ImageIcon } from "lucide-react";
 import { getImageUrls, generatePanoramaTiles } from "../../services/streetViewService";
+import { CompassLoader, StateNotice } from "./ImmersiveChrome";
+import { EASE } from "./immersiveUtils";
 
 const SOURCE_LABELS = {
     google_streetview: "Google Street View 360°",
-    wikimedia_panorama: "Wikimedia Commons Panorama",
+    wikimedia_panorama: "Wikimedia Commons panorama",
     wikimedia_image: "Wikimedia Commons",
-    flickr_panorama: "Flickr 360° Photo",
-    panoramax: "Panoramax Street Imagery",
+    flickr_panorama: "Flickr 360° photo",
+    panoramax: "Panoramax street imagery",
     wikipedia_image: "Wikipedia",
-    generated: "Generated Panorama",
+    generated: "Panorama built from map data",
 };
 
-const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
+const VRPanoramaViewer = ({ panoId, placeName, coords, isPano = true, onError }) => {
     const mountRef = useRef(null);
     const rendererRef = useRef(null);
     const cameraRef = useRef(null);
@@ -33,12 +36,13 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
     const [loadingState, setLoadingState] = useState({
         isLoading: true,
         progress: 0,
-        message: "Initializing...",
+        message: "Warming up the viewer",
         error: null,
     });
     const [vrSupported, setVrSupported] = useState(false);
     const [isInVR, setIsInVR] = useState(false);
     const [sourceLabel, setSourceLabel] = useState("");
+    const [isFlatProjection, setIsFlatProjection] = useState(false);
 
     useEffect(() => {
         if (navigator.xr) {
@@ -53,7 +57,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
         setLoadingState({
             isLoading: true,
             progress: 5,
-            message: "Fetching panorama data...",
+            message: "Fetching panorama data",
             error: null,
         });
 
@@ -69,7 +73,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
                 setLoadingState((p) => ({
                     ...p,
                     progress: 10,
-                    message: "Loading Google Street View tiles...",
+                    message: "Loading Street View tiles",
                 }));
                 return await loadGoogleSVTiles(imageData);
             }
@@ -79,7 +83,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
                 setLoadingState((p) => ({
                     ...p,
                     progress: 15,
-                    message: "Loading panorama image...",
+                    message: "Loading the panorama",
                 }));
                 const imgUrl = imageData.urlOriginal || imageData.url2048;
                 return await loadDirectImage(imgUrl, imageData.isPano);
@@ -90,13 +94,14 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
                 setLoadingState((p) => ({
                     ...p,
                     progress: 10,
-                    message: "Generating panorama from map data...",
+                    message: "Building a panorama from map data",
                 }));
                 return await buildGeneratedPanorama(imageData.lat, imageData.lng);
             }
 
             throw new Error("Unknown image data format");
         } catch (error) {
+            console.warn("[VRPanorama] Could not prepare texture:", error?.message || error);
             throw error;
         }
     }, [panoId]);
@@ -141,7 +146,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
                     setLoadingState((p) => ({
                         ...p,
                         progress: pct,
-                        message: `Loading tiles... ${loaded}/${total}`,
+                        message: `Loading tiles · ${loaded}/${total}`,
                     }));
                     resolve(true);
                 };
@@ -170,7 +175,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
         setLoadingState((p) => ({
             ...p,
             progress: 85,
-            message: "Building VR sphere...",
+            message: "Building the 360° sphere",
         }));
 
         const texture = new THREE.CanvasTexture(canvas);
@@ -197,7 +202,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
                     texture.minFilter = THREE.LinearFilter;
                     texture.magFilter = THREE.LinearFilter;
                     texture.generateMipmaps = false;
-                    setLoadingState((p) => ({ ...p, progress: 80, message: "Building VR sphere..." }));
+                    setLoadingState((p) => ({ ...p, progress: 80, message: "Building the 360° sphere" }));
                     resolve({ texture, isPanoTexture: isPanoImg });
                 },
                 (progress) => {
@@ -206,7 +211,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
                         setLoadingState((p) => ({
                             ...p,
                             progress: pct,
-                            message: `Downloading... ${Math.round((progress.loaded / progress.total) * 100)}%`,
+                            message: `Downloading imagery · ${Math.round((progress.loaded / progress.total) * 100)}%`,
                         }));
                     }
                 },
@@ -234,12 +239,12 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
 
         // Sky gradient
         const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        skyGrad.addColorStop(0, "#0a1628");
-        skyGrad.addColorStop(0.15, "#1a2744");
-        skyGrad.addColorStop(0.33, "#2d4a7a");
-        skyGrad.addColorStop(0.5, "#1e3a5f");
-        skyGrad.addColorStop(0.7, "#1a2744");
-        skyGrad.addColorStop(1, "#0a1628");
+        skyGrad.addColorStop(0, "#061412");
+        skyGrad.addColorStop(0.15, "#0A1D1A");
+        skyGrad.addColorStop(0.33, "#17352D");
+        skyGrad.addColorStop(0.5, "#2E8B74");
+        skyGrad.addColorStop(0.7, "#102822");
+        skyGrad.addColorStop(1, "#061412");
         ctx.fillStyle = skyGrad;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -269,7 +274,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
                     setLoadingState((p) => ({
                         ...p,
                         progress: pct,
-                        message: `Generating panorama... ${loaded}/${tiles.length}`,
+                        message: `Stitching panorama · ${loaded}/${tiles.length}`,
                     }));
                     resolve(true);
                 };
@@ -296,14 +301,14 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
         await Promise.all(loadPromises);
 
         // Compass labels
-        ctx.fillStyle = "rgba(6,182,212,0.15)";
+        ctx.fillStyle = "rgba(212,168,67,0.22)";
         ctx.font = "bold 28px sans-serif";
         ctx.textAlign = "center";
         tiles.forEach((tile, i) => {
             ctx.fillText(tile.label, i * tileSize + tileSize / 2, tileSize + tileSize - 15);
         });
 
-        setLoadingState((p) => ({ ...p, progress: 80, message: "Building VR sphere..." }));
+        setLoadingState((p) => ({ ...p, progress: 80, message: "Building the 360° sphere" }));
 
         const texture = new THREE.CanvasTexture(canvas);
         texture.colorSpace = THREE.SRGBColorSpace;
@@ -320,8 +325,9 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
 
         try {
             const { texture, isPanoTexture } = await loadTexture();
+            setIsFlatProjection(!isPanoTexture);
 
-            setLoadingState((p) => ({ ...p, progress: 90, message: "Starting renderer..." }));
+            setLoadingState((p) => ({ ...p, progress: 90, message: "Starting the renderer" }));
 
             const renderer = new THREE.WebGLRenderer({
                 antialias: true,
@@ -357,7 +363,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
             // Floor ring
             const ringGeo = new THREE.RingGeometry(1.5, 1.7, 64);
             const ringMat = new THREE.MeshBasicMaterial({
-                color: 0x06b6d4, transparent: true, opacity: 0.1, side: THREE.DoubleSide,
+                color: 0xd4a843, transparent: true, opacity: 0.12, side: THREE.DoubleSide,
             });
             const ring = new THREE.Mesh(ringGeo, ringMat);
             ring.rotation.x = -Math.PI / 2;
@@ -367,7 +373,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
             // Crosshair
             const dotGeo = new THREE.SphereGeometry(0.015, 16, 16);
             const dotMat = new THREE.MeshBasicMaterial({
-                color: 0x06b6d4, transparent: true, opacity: 0.25,
+                color: 0xd4a843, transparent: true, opacity: 0.3,
             });
             const dot = new THREE.Mesh(dotGeo, dotMat);
             dot.position.set(0, 0, -2);
@@ -408,21 +414,23 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
         const btn = document.createElement("button");
         btn.id = "vr-btn";
         btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M2 9a2 2 0 012-2h16a2 2 0 012 2v6a2 2 0 01-2 2h-4l-2 3-2-3H4a2 2 0 01-2-2V9z"/><circle cx="8" cy="12" r="1"/><circle cx="16" cy="12" r="1"/></svg><span>Enter VR</span>`;
+        btn.setAttribute("aria-label", "Enter VR with a connected headset");
         Object.assign(btn.style, {
             position: "absolute", bottom: "80px", left: "50%", transform: "translateX(-50%)",
             zIndex: "100", display: "flex", alignItems: "center", gap: "10px",
-            padding: "14px 28px", background: "rgba(6,182,212,0.12)", backdropFilter: "blur(16px)",
-            border: "1px solid rgba(6,182,212,0.35)", borderRadius: "50px", color: "#fff",
-            fontSize: "14px", fontWeight: "700", cursor: "pointer", transition: "all 0.25s ease",
-            fontFamily: "inherit", outline: "none",
+            padding: "13px 26px", background: "rgba(212,168,67,0.14)", backdropFilter: "blur(16px)",
+            border: "1px solid rgba(212,168,67,0.45)", borderRadius: "999px", color: "#E5BE5C",
+            fontSize: "12px", fontWeight: "700", letterSpacing: "0.16em", textTransform: "uppercase",
+            cursor: "pointer", transition: "background 0.3s ease, transform 0.3s ease",
+            fontFamily: '"Space Grotesk", monospace', outline: "none",
         });
         btn.onmouseenter = () => {
-            btn.style.background = "rgba(6,182,212,0.25)";
-            btn.style.transform = "translateX(-50%) scale(1.05)";
+            btn.style.background = "rgba(212,168,67,0.26)";
+            btn.style.transform = "translateX(-50%) translateY(-2px)";
         };
         btn.onmouseleave = () => {
-            btn.style.background = "rgba(6,182,212,0.12)";
-            btn.style.transform = "translateX(-50%) scale(1)";
+            btn.style.background = "rgba(212,168,67,0.14)";
+            btn.style.transform = "translateX(-50%)";
         };
         btn.onclick = async () => {
             try {
@@ -441,7 +449,10 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
                     });
                 }
             } catch (err) {
-                alert(`VR Error: ${err.message}\n\nCheck headset + SteamVR/Oculus.`);
+                console.warn("VR session error:", err);
+                alert(
+                    `VR could not start: ${err.message}\n\nConnect a headset and open SteamVR or Oculus, then try again.`
+                );
             }
         };
         vrButtonRef.current = btn;
@@ -564,67 +575,116 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
 
     // ─── Render ───────────────────────────────────────────────
     return (
-        <div className="relative w-full h-full bg-black">
-            <div ref={mountRef} className="w-full h-full" />
+        <div className="relative h-full w-full bg-ink-950">
+            <div ref={mountRef} className="h-full w-full" />
 
-            {loadingState.isLoading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0B0E14] z-50">
-                    <div className="relative w-16 h-16 mb-6">
-                        <div className="absolute inset-0 rounded-full border border-cyan-500/20 animate-ping" />
-                        <Loader2 className="absolute inset-0 m-auto w-6 h-6 text-cyan-400 animate-spin" />
-                    </div>
-                    <p className="text-white font-semibold text-sm mb-3">{loadingState.message}</p>
-                    <div className="w-64 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-saffron-bright to-saffron rounded-full transition-all duration-300"
-                            style={{ width: `${loadingState.progress}%` }} />
-                    </div>
-                    <p className="text-white/30 text-xs mt-2">{loadingState.progress}%</p>
-                    {sourceLabel && (
-                        <p className="text-white/15 text-[10px] mt-4">Source: {sourceLabel}</p>
-                    )}
-                </div>
-            )}
+            {/* Loading */}
+            <AnimatePresence>
+                {loadingState.isLoading && (
+                    <Motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4, ease: EASE }}
+                        className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-ink-950 px-6"
+                    >
+                        <CompassLoader
+                            label={loadingState.message}
+                            detail={placeName || coords}
+                            progress={loadingState.progress}
+                        />
+                        {sourceLabel && (
+                            <p className="mt-6 font-data text-[10px] uppercase tracking-[0.2em] text-ivory-faint/70">
+                                Source · {sourceLabel}
+                            </p>
+                        )}
+                    </Motion.div>
+                )}
+            </AnimatePresence>
 
+            {/* Error */}
             {loadingState.error && (
-                <div className="absolute inset-0 flex items-center justify-center bg-[#0B0E14] z-50">
-                    <div className="text-center max-w-sm px-6">
-                        <AlertCircle className="w-12 h-12 text-red-400/60 mx-auto mb-4" />
-                        <p className="text-white font-semibold mb-2">VR Load Failed</p>
-                        <p className="text-white/40 text-sm">{loadingState.error}</p>
-                    </div>
+                <div className="absolute inset-0 z-50 flex items-center justify-center bg-ink-950">
+                    <StateNotice
+                        icon={AlertCircle}
+                        tone="error"
+                        title="This panorama could not be rendered"
+                        body={`${loadingState.error}. Go back and try a nearby landmark, or stay in street view for this spot.`}
+                    />
                 </div>
             )}
 
+            {/* Source credit — fades away */}
             {!loadingState.isLoading && !loadingState.error && sourceLabel && (
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none animate-[fadeOut_8s_forwards]">
-                    <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/10">
-                        <ImageIcon className="w-3 h-3 text-white/40" />
-                        <span className="text-[10px] text-white/40 font-medium">{sourceLabel}</span>
+                <div className="pointer-events-none absolute left-1/2 top-4 z-10 -translate-x-1/2 animate-[safarxFadeSlow_8s_forwards]">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.09] bg-ink-950/70 px-3 py-1.5 backdrop-blur-xl">
+                        <ImageIcon className="h-3 w-3 text-saffron/80" aria-hidden="true" />
+                        <span className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint">
+                            {sourceLabel}
+                            {isFlatProjection ? " · flat photo projected" : ""}
+                        </span>
+                    </span>
+                </div>
+            )}
+
+            {/* Heads-up readout */}
+            {!loadingState.isLoading && !loadingState.error && (placeName || coords) && (
+                <div className="pointer-events-none absolute bottom-5 left-5 z-20 max-w-[16rem]">
+                    <div className="glass-panel px-4 py-3">
+                        <div className="mb-1.5 flex items-center gap-2">
+                            <span className="route-dot animate-pulse" aria-hidden="true" />
+                            <span className="font-data text-[10px] uppercase tracking-[0.24em] text-saffron">
+                                360°
+                            </span>
+                        </div>
+                        {placeName && (
+                            <p className="truncate font-display text-base font-medium italic text-ivory">
+                                {placeName}
+                            </p>
+                        )}
+                        {coords && (
+                            <p className="mt-1 font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint">
+                                {coords}
+                            </p>
+                        )}
                     </div>
                 </div>
             )}
 
+            {/* First-run hint */}
             {!loadingState.isLoading && !loadingState.error && (
-                <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-                    <div className="bg-black/50 backdrop-blur-md rounded-xl px-5 py-3 border border-white/10 text-center animate-[fadeOut_6s_forwards]">
-                        <p className="text-white/70 text-xs font-medium mb-1">🖱️ Drag to look • Scroll to zoom</p>
-                        <p className="text-white/30 text-[10px]">
-                            WASD / Arrows • {vrSupported ? "VR headset detected ↓" : "Connect VR headset for immersive mode"}
+                <div className="pointer-events-none absolute bottom-5 left-1/2 z-20 -translate-x-1/2">
+                    <div className="glass-panel animate-[safarxFadeSlow_6s_forwards] px-5 py-3 text-center">
+                        <p className="text-xs font-medium text-ivory-muted">
+                            Drag to look around · scroll to zoom
+                        </p>
+                        <p className="mt-1 font-data text-[10px] uppercase tracking-[0.18em] text-ivory-faint">
+                            WASD or arrows ·{" "}
+                            {vrSupported ? "Headset detected" : "Connect a headset for immersive mode"}
                         </p>
                     </div>
                 </div>
             )}
 
+            {/* Headset session active */}
             {isInVR && (
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 bg-cyan-500/20 border border-cyan-500/40 backdrop-blur-md rounded-full px-4 py-1.5">
+                <div className="absolute left-1/2 top-4 z-50 -translate-x-1/2 rounded-full border border-saffron/40 bg-saffron/15 px-4 py-1.5 backdrop-blur-xl">
                     <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                        <span className="text-cyan-300 text-xs font-bold tracking-wider">VR MODE ACTIVE</span>
+                        <span className="route-dot animate-pulse" aria-hidden="true" />
+                        <span className="font-data text-[10px] font-semibold uppercase tracking-[0.24em] text-saffron">
+                            VR mode active
+                        </span>
                     </div>
                 </div>
             )}
 
-            <style>{`@keyframes fadeOut{0%,40%{opacity:1}100%{opacity:0}}`}</style>
+            <style>{`
+                @keyframes safarxFadeSlow{0%,40%{opacity:1}100%{opacity:0}}
+                @media (prefers-reduced-motion: reduce){
+                    .animate-\\[safarxFadeSlow_8s_forwards\\],
+                    .animate-\\[safarxFadeSlow_6s_forwards\\]{animation:none;opacity:0}
+                }
+            `}</style>
         </div>
     );
 };

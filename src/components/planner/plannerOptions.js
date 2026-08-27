@@ -84,7 +84,7 @@ export const POPULAR_DESTINATIONS = [
     region: "Rajasthan",
     coords: "24.58° N · 73.68° E",
     note: "Lake palaces",
-    thumb: "https://images.unsplash.com/photo-1590766940554-153a4d9f6e56?w=280&auto=format&fit=crop&q=60",
+    thumb: "https://images.unsplash.com/photo-1568495248636-6432b97bd949?w=280&auto=format&fit=crop&q=60",
   },
 ];
 

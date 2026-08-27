@@ -69,6 +69,7 @@ const DestinationPicker = ({ value, onChange, inputId = "planner-destination" })
       setHighlight((h) => (h - 1 + options.length) % options.length);
     } else if (e.key === "Enter") {
       e.preventDefault();
+      e.stopPropagation();
       const opt = options[Math.min(highlight, options.length - 1)];
       if (opt) pick(opt.name, opt.custom);
     } else if (e.key === "Escape") {

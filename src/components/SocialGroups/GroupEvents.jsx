@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // import { useGroupMeetups } from '../../hooks/social/useMeetups'; // Switching to local logic for specific request
 import MeetupCard from './MeetupCard';
 import MeetupDetail from './MeetupDetail';
+import DateField from "../ui/DateField";
 
 const GroupEvents = ({ group }) => {
     // Scoped Mock Data
@@ -119,11 +120,11 @@ const GroupEvents = ({ group }) => {
                             </div>
                             <div className="space-y-1">
                                 <label className="form-label">Date</label>
-                                <input
-                                    type="date"
-                                    className="glass-input w-full font-medium [color-scheme:dark]"
+                                <DateField
+                                    id="event-date"
                                     value={newEvent.date}
-                                    onChange={e => setNewEvent({ ...newEvent, date: e.target.value })}
+                                    onChange={(v) => setNewEvent({ ...newEvent, date: v })}
+                                    placeholder="Pick a date"
                                 />
                             </div>
                             <div className="space-y-1">

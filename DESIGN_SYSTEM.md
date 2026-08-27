@@ -4,6 +4,22 @@ SafarX (formerly Safar360) is a travel companion for **Incredible India** — al
 content is Indian: heritage sites, Indian cities, Indian hidden gems, Indian
 budgets in ₹. No foreign destinations anywhere.
 
+
+## Hard rules (non-negotiable)
+
+1. **VR tours are never YouTube videos.** No YouTube embeds, no `youtube.com/embed`
+   iframes, no `videoId` fields anywhere in the VR/360° experience. Tours render as
+   real in-app draggable equirectangular panoramas (three.js), with zero
+   third-party branding. If a verified panorama source does not exist for a site,
+   show an honest "panorama coming soon" state — never fall back to YouTube.
+2. **All content is Indian.** Indian destinations, ₹ pricing, Indian names in mock
+   data. No foreign cities anywhere in user-facing content.
+3. **Free-tier APIs only.** No paid API contracts. TBO is removed project-wide.
+4. **Dark ink theme only.** No light/white sections, no blue/sky/cyan/purple/indigo
+   accents. Gold (`saffron`) is the single accent; jade (`horizon`) is used sparingly
+   for map/tech chrome.
+5. **No emoji as icons.** Use `lucide-react`.
+
 ## Palette (Tailwind tokens — already configured)
 
 Deep peacock-teal ink surfaces, warm ivory text, antique-gold accent.

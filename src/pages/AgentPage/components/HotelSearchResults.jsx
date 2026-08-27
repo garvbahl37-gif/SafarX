@@ -1,85 +1,28 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Search, AlertCircle, ChevronLeft, Loader } from 'lucide-react';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
+import { X, AlertCircle, ChevronLeft, Hotel } from 'lucide-react';
 import HotelCard from './HotelCard';
 
-/* ── Skeleton Card ── */
+const EASE = [0.22, 1, 0.36, 1];
+
+/* ── Skeleton card ── */
 const SkeletonCard = ({ index }) => (
-    <motion.div
+    <Motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.08 }}
-        className="rounded-2xl overflow-hidden"
-        style={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.85), rgba(250,245,255,0.9))',
-            border: '1.5px solid rgba(255,255,255,0.9)',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
-        }}
+        transition={{ delay: index * 0.08, duration: 0.3, ease: EASE }}
+        className="agent-card rounded-2xl overflow-hidden"
+        aria-hidden="true"
     >
-        {/* Image skeleton */}
-        <div
-            className="h-44 relative overflow-hidden"
-            style={{ background: 'rgba(139,92,246,0.06)' }}
-        >
-            <motion.div
-                className="absolute inset-0"
-                animate={{ x: ['-100%', '100%'] }}
-                transition={{ duration: 1.6, repeat: Infinity, ease: 'linear' }}
-                style={{
-                    background:
-                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
-                }}
-            />
-        </div>
-
-        {/* Text skeleton */}
+        <div className="agent-shimmer h-44" />
         <div className="p-4 space-y-2.5">
-            <div
-                className="h-4 rounded-xl overflow-hidden"
-                style={{ width: '72%', background: 'rgba(139,92,246,0.08)' }}
-            >
-                <motion.div
-                    className="h-full"
-                    animate={{ x: ['-100%', '100%'] }}
-                    transition={{ duration: 1.6, repeat: Infinity, ease: 'linear', delay: 0.1 }}
-                    style={{
-                        background:
-                            'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
-                    }}
-                />
-            </div>
-            <div
-                className="h-3 rounded-xl overflow-hidden"
-                style={{ width: '50%', background: 'rgba(139,92,246,0.06)' }}
-            >
-                <motion.div
-                    className="h-full"
-                    animate={{ x: ['-100%', '100%'] }}
-                    transition={{ duration: 1.6, repeat: Infinity, ease: 'linear', delay: 0.2 }}
-                    style={{
-                        background:
-                            'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
-                    }}
-                />
-            </div>
-            <div
-                className="h-3 rounded-xl overflow-hidden"
-                style={{ width: '35%', background: 'rgba(139,92,246,0.05)' }}
-            >
-                <motion.div
-                    className="h-full"
-                    animate={{ x: ['-100%', '100%'] }}
-                    transition={{ duration: 1.6, repeat: Infinity, ease: 'linear', delay: 0.3 }}
-                    style={{
-                        background:
-                            'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
-                    }}
-                />
-            </div>
+            <div className="agent-shimmer h-4 rounded-lg" style={{ width: '72%' }} />
+            <div className="agent-shimmer h-3 rounded-lg" style={{ width: '50%' }} />
+            <div className="agent-shimmer h-3 rounded-lg" style={{ width: '35%' }} />
         </div>
-    </motion.div>
+    </Motion.div>
 );
 
-/* ── Main Component ── */
+/* ── Main component ── */
 const HotelSearchResults = ({
     results,
     loading,
@@ -95,56 +38,36 @@ const HotelSearchResults = ({
     destination,
 }) => {
     return (
-        <motion.div
+        <Motion.div
             initial={{ opacity: 0, x: 60 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 60 }}
             transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-            className="h-full flex flex-col rounded-2xl md:rounded-3xl overflow-hidden relative"
-            style={{
-                background:
-                    'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(250,245,255,0.97) 100%)',
-                border: '1.5px solid rgba(255,255,255,0.9)',
-                boxShadow:
-                    '0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(139,92,246,0.1)',
-            }}
+            className="agent-panel h-full flex flex-col rounded-2xl md:rounded-3xl overflow-hidden relative shadow-[0_24px_64px_rgba(0,0,0,0.45)]"
         >
-            {/* Rainbow top line */}
+            {/* Gold filament */}
             <div
-                className="absolute top-0 left-0 right-0 h-1 z-10"
-                style={{
-                    background:
-                        'linear-gradient(90deg, #8B5CF6, #EC4899, #F97316, #F59E0B, #10B981)',
-                }}
+                className="absolute top-0 left-0 right-0 h-px z-20 bg-gradient-to-r from-transparent via-saffron/50 to-transparent"
+                aria-hidden="true"
             />
 
             {/* ── Header ── */}
-            <div
-                className="relative p-4 border-b flex-shrink-0"
-                style={{
-                    borderColor: 'rgba(139,92,246,0.1)',
-                    background: 'rgba(255,255,255,0.7)',
-                }}
-            >
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                        <motion.button
-                            whileHover={{ scale: 1.1, x: -2 }}
-                            whileTap={{ scale: 0.9 }}
+            <div className="relative p-4 border-b border-white/[0.07] bg-ink-950/30 shrink-0">
+                <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                        <button
                             onClick={onClose}
-                            className="p-2 rounded-xl transition-all"
-                            style={{ background: 'rgba(139,92,246,0.08)', color: '#8B5CF6' }}
+                            className="agent-icon-btn p-2 shrink-0"
+                            aria-label="Back to hotel search"
                         >
-                            <ChevronLeft size={16} />
-                        </motion.button>
+                            <ChevronLeft size={15} />
+                        </button>
 
-                        <div>
-                            <h3 className="font-bold text-sm flex items-center gap-2"
-                                style={{ color: '#0f172a' }}>
-                                <span className="text-base">🏨</span>
-                                {destination || 'Hotels'}
+                        <div className="min-w-0">
+                            <h3 className="font-display text-[16px] leading-tight text-ivory truncate">
+                                {destination || 'Stays'}
                             </h3>
-                            <p className="text-[11px] mt-0.5 font-medium" style={{ color: '#64748b' }}>
+                            <p className="font-data text-[9.5px] uppercase tracking-[0.16em] text-ivory-faint mt-1 truncate">
                                 {checkIn} → {checkOut}
                                 {' · '}{adults} guest{adults > 1 ? 's' : ''}
                                 {' · '}{rooms} room{rooms > 1 ? 's' : ''}
@@ -152,83 +75,61 @@ const HotelSearchResults = ({
                         </div>
                     </div>
 
-                    <motion.button
-                        whileHover={{ scale: 1.1, rotate: 90 }}
-                        whileTap={{ scale: 0.9 }}
+                    <button
                         onClick={onClose}
-                        className="p-2 rounded-xl transition-all"
-                        style={{ background: 'rgba(0,0,0,0.04)', color: '#64748b' }}
+                        className="agent-icon-btn p-2 shrink-0"
+                        aria-label="Close hotel results"
                     >
-                        <X size={18} />
-                    </motion.button>
+                        <X size={15} />
+                    </button>
                 </div>
 
                 {/* Sort disclaimer */}
                 {sortDisclaimer && !loading && (
-                    <motion.p
+                    <Motion.p
                         initial={{ opacity: 0, y: -4 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-[11px] mt-2.5 leading-relaxed font-medium"
-                        style={{ color: '#94a3b8' }}
+                        className="text-[11px] mt-2.5 leading-relaxed text-ivory-faint"
                         dangerouslySetInnerHTML={{ __html: sortDisclaimer }}
                     />
                 )}
             </div>
 
             {/* ── Content ── */}
-            <div className="flex-1 overflow-y-auto p-4 scrollbar-hide">
+            <div className="agent-scroll flex-1 overflow-y-auto p-4" aria-live="polite">
 
                 {/* Error */}
                 <AnimatePresence>
                     {error && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -8, scale: 0.97 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                        <Motion.div
+                            initial={{ opacity: 0, y: -8 }}
+                            animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0 }}
-                            className="flex items-start gap-3 p-4 rounded-2xl mb-4"
-                            style={{
-                                background: 'rgba(239,68,68,0.06)',
-                                border: '1.5px solid rgba(239,68,68,0.18)',
-                            }}
+                            role="alert"
+                            className="flex items-start gap-3 p-4 rounded-2xl mb-4 bg-[#E05252]/10 border border-[#E05252]/30"
                         >
-                            <AlertCircle
-                                size={18}
-                                className="flex-shrink-0 mt-0.5"
-                                style={{ color: '#EF4444' }}
-                            />
+                            <AlertCircle size={17} className="shrink-0 mt-0.5 text-[#E8807F]" aria-hidden="true" />
                             <div>
-                                <p className="font-bold text-sm" style={{ color: '#DC2626' }}>
-                                    Search Failed
-                                </p>
-                                <p className="text-xs mt-0.5" style={{ color: '#EF4444' }}>
-                                    {error}
-                                </p>
+                                <p className="text-sm font-medium text-[#E8807F]">Search failed</p>
+                                <p className="text-xs mt-1 leading-relaxed text-ivory-muted">{error}</p>
                             </div>
-                        </motion.div>
+                        </Motion.div>
                     )}
                 </AnimatePresence>
 
-                {/* Loading skeletons */}
+                {/* Loading */}
                 {loading && (
                     <div className="space-y-4">
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="flex items-center gap-2.5 mb-5 px-1"
-                        >
-                            <div className="relative">
-                                <motion.div
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
-                                >
-                                    <Loader size={17} style={{ color: '#8B5CF6' }} />
-                                </motion.div>
-                            </div>
-                            <span className="text-sm font-semibold" style={{ color: '#64748b' }}>
-                                Searching hotels in{' '}
-                                <span style={{ color: '#7C3AED' }}>{destination}</span>...
+                        <div className="flex items-center gap-3 mb-5 px-1">
+                            <span className="flex items-center gap-1.5" aria-hidden="true">
+                                <span className="agent-waypoint" />
+                                <span className="agent-waypoint" />
+                                <span className="agent-waypoint" />
                             </span>
-                        </motion.div>
+                            <span className="font-data text-[10px] uppercase tracking-[0.2em] text-ivory-faint">
+                                Searching stays in {destination}…
+                            </span>
+                        </div>
                         {[0, 1, 2, 3].map((i) => (
                             <SkeletonCard key={i} index={i} />
                         ))}
@@ -238,50 +139,29 @@ const HotelSearchResults = ({
                 {/* Results */}
                 {!loading && results.length > 0 && (
                     <div className="space-y-4">
-                        {/* Count badge */}
-                        <motion.div
-                            initial={{ opacity: 0, y: -6 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="flex items-center justify-between px-1"
-                        >
-                            <div className="flex items-center gap-2">
-                                <span
-                                    className="text-xs font-bold px-3 py-1 rounded-full"
-                                    style={{
-                                        background:
-                                            'linear-gradient(135deg, rgba(139,92,246,0.1), rgba(236,72,153,0.07))',
-                                        color: '#7C3AED',
-                                        border: '1px solid rgba(139,92,246,0.2)',
-                                    }}
-                                >
-                                    ✨ {results.length} Hotels Found
-                                </span>
-                            </div>
-                        </motion.div>
+                        <div className="flex items-center gap-2 px-1">
+                            <span className="route-dot" aria-hidden="true" />
+                            <span className="font-data text-[10px] uppercase tracking-[0.2em] text-saffron">
+                                Found {results.length} stays
+                            </span>
+                            <span className="route-line flex-1" aria-hidden="true" />
+                        </div>
 
                         <AnimatePresence>
                             {results.map((hotel, index) => (
-                                <motion.div
+                                <Motion.div
                                     key={hotel.id}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 18 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -10 }}
                                     transition={{
-                                        delay: index * 0.05,
-                                        type: 'spring',
-                                        stiffness: 280,
-                                        damping: 24,
+                                        delay: Math.min(index * 0.05, 0.4),
+                                        duration: 0.3,
+                                        ease: EASE,
                                     }}
                                 >
-                                    <HotelCard
-                                        hotel={hotel}
-                                        checkIn={checkIn}
-                                        checkOut={checkOut}
-                                        adults={adults}
-                                        rooms={rooms}
-                                        onClick={onHotelClick}
-                                    />
-                                </motion.div>
+                                    <HotelCard hotel={hotel} onClick={onHotelClick} />
+                                </Motion.div>
                             ))}
                         </AnimatePresence>
                     </div>
@@ -289,47 +169,31 @@ const HotelSearchResults = ({
 
                 {/* Empty state */}
                 {!loading && hasSearched && results.length === 0 && !error && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="flex flex-col items-center justify-center h-48 text-center gap-4"
+                    <Motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.35, ease: EASE }}
+                        className="flex flex-col items-center justify-center h-56 text-center gap-4"
                     >
-                        <motion.div
-                            animate={{ y: [0, -8, 0] }}
-                            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                            className="w-20 h-20 rounded-3xl flex items-center justify-center text-4xl"
-                            style={{
-                                background:
-                                    'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(236,72,153,0.06))',
-                                border: '1.5px solid rgba(139,92,246,0.15)',
-                            }}
+                        <span
+                            className="w-14 h-14 rounded-2xl flex items-center justify-center bg-white/[0.04] border border-white/[0.07]"
+                            aria-hidden="true"
                         >
-                            🏨
-                        </motion.div>
+                            <Hotel size={24} className="text-ivory-faint" />
+                        </span>
                         <div>
-                            <p className="font-bold text-sm" style={{ color: '#475569' }}>
-                                No hotels found
-                            </p>
-                            <p className="text-xs mt-1" style={{ color: '#94a3b8' }}>
-                                Try adjusting your search dates or filters
+                            <p className="font-display text-lg text-ivory">No stays found</p>
+                            <p className="text-xs mt-1.5 text-ivory-muted">
+                                Try different dates, or widen the star filter
                             </p>
                         </div>
-                        <motion.button
-                            whileHover={{ scale: 1.04 }}
-                            whileTap={{ scale: 0.96 }}
-                            onClick={onClose}
-                            className="px-5 py-2 rounded-xl text-xs font-bold text-white"
-                            style={{
-                                background: 'linear-gradient(135deg, #8B5CF6, #EC4899)',
-                                boxShadow: '0 4px 14px rgba(139,92,246,0.35)',
-                            }}
-                        >
-                            ← Modify Search
-                        </motion.button>
-                    </motion.div>
+                        <button onClick={onClose} className="agent-btn-gold px-5 py-2.5 text-xs">
+                            Modify search
+                        </button>
+                    </Motion.div>
                 )}
             </div>
-        </motion.div>
+        </Motion.div>
     );
 };
 

@@ -1,46 +1,36 @@
-import React, { useState } from "react";
-import { generateItinerary } from "../services/aiService";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { motion as Motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import toast from "react-hot-toast";
-import { globalDestinations } from "../data/globalDestinations";
 import {
-  Users, Wallet, Clock, Compass, Heart, Camera,
-  Utensils, Map as MapIcon, Sun, Moon,
-  Palmtree, Building, LandPlot, Music, Check, ArrowRight
+  ArrowLeft, ArrowRight, Sparkles, MapPin, CalendarDays, Heart,
+  IndianRupee, ClipboardCheck, Users, Gauge, Wallet, PenLine, Info,
 } from "lucide-react";
 
+import { generateItinerary } from "../services/aiService";
+import StepProgress from "./planner/StepProgress";
+import DestinationPicker from "./planner/DestinationPicker";
+import DateRangeField from "./planner/DateRangeField";
+import ChoiceCards from "./planner/ChoiceCards";
+import InterestChips from "./planner/InterestChips";
+import BudgetSlider from "./planner/BudgetSlider";
+import TravellerCounter from "./planner/TravellerCounter";
+import TripSummaryRail from "./planner/TripSummaryRail";
+import {
+  PLANNER_STEPS, TRAVEL_PACES, TRAVEL_STYLES,
+  EASE, formatINR, formatDate, dayCountBetween,
+} from "./planner/plannerOptions";
+
 /**
- * Options for various preferences
+ * Guided, five-leg trip brief.
+ *
+ * The submitted payload is unchanged from the original single-page form:
+ * { destination, startDate, endDate, startTime, endTime, pace, travelStyle,
+ *   interests, travelingWithChildren, travelingWithSeniors, budget,
+ *   specialRequests } — traveller counts are UI state only and are folded back
+ * into the two booleans the Gemini prompt expects.
  */
-const TRAVEL_PACES = [
-  { id: "Relaxed", label: "Relaxed", desc: "Plenty of downtime", icon: <Palmtree size={18} /> },
-  { id: "Moderate", label: "Moderate", desc: "Balanced activity", icon: <Compass size={18} /> },
-  { id: "Intense", label: "Intense", desc: "Packed schedule", icon: <Clock size={18} /> },
-];
-
-const TRAVEL_STYLES = [
-  { id: "Budget", label: "Budget", desc: "Cost-conscious", icon: <Wallet size={18} /> },
-  { id: "Mid Range", label: "Mid range", desc: "Comfort focused", icon: <Building size={18} /> },
-  { id: "Luxury", label: "Luxury", desc: "Top-tier stays", icon: <Heart size={18} /> },
-];
-
-const INTERESTS_OPTIONS = [
-  { id: "Culture", label: "Culture", icon: <LandPlot size={16} /> },
-  { id: "History", label: "History", icon: <Building size={16} /> },
-  { id: "Nature", label: "Nature", icon: <Palmtree size={16} /> },
-  { id: "Adventure", label: "Adventure", icon: <Compass size={16} /> },
-  { id: "Food", label: "Food", icon: <Utensils size={16} /> },
-  { id: "Shopping", label: "Shopping", icon: <Wallet size={16} /> },
-  { id: "Nightlife", label: "Nightlife", icon: <Moon size={16} /> },
-  { id: "Relaxation", label: "Relaxation", icon: <Sun size={16} /> },
-  { id: "Photography", label: "Photography", icon: <Camera size={16} /> },
-  { id: "Art", label: "Art", icon: <Music size={16} /> },
-];
-
-const GeminiItineraryForm = ({ onItineraryGenerated }) => {
-  // Separate UI state for dropdowns
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
-  const [availableCities, setAvailableCities] = useState([]);
+const GeminiItineraryForm = ({ onItineraryGenerated, onLoadingChange, regenerateSignal = 0 }) => {
+  const reduce = useReducedMotion();
 
   const [form, setForm] = useState({
     destination: "",
@@ -57,72 +47,114 @@ const GeminiItineraryForm = ({ onItineraryGenerated }) => {
     specialRequests: "",
   });
 
+  const [counts, setCounts] = useState({ adults: 2, children: 0, seniors: 0 });
+  const [step, setStep] = useState(0);
+  const [furthest, setFurthest] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [showStepHint, setShowStepHint] = useState(false);
 
-  // Handle Country selection
-  const handleCountryChange = (e) => {
-    const country = e.target.value;
-    setSelectedCountry(country);
-    const countryData = globalDestinations.find(c => c.country === country);
-    setAvailableCities(countryData ? countryData.cities : []);
-    setSelectedCity("");
-    setForm(prev => ({ ...prev, destination: "" }));
-  };
+  const panelRef = useRef(null);
+  const lastStep = PLANNER_STEPS.length - 1;
 
-  // Handle City selection
-  const handleCityChange = (e) => {
-    const city = e.target.value;
-    setSelectedCity(city);
-    if (city === "Select 'Others' and type manually below..." || selectedCountry === "Others") {
-      setForm(prev => ({ ...prev, destination: "" }));
-    } else {
-      setForm(prev => ({ ...prev, destination: `${city}, ${selectedCountry}` }));
-    }
-  };
+  const days = dayCountBetween(form.startDate, form.endDate);
+  const travellers = counts.adults + counts.children + counts.seniors;
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  /* ---------------- field helpers ---------------- */
+
+  const setField = useCallback((name, value) => {
+    setForm((prev) => ({ ...prev, [name]: value }));
+  }, []);
+
+  const handleCountChange = useCallback((key, value) => {
+    setCounts((prev) => {
+      const next = { ...prev, [key]: value };
+      setForm((f) => ({
+        ...f,
+        travelingWithChildren: next.children > 0,
+        travelingWithSeniors: next.seniors > 0,
+      }));
+      return next;
+    });
+  }, []);
+
+  const toggleInterest = useCallback((interestId) => {
     setForm((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      interests: prev.interests.includes(interestId)
+        ? prev.interests.filter((i) => i !== interestId)
+        : [...prev.interests, interestId],
     }));
-  };
+  }, []);
 
-  // Toggle interest
-  const toggleInterest = (interestId) => {
-    setForm(prev => {
-      const exists = prev.interests.includes(interestId);
-      if (exists) {
-        return { ...prev, interests: prev.interests.filter(i => i !== interestId) };
-      } else {
-        return { ...prev, interests: [...prev.interests, interestId] };
+  /* ---------------- step gating ---------------- */
+
+  const stepIssue = useMemo(() => {
+    if (step === 0 && !form.destination.trim()) {
+      return "Pick a destination — search for any Indian state or city, or tap one of the cards.";
+    }
+    if (step === 1) {
+      if (!form.startDate || !form.endDate) return "Choose both a start and an end date to continue.";
+      if (new Date(form.startDate) > new Date(form.endDate)) {
+        return "Your end date is before your start date — move it later to continue.";
       }
-    });
-  };
+      if (form.startTime >= form.endTime) {
+        return "The day has to end after it starts — adjust your active hours to continue.";
+      }
+    }
+    return null;
+  }, [step, form.destination, form.startDate, form.endDate, form.startTime, form.endTime]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let finalDest = form.destination;
+  const goToStep = useCallback((next) => {
+    setDirection(next > step ? 1 : -1);
+    setStep(next);
+    setFurthest((f) => Math.max(f, next));
+    setShowStepHint(false);
+    if (panelRef.current) {
+      const top = panelRef.current.getBoundingClientRect().top;
+      if (top < 80 || top > window.innerHeight * 0.6) {
+        window.scrollTo({
+          top: panelRef.current.getBoundingClientRect().top + window.pageYOffset - 110,
+          behavior: reduce ? "auto" : "smooth",
+        });
+      }
+    }
+  }, [step, reduce]);
 
-    if (!finalDest && (selectedCountry === "Others" || selectedCity.includes("manual"))) {
-      toast.error("Type your destination in the destination field to continue");
+  const handleNext = useCallback(() => {
+    if (stepIssue) {
+      setShowStepHint(true);
       return;
     }
+    goToStep(Math.min(step + 1, lastStep));
+  }, [stepIssue, goToStep, step, lastStep]);
+
+  const handleBack = useCallback(() => goToStep(Math.max(step - 1, 0)), [goToStep, step]);
+
+  /* ---------------- submit (payload unchanged) ---------------- */
+
+  const submit = useCallback(async () => {
+    const finalDest = form.destination;
+
     if (!finalDest) {
       toast.error("Choose a destination before generating an itinerary");
+      goToStep(0);
       return;
     }
     if (!form.startDate || !form.endDate) {
       toast.error("Pick both a start and an end date for your trip");
+      goToStep(1);
       return;
     }
     if (new Date(form.startDate) > new Date(form.endDate)) {
       toast.error("The end date is before the start date — swap them and try again");
+      goToStep(1);
       return;
     }
 
     try {
       setLoading(true);
+      onLoadingChange?.(true, { ...form, destination: finalDest });
       const itinerary = await generateItinerary({ ...form, destination: finalDest });
       onItineraryGenerated(itinerary, form);
     } catch (err) {
@@ -130,283 +162,327 @@ const GeminiItineraryForm = ({ onItineraryGenerated }) => {
       toast.error("The itinerary couldn't be generated — check your connection and try again");
     } finally {
       setLoading(false);
+      onLoadingChange?.(false);
+    }
+  }, [form, onItineraryGenerated, onLoadingChange, goToStep]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    submit();
+  };
+
+  // Re-run the same brief when the page asks for a fresh draft.
+  const submitRef = useRef(submit);
+  submitRef.current = submit;
+  const firstSignal = useRef(true);
+  useEffect(() => {
+    if (firstSignal.current) {
+      firstSignal.current = false;
+      return;
+    }
+    submitRef.current();
+  }, [regenerateSignal]);
+
+  // Enter advances instead of submitting a half-filled brief.
+  const handleKeyDown = (e) => {
+    if (e.key !== "Enter") return;
+    // Buttons and textareas handle Enter themselves.
+    if (["TEXTAREA", "BUTTON", "SELECT"].includes(e.target.tagName)) return;
+    if (step !== lastStep) {
+      e.preventDefault();
+      handleNext();
     }
   };
 
-  // --- Styles ---
-  const inputClasses = "glass-input w-full";
-  const selectClasses = "glass-input w-full appearance-none cursor-pointer";
+  /* ---------------- summary completeness ---------------- */
 
-  const radioCardClass = (active) => `
-    relative flex flex-col items-center justify-center p-4 rounded-xl border cursor-pointer
-    transition-all duration-300 text-center
-    ${active
-      ? "bg-saffron/10 border-saffron/60"
-      : "bg-ink-800/60 border-white/[0.07] hover:border-white/20 hover:bg-ink-700/60"}
-  `;
+  const filledCount = [
+    Boolean(form.destination),
+    Boolean(form.startDate && form.endDate),
+    form.interests.length > 0,
+    form.budget !== "",
+    Boolean(form.specialRequests.trim()),
+    travellers > 0,
+  ].filter(Boolean).length;
 
-  const SectionTitle = (props) => {
-    const Icon = props.icon;
-    return (
-      <h3 className="flex items-center gap-2.5 mb-5 pb-3 border-b border-white/[0.07]">
-        <Icon size={15} className="text-saffron" aria-hidden="true" />
-        <span className="font-data text-[11px] uppercase tracking-[0.22em] text-ivory/80">
-          {props.children}
+  /* ---------------- step bodies ---------------- */
+
+  const stepHeader = (Icon, title, lede) => (
+    <div className="mb-8">
+      <div className="flex items-center gap-3 mb-4">
+        <span className="w-9 h-9 rounded-xl bg-saffron/10 border border-saffron/30 flex items-center justify-center">
+          <Icon size={16} className="text-saffron" aria-hidden="true" />
         </span>
+        <span className="eyebrow">{PLANNER_STEPS[step].coords}</span>
+        <span className="route-line flex-1" aria-hidden="true" />
+      </div>
+      <h3 className="font-display text-3xl sm:text-4xl font-light text-ivory tracking-tight leading-[1.1]">
+        {title}
       </h3>
-    );
+      <p className="mt-3 text-ivory-muted text-sm sm:text-base leading-relaxed max-w-xl">{lede}</p>
+    </div>
+  );
+
+  const steps = [
+    /* 0 — Destination */
+    <div key="destination">
+      {stepHeader(MapPin, <>Where are you <em className="italic font-medium text-saffron-bright">headed</em>?</>,
+        "Search all 36 states and union territories, or start from a route travellers love.")}
+      <DestinationPicker
+        value={form.destination}
+        onChange={(value) => setField("destination", value)}
+      />
+    </div>,
+
+    /* 1 — Dates & pace */
+    <div key="dates">
+      {stepHeader(CalendarDays, <>When, and at what <em className="italic font-medium text-saffron-bright">pace</em>?</>,
+        "Your travel window sets the number of days; the pace decides how much gets packed into each one.")}
+      <DateRangeField
+        values={{
+          startDate: form.startDate,
+          endDate: form.endDate,
+          startTime: form.startTime,
+          endTime: form.endTime,
+        }}
+        onChange={setField}
+      />
+      <div className="mt-10 pt-8 border-t border-white/[0.07]">
+        <p className="flex items-center gap-2.5 mb-5">
+          <Gauge size={14} className="text-saffron" aria-hidden="true" />
+          <span className="eyebrow-muted">Travel pace</span>
+        </p>
+        <ChoiceCards
+          options={TRAVEL_PACES}
+          value={form.pace}
+          onChange={(v) => setField("pace", v)}
+          label="Travel pace"
+        />
+      </div>
+    </div>,
+
+    /* 2 — Interests */
+    <div key="interests">
+      {stepHeader(Heart, <>What pulls you <em className="italic font-medium text-saffron-bright">out the door</em>?</>,
+        "Pick as many as you like — SafarX weights the day plan towards them. Skip it and you'll get a balanced route.")}
+      <InterestChips selected={form.interests} onToggle={toggleInterest} />
+      <p className="mt-6 flex items-center gap-2.5 font-data text-[11px] uppercase tracking-[0.18em] text-ivory-faint">
+        <span className="route-dot" aria-hidden="true" />
+        {form.interests.length === 0 ? "None selected" : `${form.interests.length} selected`}
+      </p>
+    </div>,
+
+    /* 3 — Budget & group */
+    <div key="budget">
+      {stepHeader(IndianRupee, <>What's the <em className="italic font-medium text-saffron-bright">budget</em>?</>,
+        "A rough ceiling for the whole trip — stays, food, transport, and tickets. Every cost SafarX quotes is in ₹.")}
+      <BudgetSlider
+        value={form.budget}
+        onChange={(v) => setField("budget", v)}
+        days={days}
+        travellers={travellers}
+      />
+
+      <div className="mt-10 pt-8 border-t border-white/[0.07]">
+        <p className="flex items-center gap-2.5 mb-5">
+          <Wallet size={14} className="text-saffron" aria-hidden="true" />
+          <span className="eyebrow-muted">Travel style</span>
+        </p>
+        <ChoiceCards
+          options={TRAVEL_STYLES}
+          value={form.travelStyle}
+          onChange={(v) => setField("travelStyle", v)}
+          label="Travel style"
+        />
+      </div>
+
+      <div className="mt-10 pt-8 border-t border-white/[0.07]">
+        <p className="flex items-center gap-2.5 mb-5">
+          <Users size={14} className="text-saffron" aria-hidden="true" />
+          <span className="eyebrow-muted">Who's travelling</span>
+        </p>
+        <TravellerCounter counts={counts} onChange={handleCountChange} />
+        <p className="mt-4 flex items-start gap-2.5 text-xs text-ivory-faint leading-relaxed">
+          <Info size={13} className="text-saffron mt-0.5 shrink-0" aria-hidden="true" />
+          Adding children or seniors tells SafarX to keep activities age-appropriate and step-free where it can.
+        </p>
+      </div>
+    </div>,
+
+    /* 4 — Review */
+    <div key="review">
+      {stepHeader(ClipboardCheck, <>Ready when <em className="italic font-medium text-saffron-bright">you are</em></>,
+        "One last look at the brief. Tap any waypoint above to go back and change something.")}
+
+      <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {[
+          { label: "Destination", value: form.destination.replace(/, India$/, "") || "—", step: 0 },
+          {
+            label: "Dates",
+            value: form.startDate && form.endDate
+              ? `${formatDate(form.startDate)} → ${formatDate(form.endDate)} · ${days} ${days === 1 ? "day" : "days"}`
+              : "—",
+            step: 1,
+          },
+          { label: "Daily window", value: `${form.startTime} – ${form.endTime}`, step: 1 },
+          { label: "Pace", value: form.pace, step: 1 },
+          { label: "Travel style", value: form.travelStyle, step: 3 },
+          { label: "Budget", value: form.budget === "" ? "Flexible" : formatINR(form.budget), step: 3 },
+          {
+            label: "Travellers",
+            value: `${counts.adults} adults${counts.children ? ` · ${counts.children} children` : ""}${counts.seniors ? ` · ${counts.seniors} seniors` : ""}`,
+            step: 3,
+          },
+          {
+            label: "Interests",
+            value: form.interests.length ? form.interests.join(" · ") : "Balanced route",
+            step: 2,
+          },
+        ].map((row) => (
+          <button
+            key={row.label}
+            type="button"
+            onClick={() => goToStep(row.step)}
+            className="text-left p-4 rounded-2xl bg-ink-800 border border-white/[0.07] hover:border-saffron/35 transition-colors group"
+          >
+            <dt className="font-data text-[10px] uppercase tracking-[0.18em] text-ivory-faint mb-1.5 flex items-center gap-2">
+              {row.label}
+              <PenLine size={11} className="text-saffron opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
+            </dt>
+            <dd className="text-ivory text-sm leading-snug">{row.value}</dd>
+          </button>
+        ))}
+      </dl>
+
+      <div className="mt-8">
+        <label htmlFor="planner-requests" className="form-label">Anything else SafarX should know?</label>
+        <textarea
+          id="planner-requests"
+          name="specialRequests"
+          value={form.specialRequests}
+          onChange={(e) => setField("specialRequests", e.target.value)}
+          rows={3}
+          placeholder="Jain or vegetarian meals, a wheelchair-friendly route, one must-see temple, no early mornings…"
+          className="glass-input w-full resize-none"
+        />
+      </div>
+    </div>,
+  ];
+
+  /* ---------------- render ---------------- */
+
+  const variants = {
+    enter: (dir) => (reduce ? { opacity: 0 } : { opacity: 0, x: dir > 0 ? 40 : -40 }),
+    center: { opacity: 1, x: 0 },
+    exit: (dir) => (reduce ? { opacity: 0 } : { opacity: 0, x: dir > 0 ? -40 : 40 }),
   };
 
   return (
-    <div className="w-full">
-      <form onSubmit={handleSubmit} className="space-y-12">
+    <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_21rem] gap-6 lg:gap-8 items-start">
+      <form
+        onSubmit={handleSubmit}
+        onKeyDown={handleKeyDown}
+        ref={panelRef}
+        className="glass-panel !rounded-3xl border border-white/[0.07] p-6 sm:p-9 lg:p-10"
+        aria-label="Trip planner"
+      >
+        <StepProgress
+          steps={PLANNER_STEPS}
+          current={step}
+          furthest={furthest}
+          onJump={goToStep}
+        />
 
-        {/* 1. Destination Section */}
-        <div>
-          <SectionTitle icon={MapIcon}>Destination &amp; dates</SectionTitle>
+        <div className="mt-9 pt-9 border-t border-white/[0.07]">
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
+            <Motion.div
+              key={PLANNER_STEPS[step].id}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: reduce ? 0.15 : 0.42, ease: EASE }}
+            >
+              {steps[step]}
+            </Motion.div>
+          </AnimatePresence>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <label htmlFor="itinerary-country" className="form-label">Country</label>
-              <select
-                id="itinerary-country"
-                value={selectedCountry}
-                onChange={handleCountryChange}
-                className={selectClasses}
-                required
-              >
-                <option value="" disabled className="bg-ink-900">Choose a country</option>
-                {globalDestinations.map(c => (
-                  <option key={c.country} value={c.country} className="bg-ink-900">{c.country}</option>
-                ))}
-              </select>
-            </div>
-            <div className={!selectedCountry ? "opacity-50 cursor-not-allowed" : ""}>
-              <label htmlFor="itinerary-city" className="form-label">City or region</label>
-              <select
-                id="itinerary-city"
-                value={selectedCity}
-                onChange={handleCityChange}
-                className={selectClasses}
-                disabled={!selectedCountry}
-                required={selectedCountry !== "Others"}
-              >
-                <option value="" disabled className="bg-ink-900">
-                  {selectedCountry ? "Choose a city" : "Select a country first"}
-                </option>
-                {availableCities.map(city => (
-                  <option key={city} value={city} className="bg-ink-900">{city}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Manual Destination Override */}
-          {(selectedCountry === "Others" || selectedCity.includes("manual") || (!selectedCity && selectedCountry)) && (
-            <div className="mb-6">
-              <label htmlFor="itinerary-destination" className="form-label">Destination name</label>
-              <input
-                id="itinerary-destination"
-                type="text"
-                name="destination"
-                value={form.destination}
-                onChange={handleChange}
-                placeholder="e.g. Rishikesh, Uttarakhand"
-                className={inputClasses}
-              />
-            </div>
+        {/* Gate hint */}
+        <AnimatePresence initial={false}>
+          {showStepHint && stepIssue && (
+            <Motion.p
+              role="alert"
+              initial={reduce ? false : { opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={reduce ? undefined : { opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: EASE }}
+              className="mt-8 flex items-start gap-2.5 rounded-xl border border-saffron/40 bg-saffron/10 p-3.5 text-sm text-ivory leading-relaxed"
+            >
+              <Info size={15} className="text-saffron mt-0.5 shrink-0" aria-hidden="true" />
+              <span>{stepIssue}</span>
+            </Motion.p>
           )}
+        </AnimatePresence>
 
-          {/* Dates */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor="itinerary-start" className="form-label">Start date</label>
-              <input
-                id="itinerary-start"
-                type="date"
-                name="startDate"
-                value={form.startDate}
-                onChange={handleChange}
-                required
-                className={`${inputClasses} [color-scheme:dark]`}
-              />
-            </div>
-            <div>
-              <label htmlFor="itinerary-end" className="form-label">End date</label>
-              <input
-                id="itinerary-end"
-                type="date"
-                name="endDate"
-                value={form.endDate}
-                onChange={handleChange}
-                required
-                className={`${inputClasses} [color-scheme:dark]`}
-              />
-            </div>
-          </div>
-        </div>
+        {/* Navigation */}
+        <div className="mt-10 pt-8 border-t border-white/[0.07] flex flex-col-reverse sm:flex-row gap-3 sm:items-center sm:justify-between">
+          <button
+            type="button"
+            onClick={handleBack}
+            disabled={step === 0}
+            className="btn-ghost justify-center sm:justify-start disabled:opacity-35 disabled:cursor-not-allowed"
+          >
+            <ArrowLeft size={15} aria-hidden="true" />
+            Back
+          </button>
 
-        {/* 2. Preferences Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-
-          {/* Travel Pace */}
-          <div>
-            <SectionTitle icon={Clock}>Travel pace</SectionTitle>
-            <div className="grid grid-cols-3 gap-3" role="group" aria-label="Travel pace">
-              {TRAVEL_PACES.map((pace) => (
-                <button
-                  key={pace.id}
-                  type="button"
-                  aria-pressed={form.pace === pace.id}
-                  onClick={() => setForm(prev => ({ ...prev, pace: pace.id }))}
-                  className={radioCardClass(form.pace === pace.id)}
-                >
-                  <span className={`mb-2 ${form.pace === pace.id ? "text-saffron" : "text-ivory-faint"}`}>
-                    {pace.icon}
-                  </span>
-                  <span className="text-sm font-semibold text-ivory">{pace.label}</span>
-                  <span className="text-[10px] text-ivory-faint mt-1 leading-tight">{pace.desc}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Travel Style */}
-          <div>
-            <SectionTitle icon={Wallet}>Travel style</SectionTitle>
-            <div className="grid grid-cols-3 gap-3" role="group" aria-label="Travel style">
-              {TRAVEL_STYLES.map((style) => (
-                <button
-                  key={style.id}
-                  type="button"
-                  aria-pressed={form.travelStyle === style.id}
-                  onClick={() => setForm(prev => ({ ...prev, travelStyle: style.id }))}
-                  className={radioCardClass(form.travelStyle === style.id)}
-                >
-                  <span className={`mb-2 ${form.travelStyle === style.id ? "text-saffron" : "text-ivory-faint"}`}>
-                    {style.icon}
-                  </span>
-                  <span className="text-sm font-semibold text-ivory">{style.label}</span>
-                  <span className="text-[10px] text-ivory-faint mt-1 leading-tight">{style.desc}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* 3. Interests */}
-        <div>
-          <SectionTitle icon={Heart}>Interests</SectionTitle>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3" role="group" aria-label="Interests">
-            {INTERESTS_OPTIONS.map((interest) => {
-              const active = form.interests.includes(interest.id);
-              return (
-                <button
-                  key={interest.id}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => toggleInterest(interest.id)}
-                  className={`
-                    flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all text-left
-                    ${active
-                      ? "bg-saffron/10 border-saffron/50"
-                      : "bg-ink-800/60 border-white/[0.07] hover:border-white/20 hover:bg-ink-700/60"}
-                  `}
-                >
-                  <span className={active ? "text-saffron" : "text-ivory-faint"}>{interest.icon}</span>
-                  <span className={`text-sm ${active ? "text-ivory font-medium" : "text-ivory-muted"}`}>
-                    {interest.label}
-                  </span>
-                  {active && <Check size={14} className="ml-auto text-saffron" aria-hidden="true" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 4. Details: Travelers & Budget */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-          {/* Traveler Group Info */}
-          <div>
-            <SectionTitle icon={Users}>Who's traveling</SectionTitle>
-            <div className="flex flex-col gap-3">
-              <label className="flex items-center gap-3 p-3.5 rounded-xl bg-ink-800/60 border border-white/[0.07] cursor-pointer hover:border-white/20 transition">
-                <input
-                  type="checkbox"
-                  name="travelingWithChildren"
-                  checked={form.travelingWithChildren}
-                  onChange={handleChange}
-                  className="w-[18px] h-[18px] accent-saffron"
-                />
-                <span className="text-sm text-ivory-muted">Traveling with children (0–12)</span>
-              </label>
-
-              <label className="flex items-center gap-3 p-3.5 rounded-xl bg-ink-800/60 border border-white/[0.07] cursor-pointer hover:border-white/20 transition">
-                <input
-                  type="checkbox"
-                  name="travelingWithSeniors"
-                  checked={form.travelingWithSeniors}
-                  onChange={handleChange}
-                  className="w-[18px] h-[18px] accent-saffron"
-                />
-                <span className="text-sm text-ivory-muted">Traveling with seniors (65+)</span>
-              </label>
-            </div>
-          </div>
-
-          {/* Budget */}
-          <div>
-            <SectionTitle icon={Wallet}>Budget</SectionTitle>
-            <label htmlFor="itinerary-budget" className="form-label">Total budget (₹)</label>
-            <input
-              id="itinerary-budget"
-              type="number"
-              name="budget"
-              value={form.budget}
-              onChange={handleChange}
-              placeholder="e.g. 40000"
-              className={inputClasses}
-            />
-            <p className="mt-2 font-data text-[11px] text-ivory-faint">
-              A rough total for the whole trip — stays, food, and tickets.
-            </p>
-          </div>
-        </div>
-
-        {/* 5. Special Requests */}
-        <div>
-          <label htmlFor="itinerary-requests" className="form-label">Special requests or notes</label>
-          <textarea
-            id="itinerary-requests"
-            name="specialRequests"
-            value={form.specialRequests}
-            onChange={handleChange}
-            placeholder="Dietary needs, mobility considerations, or must-see places…"
-            rows={3}
-            className={`${inputClasses} resize-none`}
-          />
-        </div>
-
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn-primary w-full justify-center !py-4 disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {loading ? (
-            <span className="flex items-center justify-center gap-2.5">
-              <span className="animate-spin h-4 w-4 border-2 border-ink-950/40 border-t-ink-950 rounded-full" aria-hidden="true" />
-              Designing your journey…
-            </span>
-          ) : (
-            <span className="flex items-center justify-center gap-2">
-              Generate itinerary
+          {step < lastStep ? (
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-disabled={Boolean(stepIssue)}
+              className={`btn-primary justify-center ${stepIssue ? "opacity-55" : ""}`}
+            >
+              Continue
               <ArrowRight size={16} aria-hidden="true" />
-            </span>
+            </button>
+          ) : (
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary justify-center !py-4 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <>
+                  <span className="animate-spin h-4 w-4 border-2 border-ink-950/40 border-t-ink-950 rounded-full" aria-hidden="true" />
+                  Drafting your itinerary…
+                </>
+              ) : (
+                <>
+                  <Sparkles size={16} aria-hidden="true" />
+                  Generate itinerary
+                </>
+              )}
+            </button>
           )}
-        </button>
+        </div>
       </form>
+
+      <TripSummaryRail
+        destination={form.destination}
+        startDate={form.startDate}
+        endDate={form.endDate}
+        days={days}
+        counts={counts}
+        budget={form.budget}
+        interests={form.interests}
+        pace={form.pace}
+        travelStyle={form.travelStyle}
+        filledCount={filledCount}
+        totalFields={6}
+      />
     </div>
   );
 };

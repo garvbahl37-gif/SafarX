@@ -1,21 +1,33 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
     Search,
     MapPin,
-    Loader2,
     ArrowRight,
     Sparkles,
+    Compass,
 } from "lucide-react";
 import { placesService } from "../../services/placesService";
+import { EASE, formatCoords } from "./immersiveUtils";
+
+/** Hand-picked Indian starting points. */
+const QUICK_PLACES = [
+    { label: "Taj Mahal", query: "Taj Mahal, Agra", lat: 27.1751, lng: 78.0421 },
+    { label: "Chandni Chowk", query: "Chandni Chowk, Delhi", lat: 28.6506, lng: 77.2303 },
+    { label: "Marine Drive", query: "Marine Drive, Mumbai", lat: 18.9432, lng: 72.8231 },
+    { label: "Hampi", query: "Hampi, Karnataka", lat: 15.335, lng: 76.46 },
+    { label: "Fort Kochi", query: "Fort Kochi, Kerala", lat: 9.9658, lng: 76.2422 },
+];
 
 /* ── Main SearchBar ─────────────────────────────────────── */
 export const SearchBar = ({ onSearch, isLoading }) => {
     const [q, setQ] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [focused, setFocused] = useState(false);
+    const [activeIdx, setActiveIdx] = useState(-1);
     const ref = useRef(null);
     const dropdownRef = useRef(null);
+    const reduce = useReducedMotion();
 
     const BG_VIDEO_URL =
         "https://res.cloudinary.com/dnmhqosoa/video/upload/v1772206804/bg7-optimized-4k_blfunq.mp4";
@@ -35,6 +47,7 @@ export const SearchBar = ({ onSearch, isLoading }) => {
         const debounce = setTimeout(() => {
             placesService.getPredictions(q).then((preds) => {
                 setSuggestions(preds || []);
+                setActiveIdx(-1);
             });
         }, 300);
 
@@ -58,6 +71,24 @@ export const SearchBar = ({ onSearch, isLoading }) => {
         if (q.trim() && !isLoading) {
             setSuggestions([]);
             onSearch(q.trim(), null);
+        }
+    };
+
+    /* Arrow-key navigation through the suggestion list */
+    const onKeyDown = (e) => {
+        if (!suggestions.length) return;
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            setActiveIdx((i) => (i < suggestions.length - 1 ? i + 1 : 0));
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            setActiveIdx((i) => (i > 0 ? i - 1 : suggestions.length - 1));
+        } else if (e.key === "Escape") {
+            setSuggestions([]);
+            setActiveIdx(-1);
+        } else if (e.key === "Enter" && activeIdx >= 0 && suggestions[activeIdx]) {
+            e.preventDefault();
+            selectSuggestion(suggestions[activeIdx]);
         }
     };
 
@@ -96,23 +127,27 @@ export const SearchBar = ({ onSearch, isLoading }) => {
             {/* ── Foreground content ── */}
             <div className="relative z-10 w-full max-w-4xl px-6 flex flex-col items-center">
 
-                <motion.div
-                    initial={{ opacity: 0, y: 40 }}
+                <Motion.div
+                    initial={reduce ? { opacity: 0 } : { opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.9, ease: EASE }}
                     className="w-full text-center"
                 >
 
                     {/* Eyebrow */}
-                    <motion.div
+                    <Motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.4, duration: 0.8 }}
                         className="inline-flex items-center gap-3 mb-8"
                     >
-                        <span className="route-dot" />
+                        <span className="route-dot animate-pulse" aria-hidden="true" />
                         <span className="eyebrow">Street view · stand anywhere in India</span>
-                    </motion.div>
+                        <span className="hidden h-3 w-px bg-white/15 sm:block" aria-hidden="true" />
+                        <span className="hidden font-data text-[11px] uppercase tracking-[0.18em] text-ivory-faint sm:block">
+                            20.59° N · 78.96° E
+                        </span>
+                    </Motion.div>
 
                     {/* Title */}
                     <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-light tracking-tight text-ivory mb-6 leading-[1.02]">
@@ -125,14 +160,14 @@ export const SearchBar = ({ onSearch, isLoading }) => {
                         street-level 360° a moment later.
                     </p>
 
-                </motion.div>
+                </Motion.div>
 
                 {/* ── Search container ── */}
-                <motion.div
+                <Motion.div
                     ref={dropdownRef}
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={reduce ? { opacity: 0 } : { opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
+                    transition={{ duration: 0.8, delay: 0.25, ease: EASE }}
                     className="relative w-full max-w-2xl"
                 >
 
@@ -146,7 +181,7 @@ export const SearchBar = ({ onSearch, isLoading }) => {
 
                             <div className="pl-4 pr-2">
                                 {isLoading ? (
-                                    <Loader2 className="w-5 h-5 animate-spin text-saffron" aria-hidden="true" />
+                                    <Compass className="w-5 h-5 animate-spin text-saffron" aria-hidden="true" />
                                 ) : (
                                     <Search
                                         className={`w-5 h-5 ${focused ? "text-saffron" : "text-ivory-faint"}`}
@@ -160,6 +195,11 @@ export const SearchBar = ({ onSearch, isLoading }) => {
                                 type="text"
                                 value={q}
                                 onChange={(e) => setQ(e.target.value)}
+                                onKeyDown={onKeyDown}
+                                role="combobox"
+                                aria-expanded={suggestions.length > 0}
+                                aria-controls="streetview-suggestions"
+                                aria-autocomplete="list"
                                 onFocus={() => setFocused(true)}
                                 onBlur={() => setTimeout(() => setFocused(false), 200)}
                                 placeholder="Try the Taj Mahal, Hampi, or Chandni Chowk"
@@ -184,18 +224,26 @@ export const SearchBar = ({ onSearch, isLoading }) => {
                     {/* Suggestions dropdown */}
                     <AnimatePresence>
                         {suggestions.length > 0 && !isLoading && (
-                            <motion.div
+                            <Motion.div
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.2, ease: "easeOut" }}
                                 className="absolute w-full mt-3 bg-ink-900/95 backdrop-blur-3xl border border-white/[0.09] rounded-3xl shadow-2xl overflow-hidden z-50 p-2"
+                                id="streetview-suggestions"
+                                role="listbox"
+                                aria-label="Matching places"
                             >
                                 {suggestions.map((s, i) => (
                                     <button
                                         key={s.place_id || i}
+                                        type="button"
+                                        role="option"
+                                        aria-selected={i === activeIdx}
+                                        onMouseEnter={() => setActiveIdx(i)}
                                         onClick={() => selectSuggestion(s)}
-                                        className="w-full text-left px-5 py-4 hover:bg-white/5 rounded-2xl flex items-center gap-4 transition-colors duration-200 group/item"
+                                        className={`w-full text-left px-5 py-4 rounded-2xl flex items-center gap-4 transition-colors duration-200 group/item ${i === activeIdx ? "bg-white/[0.06]" : "hover:bg-white/5"
+                                            }`}
                                     >
                                         <div
                                             className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-colors shrink-0 ${s._source === "landmark_db"
@@ -228,8 +276,10 @@ export const SearchBar = ({ onSearch, isLoading }) => {
                                                     </span>
                                                 )}
                                             </div>
-                                            <p className="text-[11px] text-ivory-faint truncate font-medium">
-                                                {s.structured_formatting?.secondary_text || "Explore location"}
+                                            <p className="truncate font-data text-[11px] uppercase tracking-[0.12em] text-ivory-faint">
+                                                {s.structured_formatting?.secondary_text ||
+                                                    formatCoords(s._coords?.lat, s._coords?.lng) ||
+                                                    "Location"}
                                             </p>
                                         </div>
                                         <ArrowRight
@@ -240,16 +290,49 @@ export const SearchBar = ({ onSearch, isLoading }) => {
                                 ))}
 
                                 {/* Attribution */}
-                                <div className="px-5 py-2 border-t border-white/5">
-                                    <p className="text-[9px] text-ivory-faint/60 text-center">
-                                        Powered by OpenStreetMap · Landmark coordinates hand-verified
+                                <div className="px-5 py-2 border-t border-white/[0.06]">
+                                    <p className="text-center font-data text-[9px] uppercase tracking-[0.14em] text-ivory-faint/70">
+                                        OpenStreetMap · landmark coordinates hand-verified
                                     </p>
                                 </div>
-                            </motion.div>
+                            </Motion.div>
                         )}
                     </AnimatePresence>
 
-                </motion.div>
+                    {/* Quick jumps */}
+                    <Motion.div
+                        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.45, ease: EASE }}
+                        className="mt-8"
+                    >
+                        <div className="mb-4 flex items-center gap-4">
+                            <span className="route-line flex-1" aria-hidden="true" />
+                            <span className="font-data text-[10px] uppercase tracking-[0.24em] text-ivory-faint">
+                                Or start here
+                            </span>
+                            <span className="route-line flex-1" aria-hidden="true" />
+                        </div>
+                        <div className="flex flex-wrap justify-center gap-2">
+                            {QUICK_PLACES.map((p) => (
+                                <button
+                                    key={p.label}
+                                    type="button"
+                                    disabled={isLoading}
+                                    onClick={() => {
+                                        setQ(p.query);
+                                        setSuggestions([]);
+                                        onSearch(p.query, { lat: p.lat, lng: p.lng });
+                                    }}
+                                    className="rounded-full border border-white/[0.09] bg-ink-900/70 px-4 py-2 font-data text-[10px] uppercase tracking-[0.16em] text-ivory-muted backdrop-blur-xl transition-colors duration-300 hover:border-saffron/35 hover:text-ivory disabled:opacity-40"
+                                >
+                                    {p.label}
+                                </button>
+                            ))}
+                        </div>
+                    </Motion.div>
+
+                </Motion.div>
 
             </div>
         </div>

@@ -1,415 +1,424 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { motion as Motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
     Send,
     Mic,
     MapPin,
     Plane,
     Compass,
-    User,
-    Bot,
-    Plus,
-    Globe,
-    Zap,
     Hotel,
-    Sparkles,
     ArrowLeft,
+    CalendarDays,
+    Check,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { sendMessage } from '../api';
 
+const EASE = [0.22, 1, 0.36, 1];
+
+/* Four openers, all Indian, all in ₹ */
+const SUGGESTIONS = [
+    { icon: Compass, text: 'Plan 5 days in Kerala under ₹30k' },
+    { icon: Plane, text: 'Flights Delhi to Leh in June' },
+    { icon: Hotel, text: 'Hotels near the Taj under ₹4,000' },
+    { icon: CalendarDays, text: 'What can I do in Meghalaya in October?' },
+];
+
+const FLIGHT_KEYWORDS = /book.*flight|flight.*book|book.*ticket|fly\s+to|flights?\s+(to|from)|search.*flight/;
+const HOTEL_KEYWORDS = /book.*hotel|hotel.*book|find.*hotel|stay\s+in|accommodation|where.*stay|search.*hotel/;
+
+/* ── Three waypoints igniting in sequence — the agent is thinking ── */
+const RouteThinking = ({ label }) => (
+    <div className="flex items-center gap-3">
+        <span className="flex items-center gap-1.5" aria-hidden="true">
+            <span className="agent-waypoint" />
+            <span className="agent-waypoint" />
+            <span className="agent-waypoint" />
+        </span>
+        <span className="font-data text-[10px] uppercase tracking-[0.2em] text-ivory-faint">
+            {label}
+        </span>
+    </div>
+);
+
+/* ── Tool-step chip: the agent doing visible work ── */
+const StepChip = ({ icon: Icon, label, done }) => (
+    <span
+        className={`agent-tag ${done ? 'agent-tag-jade' : 'agent-tag-gold'} px-2.5 py-1 text-[10px]`}
+    >
+        {done ? <Check size={10} /> : <Icon size={10} />}
+        {label}
+    </span>
+);
+
 const Chat = ({ onSearchResults, onOpenFlightPanel, onOpenHotelPanel }) => {
     const navigate = useNavigate();
+    const reduce = useReducedMotion();
 
-    const [messages, setMessages] = useState([
-        {
-            id: 1,
-            type: 'ai',
-            content: "Hello, traveler! 🌍✨\n\nI'm **Safar**, your AI travel companion. I can help you discover amazing destinations, plan detailed itineraries, and even show you places in immersive 3D.\n\nWhere shall we explore today?",
-            timestamp: new Date()
-        }
-    ]);
+    const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
+    const [activeStep, setActiveStep] = useState(null);
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages, isLoading]);
+        messagesEndRef.current?.scrollIntoView({
+            behavior: reduce ? 'auto' : 'smooth',
+            block: 'end',
+        });
+    }, [messages, isLoading, reduce]);
 
-    const handleSend = async () => {
-        if (!input.trim() || isLoading) return;
+    /* Auto-grow the composer up to ~5 lines */
+    const resizeInput = useCallback(() => {
+        const el = inputRef.current;
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.height = `${Math.min(el.scrollHeight, 132)}px`;
+    }, []);
+
+    useEffect(() => {
+        resizeInput();
+    }, [input, resizeInput]);
+
+    const submit = async (raw) => {
+        const text = (raw ?? '').trim();
+        if (!text || isLoading) return;
 
         const userMessage = {
             id: Date.now(),
             type: 'user',
-            content: input,
-            timestamp: new Date()
+            content: text,
+            timestamp: new Date(),
         };
-        setMessages(prev => [...prev, userMessage]);
+        setMessages((prev) => [...prev, userMessage]);
         setInput('');
         setIsLoading(true);
 
-        const lower = input.toLowerCase();
-        const flightKeywords = /book.*flight|flight.*book|book.*ticket|fly\s+to|flights?\s+(to|from)|search.*flight/;
-        const hotelKeywords = /book.*hotel|hotel.*book|find.*hotel|stay\s+in|accommodation|where.*stay|search.*hotel/;
-        if (flightKeywords.test(lower)) onOpenFlightPanel?.();
-        else if (hotelKeywords.test(lower)) onOpenHotelPanel?.();
+        /* Route the request to the matching booking tool and surface the work */
+        const lower = text.toLowerCase();
+        let tool = null;
+        if (FLIGHT_KEYWORDS.test(lower)) {
+            tool = 'flight';
+            onOpenFlightPanel?.();
+            setActiveStep({ icon: Plane, label: 'Searching flights…' });
+        } else if (HOTEL_KEYWORDS.test(lower)) {
+            tool = 'hotel';
+            onOpenHotelPanel?.();
+            setActiveStep({ icon: Hotel, label: 'Searching stays…' });
+        } else {
+            setActiveStep(null);
+        }
 
         try {
-            const response = await sendMessage(input);
+            const response = await sendMessage(text);
+
+            /* Completed steps travel with the reply so the trail stays visible */
+            const steps = [];
+            if (tool === 'flight') steps.push({ icon: Plane, label: 'Flight search ready' });
+            if (tool === 'hotel') steps.push({ icon: Hotel, label: 'Stay search ready' });
+            const found = response.search_results?.results?.length;
+            if (found) steps.push({ icon: MapPin, label: `Found ${found} sources` });
+
             const aiMessage = {
                 id: Date.now() + 1,
                 type: 'ai',
                 content: response.response,
                 search_results: response.search_results,
                 itinerary: response.itinerary,
-                timestamp: new Date()
+                steps,
+                timestamp: new Date(),
             };
-            setMessages(prev => [...prev, aiMessage]);
+            setMessages((prev) => [...prev, aiMessage]);
 
             if (response.search_results) onSearchResults?.(response.search_results);
-        } catch (error) {
-            setMessages(prev => [...prev, {
-                id: Date.now() + 1,
-                type: 'ai',
-                content: "I apologize, but I'm having trouble connecting right now. Please try again in a moment.",
-                isError: true,
-                timestamp: new Date()
-            }]);
+        } catch {
+            setMessages((prev) => [
+                ...prev,
+                {
+                    id: Date.now() + 1,
+                    type: 'ai',
+                    content:
+                        "I couldn't reach the network just now. Give it a moment and send that again.",
+                    isError: true,
+                    timestamp: new Date(),
+                },
+            ]);
         } finally {
             setIsLoading(false);
+            setActiveStep(null);
         }
     };
 
-    const suggestions = [
-        { icon: <Compass size={14} />, text: "Plan a trip to Bali", gradient: "from-emerald-400 to-teal-500", bg: "bg-gradient-to-br from-emerald-50 to-teal-50", border: "border-emerald-200" },
-        { icon: <MapPin size={14} />, text: "Hidden gems in Italy", gradient: "from-rose-400 to-orange-400", bg: "bg-gradient-to-br from-rose-50 to-orange-50", border: "border-rose-200" },
-        { icon: <Plane size={14} />, text: "Weekend in Tokyo", gradient: "from-violet-400 to-purple-500", bg: "bg-gradient-to-br from-violet-50 to-purple-50", border: "border-violet-200" },
-    ];
+    const handleSend = () => submit(input);
 
-    const formatMessage = (content) => {
-        return content
-            .replace(/\n/g, '<br/>')
-            .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-sky-700">$1</strong>');
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
     };
+
+    /* Markdown-lite: bold spans are gilded by .agent-msg-* rules in index.css */
+    const formatMessage = (content) =>
+        String(content ?? '')
+            .replace(/\n/g, '<br/>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    const isEmpty = messages.length === 0;
+    const canSend = input.trim().length > 0 && !isLoading;
 
     return (
         <div className="flex flex-col h-full relative overflow-hidden">
 
-            {/* Decorative background */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full opacity-20"
-                    style={{ background: 'radial-gradient(circle, #0EA5E9, transparent 70%)' }} />
-                <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full opacity-15"
-                    style={{ background: 'radial-gradient(circle, #8B5CF6, transparent 70%)' }} />
-            </div>
+            {/* ══════════ Header ══════════ */}
+            <div className="relative z-10 flex items-center justify-between gap-3 px-4 md:px-6 py-3.5 border-b border-white/[0.07] bg-ink-950/40">
+                <div className="flex items-center gap-3 min-w-0">
+                    <button
+                        onClick={() => navigate('/')}
+                        className="agent-icon-btn p-2 shrink-0"
+                        aria-label="Back to SafarX home"
+                    >
+                        <ArrowLeft size={16} />
+                    </button>
 
-            {/* Chat Header */}
-            <div className="relative p-4 md:p-5 border-b border-white/60"
-                style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,249,255,0.95) 100%)' }}>
+                    <span className="hidden sm:block w-px h-5 bg-white/10" aria-hidden="true" />
 
-                {/* Rainbow top line */}
-                <div className="absolute top-0 left-0 right-0 h-0.5"
-                    style={{ background: 'linear-gradient(90deg, #0EA5E9, #8B5CF6, #EC4899, #F97316, #10B981)' }} />
-
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        {/* Back Button */}
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => navigate('/')}
-                            className="p-2 rounded-xl transition-all mr-1"
-                            style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.9)' }}
-                            title="Back to Home"
-                        >
-                            <ArrowLeft size={18} style={{ color: '#64748b' }} />
-                        </motion.button>
-
-                        <motion.div
-                            className="relative"
-                            whileHover={{ scale: 1.05 }}
-                            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                        >
-                            {/* Glow ring */}
-                            <div className="absolute inset-0 rounded-xl opacity-40 blur-md"
-                                style={{ background: 'linear-gradient(135deg, #0EA5E9, #8B5CF6)' }} />
-                            <div className="relative w-11 h-11 rounded-xl flex items-center justify-center shadow-lg"
-                                style={{ background: 'linear-gradient(135deg, #0EA5E9 0%, #8B5CF6 100%)' }}>
-                                <Bot size={20} className="text-white" />
-                            </div>
-                            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white shadow-sm" />
-                        </motion.div>
-                        <div>
-                            <h3 className="font-bold text-xl" style={{ color: '#0f172a' }}>
-                                Safar<span style={{ color: '#0EA5E9' }}>X</span>
-                                <span className="ml-1.5 text-xs font-semibold px-2 py-0.5 rounded-full"
-                                    style={{ background: 'linear-gradient(135deg, rgba(14,165,233,0.12), rgba(139,92,246,0.12))', color: '#7C3AED', border: '1px solid rgba(139,92,246,0.2)' }}>
-                                    AI
-                                </span>
-                            </h3>
-                            <p className="text-xs flex items-center gap-1.5" style={{ color: '#64748b' }}>
-                                <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                                Online & ready to explore
-                            </p>
-                        </div>
+                    <div className="min-w-0">
+                        <p className="flex items-baseline gap-0.5 leading-none">
+                            <span className="font-display italic font-medium text-[1.15rem] text-ivory tracking-tight">
+                                Safar
+                            </span>
+                            <span className="font-data text-[0.95rem] font-bold text-saffron tracking-[0.04em]">
+                                X
+                            </span>
+                            <span className="ml-2 font-data text-[9px] uppercase tracking-[0.22em] text-ivory-faint">
+                                Agent
+                            </span>
+                        </p>
+                        <p className="flex items-center gap-1.5 mt-1">
+                            <span className="route-dot" aria-hidden="true" />
+                            <span className="font-data text-[9.5px] uppercase tracking-[0.18em] text-ivory-faint">
+                                {isLoading ? 'Working' : 'Ready'}
+                            </span>
+                        </p>
                     </div>
+                </div>
 
-                    <div className="flex items-center gap-1.5">
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="p-2 rounded-xl transition-all"
-                            style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.9)' }}
-                        >
-                            <Globe size={15} style={{ color: '#64748b' }} />
-                        </motion.button>
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="p-2 rounded-xl transition-all"
-                            style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.9)' }}
-                        >
-                            <Sparkles size={15} style={{ color: '#F59E0B' }} />
-                        </motion.button>
-
-                        <div className="w-px h-5 mx-0.5" style={{ background: 'rgba(0,0,0,0.08)' }} />
-
-                        {/* Flight Button */}
-                        <motion.button
-                            whileHover={{ scale: 1.06, y: -1 }}
-                            whileTap={{ scale: 0.94 }}
-                            onClick={() => onOpenFlightPanel?.()}
-                            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all"
-                            style={{
-                                background: 'linear-gradient(135deg, rgba(14,165,233,0.12) 0%, rgba(56,189,248,0.08) 100%)',
-                                border: '1.5px solid rgba(14,165,233,0.25)',
-                                color: '#0284C7',
-                                boxShadow: '0 2px 8px rgba(14,165,233,0.15)',
-                            }}
-                        >
-                            <Plane size={13} />
-                            <span>Flights</span>
-                        </motion.button>
-
-                        {/* Hotel Button */}
-                        <motion.button
-                            whileHover={{ scale: 1.06, y: -1 }}
-                            whileTap={{ scale: 0.94 }}
-                            onClick={() => onOpenHotelPanel?.()}
-                            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all"
-                            style={{
-                                background: 'linear-gradient(135deg, rgba(139,92,246,0.12) 0%, rgba(167,139,250,0.08) 100%)',
-                                border: '1.5px solid rgba(139,92,246,0.25)',
-                                color: '#7C3AED',
-                                boxShadow: '0 2px 8px rgba(139,92,246,0.15)',
-                            }}
-                        >
-                            <Hotel size={13} />
-                            <span>Hotels</span>
-                        </motion.button>
-                    </div>
+                <div className="flex items-center gap-2 shrink-0">
+                    <button
+                        onClick={() => onOpenFlightPanel?.()}
+                        className="agent-chip px-3 py-1.5 text-xs font-medium"
+                        aria-label="Open flight search"
+                    >
+                        <Plane size={13} className="text-saffron" />
+                        <span className="hidden sm:inline">Flights</span>
+                    </button>
+                    <button
+                        onClick={() => onOpenHotelPanel?.()}
+                        className="agent-chip px-3 py-1.5 text-xs font-medium"
+                        aria-label="Open hotel search"
+                    >
+                        <Hotel size={13} className="text-saffron" />
+                        <span className="hidden sm:inline">Hotels</span>
+                    </button>
                 </div>
             </div>
 
-            {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-4 md:p-5 space-y-5 scrollbar-hide"
-                style={{ background: 'linear-gradient(180deg, rgba(240,249,255,0.3) 0%, rgba(255,255,255,0.1) 100%)' }}>
-                <AnimatePresence initial={false}>
-                    {messages.map((msg) => (
-                        <motion.div
-                            key={msg.id}
-                            initial={{ opacity: 0, y: 16, scale: 0.97 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
-                            className={`flex gap-3 ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
-                        >
-                            {/* Avatar */}
-                            <motion.div
-                                className="flex-shrink-0"
-                                whileHover={{ scale: 1.1 }}
-                                transition={{ type: 'spring', stiffness: 400 }}
-                            >
-                                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-sm ${msg.type === 'user'
-                                    ? 'text-white'
-                                    : ''
+            {/* ══════════ Message canvas ══════════ */}
+            <div
+                className="agent-scroll flex-1 overflow-y-auto px-4 md:px-6 py-6"
+                aria-live="polite"
+                aria-relevant="additions text"
+                aria-label="Conversation with the SafarX Agent"
+            >
+                {/* ── Empty state ── */}
+                {isEmpty && !isLoading && (
+                    <Motion.div
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, ease: EASE }}
+                        className="h-full flex flex-col items-center justify-center text-center px-2"
+                    >
+                        <span className="eyebrow-muted">27.17° N · 78.04° E</span>
+
+                        <h1 className="mt-5 font-display text-[clamp(1.9rem,5vw,2.9rem)] leading-[1.1] tracking-tight text-ivory">
+                            Where shall we <em className="italic text-saffron">go?</em>
+                        </h1>
+
+                        <p className="mt-4 max-w-md text-sm md:text-[15px] leading-relaxed text-ivory-muted">
+                            Itineraries, fares, stays and seasons across India — ask in plain
+                            language and I'll work it out.
+                        </p>
+
+                        <div className="mt-8 flex items-center gap-3 w-full max-w-md" aria-hidden="true">
+                            <span className="route-dot" />
+                            <span className="route-line flex-1" />
+                            <span className="route-dot" />
+                        </div>
+
+                        <div className="mt-8 grid sm:grid-cols-2 gap-2.5 w-full max-w-xl">
+                            {SUGGESTIONS.map((s, i) => (
+                                <Motion.button
+                                    key={s.text}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.4, delay: 0.15 + i * 0.06, ease: EASE }}
+                                    whileHover={reduce ? undefined : { y: -2 }}
+                                    onClick={() => submit(s.text)}
+                                    className="agent-chip cursor-pointer px-4 py-3 text-left text-[13px] leading-snug"
+                                >
+                                    <s.icon size={14} className="text-saffron shrink-0" />
+                                    <span>{s.text}</span>
+                                </Motion.button>
+                            ))}
+                        </div>
+                    </Motion.div>
+                )}
+
+                {/* ── Messages ── */}
+                <div className="space-y-6">
+                    <AnimatePresence initial={false}>
+                        {messages.map((msg) => (
+                            <Motion.div
+                                key={msg.id}
+                                initial={{ opacity: 0, y: 14 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.26, ease: EASE }}
+                                className={`flex flex-col ${msg.type === 'user' ? 'items-end' : 'items-start'
                                     }`}
-                                    style={msg.type === 'user'
-                                        ? { background: 'linear-gradient(135deg, #0EA5E9, #8B5CF6)', boxShadow: '0 4px 12px rgba(14,165,233,0.3)' }
-                                        : { background: 'rgba(255,255,255,0.9)', border: '1.5px solid rgba(14,165,233,0.2)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }
-                                    }
+                            >
+                                {/* Attribution row */}
+                                <div
+                                    className={`flex items-center gap-2 mb-2 ${msg.type === 'user' ? 'flex-row-reverse' : ''
+                                        }`}
                                 >
-                                    {msg.type === 'user'
-                                        ? <User size={15} className="text-white" />
-                                        : <Bot size={15} style={{ color: '#0EA5E9' }} />
-                                    }
+                                    {msg.type === 'ai' && <span className="route-dot" aria-hidden="true" />}
+                                    <span className="font-data text-[9.5px] uppercase tracking-[0.22em] text-ivory-faint">
+                                        {msg.type === 'user' ? 'You' : 'SafarX'}
+                                    </span>
+                                    <span className="font-data text-[9.5px] tabular-nums text-ivory-faint/70">
+                                        {msg.timestamp.toLocaleTimeString([], {
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                        })}
+                                    </span>
                                 </div>
-                            </motion.div>
 
-                            {/* Message Content */}
-                            <div className={`flex flex-col gap-1.5 max-w-[85%] ${msg.type === 'user' ? 'items-end' : 'items-start'}`}>
-                                <motion.div
-                                    className={`relative px-4 py-3 rounded-2xl ${msg.type === 'user'
-                                        ? 'message-user rounded-tr-md text-white'
-                                        : 'message-ai rounded-tl-md'
-                                        } ${msg.isError ? 'ring-1 ring-red-300' : ''}`}
-                                    whileHover={{ scale: 1.01 }}
-                                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                                {/* Bubble */}
+                                <Motion.div
+                                    whileHover={reduce || msg.type === 'user' ? undefined : { y: -1 }}
+                                    transition={{ duration: 0.25, ease: EASE }}
+                                    className={`max-w-[85%] px-4 py-3.5 text-[14.5px] text-ivory ${msg.type === 'user' ? 'agent-msg-user' : 'agent-msg-assistant'
+                                        } ${msg.isError ? 'agent-msg-error' : ''}`}
                                 >
-                                    <div
-                                        className={`text-sm leading-relaxed ${msg.type === 'user' ? 'text-white' : 'text-slate-700'}`}
-                                        dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }}
-                                    />
-                                </motion.div>
+                                    <div dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
+                                </Motion.div>
 
-                                {/* Timestamp */}
-                                <span className="text-[10px] px-1" style={{ color: '#94a3b8' }}>
-                                    {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </span>
-                            </div>
-                        </motion.div>
-                    ))}
+                                {/* Completed tool steps */}
+                                {msg.steps?.length > 0 && (
+                                    <div className="flex flex-wrap gap-1.5 mt-2.5">
+                                        {msg.steps.map((step) => (
+                                            <StepChip
+                                                key={step.label}
+                                                icon={step.icon}
+                                                label={step.label}
+                                                done
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </Motion.div>
+                        ))}
+                    </AnimatePresence>
 
-                    {/* Typing Indicator */}
-                    {isLoading && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            className="flex gap-3"
-                        >
-                            <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-                                style={{ background: 'rgba(255,255,255,0.9)', border: '1.5px solid rgba(14,165,233,0.2)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-                                <Bot size={15} style={{ color: '#0EA5E9' }} />
-                            </div>
-                            <div className="px-4 py-3.5 rounded-2xl rounded-tl-md message-ai">
-                                <div className="flex items-center gap-2">
-                                    <span className="w-2.5 h-2.5 rounded-full typing-dot"
-                                        style={{ background: 'linear-gradient(135deg, #0EA5E9, #06B6D4)' }} />
-                                    <span className="w-2.5 h-2.5 rounded-full typing-dot"
-                                        style={{ background: 'linear-gradient(135deg, #8B5CF6, #A78BFA)' }} />
-                                    <span className="w-2.5 h-2.5 rounded-full typing-dot"
-                                        style={{ background: 'linear-gradient(135deg, #10B981, #34D399)' }} />
+                    {/* ── Working state ── */}
+                    <AnimatePresence>
+                        {isLoading && (
+                            <Motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.24, ease: EASE }}
+                                className="flex flex-col items-start"
+                            >
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="route-dot" aria-hidden="true" />
+                                    <span className="font-data text-[9.5px] uppercase tracking-[0.22em] text-ivory-faint">
+                                        SafarX
+                                    </span>
                                 </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+
+                                <div className="agent-msg-assistant px-4 py-3.5 space-y-3">
+                                    <RouteThinking label={activeStep ? 'Running tools' : 'Plotting a route'} />
+                                    {activeStep && (
+                                        <div className="flex flex-wrap gap-1.5">
+                                            <StepChip icon={activeStep.icon} label={activeStep.label} />
+                                        </div>
+                                    )}
+                                    <span className="agent-route-live block w-40" aria-hidden="true" />
+                                </div>
+                            </Motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area */}
-            <div className="relative p-4 md:p-5 border-t border-white/60"
-                style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(248,250,252,0.95) 100%)' }}>
+            {/* ══════════ Composer ══════════ */}
+            <div className="relative z-10 px-4 md:px-6 pt-3 pb-4 border-t border-white/[0.07] bg-ink-950/40">
+                <div className="agent-composer flex items-end gap-2 pl-4 pr-2 py-2">
+                    <label htmlFor="agent-composer-input" className="sr-only">
+                        Message the SafarX Agent
+                    </label>
+                    <textarea
+                        id="agent-composer-input"
+                        ref={inputRef}
+                        rows={1}
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        placeholder={
+                            isLoading ? 'Working on it…' : 'Ask about routes, fares, stays or seasons'
+                        }
+                        disabled={isLoading}
+                        className="flex-1 bg-transparent border-none focus:outline-none focus:ring-0 resize-none
+                                   text-[14.5px] leading-relaxed text-ivory placeholder:text-ivory-faint
+                                   py-2 max-h-[132px] disabled:cursor-not-allowed disabled:opacity-60"
+                    />
 
-                {/* Suggestion Chips */}
-                <AnimatePresence>
-                    {messages.length < 3 && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 12 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -8 }}
-                            className="flex gap-2 mb-4 overflow-x-auto pb-1 scrollbar-hide"
-                        >
-                            {suggestions.map((s, i) => (
-                                <motion.button
-                                    key={i}
-                                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    transition={{ delay: i * 0.08, type: 'spring', stiffness: 300 }}
-                                    whileHover={{ scale: 1.04, y: -2 }}
-                                    whileTap={{ scale: 0.96 }}
-                                    onClick={() => setInput(s.text)}
-                                    className={`chip whitespace-nowrap ${s.bg} ${s.border}`}
-                                    style={{ border: `1.5px solid` }}
-                                >
-                                    <span className={`p-1 rounded-lg bg-gradient-to-br ${s.gradient} text-white`}>
-                                        {s.icon}
-                                    </span>
-                                    <span className="text-slate-600 font-medium">{s.text}</span>
-                                </motion.button>
-                            ))}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                    <button
+                        onClick={() => setIsRecording(!isRecording)}
+                        className={`agent-icon-btn p-2 mb-0.5 shrink-0 ${isRecording ? 'text-saffron border-saffron/40' : ''
+                            }`}
+                        aria-label={isRecording ? 'Stop voice input' : 'Start voice input'}
+                        aria-pressed={isRecording}
+                    >
+                        <Mic size={17} />
+                    </button>
 
-                {/* Input Container */}
-                <div className="relative">
-                    {/* Focus glow */}
-                    <div className="absolute -inset-0.5 rounded-2xl opacity-0 focus-within:opacity-100 transition-opacity duration-500 blur-sm"
-                        style={{ background: 'linear-gradient(135deg, #0EA5E9, #8B5CF6, #06B6D4)' }} />
-
-                    <div className="relative flex items-center gap-2 p-2 rounded-2xl"
-                        style={{
-                            background: 'rgba(255,255,255,0.9)',
-                            border: '1.5px solid rgba(255,255,255,0.95)',
-                            boxShadow: '0 4px 20px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,1)',
-                        }}>
-
-                        {/* Attachment */}
-                        <motion.button
-                            whileHover={{ scale: 1.1, rotate: 45 }}
-                            whileTap={{ scale: 0.9 }}
-                            className="p-2 rounded-xl transition-colors"
-                            style={{ background: 'rgba(14,165,233,0.08)', color: '#0EA5E9' }}
-                        >
-                            <Plus size={18} />
-                        </motion.button>
-
-                        {/* Text Input */}
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-                            placeholder="Ask me anything about travel..."
-                            className="flex-1 bg-transparent border-none focus:outline-none text-sm px-2 font-medium"
-                            style={{ color: '#1e293b' }}
-                            disabled={isLoading}
-                        />
-
-                        {/* Voice */}
-                        <motion.button
-                            whileTap={{ scale: 0.92 }}
-                            whileHover={{ scale: 1.08 }}
-                            onClick={() => setIsRecording(!isRecording)}
-                            className="p-2 rounded-xl transition-all"
-                            style={isRecording
-                                ? { background: 'rgba(249,115,22,0.12)', color: '#F97316' }
-                                : { background: 'rgba(100,116,139,0.08)', color: '#64748b' }
-                            }
-                        >
-                            <Mic size={18} />
-                        </motion.button>
-
-                        {/* Send */}
-                        <motion.button
-                            whileHover={{ scale: 1.06 }}
-                            whileTap={{ scale: 0.94 }}
-                            onClick={handleSend}
-                            disabled={!input.trim() || isLoading}
-                            className="p-3 rounded-xl text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                            style={{
-                                background: input.trim() && !isLoading
-                                    ? 'linear-gradient(135deg, #0EA5E9, #8B5CF6)'
-                                    : 'rgba(148,163,184,0.3)',
-                                boxShadow: input.trim() && !isLoading
-                                    ? '0 4px 16px rgba(14,165,233,0.4)'
-                                    : 'none',
-                            }}
-                        >
-                            <Send size={17} />
-                        </motion.button>
-                    </div>
+                    <button
+                        onClick={handleSend}
+                        disabled={!canSend}
+                        className="agent-send mb-0.5 shrink-0"
+                        aria-label={isLoading ? 'Sending message' : 'Send message'}
+                    >
+                        {isLoading ? (
+                            <span className="flex items-center gap-1" aria-hidden="true">
+                                <span className="agent-waypoint" />
+                                <span className="agent-waypoint" />
+                                <span className="agent-waypoint" />
+                            </span>
+                        ) : (
+                            <Send size={16} />
+                        )}
+                    </button>
                 </div>
 
-                {/* Footer */}
-                <p className="text-center text-[10px] mt-3 font-medium" style={{ color: '#94a3b8' }}>
-                    ✨ SafarX AI · Verify important travel information independently
+                <p className="mt-2.5 text-center font-data text-[9.5px] uppercase tracking-[0.18em] text-ivory-faint">
+                    SafarX Agent · Enter to send · Shift + Enter for a new line
                 </p>
             </div>
         </div>

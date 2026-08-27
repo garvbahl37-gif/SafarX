@@ -618,7 +618,7 @@ const HomePage = ({ onPageChange }) => {
                     Try before <em className="italic text-saffron-bright">you fly</em>
                   </>
                 }
-                lede="This is a live 360° window inside the Taj Mahal — drag it. Every heritage site on SafarX can be walked through like this before you spend a rupee on it."
+                lede="Step inside the Taj before you ever queue for a ticket. Every heritage site on SafarX can be walked through in full 360° — so you know exactly what you are booking."
               />
               <button
                 onClick={() => onPageChange("360view")}
@@ -636,17 +636,43 @@ const HomePage = ({ onPageChange }) => {
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="relative rounded-3xl overflow-hidden border border-white/[0.09] shadow-2xl aspect-[16/10] bg-ink-800"
             >
-              <iframe
-                src="https://www.youtube.com/embed/2aJ9cOwbzxo?rel=0&modestbranding=1"
-                title="360° preview of the Taj Mahal"
-                className="absolute inset-0 w-full h-full"
-                allow="accelerometer; gyroscope; encrypted-media; picture-in-picture"
-                allowFullScreen
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&auto=format&fit=crop&q=75"
+                className="absolute inset-0 w-full h-full object-cover"
+                src="https://videos.pexels.com/video-files/19717370/19717370-uhd_3840_2160_30fps.mp4"
               />
-              <div className="absolute bottom-4 left-4 glass-panel !rounded-full px-4 py-2 flex items-center gap-2.5 pointer-events-none">
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-transparent to-ink-950/25" />
+
+              {/* Live badge */}
+              <div className="absolute top-4 left-4 glass-panel !rounded-full px-4 py-2 flex items-center gap-2.5 pointer-events-none">
                 <span className="route-dot animate-pulse" />
-                <span className="font-data text-[11px] tracking-[0.2em] uppercase text-ivory/80">
+                <span className="font-data text-[11px] tracking-[0.2em] uppercase text-ivory/85">
                   360° · Taj Mahal, Agra
+                </span>
+              </div>
+
+              {/* Enter-the-tour affordance */}
+              <button
+                onClick={() => openTour("taj-mahal")}
+                className="group/tour absolute inset-0 flex items-center justify-center"
+                aria-label="Open the Taj Mahal 360° tour"
+              >
+                <span className="w-20 h-20 rounded-full bg-ink-950/55 backdrop-blur-xl border border-saffron/40 flex items-center justify-center transition-all duration-500 group-hover/tour:scale-110 group-hover/tour:bg-saffron group-hover/tour:border-saffron">
+                  <Camera size={26} className="text-saffron transition-colors duration-500 group-hover/tour:text-ink-950" />
+                </span>
+              </button>
+
+              <div className="absolute bottom-4 inset-x-4 flex items-center justify-between pointer-events-none">
+                <span className="font-data text-[10px] tracking-[0.22em] uppercase text-ivory/55">
+                  14 tours available
+                </span>
+                <span className="font-data text-[10px] tracking-[0.22em] uppercase text-saffron">
+                  Tap to enter
                 </span>
               </div>
             </motion.div>
@@ -838,9 +864,9 @@ const HomePage = ({ onPageChange }) => {
             loop
             playsInline
             className="w-full h-full object-cover"
-            src="https://res.cloudinary.com/dnmhqosoa/video/upload/v1775633171/neeche_ef76ax.mp4"
+            src="https://videos.pexels.com/video-files/34456655/14600246_3840_2160_30fps.mp4"
           />
-          <div className="absolute inset-0 bg-ink-950/75" />
+          <div className="absolute inset-0 bg-ink-950/70" />
           <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-transparent to-ink-950" />
         </div>
 

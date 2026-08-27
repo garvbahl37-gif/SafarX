@@ -61,12 +61,11 @@ const CategorySection = ({
               <span className="font-data text-[11px] tracking-[0.16em] text-ivory-faint">
                 {packed}/{items.length} packed
               </span>
+              {/* Decorative: the "3/12 packed" text above already carries the
+                  value for assistive tech, and a role inside a button would
+                  pollute the button's accessible name. */}
               <span
-                role="progressbar"
-                aria-valuenow={percent}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label={`${category.label} progress`}
+                aria-hidden="true"
                 className="hidden h-1 w-24 overflow-hidden rounded-full bg-white/[0.07] sm:block"
               >
                 <Motion.span

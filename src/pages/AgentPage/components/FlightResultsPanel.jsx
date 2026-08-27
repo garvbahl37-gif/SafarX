@@ -1,39 +1,30 @@
 import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import {
-    ArrowLeft, X, Plane, Clock, Users, Zap,
-    Shield, ChevronDown, SlidersHorizontal,
-    TrendingUp, Timer, Ban, CheckCircle, Sparkles,
+    ArrowLeft, X, Plane, Clock, Zap,
+    ChevronDown, SlidersHorizontal,
+    TrendingUp, Timer, Ban, CheckCircle,
 } from 'lucide-react';
 import {
     formatDuration, formatFare, formatTime, formatDate, isNextDay,
 } from '../services/flightApi';
 
+const EASE = [0.22, 1, 0.36, 1];
+
 const SORT_OPTIONS = [
-    { value: 'price_asc', label: 'Price: Low to High', icon: '₹↑' },
-    { value: 'price_desc', label: 'Price: High to Low', icon: '₹↓' },
-    { value: 'duration_asc', label: 'Duration: Shortest', icon: '⏱↑' },
-    { value: 'dep_asc', label: 'Departure: Earliest', icon: '🌅' },
-    { value: 'dep_desc', label: 'Departure: Latest', icon: '🌙' },
+    { value: 'price_asc', label: 'Fare — low to high' },
+    { value: 'price_desc', label: 'Fare — high to low' },
+    { value: 'duration_asc', label: 'Duration — shortest' },
+    { value: 'dep_asc', label: 'Departure — earliest' },
+    { value: 'dep_desc', label: 'Departure — latest' },
 ];
 
 const STOP_OPTIONS = [
     { value: 'all', label: 'All' },
     { value: 'direct', label: 'Direct' },
-    { value: '1stop', label: '1 Stop' },
+    { value: '1stop', label: '1 stop' },
     { value: '2stop', label: '2+' },
 ];
-
-const AIRLINE_COLORS = {
-    'AI': { from: '#ef4444', to: '#f97316', text: '#dc2626' },
-    '6E': { from: '#6366f1', to: '#3b82f6', text: '#4f46e5' },
-    'SG': { from: '#eab308', to: '#ef4444', text: '#ca8a04' },
-    'G8': { from: '#10b981', to: '#06b6d4', text: '#059669' },
-    'EK': { from: '#dc2626', to: '#eab308', text: '#dc2626' },
-};
-
-const getAirlineStyle = (code) =>
-    AIRLINE_COLORS[code] || { from: '#0EA5E9', to: '#8B5CF6', text: '#0284C7' };
 
 const FlightResultsPanel = ({ results, traceId, searchParams, onBack, onClose }) => {
     const { flights = [], total_results = 0 } = results;
@@ -45,7 +36,7 @@ const FlightResultsPanel = ({ results, traceId, searchParams, onBack, onClose })
 
     const uniqueAirlines = useMemo(() => {
         const seen = new Set();
-        const airlines = [{ code: 'all', name: 'All Airlines' }];
+        const airlines = [{ code: 'all', name: 'All airlines' }];
         flights.forEach(f => {
             const code = f.airline?.code; const name = f.airline?.name;
             if (code && !seen.has(code)) { seen.add(code); airlines.push({ code, name: name || code }); }
@@ -61,6 +52,7 @@ const FlightResultsPanel = ({ results, traceId, searchParams, onBack, onClose })
 
     useMemo(() => {
         if (maxPrice === null && priceRange.max > 0) setMaxPrice(priceRange.max);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [priceRange]);
 
     const filteredFlights = useMemo(() => {
@@ -89,114 +81,110 @@ const FlightResultsPanel = ({ results, traceId, searchParams, onBack, onClose })
     };
 
     return (
-        <motion.div
+        <Motion.div
             initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 60 }}
             transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-            className="h-full flex flex-col rounded-2xl md:rounded-3xl overflow-hidden relative"
-            style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,249,255,0.97) 100%)',
-                border: '1.5px solid rgba(255,255,255,0.9)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(14,165,233,0.1)',
-            }}>
+            className="agent-panel h-full flex flex-col rounded-2xl md:rounded-3xl overflow-hidden relative shadow-[0_24px_64px_rgba(0,0,0,0.45)]"
+        >
+            {/* Gold filament */}
+            <div
+                className="absolute top-0 left-0 right-0 h-px z-20 bg-gradient-to-r from-transparent via-saffron/50 to-transparent"
+                aria-hidden="true"
+            />
 
-            {/* Rainbow top line */}
-            <div className="absolute top-0 left-0 right-0 h-1 z-10"
-                style={{ background: 'linear-gradient(90deg, #0EA5E9, #8B5CF6, #EC4899, #F97316, #10B981)' }} />
-
-            {/* Header */}
-            <div className="relative p-4 border-b shrink-0"
-                style={{ borderColor: 'rgba(14,165,233,0.1)', background: 'rgba(255,255,255,0.7)' }}>
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                        <motion.button whileHover={{ scale: 1.1, x: -2 }} whileTap={{ scale: 0.9 }}
+            {/* ── Header ── */}
+            <div className="relative p-4 border-b border-white/[0.07] bg-ink-950/30 shrink-0">
+                <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                        <button
                             onClick={onBack}
-                            className="p-2 rounded-xl transition-all"
-                            style={{ background: 'rgba(14,165,233,0.08)', color: '#0EA5E9' }}>
-                            <ArrowLeft size={16} />
-                        </motion.button>
-                        <div>
-                            <h3 className="font-bold text-sm flex items-center gap-2" style={{ color: '#0f172a' }}>
-                                <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-white text-xs"
-                                    style={{ background: 'linear-gradient(135deg, #0EA5E9, #8B5CF6)' }}>
-                                    {searchParams.from} <Plane size={10} /> {searchParams.to}
-                                </span>
-                            </h3>
-                            <p className="text-[11px] mt-0.5 font-medium" style={{ color: '#64748b' }}>
+                            className="agent-icon-btn p-2 shrink-0"
+                            aria-label="Back to flight search"
+                        >
+                            <ArrowLeft size={15} />
+                        </button>
+                        <div className="min-w-0">
+                            <p className="flex items-center gap-2 font-data text-sm tracking-[0.14em] text-ivory">
+                                <span>{searchParams.from}</span>
+                                <span className="route-line w-6" aria-hidden="true" />
+                                <Plane size={11} className="text-saffron" aria-hidden="true" />
+                                <span className="route-line w-6" aria-hidden="true" />
+                                <span>{searchParams.to}</span>
+                            </p>
+                            <p className="font-data text-[9.5px] uppercase tracking-[0.16em] text-ivory-faint mt-1 truncate">
                                 {total_results} flights · {formatDate(searchParams.departure)}
                                 {searchParams.passengers > 1 && ` · ${searchParams.passengers} pax`}
                             </p>
                         </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    <div className="flex items-center gap-2 shrink-0">
+                        <button
                             onClick={() => setShowFilters(v => !v)}
-                            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all"
-                            style={showFilters
-                                ? { background: 'linear-gradient(135deg, rgba(14,165,233,0.15), rgba(139,92,246,0.1))', color: '#0284C7', border: '1.5px solid rgba(14,165,233,0.25)' }
-                                : { background: 'rgba(255,255,255,0.8)', color: '#64748b', border: '1.5px solid rgba(255,255,255,0.9)' }}>
+                            aria-expanded={showFilters}
+                            aria-label="Toggle filters"
+                            className={`agent-chip px-3 py-2 text-xs ${showFilters ? 'agent-chip-active' : ''}`}
+                        >
                             <SlidersHorizontal size={12} />
-                            Filters
-                            {showFilters && (
-                                <span className="w-1.5 h-1.5 rounded-full"
-                                    style={{ background: '#0EA5E9' }} />
-                            )}
-                        </motion.button>
-                        <motion.button whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }}
+                            <span className="hidden sm:inline">Filters</span>
+                        </button>
+                        <button
                             onClick={onClose}
-                            className="p-2 rounded-xl transition-all"
-                            style={{ background: 'rgba(0,0,0,0.04)', color: '#64748b' }}>
-                            <X size={16} />
-                        </motion.button>
+                            className="agent-icon-btn p-2"
+                            aria-label="Close flight results"
+                        >
+                            <X size={15} />
+                        </button>
                     </div>
                 </div>
 
-                {/* Filter Panel */}
+                {/* ── Filter Panel ── */}
                 <AnimatePresence>
                     {showFilters && (
-                        <motion.div
+                        <Motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
                             transition={{ duration: 0.25, ease: 'easeInOut' }}
-                            className="overflow-hidden">
+                            className="overflow-hidden"
+                        >
                             <div className="pt-4 space-y-4">
                                 {/* Sort By */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1"
-                                        style={{ color: '#94a3b8' }}>
-                                        <TrendingUp size={10} style={{ color: '#0EA5E9' }} /> Sort By
+                                    <label htmlFor="flight-sort" className="eyebrow-muted flex items-center gap-1.5">
+                                        <TrendingUp size={10} className="text-saffron" aria-hidden="true" /> Sort by
                                     </label>
                                     <div className="relative">
-                                        <select value={sortBy} onChange={e => setSortBy(e.target.value)}
-                                            className="w-full rounded-xl px-3 py-2.5 text-xs focus:outline-none appearance-none cursor-pointer font-medium glass-input"
-                                            style={{ colorScheme: 'light', color: '#0f172a', background: 'transparent' }}>
+                                        <select
+                                            id="flight-sort"
+                                            value={sortBy}
+                                            onChange={e => setSortBy(e.target.value)}
+                                            className="agent-field w-full px-3 py-2.5 pr-9 text-xs appearance-none cursor-pointer"
+                                        >
                                             {SORT_OPTIONS.map(opt => (
-                                                <option key={opt.value} value={opt.value}
-                                                    style={{ background: '#fff', color: '#0f172a' }}>
-                                                    {opt.icon} {opt.label}
-                                                </option>
+                                                <option key={opt.value} value={opt.value}>{opt.label}</option>
                                             ))}
                                         </select>
-                                        <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                                            style={{ color: '#94a3b8' }} />
+                                        <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-ivory-faint" aria-hidden="true" />
                                     </div>
                                 </div>
 
                                 {/* Stops */}
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1"
-                                        style={{ color: '#94a3b8' }}>
-                                        <Timer size={10} style={{ color: '#10B981' }} /> Stops
-                                    </label>
-                                    <div className="flex gap-1.5 p-1 rounded-xl"
-                                        style={{ background: 'rgba(14,165,233,0.04)', border: '1px solid rgba(14,165,233,0.08)' }}>
+                                    <span className="eyebrow-muted flex items-center gap-1.5">
+                                        <Timer size={10} className="text-saffron" aria-hidden="true" /> Stops
+                                    </span>
+                                    <div className="flex gap-1 p-1 rounded-full bg-white/[0.03] border border-white/[0.07]" role="group" aria-label="Stops">
                                         {STOP_OPTIONS.map(opt => (
-                                            <button key={opt.value} onClick={() => setStopFilter(opt.value)}
-                                                className="flex-1 py-1.5 px-1 rounded-lg text-[10px] font-bold transition-all"
-                                                style={stopFilter === opt.value
-                                                    ? { background: 'linear-gradient(135deg, #0EA5E9, #8B5CF6)', color: '#fff', boxShadow: '0 2px 8px rgba(14,165,233,0.3)' }
-                                                    : { color: '#64748b' }}>
+                                            <button
+                                                key={opt.value}
+                                                onClick={() => setStopFilter(opt.value)}
+                                                aria-pressed={stopFilter === opt.value}
+                                                className={`flex-1 py-1.5 px-1 rounded-full font-data text-[10px] uppercase tracking-[0.1em] transition-all cursor-pointer ${stopFilter === opt.value
+                                                    ? 'bg-gradient-to-br from-saffron-bright to-saffron text-ink-950 font-semibold'
+                                                    : 'text-ivory-muted hover:text-ivory'
+                                                    }`}
+                                            >
                                                 {opt.label}
                                             </button>
                                         ))}
@@ -206,43 +194,41 @@ const FlightResultsPanel = ({ results, traceId, searchParams, onBack, onClose })
                                 {/* Airline */}
                                 {uniqueAirlines.length > 2 && (
                                     <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1"
-                                            style={{ color: '#94a3b8' }}>
-                                            <Plane size={10} style={{ color: '#8B5CF6' }} /> Airline
+                                        <label htmlFor="flight-airline" className="eyebrow-muted flex items-center gap-1.5">
+                                            <Plane size={10} className="text-saffron" aria-hidden="true" /> Airline
                                         </label>
                                         <div className="relative">
-                                            <select value={airlineFilter} onChange={e => setAirlineFilter(e.target.value)}
-                                                className="w-full rounded-xl px-3 py-2.5 text-xs focus:outline-none appearance-none cursor-pointer font-medium glass-input"
-                                                style={{ colorScheme: 'light', color: '#0f172a', background: 'transparent' }}>
+                                            <select
+                                                id="flight-airline"
+                                                value={airlineFilter}
+                                                onChange={e => setAirlineFilter(e.target.value)}
+                                                className="agent-field w-full px-3 py-2.5 pr-9 text-xs appearance-none cursor-pointer"
+                                            >
                                                 {uniqueAirlines.map(a => (
-                                                    <option key={a.code} value={a.code}
-                                                        style={{ background: '#fff', color: '#0f172a' }}>{a.name}</option>
+                                                    <option key={a.code} value={a.code}>{a.name}</option>
                                                 ))}
                                             </select>
-                                            <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                                                style={{ color: '#94a3b8' }} />
+                                            <ChevronDown size={12} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-ivory-faint" aria-hidden="true" />
                                         </div>
                                     </div>
                                 )}
 
                                 {/* Max Price */}
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-wider flex items-center justify-between"
-                                        style={{ color: '#94a3b8' }}>
-                                        <span>Max Price</span>
-                                        <span className="font-bold text-xs px-2 py-0.5 rounded-lg"
-                                            style={{ background: 'rgba(14,165,233,0.1)', color: '#0284C7' }}>
+                                    <label htmlFor="flight-max-price" className="eyebrow-muted flex items-center justify-between">
+                                        <span>Max fare</span>
+                                        <span className="font-data text-[11px] tracking-normal normal-case text-saffron">
                                             {formatFare(maxPrice)}
                                         </span>
                                     </label>
-                                    <input type="range" min={priceRange.min} max={priceRange.max} step={500}
+                                    <input
+                                        id="flight-max-price"
+                                        type="range" min={priceRange.min} max={priceRange.max} step={500}
                                         value={maxPrice || priceRange.max}
                                         onChange={e => setMaxPrice(Number(e.target.value))}
-                                        className="w-full cursor-pointer"
-                                        style={{
-                                            background: `linear-gradient(to right, #0EA5E9 ${((maxPrice - priceRange.min) / (priceRange.max - priceRange.min)) * 100}%, rgba(14,165,233,0.15) 0%)`,
-                                        }} />
-                                    <div className="flex justify-between text-[9px] font-medium" style={{ color: '#94a3b8' }}>
+                                        className="agent-range w-full cursor-pointer"
+                                    />
+                                    <div className="flex justify-between font-data text-[9px] text-ivory-faint">
                                         <span>{formatFare(priceRange.min)}</span>
                                         <span>{formatFare(priceRange.max)}</span>
                                     </div>
@@ -250,40 +236,38 @@ const FlightResultsPanel = ({ results, traceId, searchParams, onBack, onClose })
 
                                 {/* Count + Reset */}
                                 <div className="flex items-center justify-between pt-1">
-                                    <span className="text-[11px] font-medium" style={{ color: '#64748b' }}>
-                                        Showing{' '}
-                                        <span className="font-bold" style={{ color: '#0EA5E9' }}>{filteredFlights.length}</span>
-                                        {' '}of {total_results} flights
+                                    <span className="font-data text-[10px] uppercase tracking-[0.14em] text-ivory-faint">
+                                        <span className="text-saffron">{filteredFlights.length}</span> of {total_results}
                                     </span>
-                                    <button onClick={resetFilters}
-                                        className="text-[10px] font-bold px-2.5 py-1 rounded-lg transition-all"
-                                        style={{ background: 'rgba(249,115,22,0.08)', color: '#F97316' }}>
-                                        Reset All
+                                    <button
+                                        onClick={resetFilters}
+                                        className="agent-chip px-3 py-1 font-data text-[10px] uppercase tracking-[0.14em]"
+                                    >
+                                        Reset
                                     </button>
                                 </div>
                             </div>
-                        </motion.div>
+                        </Motion.div>
                     )}
                 </AnimatePresence>
             </div>
 
-            {/* Flight List */}
-            <div className="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-hide">
+            {/* ── Boarding passes ── */}
+            <div className="agent-scroll flex-1 overflow-y-auto p-3 space-y-3">
                 {filteredFlights.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full gap-4 text-center p-6">
-                        <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 2, repeat: Infinity }}
-                            className="w-16 h-16 rounded-2xl flex items-center justify-center"
-                            style={{ background: 'rgba(14,165,233,0.08)' }}>
-                            <Ban size={32} style={{ color: 'rgba(14,165,233,0.4)' }} />
-                        </motion.div>
+                        <span
+                            className="w-14 h-14 rounded-2xl flex items-center justify-center bg-white/[0.04] border border-white/[0.07]"
+                            aria-hidden="true"
+                        >
+                            <Ban size={26} className="text-ivory-faint" />
+                        </span>
                         <div>
-                            <p className="font-semibold" style={{ color: '#475569' }}>No flights match your filters</p>
-                            <p className="text-xs mt-1" style={{ color: '#94a3b8' }}>Try adjusting or resetting filters</p>
+                            <p className="font-display text-lg text-ivory">No flights match</p>
+                            <p className="text-xs mt-1.5 text-ivory-muted">Loosen a filter and try again</p>
                         </div>
-                        <button onClick={resetFilters}
-                            className="px-4 py-2 rounded-xl text-xs font-bold text-white"
-                            style={{ background: 'linear-gradient(135deg, #0EA5E9, #8B5CF6)' }}>
-                            Reset Filters
+                        <button onClick={resetFilters} className="agent-btn-gold px-5 py-2.5 text-xs">
+                            Reset filters
                         </button>
                     </div>
                 ) : (
@@ -293,168 +277,164 @@ const FlightResultsPanel = ({ results, traceId, searchParams, onBack, onClose })
                     ))
                 )}
             </div>
-        </motion.div>
+        </Motion.div>
     );
 };
 
+/* ══════════════════════════════════════════════
+   BOARDING PASS
+   ══════════════════════════════════════════════ */
 const FlightCard = ({ flight, traceId, passengerCount, index }) => {
     const { airline, origin, destination, duration, accumulated_duration, stop_count, fare, is_lcc, is_refundable } = flight;
     const displayDuration = duration && duration > 0 ? duration : accumulated_duration;
     const depTime = formatTime(origin?.departure_time);
     const arrTime = formatTime(destination?.arrival_time);
     const nextDay = isNextDay(origin?.departure_time, destination?.arrival_time);
-    const airlineStyle = getAirlineStyle(airline?.code);
 
     return (
-        <motion.div
+        <Motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.04, duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
-            whileHover={{ scale: 1.015, y: -2 }}
-            className="relative rounded-2xl overflow-hidden cursor-pointer group transition-all"
-            style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,249,255,0.95) 100%)',
-                border: '1.5px solid rgba(255,255,255,0.9)',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.05)',
-            }}>
-
-            {/* Colored top accent line */}
-            <div className="absolute top-0 left-0 right-0 h-0.5"
-                style={{ background: `linear-gradient(90deg, ${airlineStyle.from}, ${airlineStyle.to})` }} />
-
-            {/* Hover overlay */}
-            <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                style={{ background: `linear-gradient(135deg, rgba(14,165,233,0.03) 0%, rgba(139,92,246,0.03) 100%)` }} />
-
+            transition={{ delay: Math.min(index * 0.04, 0.4), duration: 0.28, ease: EASE }}
+            whileHover={{ y: -2 }}
+            className="agent-pass rounded-2xl overflow-hidden"
+        >
             <div className="p-4">
-                {/* Row 1: Airline + Tags */}
-                <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-sm"
-                            style={{ background: `linear-gradient(135deg, ${airlineStyle.from}25, ${airlineStyle.to}15)`, border: `1px solid ${airlineStyle.from}30` }}>
-                            <span className="text-[11px] font-black" style={{ color: airlineStyle.text }}>
-                                {airline?.code || '??'}
+                {/* ── Carrier row ── */}
+                <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                        <span
+                            className="w-9 h-9 rounded-xl flex items-center justify-center bg-saffron/10 border border-saffron/25 shrink-0"
+                            aria-hidden="true"
+                        >
+                            <span className="font-data text-[11px] font-bold text-saffron">
+                                {airline?.code || '--'}
                             </span>
-                        </div>
-                        <div>
-                            <p className="font-bold text-xs" style={{ color: '#0f172a' }}>
-                                {airline?.name || airline?.code || 'Unknown'}
+                        </span>
+                        <div className="min-w-0">
+                            <p className="text-[13px] font-medium text-ivory truncate">
+                                {airline?.name || airline?.code || 'Unknown carrier'}
                             </p>
-                            <p className="text-[10px] font-medium" style={{ color: '#94a3b8' }}>
+                            <p className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-faint truncate">
                                 {airline?.code}{airline?.flight_number}
-                                {airline?.fare_class && <span> · {airline.fare_class}</span>}
+                                {airline?.fare_class && ` · ${airline.fare_class}`}
                             </p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 shrink-0">
                         {is_lcc && (
-                            <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[9px] font-black"
-                                style={{ background: 'rgba(6,182,212,0.1)', color: '#0891B2', border: '1px solid rgba(6,182,212,0.25)' }}>
-                                <Zap size={7} /> LCC
+                            <span className="agent-tag agent-tag-quiet px-2 py-0.5 text-[9px]">
+                                <Zap size={8} aria-hidden="true" /> LCC
                             </span>
                         )}
                         {is_refundable ? (
-                            <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[9px] font-black"
-                                style={{ background: 'rgba(16,185,129,0.1)', color: '#059669', border: '1px solid rgba(16,185,129,0.25)' }}>
-                                <CheckCircle size={7} /> Refundable
+                            <span className="agent-tag agent-tag-jade px-2 py-0.5 text-[9px]">
+                                <CheckCircle size={8} aria-hidden="true" /> Refundable
                             </span>
                         ) : (
-                            <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[9px] font-black"
-                                style={{ background: 'rgba(239,68,68,0.08)', color: '#DC2626', border: '1px solid rgba(239,68,68,0.2)' }}>
-                                <Ban size={7} /> Non-Ref
+                            <span className="agent-tag agent-tag-quiet px-2 py-0.5 text-[9px]">
+                                <Ban size={8} aria-hidden="true" /> Non-ref
                             </span>
                         )}
                     </div>
                 </div>
 
-                {/* Row 2: Times + Route */}
-                <div className="flex items-center justify-between mb-3.5">
+                {/* ── Route ── */}
+                <div className="flex items-center justify-between gap-2 mb-4">
                     {/* Departure */}
-                    <div className="text-left min-w-[64px]">
-                        <p className="font-black text-xl leading-none tabular-nums" style={{ color: '#0f172a' }}>{depTime}</p>
-                        <p className="font-bold text-xs mt-1" style={{ color: '#0EA5E9' }}>{origin?.airport_code}</p>
-                        {origin?.city_name && <p className="text-[9px] truncate max-w-[60px]" style={{ color: '#94a3b8' }}>{origin.city_name}</p>}
-                        {origin?.terminal && <p className="text-[9px]" style={{ color: '#94a3b8' }}>T{origin.terminal}</p>}
+                    <div className="text-left min-w-[62px]">
+                        <p className="font-data text-xl leading-none tabular-nums text-ivory">{depTime}</p>
+                        <p className="font-data text-[13px] font-bold tracking-[0.14em] text-saffron mt-1.5">
+                            {origin?.airport_code}
+                        </p>
+                        {origin?.city_name && (
+                            <p className="text-[9.5px] text-ivory-faint truncate max-w-[62px]">{origin.city_name}</p>
+                        )}
+                        {origin?.terminal && (
+                            <p className="font-data text-[9px] text-ivory-faint">T{origin.terminal}</p>
+                        )}
                     </div>
 
-                    {/* Middle */}
-                    <div className="flex flex-col items-center gap-1.5 flex-1 px-3">
-                        <div className="flex items-center gap-1 text-[10px] font-semibold" style={{ color: '#64748b' }}>
-                            <Clock size={9} />
-                            <span>{formatDuration(displayDuration)}</span>
+                    {/* Path */}
+                    <div className="flex flex-col items-center gap-1.5 flex-1 px-2">
+                        <span className="flex items-center gap-1 font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-muted">
+                            <Clock size={9} aria-hidden="true" />
+                            {formatDuration(displayDuration)}
+                        </span>
+                        <div className="flex items-center w-full gap-1.5" aria-hidden="true">
+                            <span className="route-dot shrink-0" />
+                            <span className="agent-route-static flex-1" />
+                            <Plane size={11} className="text-saffron shrink-0 rotate-45" />
+                            <span className="agent-route-static flex-1" />
+                            <span className="route-dot shrink-0" />
                         </div>
-                        <div className="flex items-center w-full gap-1.5">
-                            <div className="h-px flex-1 rounded-full" style={{ background: 'linear-gradient(90deg, rgba(14,165,233,0.15), rgba(14,165,233,0.4))' }} />
-                            <div className="w-5 h-5 rounded-full flex items-center justify-center shadow-sm"
-                                style={{ background: 'linear-gradient(135deg, #0EA5E9, #8B5CF6)', boxShadow: '0 2px 8px rgba(14,165,233,0.35)' }}>
-                                <Plane size={9} className="text-white" />
-                            </div>
-                            <div className="h-px flex-1 rounded-full" style={{ background: 'linear-gradient(90deg, rgba(14,165,233,0.4), rgba(139,92,246,0.15))' }} />
-                        </div>
-                        <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full"
-                            style={stop_count === 0
-                                ? { background: 'rgba(16,185,129,0.1)', color: '#059669', border: '1px solid rgba(16,185,129,0.2)' }
-                                : stop_count === 1
-                                    ? { background: 'rgba(245,158,11,0.1)', color: '#D97706', border: '1px solid rgba(245,158,11,0.2)' }
-                                    : { background: 'rgba(239,68,68,0.08)', color: '#DC2626', border: '1px solid rgba(239,68,68,0.15)' }
-                            }>
-                            {stop_count === 0 ? '✦ Direct' : `${stop_count} Stop${stop_count > 1 ? 's' : ''}`}
+                        <span
+                            className={`agent-tag px-2.5 py-0.5 text-[9px] ${stop_count === 0 ? 'agent-tag-jade' : 'agent-tag-quiet'
+                                }`}
+                        >
+                            {stop_count === 0 ? 'Direct' : `${stop_count} stop${stop_count > 1 ? 's' : ''}`}
                         </span>
                     </div>
 
                     {/* Arrival */}
-                    <div className="text-right min-w-[64px]">
-                        <div className="flex items-start justify-end gap-1">
-                            <p className="font-black text-xl leading-none tabular-nums" style={{ color: '#0f172a' }}>{arrTime}</p>
+                    <div className="text-right min-w-[62px]">
+                        <p className="font-data text-xl leading-none tabular-nums text-ivory">
+                            {arrTime}
                             {nextDay && (
-                                <span className="text-[8px] font-black mt-0.5 px-1 rounded"
-                                    style={{ background: 'rgba(245,158,11,0.12)', color: '#D97706' }}>+1</span>
+                                <span className="align-super ml-0.5 font-data text-[9px] text-saffron">+1</span>
                             )}
-                        </div>
-                        <p className="font-bold text-xs mt-1" style={{ color: '#8B5CF6' }}>{destination?.airport_code}</p>
-                        {destination?.city_name && <p className="text-[9px] truncate max-w-[60px] ml-auto" style={{ color: '#94a3b8' }}>{destination.city_name}</p>}
-                        {destination?.terminal && <p className="text-[9px]" style={{ color: '#94a3b8' }}>T{destination.terminal}</p>}
+                        </p>
+                        <p className="font-data text-[13px] font-bold tracking-[0.14em] text-saffron mt-1.5">
+                            {destination?.airport_code}
+                        </p>
+                        {destination?.city_name && (
+                            <p className="text-[9.5px] text-ivory-faint truncate max-w-[62px] ml-auto">
+                                {destination.city_name}
+                            </p>
+                        )}
+                        {destination?.terminal && (
+                            <p className="font-data text-[9px] text-ivory-faint">T{destination.terminal}</p>
+                        )}
                     </div>
                 </div>
 
-                {/* Row 3: Fare + Select */}
-                <div className="flex items-center justify-between pt-3 border-t"
-                    style={{ borderColor: 'rgba(14,165,233,0.08)' }}>
+                {/* ── Stub: fare + select ── */}
+                <div className="flex items-center justify-between gap-3 pt-3.5 border-t border-dashed border-white/[0.12]">
                     <div>
                         <div className="flex items-baseline gap-1.5">
-                            <p className="font-black text-lg leading-none" style={{ color: '#0f172a' }}>
+                            <p className="font-data text-lg font-semibold leading-none text-saffron tabular-nums">
                                 {formatFare(passengerCount > 1 ? fare?.offered_fare / passengerCount : fare?.offered_fare)}
                             </p>
-                            {passengerCount > 1 && <span className="text-[10px] font-medium" style={{ color: '#94a3b8' }}>/ person</span>}
+                            {passengerCount > 1 && (
+                                <span className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-faint">
+                                    / person
+                                </span>
+                            )}
                         </div>
                         {passengerCount > 1 && (
-                            <p className="text-[10px] font-medium mt-0.5" style={{ color: '#64748b' }}>
-                                Total: {formatFare(fare?.offered_fare)}
+                            <p className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-muted mt-1">
+                                Total {formatFare(fare?.offered_fare)}
                             </p>
                         )}
-                        <p className="text-[9px] font-medium mt-0.5" style={{ color: '#94a3b8' }}>
-                            {fare?.currency || 'INR'} · Taxes incl.
+                        <p className="font-data text-[9px] uppercase tracking-[0.14em] text-ivory-faint mt-0.5">
+                            {fare?.currency || 'INR'} · taxes incl.
                         </p>
                     </div>
 
-                    <motion.button
-                        whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }}
-                        className="px-5 py-2.5 rounded-xl text-white text-xs font-black shadow-lg transition-all"
-                        style={{
-                            background: 'linear-gradient(135deg, #0EA5E9, #8B5CF6)',
-                            boxShadow: '0 4px 16px rgba(14,165,233,0.35)',
-                        }}
+                    <button
+                        className="agent-btn-gold px-5 py-2.5 text-xs"
+                        aria-label={`Select ${airline?.name || 'flight'} ${airline?.code}${airline?.flight_number}, ${depTime} to ${arrTime}`}
                         onClick={() => {
                             console.log('Selected flight:', { result_index: flight.result_index, trace_id: traceId, fare: fare?.offered_fare, is_lcc });
-                            alert(`Flight Selected!\n\n${airline?.name} ${airline?.code}${airline?.flight_number}\n${depTime} → ${arrTime}\n${formatFare(fare?.offered_fare)}\n\nBooking flow coming soon!`);
-                        }}>
-                        Select ✈
-                    </motion.button>
+                            alert(`Flight selected\n\n${airline?.name} ${airline?.code}${airline?.flight_number}\n${depTime} → ${arrTime}\n${formatFare(fare?.offered_fare)}\n\nBooking flow coming soon.`);
+                        }}
+                    >
+                        Select
+                    </button>
                 </div>
             </div>
-        </motion.div>
+        </Motion.div>
     );
 };
 

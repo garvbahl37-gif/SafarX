@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, MapPin, Calendar, Lock, Globe } from 'lucide-react';
+import DateField from "../ui/DateField";
 
 const GroupCreationForm = ({ onClose, onSubmit }) => {
     const [formData, setFormData] = useState({
@@ -96,27 +97,22 @@ const GroupCreationForm = ({ onClose, onSubmit }) => {
                             {/* Dates */}
                             <div className="grid grid-cols-2 gap-4 p-4 rounded-2xl bg-ink-800 border border-white/[0.07]">
                                 <div className="space-y-2">
-                                    <label className="form-label flex items-center gap-1">
-                                        <Calendar size={12} className="text-saffron" /> Start Date
-                                    </label>
-                                    <input
-                                        type="date"
-                                        className="glass-input w-full text-xs font-bold cursor-pointer"
+                                    <DateField
+                                        id="group-start-date"
+                                        label="Start date"
                                         value={formData.startDate}
-                                        onChange={e => setFormData({ ...formData, startDate: e.target.value })}
-                                        onClick={(e) => e.target.showPicker && e.target.showPicker()}
+                                        onChange={(v) => setFormData({ ...formData, startDate: v })}
+                                        placeholder="Pick a date"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="form-label flex items-center gap-1">
-                                        <Calendar size={12} className="text-saffron opacity-50" /> End Date
-                                    </label>
-                                    <input
-                                        type="date"
-                                        className="glass-input w-full text-xs font-bold cursor-pointer"
+                                    <DateField
+                                        id="group-end-date"
+                                        label="End date"
                                         value={formData.endDate}
-                                        onChange={e => setFormData({ ...formData, endDate: e.target.value })}
-                                        onClick={(e) => e.target.showPicker && e.target.showPicker()}
+                                        min={formData.startDate || undefined}
+                                        onChange={(v) => setFormData({ ...formData, endDate: v })}
+                                        placeholder="Pick a date"
                                     />
                                 </div>
                             </div>

@@ -1,21 +1,26 @@
-import { motion } from 'framer-motion';
-import { Star, MapPin, Award } from 'lucide-react';
+import { motion as Motion } from 'framer-motion';
+import { Star, MapPin, Award, Coffee, ArrowRight } from 'lucide-react';
 
-const RatingBubbles = ({ rating }) => {
+const EASE = [0.22, 1, 0.36, 1];
+
+/* Five gold waypoints — the rating read as a route, not as stars */
+const RatingDots = ({ rating }) => {
     const filled = Math.floor(rating);
     const half = rating % 1 >= 0.5;
     return (
-        <div className="flex items-center gap-0.5">
+        <div className="flex items-center gap-0.5" aria-hidden="true">
             {[1, 2, 3, 4, 5].map((i) => (
-                <div
+                <span
                     key={i}
-                    className="w-2 h-2 rounded-full transition-all"
+                    className="w-1.5 h-1.5 rounded-full"
                     style={{
-                        background: i <= filled
-                            ? 'linear-gradient(135deg, #10B981, #34D399)'
-                            : i === filled + 1 && half
-                                ? 'rgba(16,185,129,0.45)'
-                                : 'rgba(0,0,0,0.08)',
+                        background:
+                            i <= filled
+                                ? '#D4A843'
+                                : i === filled + 1 && half
+                                    ? 'rgba(212,168,67,0.45)'
+                                    : 'rgba(242,239,230,0.16)',
+                        boxShadow: i <= filled ? '0 0 6px rgba(212,168,67,0.5)' : 'none',
                     }}
                 />
             ))}
@@ -23,164 +28,128 @@ const RatingBubbles = ({ rating }) => {
     );
 };
 
-const HotelCard = ({ hotel, checkIn, checkOut, adults, rooms, onClick }) => {
+const HotelCard = ({ hotel, onClick }) => {
     const isTravellersChoice = hotel.badge?.type === 'TRAVELLER_CHOICE';
     const isBestOfBest = hotel.badge?.type === 'BEST_OF_BEST';
+    const hasBreakfast = hotel.primaryInfo?.toLowerCase().includes('breakfast');
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 18 }}
+        <Motion.div
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            whileHover={{ scale: 1.015, y: -3 }}
-            transition={{ type: 'spring', damping: 22, stiffness: 280 }}
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3, ease: EASE }}
             onClick={() => onClick(hotel)}
-            className="relative rounded-2xl overflow-hidden cursor-pointer group"
-            style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(250,245,255,0.97) 100%)',
-                border: '1.5px solid rgba(255,255,255,0.9)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onClick(hotel);
+                }
             }}
+            role="button"
+            tabIndex={0}
+            aria-label={`View details for ${hotel.title}`}
+            className="agent-card relative rounded-2xl overflow-hidden cursor-pointer group"
         >
-            {/* Colored top accent */}
-            <div
-                className="absolute top-0 left-0 right-0 h-0.5 z-10"
-                style={{ background: 'linear-gradient(90deg, #8B5CF6, #EC4899, #F97316)' }}
-            />
-
-            {/* Hover glow overlay */}
-            <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none rounded-2xl"
-                style={{
-                    background: 'linear-gradient(135deg, rgba(139,92,246,0.04) 0%, rgba(236,72,153,0.03) 100%)',
-                    boxShadow: 'inset 0 0 0 1.5px rgba(139,92,246,0.2)',
-                }}
-            />
-
-            {/* Image */}
+            {/* ── Image with ink scrim ── */}
             <div className="relative h-44 overflow-hidden">
                 {hotel.thumbnail ? (
                     <img
                         src={hotel.thumbnail}
                         alt={hotel.title}
-                        className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-108"
-                        style={{ transition: 'transform 0.6s ease' }}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => { e.target.style.display = 'none'; }}
                     />
                 ) : (
-                    <div
-                        className="w-full h-full flex items-center justify-center"
-                        style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.1))' }}
-                    >
-                        <span className="text-sm font-medium" style={{ color: '#94a3b8' }}>No image</span>
+                    <div className="w-full h-full flex items-center justify-center bg-ink-900">
+                        <span className="font-data text-[10px] uppercase tracking-[0.2em] text-ivory-faint">
+                            No image
+                        </span>
                     </div>
                 )}
 
-                {/* Gradient overlay */}
-                <div className="absolute inset-0"
-                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)' }} />
+                {/* Ink scrim */}
+                <div
+                    className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/25 to-transparent"
+                    aria-hidden="true"
+                />
 
                 {/* Badges */}
                 <div className="absolute top-2.5 left-2.5 flex gap-1.5 flex-wrap z-10">
                     {isBestOfBest && (
-                        <motion.span
-                            initial={{ scale: 0 }} animate={{ scale: 1 }}
-                            className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black text-white"
-                            style={{ background: 'linear-gradient(135deg, #F59E0B, #D97706)', boxShadow: '0 2px 8px rgba(245,158,11,0.4)' }}
-                        >
-                            <Award size={9} /> Best of Best
-                        </motion.span>
+                        <span className="agent-tag agent-tag-gold px-2 py-0.5 text-[9px] backdrop-blur-sm">
+                            <Award size={9} aria-hidden="true" /> Best of best
+                        </span>
                     )}
                     {isTravellersChoice && (
-                        <motion.span
-                            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.05 }}
-                            className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black text-white"
-                            style={{ background: 'linear-gradient(135deg, #10B981, #059669)', boxShadow: '0 2px 8px rgba(16,185,129,0.4)' }}
-                        >
-                            <Star size={9} style={{ fill: '#fff' }} /> Travellers' Choice
-                        </motion.span>
+                        <span className="agent-tag agent-tag-gold px-2 py-0.5 text-[9px] backdrop-blur-sm">
+                            <Star size={9} className="fill-current" aria-hidden="true" /> Travellers' choice
+                        </span>
                     )}
-                    {hotel.primaryInfo?.toLowerCase().includes('breakfast') && (
-                        <span
-                            className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white"
-                            style={{ background: 'linear-gradient(135deg, #06B6D4, #0EA5E9)', boxShadow: '0 2px 8px rgba(14,165,233,0.3)' }}
-                        >
-                            🍳 Breakfast
+                    {hasBreakfast && (
+                        <span className="agent-tag agent-tag-jade px-2 py-0.5 text-[9px] backdrop-blur-sm">
+                            <Coffee size={9} aria-hidden="true" /> Breakfast
                         </span>
                     )}
                 </div>
 
-                {/* Rating pill */}
-                <div className="absolute bottom-2.5 right-2.5 z-10">
-                    <div
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl"
-                        style={{
-                            background: 'rgba(255,255,255,0.92)',
-                            backdropFilter: 'blur(8px)',
-                            border: '1px solid rgba(255,255,255,0.95)',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
-                        }}
-                    >
-                        <RatingBubbles rating={hotel.rating} />
-                        <span className="font-black text-xs" style={{ color: '#059669' }}>{hotel.rating}</span>
+                {/* Rating */}
+                {hotel.rating != null && (
+                    <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-ink-950/70 border border-white/[0.1] backdrop-blur-sm">
+                        <RatingDots rating={hotel.rating} />
+                        <span className="font-data text-[11px] font-semibold text-saffron tabular-nums">
+                            {hotel.rating}
+                        </span>
                     </div>
-                </div>
+                )}
             </div>
 
-            {/* Info */}
-            <div className="p-4 space-y-2.5">
+            {/* ── Info ── */}
+            <div className="p-4 space-y-3">
                 <div>
-                    <h3
-                        className="font-bold text-sm leading-tight line-clamp-1 transition-colors duration-200"
-                        style={{ color: '#0f172a' }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#7C3AED'}
-                        onMouseLeave={e => e.currentTarget.style.color = '#0f172a'}
-                    >
+                    <h3 className="font-display text-[15px] leading-snug text-ivory agent-clamp-1 group-hover:text-saffron-bright transition-colors">
                         {hotel.title}
                     </h3>
                     {hotel.secondaryInfo && (
-                        <div className="flex items-center gap-1 mt-1">
-                            <MapPin size={11} style={{ color: '#94a3b8', flexShrink: 0 }} />
-                            <span className="text-xs truncate" style={{ color: '#64748b' }}>
+                        <div className="flex items-center gap-1.5 mt-1.5">
+                            <MapPin size={11} className="text-ivory-faint shrink-0" aria-hidden="true" />
+                            <span className="text-[11.5px] truncate text-ivory-muted">
                                 {hotel.secondaryInfo}
                             </span>
                         </div>
                     )}
                 </div>
 
-                {/* Reviews + Provider */}
-                <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-medium" style={{ color: '#94a3b8' }}>
+                {/* Price + reviews */}
+                <div className="flex items-end justify-between gap-2 pt-3 border-t border-white/[0.07]">
+                    <div>
+                        {hotel.price?.displayPrice ? (
+                            <>
+                                <p className="font-data text-[9px] uppercase tracking-[0.16em] text-ivory-faint">
+                                    Per night
+                                </p>
+                                <p className="font-data text-base font-semibold text-saffron leading-none mt-1">
+                                    {hotel.price.displayPrice}
+                                </p>
+                            </>
+                        ) : (
+                            <p className="font-data text-[9.5px] uppercase tracking-[0.16em] text-ivory-faint">
+                                Rate on request
+                            </p>
+                        )}
+                    </div>
+
+                    <span className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-faint">
                         {hotel.reviewCount} reviews
                     </span>
-                    {hotel.provider && (
-                        <span
-                            className="text-[10px] px-2.5 py-0.5 rounded-full font-semibold"
-                            style={{
-                                background: 'rgba(139,92,246,0.08)',
-                                color: '#7C3AED',
-                                border: '1px solid rgba(139,92,246,0.18)',
-                            }}
-                        >
-                            via {hotel.provider}
-                        </span>
-                    )}
                 </div>
 
-                {/* View Details Button */}
-                <motion.div
-                    initial={{ opacity: 0, y: 4 }}
-                    whileHover={{ opacity: 1, y: 0 }}
-                    className="w-full py-2 rounded-xl text-xs font-bold text-center opacity-0 group-hover:opacity-100 transition-all duration-300"
-                    style={{
-                        background: 'linear-gradient(135deg, rgba(139,92,246,0.12), rgba(236,72,153,0.08))',
-                        border: '1.5px solid rgba(139,92,246,0.25)',
-                        color: '#7C3AED',
-                    }}
-                >
-                    View Details →
-                </motion.div>
+                {/* Reveal-on-hover CTA */}
+                <span className="flex items-center gap-1.5 font-data text-[10px] uppercase tracking-[0.18em] text-saffron opacity-0 group-hover:opacity-100 transition-opacity">
+                    View details <ArrowRight size={11} aria-hidden="true" />
+                </span>
             </div>
-        </motion.div>
+        </Motion.div>
     );
 };
 

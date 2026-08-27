@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
+import DateField from "../ui/DateField";
 
 const GroupSearchFilters = ({ filters, onChange, onClose }) => {
     return (
@@ -45,12 +46,11 @@ const GroupSearchFilters = ({ filters, onChange, onClose }) => {
                 {/* Dates */}
                 <div className="space-y-1">
                     <label className="text-[11px] font-medium text-white/40 uppercase tracking-wide">Start Date</label>
-                    <input
-                        type="date"
+                    <DateField
+                        id="filter-startDate"
                         value={filters.startDate}
-                        onChange={(e) => onChange({ startDate: e.target.value })}
-                        onClick={(e) => e.target.showPicker && e.target.showPicker()}
-                        className="w-full bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-cyan-500/50 outline-none transition-all font-light"
+                        onChange={(v) => onChange({ startDate: v })}
+                        placeholder="Any date"
                     />
                 </div>
 

@@ -16,7 +16,9 @@ function countdownCopy(startDate) {
   return { value: String(Math.abs(d)), label: "days since departure" };
 }
 
-const StatTile = ({ icon: Icon, value, label, hint, accent = false }) => (
+const StatTile = ({ icon, value, label, hint, accent = false }) => {
+  const Icon = icon;
+  return (
   <div
     className={`rounded-xl border px-3 py-3 ${
       accent ? "border-saffron/30 bg-saffron/[0.07]" : "border-white/[0.07] bg-white/[0.02]"
@@ -29,7 +31,8 @@ const StatTile = ({ icon: Icon, value, label, hint, accent = false }) => (
     <p className={`mt-1.5 font-data text-xl ${accent ? "text-saffron" : "text-ivory"}`}>{value}</p>
     {hint && <p className="mt-0.5 text-[11px] leading-snug text-ivory-faint">{hint}</p>}
   </div>
-);
+  );
+};
 
 /**
  * Trip readiness at a glance: overall packed %, a separate critical-items

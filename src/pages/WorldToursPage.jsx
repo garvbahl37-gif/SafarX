@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
     X,
+    AlertCircle,
     Globe,
     Navigation2,
     ArrowLeft,
@@ -31,6 +32,7 @@ const MODES = [
 ];
 
 const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
+    const reduce = useReducedMotion();
     const [activeTab, setActiveTab] = useState("tours");
     const [step, setStep] = useState(1);
     const [place, setPlace] = useState(null);
@@ -93,11 +95,11 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                 setPlace(result);
                 setStep(2);
             } else {
-                setError("Location not found. Try a different search.");
+                setError("We couldn't find that place. Try adding the city — for example, “Hampi, Karnataka”.");
             }
         } catch (err) {
             console.error("Search error:", err);
-            setError("Search failed. Please check your connection.");
+            setError("The search didn't go through. Check your connection and try again.");
         } finally {
             setIsLoading(false);
         }
@@ -119,27 +121,16 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
     // ─────────────────────────────────────────────────────────────────
     if (activeTab === "streetview" && step === 2 && place) {
         return (
-            <motion.div
+            <Motion.div
                 key="immersive"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.015 }}
+                animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.5, ease: EASE }}
                 className="fixed inset-0 z-[999] bg-ink-950"
             >
-                {/* Floating back button */}
-                <div className="absolute top-4 left-4 z-[1001] pointer-events-auto">
-                    <button
-                        onClick={reset}
-                        className="flex items-center gap-2 bg-ink-950/70 hover:bg-ink-900 backdrop-blur-md text-ivory px-4 py-2.5 rounded-full border border-white/15 hover:border-saffron/40 shadow-lg transition-colors duration-200"
-                    >
-                        <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-                        <span className="text-sm font-semibold tracking-wide">Back to search</span>
-                    </button>
-                </div>
-
                 <VRScene place={place} onBack={reset} />
-            </motion.div>
+            </Motion.div>
         );
     }
 
@@ -149,7 +140,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
     const tourPlayer = (
         <AnimatePresence>
             {activeTour && (
-                <motion.div
+                <Motion.div
                     key={`player-${activeTour.id}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -244,7 +235,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                             </div>
                         </div>
                     </div>
-                </motion.div>
+                </Motion.div>
             )}
         </AnimatePresence>
     );
@@ -258,53 +249,68 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
 
             {/* ── Mode switcher ── */}
             <div className="fixed top-24 inset-x-0 z-[80] flex justify-center pointer-events-none px-4">
-                <div className="pointer-events-auto inline-flex items-center bg-ink-900/85 backdrop-blur-xl rounded-full p-1.5 border border-white/[0.09] shadow-2xl gap-1">
-                    {MODES.map((mode) => (
-                        <button
-                            key={mode.id}
-                            onClick={() => switchMode(mode.id)}
-                            aria-pressed={activeTab === mode.id}
-                            className={`inline-flex items-center gap-2 px-4 md:px-5 py-2.5 rounded-full font-data text-[11px] md:text-xs font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-300 ${
-                                activeTab === mode.id
-                                    ? "bg-saffron text-ink-950"
-                                    : "text-ivory-muted hover:text-ivory hover:bg-white/5"
-                            }`}
-                        >
-                            <mode.icon className="w-4 h-4 shrink-0" aria-hidden="true" />
-                            {mode.label}
-                        </button>
-                    ))}
+                <div
+                    className="pointer-events-auto inline-flex items-center gap-1 rounded-full border border-white/[0.09] bg-ink-950/85 p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
+                    role="group"
+                    aria-label="Choose a viewing mode"
+                >
+                    {MODES.map((mode) => {
+                        const isActive = activeTab === mode.id;
+                        return (
+                            <button
+                                key={mode.id}
+                                onClick={() => switchMode(mode.id)}
+                                aria-pressed={isActive}
+                                className={`relative inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 font-data text-[11px] font-medium uppercase tracking-[0.14em] transition-colors duration-300 md:px-5 md:text-xs ${
+                                    isActive
+                                        ? "text-ink-950"
+                                        : "text-ivory-muted hover:bg-white/[0.06] hover:text-ivory"
+                                }`}
+                            >
+                                {isActive && (
+                                    <Motion.span
+                                        layoutId="mode-capsule"
+                                        transition={{ duration: 0.4, ease: EASE }}
+                                        className="absolute inset-0 rounded-full bg-gradient-to-br from-saffron-bright to-saffron shadow-[0_4px_16px_rgba(212,168,67,0.4)]"
+                                        aria-hidden="true"
+                                    />
+                                )}
+                                <mode.icon className="relative z-10 h-4 w-4 shrink-0" aria-hidden="true" />
+                                <span className="relative z-10">{mode.label}</span>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 
             {/* ── Error toast ── */}
             <AnimatePresence>
                 {error && (
-                    <motion.div
+                    <Motion.div
                         initial={{ opacity: 0, y: -12 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -12 }}
-                        className="fixed top-40 left-1/2 -translate-x-1/2 z-[200] bg-ink-900/95 border border-red-400/30 backdrop-blur-xl rounded-2xl px-5 py-3 flex items-center gap-3 shadow-2xl"
+                        className="fixed top-40 left-1/2 z-[200] flex -translate-x-1/2 items-center gap-3 rounded-2xl border border-saffron/30 bg-ink-900/95 px-5 py-3 shadow-2xl backdrop-blur-xl"
                         role="alert"
                     >
-                        <X className="w-4 h-4 text-red-400 shrink-0" aria-hidden="true" />
-                        <p className="text-sm text-red-300 whitespace-nowrap">{error}</p>
-                        <button onClick={() => setError(null)} aria-label="Dismiss error">
+                        <AlertCircle className="w-4 h-4 text-saffron shrink-0" aria-hidden="true" />
+                        <p className="text-sm text-ivory-muted">{error}</p>
+                        <button onClick={() => setError(null)} aria-label="Dismiss message">
                             <X className="w-3 h-3 text-ivory-faint hover:text-ivory transition-colors" aria-hidden="true" />
                         </button>
-                    </motion.div>
+                    </Motion.div>
                 )}
             </AnimatePresence>
 
             {/* ── Tab content ── */}
             <AnimatePresence mode="wait">
                 {activeTab === "tours" ? (
-                    <motion.div
+                    <Motion.div
                         key="tours"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.35 }}
+                        transition={{ duration: 0.4, ease: EASE }}
                         className="w-full min-h-screen"
                     >
                         {/* Gallery */}
@@ -351,7 +357,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                 {visibleTours.length > 0 ? (
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                                         {visibleTours.map((tour, i) => (
-                                            <motion.button
+                                            <Motion.button
                                                 key={tour.id}
                                                 initial={{ opacity: 0, y: 28 }}
                                                 whileInView={{ opacity: 1, y: 0 }}
@@ -406,7 +412,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </motion.button>
+                                            </Motion.button>
                                         ))}
                                     </div>
                                 ) : (
@@ -432,7 +438,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                     className="mb-10"
                                 />
                                 <div className="grid sm:grid-cols-2 gap-5 max-w-3xl">
-                                    <motion.button
+                                    <Motion.button
                                         initial={{ opacity: 0, y: 24 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -452,8 +458,8 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                         <span className="block text-[13px] text-ivory-muted leading-snug">
                                             Stand at any address or landmark and look around at street level.
                                         </span>
-                                    </motion.button>
-                                    <motion.button
+                                    </Motion.button>
+                                    <Motion.button
                                         initial={{ opacity: 0, y: 24 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
@@ -473,42 +479,33 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                         <span className="block text-[13px] text-ivory-muted leading-snug">
                                             Sweep over forts, ghats, and coastlines from a satellite's seat.
                                         </span>
-                                    </motion.button>
+                                    </Motion.button>
                                 </div>
                             </div>
                         </section>
-                    </motion.div>
+                    </Motion.div>
                 ) : activeTab === "streetview" ? (
-                    <motion.div
+                    <Motion.div
                         key="search"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.35 }}
-                        className="w-full min-h-screen"
-                    >
-                        <SearchBar
-                            onSearch={handleSearch}
-                            isLoading={isLoading}
-                            activeTab={activeTab}
-                            onTabChange={setActiveTab}
-                        />
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        key="earth"
-                        initial={{ opacity: 0, y: 16 }}
+                        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 16 }}
-                        transition={{ duration: 0.35 }}
+                        exit={reduce ? { opacity: 0 } : { opacity: 0, y: -14 }}
+                        transition={{ duration: 0.45, ease: EASE }}
                         className="w-full min-h-screen"
                     >
-                        <GoogleEarthExplorer
-                            activeTab={activeTab}
-                            onTabChange={setActiveTab}
-                            onBack={() => setActiveTab("streetview")}
-                        />
-                    </motion.div>
+                        <SearchBar onSearch={handleSearch} isLoading={isLoading} />
+                    </Motion.div>
+                ) : (
+                    <Motion.div
+                        key="earth"
+                        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={reduce ? { opacity: 0 } : { opacity: 0, y: -16 }}
+                        transition={{ duration: 0.45, ease: EASE }}
+                        className="w-full min-h-screen"
+                    >
+                        <GoogleEarthExplorer onBack={() => switchMode("streetview")} />
+                    </Motion.div>
                 )}
             </AnimatePresence>
         </div>

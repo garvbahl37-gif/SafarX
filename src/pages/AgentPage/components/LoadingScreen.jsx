@@ -1,452 +1,224 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { Plane, Hotel, MessageSquare } from 'lucide-react';
+import { Plane } from 'lucide-react';
 
-/* ─── Animated Counter ─── */
-const Counter = ({ target, delay = 0 }) => {
-    const [value, setValue] = useState(0);
+/**
+ * Agent boot screen.
+ *
+ * Deliberately lighter than the main app's cinematic four-act film — that
+ * already played on the way in. This is a short handoff: the SafarX wordmark,
+ * a flight path drawing itself across the frame, and a font-data status line.
+ */
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            const duration = 1400;
-            const steps = 60;
-            const increment = target / steps;
-            let step = 0;
-            const interval = setInterval(() => {
-                step++;
-                const current = Math.min(Math.round(increment * step), target);
-                setValue(current);
-                if (step >= steps) clearInterval(interval);
-            }, duration / steps);
-            return () => clearInterval(interval);
-        }, delay);
-        return () => clearTimeout(timer);
-    }, [target, delay]);
+const RUN_MS = 1400;
+const EASE = [0.22, 1, 0.36, 1];
 
-    return <span className="tabular-nums">{value.toLocaleString()}+</span>;
-};
+/* Waypoints that ignite across the frame while the route draws */
+const WAYPOINTS = [
+    { x: '16%', y: '32%', d: 0.1 },
+    { x: '38%', y: '62%', d: 0.24 },
+    { x: '62%', y: '28%', d: 0.38 },
+    { x: '84%', y: '58%', d: 0.52 },
+];
 
-/* ─── Logo Mark ─── */
-const LogoMark = () => (
-    <motion.div
-        animate={{
-            boxShadow: [
-                '0 0 0 0px rgba(14,165,233,0)',
-                '0 0 0 14px rgba(14,165,233,0.06)',
-                '0 0 0 0px rgba(14,165,233,0)',
-            ],
-        }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-        className="flex items-center justify-center rounded-2xl"
-        style={{
-            width: 60,
-            height: 60,
-            background: 'linear-gradient(135deg,#0EA5E9,#8B5CF6)',
-            boxShadow: '0 8px 28px rgba(14,165,233,0.35)',
-        }}
-    >
-        <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        >
-            <Plane size={26} className="text-white" />
-        </motion.div>
-    </motion.div>
-);
+const PHASES = [
+    'Waking the agent',
+    'Loading India routes',
+    'Fares · stays · seasons',
+    'Ready for take-off',
+];
 
-/* ─── Feature Pill ─── */
-const FeaturePill = ({ icon: Icon, label, color, delay }) => (
-    <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-        className="flex flex-col items-center gap-1.5"
-    >
-        <div
-            className="flex items-center justify-center rounded-xl"
-            style={{
-                width: 40,
-                height: 40,
-                background: `${color}12`,
-                border: `1px solid ${color}22`,
-            }}
-        >
-            <Icon size={17} style={{ color }} />
-        </div>
-        <span
-            className="text-[10px] font-semibold tracking-wide"
-            style={{ color: '#94a3b8' }}
-        >
-            {label}
-        </span>
-    </motion.div>
-);
-
-/* ─── Floating Particle (lightweight) ─── */
-const Particle = ({ x, y, size, color, duration, delay }) => (
-    <motion.div
-        className="absolute rounded-full pointer-events-none"
-        style={{ left: x, top: y, width: size, height: size, background: color }}
-        animate={{ y: [0, -18, 0], opacity: [0.25, 0.6, 0.25] }}
-        transition={{ duration, delay, repeat: Infinity, ease: 'easeInOut' }}
-    />
-);
-
-/* ─── Soft Wave (SVG, GPU-only transform) ─── */
-const SoftWave = ({ color, opacity, duration, delay, yOffset }) => (
-    <motion.div
-        className="absolute left-0 right-0 pointer-events-none"
-        style={{ bottom: yOffset }}
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration, delay, repeat: Infinity, ease: 'easeInOut' }}
-    >
-        <svg
-            viewBox="0 0 800 80"
-            preserveAspectRatio="none"
-            style={{ width: '100%', height: 80, opacity, display: 'block' }}
-        >
-            <path
-                d="M0,40 C150,80 350,0 500,40 C650,80 750,20 800,40 L800,80 L0,80 Z"
-                fill={color}
-            />
-        </svg>
-    </motion.div>
-);
-
-/* ─── Main Loading Screen ─── */
 const AILoadingScreen = ({ onComplete }) => {
+    const reduce = useReducedMotion();
     const [progress, setProgress] = useState(0);
-    const [phase, setPhase] = useState(0);
-    const [done, setDone] = useState(false);
-
-    const phases = [
-        { label: 'Initialising systems', color: '#0EA5E9' },
-        { label: 'Loading destinations', color: '#8B5CF6' },
-        { label: 'Preparing AI companion', color: '#EC4899' },
-        { label: 'Ready for take‑off', color: '#10B981' },
-    ];
-
-    const stats = [
-        { value: 190, label: 'Countries', color: '#0EA5E9', delay: 600 },
-        { value: 5000, label: 'Destinations', color: '#8B5CF6', delay: 800 },
-        { value: 1200, label: 'Airlines', color: '#EC4899', delay: 1000 },
-    ];
-
-    const features = [
-        { icon: MessageSquare, label: 'AI Support', color: '#0EA5E9', delay: 0.6 },
-        { icon: Hotel, label: 'Hotel', color: '#8B5CF6', delay: 0.7 },
-        { icon: Plane, label: 'Flight', color: '#EC4899', delay: 0.8 },
-    ];
-
-    /* small particles — only 6, cheap to animate */
-    const particles = [
-        { x: '10%', y: '18%', size: 5, color: 'rgba(14,165,233,0.45)', duration: 5, delay: 0 },
-        { x: '85%', y: '14%', size: 4, color: 'rgba(139,92,246,0.45)', duration: 6.5, delay: 0.8 },
-        { x: '7%', y: '72%', size: 4, color: 'rgba(236,72,153,0.4)', duration: 7, delay: 1.2 },
-        { x: '88%', y: '68%', size: 5, color: 'rgba(249,115,22,0.4)', duration: 5.5, delay: 0.4 },
-        { x: '48%', y: '8%', size: 3, color: 'rgba(16,185,129,0.45)', duration: 6, delay: 1.6 },
-        { x: '70%', y: '85%', size: 4, color: 'rgba(14,165,233,0.4)', duration: 4.5, delay: 0.6 },
-    ];
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setProgress(prev => {
-                if (prev >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        setDone(true);
-                        setTimeout(() => onComplete?.(), 600);
-                    }, 300);
-                    return 100;
-                }
-                return prev + 1;
-            });
-        }, 32);
-        return () => clearInterval(interval);
+        const started = Date.now();
+        const tick = setInterval(() => {
+            const pct = Math.min(((Date.now() - started) / RUN_MS) * 100, 100);
+            setProgress(pct);
+            if (pct >= 100) {
+                clearInterval(tick);
+                onComplete?.();
+            }
+        }, 30);
+        return () => clearInterval(tick);
     }, [onComplete]);
 
-    useEffect(() => {
-        if (progress < 25) setPhase(0);
-        else if (progress < 55) setPhase(1);
-        else if (progress < 82) setPhase(2);
-        else setPhase(3);
-    }, [progress]);
+    const phase =
+        progress < 25 ? 0 : progress < 55 ? 1 : progress < 88 ? 2 : 3;
 
     return (
-        <AnimatePresence>
-            {!done && (
-                <motion.div
-                    key="loader"
-                    initial={{ opacity: 1 }}
-                    exit={{ opacity: 0, scale: 1.03 }}
-                    transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-                    className="fixed inset-0 z-[99999] flex items-center justify-center overflow-hidden"
+        <Motion.div
+            initial={{ opacity: 1 }}
+            exit={{
+                opacity: 0,
+                scale: 1.04,
+                filter: 'blur(12px)',
+                transition: { duration: 0.55, ease: EASE },
+            }}
+            className="fixed inset-0 z-[99999] flex flex-col items-center justify-center
+                       overflow-hidden bg-ink-950 text-ivory film-grain vignette"
+            role="status"
+            aria-label="Loading the SafarX Agent"
+        >
+            {/* Contour grid */}
+            <div className="agent-grid absolute inset-0 opacity-60" aria-hidden="true" />
+
+            {/* Horizon glow */}
+            <div
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                aria-hidden="true"
+            >
+                <Motion.div
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={{ opacity: 0.85, scale: 1 }}
+                    transition={{ duration: 1.2, ease: 'easeOut' }}
+                    className="w-[620px] h-[620px] rounded-full"
                     style={{
-                        background: 'linear-gradient(145deg,#f0f9ff 0%,#faf5ff 50%,#fff7ed 100%)',
+                        background:
+                            'radial-gradient(circle, rgba(212,168,67,0.14) 0%, rgba(46,139,116,0.06) 45%, transparent 70%)',
                     }}
+                />
+            </div>
+
+            {/* Waypoints igniting */}
+            {!reduce &&
+                WAYPOINTS.map((w, i) => (
+                    <Motion.span
+                        key={i}
+                        initial={{ opacity: 0, scale: 0, x: '-50%', y: '-50%' }}
+                        animate={{ opacity: [0, 1, 0.32], scale: [0, 1.5, 1], x: '-50%', y: '-50%' }}
+                        transition={{ duration: 1.1, delay: w.d, ease: EASE }}
+                        style={{ left: w.x, top: w.y }}
+                        className="route-dot absolute"
+                        aria-hidden="true"
+                    />
+                ))}
+
+            {/* ── Wordmark block ── */}
+            <div className="relative z-10 flex flex-col items-center px-6">
+                <Motion.span
+                    initial={{ opacity: 0, letterSpacing: '0.6em' }}
+                    animate={{ opacity: 1, letterSpacing: '0.32em' }}
+                    transition={{ duration: 0.7, ease: EASE }}
+                    className="eyebrow-muted mb-6"
                 >
+                    SafarX Agent
+                </Motion.span>
 
-                    {/* ── 3 ambient blobs (opacity + scale only — no position change) ── */}
-                    <motion.div
-                        className="absolute rounded-full pointer-events-none"
-                        animate={{ scale: [1, 1.12, 1], opacity: [0.55, 0.8, 0.55] }}
-                        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-                        style={{
-                            width: 420, height: 420,
-                            top: '-15%', left: '-12%',
-                            background: 'radial-gradient(circle,rgba(14,165,233,0.13) 0%,transparent 70%)',
-                        }}
-                    />
-                    <motion.div
-                        className="absolute rounded-full pointer-events-none"
-                        animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.75, 0.5] }}
-                        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                        style={{
-                            width: 360, height: 360,
-                            top: '-8%', right: '-10%',
-                            background: 'radial-gradient(circle,rgba(139,92,246,0.11) 0%,transparent 70%)',
-                        }}
-                    />
-                    <motion.div
-                        className="absolute rounded-full pointer-events-none"
-                        animate={{ scale: [1, 1.08, 1], opacity: [0.45, 0.7, 0.45] }}
-                        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-                        style={{
-                            width: 320, height: 320,
-                            bottom: '-10%', left: '8%',
-                            background: 'radial-gradient(circle,rgba(236,72,153,0.09) 0%,transparent 70%)',
-                        }}
-                    />
-
-                    {/* ── Subtle grid ── */}
-                    <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                            backgroundImage:
-                                'linear-gradient(rgba(14,165,233,0.028) 1px,transparent 1px),' +
-                                'linear-gradient(90deg,rgba(14,165,233,0.028) 1px,transparent 1px)',
-                            backgroundSize: '60px 60px',
-                        }}
-                    />
-
-                    {/* ── Soft waves at bottom ── */}
-                    <SoftWave
-                        color="rgba(14,165,233,0.06)"
-                        opacity={1}
-                        duration={8}
-                        delay={0}
-                        yOffset={0}
-                    />
-                    <SoftWave
-                        color="rgba(139,92,246,0.05)"
-                        opacity={1}
-                        duration={10}
-                        delay={1.5}
-                        yOffset={20}
-                    />
-
-                    {/* ── Light particles ── */}
-                    {particles.map((p, i) => (
-                        <Particle key={i} {...p} />
+                <div className="flex items-baseline gap-1">
+                    {'Safar'.split('').map((letter, i) => (
+                        <Motion.span
+                            key={i}
+                            initial={{ opacity: 0, y: '0.5em', filter: 'blur(8px)' }}
+                            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                            transition={{ duration: 0.5, delay: 0.06 + i * 0.05, ease: EASE }}
+                            className="font-display italic font-medium leading-none tracking-tight
+                                       text-[clamp(2.6rem,9vw,4.6rem)] inline-block"
+                        >
+                            {letter}
+                        </Motion.span>
                     ))}
-
-                    {/* ── Card ── */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 28, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-                        className="relative z-10 flex flex-col items-center"
-                        style={{
-                            width: 340,
-                            padding: '40px 32px 36px',
-                            background: 'rgba(255,255,255,0.88)',
-                            border: '1px solid rgba(255,255,255,0.95)',
-                            borderRadius: 28,
-                            boxShadow:
-                                '0 24px 64px rgba(0,0,0,0.08),' +
-                                '0 6px 20px rgba(14,165,233,0.09),' +
-                                'inset 0 1px 0 rgba(255,255,255,1)',
-                            backdropFilter: 'blur(20px)',
+                    <Motion.span
+                        initial={{ opacity: 0, scale: 0.5, filter: 'blur(10px)' }}
+                        animate={{
+                            opacity: 1,
+                            scale: 1,
+                            filter: 'blur(0px)',
+                            textShadow: [
+                                '0 0 0px rgba(212,168,67,0)',
+                                '0 0 40px rgba(212,168,67,0.9)',
+                                '0 0 16px rgba(212,168,67,0.45)',
+                            ],
                         }}
+                        transition={{ duration: 0.6, delay: 0.3, ease: [0.34, 1.4, 0.64, 1] }}
+                        className="font-data font-bold text-saffron leading-none
+                                   text-[clamp(2.2rem,7.5vw,3.8rem)] inline-block ml-1"
                     >
-                        {/* Rainbow top line */}
-                        <div
-                            className="absolute top-0 left-6 right-6 h-px rounded-full"
+                        X
+                    </Motion.span>
+                </div>
+
+                {/* ── Route-line progress ── */}
+                <div className="mt-10 w-[min(20rem,72vw)]" aria-hidden="true">
+                    <div className="relative h-4 flex items-center">
+                        {/* Dashed path */}
+                        <span className="route-line absolute inset-x-0" />
+
+                        {/* Drawn-so-far path in gold */}
+                        <span
+                            className="absolute left-0 h-px"
                             style={{
+                                width: `${progress}%`,
                                 background:
-                                    'linear-gradient(90deg,#0EA5E9,#8B5CF6,#EC4899,#F97316,#10B981)',
-                                opacity: 0.75,
+                                    'linear-gradient(90deg, rgba(166,126,43,0.4), rgba(229,190,92,0.95))',
                             }}
                         />
 
-                        {/* Logo */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                        {/* Origin waypoint */}
+                        <span className="route-dot absolute left-0 -translate-x-1/2" />
+
+                        {/* The aircraft riding the path */}
+                        <span
+                            className="absolute -translate-x-1/2 text-saffron"
+                            style={{ left: `${progress}%`, transition: 'left 0.12s linear' }}
                         >
-                            <LogoMark />
-                        </motion.div>
+                            <Plane size={13} className="rotate-45" />
+                        </span>
 
-                        {/* Brand */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="mt-5 text-center"
-                        >
-                            <h1
-                                className="font-black text-3xl tracking-tight leading-none"
-                                style={{ color: '#0f172a' }}
-                            >
-                                Safar
-                                <span
-                                    style={{
-                                        background: 'linear-gradient(135deg,#0EA5E9,#8B5CF6)',
-                                        WebkitBackgroundClip: 'text',
-                                        WebkitTextFillColor: 'transparent',
-                                    }}
-                                >
-                                    X
-                                </span>
-                            </h1>
-                            <p
-                                className="text-[10px] font-bold uppercase tracking-[0.2em] mt-1.5"
-                                style={{ color: '#94a3b8' }}
-                            >
-                                AI Travel Companion
-                            </p>
-                        </motion.div>
-
-                        {/* Progress bar + phase */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="w-full mt-8 space-y-2.5"
-                        >
-                            {/* Phase label */}
-                            <div className="flex items-center gap-2">
-                                <motion.div
-                                    animate={{ opacity: [1, 0.2, 1] }}
-                                    transition={{ duration: 1, repeat: Infinity }}
-                                    className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                                    style={{ background: phases[phase].color }}
-                                />
-                                <AnimatePresence mode="wait">
-                                    <motion.span
-                                        key={phase}
-                                        initial={{ opacity: 0, x: -6 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 6 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="text-xs font-semibold"
-                                        style={{ color: '#64748b' }}
-                                    >
-                                        {phases[phase].label}
-                                    </motion.span>
-                                </AnimatePresence>
-                            </div>
-
-                            {/* Bar */}
-                            <div
-                                className="w-full h-1.5 rounded-full overflow-hidden"
-                                style={{ background: 'rgba(14,165,233,0.07)' }}
-                            >
-                                <motion.div
-                                    className="h-full rounded-full relative overflow-hidden"
-                                    style={{
-                                        width: `${progress}%`,
-                                        background: `linear-gradient(90deg,${phases[phase].color},${phases[Math.min(phase + 1, 3)].color
-                                            })`,
-                                        transition: 'width 0.1s ease, background 0.5s ease',
-                                    }}
-                                >
-                                    <motion.div
-                                        className="absolute inset-0"
-                                        animate={{ x: ['-100%', '200%'] }}
-                                        transition={{ duration: 1.4, repeat: Infinity, ease: 'linear' }}
-                                        style={{
-                                            background:
-                                                'linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent)',
-                                        }}
-                                    />
-                                </motion.div>
-                            </div>
-
-                            {/* Phase step indicators */}
-                            <div className="flex gap-1.5">
-                                {phases.map((p, i) => (
-                                    <motion.div
-                                        key={i}
-                                        className="flex-1 h-0.5 rounded-full"
-                                        animate={{ opacity: i <= phase ? 1 : 0.2 }}
-                                        transition={{ duration: 0.4 }}
-                                        style={{ background: i <= phase ? p.color : '#e2e8f0' }}
-                                    />
-                                ))}
-                            </div>
-                        </motion.div>
-
-                        {/* Divider */}
-                        <motion.div
-                            initial={{ opacity: 0, scaleX: 0 }}
-                            animate={{ opacity: 1, scaleX: 1 }}
-                            transition={{ delay: 0.5, duration: 0.5 }}
-                            className="w-full h-px my-6"
+                        {/* Destination waypoint */}
+                        <span
+                            className="absolute right-0 translate-x-1/2 w-[5px] h-[5px] rounded-full"
                             style={{
-                                background:
-                                    'linear-gradient(90deg,transparent,rgba(14,165,233,0.15),rgba(139,92,246,0.15),transparent)',
+                                background: progress >= 99 ? '#D4A843' : 'rgba(242,239,230,0.2)',
+                                boxShadow:
+                                    progress >= 99 ? '0 0 10px rgba(212,168,67,0.7)' : 'none',
                             }}
                         />
+                    </div>
 
-                        {/* Stats */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.55 }}
-                            className="flex items-center justify-between w-full mb-6"
-                        >
-                            {stats.map((s) => (
-                                <div key={s.label} className="flex flex-col items-center gap-0.5">
-                                    <span
-                                        className="font-black text-lg leading-none"
-                                        style={{ color: s.color }}
-                                    >
-                                        <Counter target={s.value} delay={s.delay} />
-                                    </span>
-                                    <span
-                                        className="text-[10px] font-semibold uppercase tracking-wider"
-                                        style={{ color: '#94a3b8' }}
-                                    >
-                                        {s.label}
-                                    </span>
-                                </div>
-                            ))}
-                        </motion.div>
+                    {/* Status row */}
+                    <div className="mt-5 flex items-center justify-between gap-4">
+                        <AnimatePresence mode="wait">
+                            <Motion.span
+                                key={phase}
+                                initial={{ opacity: 0, y: 4 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -4 }}
+                                transition={{ duration: 0.2 }}
+                                className="font-data text-[10px] uppercase tracking-[0.22em] text-ivory-faint"
+                            >
+                                {PHASES[phase]}
+                            </Motion.span>
+                        </AnimatePresence>
+                        <span className="font-data text-[11px] tabular-nums text-saffron/80">
+                            {Math.round(progress)}%
+                        </span>
+                    </div>
+                </div>
+            </div>
 
-                        {/* Divider */}
-                        <motion.div
-                            initial={{ opacity: 0, scaleX: 0 }}
-                            animate={{ opacity: 1, scaleX: 1 }}
-                            transition={{ delay: 0.58, duration: 0.5 }}
-                            className="w-full h-px mb-6"
-                            style={{
-                                background:
-                                    'linear-gradient(90deg,transparent,rgba(139,92,246,0.15),rgba(236,72,153,0.15),transparent)',
-                            }}
-                        />
-
-                        {/* Feature pills */}
-                        <div className="flex items-center justify-center gap-8 w-full">
-                            {features.map((f) => (
-                                <FeaturePill key={f.label} {...f} />
-                            ))}
-                        </div>
-                    </motion.div>
-                </motion.div>
+            {/* Film framing marks */}
+            {!reduce && (
+                <Motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.25 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="absolute inset-6 md:inset-10 pointer-events-none"
+                    aria-hidden="true"
+                >
+                    {[
+                        'top-0 left-0 border-l border-t',
+                        'top-0 right-0 border-r border-t',
+                        'bottom-0 left-0 border-l border-b',
+                        'bottom-0 right-0 border-r border-b',
+                    ].map((pos, i) => (
+                        <span key={i} className={`absolute ${pos} w-6 h-6 border-saffron/60`} />
+                    ))}
+                </Motion.div>
             )}
-        </AnimatePresence>
+        </Motion.div>
     );
 };
 

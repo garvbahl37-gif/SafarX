@@ -13,7 +13,8 @@ import {
   Clock,
   ChevronLeft,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion";
+import { CompassLoader } from "../components/VirtualTour/ImmersiveChrome";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -134,7 +135,7 @@ const TourPage360 = ({ onPageChange }) => {
         </div>
 
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: EASE }}
@@ -158,7 +159,7 @@ const TourPage360 = ({ onPageChange }) => {
               <p className="font-data text-[10px] uppercase tracking-[0.4em]">Scroll to explore</p>
               <div className="w-px h-12 bg-gradient-to-b from-ivory/40 to-transparent" />
             </div>
-          </motion.div>
+          </Motion.div>
         </div>
       </section>
 
@@ -209,7 +210,7 @@ const TourPage360 = ({ onPageChange }) => {
             if (index !== activeLocation) return null;
 
             return (
-              <motion.div
+              <Motion.div
                 key={location.id}
                 initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -307,15 +308,29 @@ const TourPage360 = ({ onPageChange }) => {
 
                   <div ref={viewerRef} className="relative bg-ink-950">
                     {isLoading && (
-                      <div className="absolute inset-0 bg-ink-950 flex items-center justify-center z-10">
-                        <div className="text-center">
-                          <RotateCcw
-                            className="animate-spin text-saffron mx-auto mb-4"
-                            size={36}
-                            aria-hidden="true"
-                          />
-                          <p className="font-data text-[11px] uppercase tracking-[0.2em] text-ivory-muted">
-                            Loading panorama
+                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-ink-950">
+                        <CompassLoader
+                          label="Unrolling the panorama"
+                          detail={location.coords}
+                        />
+                      </div>
+                    )}
+
+                    {/* Heads-up readout */}
+                    {!isLoading && (
+                      <div className="pointer-events-none absolute bottom-5 left-5 z-10 max-w-[17rem]">
+                        <div className="glass-panel px-4 py-3">
+                          <div className="mb-1.5 flex items-center gap-2">
+                            <span className="route-dot animate-pulse" aria-hidden="true" />
+                            <span className="font-data text-[10px] uppercase tracking-[0.24em] text-saffron">
+                              360°
+                            </span>
+                          </div>
+                          <p className="truncate font-display text-lg font-medium italic text-ivory">
+                            {location.name}
+                          </p>
+                          <p className="mt-1 font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint">
+                            {location.coords}
                           </p>
                         </div>
                       </div>
@@ -331,7 +346,7 @@ const TourPage360 = ({ onPageChange }) => {
                     />
                   </div>
                 </div>
-              </motion.div>
+              </Motion.div>
             );
           })}
         </AnimatePresence>
@@ -384,7 +399,7 @@ const TourPage360 = ({ onPageChange }) => {
         </div>
 
         <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
@@ -410,7 +425,7 @@ const TourPage360 = ({ onPageChange }) => {
                 Plan the trip
               </button>
             </div>
-          </motion.div>
+          </Motion.div>
         </div>
       </section>
     </div>

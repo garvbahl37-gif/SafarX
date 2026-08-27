@@ -29,7 +29,7 @@ const SOCIALS = [
   { href: "https://twitter.com", label: "X (Twitter)", Icon: FaXTwitter },
   { href: "https://youtube.com", label: "YouTube", Icon: FaYoutube },
   { href: "https://linkedin.com", label: "LinkedIn", Icon: FaLinkedin },
-  { href: "https://github.com/lucky15426/Safar360", label: "GitHub", Icon: FaGithub },
+  { href: "https://github.com/garvbahl37-gif/SafarX-SIH", label: "GitHub", Icon: FaGithub },
 ];
 
 const LinkColumn = ({ title, links, onPageChange }) => (
@@ -65,7 +65,16 @@ const Footer = ({ onPageChange }) => {
         aria-hidden="true"
       />
       {/* Warm ambient glow */}
-      <div className="absolute -top-32 left-1/3 w-[38rem] h-[20rem] bg-saffron/[0.05] rounded-full blur-[130px] pointer-events-none" aria-hidden="true" />
+      <div className="absolute -top-32 left-1/3 w-[38rem] h-[20rem] bg-saffron/[0.06] rounded-full blur-[130px] pointer-events-none" aria-hidden="true" />
+
+      {/* Monumental Devanagari watermark — the same motif as the hero */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none select-none absolute -bottom-6 right-[-1%] font-devanagari italic leading-none text-transparent text-[clamp(5rem,15vw,13rem)]"
+        style={{ WebkitTextStroke: "1px rgba(212, 168, 67, 0.13)" }}
+      >
+        सफ़र
+      </span>
 
       <div className="relative max-w-[1440px] mx-auto px-6 md:px-14 pt-20 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr] gap-12 lg:gap-8">
@@ -79,6 +88,7 @@ const Footer = ({ onPageChange }) => {
                 X
               </span>
             </div>
+            <p className="eyebrow mb-4">Smart India Hackathon 2026</p>
             <p className="text-ivory-muted text-[14px] leading-relaxed max-w-xs mb-7">
               Your companion for Incredible India — preview heritage sites in
               360°, plan with AI, and carry everything that matters in one place.
@@ -117,6 +127,26 @@ const Footer = ({ onPageChange }) => {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Closing strip */}
+        <div className="mt-16 rounded-3xl border border-white/[0.08] bg-ink-800/50 p-8 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <h3 className="font-display text-2xl md:text-[1.75rem] font-medium text-ivory leading-snug mb-2">
+              Ready when you are.
+            </h3>
+            <p className="text-ivory-muted text-[14px] max-w-md leading-relaxed">
+              Preview a heritage site in 360°, then let SafarX plan the rest of the trip around it.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3 shrink-0">
+            <button onClick={() => onPageChange("itinerary")} className="btn-primary">
+              Plan a trip
+            </button>
+            <button onClick={() => onPageChange("360tour")} className="btn-ghost">
+              Browse VR tours
+            </button>
           </div>
         </div>
 
