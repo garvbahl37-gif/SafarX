@@ -75,7 +75,8 @@ export const formatFare = (amount) => {
 };
 
 /**
- * Parses TBO datetime strings which come in multiple formats:
+ * Parses flight datetime strings, which arrive in multiple formats
+ * depending on the upstream provider:
  * Format 1: "2026-03-20T06:30:00"          → standard ISO
  * Format 2: "/Date(1742444400000+0530)/"    → .NET JSON date
  * Format 3: "2026-03-20T06:30:00+05:30"    → ISO with timezone
@@ -87,7 +88,7 @@ export const formatTime = (dateTimeStr) => {
         let date;
 
         // ── Handle .NET /Date(timestamp+offset)/ format ───────
-        // TBO sometimes returns this format from older endpoints
+        // Some providers return this format from older endpoints
         const dotNetMatch = dateTimeStr.match(/\/Date\((\d+)([+-]\d{4})?\)\//);
         if (dotNetMatch) {
             date = new Date(parseInt(dotNetMatch[1]));

@@ -13,15 +13,13 @@ Every workstream below is written so its owner can pick it up and start without 
 |---|---|---|
 | **Lucky** | [A — Booking & Revenue Engine](#workstream-a--booking--revenue-engine-lucky) | Turns plans into actual bookings — direct revenue for hotels, transport, and local operators |
 | **Dhruv** | [B — Safar Groups 2.0 (Community)](#workstream-b--safar-groups-20-community-dhruv) | Group travel = higher-value bookings; community content is free distribution for small destinations |
-| **RN** | [C — SafarX Agent](#workstream-c--safarx-agent-rn) | The conversational front door — search, plan, and book without forms |
-| **Garv** | [D — Recommender System (2 lakh data points)](#workstream-d--recommender-system-garv) | Spreads demand to lesser-known destinations instead of the same 20 sites |
-| **Rahul** | [E — Confidence & Safety](#workstream-e--confidence--safety-rahul) + [F — Voice Storyteller](#workstream-f--kahani-voice-storyteller-rahul) | Removes the reasons people *don't* travel; voice makes heritage accessible in every Indian language |
-
-> Names to confirm: "RN" is as-dictated — rename the heading if the spelling differs.
+| **Aryan** | [C — SafarX Agent](#workstream-c--safarx-agent-aryan) | The conversational front door — search, plan, and book without forms |
+| **Garv** | [D — Recommender System (2 lakh data points)](#workstream-d--recommender-system-garv) + [F — Kahani Voice Storyteller](#workstream-f--kahani-voice-storyteller-garv) | Spreads demand to lesser-known destinations instead of the same 20 sites; voice makes heritage accessible in every Indian language |
+| **Rahul** | [E — Confidence & Safety](#workstream-e--confidence--safety-rahul) | Removes the reasons people *don't* travel |
 
 ### Ground rules for everyone
 
-1. **Free tier only.** No paid API contracts anywhere in this project. TBO has been dropped entirely — see the [approved API list](#approved-free-tier-apis). If a service needs a credit card, don't use it.
+1. **Free tier only.** No paid API contracts anywhere in this project. TBO is gone — every reference has been stripped from the codebase. See the [approved API list](#approved-free-tier-apis). If a service needs a credit card, don't use it.
 2. **Design system is fixed.** Read `DESIGN_SYSTEM.md` before writing UI. Peacock & Gold tokens (`ink-*`, `ivory`, `saffron`, `horizon`), Fraunces / Schibsted Grotesk / Space Grotesk, route-line motif. No new colors, no light-mode sections, no emoji as icons (use `lucide-react`).
 3. **Branch naming:** `feat/<workstream-letter>-<short-name>` — e.g. `feat/b-groups-expenses`. PR into `main`.
 4. **All content is Indian.** Indian destinations, ₹ pricing, Indian names in mock data. No foreign cities anywhere.
@@ -48,7 +46,7 @@ Every workstream below is written so its owner can pick it up and start without 
 | DB / realtime | **Supabase** | Free tier | Postgres + Realtime + Storage |
 | Auth | **Clerk** | Free tier | Already in use |
 
-**Removed:** TBO API (all flight/hotel booking flows must be migrated off it — see Workstream C, task C1).
+**Removed:** TBO API. All references have already been stripped from the codebase (`grep -ri "tbo" src/` returns nothing but `lightbox`). The flight service now talks only to our own backend; Aryan's job is to point that backend at Amadeus — see [C1](#c1-tbo-is-already-out-of-the-codebase).
 
 ---
 
@@ -198,24 +196,21 @@ JoinRequestPanel.jsx     GroupCreationForm.jsx
 
 ---
 
-## Workstream C — SafarX Agent (RN)
+## Workstream C — SafarX Agent (Aryan)
 
-**Goal:** make the agent the fastest way to plan and book an Indian trip — and get it off TBO entirely.
+**Goal:** make the agent the fastest way to plan and book an Indian trip — by voice, in any Indian language.
 
-**Current state:** `src/pages/AgentPage/` — Gemini chat, plus flight/hotel panels wired to TBO and RapidAPI.
+**Current state:** `src/pages/AgentPage/` — Gemini chat plus flight/hotel panels. The frontend calls our own backend (`/flights/search` on the Hugging Face Space); no third-party booking SDK is wired into the client.
 
-### C1. Remove TBO (do this first)
-Files that still reference TBO:
-- `src/pages/AgentPage/services/flightApi.js`
-- `src/pages/AgentPage/components/FlightBookingPanel.jsx`
-- `src/components/GoogleEarthExplorer.jsx` (string only)
-- `README.md` (already cleaned)
+### C1. TBO is already out of the codebase ✅
+Done for you — provider-specific strings and comments were stripped from `flightApi.js` and `FlightBookingPanel.jsx`, and the docs are clean. `grep -ri "tbo" src/` now returns nothing but `lightbox`.
 
-Replace with **Amadeus Self-Service** (free test environment):
+**What's left for you:** point the backend at **Amadeus Self-Service** (free test environment) so `/flights/search` returns live data:
 - `POST /v1/security/oauth2/token` → bearer token (cache in memory, 30 min TTL)
 - `GET /v2/shopping/flight-offers` → search
 - `GET /v3/shopping/hotel-offers` → hotel offers
-Keep the existing panel components and their props; swap only the service layer so the UI doesn't regress. If Amadeus is unreachable, fall back to a clearly-labelled sample dataset so the demo never dies.
+
+The client contract stays identical, so the panel components don't change. Keep the `.NET /Date(…)/` parsing in `formatTime` — it's defensive and costs nothing. If Amadeus is unreachable, fall back to a clearly-labelled sample dataset so the demo never dies.
 
 ### C2. Tool / function calling
 Give Gemini real tools instead of free-text answers. Define a tool schema and route calls to existing services:
@@ -237,9 +232,40 @@ Show tool execution as visible steps in the chat ("Searching flights…", "Found
 - Embed with a sentence-transformer (same model Garv uses for content vectors — **share the embedding service, don't build two**).
 - Retrieve top-k chunks into the prompt so answers about timings, entry fees, and etiquette are grounded, not hallucinated.
 
-### C4. Multilingual + voice input
-- Detect and answer in Hindi, Hinglish, and 4 regional languages.
-- Speech-to-text via Web Speech API (free) with Bhashini as the Indian-language upgrade — coordinate with Rahul (Workstream F) so there is **one** voice service module, `src/services/voiceService.js`, used by both.
+### C4. Voice features & multilingual voice input ★
+This is the headline feature of the agent — a traveler in India should be able to **talk** to SafarX in their own language and get an answer spoken back. Most Indian users are far more comfortable speaking than typing English travel queries, and this is the single most demo-able moment in the whole app.
+
+**C4.1 — Voice input (speech → text)**
+- A mic button in the composer: tap to talk, live waveform while recording, tap again or auto-stop on silence.
+- Show a **live interim transcript** as the user speaks so they can see it's working.
+- Engine: **Bhashini ASR** (free, Govt. of India, 22 Indian languages) as primary; **Web Speech API** as the zero-dependency fallback when Bhashini is unreachable or the language is English.
+- Handle **Hinglish** — code-mixed speech ("Mujhe Goa ke liye flight chahiye next Friday") must work, not just pure Hindi. Pass the raw transcript to Gemini; don't try to normalise it yourself.
+- Permission and error states written properly: mic denied, no speech detected, network lost — each explains the fix.
+
+**C4.2 — Voice output (text → speech)**
+- The agent speaks its answers, in the same language the user spoke.
+- Engine: **Bhashini TTS** primary, Web Speech `speechSynthesis` fallback.
+- A persistent speaker toggle so users can mute replies; remember the choice in `localStorage`.
+- Never autoplay audio on page load — only after an explicit user interaction.
+
+**C4.3 — Language handling**
+- Auto-detect the spoken language and reply in it. Support at minimum: **Hindi, English, Hinglish, Tamil, Telugu, Bengali, Marathi**.
+- A language picker in the agent header for manual override.
+- Language choice is shared app-wide with Rahul's i18n work (Workstream E3) — read from the same store, don't keep a second copy.
+
+**C4.4 — Hands-free / travel mode (stretch)**
+- A large-target, voice-first layout for use while actually travelling — one big mic button, big text, minimal chrome. Useful on the road, at a station, or with gloves on in Ladakh.
+- Wake-free: press-and-hold to talk, release to send.
+
+**C4.5 — Shared module (important)**
+All voice work lives in **one** module, `src/services/voiceService.js`, exporting `listen()`, `speak()`, `detectLanguage()`, and `cancel()`. Garv's Kahani storyteller (Workstream F) consumes the same module. Agree the interface with Garv **before** either of you writes it — two competing voice implementations is the most likely integration failure in this project.
+
+**Acceptance criteria (C4):**
+- [ ] Speaking "मुझे अक्टूबर में केरल घूमना है, ₹30,000 में" produces a real Kerala itinerary
+- [ ] The reply is spoken back in Hindi
+- [ ] A Hinglish query works end-to-end
+- [ ] Mic-denied and no-speech states show a helpful message, not a silent failure
+- [ ] Web Speech fallback works with Bhashini disabled
 
 ### C5. Trip memory
 - Persist a rolling conversation summary + the user's active trip in Supabase, keyed by Clerk user id.
@@ -370,11 +396,11 @@ The long-tail floor is the point: the recommender is a **tourism-distribution po
 
 ---
 
-## Workstream F — "Kahani" Voice Storyteller (Rahul)
+## Workstream F — "Kahani" Voice Storyteller (Garv)
 
 **Goal:** every monument tells its own story, aloud, in the visitor's language. This replaces the analytics dashboard (dropped — not needed for this phase).
 
-*Owner note: assigned to Rahul alongside Workstream E; move it if load needs rebalancing.*
+*Owner note: Garv owns this alongside the recommender (Workstream D). The two pair well — both are content/ML pipelines over the same destination corpus, and the story scripts can reuse the embeddings and metadata built for D1.*
 
 ### F1. What it is
 A narrated audio layer over India's heritage. Stand in front of Qutub Minar, open SafarX, and a 2–3 minute story plays — who built it, why, what happened here — in Hindi, English, or a regional language. The same stories play inside VR tours as a guided audio track.
@@ -418,23 +444,23 @@ scripts/generateStoryAudio.js       // batch TTS + upload, run once
 ### Shared dependencies (agree these early, they block two people each)
 | Shared thing | Owners | Note |
 |---|---|---|
-| Embedding service | Garv + RN | One sentence-transformer service, used by both RAG and content similarity |
-| `voiceService.js` | Rahul + RN | One voice module for agent input and story playback |
+| Embedding service | Garv + Aryan | One sentence-transformer service, used by both RAG and content similarity |
+| `voiceService.js` | Garv + Aryan | One voice module for agent voice I/O and story playback |
 | Supabase schema | Dhruv + Lucky | Both add tables — agree naming and RLS conventions before writing migrations |
-| Recommender API | Garv + Lucky + RN | `/recommend` feeds the For-You rail, deal targeting, and the agent tool |
+| Recommender API | Garv + Lucky + Aryan | `/recommend` feeds the For-You rail, deal targeting, and the agent tool |
 | Design system | Everyone | `DESIGN_SYSTEM.md` is the single source of truth |
 
 ### Suggested milestones
 | Week | Target |
 |---|---|
-| 1 | C1 (TBO removed), B1 (schema + auth), D1 (dataset built), E3 (i18n scaffold), F2 scripts drafted |
-| 2 | A1–A2 (stays + partner portal), B2–B3 (groups working end-to-end), D2–D3 (recommender served), C2 (tool calling) |
-| 3 | A3–A6, B3 advanced features, D4 (surfaces live), C3–C6, E1–E2, F audio cached |
-| 4 | Polish, offline mode, demo script, deck, dry runs |
+| 1 | C1 (Amadeus backend), B1 (schema + auth), D1 (dataset built), E3 (i18n scaffold), **C4.5 + F: agree the `voiceService.js` interface** (Aryan + Garv), F2 scripts drafted |
+| 2 | A1–A2 (stays + partner portal), B2–B3 (groups working end-to-end), D2–D3 (recommender served), C2 (tool calling), **C4.1 voice input working** |
+| 3 | A3–A6, B3 advanced features, D4 (surfaces live), C3 + C5–C6, **C4.2–C4.3 voice output & languages**, E1–E2, F audio cached |
+| 4 | Polish, offline mode, C4.4 hands-free mode if time allows, demo script, deck, dry runs |
 
 ### Demo narrative (build toward this)
-1. Open SafarX → cinematic boot → hero: Taj at sunrise.
-2. "Where should I go in October for 5 days under ₹25k?" → agent calls the recommender → suggests **Ziro Valley**, a place the judges haven't heard of. *(That's the tourism-spreading moment.)*
+1. Open SafarX → cinematic boot (सफ़र inks in, morphs to SafarX) → hero: Taj at sunrise.
+2. **Speak** into the agent, in Hindi: *"अक्टूबर में पाँच दिन, ₹25,000 में कहाँ जाऊँ?"* → it calls the recommender → suggests **Ziro Valley**, a place the judges haven't heard of, and says it back in Hindi. *(That's the tourism-spreading moment, and the voice moment, in one.)*
 3. Open its 360° tour → play the **Kahani** story in Hindi.
 4. Stays nearby → a verified homestay partner with its own 360° room tour and an off-season deal.
 5. Add to itinerary → invite friends → **Safar Group** with live chat, shared plan, split expenses.

@@ -114,7 +114,7 @@ const FlightBookingPanel = ({ onClose }) => {
                                 <h3 className="font-bold text-base" style={{ color: '#0f172a' }}>Flight Booking</h3>
                                 <p className="text-xs flex items-center gap-1.5" style={{ color: '#64748b' }}>
                                     <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#0EA5E9' }} />
-                                    Real-time prices via TBO
+                                    Live fares in ₹
                                 </p>
                             </div>
                         </div>

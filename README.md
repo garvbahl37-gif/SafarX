@@ -69,19 +69,17 @@ cd server && npm install && npm run dev
 
 ## Roadmap
 
-The full plan lives in [ROADMAP.md](ROADMAP.md) — it maps every upcoming feature to the problem statement's goal of boosting the tourism industry:
-
-Every workstream is owned end-to-end. Full specs — data models, file structures, APIs, and acceptance criteria — are in [ROADMAP.md](ROADMAP.md).
+Every workstream is owned end-to-end and maps back to the problem statement's goal of boosting the tourism industry. Full specs — data models, file structures, APIs, and acceptance criteria — are in [ROADMAP.md](ROADMAP.md).
 
 | Owner | Workstream | Highlights |
 |---|---|---|
 | **Lucky** | Booking & revenue engine | Hotel discovery beside VR previews, a self-serve **hotel partner program** (small hotels upload their own 360° room tours), dynamic occupancy deals for empty rooms, train/bus/cab integration, plus allied industries — regional cuisine, GI-tagged crafts, festival calendar |
 | **Dhruv** | Safar Groups 2.0 (community) | Rebuild of the existing groups section into a real multi-user product: Supabase-backed membership, collaborative itineraries, live chat, expense splitting with settlements, polls, meetups, photo walls, verification and safety |
-| **RN** | SafarX Agent | Drop TBO entirely for free-tier APIs, Gemini **function calling** (search, plan, and book from chat), RAG over an India heritage knowledge base, multilingual voice input, trip memory, and a season-aware dynamic activities engine |
-| **Garv** | Recommender system (~2,00,000 data points) | Implicit-ALS collaborative filtering + sentence-transformer content embeddings (FAISS) + seasonality priors, with a deliberate **long-tail floor** that pushes lesser-known destinations — served by FastAPI, powering a "For you" rail, itinerary seeding, and the agent |
-| **Rahul** | Confidence & safety · Kahani voice storyteller | Crowd prediction, SOS and emergency directory, Hindi + regional language UI, offline PWA mode, sustainability scores — plus **Kahani**, narrated heritage stories in 22 Indian languages via Bhashini, geo-triggered at monuments and inside VR tours |
+| **Aryan** | SafarX Agent | Gemini **function calling** (search, plan, and book from chat), RAG over an India heritage knowledge base, trip memory, a season-aware activities engine — and **voice**: talk to SafarX in Hindi, Hinglish, or a regional language and hear the answer spoken back (Bhashini ASR/TTS, Web Speech fallback) |
+| **Garv** | Recommender system (~2,00,000 data points) · Kahani voice storyteller | Implicit-ALS collaborative filtering + sentence-transformer content embeddings (FAISS) + seasonality priors, with a deliberate **long-tail floor** that pushes lesser-known destinations — plus **Kahani**, narrated heritage stories in 22 Indian languages, geo-triggered at monuments and inside VR tours |
+| **Rahul** | Confidence & safety | Crowd prediction with quiet-window nudges, SOS and offline emergency directory, Hindi + regional language UI, offline PWA mode, sustainability scores |
 
-**Policy:** free-tier APIs only, no paid contracts. TBO has been dropped across the project.
+**Policy:** free-tier APIs only, no paid contracts. TBO has been removed from the codebase entirely.
 
 ## Deployment
 
