@@ -45,6 +45,14 @@ Live task tracker for the current build push. Updated as work lands.
       search autocomplete (grouped Places / States / Categories, gold-highlighted
       matches, keyboard nav, popular-search chips, active-filter row)
 
+- [x] **Bug: refresh landed on the wrong page** — a cache-first service worker
+      from an earlier build was caching "/" and serving it for every request;
+      replaced with a self-destroying tombstone that clears caches and
+      unregisters itself
+- [x] **Hidden gems: live search first** — the grid already filtered as you
+      type; the suggestion panel now offers only state/category shortcuts so it
+      stops covering those live results
+
 ## In progress
 
 - [ ] **VR tours off YouTube (RULE)** — real in-app draggable equirectangular

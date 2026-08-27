@@ -66,7 +66,8 @@ const Highlight = ({ label, query }) => {
 };
 
 /**
- * Search field with a grouped autocomplete: places, states/regions and
+ * Search field with live grid filtering plus shortcut suggestions:
+ * states/regions and
  * categories. Keyboard driven, ARIA-complete, and styled as dark glass.
  */
 const GemSearchBar = ({
@@ -187,9 +188,11 @@ const GemSearchBar = ({
     cats.sort((a, b) => a.rank - b.rank || a.label.localeCompare(b.label));
 
     return [
-      { id: "places", title: "Places", items: places.slice(0, 6) },
-      { id: "areas", title: "States & regions", items: areas.slice(0, 4) },
-      { id: "categories", title: "Categories", items: cats.slice(0, 4) },
+      // Places are deliberately omitted: the results grid already filters live
+      // as you type, so repeating them here would hide the very results the
+      // search just produced. Only offer shortcuts the grid can't give you.
+      { id: "areas", title: "Jump to a state or region", items: areas.slice(0, 4) },
+      { id: "categories", title: "Filter by category", items: cats.slice(0, 4) },
     ].filter((g) => g.items.length > 0);
   }, [debounced, gems, index, regionLabels, categoryLabels]);
 

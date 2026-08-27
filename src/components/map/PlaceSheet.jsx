@@ -49,6 +49,7 @@ const PlaceSheet = ({
   onDirections,
   onOpenTour,
   onOpenStory,
+  className = "",
 }) => {
   const reduce = useReducedMotion();
   if (!place) return null;
@@ -98,8 +99,8 @@ const PlaceSheet = ({
       {...motionProps}
       aria-label={`${place.name} details`}
       className={`flex flex-col overflow-hidden border border-white/[0.09] bg-ink-900/95 shadow-[0_28px_70px_-24px_rgba(0,0,0,0.9)] backdrop-blur-xl ${
-        isSheet ? "rounded-t-3xl" : "h-full rounded-2xl"
-      }`}
+        isSheet ? "rounded-t-3xl" : "rounded-2xl"
+      } ${className}`}
     >
       {isSheet && (
         <div className="flex justify-center pb-1 pt-2.5">

@@ -34,22 +34,23 @@ const queryClient = new QueryClient({
   },
 });
 
-// ❌ REMOVED: Old SW registration that was causing blank page
-// ✅ ADDED: Kill any stale service workers
+// An earlier build registered a cache-first service worker that served a
+// stale "/" shell for every request, so refreshing any route landed on the
+// wrong page. Unregister anything still installed and drop its caches.
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.getRegistrations().then((registrations) => {
-    registrations.forEach((registration) => {
-      registration.unregister();
-      console.log("🗑️ Stale Service Worker removed:", registration);
-    });
-  });
+  navigator.serviceWorker
+    .getRegistrations()
+    .then((registrations) =>
+      Promise.all(registrations.map((r) => r.unregister()))
+    )
+    .catch(() => {});
 
-  caches.keys().then((cacheNames) => {
-    cacheNames.forEach((cacheName) => {
-      caches.delete(cacheName);
-      console.log("🗑️ Cache cleared:", cacheName);
-    });
-  });
+  if (window.caches) {
+    caches
+      .keys()
+      .then((names) => Promise.all(names.map((n) => caches.delete(n))))
+      .catch(() => {});
+  }
 }
 
 // Render React App with Clerk Provider

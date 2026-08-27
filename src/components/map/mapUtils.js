@@ -72,6 +72,7 @@ export const TILE_LAYERS = [
     maxZoom: 20,
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    attributionText: "© OpenStreetMap contributors · © CARTO",
   },
   {
     id: "satellite",
@@ -81,6 +82,7 @@ export const TILE_LAYERS = [
     maxZoom: 19,
     attribution:
       "Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics and the GIS User Community",
+    attributionText: "Tiles © Esri — Esri, Maxar, Earthstar Geographics",
   },
   {
     id: "terrain",
@@ -90,6 +92,7 @@ export const TILE_LAYERS = [
     maxZoom: 17,
     attribution:
       'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, SRTM · Style &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)',
+    attributionText: "© OpenStreetMap contributors, SRTM · © OpenTopoMap (CC-BY-SA)",
   },
 ];
 
@@ -290,6 +293,20 @@ export const parseOpenNow = (value, now = new Date()) => {
   }
 
   return understood ? open : null;
+};
+
+/**
+ * A coarse region for any Indian coordinate — used by the region filter so
+ * curated content from three different files can share one control.
+ */
+export const regionFor = (lat, lng) => {
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return "central";
+  if (lng >= 88 && lat >= 21.5) return "northeast";
+  if (lat >= 26.5) return "north";
+  if (lat < 16.5) return "south";
+  if (lng < 76.5) return "west";
+  if (lng >= 82) return "east";
+  return "central";
 };
 
 /* ── Misc ─────────────────────────────────────────────────────────── */

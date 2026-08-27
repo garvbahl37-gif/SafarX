@@ -78,10 +78,21 @@ function ClusteredMarkers({ points, selectedId, hoveredId, onSelect, onHover }) 
     moveend: () => bump((n) => n + 1),
   });
 
+  /* The chosen marker may still be inside a cluster, or off-screen mid-flight,
+     so poll briefly rather than giving up on the first miss. */
   useEffect(() => {
-    if (!selectedId) return;
-    const marker = markerRefs.current.get(selectedId);
-    marker?.openPopup();
+    if (!selectedId) return undefined;
+    let timer = null;
+    const tryOpen = (attempt = 0) => {
+      const marker = markerRefs.current.get(selectedId);
+      if (marker) {
+        marker.openPopup();
+        return;
+      }
+      if (attempt < 40) timer = window.setTimeout(() => tryOpen(attempt + 1), 60);
+    };
+    tryOpen();
+    return () => window.clearTimeout(timer);
   }, [selectedId, points]);
 
   const bounds = map.getBounds().pad(0.4);

@@ -47,6 +47,7 @@ const RoutePanel = ({
   onStartFromLocation,
   onFocusStop,
   onOpenInGoogleMaps,
+  className = "",
 }) => {
   const reduce = useReducedMotion();
 
@@ -66,7 +67,7 @@ const RoutePanel = ({
       exit={reduce ? { opacity: 0 } : { opacity: 0, x: 20 }}
       transition={{ duration: 0.32, ease: EASE }}
       aria-label="Route planner"
-      className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-ink-900/95 shadow-[0_28px_70px_-24px_rgba(0,0,0,0.9)] backdrop-blur-xl"
+      className={`flex flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-ink-900/95 shadow-[0_28px_70px_-24px_rgba(0,0,0,0.9)] backdrop-blur-xl ${className}`}
     >
       <header className="flex items-center justify-between gap-3 border-b border-white/[0.07] px-4 py-3">
         <h2 className="flex items-center gap-2.5 font-data text-[10px] uppercase tracking-[0.2em] text-ivory">
