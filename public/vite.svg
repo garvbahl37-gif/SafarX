@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256" aria-hidden="true" role="img">
+  <defs>
+    <linearGradient id="bold-globe" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#24d7fbff"/>
+      <stop offset="50%" stop-color="#0bf5f5ff"/>
+      <stop offset="100%" stop-color="#09a0b4ff"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Main outer circle -->
+  <circle cx="128" cy="128" r="105" fill="none" stroke="url(#bold-globe)" stroke-width="22"/>
+  
+  <!-- Equator (horizontal center) -->
+  <line x1="23" y1="128" x2="233" y2="128" stroke="url(#bold-globe)" stroke-width="22" stroke-linecap="round"/>
+  
+  <!-- Upper latitude -->
+  <ellipse cx="128" cy="128" rx="105" ry="35" fill="none" stroke="url(#bold-globe)" stroke-width="20" stroke-linecap="round"/>
+  
+  <!-- Lower latitude -->
+  <ellipse cx="128" cy="128" rx="105" ry="70" fill="none" stroke="url(#bold-globe)" stroke-width="18" stroke-linecap="round" opacity="0.8"/>
+  
+  <!-- Prime meridian (vertical center) -->
+  <line x1="128" y1="23" x2="128" y2="233" stroke="url(#bold-globe)" stroke-width="22" stroke-linecap="round"/>
+  
+  <!-- Left longitude curve -->
+  <path d="M 128 23 Q 70 128 128 233" fill="none" stroke="url(#bold-globe)" stroke-width="20" stroke-linecap="round"/>
+  
+  <!-- Right longitude curve -->
+  <path d="M 128 23 Q 186 128 128 233" fill="none" stroke="url(#bold-globe)" stroke-width="20" stroke-linecap="round"/>
+</svg>

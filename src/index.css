@@ -1,0 +1,448 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&display=swap");
+
+/* ============================================================
+   SAFAR360 — "NIGHT ATLAS" DESIGN SYSTEM
+   Deep night-blue ink · warm ivory · saffron accent
+   Display: Fraunces  ·  UI: Schibsted Grotesk  ·  Data: Space Grotesk
+   ============================================================ */
+
+:root {
+  --ink-950: #061412;
+  --ink-900: #0A1D1A;
+  --ink-850: #0D231F;
+  --ink-800: #102822;
+  --ink-700: #17352D;
+  --ivory: #F2EFE6;
+  --ivory-muted: rgba(242, 239, 230, 0.62);
+  --ivory-faint: rgba(242, 239, 230, 0.38);
+  --saffron: #D4A843;
+  --saffron-bright: #E5BE5C;
+  --saffron-deep: #A67E2B;
+  --horizon: #2E8B74;
+  --line: rgba(242, 239, 230, 0.09);
+  --line-strong: rgba(242, 239, 230, 0.18);
+
+  /* Legacy variable names still referenced by inner pages */
+  --primary: #D4A843;
+  --primary-dark: #A67E2B;
+  --primary-light: #E5BE5C;
+  --accent: #2E8B74;
+  --accent-dark: #1F5F4F;
+  --accent-light: #3FA98E;
+  --success: #4caf7d;
+  --warning: #D4A843;
+  --error: #e05252;
+  --neutral-dark: #F2EFE6;
+  --neutral-light: #0A1D1A;
+  --neutral-border: rgba(242, 239, 230, 0.09);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: "Schibsted Grotesk", "Inter", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink-950);
+  color: var(--ivory);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(212, 168, 67, 0.35);
+  color: var(--ivory);
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--saffron);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   TYPE ROLES
+   ============================================================ */
+
+.font-display,
+.font-heritage,
+.font-cinzel {
+  font-family: "Fraunces", Georgia, serif;
+}
+
+.font-data,
+.font-jetbrains,
+.font-inter {
+  font-family: "Space Grotesk", monospace;
+}
+
+/* Eyebrow label — coordinates / route-code style */
+.eyebrow {
+  font-family: "Space Grotesk", monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--saffron);
+}
+
+.eyebrow-muted {
+  font-family: "Space Grotesk", monospace;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ivory-faint);
+}
+
+.text-glow {
+  text-shadow: 0 0 24px rgba(242, 239, 230, 0.4);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #E5BE5C 0%, #D4A843 55%, #A67E2B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-warm {
+  background: linear-gradient(135deg, #E5BE5C 0%, #D4A843 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   SURFACES
+   ============================================================ */
+
+.glass-morphism,
+.glass-panel {
+  background: rgba(10, 29, 26, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.card {
+  background: var(--ink-800);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+}
+
+.card-elevated {
+  background: var(--ink-800);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.heritage-card {
+  background: var(--ink-800);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.heritage-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212, 168, 67, 0.35);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+}
+
+.card-header {
+  padding: 1.25rem 1.5rem 0;
+}
+
+.card-body {
+  padding: 1.25rem 1.5rem;
+}
+
+.card-footer {
+  padding: 0 1.5rem 1.25rem;
+}
+
+.travel-gradient-primary {
+  background: linear-gradient(135deg, #D4A843 0%, #A67E2B 100%);
+}
+
+.travel-gradient-subtle {
+  background: linear-gradient(180deg, rgba(212, 168, 67, 0.06) 0%, rgba(46, 139, 116, 0.05) 100%);
+}
+
+.travel-gradient-dark {
+  background: linear-gradient(180deg, #0A1D1A 0%, #061412 100%);
+}
+
+.pattern-grid {
+  background-image:
+    linear-gradient(0deg, transparent 24%, rgba(242, 239, 230, 0.03) 25%, rgba(242, 239, 230, 0.03) 26%, transparent 27%),
+    linear-gradient(90deg, transparent 24%, rgba(242, 239, 230, 0.03) 25%, rgba(242, 239, 230, 0.03) 26%, transparent 27%);
+  background-size: 56px 56px;
+}
+
+.pattern-dots {
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(212, 168, 67, 0.07) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(46, 139, 116, 0.06) 0%, transparent 50%);
+}
+
+/* ============================================================
+   CONTROLS
+   ============================================================ */
+
+.btn-primary,
+.btn-heritage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 999px;
+  font-family: "Schibsted Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-950);
+  background: linear-gradient(135deg, #E5BE5C 0%, #D4A843 100%);
+  border: 1px solid rgba(229, 190, 92, 0.6);
+  box-shadow: 0 8px 24px rgba(212, 168, 67, 0.28);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-primary:hover,
+.btn-heritage:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(212, 168, 67, 0.4);
+  filter: brightness(1.05);
+}
+
+.btn-primary:active,
+.btn-heritage:active {
+  transform: translateY(0);
+}
+
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--ivory);
+  background: var(--ink-700);
+  border: 1px solid var(--line-strong);
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-accent:hover {
+  transform: translateY(-2px);
+  background: var(--ink-800);
+  border-color: rgba(242, 239, 230, 0.3);
+}
+
+.btn-ghost,
+.btn-outline-heritage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 999px;
+  font-family: "Schibsted Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  color: var(--ivory);
+  background: rgba(242, 239, 230, 0.04);
+  border: 1px solid var(--line-strong);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-ghost:hover,
+.btn-outline-heritage:hover {
+  transform: translateY(-2px);
+  background: rgba(242, 239, 230, 0.09);
+  border-color: rgba(242, 239, 230, 0.35);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--saffron);
+  background: transparent;
+  border: 1px solid rgba(212, 168, 67, 0.45);
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  transform: translateY(-2px);
+  background: rgba(212, 168, 67, 0.1);
+  border-color: rgba(212, 168, 67, 0.7);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: "Space Grotesk", monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory-muted);
+}
+
+.form-input,
+.glass-input {
+  width: 100%;
+  padding: 0.875rem 1.125rem;
+  border-radius: 0.75rem;
+  background: rgba(242, 239, 230, 0.05);
+  border: 1px solid var(--line);
+  color: var(--ivory);
+  font-family: "Schibsted Grotesk", sans-serif;
+  font-size: 0.9375rem;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.form-input::placeholder,
+.glass-input::placeholder {
+  color: var(--ivory-faint);
+}
+
+.form-input:focus,
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(212, 168, 67, 0.55);
+  background: rgba(242, 239, 230, 0.07);
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.12);
+}
+
+/* ============================================================
+   SIGNATURE — ROUTE LINE MOTIF
+   Dashed flight-path used in section headers and dividers
+   ============================================================ */
+
+.route-line {
+  position: relative;
+  height: 1px;
+  background-image: linear-gradient(90deg, var(--line-strong) 40%, transparent 40%);
+  background-size: 10px 1px;
+  background-repeat: repeat-x;
+}
+
+.route-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--saffron);
+  box-shadow: 0 0 10px rgba(212, 168, 67, 0.7);
+}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(242, 239, 230, 0.06), transparent);
+  animation: shimmer-sweep 1.8s infinite;
+}
+
+@keyframes shimmer-sweep {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ink-950);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ink-700);
+  border-radius: 999px;
+  border: 2px solid var(--ink-950);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1e453a;
+}
+
+/* Leaflet dark chrome */
+.leaflet-container {
+  background: var(--ink-900);
+  border-radius: 1rem;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--ink-800);
+  color: var(--ivory);
+}
+
+/* Reduced motion — kill decorative animation */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,651 @@
+[
+  {
+    "id": 1,
+    "title": "Chand Baori Stepwell",
+    "location": "Abhaneri, Rajasthan",
+    "state": "Rajasthan",
+    "category": "temple",
+    "region": "north",
+    "description": "A mesmerizing 10th-century stepwell with geometric precision featuring 3,500 narrow steps arranged in perfect symmetry. This architectural marvel descends 13 stories into the earth.",
+    "images": [
+      "chand-baori.jpg"
+    ],
+    "difficulty": "easy",
+    "visitors": "Few tourists",
+    "rating": 4.8,
+    "visits": 234,
+    "distance": "95 km from Jaipur",
+    "cultural_significance": "Built during the 8th-9th century, this stepwell represents the ingenious water management systems of ancient India.",
+    "best_time_visit": "October to March, early morning or late afternoon for best lighting",
+    "how_to_reach": "Take a bus or taxi from Jaipur to Dausa, then local transport to Abhaneri village",
+    "local_tips": "Visit early morning to avoid crowds and heat. Carry water and wear comfortable shoes.",
+    "accessibility": "Moderate walking required, steep steps",
+    "connectivity": "Limited mobile network in the village",
+    "nearby_attractions": [
+      "Harshat Mata Temple",
+      "Dausa Fort"
+    ],
+    "submittedAt": "2024-01-15",
+    "createdAt": "2024-01-15"
+  },
+  {
+    "id": 2,
+    "title": "Mawlynnong Village",
+    "location": "Meghalaya",
+    "state": "Meghalaya",
+    "category": "village",
+    "region": "northeast",
+    "description": "Asia's cleanest village with living root bridges, bamboo dustbins, and pristine natural beauty. Experience sustainable living at its finest.",
+    "images": [
+      "mawlynnong.jpg"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Off the beaten path",
+    "rating": 4.9,
+    "visits": 189,
+    "distance": "90 km from Shillong",
+    "cultural_significance": "Winner of multiple cleanliness awards, showcasing indigenous Khasi community's commitment to environmental conservation.",
+    "best_time_visit": "October to April, avoid monsoons for safety",
+    "how_to_reach": "Drive from Shillong via Pynursla, or take shared taxis from Shillong",
+    "local_tips": "Stay overnight in homestays to experience village life. Respect local customs and maintain cleanliness.",
+    "accessibility": "Moderate trekking required for root bridges",
+    "connectivity": "Good mobile network coverage",
+    "nearby_attractions": [
+      "Living Root Bridge",
+      "Sky Walk",
+      "Dawki River"
+    ],
+    "submittedAt": "2024-01-20",
+    "createdAt": "2024-01-20"
+  },
+  {
+    "id": 3,
+    "title": "Lepakshi Temple",
+    "location": "Andhra Pradesh",
+    "state": "Andhra Pradesh",
+    "category": "temple",
+    "region": "south",
+    "description": "Architectural marvel with a hanging pillar that defies gravity, intricate stone carvings, and the world's largest monolithic Nandi sculpture.",
+    "images": [
+      "lepakshi.jpg"
+    ],
+    "difficulty": "easy",
+    "visitors": "Underexplored",
+    "rating": 4.7,
+    "visits": 456,
+    "distance": "120 km from Bangalore",
+    "cultural_significance": "Built in 16th century during Vijayanagara Empire, showcasing Vijayanagara architectural style with mythological significance.",
+    "best_time_visit": "November to February, early morning for peaceful experience",
+    "how_to_reach": "Take NH44 from Bangalore or Hyderabad, well-connected by road",
+    "local_tips": "Don't miss the hanging pillar demonstration. Photography allowed but be respectful.",
+    "accessibility": "Easy access, suitable for all age groups",
+    "connectivity": "Good mobile network coverage",
+    "nearby_attractions": [
+      "Penukonda Fort",
+      "Puttaparthi"
+    ],
+    "submittedAt": "2024-01-25",
+    "createdAt": "2024-01-25"
+  },
+  {
+    "id": 4,
+    "title": "Dhanushkodi Ghost Town",
+    "location": "Tamil Nadu",
+    "state": "Tamil Nadu",
+    "category": "village",
+    "region": "south",
+    "description": "Abandoned town at India's southernmost tip, destroyed by 1964 cyclone. Now a hauntingly beautiful landscape where Bay of Bengal meets Indian Ocean.",
+    "images": [
+      "dhanushkodi.avif"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Growing popularity",
+    "rating": 4.6,
+    "visits": 678,
+    "distance": "18 km from Rameshwaram",
+    "cultural_significance": "Mentioned in Ramayana as the place where Ram's army built bridge to Lanka. Historical significance as former trade center.",
+    "best_time_visit": "October to March, avoid rough sea conditions",
+    "how_to_reach": "Take local buses or hire vehicle from Rameshwaram, last stretch requires 4WD vehicle",
+    "local_tips": "Carry water and snacks. Respect the ruins and natural environment. Check weather conditions.",
+    "accessibility": "Requires 4WD vehicle for final approach, sandy terrain",
+    "connectivity": "No mobile network in the area",
+    "nearby_attractions": [
+      "Rameshwaram Temple",
+      "Adam's Bridge remains"
+    ],
+    "submittedAt": "2024-02-01",
+    "createdAt": "2024-02-01"
+  },
+  {
+    "id": 5,
+    "title": "Bhangarh Fort",
+    "location": "Rajasthan",
+    "state": "Rajasthan",
+    "category": "fort",
+    "region": "north",
+    "description": "India's most haunted fort with stunning architecture. ASI prohibited entry after sunset, adding to its mysterious allure and historical significance.",
+    "images": [
+      "bhangarh.webp"
+    ],
+    "difficulty": "easy",
+    "visitors": "Popular but restricted",
+    "rating": 4.3,
+    "visits": 892,
+    "distance": "83 km from Jaipur",
+    "cultural_significance": "17th-century fort built by Raja Bhagwant Das, steeped in legends and folklore of curse and supernatural activities.",
+    "best_time_visit": "October to March, only during daytime hours (6 AM to 6 PM)",
+    "how_to_reach": "Drive from Jaipur via Dausa and Thanagazi, or take bus to Dausa then local transport",
+    "local_tips": "Entry only during daylight hours. Carry water and wear sturdy shoes for exploring ruins.",
+    "accessibility": "Moderate walking on uneven terrain",
+    "connectivity": "Limited mobile network",
+    "nearby_attractions": [
+      "Ajabgarh Fort",
+      "Sariska Tiger Reserve"
+    ],
+    "submittedAt": "2024-02-05",
+    "createdAt": "2024-02-05"
+  },
+  {
+    "id": 6,
+    "title": "Ziro Valley",
+    "location": "Arunachal Pradesh",
+    "state": "Arunachal Pradesh",
+    "category": "nature",
+    "region": "northeast",
+    "description": "UNESCO World Heritage site with pine-covered hills, bamboo groves, and Apatani tribal culture. Home to unique agricultural practices and festivals.",
+    "images": [
+      "ziro-valley.jpg"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Limited tourists",
+    "rating": 4.8,
+    "visits": 156,
+    "distance": "115 km from Itanagar",
+    "cultural_significance": "Home to Apatani tribe known for sustainable farming practices, unique facial tattoos, and nose plugs tradition.",
+    "best_time_visit": "March to October, September for Ziro Music Festival",
+    "how_to_reach": "Fly to Lilabari Airport then drive, or take bus from Guwahati via Itanagar",
+    "local_tips": "Respect tribal customs and traditions. Inner Line Permit required for non-residents.",
+    "accessibility": "Moderate trekking required for some areas",
+    "connectivity": "Limited mobile network, BSNL works better",
+    "nearby_attractions": [
+      "Talley Valley Wildlife Sanctuary",
+      "Kile Pakho peak"
+    ],
+    "submittedAt": "2024-02-10",
+    "createdAt": "2024-02-10"
+  },
+  {
+    "id": 7,
+    "title": "Khajjiar",
+    "location": "Himachal Pradesh",
+    "state": "Himachal Pradesh",
+    "category": "nature",
+    "region": "north",
+    "description": "Mini Switzerland of India with lush meadows, dense forests, and pristine lake. Perfect blend of natural beauty and adventure activities.",
+    "images": [
+      "khajjiar.jpg"
+    ],
+    "difficulty": "easy",
+    "visitors": "Moderate crowds",
+    "rating": 4.5,
+    "visits": 734,
+    "distance": "24 km from Dalhousie",
+    "cultural_significance": "Named after Khajji Nag temple, considered sacred by locals. Historical significance in Gaddi and Brahmin settlements.",
+    "best_time_visit": "March to June and September to November",
+    "how_to_reach": "Drive from Dalhousie or Chamba, nearest airport is Pathankot",
+    "local_tips": "Try paragliding and horse riding. Carry warm clothes even in summer.",
+    "accessibility": "Easy access by road, suitable for families",
+    "connectivity": "Good mobile network coverage",
+    "nearby_attractions": [
+      "Chamera Lake",
+      "Kalatop Wildlife Sanctuary",
+      "Khajjiar Lake"
+    ],
+    "submittedAt": "2024-02-15",
+    "createdAt": "2024-02-15"
+  },
+  {
+    "id": 8,
+    "title": "Gandikota Grand Canyon",
+    "location": "Andhra Pradesh",
+    "state": "Andhra Pradesh",
+    "category": "nature",
+    "region": "south",
+    "description": "India's Grand Canyon with stunning gorge formations carved by Pennar River. Ancient fort ruins add historical charm to natural beauty.",
+    "images": [
+      "gandikota.jpeg"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Growing popularity",
+    "rating": 4.6,
+    "visits": 567,
+    "distance": "280 km from Bangalore",
+    "cultural_significance": "13th-century fort built by Kamma rulers, later occupied by Vijayanagara Empire and Qutb Shahi dynasty.",
+    "best_time_visit": "October to March, sunrise and sunset views are spectacular",
+    "how_to_reach": "Drive from Bangalore via Anantapur, or train to Muddanuru then taxi",
+    "local_tips": "Camping allowed with permission. Carry enough water and food. Be careful near cliff edges.",
+    "accessibility": "Moderate trekking required for best viewpoints",
+    "connectivity": "Limited mobile network coverage",
+    "nearby_attractions": [
+      "Belum Caves",
+      "Yaganti Temple"
+    ],
+    "submittedAt": "2024-02-20",
+    "createdAt": "2024-02-20"
+  },
+  {
+    "id": 9,
+    "title": "Majuli Island",
+    "location": "Assam",
+    "state": "Assam",
+    "category": "village",
+    "region": "east",
+    "description": "World's largest river island in Brahmaputra River, famous for Vaishnavite monasteries, traditional crafts, and unique culture of Mising tribe.",
+    "images": [
+      "majuli.jpg"
+    ],
+    "difficulty": "easy",
+    "visitors": "Limited infrastructure",
+    "rating": 4.7,
+    "visits": 289,
+    "distance": "20 km from Jorhat",
+    "cultural_significance": "Center of Assamese Neo-Vaishnavite culture for 500 years, home to ancient Satras (monasteries) preserving traditional arts.",
+    "best_time_visit": "November to April, avoid monsoons due to flooding",
+    "how_to_reach": "Ferry from Nimati Ghat near Jorhat, journey takes 1-2 hours",
+    "local_tips": "Stay in Satra guesthouses for authentic experience. Respect monastery rules and traditions.",
+    "accessibility": "Ferry ride required, cycling is popular on the island",
+    "connectivity": "Basic mobile network coverage",
+    "nearby_attractions": [
+      "Auniati Satra",
+      "Dakhinpat Satra",
+      "Samaguri Satra"
+    ],
+    "submittedAt": "2024-02-25",
+    "createdAt": "2024-02-25"
+  },
+  {
+    "id": 10,
+    "title": "Chitrakote Falls",
+    "location": "Chhattisgarh",
+    "state": "Chhattisgarh",
+    "category": "nature",
+    "region": "central",
+    "description": "India's Niagara Falls with horseshoe-shaped cascade. Most spectacular during monsoons when Indravati River is in full flow.",
+    "images": [
+      "chitrakote.jpeg"
+    ],
+    "difficulty": "easy",
+    "visitors": "Seasonal crowds",
+    "rating": 4.4,
+    "visits": 445,
+    "distance": "40 km from Jagdalpur",
+    "cultural_significance": "Sacred to local tribal communities, considered abode of water spirits. Area has rich tribal cultural heritage.",
+    "best_time_visit": "July to February, best water flow during monsoons",
+    "how_to_reach": "Drive from Jagdalpur or Raipur, well-connected by road",
+    "local_tips": "Visit during monsoon for full water flow. Be careful during rainy season due to slippery rocks.",
+    "accessibility": "Easy walk to viewpoints, stairs to base require moderate fitness",
+    "connectivity": "Good mobile network coverage",
+    "nearby_attractions": [
+      "Kanger Valley National Park",
+      "Tirathgarh Falls"
+    ],
+    "submittedAt": "2024-03-01",
+    "createdAt": "2024-03-01"
+  },
+  {
+    "id": 11,
+    "title": "Hampi Ruins",
+    "location": "Karnataka",
+    "state": "Karnataka",
+    "category": "temple",
+    "region": "south",
+    "description": "UNESCO World Heritage site with magnificent ruins of Vijayanagara Empire. Boulder landscape creates surreal setting for ancient temples.",
+    "images": [
+      "hampi.jpg"
+    ],
+    "difficulty": "easy",
+    "visitors": "Popular destination",
+    "rating": 4.8,
+    "visits": 1234,
+    "distance": "343 km from Bangalore",
+    "cultural_significance": "Capital of Vijayanagara Empire (14th-16th century), showcasing South Indian architecture and ancient urban planning.",
+    "best_time_visit": "October to March, early morning and late afternoon for photography",
+    "how_to_reach": "Train to Hospet then bus/taxi, or direct bus from Bangalore/Hyderabad",
+    "local_tips": "Rent bicycle for exploring. Stay in Hampi Bazaar or Virupapur Gaddi. Respect monument guidelines.",
+    "accessibility": "Easy walking on mostly flat terrain",
+    "connectivity": "Good mobile network coverage",
+    "nearby_attractions": [
+      "Vitthala Temple",
+      "Lotus Mahal",
+      "Elephant Stables"
+    ],
+    "submittedAt": "2024-03-05",
+    "createdAt": "2024-03-05"
+  },
+  {
+    "id": 12,
+    "title": "Valley of Flowers",
+    "location": "Uttarakhand",
+    "state": "Uttarakhand",
+    "category": "nature",
+    "region": "north",
+    "description": "UNESCO World Heritage site with endemic alpine flowers, pristine meadows, and Himalayan wildlife. A trekker's paradise in Garhwal Himalayas.",
+    "images": [
+      "valley-of-flowers.jpg"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Restricted season",
+    "rating": 4.9,
+    "visits": 178,
+    "distance": "19 km trek from Ghangaria",
+    "cultural_significance": "Discovered by Frank Smythe in 1931, considered sacred by locals. Home to endangered Himalayan species.",
+    "best_time_visit": "July to September when flowers bloom",
+    "how_to_reach": "Trek from Govindghat via Ghangaria, helicopter service available to Ghangaria",
+    "local_tips": "Book permits in advance. Stay at Ghangaria base camp. Carry warm clothes and rain gear.",
+    "accessibility": "Difficult trek requiring good fitness level",
+    "connectivity": "No mobile network in the valley",
+    "nearby_attractions": [
+      "Hemkund Sahib",
+      "Badrinath Temple"
+    ],
+    "submittedAt": "2024-03-10",
+    "createdAt": "2024-03-10"
+  },
+  {
+    "id": 13,
+    "title": "Rann of Kutch",
+    "location": "Gujarat",
+    "state": "Gujarat",
+    "category": "nature",
+    "region": "west",
+    "description": "World's largest salt desert with white crystalline landscape. Experience unique culture of Kutchi people and vibrant Rann Utsav festival.",
+    "images": [
+      "rann-of-kutch.jpg"
+    ],
+    "difficulty": "easy",
+    "visitors": "Seasonal tourism",
+    "rating": 4.7,
+    "visits": 856,
+    "distance": "85 km from Bhuj",
+    "cultural_significance": "Home to diverse communities including Rabari, Ahir, and Mutva tribes. Rich tradition of handicrafts and folk arts.",
+    "best_time_visit": "November to February during Rann Utsav",
+    "how_to_reach": "Fly to Bhuj then drive, or train to Bhuj from major cities",
+    "local_tips": "Stay in tent city during festival. Carry warm clothes for night. Respect local customs.",
+    "accessibility": "Easy access, 4WD recommended for some areas",
+    "connectivity": "Limited mobile network coverage",
+    "nearby_attractions": [
+      "Kala Dungar",
+      "Wild Ass Sanctuary",
+      "Bhuj Palace"
+    ],
+    "submittedAt": "2024-03-15",
+    "createdAt": "2024-03-15"
+  },
+  {
+    "id": 14,
+    "title": "Spiti Valley",
+    "location": "Himachal Pradesh",
+    "state": "Himachal Pradesh",
+    "category": "village",
+    "region": "north",
+    "description": "Cold desert mountain valley with ancient Tibetan Buddhist monasteries, barren landscapes that resemble moonscape, and resilient local culture.",
+    "images": [
+      "spiti-valley.jpg"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Adventure seekers",
+    "rating": 4.8,
+    "visits": 267,
+    "distance": "200 km from Manali",
+    "cultural_significance": "Tibetan Buddhist culture preserved for over 1000 years. Ancient monasteries like Key and Tashigang hold priceless artifacts.",
+    "best_time_visit": "May to October, roads closed in winter",
+    "how_to_reach": "Drive from Manali via Rohtang Pass or from Shimla via Kinnaur",
+    "local_tips": "Acclimatize properly. Carry medicines and warm clothes. Respect Buddhist customs.",
+    "accessibility": "Challenging high-altitude terrain, good fitness required",
+    "connectivity": "Very limited mobile network",
+    "nearby_attractions": [
+      "Key Monastery",
+      "Chandratal Lake",
+      "Pin Valley"
+    ],
+    "submittedAt": "2024-03-20",
+    "createdAt": "2024-03-20"
+  },
+  {
+    "id": 15,
+    "title": "Agumbe Rainforest",
+    "location": "Karnataka",
+    "state": "Karnataka",
+    "category": "nature",
+    "region": "south",
+    "description": "Cherrapunji of South India with dense rainforests, king cobra research station, and stunning sunset views from Western Ghats hilltop.",
+    "images": [
+      "agumbe.jpg"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Nature enthusiasts",
+    "rating": 4.6,
+    "visits": 334,
+    "distance": "350 km from Bangalore",
+    "cultural_significance": "Important biodiversity hotspot in Western Ghats. Traditional knowledge of medicinal plants preserved by local communities.",
+    "best_time_visit": "September to February, avoid heavy monsoons",
+    "how_to_reach": "Drive from Mangalore or Bangalore via Thirthahalli",
+    "local_tips": "Carry leech socks during monsoons. Visit King Cobra research station. Book forest stays in advance.",
+    "accessibility": "Moderate trekking in forest areas",
+    "connectivity": "Limited mobile network coverage",
+    "nearby_attractions": [
+      "Jog Falls",
+      "Kundadri Hill",
+      "Someshwara Wildlife Sanctuary"
+    ],
+    "submittedAt": "2024-03-25",
+    "createdAt": "2024-03-25"
+  },
+  {
+    "id": 16,
+    "title": "Tawang Monastery",
+    "location": "Arunachal Pradesh",
+    "state": "Arunachal Pradesh",
+    "category": "temple",
+    "region": "northeast",
+    "description": "India's largest monastery and world's second-largest, perched at 10,000 feet. Birthplace of 6th Dalai Lama with 300-year-old Buddhist heritage.",
+    "images": [
+      "tawang.jpeg"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Pilgrims and tourists",
+    "rating": 4.9,
+    "visits": 445,
+    "distance": "183 km from Tezpur",
+    "cultural_significance": "Founded in 1680, major center of Mahayana Buddhism. Birthplace of 6th Dalai Lama Tsangyang Gyatso.",
+    "best_time_visit": "April to October, avoid winter due to snow",
+    "how_to_reach": "Fly to Tezpur then drive, Inner Line Permit required",
+    "local_tips": "Respect monastery rules. Photography restrictions apply. Dress modestly.",
+    "accessibility": "High altitude, some walking required",
+    "connectivity": "Limited mobile network coverage",
+    "nearby_attractions": [
+      "Sela Pass",
+      "Madhuri Lake",
+      "War Memorial"
+    ],
+    "submittedAt": "2024-03-30",
+    "createdAt": "2024-03-30"
+  },
+  {
+    "id": 17,
+    "title": "Nubra Valley",
+    "location": "Ladakh",
+    "state": "Ladakh",
+    "category": "nature",
+    "region": "north",
+    "description": "High-altitude cold desert with sand dunes, double-humped camels, and ancient Silk Route history. Valley of flowers surrounded by snow-capped peaks.",
+    "images": [
+      "nubra-valley.jpg"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Adventure travelers",
+    "rating": 4.8,
+    "visits": 201,
+    "distance": "150 km from Leh",
+    "cultural_significance": "Ancient Silk Route trade center. Balti culture and traditions preserved in Turtuk village near Pakistan border.",
+    "best_time_visit": "May to September, Khardung La pass closed in winter",
+    "how_to_reach": "Drive from Leh via Khardung La pass, permits required",
+    "local_tips": "Acclimatize in Leh first. Carry warm clothes and medicines. Book homestays in advance.",
+    "accessibility": "High altitude, world's highest motorable pass",
+    "connectivity": "Very limited mobile network",
+    "nearby_attractions": [
+      "Diskit Monastery",
+      "Hunder Sand Dunes",
+      "Turtuk Village"
+    ],
+    "submittedAt": "2024-04-01",
+    "createdAt": "2024-04-01"
+  },
+  {
+    "id": 18,
+    "title": "Dzukou Valley",
+    "location": "Nagaland",
+    "state": "Nagaland",
+    "category": "nature",
+    "region": "northeast",
+    "description": "Valley of flowers in Northeast India with rolling hills, seasonal blooms, and pristine natural beauty. Paradise for trekkers and nature lovers.",
+    "images": [
+      "dzukou-valley.jpeg"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Limited access",
+    "rating": 4.7,
+    "visits": 123,
+    "distance": "30 km from Kohima",
+    "cultural_significance": "Sacred to Angami Naga tribe. Traditional knowledge of medicinal plants and sustainable farming practices.",
+    "best_time_visit": "June to September for flowers, October to March for trekking",
+    "how_to_reach": "Trek from Viswema village near Kohima, Inner Line Permit required",
+    "local_tips": "Carry camping gear. Respect tribal customs. No plastic allowed in the valley.",
+    "accessibility": "Moderate to difficult trekking required",
+    "connectivity": "No mobile network coverage",
+    "nearby_attractions": [
+      "Kohima War Cemetery",
+      "Khonoma Village"
+    ],
+    "submittedAt": "2024-04-05",
+    "createdAt": "2024-04-05"
+  },
+  {
+    "id": 19,
+    "title": "Lonar Crater Lake",
+    "location": "Maharashtra",
+    "state": "Maharashtra",
+    "category": "nature",
+    "region": "west",
+    "description": "World's third-largest natural saltwater crater lake formed by meteor impact 52,000 years ago. Unique ecosystem with alkaline water and rare microorganisms.",
+    "images": [
+      "lonar-crater.jpeg"
+    ],
+    "difficulty": "easy",
+    "visitors": "Scientific interest",
+    "rating": 4.5,
+    "visits": 389,
+    "distance": "150 km from Aurangabad",
+    "cultural_significance": "Mentioned in ancient texts like Skanda Purana. Archaeological sites around the crater show historical settlements.",
+    "best_time_visit": "October to March, avoid monsoons for clear views",
+    "how_to_reach": "Drive from Aurangabad or take bus to Lonar town",
+    "local_tips": "Visit interpretation center first. Carry water and snacks. Best photographed during sunrise/sunset.",
+    "accessibility": "Easy walk around crater rim, steep path to lake",
+    "connectivity": "Good mobile network coverage",
+    "nearby_attractions": [
+      "Ajanta Caves",
+      "Ellora Caves",
+      "Daulatabad Fort"
+    ],
+    "submittedAt": "2024-04-10",
+    "createdAt": "2024-04-10"
+  },
+  {
+    "id": 20,
+    "title": "Magnetic Hill",
+    "location": "Ladakh",
+    "state": "Ladakh",
+    "category": "nature",
+    "region": "north",
+    "description": "Mysterious hill where vehicles appear to roll uphill defying gravity. Optical illusion created by landscape layout attracts curious visitors worldwide.",
+    "images": [
+      "magnetic-hill.jpg"
+    ],
+    "difficulty": "easy",
+    "visitors": "Tourist attraction",
+    "rating": 4.2,
+    "visits": 567,
+    "distance": "30 km from Leh",
+    "cultural_significance": "Local legends attribute supernatural powers to the hill. Buddhist beliefs about spiritual energy of the landscape.",
+    "best_time_visit": "May to September when roads are accessible",
+    "how_to_reach": "Drive from Leh towards Kargil on NH1, well-marked location",
+    "local_tips": "Test the magnetic effect with your vehicle. Carry warm clothes even in summer.",
+    "accessibility": "Roadside attraction, no trekking required",
+    "connectivity": "Limited mobile network coverage",
+    "nearby_attractions": [
+      "Gurudwara Pathar Sahib",
+      "Sangam Point"
+    ],
+    "submittedAt": "2024-04-15",
+    "createdAt": "2024-04-15"
+  },
+  {
+    "id": 21,
+    "title": "Living Root Bridges",
+    "location": "Meghalaya",
+    "state": "Meghalaya",
+    "category": "nature",
+    "region": "northeast",
+    "description": "Bioengineered bridges made from rubber tree roots, grown over decades by Khasi tribe. UNESCO-worthy example of indigenous sustainable architecture.",
+    "images": [
+      "root-bridges.jpg"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Adventure seekers",
+    "rating": 4.9,
+    "visits": 234,
+    "distance": "80 km from Shillong",
+    "cultural_significance": "Ancient Khasi engineering technique passed down generations. Represents harmony between humans and nature.",
+    "best_time_visit": "October to April, avoid heavy monsoons",
+    "how_to_reach": "Trek from Tyrna village, steep descent of 3000 steps",
+    "local_tips": "Start early morning. Carry water and energy bars. Wear good trekking shoes.",
+    "accessibility": "Very difficult trek, excellent fitness required",
+    "connectivity": "No mobile network coverage",
+    "nearby_attractions": [
+      "Double Decker Root Bridge",
+      "Rainbow Falls"
+    ],
+    "submittedAt": "2024-04-20",
+    "createdAt": "2024-04-20"
+  },
+  {
+    "id": 22,
+    "title": "Kolukkumalai Tea Estate",
+    "location": "Tamil Nadu",
+    "state": "Tamil Nadu",
+    "category": "nature",
+    "region": "south",
+    "description": "World's highest organic tea plantation at 8000 feet elevation. Spectacular views of Western Ghats and traditional tea processing methods.",
+    "images": [
+      "kolukkumalai.jpg"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Tea enthusiasts",
+    "rating": 4.6,
+    "visits": 445,
+    "distance": "40 km from Munnar",
+    "cultural_significance": "Century-old tea cultivation methods preserved. Traditional knowledge of organic farming practices.",
+    "best_time_visit": "September to March, sunrise views are spectacular",
+    "how_to_reach": "4WD vehicle required from Suryanelli, or trek from Top Station",
+    "local_tips": "Book jeep safari in advance. Carry warm clothes for early morning. Try fresh tea tasting.",
+    "accessibility": "Requires 4WD vehicle or trekking",
+    "connectivity": "Limited mobile network coverage",
+    "nearby_attractions": [
+      "Top Station",
+      "Echo Point",
+      "Mattupetty Dam"
+    ],
+    "submittedAt": "2024-04-25",
+    "createdAt": "2024-04-25"
+  }
+]

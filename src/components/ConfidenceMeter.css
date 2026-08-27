@@ -1,0 +1,414 @@
+.confidence-meter {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    padding: 32px;
+    color: white;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    margin-bottom: 40px;
+}
+
+.confidence-meter.loading,
+.confidence-meter.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    gap: 20px;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.confidence-meter.error {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.confidence-meter.error h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.confidence-meter.error p {
+    margin: 0;
+    opacity: 0.9;
+    text-align: center;
+}
+
+.header {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.header h2 {
+    font-size: 28px;
+    margin: 0 0 8px 0;
+    font-weight: 700;
+}
+
+.subtitle {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+/* Overall Score Section */
+.overall-score-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.overall-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.score-circle {
+    position: relative;
+    width: 160px;
+    height: 160px;
+}
+
+.score-circle svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.progress-ring circle {
+    transition: stroke-dasharray 0.8s ease;
+}
+
+.score-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.score-text .number {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.score-text .label {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.confidence-label {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.metric-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.metric-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.metric-icon {
+    font-size: 28px;
+}
+
+.metric-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.metric-bar {
+    margin-bottom: 12px;
+}
+
+.bar-background {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.8s ease;
+}
+
+.metric-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.metric-score {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.metric-desc {
+    opacity: 0.85;
+}
+
+.metric-source {
+    opacity: 0.7;
+    font-size: 11px;
+}
+
+/* Travel Tips */
+.travel-tips {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.travel-tips h3 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.travel-tips ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.travel-tips li {
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Data Sources */
+.data-sources {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.data-sources h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+}
+
+.source {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.api-name {
+    font-weight: 600;
+}
+
+.api-desc {
+    opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .confidence-meter {
+        padding: 24px;
+    }
+
+    .header h2 {
+        font-size: 24px;
+    }
+
+    .score-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    .score-text .number {
+        font-size: 36px;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .travel-tips h3 {
+        font-size: 16px;
+    }
+
+    .travel-tips li {
+        font-size: 13px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .confidence-meter {
+        padding: 16px;
+    }
+
+    .header h2 {
+        font-size: 20px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+
+    .score-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .score-text .number {
+        font-size: 28px;
+    }
+
+    .score-text .label {
+        font-size: 12px;
+    }
+
+    .confidence-label {
+        font-size: 16px;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-card {
+        padding: 16px;
+    }
+
+    .metric-icon {
+        font-size: 24px;
+    }
+
+    .metric-header h3 {
+        font-size: 14px;
+    }
+
+    .travel-tips {
+        padding: 16px;
+    }
+
+    .travel-tips h3 {
+        font-size: 14px;
+    }
+
+    .travel-tips li {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .sources-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .source {
+        font-size: 11px;
+        padding: 6px;
+    }
+}
+
+/* Loading animation for confidence meter */
+.confidence-meter.loading p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Smooth transitions */
+.metric-card,
+.travel-tips,
+.data-sources {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Score color indicators */
+.score-excellent {
+    color: #10b981;
+}
+
+.score-good {
+    color: #f59e0b;
+}
+
+.score-fair {
+    color: #ef4444;
+}

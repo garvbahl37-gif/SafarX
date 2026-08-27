@@ -1,0 +1,240 @@
+[
+    {
+        "id": "taj-mahal",
+        "name": "Taj Mahal",
+        "country": "Uttar Pradesh, India",
+        "category": "Heritage",
+        "videoId": "2aJ9cOwbzxo",
+        "thumbnail": "/images/vr_thumbnails/taj-mahal.jpg",
+        "description": "An ivory-white marble mausoleum of eternal love.",
+        "highlights": [
+            "Mausoleum",
+            "Charbagh Gardens",
+            "Yamuna River"
+        ],
+        "gradient": "from-amber-200 via-orange-200 to-white",
+        "duration": "5:45",
+        "views": "5.9M"
+    },
+    {
+        "id": "varanasi",
+        "name": "Varanasi",
+        "country": "Uttar Pradesh, India",
+        "category": "Spiritual",
+        "videoId": "_KCb-SrQ2NQ",
+        "thumbnail": "https://images.unsplash.com/photo-1561361058-c24cecae35ca?w=800",
+        "description": "Ganga aarti and ancient ghats in the world's oldest living city.",
+        "highlights": [
+            "Dashashwamedh Ghat",
+            "Ganga Aarti",
+            "Kashi Vishwanath"
+        ],
+        "gradient": "from-orange-300 via-amber-200 to-white",
+        "duration": "6:20",
+        "views": "2.4M"
+    },
+    {
+        "id": "jaipur",
+        "name": "Amber Fort, Jaipur",
+        "country": "Rajasthan, India",
+        "category": "Heritage",
+        "videoId": "uVEQFCLOIgI",
+        "thumbnail": "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=800",
+        "description": "Rajput ramparts and mirrored halls above the Pink City.",
+        "highlights": [
+            "Sheesh Mahal",
+            "Ganesh Pol",
+            "Maota Lake"
+        ],
+        "gradient": "from-amber-300 via-orange-200 to-rose-100",
+        "duration": "4:30",
+        "views": "1.8M"
+    },
+    {
+        "id": "hampi",
+        "name": "Hampi",
+        "country": "Karnataka, India",
+        "category": "Heritage",
+        "videoId": "H1GpruupHHA",
+        "thumbnail": "https://images.unsplash.com/photo-1561981969-65ee8dfc7351?w=800",
+        "description": "Boulder-strewn ruins of the Vijayanagara empire.",
+        "highlights": [
+            "Stone Chariot",
+            "Vittala Temple",
+            "Matanga Hill"
+        ],
+        "gradient": "from-orange-200 via-amber-300 to-yellow-100",
+        "duration": "7:10",
+        "views": "980K"
+    },
+    {
+        "id": "kerala",
+        "name": "Kerala Backwaters",
+        "country": "Kerala, India",
+        "category": "Nature",
+        "videoId": "U5DLLfPOXMI",
+        "thumbnail": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=800",
+        "description": "Drift past palm-fringed lagoons on a Kumarakom houseboat.",
+        "highlights": [
+            "Houseboat Cruise",
+            "Vembanad Lake",
+            "Coir Villages"
+        ],
+        "gradient": "from-amber-200 via-orange-100 to-white",
+        "duration": "5:05",
+        "views": "1.5M"
+    },
+    {
+        "id": "ladakh",
+        "name": "Ladakh",
+        "country": "Ladakh, India",
+        "category": "Adventure",
+        "videoId": "c-WnXLwwZCI",
+        "thumbnail": "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?w=800",
+        "description": "High-altitude monasteries beneath bare Himalayan peaks.",
+        "highlights": [
+            "Diskit Monastery",
+            "Nubra Valley",
+            "Maitreya Buddha"
+        ],
+        "gradient": "from-orange-300 via-amber-200 to-sky-50",
+        "duration": "4:15",
+        "views": "1.1M"
+    },
+    {
+        "id": "goa",
+        "name": "Goa",
+        "country": "Goa, India",
+        "category": "Beach",
+        "videoId": "N6yibD27dok",
+        "thumbnail": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800",
+        "description": "Golden sands and swaying palms on Calangute beach.",
+        "highlights": [
+            "Calangute Beach",
+            "Arabian Sea",
+            "Beach Shacks"
+        ],
+        "gradient": "from-amber-200 via-orange-300 to-rose-100",
+        "duration": "3:40",
+        "views": "2.2M"
+    },
+    {
+        "id": "delhi",
+        "name": "Qutub Minar, Delhi",
+        "country": "Delhi, India",
+        "category": "Heritage",
+        "videoId": "44VsFaMg8bo",
+        "thumbnail": "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800",
+        "description": "The soaring sandstone minaret of medieval Delhi.",
+        "highlights": [
+            "Qutub Minar",
+            "Iron Pillar",
+            "Mehrauli Complex"
+        ],
+        "gradient": "from-orange-200 via-amber-200 to-white",
+        "duration": "4:00",
+        "views": "890K"
+    },
+    {
+        "id": "mysore",
+        "name": "Mysore Palace",
+        "country": "Karnataka, India",
+        "category": "Heritage",
+        "videoId": "F-HnBj5SJ2w",
+        "thumbnail": "https://images.unsplash.com/photo-1580294647332-8a399cd9ed45?w=800",
+        "description": "The Wodeyar dynasty's Indo-Saracenic jewel, lit by 97,000 bulbs.",
+        "highlights": [
+            "Durbar Hall",
+            "Amba Vilas",
+            "Palace Illumination"
+        ],
+        "gradient": "from-amber-300 via-orange-200 to-yellow-50",
+        "duration": "3:55",
+        "views": "760K"
+    },
+    {
+        "id": "khajuraho",
+        "name": "Khajuraho",
+        "country": "Madhya Pradesh, India",
+        "category": "Heritage",
+        "videoId": "N87raB2XxJ8",
+        "thumbnail": "https://images.unsplash.com/photo-1585560897379-f03558b96b00?w=800",
+        "description": "Chandela temples carved with a thousand years of stories.",
+        "highlights": [
+            "Kandariya Mahadeva",
+            "Western Group",
+            "Stone Carvings"
+        ],
+        "gradient": "from-orange-300 via-amber-300 to-white",
+        "duration": "5:20",
+        "views": "640K"
+    },
+    {
+        "id": "amritsar",
+        "name": "Golden Temple, Amritsar",
+        "country": "Punjab, India",
+        "category": "Spiritual",
+        "videoId": "EBSh4nVtR9s",
+        "thumbnail": "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?w=800",
+        "description": "Harmandir Sahib shimmering over the sacred Amrit Sarovar.",
+        "highlights": [
+            "Harmandir Sahib",
+            "Amrit Sarovar",
+            "Langar Hall"
+        ],
+        "gradient": "from-amber-200 via-yellow-200 to-orange-100",
+        "duration": "4:40",
+        "views": "3.3M"
+    },
+    {
+        "id": "ellora",
+        "name": "Ellora Caves",
+        "country": "Maharashtra, India",
+        "category": "Heritage",
+        "videoId": "4O_ZY661eXU",
+        "thumbnail": "https://images.unsplash.com/photo-1631102006950-64c80c08681e?w=800",
+        "description": "Kailasa temple, hewn from a single mountain of basalt.",
+        "highlights": [
+            "Kailasa Temple",
+            "Cave 16",
+            "Rock-cut Monasteries"
+        ],
+        "gradient": "from-orange-200 via-amber-200 to-stone-100",
+        "duration": "6:00",
+        "views": "1.3M"
+    },
+    {
+        "id": "madurai",
+        "name": "Meenakshi Temple, Madurai",
+        "country": "Tamil Nadu, India",
+        "category": "Spiritual",
+        "videoId": "VZ0as-iuDzw",
+        "thumbnail": "https://images.unsplash.com/photo-1558656274-9dae7ebade1c?w=800",
+        "description": "Technicolor gopurams rising over a 2,500-year-old city.",
+        "highlights": [
+            "Meenakshi Amman",
+            "Thousand Pillar Hall",
+            "Gopurams"
+        ],
+        "gradient": "from-amber-300 via-orange-300 to-rose-100",
+        "duration": "5:35",
+        "views": "1.0M"
+    },
+    {
+        "id": "konark",
+        "name": "Konark Sun Temple",
+        "country": "Odisha, India",
+        "category": "Heritage",
+        "videoId": "OZTYRGotrsk",
+        "thumbnail": "https://images.unsplash.com/photo-1576235282476-debff2a4d0b9?w=800",
+        "description": "A colossal stone chariot built for the sun god Surya.",
+        "highlights": [
+            "Chariot Wheels",
+            "Surya Shrine",
+            "Chandrabhaga Beach"
+        ],
+        "gradient": "from-orange-300 via-amber-200 to-yellow-100",
+        "duration": "4:25",
+        "views": "720K"
+    }
+]
