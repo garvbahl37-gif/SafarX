@@ -27,7 +27,7 @@ const MeetupDetail = ({ meetupId, onClose }) => {
   return (
     <div className="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-2xl w-full mx-auto relative flex flex-col max-h-[90vh]">
          {/* Hero */}
-         <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-8 text-white relative flex-shrink-0">
+         <div className="bg-gradient-to-r from-saffron-bright to-saffron p-8 text-white relative flex-shrink-0">
              <button onClick={onClose} className="absolute top-4 right-4 bg-white/20 p-2 rounded-full hover:bg-white/30 transition-colors">
                  <X size={20} />
              </button>

@@ -19,6 +19,7 @@ import {
 
 import SectionHeading, { RouteDivider } from "../components/ui/SectionHeading";
 import CurvedLoop from "../components/animations/CurvedLoop";
+import CountUp from "../components/ui/CountUp";
 import vrToursData from "../data/vrTours.json";
 
 /* ------------------------------------------------------------------ */
@@ -35,7 +36,7 @@ const SLIDES = [
     titleAccent: "begins here",
     description:
       "Sunrise over the Taj. Preview India's heritage in immersive 360°, plan with AI, and carry everything you need in one place.",
-    url: "https://videos.pexels.com/video-files/33588459/14277876_1920_1080_25fps.mp4",
+    url: "https://videos.pexels.com/video-files/19717370/19717370-uhd_3840_2160_30fps.mp4",
     poster: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&auto=format&fit=crop&q=70",
     thumb: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=160&auto=format&fit=crop&q=60",
   },
@@ -120,7 +121,7 @@ const TOOLKIT = [
     title: "VR Previews",
     desc: "Step inside India's monuments and hotels in high-fidelity 360° before you book.",
     icon: Camera,
-    image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1200&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1800&auto=format&fit=crop&q=80",
     span: "md:col-span-2 md:row-span-2",
   },
   {
@@ -128,7 +129,7 @@ const TOOLKIT = [
     title: "AI Trip Planner",
     desc: "Day-by-day itineraries tuned to your pace, budget, and interests.",
     icon: Calendar,
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=900&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1400&auto=format&fit=crop&q=80",
     span: "md:col-span-2",
   },
   {
@@ -136,21 +137,21 @@ const TOOLKIT = [
     title: "Flight Tracker",
     desc: "Follow any aircraft live across the globe.",
     icon: Plane,
-    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=900&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&auto=format&fit=crop&q=80",
   },
   {
     id: "vault",
     title: "Document Vault",
     desc: "Tickets, visas, and IDs — secured and offline-ready.",
     icon: FolderOpen,
-    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=900&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1400&auto=format&fit=crop&q=80",
   },
   {
     id: "social",
     title: "Safar Groups",
     desc: "Plan group trips and split the logistics, not the fun.",
     icon: Users,
-    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=900&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1400&auto=format&fit=crop&q=80",
     span: "md:col-span-2",
   },
   {
@@ -158,7 +159,7 @@ const TOOLKIT = [
     title: "Hidden Gems",
     desc: "Secret spots shared by locals — off every tourist map.",
     icon: Compass,
-    image: "https://images.unsplash.com/photo-1571536802807-30451e3955d8?w=900&auto=format&fit=crop&q=80",
+    image: "https://images.unsplash.com/photo-1571536802807-30451e3955d8?w=1400&auto=format&fit=crop&q=80",
     span: "md:col-span-2",
   },
 ];
@@ -262,10 +263,23 @@ const DESTINATIONS = [
 ];
 
 const STATS = [
-  { value: "500+", label: "Heritage sites mapped" },
-  { value: "43", label: "UNESCO World Heritage sites" },
-  { value: "50K", label: "Travelers onboard" },
-  { value: "24/7", label: "SafarX support" },
+  { num: 500, suffix: "+", label: "Heritage sites mapped" },
+  { num: 43, suffix: "", label: "UNESCO World Heritage sites" },
+  { num: 50, suffix: "K", label: "Travelers onboard" },
+  { num: 22, suffix: "", label: "Languages, once Kahani ships" },
+];
+
+/* ------------------------------------------------------------------ */
+/*  Voices from the road                                               */
+/* ------------------------------------------------------------------ */
+
+const VOICES = [
+  { quote: "I walked the ghats in VR at 2am and booked the trip by morning.", name: "Ananya R.", place: "Varanasi, Nov" },
+  { quote: "The planner budgeted Ladakh better than I could have. Even the oxygen stops.", name: "Vikram S.", place: "Leh, Jun" },
+  { quote: "Split five people's expenses across a Goa week without one argument.", name: "Meera J.", place: "Palolem, Feb" },
+  { quote: "It sent me to Ziro Valley. I'd never even heard the name before.", name: "Karthik N.", place: "Arunachal, Sep" },
+  { quote: "Every ticket and ID in one place when the hotel asked at midnight.", name: "Fatima A.", place: "Jaipur, Dec" },
+  { quote: "The hidden gems list had my own grandmother's village on it.", name: "Rohit D.", place: "Majuli, Oct" },
 ];
 
 /* ================================================================== */
@@ -321,10 +335,10 @@ const HomePage = ({ onPageChange }) => {
               className="absolute inset-0"
             >
               <motion.div
-                initial={{ scale: 1.12 }}
+                initial={{ scale: 1.045 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: SLIDE_DURATION / 1000 + 2, ease: "linear" }}
-                className="absolute inset-0"
+                className="absolute inset-0 will-change-transform"
               >
                 <video
                   autoPlay
@@ -513,9 +527,11 @@ const HomePage = ({ onPageChange }) => {
               transition={{ duration: 0.6, delay: i * 0.08 }}
               className="flex items-baseline gap-3"
             >
-              <span className="font-data text-3xl md:text-4xl font-medium text-ivory tabular-nums">
-                {stat.value}
-              </span>
+              <CountUp
+                value={stat.num}
+                suffix={stat.suffix}
+                className="font-data text-3xl md:text-[2.6rem] font-medium text-ivory tabular-nums leading-none"
+              />
               <span className="text-[11px] uppercase tracking-[0.16em] text-ivory-faint leading-tight">
                 {stat.label}
               </span>
@@ -530,41 +546,55 @@ const HomePage = ({ onPageChange }) => {
           <SectionHeading
             eyebrow="The Safar Toolkit"
             title="One companion for the whole journey"
-            lede="Nine tools that used to be nine different apps — previews, planning, tracking, documents, and a community of travelers."
+            lede="Everything a trip across India needs — previews, planning, tracking, documents, and a community of travelers — in one place."
             className="mb-16"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[190px] md:auto-rows-[210px] gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 auto-rows-[210px] md:auto-rows-[236px] gap-4">
             {TOOLKIT.map((tool, i) => (
               <motion.button
                 key={tool.id}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 34, scale: 0.98 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.65, delay: (i % 4) * 0.07 }}
+                transition={{ duration: 0.75, delay: (i % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -6 }}
                 onClick={() => onPageChange(tool.id)}
-                className={`group relative overflow-hidden rounded-2xl border border-white/[0.07] text-left hover:border-saffron/35 transition-colors duration-500 ${tool.span || ""}`}
+                className={`group relative overflow-hidden rounded-[22px] border border-white/[0.08] text-left transition-[border-color,box-shadow] duration-500 hover:border-saffron/45 hover:shadow-[0_28px_70px_-20px_rgba(0,0,0,0.85),0_0_46px_-16px_rgba(212,168,67,0.5)] ${tool.span || ""}`}
               >
+                {/* Photograph */}
                 <img
                   src={tool.image}
                   alt=""
                   loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-65 group-hover:scale-105 transition-all duration-700"
+                  className="absolute inset-0 w-full h-full object-cover opacity-[0.78] saturate-[1.05] contrast-[1.06] group-hover:opacity-95 group-hover:scale-[1.06] transition-all duration-[900ms] ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-950/95 via-ink-950/40 to-ink-950/10" />
-                <div className="relative h-full p-6 flex flex-col justify-between">
-                  <span className="w-10 h-10 rounded-xl bg-ink-950/60 backdrop-blur-md border border-white/[0.09] flex items-center justify-center">
-                    <tool.icon size={17} className="text-saffron" />
+                {/* Legibility scrim — deep at the base, clear at the top */}
+                <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/55 to-ink-950/5" />
+                {/* Warm tint that blooms on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-t from-saffron/18 via-transparent to-transparent" />
+                {/* Light sweep across the card on hover */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 opacity-0 group-hover:opacity-100 group-hover:translate-x-[420%] transition-all duration-[1100ms] ease-out pointer-events-none"
+                  style={{ background: "linear-gradient(90deg, transparent, rgba(245,242,234,0.14), transparent)" }}
+                />
+                {/* Hairline inner edge for depth */}
+                <span className="absolute inset-0 rounded-[22px] ring-1 ring-inset ring-white/[0.07] pointer-events-none" aria-hidden="true" />
+
+                <div className="relative h-full p-6 md:p-7 flex flex-col justify-between">
+                  <span className="w-11 h-11 rounded-2xl bg-ink-950/55 backdrop-blur-xl border border-white/[0.12] flex items-center justify-center shadow-lg group-hover:border-saffron/50 group-hover:bg-ink-950/70 transition-colors duration-500">
+                    <tool.icon size={18} className="text-saffron" />
                   </span>
                   <span>
-                    <span className="flex items-center gap-2 text-lg font-bold text-ivory mb-1">
+                    <span className="flex items-center gap-2 font-display text-[1.45rem] md:text-[1.6rem] font-medium text-ivory mb-1.5 tracking-tight">
                       {tool.title}
                       <ArrowUpRight
-                        size={15}
-                        className="text-saffron opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300"
+                        size={17}
+                        className="text-saffron opacity-0 -translate-x-1.5 translate-y-1.5 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-400"
                       />
                     </span>
-                    <span className="block text-[13px] text-ivory-muted leading-snug max-w-[36ch]">
+                    <span className="block text-[13.5px] text-ivory/70 group-hover:text-ivory/90 leading-snug max-w-[38ch] transition-colors duration-500">
                       {tool.desc}
                     </span>
                   </span>
@@ -753,6 +783,50 @@ const HomePage = ({ onPageChange }) => {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* ======================= VOICES ======================= */}
+      <section className="pt-24 md:pt-32 pb-14 md:pb-16 bg-ink-900 border-y border-white/[0.06] overflow-hidden">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-14">
+          <SectionHeading
+            eyebrow="Voices from the road"
+            title="Trips that actually happened"
+            className="mb-16"
+          />
+        </div>
+
+        {/* Two rows drifting in opposite directions */}
+        {[0, 1].map((row) => (
+          <div
+            key={row}
+            className="relative flex overflow-hidden mb-4 [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]"
+          >
+            <motion.div
+              className="flex gap-4 shrink-0"
+              animate={{ x: row === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}
+              transition={{ duration: row === 0 ? 46 : 54, repeat: Infinity, ease: "linear" }}
+            >
+              {[...VOICES, ...VOICES].map((v, i) => (
+                <figure
+                  key={`${row}-${i}`}
+                  className="w-[330px] md:w-[400px] shrink-0 rounded-2xl border border-white/[0.07] bg-ink-800/70 backdrop-blur-sm p-6 hover:border-saffron/30 transition-colors duration-500"
+                >
+                  <span className="route-dot mb-4 block" aria-hidden="true" />
+                  <blockquote className="font-display text-[1.05rem] md:text-[1.15rem] text-ivory/90 leading-relaxed mb-5">
+                    “{v.quote}”
+                  </blockquote>
+                  <figcaption className="flex items-center gap-3">
+                    <span className="text-[13px] font-semibold text-ivory">{v.name}</span>
+                    <span className="route-line w-6" aria-hidden="true" />
+                    <span className="font-data text-[10px] uppercase tracking-[0.2em] text-ivory-faint">
+                      {v.place}
+                    </span>
+                  </figcaption>
+                </figure>
+              ))}
+            </motion.div>
+          </div>
+        ))}
       </section>
 
       {/* ======================= CTA ======================= */}

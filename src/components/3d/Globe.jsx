@@ -127,7 +127,7 @@ const MarkerPulse = ({ position, label, color = '#ff6b6b', onClick }) => {
                     onClick={() => onClick?.()}
                     className="group relative"
                 >
-                    <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg hover:shadow-2xl transition-all duration-200 hover:scale-125 whitespace-nowrap border border-blue-400/50">
+                    <div className="bg-gradient-to-r from-saffron-bright to-saffron text-ink-950 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg hover:shadow-2xl transition-all duration-200 hover:scale-125 whitespace-nowrap border border-blue-400/50">
                         {label}
                         <div className="absolute inset-0 bg-white/10 rounded-full blur-sm -z-10 group-hover:blur opacity-0 group-hover:opacity-100 transition-all" />
                     </div>

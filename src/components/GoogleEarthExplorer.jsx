@@ -300,7 +300,7 @@ const GoogleEarthExplorer = ({ activeTab, onTabChange, onBack }) => {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-4xl md:text-7xl font-heritage font-bold mb-4 drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] filter"
           >
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-300 to-teal-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-saffron-bright via-saffron to-saffron-deep">
               See Earth From Above
             </span>
           </motion.h2>
@@ -453,7 +453,7 @@ const GoogleEarthExplorer = ({ activeTab, onTabChange, onBack }) => {
                       <span className="hidden sm:inline">Back to Immersive</span>
                     </button>
                   )}
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-saffron-bright to-saffron flex items-center justify-center">
                     <Globe className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -681,7 +681,7 @@ const GoogleEarthExplorer = ({ activeTab, onTabChange, onBack }) => {
                         loading="lazy"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyan-900/50 to-blue-900/50">
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-ink-800 to-ink-900">
                         <Globe className="w-8 h-8 text-cyan-400/50" />
                       </div>
                     )}

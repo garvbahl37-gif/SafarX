@@ -575,7 +575,7 @@ const VRPanoramaViewer = ({ panoId, placeName, isPano = true, onError }) => {
                     </div>
                     <p className="text-white font-semibold text-sm mb-3">{loadingState.message}</p>
                     <div className="w-64 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full transition-all duration-300"
+                        <div className="h-full bg-gradient-to-r from-saffron-bright to-saffron rounded-full transition-all duration-300"
                             style={{ width: `${loadingState.progress}%` }} />
                     </div>
                     <p className="text-white/30 text-xs mt-2">{loadingState.progress}%</p>

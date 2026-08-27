@@ -8,12 +8,12 @@ const MeetupCard = ({ meetup, onClick }) => {
 
     return (
         <motion.div
-            className="bg-white rounded-xl border border-gray-100 p-3 shadow-sm hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group flex gap-4 items-center dark:bg-[#121622] dark:border-white/5 dark:hover:border-cyan-500/30 dark:shadow-none"
+            className="bg-white rounded-xl border border-gray-100 p-3 shadow-sm hover:shadow-md hover:border-white/[0.07] transition-all cursor-pointer group flex gap-4 items-center dark:bg-[#121622] dark:border-white/5 dark:hover:border-cyan-500/30 dark:shadow-none"
             onClick={() => onClick(meetup.meetupId)}
             whileHover={{ scale: 1.01 }}
         >
             {/* Date Box / Image */}
-            <div className="w-14 h-14 rounded-xl bg-blue-50/50 flex flex-col items-center justify-center text-blue-600 flex-shrink-0 border border-blue-100/50 backdrop-blur-sm dark:bg-cyan-500/10 dark:border-cyan-500/20 dark:text-cyan-400">
+            <div className="w-14 h-14 rounded-xl bg-blue-50/50 flex flex-col items-center justify-center text-blue-600 flex-shrink-0 border border-white/[0.07]/50 backdrop-blur-sm dark:bg-cyan-500/10 dark:border-cyan-500/20 dark:text-cyan-400">
                 <span className="text-[10px] font-semibold uppercase tracking-wider text-blue-500 dark:text-cyan-500">{new Date(meetup.dateTime).toLocaleDateString(undefined, { month: 'short' })}</span>
                 <span className="text-lg font-bold leading-none text-blue-700 dark:text-cyan-400">{new Date(meetup.dateTime).getDate()}</span>
             </div>

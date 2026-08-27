@@ -105,7 +105,7 @@ const GroupExplorer = ({ onGroupClick, headless = false, externalSearchQuery, ex
           </h1>
           <div className="flex gap-2">
             <motion.button
-              className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
+              className="flex items-center gap-2 bg-gradient-to-r from-saffron-bright to-saffron text-ink-950 px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowMatchMaker(!showMatchMaker)}
@@ -131,7 +131,7 @@ const GroupExplorer = ({ onGroupClick, headless = false, externalSearchQuery, ex
         </AnimatePresence>
 
         {/* Destination & Dates */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-2xl border border-blue-100 mb-6 flex items-center justify-between">
+        <div className="bg-gradient-to-br from-ink-800 to-ink-900 p-5 rounded-2xl border border-white/[0.07] mb-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="bg-white p-3 rounded-xl shadow-sm">
               <MapPin className="w-6 h-6 text-blue-600" />

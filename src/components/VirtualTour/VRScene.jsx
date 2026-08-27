@@ -304,7 +304,7 @@ export const VRScene = ({ place, onBack }) => {
                                     border: "1px solid rgba(6,182,212,0.25)",
                                 }}
                             >
-                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-cyan-500/10 to-indigo-500/10" />
+                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-saffron/10 to-saffron/5" />
                                 {vrMetaLoading ? (
                                     <Loader2 className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
                                 ) : (

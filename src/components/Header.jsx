@@ -6,9 +6,7 @@ import {
   X,
   Globe,
   MapPin,
-  FolderOpen,
   Users,
-  Plane,
   CheckCircle,
   Upload,
   ChevronDown,
@@ -46,15 +44,15 @@ const PRIMARY_LINKS = [
   { id: "360tour", label: "VR Tours" },
   { id: "itinerary", label: "Plan a Trip" },
   { id: "gems", label: "Hidden Gems" },
+  { id: "tracker", label: "Flights" },
+  { id: "vault", label: "Vault" },
   { id: "chat", label: "SafarX Agent" },
 ];
 
 const MORE_LINKS = [
-  { id: "tracker", label: "Flight Tracker", icon: Plane, desc: "Follow any flight live" },
   { id: "360view", label: "360° Explorer", icon: Globe, desc: "Street-level India views" },
-  { id: "vault", label: "Document Vault", icon: FolderOpen, desc: "Tickets and IDs, secured" },
-  { id: "checklist", label: "Trip Checklist", icon: CheckCircle, desc: "Pack with confidence" },
   { id: "social", label: "Safar Groups", icon: Users, desc: "Travel with your people" },
+  { id: "checklist", label: "Trip Checklist", icon: CheckCircle, desc: "Pack with confidence" },
   { id: "map", label: "Local Insights", icon: MapPin, desc: "Navigate like a local" },
   { id: "upload", label: "Share a Gem", icon: Upload, desc: "Add your secret spot" },
 ];
@@ -166,7 +164,7 @@ const Header = () => {
               <button
                 key={link.id}
                 onClick={() => handleNavigation(link.id)}
-                className={`relative px-3.5 py-2 rounded-full text-[13px] font-semibold tracking-wide transition-colors duration-300 ${
+                className={`relative px-3 py-2 rounded-full text-[12.5px] font-semibold tracking-wide whitespace-nowrap transition-colors duration-300 ${
                   currentPage === link.id
                     ? "text-ink-950"
                     : "text-ivory/70 hover:text-ivory hover:bg-white/[0.06]"
@@ -177,7 +175,7 @@ const Header = () => {
                   <motion.span
                     layoutId="nav-capsule"
                     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute inset-0 rounded-full bg-gradient-to-br from-saffron-bright to-saffron shadow-[0_4px_16px_rgba(232,163,61,0.35)]"
+                    className="absolute inset-0 rounded-full bg-gradient-to-br from-saffron-bright to-saffron shadow-[0_4px_16px_rgba(212,168,67,0.4)]"
                   />
                 )}
                 <span className="relative z-10">{link.label}</span>
@@ -190,7 +188,7 @@ const Header = () => {
                 onClick={() => setShowMore((v) => !v)}
                 aria-expanded={showMore}
                 aria-haspopup="menu"
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[13px] font-semibold tracking-wide transition-colors duration-300 ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[12.5px] font-semibold tracking-wide transition-colors duration-300 ${
                   isMoreActive || showMore
                     ? "text-saffron bg-white/[0.05]"
                     : "text-ivory/70 hover:text-ivory hover:bg-white/[0.06]"

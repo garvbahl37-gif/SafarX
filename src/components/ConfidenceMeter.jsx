@@ -61,7 +61,7 @@ const ConfidenceMeter = ({ destination, coordinates, travelDate }) => {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-blue-200 mb-6">
+            <div className="bg-white rounded-2xl shadow-lg p-6 border border-white/[0.07] mb-6">
                 <div className="flex items-center justify-center py-12">
                     <div className="text-center">
                         <div className="inline-block animate-spin mb-4">
@@ -132,7 +132,7 @@ const ConfidenceMeter = ({ destination, coordinates, travelDate }) => {
     ];
 
     return (
-        <div className="bg-white rounded-2xl shadow-lg p-6 border border-blue-200 mb-6">
+        <div className="bg-white rounded-2xl shadow-lg p-6 border border-white/[0.07] mb-6">
             <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
                     <h2 className="text-2xl font-bold text-gray-800">🌍 Travel Confidence Meter</h2>
@@ -191,7 +191,7 @@ const ConfidenceMeter = ({ destination, coordinates, travelDate }) => {
             </div>
 
             {/* Overall Score Card */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-200 mb-4">
+            <div className="bg-gradient-to-r from-ink-800 to-ink-900 p-6 rounded-lg border border-white/[0.07] mb-4">
                 <div className="flex items-center justify-between mb-4">
                     <div>
                         <p className="text-sm font-semibold text-gray-700 mb-1">Overall Confidence Score</p>
@@ -202,7 +202,7 @@ const ConfidenceMeter = ({ destination, coordinates, travelDate }) => {
 
                 <div className="w-full bg-gray-300 rounded-full h-4 overflow-hidden">
                     <div
-                        className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-500"
+                        className="h-4 rounded-full bg-gradient-to-r from-saffron-bright to-saffron transition-all duration-500"
                         style={{ width: `${scores.overall}%` }}
                     ></div>
                 </div>
@@ -221,7 +221,7 @@ const ConfidenceMeter = ({ destination, coordinates, travelDate }) => {
             </div>
 
             {/* Recommendations */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-blue-50 border border-white/[0.07] rounded-lg p-4">
                 <h3 className="font-semibold text-gray-800 mb-2 text-sm">💡 Travel Tips</h3>
                 <ul className="text-sm text-gray-700 space-y-1">
                     {scores.safety >= 80 && <li>✅ Safety: Excellent security rating</li>}

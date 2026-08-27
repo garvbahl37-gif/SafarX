@@ -700,7 +700,7 @@ const UploadForm = ({ user, onSubmit, onCancel }) => {
             )}
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+          <div className="bg-blue-50 border border-white/[0.07] rounded-xl p-4">
             <p className="text-sm text-blue-700">
               <strong>Note:</strong> All submissions are reviewed by our team
               before publishing. We may contact you for additional information.

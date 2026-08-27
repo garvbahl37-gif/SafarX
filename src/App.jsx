@@ -141,9 +141,9 @@ export default function App() {
     selectedItem,
   };
 
-  // Cinematic boot sequence runs ~3.4s — never block the app on auth loading
+  // Cinematic boot sequence runs ~3.8s — never block the app on auth loading
   useEffect(() => {
-    const timer = setTimeout(() => setIsMainLoading(false), 3400);
+    const timer = setTimeout(() => setIsMainLoading(false), 3800);
     return () => clearTimeout(timer);
   }, []);
 

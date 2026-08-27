@@ -20,7 +20,7 @@ const TravelMatchMaker = () => {
     };
 
     return (
-        <div className="bg-gradient-to-br from-sky-50 to-blue-50/90 backdrop-blur-xl rounded-2xl p-6 text-gray-900 relative overflow-hidden shadow-2xl border border-white/50 max-w-lg mx-auto">
+        <div className="bg-gradient-to-br from-ink-800 to-ink-900 backdrop-blur-xl rounded-2xl p-6 text-gray-900 relative overflow-hidden shadow-2xl border border-white/50 max-w-lg mx-auto">
             
             <AnimatePresence mode="wait">
                 {step === 0 && (
@@ -54,7 +54,7 @@ const TravelMatchMaker = () => {
                         exit={{ opacity: 0 }}
                         className="text-center py-8"
                     >
-                        <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+                        <div className="w-12 h-12 border-4 border-white/[0.07] border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
                         <h3 className="text-sm font-bold text-blue-900">Analyzing profile...</h3>
                     </motion.div>
                 )}
@@ -66,7 +66,7 @@ const TravelMatchMaker = () => {
                          animate={{ opacity: 1, scale: 1 }}
                          className="space-y-4"
                     >
-                        <div className="flex justify-between items-center border-b border-blue-100 pb-3">
+                        <div className="flex justify-between items-center border-b border-white/[0.07] pb-3">
                             <h3 className="text-sm font-bold flex items-center gap-2 text-blue-900">
                                 Top Matches
                             </h3>
@@ -77,7 +77,7 @@ const TravelMatchMaker = () => {
 
                         <div className="grid grid-cols-1 gap-3">
                             {matches.map(group => (
-                                <div key={group.groupId} className="bg-white border border-blue-100 rounded-xl p-3 hover:shadow-md transition-all cursor-pointer group flex gap-3">
+                                <div key={group.groupId} className="bg-white border border-white/[0.07] rounded-xl p-3 hover:shadow-md transition-all cursor-pointer group flex gap-3">
                                     {/* Image Restored */}
                                     <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
                                         <img 

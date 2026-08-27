@@ -3,17 +3,26 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Plane } from "lucide-react";
 
 /**
- * Cinematic boot sequence.
+ * Cinematic boot sequence — a four-act film.
  *
- * A single gold waypoint ignites, a flight path draws itself across the
- * screen, the Devanagari word सफ़र ("safar" — journey) is inked in, then
- * transforms into the SafarX wordmark. Roughly a 3.4s film.
+ *   I   Waypoints ignite across a dark map and a flight path draws itself
+ *   II  सफ़र ("safar" — journey) is inked in, then flooded with gold
+ *   III The Devanagari dissolves and the SafarX wordmark assembles
+ *   IV  Letterbox opens, the frame pushes in, and the app is revealed
  */
 
-const TOTAL_MS = 3400;
-const MORPH_AT = 2000; // Devanagari hands over to the Latin wordmark
+const TOTAL_MS = 3800;
+const MORPH_AT = 2150;
 
-// Deterministic drifting dust motes — no Math.random so runs look identical
+// Waypoints across the composition — deterministic, no Math.random
+const WAYPOINTS = [
+  { x: "12%", y: "34%", d: 0.35 },
+  { x: "31%", y: "58%", d: 0.5 },
+  { x: "50%", y: "28%", d: 0.65 },
+  { x: "69%", y: "62%", d: 0.8 },
+  { x: "88%", y: "40%", d: 0.95 },
+];
+
 const MOTES = [
   { x: -38, y: -22, d: 0.2, s: 3 },
   { x: 30, y: -34, d: 0.9, s: 2 },
@@ -23,7 +32,12 @@ const MOTES = [
   { x: 18, y: 36, d: 0.7, s: 2 },
   { x: 8, y: -42, d: 1.7, s: 3 },
   { x: -14, y: -8, d: 0.3, s: 2 },
+  { x: 46, y: -14, d: 2.1, s: 2 },
+  { x: -33, y: 40, d: 1.9, s: 3 },
 ];
+
+const EASE_FILM = [0.76, 0, 0.24, 1];
+const EASE_OUT = [0.22, 1, 0.36, 1];
 
 const LoadingScreen = () => {
   const reduce = useReducedMotion();
@@ -38,10 +52,10 @@ const LoadingScreen = () => {
   useEffect(() => {
     const started = Date.now();
     const tick = setInterval(() => {
-      const pct = Math.min(((Date.now() - started) / (TOTAL_MS - 300)) * 100, 100);
+      const pct = Math.min(((Date.now() - started) / (TOTAL_MS - 400)) * 100, 100);
       setProgress(pct);
       if (pct >= 100) clearInterval(tick);
-    }, 60);
+    }, 50);
     return () => clearInterval(tick);
   }, []);
 
@@ -50,85 +64,171 @@ const LoadingScreen = () => {
       initial={{ opacity: 1 }}
       exit={{
         opacity: 0,
-        filter: "blur(16px)",
-        scale: 1.06,
-        transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
+        scale: 1.08,
+        filter: "blur(18px)",
+        transition: { duration: 0.8, ease: EASE_FILM },
       }}
       className="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-ink-950 text-ivory overflow-hidden film-grain vignette"
       role="status"
       aria-label="Loading SafarX"
     >
-      {/* Warm horizon glow that swells as the sequence runs */}
+      {/* ── Slow camera push-in on the whole composition ── */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: [0, 0.9, 0.65], scale: [0.6, 1.15, 1] }}
-        transition={{ duration: 3, ease: "easeOut", times: [0, 0.6, 1] }}
-        className="absolute w-[780px] h-[780px] rounded-full pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(212,168,67,0.13) 0%, rgba(46,139,116,0.06) 42%, transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
+        initial={{ scale: reduce ? 1 : 1.08 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: TOTAL_MS / 1000, ease: "linear" }}
+        className="absolute inset-0"
+      >
+        {/* Drifting contour grid — a map coming into focus */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0.5, 0.28] }}
+          transition={{ duration: 2.6, times: [0, 0.5, 1], ease: "easeOut" }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(212,168,67,0.16) 1px, transparent 1px)",
+            backgroundSize: "34px 34px",
+            maskImage: "radial-gradient(ellipse 60% 55% at 50% 50%, black, transparent)",
+            WebkitMaskImage: "radial-gradient(ellipse 60% 55% at 50% 50%, black, transparent)",
+          }}
+          aria-hidden="true"
+        />
 
-      {/* Ignition rings */}
-      {!reduce &&
-        [0, 1, 2].map((i) => (
-          <motion.span
-            key={i}
-            initial={{ scale: 0.2, opacity: 0.5 }}
-            animate={{ scale: 4.5, opacity: 0 }}
-            transition={{ duration: 2.2, delay: 0.15 + i * 0.22, ease: "easeOut" }}
-            className="absolute w-40 h-40 rounded-full border border-saffron/40 pointer-events-none"
+        {/* Horizon glow swelling behind everything */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.55 }}
+            animate={{ opacity: [0, 0.95, 0.7], scale: [0.55, 1.2, 1] }}
+            transition={{ duration: 3.2, ease: "easeOut", times: [0, 0.6, 1] }}
+            className="w-[840px] h-[840px] rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(212,168,67,0.14) 0%, rgba(46,139,116,0.07) 42%, transparent 70%)",
+            }}
+          />
+        </div>
+
+        {/* ── ACT I · waypoints ignite across the map ── */}
+        {!reduce &&
+          WAYPOINTS.map((w, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, scale: 0, x: "-50%", y: "-50%" }}
+              animate={{ opacity: [0, 1, 0.35], scale: [0, 1.6, 1], x: "-50%", y: "-50%" }}
+              transition={{ duration: 1.6, delay: w.d, ease: EASE_OUT }}
+              style={{ left: w.x, top: w.y }}
+              className="absolute w-1.5 h-1.5 rounded-full bg-saffron shadow-[0_0_16px_rgba(212,168,67,0.9)]"
+              aria-hidden="true"
+            />
+          ))}
+
+        {/* Opening light sweep */}
+        {!reduce && (
+          <motion.div
+            initial={{ x: "-120%", opacity: 0 }}
+            animate={{ x: "120%", opacity: [0, 0.55, 0] }}
+            transition={{ duration: 1.7, delay: 0.1, ease: "easeInOut" }}
+            className="absolute inset-y-0 w-1/3 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(90deg, transparent, rgba(229,190,92,0.14), transparent)",
+            }}
             aria-hidden="true"
           />
-        ))}
+        )}
 
-      {/* Drifting gold dust */}
-      {!reduce &&
-        MOTES.map((m, i) => (
-          <motion.span
-            key={i}
-            initial={{ opacity: 0, x: `${m.x}vw`, y: `${m.y}vh` }}
-            animate={{ opacity: [0, 0.7, 0], y: `${m.y - 6}vh` }}
-            transition={{ duration: 3, delay: m.d, ease: "easeOut" }}
-            style={{ width: m.s, height: m.s }}
-            className="absolute rounded-full bg-saffron pointer-events-none"
-            aria-hidden="true"
-          />
-        ))}
+        {/* Ignition rings */}
+        {!reduce && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+            {[0, 1, 2].map((i) => (
+              <motion.span
+                key={i}
+                initial={{ scale: 0.2, opacity: 0.55 }}
+                animate={{ scale: 5, opacity: 0 }}
+                transition={{ duration: 2.4, delay: 0.2 + i * 0.26, ease: "easeOut" }}
+                className="absolute w-40 h-40 rounded-full border border-saffron/35"
+              />
+            ))}
+          </div>
+        )}
 
+        {/* Slowly rotating compass ring */}
+        {!reduce && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+          <motion.svg
+            initial={{ opacity: 0, rotate: -35, scale: 0.85 }}
+            animate={{ opacity: 0.22, rotate: 0, scale: 1 }}
+            transition={{ duration: 3, ease: EASE_OUT }}
+            viewBox="0 0 400 400"
+            className="w-[min(78vw,470px)]"
+          >
+            <circle cx="200" cy="200" r="186" fill="none" stroke="rgba(212,168,67,0.5)" strokeWidth="1" />
+            <circle cx="200" cy="200" r="168" fill="none" stroke="rgba(212,168,67,0.24)" strokeWidth="1" strokeDasharray="3 9" />
+            {Array.from({ length: 24 }).map((_, i) => {
+              const a = (i * 15 * Math.PI) / 180;
+              const long = i % 6 === 0;
+              const r1 = long ? 168 : 176;
+              return (
+                <line
+                  key={i}
+                  x1={200 + Math.cos(a) * r1}
+                  y1={200 + Math.sin(a) * r1}
+                  x2={200 + Math.cos(a) * 186}
+                  y2={200 + Math.sin(a) * 186}
+                  stroke="rgba(212,168,67,0.55)"
+                  strokeWidth={long ? 1.6 : 0.8}
+                />
+              );
+            })}
+          </motion.svg>
+          </div>
+        )}
+
+        {/* Drifting gold dust */}
+        {!reduce &&
+          MOTES.map((m, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, x: `${m.x}vw`, y: `${m.y}vh` }}
+              animate={{ opacity: [0, 0.75, 0], y: `${m.y - 7}vh` }}
+              transition={{ duration: 3.2, delay: m.d, ease: "easeOut" }}
+              style={{ width: m.s, height: m.s, left: "50%", top: "50%" }}
+              className="absolute rounded-full bg-saffron pointer-events-none will-change-transform"
+              aria-hidden="true"
+            />
+          ))}
+      </motion.div>
+
+      {/* ── Foreground stack ── */}
       <div className="relative z-10 flex flex-col items-center px-6 w-full">
-        {/* ---------- The flight path ---------- */}
-        <div className="relative w-[min(88vw,660px)] h-10 mb-2" aria-hidden="true">
-          {/* Waypoint ignites first */}
+        {/* The flight path */}
+        <div className="relative w-[min(88vw,660px)] h-10 mb-3" aria-hidden="true">
           <motion.span
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-saffron shadow-[0_0_22px_rgba(212,168,67,0.9)]"
+            transition={{ duration: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-saffron shadow-[0_0_24px_rgba(212,168,67,0.95)]"
           />
-          {/* Dashed route draws outward from the waypoint */}
           <motion.span
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 1.1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.2, delay: 0.35, ease: EASE_OUT }}
             className="route-line block absolute inset-x-0 top-1/2 -translate-y-1/2"
           />
-          {/* Aircraft runs the line */}
           {!reduce && (
             <motion.span
               initial={{ left: "0%", opacity: 0 }}
               animate={{ left: "100%", opacity: [0, 1, 1, 0] }}
-              transition={{ duration: 2.1, delay: 0.6, ease: "easeInOut" }}
+              transition={{ duration: 2.3, delay: 0.6, ease: "easeInOut" }}
               className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-saffron"
             >
-              <Plane size={16} className="drop-shadow-[0_0_10px_rgba(212,168,67,0.8)]" />
+              <Plane size={16} className="drop-shadow-[0_0_12px_rgba(212,168,67,0.9)]" />
             </motion.span>
           )}
         </div>
 
-        {/* ---------- Wordmark: सफ़र → SafarX ---------- */}
+        {/* Wordmark: सफ़र → SafarX */}
         <div className="relative h-[clamp(5rem,15vw,9rem)] flex items-center justify-center w-full">
           <AnimatePresence mode="wait">
             {phase === "devanagari" ? (
@@ -136,27 +236,25 @@ const LoadingScreen = () => {
                 key="deva"
                 exit={{
                   opacity: 0,
-                  scale: 1.5,
-                  filter: "blur(14px)",
-                  transition: { duration: 0.55, ease: [0.76, 0, 0.24, 1] },
+                  scale: 1.55,
+                  filter: "blur(16px)",
+                  transition: { duration: 0.6, ease: EASE_FILM },
                 }}
                 className="relative"
               >
-                {/* Outline is inked first… */}
                 <motion.span
-                  initial={{ opacity: 0, letterSpacing: "0.5em" }}
+                  initial={{ opacity: 0, letterSpacing: "0.55em" }}
                   animate={{ opacity: 1, letterSpacing: "0.06em" }}
-                  transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 1.2, ease: EASE_OUT }}
                   className="font-devanagari text-[clamp(3.5rem,11vw,7rem)] leading-none text-transparent block"
                   style={{ WebkitTextStroke: "1.4px rgba(212,168,67,0.85)" }}
                 >
                   सफ़र
                 </motion.span>
-                {/* …then flooded with gold, left to right */}
                 <motion.span
                   initial={{ clipPath: "inset(0 100% 0 0)" }}
                   animate={{ clipPath: "inset(0 0% 0 0)" }}
-                  transition={{ duration: 0.9, delay: 0.85, ease: [0.76, 0, 0.24, 1] }}
+                  transition={{ duration: 1, delay: 0.95, ease: EASE_FILM }}
                   className="font-devanagari text-[clamp(3.5rem,11vw,7rem)] leading-none absolute inset-0 text-saffron"
                   style={{ letterSpacing: "0.06em" }}
                   aria-hidden="true"
@@ -175,32 +273,27 @@ const LoadingScreen = () => {
                 {"Safar".split("").map((letter, i) => (
                   <motion.span
                     key={i}
-                    initial={{ opacity: 0, y: "0.7em", filter: "blur(10px)", rotateX: -70 }}
+                    initial={{ opacity: 0, y: "0.75em", filter: "blur(12px)", rotateX: -75 }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)", rotateX: 0 }}
-                    transition={{
-                      duration: 0.7,
-                      delay: 0.1 + i * 0.07,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
+                    transition={{ duration: 0.75, delay: 0.1 + i * 0.075, ease: EASE_OUT }}
                     className="font-display italic font-medium text-[clamp(3rem,10vw,6.5rem)] leading-none tracking-tight inline-block"
                   >
                     {letter}
                   </motion.span>
                 ))}
-                {/* The X lands last, with a flare */}
                 <motion.span
-                  initial={{ opacity: 0, scale: 0.4, filter: "blur(14px)" }}
+                  initial={{ opacity: 0, scale: 0.35, filter: "blur(16px)" }}
                   animate={{
                     opacity: 1,
                     scale: 1,
                     filter: "blur(0px)",
                     textShadow: [
                       "0 0 0px rgba(212,168,67,0)",
-                      "0 0 44px rgba(212,168,67,0.95)",
-                      "0 0 18px rgba(212,168,67,0.45)",
+                      "0 0 52px rgba(212,168,67,1)",
+                      "0 0 20px rgba(212,168,67,0.5)",
                     ],
                   }}
-                  transition={{ duration: 0.8, delay: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
+                  transition={{ duration: 0.85, delay: 0.52, ease: [0.34, 1.56, 0.64, 1] }}
                   className="font-data font-bold text-saffron text-[clamp(2.6rem,8.5vw,5.4rem)] leading-none inline-block ml-1"
                 >
                   X
@@ -210,23 +303,22 @@ const LoadingScreen = () => {
           </AnimatePresence>
         </div>
 
-        {/* ---------- Tagline ---------- */}
+        {/* Tagline */}
         <motion.p
-          initial={{ opacity: 0, letterSpacing: "0.7em" }}
+          initial={{ opacity: 0, letterSpacing: "0.75em" }}
           animate={{ opacity: 1, letterSpacing: "0.32em" }}
-          transition={{ duration: 1, delay: reduce ? 0.4 : 2.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1, delay: reduce ? 0.4 : 2.75, ease: EASE_OUT }}
           className="font-data text-[10px] md:text-[11px] uppercase text-ivory-faint mt-6 text-center"
         >
           Discover Incredible India
         </motion.p>
 
-        {/* ---------- Progress ---------- */}
+        {/* Progress */}
         <div className="mt-12 flex items-center gap-4" aria-hidden="true">
-          <span className="relative block w-40 md:w-56 h-[2px] bg-white/10 overflow-hidden rounded-full">
+          <span className="relative block w-40 md:w-60 h-[2px] bg-white/10 overflow-hidden rounded-full">
             <motion.span
               className="absolute inset-y-0 left-0 bg-gradient-to-r from-saffron-deep via-saffron to-saffron-bright"
               style={{ width: `${progress}%` }}
-              transition={{ ease: "linear" }}
             />
           </span>
           <span className="font-data text-[11px] text-saffron/80 tabular-nums w-9">
@@ -235,21 +327,41 @@ const LoadingScreen = () => {
         </div>
       </div>
 
-      {/* Letterbox bars slide away as the film ends */}
+      {/* ── Film framing marks ── */}
+      {!reduce && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ duration: 1, delay: 0.9 }}
+          className="absolute inset-6 md:inset-10 pointer-events-none"
+          aria-hidden="true"
+        >
+          {[
+            "top-0 left-0 border-l border-t",
+            "top-0 right-0 border-r border-t",
+            "bottom-0 left-0 border-l border-b",
+            "bottom-0 right-0 border-r border-b",
+          ].map((pos, i) => (
+            <span key={i} className={`absolute ${pos} w-7 h-7 border-saffron/60`} />
+          ))}
+        </motion.div>
+      )}
+
+      {/* ── Letterbox bars open like a shutter ── */}
       {!reduce && (
         <>
           <motion.div
-            initial={{ height: "18vh" }}
+            initial={{ height: "22vh" }}
             animate={{ height: "0vh" }}
-            transition={{ duration: 1.4, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
-            className="absolute top-0 inset-x-0 bg-ink-950 pointer-events-none"
+            transition={{ duration: 1.6, delay: 0.25, ease: EASE_FILM }}
+            className="absolute top-0 inset-x-0 bg-ink-950 pointer-events-none z-20"
             aria-hidden="true"
           />
           <motion.div
-            initial={{ height: "18vh" }}
+            initial={{ height: "22vh" }}
             animate={{ height: "0vh" }}
-            transition={{ duration: 1.4, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
-            className="absolute bottom-0 inset-x-0 bg-ink-950 pointer-events-none"
+            transition={{ duration: 1.6, delay: 0.25, ease: EASE_FILM }}
+            className="absolute bottom-0 inset-x-0 bg-ink-950 pointer-events-none z-20"
             aria-hidden="true"
           />
         </>
