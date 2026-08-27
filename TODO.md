@@ -41,12 +41,14 @@ Live task tracker for the current build push. Updated as work lands.
       gold filament + waypoint, animated tool-step chips, boarding-pass flight
       results with perforated stubs, heritage-card hotels, glass composer
 
+- [x] **Hidden gems expanded 22 → 81 places** across 29 states/UTs, plus a full
+      search autocomplete (grouped Places / States / Categories, gold-highlighted
+      matches, keyboard nav, popular-search chips, active-filter row)
+
 ## In progress
 
 - [ ] **VR tours off YouTube (RULE)** — real in-app draggable equirectangular
       panoramas via three.js, sourced and verified from Wikimedia Commons
-- [ ] **Hidden gems** — expand to 60+ places, add search autocomplete with
-      suggestions, popular-search chips, keyboard nav
 
 - [x] **Premium calendar everywhere** — custom `RangeCalendar` (two-month trip
       window with hover preview) in Plan a Trip, plus a reusable `DateField`
