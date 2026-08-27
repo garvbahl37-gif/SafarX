@@ -63,8 +63,12 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## In progress
 
-- [ ] **VR tours off YouTube (RULE)** — real in-app draggable equirectangular
-      panoramas via three.js, sourced and verified from Wikimedia Commons
+- [ ] **VR tours off YouTube (RULE)** — in-app draggable three.js panoramas.
+      Source decided: **Mapillary** (free token, `is_pano` images return ready
+      equirectangular JPEGs). Wikimedia Commons was checked first and has no
+      usable stock of Indian 360° panoramas.
+      **Needs from you:** a free token at mapillary.com/dashboard/developers,
+      added to `.env` as `VITE_MAPILLARY_TOKEN=`
 
 - [x] **Premium calendar everywhere** — custom `RangeCalendar` (two-month trip
       window with hover preview) in Plan a Trip, plus a reusable `DateField`
