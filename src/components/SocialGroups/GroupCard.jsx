@@ -29,38 +29,38 @@ const GroupCard = ({ group, onClick }) => {
 
   return (
     <motion.div
-      className="bg-black/40 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 cursor-pointer transition-all duration-300 hover:border-sky-400/50 hover:bg-black/60 hover:shadow-2xl hover:shadow-sky-500/10 h-full flex flex-col justify-between group relative"
+      className="bg-ink-800 rounded-2xl overflow-hidden border border-white/[0.07] cursor-pointer transition-all duration-300 hover:border-saffron/35 hover:bg-ink-700 hover:shadow-2xl hover:shadow-saffron/10 h-full flex flex-col justify-between group relative"
       whileHover={{ y: -4 }}
       onClick={() => onClick(group.groupId)}
     >
       {/* Group Image - Premium Large */}
-      <div className="h-64 overflow-hidden bg-gray-900 relative">
+      <div className="h-64 overflow-hidden bg-ink-900 relative">
         <img
           src={bgImage}
           alt={group.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
         />
         {/* Subtle Gradient Overlay for premium feel */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/20 to-transparent"></div>
       </div>
 
       <div className="p-5 flex flex-col flex-grow relative z-10 -mt-8">
         {/* Header content pulled up over the image slightly */}
         <div className="mb-3">
-          <h3 className="text-lg font-bold text-white leading-tight line-clamp-1 tracking-tight group-hover:text-sky-300 transition-colors drop-shadow-md pb-1" title={group.name}>
+          <h3 className="text-lg font-display font-semibold text-ivory leading-tight line-clamp-1 tracking-tight group-hover:text-saffron-bright transition-colors drop-shadow-md pb-1" title={group.name}>
             {group.name}
           </h3>
-          <p className="text-xs text-gray-300 font-medium flex items-center gap-2">
-            <Users size={14} className="text-sky-400" />
+          <p className="text-xs text-ivory-muted font-medium flex items-center gap-2">
+            <Users size={14} className="text-saffron" />
             {group.memberCount} members
           </p>
         </div>
 
         {/* Description */}
-        <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed mb-4 flex-grow font-light">{group.description}</p>
+        <p className="text-ivory-faint text-sm line-clamp-2 leading-relaxed mb-4 flex-grow font-light">{group.description}</p>
 
         {/* Footer Info */}
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/10">
+        <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/[0.07]">
           {/* Members Stack */}
           <div className="flex items-center -space-x-2">
             {members.slice(0, 4).map((member) => (
@@ -68,11 +68,11 @@ const GroupCard = ({ group, onClick }) => {
                 key={member.userId}
                 src={member.avatar || member.userAvatar}
                 alt={member.username}
-                className="w-7 h-7 rounded-full border-2 border-[#1a1a2e] object-cover bg-white/10 shadow-sm"
+                className="w-7 h-7 rounded-full border-2 border-ink-900 object-cover bg-white/10 shadow-sm"
               />
             ))}
             {(group.memberCount > 4) && (
-              <div className="w-7 h-7 rounded-full bg-sky-900/50 border-2 border-[#1a1a2e] flex items-center justify-center text-[10px] font-bold text-sky-200">
+              <div className="w-7 h-7 rounded-full bg-saffron/15 border-2 border-ink-900 flex items-center justify-center text-[10px] font-bold text-saffron">
                 +{group.memberCount - 4}
               </div>
             )}
@@ -80,7 +80,7 @@ const GroupCard = ({ group, onClick }) => {
 
           {/* Action */}
           <button
-            className="text-xs font-bold text-white bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 px-4 py-1.5 rounded-full transition-all shadow-lg hover:shadow-cyan-500/25"
+            className="text-xs font-bold text-ink-950 bg-gradient-to-r from-saffron-bright to-saffron hover:from-saffron hover:to-saffron-bright px-4 py-1.5 rounded-full transition-all shadow-lg hover:shadow-saffron/25"
             onClick={(e) => {
               e.stopPropagation();
               onClick(group.groupId, 'about');

@@ -11,7 +11,7 @@ India's tourism runs on uncertainty — travelers book monuments, hotels, and wh
 - **360° VR previews** — walk through the Taj Mahal, Hampi, Varanasi's ghats, and dozens of Indian heritage sites in high-fidelity 360° before booking.
 - **AI trip planner** — Gemini-powered day-by-day itineraries tuned to pace, budget (₹), and interests.
 - **Hidden gems** — offbeat Indian spots (Chand Baori, Ziro Valley, Mawlynnong…) shared by locals and travelers, off every tourist map.
-- **SafarX Agent** — an AI travel co-pilot: natural-language chat (Gemini), flight search/booking (TBO API), hotel discovery (TripAdvisor via RapidAPI), web discovery (Tavily).
+- **SafarX Agent** — an AI travel co-pilot: natural-language chat (Gemini), flight search (Amadeus), hotel discovery, and web discovery (Tavily).
 - **Document vault** — encrypted storage for tickets, visas, and IDs (Express + MongoDB + Cloudinary backend).
 - **Live flight tracker** — follow any aircraft in real time on a cinematic dark radar.
 - **Safar groups** — find and plan group trips across India.
@@ -71,12 +71,17 @@ cd server && npm install && npm run dev
 
 The full plan lives in [ROADMAP.md](ROADMAP.md) — it maps every upcoming feature to the problem statement's goal of boosting the tourism industry:
 
-- **Booking & revenue**: hotel booking beside VR previews, IRCTC/bus/cab integration, a local guide & homestay marketplace, festival calendar.
-- **Confidence & safety**: crowd prediction, SOS + safety layer, Hindi + regional language UI, offline PWA mode.
-- **Immersion**: AR monument overlays, QR heritage plaques for tourism boards, narrated audio stories, sustainability scores.
-- **Industry intelligence**: anonymized demand analytics for tourism boards and hotels.
-- **SafarX Agent upgrades**: Gemini function calling (real bookings from chat), RAG over an India heritage knowledge base, multilingual voice, trip memory, proactive delay/weather alerts, WhatsApp channel, budget copilot.
-- **Hybrid recommender system (~2,00,000 data points)**: implicit-ALS collaborative filtering + sentence-transformer content embeddings (FAISS) + seasonality/popularity priors with a deliberate long-tail floor that pushes hidden gems — served by FastAPI, powering a "For you" rail, similar-destination suggestions, itinerary seeding, and the agent.
+Every workstream is owned end-to-end. Full specs — data models, file structures, APIs, and acceptance criteria — are in [ROADMAP.md](ROADMAP.md).
+
+| Owner | Workstream | Highlights |
+|---|---|---|
+| **Lucky** | Booking & revenue engine | Hotel discovery beside VR previews, a self-serve **hotel partner program** (small hotels upload their own 360° room tours), dynamic occupancy deals for empty rooms, train/bus/cab integration, plus allied industries — regional cuisine, GI-tagged crafts, festival calendar |
+| **Dhruv** | Safar Groups 2.0 (community) | Rebuild of the existing groups section into a real multi-user product: Supabase-backed membership, collaborative itineraries, live chat, expense splitting with settlements, polls, meetups, photo walls, verification and safety |
+| **RN** | SafarX Agent | Drop TBO entirely for free-tier APIs, Gemini **function calling** (search, plan, and book from chat), RAG over an India heritage knowledge base, multilingual voice input, trip memory, and a season-aware dynamic activities engine |
+| **Garv** | Recommender system (~2,00,000 data points) | Implicit-ALS collaborative filtering + sentence-transformer content embeddings (FAISS) + seasonality priors, with a deliberate **long-tail floor** that pushes lesser-known destinations — served by FastAPI, powering a "For you" rail, itinerary seeding, and the agent |
+| **Rahul** | Confidence & safety · Kahani voice storyteller | Crowd prediction, SOS and emergency directory, Hindi + regional language UI, offline PWA mode, sustainability scores — plus **Kahani**, narrated heritage stories in 22 Indian languages via Bhashini, geo-triggered at monuments and inside VR tours |
+
+**Policy:** free-tier APIs only, no paid contracts. TBO has been dropped across the project.
 
 ## Deployment
 

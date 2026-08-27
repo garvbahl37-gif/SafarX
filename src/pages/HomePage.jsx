@@ -27,48 +27,88 @@ import vrToursData from "../data/vrTours.json";
 
 const SLIDES = [
   {
-    id: "india",
-    coords: "20.59° N · 78.96° E",
-    place: "Incredible India",
-    title: "Every journey",
+    id: "agra",
+    ghost: "आगरा",
+    coords: "27.17° N · 78.04° E",
+    place: "Taj Mahal · Agra",
+    title: "Every safar",
     titleAccent: "begins here",
     description:
-      "Preview India's heritage in immersive 360°, plan with AI, and travel with everything you need in one place.",
-    url: "https://res.cloudinary.com/dnmhqosoa/video/upload/v1775633394/done_fy2tix.mp4",
+      "Sunrise over the Taj. Preview India's heritage in immersive 360°, plan with AI, and carry everything you need in one place.",
+    url: "https://videos.pexels.com/video-files/33588459/14277876_1920_1080_25fps.mp4",
+    poster: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&auto=format&fit=crop&q=70",
+    thumb: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=160&auto=format&fit=crop&q=60",
   },
   {
-    id: "coast",
-    coords: "15.30° N · 74.12° E",
-    place: "Goa · The Konkan Coast",
-    title: "Where the map",
-    titleAccent: "turns turquoise",
+    id: "varanasi",
+    ghost: "काशी",
+    coords: "25.32° N · 83.01° E",
+    place: "The Ghats · Varanasi",
+    title: "Older than",
+    titleAccent: "history itself",
     description:
-      "From Goa's beaches to the backwaters of Kerala — compare shores, stays, and seasons before booking a night.",
-    url: "https://res.cloudinary.com/dnmhqosoa/video/upload/v1775633150/ocean_fe7jkv.mp4",
+      "Dusk over the Ganga, five thousand years deep. Walk the ghats in 360° before your boat ever touches the water.",
+    url: "https://videos.pexels.com/video-files/31033220/13263912_3840_2160_60fps.mp4",
+    poster: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=1600&auto=format&fit=crop&q=70",
+    thumb: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=160&auto=format&fit=crop&q=60",
   },
   {
-    id: "cities",
-    coords: "28.61° N · 77.21° E",
-    place: "Delhi · The Great Cities",
+    id: "kerala",
+    ghost: "केरल",
+    coords: "9.50° N · 76.34° E",
+    place: "Backwaters · Kerala",
+    title: "Drift through",
+    titleAccent: "God's own country",
+    description:
+      "Houseboats, palm canals, and slow water. Compare stays and seasons before you book a single night.",
+    url: "https://videos.pexels.com/video-files/38298494/16262226_3840_2160_60fps.mp4",
+    poster: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1600&auto=format&fit=crop&q=70",
+    thumb: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=160&auto=format&fit=crop&q=60",
+  },
+  {
+    id: "himalaya",
+    ghost: "हिमालय",
+    coords: "34.15° N · 77.58° E",
+    place: "The High Passes · Ladakh",
+    title: "Stand on the",
+    titleAccent: "roof of India",
+    description:
+      "Mist over the high Himalaya. Scout altitude, weather, and routes in VR before you commit to the climb.",
+    url: "https://videos.pexels.com/video-files/30152886/12929644_3840_2160_30fps.mp4",
+    poster: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1600&auto=format&fit=crop&q=70",
+    thumb: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=160&auto=format&fit=crop&q=60",
+  },
+  {
+    id: "jaipur",
+    ghost: "जयपुर",
+    coords: "26.92° N · 75.82° E",
+    place: "The Pink City · Jaipur",
     title: "Feel the pulse",
-    titleAccent: "of the megacity",
+    titleAccent: "of the bazaar",
     description:
-      "Street-level 360° views of Delhi, Mumbai, and Jaipur — with local insights that guidebooks miss.",
-    url: "https://res.cloudinary.com/dnmhqosoa/video/upload/v1775633136/vibrantcities_na8xqe.mp4",
-  },
-  {
-    id: "ghats",
-    coords: "10.09° N · 77.06° E",
-    place: "The Western Ghats",
-    title: "Get lost where",
-    titleAccent: "the wild still is",
-    description:
-      "Misty tea hills, hidden waterfalls, and the trails locals actually take — shared by travelers like you.",
-    url: "https://res.cloudinary.com/dnmhqosoa/video/upload/v1775633434/lastpage_hv47ap.mp4",
+      "Jaipur's streets at dusk — forts above, markets below. Local insights that guidebooks miss, from people who live there.",
+    url: "https://videos.pexels.com/video-files/37056813/15698517_1920_1080_50fps.mp4",
+    poster: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=1600&auto=format&fit=crop&q=70",
+    thumb: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=160&auto=format&fit=crop&q=60",
   },
 ];
 
-const SLIDE_DURATION = 9000;
+const SLIDE_DURATION = 10000;
+
+/* Word-stagger reveal for the display headline */
+const headlineContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.35 } },
+};
+const headlineWord = {
+  hidden: { opacity: 0, y: "0.6em", filter: "blur(8px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 /* ------------------------------------------------------------------ */
 /*  Toolkit bento                                                      */
@@ -265,54 +305,79 @@ const HomePage = ({ onPageChange }) => {
       {/* ============================ HERO ============================ */}
       <section
         ref={heroRef}
-        className="relative h-screen overflow-hidden flex items-end bg-ink-950"
-        aria-label="Featured journeys"
+        className="relative h-screen overflow-hidden flex items-end bg-ink-950 film-grain vignette"
+        aria-label="Featured journeys across India"
       >
-        {/* Video backdrop */}
+        {/* Cinematic video backdrop — wipe reveal + slow Ken Burns */}
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="popLayout">
             <motion.div
               key={slide.id}
-              initial={{ opacity: 0, scale: 1.06 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ clipPath: "inset(0 0 0 100%)" }}
+              animate={{ clipPath: "inset(0 0 0 0%)" }}
+              exit={{ opacity: 0, transition: { duration: 0.9 } }}
+              transition={{ duration: 1.3, ease: [0.76, 0, 0.24, 1] }}
               style={{ y: videoY }}
               className="absolute inset-0"
             >
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-                src={slide.url}
-              />
+              <motion.div
+                initial={{ scale: 1.12 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: SLIDE_DURATION / 1000 + 2, ease: "linear" }}
+                className="absolute inset-0"
+              >
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  poster={slide.poster}
+                  className="w-full h-full object-cover"
+                  src={slide.url}
+                />
+              </motion.div>
             </motion.div>
           </AnimatePresence>
-          {/* Legibility scrim — bottom-heavy, warm-tinted */}
-          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/45 to-ink-950/20" />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink-950/60 via-transparent to-transparent" />
+          {/* Legibility scrims — bottom-heavy, teal-tinted */}
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-ink-950/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink-950/65 via-ink-950/10 to-transparent" />
         </div>
+
+        {/* Monumental Devanagari ghost word */}
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={`ghost-${slide.id}`}
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            aria-hidden="true"
+            className="absolute top-[12%] right-[-2%] z-10 font-devanagari italic select-none pointer-events-none leading-none text-[clamp(7rem,22vw,20rem)] text-transparent"
+            style={{ WebkitTextStroke: "1.5px rgba(212, 168, 67, 0.28)" }}
+          >
+            {slide.ghost}
+          </motion.span>
+        </AnimatePresence>
 
         {/* Editorial stack */}
         <motion.div
           style={{ opacity: contentOpacity }}
-          className="relative z-20 w-full max-w-[1440px] mx-auto px-6 md:px-14 pb-36 md:pb-32"
+          className="relative z-20 w-full max-w-[1440px] mx-auto px-6 md:px-14 pb-32 md:pb-24"
         >
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.id}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
+              exit={{ opacity: 0, transition: { duration: 0.35 } }}
+              transition={{ duration: 0.4 }}
               className="max-w-3xl"
             >
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.15 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
                 className="flex items-center gap-3 mb-6"
               >
                 <span className="route-dot" />
@@ -321,22 +386,34 @@ const HomePage = ({ onPageChange }) => {
                 <span className="eyebrow-muted">{slide.place}</span>
               </motion.p>
 
+              {/* Word-staggered display headline */}
               <motion.h1
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                className="font-display text-ivory text-5xl sm:text-6xl md:text-[5.25rem] font-light leading-[1.02] tracking-tight mb-7"
+                variants={headlineContainer}
+                initial="hidden"
+                animate="show"
+                className="font-display text-ivory text-5xl sm:text-6xl md:text-[5.5rem] font-light leading-[1.02] tracking-tight mb-7"
               >
-                {slide.title}{" "}
-                <em className="font-medium italic text-saffron-bright">
-                  {slide.titleAccent}
-                </em>
+                {slide.title.split(" ").map((word, i) => (
+                  <motion.span key={i} variants={headlineWord} className="inline-block mr-[0.28em]">
+                    {word}
+                  </motion.span>
+                ))}
+                <br className="hidden sm:block" />
+                {slide.titleAccent.split(" ").map((word, i) => (
+                  <motion.span
+                    key={`a-${i}`}
+                    variants={headlineWord}
+                    className="inline-block mr-[0.28em] font-medium italic text-saffron-bright"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
                 className="text-ivory-muted text-base md:text-lg leading-relaxed max-w-xl mb-10"
               >
                 {slide.description}
@@ -345,7 +422,7 @@ const HomePage = ({ onPageChange }) => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
+                transition={{ duration: 0.8, delay: 0.85 }}
                 className="flex flex-wrap items-center gap-4"
               >
                 <button onClick={() => onPageChange("itinerary")} className="btn-primary">
@@ -361,36 +438,67 @@ const HomePage = ({ onPageChange }) => {
           </AnimatePresence>
         </motion.div>
 
-        {/* Slide index — thin progress bars, route-log style */}
-        <div className="absolute bottom-10 right-6 md:right-14 z-30 flex items-end gap-2.5">
-          {SLIDES.map((s, idx) => (
-            <button
-              key={s.id}
-              onClick={() => setActiveSlide(idx)}
-              aria-label={`Show ${s.place}`}
-              className="group flex flex-col items-center gap-2 pb-1"
-            >
-              <span
-                className={`hidden md:block font-data text-[9px] tracking-[0.2em] uppercase transition-colors duration-300 ${
-                  activeSlide === idx ? "text-saffron" : "text-ivory/25 group-hover:text-ivory/60"
+        {/* Chapter rail — thumbnails on desktop */}
+        <div className="absolute bottom-8 right-6 md:right-14 z-30">
+          {/* Desktop: thumbnail cards */}
+          <div className="hidden md:flex items-end gap-3">
+            {SLIDES.map((s, idx) => (
+              <button
+                key={s.id}
+                onClick={() => setActiveSlide(idx)}
+                aria-label={`Show ${s.place}`}
+                aria-current={activeSlide === idx ? "true" : undefined}
+                className={`group relative rounded-xl overflow-hidden border transition-all duration-500 ${
+                  activeSlide === idx
+                    ? "w-24 h-16 border-saffron/70 shadow-glow"
+                    : "w-16 h-12 border-white/15 opacity-55 hover:opacity-90 hover:border-white/40"
                 }`}
               >
-                {String(idx + 1).padStart(2, "0")}
-              </span>
-              <span className="relative block w-9 md:w-12 h-[2px] bg-white/15 overflow-hidden rounded-full">
+                <img src={s.thumb} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                <span className="absolute inset-0 bg-gradient-to-t from-ink-950/80 to-transparent" />
+                <span
+                  className={`absolute bottom-1 left-1.5 font-data text-[8px] tracking-[0.18em] uppercase ${
+                    activeSlide === idx ? "text-saffron" : "text-ivory/70"
+                  }`}
+                >
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                {/* Auto-advance progress */}
                 {activeSlide === idx && (
                   <motion.span
                     key={`bar-${activeSlide}`}
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
+                    className="absolute bottom-0 inset-x-0 h-[2px] bg-saffron origin-left"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+          {/* Mobile: compact progress bars */}
+          <div className="flex md:hidden items-center gap-2">
+            {SLIDES.map((s, idx) => (
+              <button
+                key={s.id}
+                onClick={() => setActiveSlide(idx)}
+                aria-label={`Show ${s.place}`}
+                className="relative block w-8 h-[3px] bg-white/20 overflow-hidden rounded-full"
+              >
+                {activeSlide === idx && (
+                  <motion.span
+                    key={`mbar-${activeSlide}`}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }}
                     className="absolute inset-0 bg-saffron origin-left"
                   />
                 )}
-              </span>
-            </button>
-          ))}
+              </button>
+            ))}
+          </div>
         </div>
+
       </section>
 
       {/* ======================= STATS BAND ======================= */}

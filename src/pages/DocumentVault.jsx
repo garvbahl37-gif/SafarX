@@ -24,6 +24,14 @@ export default function DocumentVault() {
   const [deletingId, setDeletingId] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [uploadError, setUploadError] = useState('');
+  // If auth never finishes loading (e.g. no Clerk key configured), fall
+  // through to the signed-out state instead of spinning forever.
+  const [authTimedOut, setAuthTimedOut] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setAuthTimedOut(true), 4000);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     if (isSignedIn) loadDocuments();
@@ -90,7 +98,7 @@ export default function DocumentVault() {
     }
   };
 
-  if (!isLoaded) return (
+  if (!isLoaded && !authTimedOut) return (
     <div className="flex items-center justify-center min-h-screen bg-ink-950">
       <div className="animate-spin rounded-full h-10 w-10 border-2 border-white/10 border-t-saffron" aria-label="Loading" />
     </div>

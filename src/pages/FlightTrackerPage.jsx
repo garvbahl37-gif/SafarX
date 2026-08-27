@@ -324,7 +324,7 @@ const FlightTrackerPage = () => {
                                                         [Number(flightData.departure.latitude), Number(flightData.departure.longitude)],
                                                         [Number(flightData.arrival.latitude), Number(flightData.arrival.longitude)]
                                                     ]}
-                                                    color="#E8A33D"
+                                                    color="#D4A843"
                                                     weight={3}
                                                     dashArray="12, 12"
                                                     opacity={0.7}

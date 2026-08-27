@@ -74,16 +74,16 @@ const GroupAbout = ({ group }) => {
 
       {/* Left Column: Description & Details */}
       <div className="lg:col-span-2 space-y-8">
-        <section className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm shadow-gray-200/50">
-          <div className="flex items-center gap-2 mb-4 border-b border-gray-100 pb-3">
-            <h2 className="text-xl font-bold text-gray-900 tracking-tight">About us</h2>
+        <section className="bg-ink-800 p-6 rounded-2xl border border-white/[0.07]">
+          <div className="flex items-center gap-2 mb-4 border-b border-white/[0.07] pb-3">
+            <h2 className="text-xl font-display font-semibold text-ivory tracking-tight">About us</h2>
             {/* Sparkle Icon */}
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L14.24 9.76L22 12L14.24 14.24L12 22L9.76 14.24L2 12L9.76 9.76L12 2Z" fill="#06b6d4" />
+              <path d="M12 2L14.24 9.76L22 12L14.24 14.24L12 22L9.76 14.24L2 12L9.76 9.76L12 2Z" fill="#D4A843" />
             </svg>
           </div>
 
-          <div className="text-sm leading-relaxed text-gray-700 whitespace-pre-wrap">
+          <div className="text-sm leading-relaxed text-ivory-muted whitespace-pre-wrap">
             {group.description || (
               <>
                 <p className="mb-3">Welcome to {group.name}! We are a community dedicated to connecting people in {group.destination?.city}.</p>
@@ -95,8 +95,8 @@ const GroupAbout = ({ group }) => {
 
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-900 tracking-tight">Upcoming meetups <span className="text-gray-400 font-normal ml-1 text-sm bg-gray-100 px-2 py-0.5 rounded-full">{upcomingEvents.length}</span></h2>
-            <button className="text-cyan-600 font-bold text-sm hover:text-cyan-700 transition-colors flex items-center gap-1 group">See all <span className="group-hover:translate-x-1 transition-transform">→</span></button>
+            <h2 className="text-xl font-display font-semibold text-ivory tracking-tight">Upcoming meetups <span className="text-ivory-faint font-normal ml-1 text-sm bg-white/[0.06] px-2 py-0.5 rounded-full">{upcomingEvents.length}</span></h2>
+            <button className="text-saffron font-bold text-sm hover:text-saffron-bright transition-colors flex items-center gap-1 group">See all <span className="group-hover:translate-x-1 transition-transform">→</span></button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -117,19 +117,19 @@ const GroupAbout = ({ group }) => {
               const eventImage = event.image || group.image || "https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260";
 
               return (
-                <div key={i} className="group cursor-pointer bg-white border border-gray-100 rounded-2xl p-3 hover:shadow-xl hover:shadow-sky-100/50 transition-all duration-300">
+                <div key={i} className="group cursor-pointer bg-ink-800 border border-white/[0.07] rounded-2xl p-3 hover:border-saffron/35 hover:bg-ink-700 transition-all duration-300">
                   <div className="relative aspect-[16/10] rounded-xl overflow-hidden mb-3">
                     <img src={eventImage} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2 py-1 rounded-lg shadow-lg border border-white/20">
-                      <span className="block text-[10px] font-extrabold text-center text-cyan-600 uppercase tracking-widest">{month}</span>
-                      <span className="block text-lg font-black text-center text-gray-900 leading-none">{day < 10 ? `0${day}` : day}</span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute top-3 right-3 bg-ink-900/90 backdrop-blur-md px-2 py-1 rounded-lg shadow-lg border border-white/[0.07]">
+                      <span className="block text-[10px] font-data font-bold text-center text-saffron uppercase tracking-widest">{month}</span>
+                      <span className="block text-lg font-black text-center text-ivory leading-none">{day < 10 ? `0${day}` : day}</span>
                     </div>
                   </div>
                   <div className="px-2 pb-1">
-                    <h3 className="font-bold text-base text-gray-900 mb-1 group-hover:text-cyan-600 transition-colors line-clamp-1">{event.title}</h3>
-                    <p className="text-xs text-sky-600 font-bold mb-1.5">{safeDate.toDateString()} • {time}</p>
-                    <p className="text-xs text-gray-500 truncate flex items-center gap-1.5"><MapPin size={12} className="text-gray-400" /> {typeof event.location === 'object' ? event.location.name : event.location}</p>
+                    <h3 className="font-bold text-base text-ivory mb-1 group-hover:text-saffron transition-colors line-clamp-1">{event.title}</h3>
+                    <p className="text-xs text-saffron font-data font-bold mb-1.5">{safeDate.toDateString()} • {time}</p>
+                    <p className="text-xs text-ivory-faint truncate flex items-center gap-1.5"><MapPin size={12} className="text-ivory-faint" /> {typeof event.location === 'object' ? event.location.name : event.location}</p>
                   </div>
                 </div>
               )
@@ -137,11 +137,11 @@ const GroupAbout = ({ group }) => {
           </div>
         </section>
 
-        <section className="bg-gradient-to-br from-cyan-50/50 to-sky-50/50 p-6 rounded-2xl border border-cyan-100/50 shadow-sm">
-          <h3 className="text-lg font-bold mb-4 text-cyan-950 tracking-tight">What we're about</h3>
+        <section className="bg-ink-800 p-6 rounded-2xl border border-white/[0.07]">
+          <h3 className="text-lg font-display font-semibold mb-4 text-ivory tracking-tight">What we're about</h3>
           <div className="flex flex-wrap gap-2.5">
             {([group.category, 'Community', 'Social', 'Events', 'Networking']).filter(Boolean).map((tag, i) => (
-              <span key={i} className="px-4 py-1.5 bg-white text-cyan-700 rounded-full text-sm font-semibold hover:bg-cyan-50 transition-colors cursor-default border border-cyan-100 shadow-sm shadow-cyan-100/50">
+              <span key={i} className="px-4 py-1.5 bg-white/[0.06] text-ivory-muted rounded-full text-sm font-semibold hover:bg-saffron/10 hover:text-saffron transition-colors cursor-default border border-white/[0.07]">
                 {tag}
               </span>
             ))}
@@ -153,8 +153,8 @@ const GroupAbout = ({ group }) => {
       <div className="space-y-6">
 
         {/* Organizers Card */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm shadow-gray-200/50">
-          <h3 className="font-bold text-gray-900 mb-4 text-base tracking-tight">Organizers</h3>
+        <div className="bg-ink-800 p-6 rounded-2xl border border-white/[0.07]">
+          <h3 className="font-display font-semibold text-ivory mb-4 text-base tracking-tight">Organizers</h3>
           <div className="space-y-4">
             {organizers.map((org, idx) => (
               <div key={idx} className="flex items-center gap-4">
@@ -162,15 +162,15 @@ const GroupAbout = ({ group }) => {
                   <img
                     src={org.avatar || org.userAvatar}
                     alt={org.username}
-                    className="w-12 h-12 rounded-full border-2 border-white shadow-md shadow-gray-200"
+                    className="w-12 h-12 rounded-full border-2 border-ink-700 shadow-md"
                   />
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-horizon border-2 border-ink-800 rounded-full"></div>
                 </div>
                 <div>
-                  <p className="font-bold text-gray-900 text-sm">{org.username || 'Group Admin'}</p>
-                  <p className="text-xs text-cyan-600 font-bold mt-0.5 tracking-wide uppercase">Group Owner</p>
+                  <p className="font-bold text-ivory text-sm">{org.username || 'Group Admin'}</p>
+                  <p className="text-xs text-saffron font-data font-bold mt-0.5 tracking-wide uppercase">Group Owner</p>
                 </div>
-                <button className="ml-auto p-2 text-gray-400 hover:text-cyan-600 hover:bg-cyan-50 rounded-full transition-colors flex-shrink-0">
+                <button className="ml-auto p-2 text-ivory-faint hover:text-saffron hover:bg-saffron/10 rounded-full transition-colors flex-shrink-0" aria-label="Message organizer">
                   <MessageCircle size={20} />
                 </button>
               </div>
@@ -179,10 +179,10 @@ const GroupAbout = ({ group }) => {
         </div>
 
         {/* Member Preview Card */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm shadow-gray-200/50">
+        <div className="bg-ink-800 p-6 rounded-2xl border border-white/[0.07]">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-gray-900 text-base tracking-tight">
-              Members <span className="text-gray-500 font-normal text-sm ml-1 bg-gray-100 px-2 py-0.5 rounded-full">{group.memberCount}</span>
+            <h3 className="font-display font-semibold text-ivory text-base tracking-tight">
+              Members <span className="text-ivory-faint font-normal text-sm ml-1 bg-white/[0.06] px-2 py-0.5 rounded-full">{group.memberCount}</span>
             </h3>
           </div>
 
@@ -193,7 +193,7 @@ const GroupAbout = ({ group }) => {
                 key={i}
                 src={member.avatar || member.userAvatar}
                 alt="Member"
-                className="w-10 h-10 rounded-full border-2 border-white shadow-sm cursor-pointer object-cover hover:z-10 relative transition-shadow hover:shadow-md"
+                className="w-10 h-10 rounded-full border-2 border-ink-700 shadow-sm cursor-pointer object-cover hover:z-10 relative transition-shadow hover:shadow-md"
                 title={member.username || `Member ${i + 1}`}
               />
             ))}
@@ -201,17 +201,17 @@ const GroupAbout = ({ group }) => {
         </div>
 
         {/* Location Card */}
-        <div className="p-6 rounded-2xl border border-gray-100 shadow-sm shadow-gray-200/50 bg-gradient-to-br from-gray-50 to-white">
+        <div className="p-6 rounded-2xl border border-white/[0.07] bg-ink-800">
           <div className="flex items-start gap-4">
-            <div className="p-2.5 bg-gradient-to-br from-red-50 to-red-100 text-red-500 rounded-xl shadow-sm border border-red-100">
+            <div className="p-2.5 bg-saffron/10 text-saffron rounded-xl border border-saffron/20">
               <MapPin size={20} />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900 text-base tracking-tight">Location</h3>
-              <p className="text-gray-600 text-sm mt-1">{group.destination?.city}, {group.destination?.country}</p>
+              <h3 className="font-display font-semibold text-ivory text-base tracking-tight">Location</h3>
+              <p className="text-ivory-muted text-sm mt-1">{group.destination?.city}, {group.destination?.country}</p>
               <button
                 onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(group.destination?.city + ', ' + group.destination?.country)}`, '_blank')}
-                className="text-cyan-600 text-[11px] font-extrabold mt-3 hover:text-cyan-700 transition-colors uppercase tracking-widest flex items-center gap-1 group"
+                className="text-saffron text-[11px] font-data font-bold mt-3 hover:text-saffron-bright transition-colors uppercase tracking-widest flex items-center gap-1 group"
               >
                 VIEW MAP <span className="group-hover:translate-x-1 transition-transform">→</span>
               </button>
@@ -220,12 +220,12 @@ const GroupAbout = ({ group }) => {
         </div>
 
         {/* Safety Score Card */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm shadow-gray-200/50">
+        <div className="bg-ink-800 p-6 rounded-2xl border border-white/[0.07]">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-gray-900 text-base tracking-tight">Safety Score</h3>
+            <h3 className="font-display font-semibold text-ivory text-base tracking-tight">Safety Score</h3>
             <div className="scale-110 origin-right"><SafetyRatingBadge score={(seed % 50) / 10 + 5} size="sm" /></div>
           </div>
-          <p className="text-sm text-gray-500 leading-relaxed">
+          <p className="text-sm text-ivory-faint leading-relaxed">
             Based on community reports and verified check-ins in this area.
           </p>
         </div>

@@ -1,23 +1,23 @@
 
 export const MOCK_GROUPS = [
   {
-    groupId: "grp_demo_aurora_chasers",
-    name: "Aurora Chasers Expedition 🌌",
-    description: "Join our exclusive small-group expedition to chase the Northern Lights. We provide professional photography gear, cozy cabins, and expert guides.",
+    groupId: "grp_demo_ladakh_winter",
+    name: "Ladakh Winter Expedition",
+    description: "Join our small-group winter expedition across frozen Ladakh. Chadar-season landscapes, monastery stays in Thiksey, and expert high-altitude guides with all gear provided.",
     destination: {
-      city: "Tromso",
-      country: "Norway",
-      coordinates: { lat: 69.6492, lng: 18.9553 }
+      city: "Leh",
+      country: "India",
+      coordinates: { lat: 34.1526, lng: 77.5771 }
     },
     travelDates: {
-      startDate: "2026-11-10",
-      endDate: "2026-11-18"
+      startDate: "2027-01-15",
+      endDate: "2027-01-24"
     },
     type: "public",
     category: "adventure",
     maxMembers: 15,
     language: "en",
-    image: "https://images.unsplash.com/photo-1579033461380-adb47c3eb938?q=80&w=3864&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1536295243470-d7cba4efab7b?w=800",
     members: [],
     memberCount: 12,
     upcomingMeetups: [],
@@ -25,23 +25,23 @@ export const MOCK_GROUPS = [
     verified: true
   },
   {
-    groupId: "grp_demo_tuscany_retreat",
-    name: "Tuscany Wine & Culinary Retreat 🍷",
-    description: "Experience the pure essence of Italy. Private villa stays, authentic cooking classes, truffle hunting, and tasting the finest Chianti wines.",
+    groupId: "grp_demo_rajasthan_retreat",
+    name: "Rajasthan Haveli & Food Retreat",
+    description: "Experience royal Rajasthan slowly. Heritage haveli stays in Udaipur, laal maas cooking classes, miniature painting workshops, and sunset boat rides on Lake Pichola.",
     destination: {
-      city: "Florence",
-      country: "Italy",
-      coordinates: { lat: 43.7696, lng: 11.2558 }
+      city: "Udaipur",
+      country: "India",
+      coordinates: { lat: 24.5854, lng: 73.7125 }
     },
     travelDates: {
-      startDate: "2026-06-05",
-      endDate: "2026-06-12"
+      startDate: "2026-11-05",
+      endDate: "2026-11-12"
     },
     type: "public",
     category: "food",
     maxMembers: 20,
     language: "en",
-    image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=3800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1561312514-1d71b2b7e495?w=800",
     members: [],
     memberCount: 18,
     upcomingMeetups: [],
@@ -49,23 +49,23 @@ export const MOCK_GROUPS = [
     verified: true
   },
   {
-    groupId: "grp_demo_kyoto_blossoms",
-    name: "Kyoto Sakura Photography Tour 🌸",
-    description: "Capture the ephemeral beauty of cherry blossoms in ancient Kyoto. Early access to temples, traditional tea ceremonies, and geisha district walks.",
+    groupId: "grp_demo_varanasi_dawn",
+    name: "Varanasi Dawn Photography Tour",
+    description: "Capture the ghats of Kashi at first light. Private dawn boat charters, evening Ganga aarti shoots, and portrait walks through the old city with a working photojournalist.",
     destination: {
-      city: "Kyoto",
-      country: "Japan",
-      coordinates: { lat: 35.0116, lng: 135.7681 }
+      city: "Varanasi",
+      country: "India",
+      coordinates: { lat: 25.3176, lng: 82.9739 }
     },
     travelDates: {
-      startDate: "2026-03-25",
-      endDate: "2026-04-05"
+      startDate: "2026-10-20",
+      endDate: "2026-10-27"
     },
     type: "public",
     category: "photography",
     maxMembers: 12,
     language: "en",
-    image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=3870&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1561361058-c24cecae35ca?w=800",
     members: [],
     memberCount: 10,
     upcomingMeetups: [],
@@ -73,23 +73,23 @@ export const MOCK_GROUPS = [
     verified: true
   },
   {
-    groupId: "grp_demo_sahara_glamping",
-    name: "Sahara Desert Glamping Safari 🐪",
-    description: "Luxury camping under the Saharan stars. Camel treks, 4x4 dune bashing, traditional Berber music, and spectacular golden sunsets.",
+    groupId: "grp_demo_thar_glamping",
+    name: "Thar Desert Glamping Safari",
+    description: "Luxury camping under Thar desert stars near Jaisalmer. Camel treks through the Sam dunes, Manganiyar folk music by the fire, and golden-hour views of the living fort.",
     destination: {
-      city: "Merzouga",
-      country: "Morocco",
-      coordinates: { lat: 31.0968, lng: -4.0125 }
+      city: "Jaisalmer",
+      country: "India",
+      coordinates: { lat: 26.9157, lng: 70.9083 }
     },
     travelDates: {
-      startDate: "2026-10-15",
-      endDate: "2026-10-22"
+      startDate: "2026-12-10",
+      endDate: "2026-12-17"
     },
     type: "public",
     category: "adventure",
     maxMembers: 25,
     language: "en",
-    image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?q=80&w=3800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1564509261027-29e141e2c598?w=800",
     members: [],
     memberCount: 22,
     upcomingMeetups: [],
@@ -97,13 +97,13 @@ export const MOCK_GROUPS = [
     verified: true
   },
   {
-    groupId: "grp_demo_swiss_alps",
-    name: "Swiss Alps Luxury Ski Week ⛷️",
-    description: "Heliskiing, luxury chalets, and après-ski in Zermatt. For advanced skiers seeking the ultimate alpine thrill with a view of the Matterhorn.",
+    groupId: "grp_demo_gulmarg_ski",
+    name: "Gulmarg Powder Ski Week",
+    description: "Ride the Gulmarg gondola to 3,900 metres and ski the Himalayan powder of the Apharwat bowls. For intermediate and advanced skiers; avalanche gear and guides included.",
     destination: {
-      city: "Zermatt",
-      country: "Switzerland",
-      coordinates: { lat: 46.0207, lng: 7.7491 }
+      city: "Gulmarg",
+      country: "India",
+      coordinates: { lat: 34.0484, lng: 74.3805 }
     },
     travelDates: {
       startDate: "2027-01-20",
@@ -113,7 +113,7 @@ export const MOCK_GROUPS = [
     category: "sports",
     maxMembers: 10,
     language: "en",
-    image: "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?q=80&w=3800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
     members: [],
     memberCount: 8,
     upcomingMeetups: [],
@@ -121,23 +121,23 @@ export const MOCK_GROUPS = [
     verified: true
   },
   {
-    groupId: "grp_demo_maldives_dive",
-    name: "Maldives Manta Ray Dive 🤿",
-    description: "Sail on a luxury liveaboard and dive with majestic manta rays and whale sharks in the crystal-clear waters of the Baa Atoll.",
+    groupId: "grp_demo_andaman_dive",
+    name: "Andaman Reef Dive Crew",
+    description: "Liveaboard diving out of Havelock. Manta cleaning stations, coral gardens at Dixon's Pinnacle, and PADI certification dives in some of India's clearest water.",
     destination: {
-      city: "Malé",
-      country: "Maldives",
-      coordinates: { lat: 4.1755, lng: 73.5093 }
+      city: "Havelock Island",
+      country: "India",
+      coordinates: { lat: 11.9762, lng: 92.9615 }
     },
     travelDates: {
-      startDate: "2026-08-10",
-      endDate: "2026-08-20"
+      startDate: "2026-11-10",
+      endDate: "2026-11-20"
     },
     type: "public",
     category: "adventure",
     maxMembers: 16,
     language: "en",
-    image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=3870&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1542429296407-20c78e10f375?w=800",
     members: [],
     memberCount: 14,
     upcomingMeetups: [],
@@ -145,13 +145,13 @@ export const MOCK_GROUPS = [
     verified: true
   },
   {
-    groupId: "grp_paris_art",
-    name: "Art Lovers in Paris 🎨",
-    description: "Exploring museums, galleries, and street art together. We plan to visit the Louvre, Orsay, and some hidden gems in Montmartre.",
+    groupId: "grp_jaipur_heritage",
+    name: "Jaipur Heritage Circle",
+    description: "Exploring the Pink City's forts, stepwells and bazaars together. We plan to visit Amber Fort, Panna Meena ka Kund and the block-print workshops of Sanganer.",
     destination: {
-      city: "Paris",
-      country: "France",
-      coordinates: { lat: 48.8566, lng: 2.3522 }
+      city: "Jaipur",
+      country: "India",
+      coordinates: { lat: 26.9124, lng: 75.7873 }
     },
     travelDates: {
       startDate: "2026-03-15",
@@ -162,28 +162,28 @@ export const MOCK_GROUPS = [
     maxMembers: 50,
     language: "en",
     members: [
-      { userId: "user_1", username: "sarah_travels", avatar: "https://i.pravatar.cc/150?u=sarah", role: "admin", verified: true, joinedAt: "2025-12-01", safetyScore: 9.8, status: "online" },
-      { userId: "user_2", username: "marco_explorer", avatar: "https://i.pravatar.cc/150?u=marco", role: "moderator", verified: true, joinedAt: "2026-01-15", safetyScore: 9.2, status: "online" },
-      { userId: "user_3", username: "jenny_w", avatar: "https://i.pravatar.cc/150?u=jenny", role: "member", verified: false, joinedAt: "2026-02-10", safetyScore: 6.5, status: "offline" },
-      { userId: "user_4", username: "alex_guide", avatar: "https://i.pravatar.cc/150?u=alex", role: "member", verified: true, joinedAt: "2026-02-05", safetyScore: 8.9, status: "offline" },
-      { userId: "user_7", username: "david_hiker", avatar: "https://i.pravatar.cc/150?u=david", role: "member", verified: true, joinedAt: "2026-02-20", safetyScore: 8.5, status: "online" },
-      { userId: "user_8", username: "lisa_photo", avatar: "https://i.pravatar.cc/150?u=lisa", role: "member", verified: false, joinedAt: "2026-02-22", safetyScore: 5.5, status: "offline" },
-      { userId: "user_9", username: "tom_foodie", avatar: "https://i.pravatar.cc/150?u=tom", role: "member", verified: true, joinedAt: "2026-02-25", safetyScore: 7.8, status: "offline" },
-      { userId: "user_10", username: "anna_art", avatar: "https://i.pravatar.cc/150?u=anna", role: "member", verified: true, joinedAt: "2026-02-28", safetyScore: 9.0, status: "online" },
+      { userId: "user_1", username: "priya_travels", avatar: "https://i.pravatar.cc/150?u=priya", role: "admin", verified: true, joinedAt: "2025-12-01", safetyScore: 9.8, status: "online" },
+      { userId: "user_2", username: "arjun_explorer", avatar: "https://i.pravatar.cc/150?u=arjun", role: "moderator", verified: true, joinedAt: "2026-01-15", safetyScore: 9.2, status: "online" },
+      { userId: "user_3", username: "meera_w", avatar: "https://i.pravatar.cc/150?u=meera", role: "member", verified: false, joinedAt: "2026-02-10", safetyScore: 6.5, status: "offline" },
+      { userId: "user_4", username: "kabir_guide", avatar: "https://i.pravatar.cc/150?u=kabir", role: "member", verified: true, joinedAt: "2026-02-05", safetyScore: 8.9, status: "offline" },
+      { userId: "user_7", username: "dev_hiker", avatar: "https://i.pravatar.cc/150?u=dev", role: "member", verified: true, joinedAt: "2026-02-20", safetyScore: 8.5, status: "online" },
+      { userId: "user_8", username: "lakshmi_photo", avatar: "https://i.pravatar.cc/150?u=lakshmi", role: "member", verified: false, joinedAt: "2026-02-22", safetyScore: 5.5, status: "offline" },
+      { userId: "user_9", username: "rohan_foodie", avatar: "https://i.pravatar.cc/150?u=rohan", role: "member", verified: true, joinedAt: "2026-02-25", safetyScore: 7.8, status: "offline" },
+      { userId: "user_10", username: "ananya_art", avatar: "https://i.pravatar.cc/150?u=ananya", role: "member", verified: true, joinedAt: "2026-02-28", safetyScore: 9.0, status: "online" },
     ],
     memberCount: 16,
-    upcomingMeetups: ["meet_louvre", "meet_cafe"],
+    upcomingMeetups: ["meet_amber", "meet_chai"],
     stats: { totalMessages: 347, activeMembers: 9 },
     verified: true
   },
   {
-    groupId: "grp_tokyo_food",
-    name: "Tokyo Foodie Adventure 🍜",
-    description: "Ramen hunting, sushi making classes, and izakaya hopping! Join us for a culinary journey through Tokyo.",
+    groupId: "grp_delhi_food",
+    name: "Old Delhi Foodie Adventure",
+    description: "Paratha hunting in Chandni Chowk, kebabs at Jama Masjid, and daulat ki chaat before it sells out. Join us for a culinary journey through the walled city.",
     destination: {
-      city: "Tokyo",
-      country: "Japan",
-      coordinates: { lat: 35.6762, lng: 139.6503 }
+      city: "Delhi",
+      country: "India",
+      coordinates: { lat: 28.6562, lng: 77.241 }
     },
     travelDates: {
       startDate: "2026-04-10",
@@ -194,8 +194,8 @@ export const MOCK_GROUPS = [
     maxMembers: 30,
     language: "en",
     members: [
-      { userId: "user_5", username: "chef_mike", avatar: "https://i.pravatar.cc/150?u=mike", role: "admin", verified: true },
-      { userId: "user_6", username: "sushi_lover", avatar: "https://i.pravatar.cc/150?u=sushi", role: "member", verified: true }
+      { userId: "user_5", username: "chef_vikram", avatar: "https://i.pravatar.cc/150?u=vikram", role: "admin", verified: true },
+      { userId: "user_6", username: "chaat_lover", avatar: "https://i.pravatar.cc/150?u=chaat", role: "member", verified: true }
     ],
     memberCount: 8,
     upcomingMeetups: [],
@@ -203,13 +203,13 @@ export const MOCK_GROUPS = [
     verified: false
   },
   {
-    groupId: "grp_bali_digital_nomads",
-    name: "Bali Digital Nomads 💻",
-    description: "Coworking, surfing, and networking in Canggu and Ubud. Perfect for remote workers looking for community.",
+    groupId: "grp_goa_digital_nomads",
+    name: "Goa Digital Nomads",
+    description: "Coworking, surfing, and networking in Anjuna and Assagao. Perfect for remote workers looking for community between deadlines and beach sunsets.",
     destination: {
-      city: "Bali",
-      country: "Indonesia",
-      coordinates: { lat: -8.4095, lng: 115.1889 }
+      city: "Goa",
+      country: "India",
+      coordinates: { lat: 15.2993, lng: 74.124 }
     },
     travelDates: {
       startDate: "2026-05-01",
@@ -226,13 +226,13 @@ export const MOCK_GROUPS = [
     verified: true
   },
   {
-    groupId: "grp_london_history",
-    name: "London History Walkers 🇬🇧",
-    description: "Weekend walks through historic London. From Roman walls to Victorian alleys. Pub lunch included!",
+    groupId: "grp_kolkata_history",
+    name: "Kolkata Heritage Walkers",
+    description: "Weekend walks through historic Calcutta. From Dalhousie Square's colonial facades to the potters of Kumartuli. Adda and kathi rolls included!",
     destination: {
-      city: "London",
-      country: "UK",
-      coordinates: { lat: 51.5074, lng: -0.1278 }
+      city: "Kolkata",
+      country: "India",
+      coordinates: { lat: 22.5726, lng: 88.3639 }
     },
     travelDates: {
       startDate: "2026-06-10",
@@ -249,13 +249,13 @@ export const MOCK_GROUPS = [
     verified: false
   },
   {
-    groupId: "grp_nyc_photography",
-    name: "NYC Street Snappers 📸",
-    description: "Capture the energy of New York City. Sunrise at Brooklyn Bridge and sunset in Manhattan.",
+    groupId: "grp_mumbai_photography",
+    name: "Mumbai Street Snappers",
+    description: "Capture the energy of Mumbai. Sunrise at Sassoon Dock, the dabbawalas at Churchgate, and golden hour on Marine Drive.",
     destination: {
-      city: "New York",
-      country: "USA",
-      coordinates: { lat: 40.7128, lng: -74.0060 }
+      city: "Mumbai",
+      country: "India",
+      coordinates: { lat: 19.076, lng: 72.8777 }
     },
     travelDates: {
       startDate: "2026-07-01",
@@ -273,8 +273,8 @@ export const MOCK_GROUPS = [
   },
   {
     groupId: "grp_goa_chill",
-    name: "Goa Beach & Yoga 🧘‍♀️",
-    description: "Relaxing yoga sessions by the beach, sunset parties, and exploring North Goa's vibes.",
+    name: "Goa Beach & Yoga",
+    description: "Relaxing yoga sessions by the beach, sunset drum circles, and exploring North Goa's vibes.",
     destination: {
       city: "Goa",
       country: "India",
@@ -296,7 +296,7 @@ export const MOCK_GROUPS = [
   },
   {
     groupId: "grp_manali_trek",
-    name: "Manali Trekking Club 🏔️",
+    name: "Manali Trekking Club",
     description: "High altitude trekking in the Himalayas. Hampta Pass and Solang Valley expeditions.",
     destination: {
       city: "Manali",
@@ -318,13 +318,13 @@ export const MOCK_GROUPS = [
     verified: false
   },
   {
-    groupId: "grp_kyoto_zen",
-    name: "Kyoto Zen Gardens 🏯",
-    description: "Peaceful tours of Kyoto's temples and gardens. Tea ceremonies and meditation sessions.",
+    groupId: "grp_bodhgaya_zen",
+    name: "Bodh Gaya Meditation Circle",
+    description: "Peaceful days around the Mahabodhi Temple. Vipassana sittings, monastery visits, and quiet mornings under the Bodhi tree.",
     destination: {
-      city: "Kyoto",
-      country: "Japan",
-      coordinates: { lat: 35.0116, lng: 135.7681 }
+      city: "Bodh Gaya",
+      country: "India",
+      coordinates: { lat: 24.6961, lng: 84.9871 }
     },
     travelDates: {
       startDate: "2026-04-01",
@@ -341,13 +341,13 @@ export const MOCK_GROUPS = [
     verified: true
   },
   {
-    groupId: "grp_iceland_roadtrip",
-    name: "Iceland Ring Road 🚗",
-    description: "Epic road trip around Iceland chasing waterfalls, geysers, and the Northern Lights.",
+    groupId: "grp_spiti_roadtrip",
+    name: "Spiti Circuit Road Trip",
+    description: "Epic road trip through the Spiti Valley chasing high passes, Key Monastery, and the world's highest post office at Hikkim.",
     destination: {
-      city: "Reykjavik",
-      country: "Iceland",
-      coordinates: { lat: 64.1466, lng: -21.9426 }
+      city: "Kaza",
+      country: "India",
+      coordinates: { lat: 32.227, lng: 78.0715 }
     },
     travelDates: {
       startDate: "2026-09-10",
@@ -364,13 +364,13 @@ export const MOCK_GROUPS = [
     verified: true
   },
   {
-    groupId: "grp_rome_food",
-    name: "Taste of Rome 🍝",
-    description: "Pizza, pasta, and gelato! A culinary walking tour through the eternal city's best eateries.",
+    groupId: "grp_amritsar_food",
+    name: "Taste of Amritsar",
+    description: "Kulchas, lassi in clay glasses, and langar at the Golden Temple. A culinary walking tour through Punjab's holiest city.",
     destination: {
-      city: "Rome",
-      country: "Italy",
-      coordinates: { lat: 41.9028, lng: 12.4964 }
+      city: "Amritsar",
+      country: "India",
+      coordinates: { lat: 31.62, lng: 74.8765 }
     },
     travelDates: {
       startDate: "2026-05-15",
@@ -392,37 +392,37 @@ export const MOCK_NOTIFICATIONS = [
   {
     id: "notif_1",
     type: "GROUP_INVITE",
-    message: "Sarah invited you to join Art Lovers in Paris",
+    message: "Priya invited you to join Jaipur Heritage Circle",
     timestamp: Date.now() - 3600000,
     read: false,
-    data: { groupId: "grp_paris_art" }
+    data: { groupId: "grp_jaipur_heritage" }
   },
   {
     id: "notif_2",
     type: "MEETUP_REMINDER",
-    message: "Reminder: Louvre Museum Tour starts in 1 hour",
+    message: "Reminder: Amber Fort Sunrise Walk starts in 1 hour",
     timestamp: Date.now() - 7200000,
     read: true,
-    data: { meetupId: "meet_louvre" }
+    data: { meetupId: "meet_amber" }
   },
   {
     id: "notif_3",
     type: "NEW_MESSAGE",
-    message: "5 new messages in Art Lovers in Paris",
+    message: "5 new messages in Jaipur Heritage Circle",
     timestamp: Date.now() - 86400000,
     read: true,
-    data: { groupId: "grp_paris_art" }
+    data: { groupId: "grp_jaipur_heritage" }
   }
 ];
 
 export const MOCK_MESSAGES = {
-  "grp_paris_art": [
+  "grp_jaipur_heritage": [
     {
       messageId: "msg_1",
       userId: "user_1",
-      username: "sarah_travels",
-      userAvatar: "https://i.pravatar.cc/150?u=sarah",
-      text: "Hey everyone! Who's excited for the Louvre meetup tomorrow?",
+      username: "priya_travels",
+      userAvatar: "https://i.pravatar.cc/150?u=priya",
+      text: "Hey everyone! Who's excited for the Amber Fort walk tomorrow?",
       timestamp: Date.now() - 86400000,
       type: "text",
       reactions: { "👍": ["user_2", "user_3"] }
@@ -430,9 +430,9 @@ export const MOCK_MESSAGES = {
     {
       messageId: "msg_2",
       userId: "user_2",
-      username: "marco_explorer",
-      userAvatar: "https://i.pravatar.cc/150?u=marco",
-      text: "Can't wait! I've been dying to see the Mona Lisa 🖼️",
+      username: "arjun_explorer",
+      userAvatar: "https://i.pravatar.cc/150?u=arjun",
+      text: "Can't wait! I've been dying to see the Sheesh Mahal",
       timestamp: Date.now() - 86000000,
       type: "text",
       reactions: { "🔥": ["user_1"] }
@@ -440,13 +440,13 @@ export const MOCK_MESSAGES = {
     {
       messageId: "msg_3",
       userId: "user_1",
-      username: "sarah_travels",
-      userAvatar: "https://i.pravatar.cc/150?u=sarah",
+      username: "priya_travels",
+      userAvatar: "https://i.pravatar.cc/150?u=priya",
       type: "location",
       location: {
-        latitude: 48.8606,
-        longitude: 2.3376,
-        name: "Louvre Pyramid Entrance"
+        latitude: 26.9855,
+        longitude: 75.8513,
+        name: "Amber Fort Main Gate"
       },
       timestamp: Date.now() - 85000000,
     }
@@ -455,35 +455,35 @@ export const MOCK_MESSAGES = {
 
 export const MOCK_MEETUPS = [
   {
-    meetupId: "meet_louvre",
-    groupId: "grp_paris_art",
-    title: "Louvre Museum Tour",
-    description: "Let's explore the Louvre together! We'll meet at the pyramid entrance and spend 2-3 hours inside.",
-    dateTime: "2026-03-16T10:00:00Z",
+    meetupId: "meet_amber",
+    groupId: "grp_jaipur_heritage",
+    title: "Amber Fort Sunrise Walk",
+    description: "Let's explore Amber Fort together! We'll meet at the main gate before the crowds and spend 2-3 hours inside, ending at Panna Meena ka Kund.",
+    dateTime: "2026-03-16T06:30:00Z",
     duration: 180,
     location: {
-      name: "Louvre Museum",
-      address: "Rue de Rivoli, 75001 Paris",
-      coordinates: { lat: 48.8606, lng: 2.3376 }
+      name: "Amber Fort",
+      address: "Devisinghpura, Amer, Jaipur, Rajasthan 302001",
+      coordinates: { lat: 26.9855, lng: 75.8513 }
     },
     attendees: [
-      { userId: "user_1", username: "sarah_travels", status: "going", userAvatar: "https://i.pravatar.cc/150?u=sarah" },
-      { userId: "user_2", username: "marco_explorer", status: "going", userAvatar: "https://i.pravatar.cc/150?u=marco" },
-      { userId: "user_3", username: "jenny_w", status: "maybe", userAvatar: "https://i.pravatar.cc/150?u=jenny" }
+      { userId: "user_1", username: "priya_travels", status: "going", userAvatar: "https://i.pravatar.cc/150?u=priya" },
+      { userId: "user_2", username: "arjun_explorer", status: "going", userAvatar: "https://i.pravatar.cc/150?u=arjun" },
+      { userId: "user_3", username: "meera_w", status: "maybe", userAvatar: "https://i.pravatar.cc/150?u=meera" }
     ],
     maxAttendees: 10,
     meetupType: "activity",
-    costPerPerson: 17,
+    costPerPerson: 500,
     status: "upcoming",
-    createdBy: { userId: "user_1", username: "sarah_travels" },
+    createdBy: { userId: "user_1", username: "priya_travels" },
     publicMeetup: true
   }
 ];
 
 export const CURRENT_USER = {
   userId: "user_current",
-  username: "traveler_joe",
-  displayName: "Joe Traveler",
-  avatar: "https://i.pravatar.cc/150?u=joe",
+  username: "safar_yatri",
+  displayName: "Aarav Traveler",
+  avatar: "https://i.pravatar.cc/150?u=aarav",
   safelyScore: 9.5
 };

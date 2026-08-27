@@ -834,8 +834,8 @@ const MapPage = () => {
   // horizon (the map-only cool tone) for natural hidden gems.
   const typeColors = {
     "Hidden Gem": "#6FA8D6",
-    "Heritage Site": "#E8A33D",
-    Temple: "#F5B94E",
+    "Heritage Site": "#D4A843",
+    Temple: "#E5BE5C",
   };
 
   const mapLayers = [
@@ -872,7 +872,7 @@ const MapPage = () => {
 
 
   const createCustomIcon = (type, region, isSelected = false) => {
-    const color = typeColors[type] || "#E8A33D";
+    const color = typeColors[type] || "#D4A843";
     const size = isSelected ? 26 : 20;
 
     return L.divIcon({
@@ -911,8 +911,8 @@ const MapPage = () => {
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        border: 4px solid #E8A33D;
-        box-shadow: 0 0 14px rgba(232, 163, 61, 0.7), 0 4px 12px rgba(0,0,0,0.5);
+        border: 4px solid #D4A843;
+        box-shadow: 0 0 14px rgba(212, 168, 67, 0.7), 0 4px 12px rgba(0,0,0,0.5);
       "></div>
     `,
     iconSize: [18, 18],
@@ -1175,11 +1175,11 @@ const MapPage = () => {
                     <div className="mb-3">
                       <span
                         className="inline-flex items-center gap-1.5 font-data text-[10px] uppercase tracking-[0.16em] mb-2"
-                        style={{ color: typeColors[site.type] || "#E8A33D" }}
+                        style={{ color: typeColors[site.type] || "#D4A843" }}
                       >
                         <span
                           className="inline-block w-1.5 h-1.5 rounded-full"
-                          style={{ backgroundColor: typeColors[site.type] || "#E8A33D" }}
+                          style={{ backgroundColor: typeColors[site.type] || "#D4A843" }}
                         />
                         {site.type}
                       </span>

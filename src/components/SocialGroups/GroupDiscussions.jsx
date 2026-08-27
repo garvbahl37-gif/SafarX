@@ -6,7 +6,7 @@ const ThreadCard = ({ thread, isPinned }) => (
     <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className={`p-5 bg-white rounded-xl border ${isPinned ? 'border-sky-100 bg-sky-50/10' : 'border-gray-100'} hover:border-sky-500/30 hover:shadow-md transition-all cursor-pointer group dark:bg-[#121622] dark:border-white/5 dark:hover:border-white/20`}
+        className={`p-5 bg-ink-800 rounded-xl border ${isPinned ? 'border-saffron/20' : 'border-white/[0.07]'} hover:border-saffron/35 hover:bg-ink-700 transition-all cursor-pointer group`}
     >
         <div className="flex items-start gap-4">
 
@@ -14,36 +14,36 @@ const ThreadCard = ({ thread, isPinned }) => (
             <img
                 src={thread.authorAvatar}
                 alt={thread.author}
-                className="w-10 h-10 rounded-full object-cover border border-gray-100 shadow-sm"
+                className="w-10 h-10 rounded-full object-cover border border-white/[0.07] shadow-sm"
             />
 
             <div className="flex-1 min-w-0">
                 {isPinned && (
-                    <div className="flex items-center gap-1 text-[10px] font-bold text-sky-500 mb-2 uppercase tracking-wide dark:text-cyan-400">
+                    <div className="flex items-center gap-1 text-[10px] font-data font-bold text-saffron mb-2 uppercase tracking-wide">
                         <Pin size={10} className="fill-current" /> Pinned
                     </div>
                 )}
 
-                <h3 className="text-base font-bold text-gray-900 mb-1 group-hover:text-sky-500 transition-colors line-clamp-1 dark:text-white dark:group-hover:text-cyan-400">
+                <h3 className="text-base font-bold text-ivory mb-1 group-hover:text-saffron transition-colors line-clamp-1">
                     {thread.title}
                 </h3>
 
-                <p className="text-gray-500 text-xs leading-relaxed line-clamp-2 mb-3 font-medium dark:text-gray-400">
+                <p className="text-ivory-muted text-xs leading-relaxed line-clamp-2 mb-3 font-medium">
                     {thread.preview}
                 </p>
 
-                <div className="flex items-center justify-between text-[11px] text-gray-400 font-medium">
+                <div className="flex items-center justify-between text-[11px] text-ivory-faint font-medium">
                     <div className="flex items-center gap-3">
-                        <span className="text-gray-900 dark:text-gray-300">by {thread.author}</span>
-                        <span className="dark:text-gray-500">• {thread.date}</span>
+                        <span className="text-ivory-muted">by {thread.author}</span>
+                        <span>• {thread.date}</span>
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-1 hover:text-cyan-500 transition-colors dark:hover:text-cyan-400">
+                        <div className="flex items-center gap-1 hover:text-saffron transition-colors">
                             <MessageCircle size={12} />
                             <span>{thread.replies}</span>
                         </div>
-                        <div className="flex items-center gap-1 hover:text-sky-500 transition-colors dark:hover:text-sky-400">
+                        <div className="flex items-center gap-1 hover:text-saffron transition-colors">
                             <ThumbsUp size={12} />
                             <span>{thread.likes}</span>
                         </div>
@@ -67,7 +67,7 @@ const GroupDiscussions = ({ group }) => {
                 title: `Welcome to ${group.name}!`,
                 preview: 'We are so excited to have you here. This group is all about connecting with people who share your interests.',
                 author: 'Admin',
-                authorAvatar: `https://ui-avatars.com/api/?name=${group.name.substring(0, 2)}&background=0ea5e9&color=fff`,
+                authorAvatar: `https://ui-avatars.com/api/?name=${group.name.substring(0, 2)}&background=D4A843&color=fff`,
                 date: '2 days ago',
                 replies: Math.floor(Math.random() * 50),
                 likes: Math.floor(Math.random() * 200),
@@ -99,7 +99,7 @@ const GroupDiscussions = ({ group }) => {
             title: newTopic.title,
             preview: newTopic.content,
             author: 'You',
-            authorAvatar: 'https://ui-avatars.com/api/?name=You&background=06b6d4&color=fff',
+            authorAvatar: 'https://ui-avatars.com/api/?name=You&background=D4A843&color=fff',
             date: 'Just now',
             replies: 0,
             likes: 0,
@@ -117,8 +117,8 @@ const GroupDiscussions = ({ group }) => {
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight dark:text-white">Discussions</h2>
-                    <p className="text-sm text-gray-500 font-medium dark:text-gray-400">Join the conversation</p>
+                    <h2 className="text-xl font-display font-semibold text-ivory tracking-tight">Discussions</h2>
+                    <p className="text-sm text-ivory-muted font-medium">Join the conversation</p>
                 </div>
             </div>
 
@@ -128,33 +128,33 @@ const GroupDiscussions = ({ group }) => {
                     <motion.div
                         layoutId="create-box"
                         onClick={() => setIsExpanded(true)}
-                        className="bg-white border border-gray-200 rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:border-gray-300 hover:shadow-sm transition-all shadow-sm dark:bg-[#121622] dark:border-white/5 dark:hover:border-white/20"
+                        className="bg-ink-800 border border-white/[0.07] rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:border-saffron/35 transition-all"
                     >
-                        <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden border border-gray-200 dark:border-transparent">
+                        <div className="w-10 h-10 rounded-full bg-white/[0.06] overflow-hidden border border-white/[0.07]">
                             <img src="https://ui-avatars.com/api/?name=You&background=random" alt="You" />
                         </div>
-                        <div className="flex-1 bg-gray-50 rounded-full h-10 flex items-center px-4 text-sm text-gray-400 font-medium dark:bg-white/5 dark:text-gray-500">
+                        <div className="flex-1 bg-white/[0.04] rounded-full h-10 flex items-center px-4 text-sm text-ivory-faint font-medium">
                             Start a new discussion...
                         </div>
-                        <button className="p-2 bg-gray-50 text-gray-400 rounded-full hover:bg-gray-100 hover:text-gray-600 dark:bg-white/5 dark:hover:bg-white/10 dark:hover:text-gray-300">
+                        <button className="p-2 bg-white/[0.04] text-ivory-faint rounded-full hover:bg-white/[0.08] hover:text-ivory-muted transition-colors" aria-label="New discussion">
                             <PlusCircle size={20} />
                         </button>
                     </motion.div>
                 ) : (
                     <motion.form
                         layoutId="create-box"
-                        className="bg-white border border-gray-200 rounded-xl p-4 shadow-lg ring-1 ring-black/5 dark:bg-[#121622] dark:border-white/5 dark:ring-0"
+                        className="bg-ink-800 border border-white/[0.07] rounded-xl p-4 shadow-lg"
                         onSubmit={handlePost}
                     >
                         <div className="flex justify-between items-start mb-4">
-                            <h3 className="text-sm font-bold text-gray-900 dark:text-white">Create New Topic</h3>
-                            <button type="button" onClick={() => setIsExpanded(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                            <h3 className="text-sm font-bold text-ivory">Create New Topic</h3>
+                            <button type="button" onClick={() => setIsExpanded(false)} className="text-ivory-faint hover:text-ivory-muted" aria-label="Close form">
                                 <X size={18} />
                             </button>
                         </div>
 
                         <input
-                            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm font-bold text-gray-900 focus:bg-white focus:border-cyan-500 outline-none mb-3 transition-colors placeholder-gray-400 dark:bg-[#0B0E14] dark:border-white/10 dark:text-white dark:focus:border-cyan-500/50"
+                            className="glass-input w-full text-sm font-bold mb-3"
                             placeholder="Topic Title"
                             value={newTopic.title}
                             onChange={e => setNewTopic({ ...newTopic, title: e.target.value })}
@@ -162,20 +162,20 @@ const GroupDiscussions = ({ group }) => {
                         />
 
                         <textarea
-                            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-700 focus:bg-white focus:border-cyan-500 outline-none mb-4 resize-none h-24 transition-colors placeholder-gray-400 dark:bg-[#0B0E14] dark:border-white/10 dark:text-gray-300 dark:focus:border-cyan-500/50"
+                            className="glass-input w-full text-sm mb-4 resize-none h-24"
                             placeholder="What's on your mind?"
                             value={newTopic.content}
                             onChange={e => setNewTopic({ ...newTopic, content: e.target.value })}
                         />
 
-                        <div className="flex items-center justify-between border-t border-gray-100 pt-3 dark:border-white/5">
-                            <div className="text-xs text-gray-400 font-medium">
-                                Posting to <span className="text-gray-900 font-bold dark:text-white">{group.name}</span>
+                        <div className="flex items-center justify-between border-t border-white/[0.07] pt-3">
+                            <div className="text-xs text-ivory-faint font-medium">
+                                Posting to <span className="text-ivory font-bold">{group.name}</span>
                             </div>
                             <button
                                 type="submit"
                                 disabled={!newTopic.title || !newTopic.content}
-                                className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-sky-600 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed text-white px-6 py-2 rounded-lg text-xs font-bold hover:from-sky-600 hover:to-sky-700 transition-colors shadow-md shadow-sky-500/30 dark:disabled:from-white/10 dark:disabled:to-white/10 dark:disabled:text-white/30"
+                                className="flex items-center gap-2 bg-gradient-to-r from-saffron-bright to-saffron disabled:from-white/10 disabled:to-white/10 disabled:text-ivory-faint disabled:cursor-not-allowed text-ink-950 px-6 py-2 rounded-lg text-xs font-bold hover:from-saffron hover:to-saffron-bright transition-colors shadow-md shadow-saffron/20"
                             >
                                 Post Topic <Send size={12} />
                             </button>
