@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import {
   Heart,
   Share2,
   Compass,
-  Search,
   ArrowRight,
   ArrowUpRight,
   X,
@@ -16,9 +15,10 @@ import {
   Landmark,
   Lightbulb,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 
 import SectionHeading from "../components/ui/SectionHeading";
+import GemSearchBar from "../components/gems/GemSearchBar";
 import gemsData from "../data/hiddengems.json";
 import { useBookmarks } from "../hooks/useBookmarks";
 
@@ -35,6 +35,8 @@ const FALLBACK_IMAGE =
 const imageFor = (gem) => {
   const file = gem.images?.[0];
   if (!file) return FALLBACK_IMAGE;
+  // Entries added after the local asset set use a full remote URL.
+  if (/^https?:\/\//i.test(file)) return file;
   const hit = Object.entries(gemImageModules).find(([path]) =>
     path.endsWith(`/${file}`)
   );
@@ -47,6 +49,10 @@ const CATEGORY_LABELS = {
   fort: "Forts",
   nature: "Nature",
   village: "Villages",
+  trek: "Treks",
+  beach: "Beaches",
+  wildlife: "Wildlife",
+  cave: "Caves",
 };
 
 const REGION_LABELS = {
@@ -63,7 +69,11 @@ const HiddenGemsPage = ({ onPageChange }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("All");
   const [region, setRegion] = useState("All");
+  const [stateFilter, setStateFilter] = useState("All");
   const [openGem, setOpenGem] = useState(null);
+  const [focusGemId, setFocusGemId] = useState(null);
+
+  const cardRefs = useRef(new Map());
 
   const { addBookmark, removeBookmark, isBookmarked } = useBookmarks();
 
@@ -84,12 +94,91 @@ const HiddenGemsPage = ({ onPageChange }) => {
         gem.title.toLowerCase().includes(q) ||
         gem.location.toLowerCase().includes(q) ||
         gem.state.toLowerCase().includes(q) ||
-        gem.category.toLowerCase().includes(q);
+        gem.category.toLowerCase().includes(q) ||
+        gem.description.toLowerCase().includes(q);
       const matchesCategory = category === "All" || gem.category === category;
       const matchesRegion = region === "All" || gem.region === region;
-      return matchesSearch && matchesCategory && matchesRegion;
+      const matchesState = stateFilter === "All" || gem.state === stateFilter;
+      return matchesSearch && matchesCategory && matchesRegion && matchesState;
     });
-  }, [searchTerm, category, region]);
+  }, [searchTerm, category, region, stateFilter]);
+
+  /* ---------------- filter handlers ---------------- */
+
+  const handleRegionChange = useCallback((next) => {
+    setRegion(next);
+    setStateFilter("All");
+  }, []);
+
+  const handleSelectPlace = useCallback((gem) => {
+    setRegion("All");
+    setCategory("All");
+    setStateFilter("All");
+    setSearchTerm(gem.title);
+    setFocusGemId(gem.id);
+  }, []);
+
+  const handleSelectState = useCallback((next) => {
+    setSearchTerm("");
+    setRegion("All");
+    setStateFilter(next);
+  }, []);
+
+  const handleSelectRegion = useCallback((next) => {
+    setSearchTerm("");
+    setStateFilter("All");
+    setRegion(next);
+  }, []);
+
+  const handleSelectCategory = useCallback((next) => {
+    setSearchTerm("");
+    setCategory(next);
+  }, []);
+
+  const clearAllFilters = useCallback(() => {
+    setSearchTerm("");
+    setCategory("All");
+    setRegion("All");
+    setStateFilter("All");
+  }, []);
+
+  const activeFilters = useMemo(() => {
+    const chips = [];
+    if (searchTerm.trim())
+      chips.push({
+        key: "search",
+        label: `“${searchTerm.trim()}”`,
+        clear: () => setSearchTerm(""),
+      });
+    if (region !== "All")
+      chips.push({
+        key: "region",
+        label: REGION_LABELS[region] || region,
+        clear: () => setRegion("All"),
+      });
+    if (stateFilter !== "All")
+      chips.push({
+        key: "state",
+        label: stateFilter,
+        clear: () => setStateFilter("All"),
+      });
+    if (category !== "All")
+      chips.push({
+        key: "category",
+        label: CATEGORY_LABELS[category] || category,
+        clear: () => setCategory("All"),
+      });
+    return chips;
+  }, [searchTerm, region, stateFilter, category]);
+
+  /* Selecting a place from the autocomplete scrolls to its card and opens it. */
+  useEffect(() => {
+    if (focusGemId === null) return;
+    cardRefs.current.get(focusGemId)?.scrollIntoView({ block: "center" });
+    const gem = gemsData.find((g) => g.id === focusGemId);
+    if (gem) setOpenGem(gem);
+    setFocusGemId(null);
+  }, [focusGemId]);
 
   const handleBookmarkToggle = (e, gem) => {
     e.stopPropagation();
@@ -167,7 +256,7 @@ const HiddenGemsPage = ({ onPageChange }) => {
         </div>
 
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: EASE }}
@@ -190,59 +279,33 @@ const HiddenGemsPage = ({ onPageChange }) => {
             <p className="font-data text-[11px] uppercase tracking-[0.2em] text-saffron">
               {displayGems.length} of {gemsData.length} places mapped
             </p>
-          </motion.div>
+          </Motion.div>
         </div>
       </section>
 
       {/* ======================= SEARCH & FILTERS ======================= */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-14 -mt-10 relative z-20">
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
           className="max-w-2xl mx-auto"
         >
-          <div className="relative bg-ink-900/90 backdrop-blur-2xl border border-white/[0.09] rounded-full shadow-2xl flex items-center p-2 pr-4 transition-colors duration-300 focus-within:border-saffron/40">
-            <div className="p-2.5 bg-saffron/10 rounded-full mr-3 text-saffron shrink-0">
-              <Search className="w-5 h-5" aria-hidden="true" />
-            </div>
-
-            <label htmlFor="gem-region" className="sr-only">
-              Filter by region
-            </label>
-            <select
-              id="gem-region"
-              value={region}
-              onChange={(e) => setRegion(e.target.value)}
-              className="bg-transparent text-saffron font-data text-xs uppercase tracking-[0.08em] border-r border-white/10 pr-3 mr-3 outline-none cursor-pointer hover:text-saffron-bright transition-colors max-w-[130px]"
-            >
-              {regions.map((r) => (
-                <option key={r} value={r} className="bg-ink-900 text-ivory">
-                  {REGION_LABELS[r] || r}
-                </option>
-              ))}
-            </select>
-
-            <input
-              type="text"
-              placeholder="Search a place, state, or kind of escape"
-              aria-label="Search hidden gems"
-              className="flex-1 min-w-0 bg-transparent text-base text-ivory placeholder-ivory-faint outline-none border-none ring-0 focus:ring-0"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm("")}
-                aria-label="Clear search"
-                className="p-1.5 text-ivory-faint hover:text-ivory transition-colors shrink-0"
-              >
-                <X className="w-4 h-4" aria-hidden="true" />
-              </button>
-            )}
-          </div>
-        </motion.div>
+          <GemSearchBar
+            gems={gemsData}
+            value={searchTerm}
+            onValueChange={setSearchTerm}
+            region={region}
+            regions={regions}
+            regionLabels={REGION_LABELS}
+            categoryLabels={CATEGORY_LABELS}
+            onRegionChange={handleRegionChange}
+            onSelectPlace={handleSelectPlace}
+            onSelectState={handleSelectState}
+            onSelectRegion={handleSelectRegion}
+            onSelectCategory={handleSelectCategory}
+          />
+        </Motion.div>
 
         {/* Category chips */}
         <div
@@ -265,6 +328,35 @@ const HiddenGemsPage = ({ onPageChange }) => {
             </button>
           ))}
         </div>
+
+        {/* Active filters */}
+        {activeFilters.length > 0 && (
+          <div
+            className="flex flex-wrap items-center justify-center gap-2 mt-5"
+            aria-label="Active filters"
+          >
+            <span className="font-data text-[10px] uppercase tracking-[0.2em] text-ivory-faint mr-1">
+              Filtering by
+            </span>
+            {activeFilters.map((chip) => (
+              <button
+                key={chip.key}
+                onClick={chip.clear}
+                aria-label={`Remove filter ${chip.label}`}
+                className="group flex items-center gap-2 font-data text-[11px] uppercase tracking-[0.12em] px-3 py-1.5 rounded-full border border-saffron/30 bg-saffron/10 text-saffron hover:border-saffron/60 transition-colors duration-300"
+              >
+                {chip.label}
+                <X size={11} className="opacity-70 group-hover:opacity-100" aria-hidden="true" />
+              </button>
+            ))}
+            <button
+              onClick={clearAllFilters}
+              className="font-data text-[11px] uppercase tracking-[0.12em] px-3 py-1.5 text-ivory-faint hover:text-ivory transition-colors"
+            >
+              Clear all
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ======================= GEMS GRID ======================= */}
@@ -272,13 +364,17 @@ const HiddenGemsPage = ({ onPageChange }) => {
         {displayGems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {displayGems.map((gem, index) => (
-              <motion.article
+              <Motion.article
                 key={gem.id}
+                ref={(el) => {
+                  if (el) cardRefs.current.set(gem.id, el);
+                  else cardRefs.current.delete(gem.id);
+                }}
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.65, delay: (index % 3) * 0.08, ease: EASE }}
-                className="group relative bg-ink-800 rounded-2xl overflow-hidden border border-white/[0.07] hover:border-saffron/35 transition-colors duration-500 flex flex-col"
+                className="group relative bg-ink-800 rounded-2xl overflow-hidden border border-white/[0.07] hover:border-saffron/35 transition-colors duration-500 flex flex-col scroll-mt-28"
               >
                 {/* Image */}
                 <div className="relative h-60 overflow-hidden">
@@ -374,24 +470,34 @@ const HiddenGemsPage = ({ onPageChange }) => {
                     </button>
                   </div>
                 </div>
-              </motion.article>
+              </Motion.article>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-ink-900/60 rounded-3xl border border-white/[0.07] mx-auto max-w-2xl">
-            <Compass className="w-14 h-14 text-ivory-faint mx-auto mb-4" aria-hidden="true" />
-            <h3 className="font-display text-2xl text-ivory mb-2">No gems match that filter</h3>
-            <p className="text-ivory-muted max-w-md mx-auto">
-              Try a different region or category, or clear your search — every place here
-              is worth the detour.
+          <div className="text-center py-16 px-6 bg-ink-900/60 rounded-3xl border border-white/[0.07] mx-auto max-w-2xl">
+            <Compass className="w-12 h-12 text-ivory-faint mx-auto mb-5" aria-hidden="true" />
+            <h3 className="font-display text-2xl text-ivory mb-3">
+              No gems match{" "}
+              {searchTerm.trim() ? (
+                <em className="italic text-saffron-bright">“{searchTerm.trim()}”</em>
+              ) : (
+                "those filters"
+              )}
+            </h3>
+            <p className="text-ivory-muted max-w-md mx-auto mb-7 leading-relaxed">
+              All {gemsData.length} places are still here — widen the region, drop a
+              category, or search by state instead.
             </p>
+            <button onClick={clearAllFilters} className="btn-outline">
+              Clear all filters
+            </button>
           </div>
         )}
       </div>
 
       {/* ======================= SHARE-A-GEM CTA ======================= */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-14 mt-20">
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
@@ -410,13 +516,13 @@ const HiddenGemsPage = ({ onPageChange }) => {
             Share a hidden gem
             <ArrowUpRight size={16} aria-hidden="true" />
           </button>
-        </motion.div>
+        </Motion.div>
       </div>
 
       {/* ======================= DETAIL PANEL ======================= */}
       <AnimatePresence>
         {openGem && (
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -433,7 +539,7 @@ const HiddenGemsPage = ({ onPageChange }) => {
               tabIndex={-1}
             />
 
-            <motion.div
+            <Motion.div
               initial={{ opacity: 0, y: 32, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 24, scale: 0.98 }}
@@ -485,6 +591,11 @@ const HiddenGemsPage = ({ onPageChange }) => {
                   <span className="flex items-center gap-1.5">
                     <Route size={11} className="text-saffron/80" aria-hidden="true" />
                     {openGem.distance}
+                  </span>
+                  <span className="w-px h-3 bg-white/20" aria-hidden="true" />
+                  <span className="flex items-center gap-1.5">
+                    <Footprints size={11} className="text-saffron/80" aria-hidden="true" />
+                    {openGem.difficulty}
                   </span>
                 </div>
 
@@ -571,8 +682,8 @@ const HiddenGemsPage = ({ onPageChange }) => {
                   </button>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </Motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
     </div>
@@ -580,7 +691,8 @@ const HiddenGemsPage = ({ onPageChange }) => {
 };
 
 /** Small labeled info card used inside the detail panel. */
-const DetailBlock = ({ icon: Icon, label, text }) => {
+const DetailBlock = ({ icon, label, text }) => {
+  const Icon = icon;
   if (!text) return null;
   return (
     <div className="rounded-2xl border border-white/[0.07] bg-ink-800 p-5">

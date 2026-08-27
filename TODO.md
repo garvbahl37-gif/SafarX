@@ -36,14 +36,17 @@ Live task tracker for the current build push. Updated as work lands.
       graphics looked bad); now clean 4K footage with an "enter the tour" affordance
 - [x] **Closing CTA video** — was Cappadocia footage (AirTurk watermark), now India
 
+- [x] **SafarX Agent rebuilt** — app shell with left rail (tools + session
+      history), designed empty state with intent cards, streaming replies with
+      gold filament + waypoint, animated tool-step chips, boarding-pass flight
+      results with perforated stubs, heritage-card hotels, glass composer
+
 ## In progress
 
 - [ ] **VR tours off YouTube (RULE)** — real in-app draggable equirectangular
       panoramas via three.js, sourced and verified from Wikimedia Commons
 - [ ] **Hidden gems** — expand to 60+ places, add search autocomplete with
       suggestions, popular-search chips, keyboard nav
-- [ ] **SafarX Agent** — full Peacock & Gold restyle, boarding-pass flight results,
-      agentic status affordances, Indian ₹ prompt chips
 
 - [x] **Premium calendar everywhere** — custom `RangeCalendar` (two-month trip
       window with hover preview) in Plan a Trip, plus a reusable `DateField`
@@ -57,8 +60,6 @@ Live task tracker for the current build push. Updated as work lands.
       (eat/stay/ATM/pharmacy/transport), layer switcher, SafarX data overlays,
       OSRM routing, place detail sheet, mobile bottom sheet
 - [ ] **Bug: VR mode switcher stays pinned** and overlaps tour cards on scroll
-- [ ] **SafarX Agent: push further** — currently reads too plain; needs an app
-      shell, designed empty state, boarding-pass results, agentic step chips
 - [ ] Sweep any remaining old-palette components not yet reached
 
 ## Roadmap (post-build)

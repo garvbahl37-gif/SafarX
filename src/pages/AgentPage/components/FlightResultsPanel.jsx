@@ -299,7 +299,7 @@ const FlightCard = ({ flight, traceId, passengerCount, index }) => {
             whileHover={{ y: -2 }}
             className="agent-pass rounded-2xl overflow-hidden"
         >
-            <div className="p-4">
+            <div className="p-4 pb-5">
                 {/* ── Carrier row ── */}
                 <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex items-center gap-2.5 min-w-0">
@@ -341,23 +341,29 @@ const FlightCard = ({ flight, traceId, passengerCount, index }) => {
                 </div>
 
                 {/* ── Route ── */}
-                <div className="flex items-center justify-between gap-2 mb-4">
+                <div className="flex items-end justify-between gap-2">
                     {/* Departure */}
-                    <div className="text-left min-w-[62px]">
-                        <p className="font-data text-xl leading-none tabular-nums text-ivory">{depTime}</p>
-                        <p className="font-data text-[13px] font-bold tracking-[0.14em] text-saffron mt-1.5">
-                            {origin?.airport_code}
+                    <div className="text-left min-w-[68px]">
+                        <p className="font-data text-[26px] font-bold leading-none tracking-[0.08em] text-ivory">
+                            {origin?.airport_code || '---'}
+                        </p>
+                        <p className="font-data text-[15px] leading-none tabular-nums text-saffron mt-2">
+                            {depTime}
                         </p>
                         {origin?.city_name && (
-                            <p className="text-[9.5px] text-ivory-faint truncate max-w-[62px]">{origin.city_name}</p>
+                            <p className="text-[9.5px] text-ivory-faint truncate max-w-[70px] mt-1.5">
+                                {origin.city_name}
+                            </p>
                         )}
                         {origin?.terminal && (
-                            <p className="font-data text-[9px] text-ivory-faint">T{origin.terminal}</p>
+                            <p className="font-data text-[9px] uppercase tracking-[0.14em] text-ivory-faint">
+                                T{origin.terminal}
+                            </p>
                         )}
                     </div>
 
                     {/* Path */}
-                    <div className="flex flex-col items-center gap-1.5 flex-1 px-2">
+                    <div className="flex flex-col items-center gap-2 flex-1 px-2 pb-1">
                         <span className="flex items-center gap-1 font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-muted">
                             <Clock size={9} aria-hidden="true" />
                             {formatDuration(displayDuration)}
@@ -365,7 +371,7 @@ const FlightCard = ({ flight, traceId, passengerCount, index }) => {
                         <div className="flex items-center w-full gap-1.5" aria-hidden="true">
                             <span className="route-dot shrink-0" />
                             <span className="agent-route-static flex-1" />
-                            <Plane size={11} className="text-saffron shrink-0 rotate-45" />
+                            <Plane size={12} className="text-saffron shrink-0 rotate-45" />
                             <span className="agent-route-static flex-1" />
                             <span className="route-dot shrink-0" />
                         </div>
@@ -378,61 +384,66 @@ const FlightCard = ({ flight, traceId, passengerCount, index }) => {
                     </div>
 
                     {/* Arrival */}
-                    <div className="text-right min-w-[62px]">
-                        <p className="font-data text-xl leading-none tabular-nums text-ivory">
+                    <div className="text-right min-w-[68px]">
+                        <p className="font-data text-[26px] font-bold leading-none tracking-[0.08em] text-ivory">
+                            {destination?.airport_code || '---'}
+                        </p>
+                        <p className="font-data text-[15px] leading-none tabular-nums text-saffron mt-2">
                             {arrTime}
                             {nextDay && (
-                                <span className="align-super ml-0.5 font-data text-[9px] text-saffron">+1</span>
+                                <span className="align-super ml-0.5 text-[9px]">+1</span>
                             )}
                         </p>
-                        <p className="font-data text-[13px] font-bold tracking-[0.14em] text-saffron mt-1.5">
-                            {destination?.airport_code}
-                        </p>
                         {destination?.city_name && (
-                            <p className="text-[9.5px] text-ivory-faint truncate max-w-[62px] ml-auto">
+                            <p className="text-[9.5px] text-ivory-faint truncate max-w-[70px] ml-auto mt-1.5">
                                 {destination.city_name}
                             </p>
                         )}
                         {destination?.terminal && (
-                            <p className="font-data text-[9px] text-ivory-faint">T{destination.terminal}</p>
+                            <p className="font-data text-[9px] uppercase tracking-[0.14em] text-ivory-faint">
+                                T{destination.terminal}
+                            </p>
                         )}
                     </div>
                 </div>
+            </div>
 
-                {/* ── Stub: fare + select ── */}
-                <div className="flex items-center justify-between gap-3 pt-3.5 border-t border-dashed border-white/[0.12]">
-                    <div>
-                        <div className="flex items-baseline gap-1.5">
-                            <p className="font-data text-lg font-semibold leading-none text-saffron tabular-nums">
-                                {formatFare(passengerCount > 1 ? fare?.offered_fare / passengerCount : fare?.offered_fare)}
-                            </p>
-                            {passengerCount > 1 && (
-                                <span className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-faint">
-                                    / person
-                                </span>
-                            )}
-                        </div>
-                        {passengerCount > 1 && (
-                            <p className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-muted mt-1">
-                                Total {formatFare(fare?.offered_fare)}
-                            </p>
-                        )}
-                        <p className="font-data text-[9px] uppercase tracking-[0.14em] text-ivory-faint mt-0.5">
-                            {fare?.currency || 'INR'} · taxes incl.
+            {/* ── Perforation ── */}
+            <div className="relative h-0" aria-hidden="true">
+                <span className="agent-notch left-[-7px] top-[-7px]" />
+                <span className="agent-notch right-[-7px] top-[-7px]" />
+                <span className="agent-route-static absolute left-3.5 right-3.5 top-0" />
+            </div>
+
+            {/* ── Stub: fare + select ── */}
+            <div className="flex items-center justify-between gap-3 px-4 pt-4 pb-4">
+                <div>
+                    <p className="font-data text-[9px] uppercase tracking-[0.18em] text-ivory-faint">
+                        {passengerCount > 1 ? 'Per person' : 'Total fare'}
+                    </p>
+                    <p className="font-data text-[21px] font-semibold leading-none text-saffron tabular-nums mt-1.5">
+                        {formatFare(passengerCount > 1 ? fare?.offered_fare / passengerCount : fare?.offered_fare)}
+                    </p>
+                    {passengerCount > 1 && (
+                        <p className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-muted mt-1.5">
+                            {passengerCount} pax · {formatFare(fare?.offered_fare)}
                         </p>
-                    </div>
-
-                    <button
-                        className="agent-btn-gold px-5 py-2.5 text-xs"
-                        aria-label={`Select ${airline?.name || 'flight'} ${airline?.code}${airline?.flight_number}, ${depTime} to ${arrTime}`}
-                        onClick={() => {
-                            console.log('Selected flight:', { result_index: flight.result_index, trace_id: traceId, fare: fare?.offered_fare, is_lcc });
-                            alert(`Flight selected\n\n${airline?.name} ${airline?.code}${airline?.flight_number}\n${depTime} → ${arrTime}\n${formatFare(fare?.offered_fare)}\n\nBooking flow coming soon.`);
-                        }}
-                    >
-                        Select
-                    </button>
+                    )}
+                    <p className="font-data text-[9px] uppercase tracking-[0.14em] text-ivory-faint mt-1">
+                        {fare?.currency || 'INR'} · taxes incl.
+                    </p>
                 </div>
+
+                <button
+                    className="agent-btn-gold px-5 py-2.5 text-xs"
+                    aria-label={`Select ${airline?.name || 'flight'} ${airline?.code}${airline?.flight_number}, ${depTime} to ${arrTime}`}
+                    onClick={() => {
+                        console.log('Selected flight:', { result_index: flight.result_index, trace_id: traceId, fare: fare?.offered_fare, is_lcc });
+                        alert(`Flight selected\n\n${airline?.name} ${airline?.code}${airline?.flight_number}\n${depTime} → ${arrTime}\n${formatFare(fare?.offered_fare)}\n\nBooking flow coming soon.`);
+                    }}
+                >
+                    Select
+                </button>
             </div>
         </Motion.div>
     );

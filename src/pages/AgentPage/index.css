@@ -165,11 +165,61 @@
    ============================================================ */
 
 .agent-msg-assistant {
-  background: rgba(16, 40, 34, 0.85);
+  position: relative;
+  background: rgba(16, 40, 34, 0.86);
   border: 1px solid var(--agent-line);
   border-radius: 1rem;
   border-top-left-radius: 0.35rem;
   line-height: 1.78;
+  box-shadow: 0 1px 0 rgba(242, 239, 230, 0.03) inset, 0 14px 34px rgba(0, 0, 0, 0.34);
+  overflow: hidden;
+}
+
+/* Hairline gold filament along the reply's top edge */
+.agent-msg-assistant::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(212, 168, 67, 0.55), rgba(212, 168, 67, 0.12) 55%, transparent);
+}
+
+/* Hover-revealed message actions */
+.agent-msg-actions {
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.agent-msg-row:hover .agent-msg-actions,
+.agent-msg-row:focus-within .agent-msg-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Typing caret trailing the streamed reply */
+@keyframes agent-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+.agent-caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.95em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--agent-gold);
+  border-radius: 1px;
+  animation: agent-caret 0.9s ease-in-out infinite;
 }
 
 .agent-msg-user {
@@ -600,6 +650,7 @@
 @media (prefers-reduced-motion: reduce) {
   .agent-waypoint,
   .agent-route-live,
+  .agent-caret,
   .agent-shimmer::after {
     animation: none !important;
   }

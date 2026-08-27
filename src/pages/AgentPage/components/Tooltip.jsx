@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
+
+/* Ink-and-gold tooltip, matched to the agent surfaces */
+const ARROW_COLOR = '#102822';
 
 const Tooltip = ({ children, content, position = 'top' }) => {
     const [visible, setVisible] = useState(false);
@@ -14,10 +17,10 @@ const Tooltip = ({ children, content, position = 'top' }) => {
 
     /* Entry/exit direction */
     const entryVariants = {
-        top: { initial: { opacity: 0, y: 6, scale: 0.93 }, animate: { opacity: 1, y: 0, scale: 1 } },
-        bottom: { initial: { opacity: 0, y: -6, scale: 0.93 }, animate: { opacity: 1, y: 0, scale: 1 } },
-        left: { initial: { opacity: 0, x: 6, scale: 0.93 }, animate: { opacity: 1, x: 0, scale: 1 } },
-        right: { initial: { opacity: 0, x: -6, scale: 0.93 }, animate: { opacity: 1, x: 0, scale: 1 } },
+        top: { initial: { opacity: 0, y: 6, scale: 0.95 }, animate: { opacity: 1, y: 0, scale: 1 } },
+        bottom: { initial: { opacity: 0, y: -6, scale: 0.95 }, animate: { opacity: 1, y: 0, scale: 1 } },
+        left: { initial: { opacity: 0, x: 6, scale: 0.95 }, animate: { opacity: 1, x: 0, scale: 1 } },
+        right: { initial: { opacity: 0, x: -6, scale: 0.95 }, animate: { opacity: 1, x: 0, scale: 1 } },
     };
 
     /* Arrow styles */
@@ -28,8 +31,7 @@ const Tooltip = ({ children, content, position = 'top' }) => {
                 width: 0, height: 0,
                 borderLeft: '5px solid transparent',
                 borderRight: '5px solid transparent',
-                borderTop: '5px solid rgba(255,255,255,0.95)',
-                filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.06))',
+                borderTop: `5px solid ${ARROW_COLOR}`,
             },
         },
         bottom: {
@@ -38,8 +40,7 @@ const Tooltip = ({ children, content, position = 'top' }) => {
                 width: 0, height: 0,
                 borderLeft: '5px solid transparent',
                 borderRight: '5px solid transparent',
-                borderBottom: '5px solid rgba(255,255,255,0.95)',
-                filter: 'drop-shadow(0 -1px 1px rgba(0,0,0,0.06))',
+                borderBottom: `5px solid ${ARROW_COLOR}`,
             },
         },
         left: {
@@ -48,8 +49,7 @@ const Tooltip = ({ children, content, position = 'top' }) => {
                 width: 0, height: 0,
                 borderTop: '5px solid transparent',
                 borderBottom: '5px solid transparent',
-                borderLeft: '5px solid rgba(255,255,255,0.95)',
-                filter: 'drop-shadow(1px 0 1px rgba(0,0,0,0.06))',
+                borderLeft: `5px solid ${ARROW_COLOR}`,
             },
         },
         right: {
@@ -58,8 +58,7 @@ const Tooltip = ({ children, content, position = 'top' }) => {
                 width: 0, height: 0,
                 borderTop: '5px solid transparent',
                 borderBottom: '5px solid transparent',
-                borderRight: '5px solid rgba(255,255,255,0.95)',
-                filter: 'drop-shadow(-1px 0 1px rgba(0,0,0,0.06))',
+                borderRight: `5px solid ${ARROW_COLOR}`,
             },
         },
     };
@@ -79,45 +78,33 @@ const Tooltip = ({ children, content, position = 'top' }) => {
 
             <AnimatePresence>
                 {visible && (
-                    <motion.div
+                    <Motion.div
                         role="tooltip"
                         initial={ev.initial}
                         animate={ev.animate}
                         exit={ev.initial}
-                        transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
+                        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
                         className={`absolute z-[9999] ${wrapperPos[position]}`}
                         style={{ pointerEvents: 'none' }}
                     >
                         {/* Bubble */}
                         <div
-                            className="relative px-3.5 py-2 rounded-xl text-xs font-semibold
-                                       whitespace-nowrap"
-                            style={{
-                                background:
-                                    'linear-gradient(135deg,rgba(255,255,255,0.97) 0%,rgba(250,245,255,0.97) 100%)',
-                                border: '1.5px solid rgba(139,92,246,0.18)',
-                                color: '#334155',
-                                boxShadow:
-                                    '0 8px 24px rgba(0,0,0,0.1),0 2px 8px rgba(139,92,246,0.12),' +
-                                    'inset 0 1px 0 rgba(255,255,255,0.9)',
-                                backdropFilter: 'blur(12px)',
-                            }}
+                            className="relative px-3 py-2 rounded-xl whitespace-nowrap
+                                       bg-ink-800 border border-white/[0.1] text-ivory
+                                       font-data text-[10px] uppercase tracking-[0.16em]
+                                       shadow-[0_12px_32px_rgba(0,0,0,0.5)]"
                         >
-                            {/* Gradient accent line */}
-                            <div
-                                className="absolute top-0 left-3 right-3 h-px rounded-full"
-                                style={{
-                                    background:
-                                        'linear-gradient(90deg,transparent,rgba(139,92,246,0.4),transparent)',
-                                }}
+                            {/* Gold filament */}
+                            <span
+                                className="absolute top-0 left-3 right-3 h-px rounded-full bg-gradient-to-r from-transparent via-saffron/60 to-transparent"
+                                aria-hidden="true"
                             />
-
                             {content}
                         </div>
 
                         {/* Arrow */}
-                        <div className={arrow.className} style={arrow.style} />
-                    </motion.div>
+                        <div className={arrow.className} style={arrow.style} aria-hidden="true" />
+                    </Motion.div>
                 )}
             </AnimatePresence>
         </div>

@@ -239,7 +239,7 @@
     "location": "Assam",
     "state": "Assam",
     "category": "village",
-    "region": "east",
+    "region": "northeast",
     "description": "World's largest river island in Brahmaputra River, famous for Vaishnavite monasteries, traditional crafts, and unique culture of Mising tribe.",
     "images": [
       "majuli.jpg"
@@ -647,5 +647,1775 @@
     ],
     "submittedAt": "2024-04-25",
     "createdAt": "2024-04-25"
+  },
+  {
+    "id": 23,
+    "title": "Turtuk Village",
+    "location": "Nubra Valley, Ladakh",
+    "state": "Ladakh",
+    "category": "village",
+    "region": "north",
+    "description": "One of the last Indian villages before the Line of Control, Turtuk was part of Baltistan until 1971. Apricot orchards, buckwheat terraces and Balti stone houses sit above the Shyok river in a pocket of Ladakh that feels nothing like the rest of it.",
+    "images": [
+      "https://images.unsplash.com/photo-1558187424-f786111643b0?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Few tourists",
+    "rating": 4.8,
+    "visits": 312,
+    "distance": "205 km from Leh",
+    "cultural_significance": "The only Balti-speaking, largely Muslim corner of Ladakh, with a royal Yagbo family house-museum and a 16th-century mosque that survived the shift of borders.",
+    "best_time_visit": "May to September, when the road over Khardung La is open and apricots ripen in July",
+    "how_to_reach": "Drive from Leh over Khardung La to Diskit, then follow the Shyok downstream; shared taxis run from Leh and Diskit",
+    "local_tips": "Carry your Inner Line Permit and a photo ID at all times. Stay in a family homestay and ask for buckwheat pancakes with apricot jam.",
+    "accessibility": "Village lanes are steep and cobbled; the drive is long and high-altitude",
+    "connectivity": "BSNL and Jio patchy; assume no data for a day or two",
+    "nearby_attractions": [
+      "Diskit Monastery",
+      "Hunder Sand Dunes",
+      "Thang Village Viewpoint"
+    ],
+    "submittedAt": "2024-03-04",
+    "createdAt": "2024-03-04"
+  },
+  {
+    "id": 24,
+    "title": "Hanle Dark Sky Reserve",
+    "location": "Changthang, Ladakh",
+    "state": "Ladakh",
+    "category": "nature",
+    "region": "north",
+    "description": "At 4,500 m on the Changthang plateau, Hanle holds India's first dark sky reserve and one of the world's highest observatories. On a moonless night the Milky Way throws a shadow, and the whole village dims its lights to keep it that way.",
+    "images": [
+      "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Limited access",
+    "rating": 4.9,
+    "visits": 148,
+    "distance": "270 km from Leh",
+    "cultural_significance": "Home to the 17th-century Hanle Gompa of the Drukpa lineage, and to Changpa herder families who trained as astronomy ambassadors for the reserve.",
+    "best_time_visit": "April to October for road access; new-moon nights from September to November are the clearest",
+    "how_to_reach": "Drive from Leh via Nyoma and Loma; an Inner Line Permit is mandatory and is checked at Loma bridge",
+    "local_tips": "Book a homestay with an astronomy ambassador and their telescope. Use only red torchlight after dark, and give yourself a day at Leh altitude first.",
+    "accessibility": "Very high altitude with thin air; not suitable for anyone with heart or lung conditions",
+    "connectivity": "No mobile data; a single satellite line in the village",
+    "nearby_attractions": [
+      "Indian Astronomical Observatory",
+      "Tso Moriri",
+      "Umling La Pass"
+    ],
+    "submittedAt": "2024-03-07",
+    "createdAt": "2024-03-07"
+  },
+  {
+    "id": 25,
+    "title": "Hemis Monastery",
+    "location": "Hemis, Ladakh",
+    "state": "Ladakh",
+    "category": "temple",
+    "region": "north",
+    "description": "Ladakh's wealthiest gompa hides in a side gorge so narrow you do not see it until you are inside it. Behind the courtyard sits a museum of gold statues and thangkas, and above it a national park where snow leopards still hunt blue sheep.",
+    "images": [
+      "https://images.unsplash.com/photo-1536295243470-d7cba4efab7b?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Seasonal crowds",
+    "rating": 4.7,
+    "visits": 421,
+    "distance": "45 km from Leh",
+    "cultural_significance": "Founded in 1672 under King Sengge Namgyal, it is the seat of the Drukpa lineage in Ladakh and keeps a giant thangka unrolled once every twelve years.",
+    "best_time_visit": "June and July for the Hemis Tsechu masked dances; May to September otherwise",
+    "how_to_reach": "Taxi or bus from Leh along the Manali highway, then a short climb up the side valley",
+    "local_tips": "Arrive before 9 am to watch the monks debate. Photography inside the museum is not allowed.",
+    "accessibility": "Short uphill walk from the car park; courtyard steps are steep",
+    "connectivity": "Reasonable mobile coverage; data slows during festival week",
+    "nearby_attractions": [
+      "Hemis National Park",
+      "Thiksey Monastery",
+      "Stakna Gompa"
+    ],
+    "submittedAt": "2024-03-10",
+    "createdAt": "2024-03-10"
+  },
+  {
+    "id": 26,
+    "title": "Chitkul",
+    "location": "Baspa Valley, Himachal Pradesh",
+    "state": "Himachal Pradesh",
+    "category": "village",
+    "region": "north",
+    "description": "The last inhabited village on the old Indo-Tibetan trade route, where slate roofs and carved wooden balconies face a river running white off the Kinner Kailash range. Beyond Chitkul the road simply stops.",
+    "images": [
+      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Growing popularity",
+    "rating": 4.8,
+    "visits": 398,
+    "distance": "28 km from Sangla",
+    "cultural_significance": "The Mathi Devi temple here is built in deodar without a single nail, and the village still follows a Kinnauri council tradition older than the state.",
+    "best_time_visit": "May to October; the valley is snowbound and largely cut off from December to March",
+    "how_to_reach": "Bus or taxi from Shimla or Reckong Peo to Sangla, then a local bus up the Baspa valley",
+    "local_tips": "Camp only at designated riverside sites. Nights drop below freezing even in June, so carry real layers.",
+    "accessibility": "Gentle village walks, but the approach road is narrow and prone to landslides",
+    "connectivity": "BSNL only, and even that comes and goes",
+    "nearby_attractions": [
+      "Sangla Valley",
+      "Kamru Fort",
+      "Rakcham Village"
+    ],
+    "submittedAt": "2024-03-13",
+    "createdAt": "2024-03-13"
+  },
+  {
+    "id": 27,
+    "title": "Kalpa",
+    "location": "Kinnaur, Himachal Pradesh",
+    "state": "Himachal Pradesh",
+    "category": "village",
+    "region": "north",
+    "description": "An apple-orchard village staring straight across the Sutlej gorge at the Kinner Kailash massif. At sunrise the whole wall of rock turns copper for about four minutes, which is the reason most people come.",
+    "images": [
+      "https://images.unsplash.com/photo-1516406742981-2b7d67ec4ae8?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Limited tourists",
+    "rating": 4.7,
+    "visits": 356,
+    "distance": "10 km from Reckong Peo",
+    "cultural_significance": "The 79-foot rock pillar on Kinner Kailash is worshipped as a Shiva lingam, and Kalpa mixes Hindu and Buddhist practice in the same temple complex.",
+    "best_time_visit": "April to June and September to November; apple harvest peaks in September",
+    "how_to_reach": "Bus from Shimla to Reckong Peo on the Hindustan-Tibet road, then a short taxi climb to Kalpa",
+    "local_tips": "Book a room facing east and set an alarm for first light. Try the local chulli oil and rajma from the orchards.",
+    "accessibility": "Steep village lanes; easy for most walkers",
+    "connectivity": "Decent mobile coverage in Kalpa and Peo",
+    "nearby_attractions": [
+      "Suicide Point",
+      "Roghi Village",
+      "Narayan Nagini Temple"
+    ],
+    "submittedAt": "2024-03-16",
+    "createdAt": "2024-03-16"
+  },
+  {
+    "id": 28,
+    "title": "Kheerganga",
+    "location": "Parvati Valley, Himachal Pradesh",
+    "state": "Himachal Pradesh",
+    "category": "trek",
+    "region": "north",
+    "description": "A twelve-kilometre climb through pine and waterfall spray ends at a meadow with a hot spring at 2,960 m. Steam rises off the pool while the Parvati range stands up behind it, which is a strange and very good way to end a walk.",
+    "images": [
+      "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Adventure seekers",
+    "rating": 4.6,
+    "visits": 512,
+    "distance": "22 km from Kasol",
+    "cultural_significance": "Local belief holds that Shiva meditated here for three thousand years; the spring feeds a small Shiva shrine beside the pool.",
+    "best_time_visit": "April to June and September to November; snow closes the trail in deep winter",
+    "how_to_reach": "Bus or taxi from Bhuntar to Barshaini via Kasol and Manikaran, then trek from Barshaini or Tosh",
+    "local_tips": "Start before 8 am and carry your own water. Camping is now restricted at the top, so check current forest rules before you go.",
+    "accessibility": "Sustained four to six hour uphill trek, slippery in rain",
+    "connectivity": "No network above Rudranag; last signal at Barshaini",
+    "nearby_attractions": [
+      "Tosh Village",
+      "Manikaran Sahib",
+      "Rudranag Waterfall"
+    ],
+    "submittedAt": "2024-03-19",
+    "createdAt": "2024-03-19"
+  },
+  {
+    "id": 29,
+    "title": "Langza, Komic and Hikkim",
+    "location": "Spiti Valley, Himachal Pradesh",
+    "state": "Himachal Pradesh",
+    "category": "village",
+    "region": "north",
+    "description": "Three villages strung above 4,400 m on the Spiti plateau: Langza with its giant Buddha looking over fossil beds, Komic with one of the world's highest monasteries, and Hikkim with a post office that still franks letters by hand.",
+    "images": [
+      "https://images.unsplash.com/photo-1532503344276-8f089fe4e51f?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Underexplored",
+    "rating": 4.9,
+    "visits": 264,
+    "distance": "18 km from Kaza",
+    "cultural_significance": "The fields around Langza yield ammonite fossils from the Tethys sea, and Komic's Tangyud Gompa belongs to the rare Sakya order.",
+    "best_time_visit": "June to September; the Kunzum La route is snowbound from October to May",
+    "how_to_reach": "Reach Kaza via Manali and Kunzum La in summer or via Shimla and Kinnaur year-round, then hire a local cab for the village loop",
+    "local_tips": "Post a letter from Hikkim to yourself. Do not buy or remove fossils, and give yourself two days at Kaza to acclimatise first.",
+    "accessibility": "High altitude with real risk of AMS; short walks only on the first day",
+    "connectivity": "BSNL in patches; nothing reliable above Kaza",
+    "nearby_attractions": [
+      "Key Monastery",
+      "Chicham Bridge",
+      "Dhankar Lake"
+    ],
+    "submittedAt": "2024-03-22",
+    "createdAt": "2024-03-22"
+  },
+  {
+    "id": 30,
+    "title": "Chandrashila Summit",
+    "location": "Chopta, Uttarakhand",
+    "state": "Uttarakhand",
+    "category": "trek",
+    "region": "north",
+    "description": "A short, steep climb past Tungnath, the highest Shiva temple on earth, to a 4,000 m summit that opens on Nanda Devi, Trishul and Chaukhamba in one sweep. In winter the last kilometre is pure snow.",
+    "images": [
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Adventure travelers",
+    "rating": 4.8,
+    "visits": 587,
+    "distance": "5 km from Chopta",
+    "cultural_significance": "Tungnath is the third of the Panch Kedar; legend places Rama's penance on the Chandrashila summit after the war at Lanka.",
+    "best_time_visit": "March to June and September to November; December to February for a snow trek with a guide",
+    "how_to_reach": "Drive from Rishikesh via Rudraprayag and Ukhimath to Chopta, then trek the marked trail from the meadow",
+    "local_tips": "Leave Chopta by 5 am to get the summit before cloud builds. The temple closes for winter, but the trail stays open.",
+    "accessibility": "Steep stone-paved trail, roughly three hours up",
+    "connectivity": "Weak signal at Chopta, none on the ridge",
+    "nearby_attractions": [
+      "Tungnath Temple",
+      "Deoria Tal",
+      "Kanchula Korak Musk Deer Sanctuary"
+    ],
+    "submittedAt": "2024-03-25",
+    "createdAt": "2024-03-25"
+  },
+  {
+    "id": 31,
+    "title": "Munsiyari",
+    "location": "Pithoragarh, Uttarakhand",
+    "state": "Uttarakhand",
+    "category": "nature",
+    "region": "north",
+    "description": "A ridge town facing the five peaks of Panchachuli across the Gori Ganga gorge. It was a stop on the old salt route to Tibet, and the Johari Bhotia families who ran that trade still weave and still remember it.",
+    "images": [
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Off the beaten path",
+    "rating": 4.7,
+    "visits": 231,
+    "distance": "125 km from Pithoragarh",
+    "cultural_significance": "Base of the Johari Shauka community, whose trans-Himalayan trade ended in 1962 and whose wool weaving survives in village cooperatives.",
+    "best_time_visit": "March to June and September to November; snow from December to February",
+    "how_to_reach": "Drive from Kathgodam via Almora and Thal, roughly eleven hours on mountain road",
+    "local_tips": "The tribal heritage museum in Nanasem is run by one man and worth an hour. Buy wool direct from the weavers, not the highway shops.",
+    "accessibility": "Town is walkable; treks nearby range from easy to serious",
+    "connectivity": "Reasonable in town, none on the trails",
+    "nearby_attractions": [
+      "Khaliya Top",
+      "Birthi Falls",
+      "Maheshwari Kund"
+    ],
+    "submittedAt": "2024-03-28",
+    "createdAt": "2024-03-28"
+  },
+  {
+    "id": 32,
+    "title": "Kuldhara",
+    "location": "Jaisalmer, Rajasthan",
+    "state": "Rajasthan",
+    "category": "village",
+    "region": "north",
+    "description": "Eighty-odd Paliwal Brahmin villages emptied in a single night around 1825 and were never reoccupied. What remains of the ghost village of Kuldhara is a grid of roofless sandstone houses, a temple, and a very specific silence at noon.",
+    "images": [
+      "https://images.unsplash.com/photo-1564509261027-29e141e2c598?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Growing popularity",
+    "rating": 4.5,
+    "visits": 476,
+    "distance": "18 km from Jaisalmer",
+    "cultural_significance": "A rare surviving plan of a medieval Paliwal settlement, with rainwater harvesting and grain stores intact enough to read the town's logic.",
+    "best_time_visit": "October to March, ideally in the last two hours of daylight",
+    "how_to_reach": "Taxi or auto from Jaisalmer on the Sam road; a small entry ticket is collected at the gate",
+    "local_tips": "Go late afternoon for the light, not at night. The site closes at sunset regardless of what the ghost tours claim.",
+    "accessibility": "Flat sandy paths through ruins; little shade",
+    "connectivity": "Good mobile coverage",
+    "nearby_attractions": [
+      "Jaisalmer Fort",
+      "Sam Sand Dunes",
+      "Amar Sagar Jain Temple"
+    ],
+    "submittedAt": "2024-03-31",
+    "createdAt": "2024-03-31"
+  },
+  {
+    "id": 33,
+    "title": "Bundi",
+    "location": "Hadoti, Rajasthan",
+    "state": "Rajasthan",
+    "category": "fort",
+    "region": "north",
+    "description": "A blue town under a hill fort that Kipling called the work of goblins rather than men. Taragarh's ramparts are half-swallowed by fig roots, and the Chitrashala below holds some of the finest surviving Rajput murals in India.",
+    "images": [
+      "https://images.unsplash.com/photo-1561312514-1d71b2b7e495?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Limited tourists",
+    "rating": 4.7,
+    "visits": 389,
+    "distance": "36 km from Kota",
+    "cultural_significance": "Seat of the Hada Chauhans from 1342 and home to the Bundi school of miniature painting, plus more than fifty stepwells inside the old town.",
+    "best_time_visit": "October to March; the monsoon fills Nawal Sagar and Jait Sagar",
+    "how_to_reach": "Train to Bundi or Kota on the Delhi-Mumbai line, then auto into the old town",
+    "local_tips": "Carry a torch for the Chitrashala's darker chambers and go early to beat the langurs. Raniji ki Baori is free and usually empty.",
+    "accessibility": "Steep, uneven climb to Taragarh; the town itself is flat",
+    "connectivity": "Good mobile coverage",
+    "nearby_attractions": [
+      "Raniji ki Baori",
+      "Sukh Mahal",
+      "Bhimlat Falls"
+    ],
+    "submittedAt": "2024-04-03",
+    "createdAt": "2024-04-03"
+  },
+  {
+    "id": 34,
+    "title": "Jawai Bandh",
+    "location": "Pali, Rajasthan",
+    "state": "Rajasthan",
+    "category": "wildlife",
+    "region": "north",
+    "description": "Granite hills the colour of old bone, a reservoir full of crocodiles, and roughly sixty leopards living alongside Rabari herders who have never fenced them out. There is no national park here, only an arrangement that has held for generations.",
+    "images": [
+      "https://images.unsplash.com/photo-1456926631375-92c8ce872def?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Nature enthusiasts",
+    "rating": 4.8,
+    "visits": 267,
+    "distance": "160 km from Udaipur",
+    "cultural_significance": "The Rabari pastoralists treat the leopards as guardians of the hill shrines, one of the few places in India with no recorded revenge killings.",
+    "best_time_visit": "October to March; leopard sightings peak in the cold, dry weeks",
+    "how_to_reach": "Train to Jawai Bandh station on the Ahmedabad-Jodhpur line, or drive three hours from Udaipur",
+    "local_tips": "Book a morning and an evening safari with a local Rabari guide rather than one long drive. Migratory flamingos arrive on the dam in winter.",
+    "accessibility": "Jeep safaris on rough tracks; the granite kopjes need scrambling",
+    "connectivity": "Good coverage near the village, patchy in the hills",
+    "nearby_attractions": [
+      "Ranakpur Jain Temple",
+      "Kumbhalgarh Fort",
+      "Sena Bhavani Temple"
+    ],
+    "submittedAt": "2024-04-06",
+    "createdAt": "2024-04-06"
+  },
+  {
+    "id": 35,
+    "title": "Gurez Valley",
+    "location": "Bandipora, Jammu and Kashmir",
+    "state": "Jammu and Kashmir",
+    "category": "nature",
+    "region": "north",
+    "description": "A valley on the old Silk Route that stayed closed to visitors until 2007, where the Kishanganga runs green past log houses and the pyramid of Habba Khatoon peak. Dardi Shina is still the language spoken in the fields.",
+    "images": [
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Restricted season",
+    "rating": 4.8,
+    "visits": 174,
+    "distance": "123 km from Srinagar",
+    "cultural_significance": "Home to the Dard-Shin people, an Indo-Aryan community with their own language and wooden architecture found nowhere else in Kashmir.",
+    "best_time_visit": "May to October; the Razdan Pass closes under snow for the rest of the year",
+    "how_to_reach": "Drive from Srinagar via Bandipora and Razdan Pass; carry ID as the road passes close to the Line of Control",
+    "local_tips": "Permits are checked at Dawar, so keep originals. Homestays are basic and cash-only, and there are no ATMs past Bandipora.",
+    "accessibility": "Long mountain drive with a 3,300 m pass; village walks are easy",
+    "connectivity": "Very limited; postpaid Indian SIMs only in Kashmir",
+    "nearby_attractions": [
+      "Habba Khatoon Peak",
+      "Tulail Valley",
+      "Wular Lake"
+    ],
+    "submittedAt": "2024-04-09",
+    "createdAt": "2024-04-09"
+  },
+  {
+    "id": 36,
+    "title": "Qila Mubarak",
+    "location": "Bathinda, Punjab",
+    "state": "Punjab",
+    "category": "fort",
+    "region": "north",
+    "description": "India's oldest surviving brick fort, raised around 90 CE from Kushana-era bricks and still standing 118 feet over the flat Malwa plain. Razia Sultan, the only woman to rule the Delhi Sultanate, was imprisoned inside it.",
+    "images": [
+      "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Few tourists",
+    "rating": 4.4,
+    "visits": 198,
+    "distance": "In Bathinda city",
+    "cultural_significance": "Raja Dab and later Kushana builders used bricks of the same size as those at Harappa; Guru Gobind Singh visited the fort in 1705.",
+    "best_time_visit": "October to March, avoiding the harsh Malwa summer",
+    "how_to_reach": "Bathinda is a rail junction with direct trains from Delhi, Amritsar and Jaipur; the fort is a short auto ride from the station",
+    "local_tips": "The gurudwara inside is active, so cover your head. Ask the caretaker to point out the original Kushana brickwork near the base.",
+    "accessibility": "Ramps at the entrance, steep stairs to the upper bastions",
+    "connectivity": "Full urban coverage",
+    "nearby_attractions": [
+      "Chetak Park",
+      "Rose Garden",
+      "Damdama Sahib, Talwandi Sabo"
+    ],
+    "submittedAt": "2024-04-12",
+    "createdAt": "2024-04-12"
+  },
+  {
+    "id": 37,
+    "title": "Yana Rocks",
+    "location": "Uttara Kannada, Karnataka",
+    "state": "Karnataka",
+    "category": "nature",
+    "region": "south",
+    "description": "Two black karst monoliths, Bhairaveshwara and Mohini, push 120 metres out of dense Sahyadri rainforest. Getting there means a wet walk through leech country, and the reward is a cave shrine at the base of a limestone tower.",
+    "images": [
+      "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Underexplored",
+    "rating": 4.7,
+    "visits": 243,
+    "distance": "40 km from Gokarna",
+    "cultural_significance": "Local legend ties the black rock to the ash of the demon Bhasmasura; the Bhairaveshwara shrine draws pilgrims each Shivaratri.",
+    "best_time_visit": "October to February; the monsoon makes the trail spectacular but slippery",
+    "how_to_reach": "Drive from Gokarna or Sirsi to Yana village, then walk the last 1.5 km of forest path",
+    "local_tips": "Carry salt or Dettol for leeches in the wet months. There is no food past the village, so bring your own.",
+    "accessibility": "Forest steps and slippery rock; not suitable for wheelchairs",
+    "connectivity": "No signal at the rocks",
+    "nearby_attractions": [
+      "Vibhooti Falls",
+      "Sirsi Marikamba Temple",
+      "Unchalli Falls"
+    ],
+    "submittedAt": "2024-04-15",
+    "createdAt": "2024-04-15"
+  },
+  {
+    "id": 38,
+    "title": "Halebidu and Belur",
+    "location": "Hassan, Karnataka",
+    "state": "Karnataka",
+    "category": "temple",
+    "region": "south",
+    "description": "Two Hoysala temple complexes carved out of soapstone so soft it took jewellery-grade detail and so durable it survived eight centuries. The Hoysaleswara frieze at Halebidu runs unbroken around the plinth with thousands of elephants, none identical.",
+    "images": [
+      "https://images.unsplash.com/photo-1585560897379-f03558b96b00?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Moderate crowds",
+    "rating": 4.9,
+    "visits": 634,
+    "distance": "16 km apart, 210 km from Bengaluru",
+    "cultural_significance": "Capital temples of the Hoysala empire, built between 1117 and 1150 and inscribed as UNESCO World Heritage in 2023, with sculptors who signed their own work.",
+    "best_time_visit": "October to March; mornings are best for raking light on the friezes",
+    "how_to_reach": "Train or bus to Hassan, then local bus or taxi to Belur and on to Halebidu",
+    "local_tips": "Hire the ASI guide at Belur for the Darpana Sundari bracket figures. Both sites are best done in one day, Belur first.",
+    "accessibility": "Level stone courtyards; the temple platforms have steps",
+    "connectivity": "Good mobile coverage in both towns",
+    "nearby_attractions": [
+      "Shravanabelagola",
+      "Chennakeshava Temple",
+      "Hoysaleswara Museum"
+    ],
+    "submittedAt": "2024-04-18",
+    "createdAt": "2024-04-18"
+  },
+  {
+    "id": 39,
+    "title": "Half Moon Beach",
+    "location": "Gokarna, Karnataka",
+    "state": "Karnataka",
+    "category": "beach",
+    "region": "south",
+    "description": "A crescent of sand between Om Beach and Paradise Beach that you can only reach by boat or by scrambling the cliff path. No road, no hotels, a handful of shacks and a rock headland that takes the sunset straight on.",
+    "images": [
+      "https://images.unsplash.com/photo-1567098628209-d182949882b0?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Off the beaten path",
+    "rating": 4.6,
+    "visits": 421,
+    "distance": "6 km from Gokarna town",
+    "cultural_significance": "Part of the temple town's coastline, where Gokarna's pilgrim tradition and its long-stay traveller culture sit oddly and peacefully side by side.",
+    "best_time_visit": "November to February; boats stop running in the monsoon",
+    "how_to_reach": "Boat from Om Beach, or the coastal trek from Kudle through Om to Half Moon",
+    "local_tips": "Do the cliff walk in daylight only, and carry water. Shacks close by 10 pm and most take cash only.",
+    "accessibility": "Cliff trail with loose rock; the boat landing is a wet step onto sand",
+    "connectivity": "Weak signal on the beach, decent at Om",
+    "nearby_attractions": [
+      "Mahabaleshwar Temple",
+      "Om Beach",
+      "Paradise Beach"
+    ],
+    "submittedAt": "2024-04-21",
+    "createdAt": "2024-04-21"
+  },
+  {
+    "id": 40,
+    "title": "Athirappilly Falls",
+    "location": "Thrissur, Kerala",
+    "state": "Kerala",
+    "category": "nature",
+    "region": "south",
+    "description": "The Chalakudy river drops 24 metres across a broad rock lip into evergreen forest, throwing spray far enough to soak the viewing path. Four species of hornbill nest in the canopy on either side, which is why the valley is still fought over.",
+    "images": [
+      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Popular destination",
+    "rating": 4.7,
+    "visits": 812,
+    "distance": "60 km from Thrissur",
+    "cultural_significance": "The last major stretch of riparian forest in Kerala holding all four South Indian hornbill species, and the centre of a long campaign against a hydel dam.",
+    "best_time_visit": "September to January; June to August for full monsoon volume from a safe distance",
+    "how_to_reach": "Bus or taxi from Chalakudy town on the Kochi-Thrissur highway, about 30 km east",
+    "local_tips": "Walk the lower path to the base early, before the mid-morning buses. Do not enter the water above the falls, the current is deceptive.",
+    "accessibility": "Paved upper viewpoint is easy; the base trail is steep and wet",
+    "connectivity": "Good coverage at the entrance, weak in the gorge",
+    "nearby_attractions": [
+      "Vazhachal Falls",
+      "Charpa Falls",
+      "Thumboormuzhi Dam"
+    ],
+    "submittedAt": "2024-04-24",
+    "createdAt": "2024-04-24"
+  },
+  {
+    "id": 41,
+    "title": "Gavi",
+    "location": "Pathanamthitta, Kerala",
+    "state": "Kerala",
+    "category": "wildlife",
+    "region": "south",
+    "description": "A forest settlement inside the Periyar tiger reserve, reachable only with a permit and a booking. Cardamom hills, a lake with no boats but the forest department's, and a night list that regularly includes Nilgiri tahr and lion-tailed macaque.",
+    "images": [
+      "https://images.unsplash.com/photo-1529057299613-a565b7ce93aa?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Limited access",
+    "rating": 4.8,
+    "visits": 219,
+    "distance": "28 km from Vandiperiyar",
+    "cultural_significance": "Settled by Sri Lankan Tamil repatriates in the 1970s under the Sirimavo-Shastri pact, now running the eco-tourism operation themselves.",
+    "best_time_visit": "October to March; the forest road is rough after heavy rain",
+    "how_to_reach": "Drive from Kumily or Vandiperiyar through the reserve gate; entry is only with a KFDC package booking",
+    "local_tips": "Book the package well ahead, day entry is capped. Plastic is confiscated at the checkpost, so decant what you carry.",
+    "accessibility": "Forest trails and jeep tracks; not wheelchair accessible",
+    "connectivity": "No mobile network inside the reserve",
+    "nearby_attractions": [
+      "Periyar Tiger Reserve",
+      "Pullumedu",
+      "Kakki Reservoir"
+    ],
+    "submittedAt": "2024-04-27",
+    "createdAt": "2024-04-27"
+  },
+  {
+    "id": 42,
+    "title": "Varkala Cliffs",
+    "location": "Thiruvananthapuram, Kerala",
+    "state": "Kerala",
+    "category": "beach",
+    "region": "south",
+    "description": "The only place on the Kerala coast where laterite cliffs meet the sea head-on. Freshwater springs seep out of the red rock face onto the sand below, and a 2,000-year-old Vishnu temple sits at the north end of the same shoreline.",
+    "images": [
+      "https://images.unsplash.com/photo-1539622504902-f275cddf49a5?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Growing popularity",
+    "rating": 4.6,
+    "visits": 703,
+    "distance": "50 km from Thiruvananthapuram",
+    "cultural_significance": "Papanasham beach below the cliff is where Kerala families perform ancestral rites; the Janardanaswamy temple above it is one of the oldest in the state.",
+    "best_time_visit": "November to March; the sea is unsafe during the southwest monsoon",
+    "how_to_reach": "Train to Varkala Sivagiri station on the Thiruvananthapuram-Kollam line, then a ten-minute auto to the cliff",
+    "local_tips": "Swim only where the lifeguard flags are set, the rip is real. The North Cliff path is quieter than Helipad at sunset.",
+    "accessibility": "Steep steps between cliff and beach; the cliff path itself is level",
+    "connectivity": "Good coverage throughout",
+    "nearby_attractions": [
+      "Sivagiri Mutt",
+      "Kappil Backwaters",
+      "Anjengo Fort"
+    ],
+    "submittedAt": "2024-04-30",
+    "createdAt": "2024-04-30"
+  },
+  {
+    "id": 43,
+    "title": "Chembra Peak",
+    "location": "Wayanad, Kerala",
+    "state": "Kerala",
+    "category": "trek",
+    "region": "south",
+    "description": "Wayanad's highest point, reached past a heart-shaped tarn that has never been recorded dry. Above it the grassland runs out onto a ridge with the whole Nilgiri escarpment on one side and tea estates on the other.",
+    "images": [
+      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Adventure seekers",
+    "rating": 4.7,
+    "visits": 468,
+    "distance": "8 km from Meppadi",
+    "cultural_significance": "Part of the Nilgiri Biosphere Reserve and the traditional grazing range of the Paniya and Kurichiya communities of Wayanad.",
+    "best_time_visit": "October to May; the forest department closes the trail in heavy monsoon and fire season",
+    "how_to_reach": "Drive from Kalpetta to Meppadi, then to the forest checkpost at the base of the estate road",
+    "local_tips": "Entry is capped daily and permits are issued from 7 am at the forest office, so arrive early. A guide is compulsory beyond the heart lake.",
+    "accessibility": "Steep open grassland with no shade; three hours up",
+    "connectivity": "Signal at the base, none on the ridge",
+    "nearby_attractions": [
+      "Soochipara Falls",
+      "Meenmutty Falls",
+      "Banasura Sagar Dam"
+    ],
+    "submittedAt": "2024-05-03",
+    "createdAt": "2024-05-03"
+  },
+  {
+    "id": 44,
+    "title": "Edakkal Caves",
+    "location": "Wayanad, Kerala",
+    "state": "Kerala",
+    "category": "cave",
+    "region": "south",
+    "description": "Not really caves but a cleft where a boulder wedged between two rock walls, roofing a chamber whose sides carry petroglyphs up to eight thousand years old. Human figures, wheels, and a script nobody has fully read.",
+    "images": [
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Moderate crowds",
+    "rating": 4.5,
+    "visits": 528,
+    "distance": "25 km from Kalpetta",
+    "cultural_significance": "The only known Stone Age petroglyph site in south India, with later Brahmi and Tamil inscriptions suggesting continuous use into the historic period.",
+    "best_time_visit": "October to March; the site closes on Mondays for maintenance",
+    "how_to_reach": "Drive to Ambalavayal near Sultan Bathery, then a jeep up to the base and a 1 km climb",
+    "local_tips": "Go at opening time, the stairway bottlenecks by mid-morning. Photography is allowed but tripods are not.",
+    "accessibility": "Steep stone stairs and iron ladders; not suitable for limited mobility",
+    "connectivity": "Patchy on the hill",
+    "nearby_attractions": [
+      "Wayanad Heritage Museum",
+      "Phantom Rock",
+      "Karapuzha Dam"
+    ],
+    "submittedAt": "2024-05-06",
+    "createdAt": "2024-05-06"
+  },
+  {
+    "id": 45,
+    "title": "Hogenakkal Falls",
+    "location": "Dharmapuri, Tamil Nadu",
+    "state": "Tamil Nadu",
+    "category": "nature",
+    "region": "south",
+    "description": "The Kaveri hits a carbonatite gorge and shatters into dozens of chutes, which is what hogenakkal means: smoking rocks. Boatmen take you through it in coracles made of bamboo and hide, spinning deliberately in the eddies.",
+    "images": [
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Seasonal tourism",
+    "rating": 4.5,
+    "visits": 596,
+    "distance": "46 km from Dharmapuri",
+    "cultural_significance": "The gorge is cut through one of the oldest carbonatite formations on earth, and the coracle craft here has been handed down through the same families for generations.",
+    "best_time_visit": "October to February; boating stops when the river runs high in flood",
+    "how_to_reach": "Bus from Dharmapuri or Bengaluru to Hogenakkal; the last stretch is a narrow ghat road",
+    "local_tips": "Agree the coracle fare and route before you get in. Life jackets are supplied but not always offered, so ask.",
+    "accessibility": "Rocky riverbank, wet steps to the boats",
+    "connectivity": "Coverage at the town, weak in the gorge",
+    "nearby_attractions": [
+      "Melagiri Hills",
+      "Theerthamalai Temple",
+      "Krishnagiri Dam"
+    ],
+    "submittedAt": "2024-05-09",
+    "createdAt": "2024-05-09"
+  },
+  {
+    "id": 46,
+    "title": "Lambasingi",
+    "location": "Alluri Sitharama Raju, Andhra Pradesh",
+    "state": "Andhra Pradesh",
+    "category": "nature",
+    "region": "south",
+    "description": "A coffee-and-pepper village in the Eastern Ghats where the temperature drops near zero in December, which almost never happens this far south. Locals call it Korra Bayalu, the place where a man left outside overnight freezes.",
+    "images": [
+      "https://images.unsplash.com/photo-1513494620969-1e35db419529?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Growing popularity",
+    "rating": 4.4,
+    "visits": 341,
+    "distance": "100 km from Visakhapatnam",
+    "cultural_significance": "Farmed by Adivasi communities of the Chintapalli hills who grow coffee, pepper and strawberries under the old forest canopy.",
+    "best_time_visit": "November to January for the cold mornings and mist; October for coffee blossom",
+    "how_to_reach": "Drive from Visakhapatnam via Narsipatnam and Chintapalli, roughly three hours on ghat road",
+    "local_tips": "The frost happens before sunrise, so stay the night rather than day-tripping. Homestays are few, book ahead in December.",
+    "accessibility": "Village roads are motorable; walks are gentle",
+    "connectivity": "Patchy mobile signal in the hills",
+    "nearby_attractions": [
+      "Kothapalli Waterfalls",
+      "Thajangi Reservoir",
+      "Chintapalli Coffee Plantations"
+    ],
+    "submittedAt": "2024-05-12",
+    "createdAt": "2024-05-12"
+  },
+  {
+    "id": 47,
+    "title": "Borra Caves and Araku",
+    "location": "Anantagiri, Andhra Pradesh",
+    "state": "Andhra Pradesh",
+    "category": "cave",
+    "region": "south",
+    "description": "A million-year-old karst system 80 metres under the Ananthagiri hills, with stalagmites the locals read as Shiva and a stream that vanishes into the floor. The train that gets you there crosses 58 tunnels to do it.",
+    "images": [
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Popular but restricted",
+    "rating": 4.6,
+    "visits": 674,
+    "distance": "90 km from Visakhapatnam",
+    "cultural_significance": "The Jatapu and Bagata tribes worship a natural lingam formation inside; the caves were documented by William King in 1807.",
+    "best_time_visit": "October to March; the Kirandul passenger train is the best approach in any season",
+    "how_to_reach": "Take the Vizag-Kirandul passenger train to Borra Guhalu station, or drive the Araku ghat road",
+    "local_tips": "Take the train up and a cab back for the views. Inside the caves the steps are wet year-round, so wear grip.",
+    "accessibility": "Long flights of damp steps inside; not wheelchair accessible",
+    "connectivity": "No signal inside the caves",
+    "nearby_attractions": [
+      "Araku Valley",
+      "Katiki Waterfalls",
+      "Tribal Museum, Araku"
+    ],
+    "submittedAt": "2024-05-15",
+    "createdAt": "2024-05-15"
+  },
+  {
+    "id": 48,
+    "title": "Kuntala Falls",
+    "location": "Nirmal, Telangana",
+    "state": "Telangana",
+    "category": "nature",
+    "region": "south",
+    "description": "Telangana's highest waterfall, where the Kadam river drops 45 metres in two stages into a teak forest gorge. Four hundred steps take you to the base, and in full monsoon you feel the impact through the rock.",
+    "images": [
+      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Seasonal crowds",
+    "rating": 4.5,
+    "visits": 287,
+    "distance": "58 km from Nirmal",
+    "cultural_significance": "Local tradition links the falls to Shakuntala and Dushyanta of the Mahabharata; a Shiva shrine sits beside the upper cascade.",
+    "best_time_visit": "July to October, right after the monsoon fills the river",
+    "how_to_reach": "Drive from Nirmal or Adilabad on NH44, then a side road through Neredigonda to the falls",
+    "local_tips": "Come on a weekday, the steps get crowded on Sundays. Do not swim below the drop when the river is running full.",
+    "accessibility": "Around 400 steep steps down and back",
+    "connectivity": "Weak signal in the gorge",
+    "nearby_attractions": [
+      "Pochera Falls",
+      "Kawal Tiger Reserve",
+      "Basar Saraswati Temple"
+    ],
+    "submittedAt": "2024-05-18",
+    "createdAt": "2024-05-18"
+  },
+  {
+    "id": 49,
+    "title": "Ramappa Temple",
+    "location": "Palampet, Telangana",
+    "state": "Telangana",
+    "category": "temple",
+    "region": "south",
+    "description": "The only temple in India named after its sculptor. Built in 1213 on a sandbox foundation that has absorbed eight centuries of earthquakes, with roof bricks light enough to float and basalt Nagini brackets polished to a mirror.",
+    "images": [
+      "https://images.unsplash.com/photo-1598797369458-efbff9e6dc22?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Few tourists",
+    "rating": 4.8,
+    "visits": 254,
+    "distance": "70 km from Warangal",
+    "cultural_significance": "A Kakatiya masterwork inscribed as UNESCO World Heritage in 2021, using floating bricks and a sandbox technique still studied by engineers.",
+    "best_time_visit": "October to March; early morning for the bracket figures in low sun",
+    "how_to_reach": "Drive from Warangal via Mulugu road to Palampet; buses run from Hanamkonda",
+    "local_tips": "Ask the caretaker to show the floating brick sample. Ramappa Lake, built by the same dynasty, is a short drive on.",
+    "accessibility": "Level approach with a stepped temple platform",
+    "connectivity": "Reasonable mobile coverage",
+    "nearby_attractions": [
+      "Ramappa Lake",
+      "Warangal Fort",
+      "Thousand Pillar Temple"
+    ],
+    "submittedAt": "2024-05-21",
+    "createdAt": "2024-05-21"
+  },
+  {
+    "id": 50,
+    "title": "Chandipur Beach",
+    "location": "Balasore, Odisha",
+    "state": "Odisha",
+    "category": "beach",
+    "region": "east",
+    "description": "Twice a day the sea walks five kilometres out and leaves the seabed dry enough to drive on. Then it comes back. Between tides you can stand where the water was, among horseshoe crabs that have not changed in 400 million years.",
+    "images": [
+      "https://images.unsplash.com/photo-1576258714516-bef9f77b1b96?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Few tourists",
+    "rating": 4.6,
+    "visits": 312,
+    "distance": "16 km from Balasore",
+    "cultural_significance": "One of the few places in the world with a hyper-tidal vanishing sea, and a breeding ground for the living-fossil horseshoe crab.",
+    "best_time_visit": "October to March; check the tide table before you plan the day",
+    "how_to_reach": "Train to Balasore on the Howrah-Chennai line, then bus or auto to Chandipur",
+    "local_tips": "Walk out only on a falling tide and turn back well before it turns. Do not handle the horseshoe crabs, they are protected.",
+    "accessibility": "Flat sand, but the exposed seabed is soft and uneven",
+    "connectivity": "Good coverage on shore",
+    "nearby_attractions": [
+      "Panchalingeswar Temple",
+      "Remuna Khirachora Gopinath",
+      "Nilagiri Hills"
+    ],
+    "submittedAt": "2024-05-24",
+    "createdAt": "2024-05-24"
+  },
+  {
+    "id": 51,
+    "title": "Daringbadi",
+    "location": "Kandhamal, Odisha",
+    "state": "Odisha",
+    "category": "nature",
+    "region": "east",
+    "description": "Odisha's only hill station that reliably sees frost, sitting at 915 m among pine plantations, coffee and turmeric fields. The Kandha villages around it grow some of the best organic turmeric in the country.",
+    "images": [
+      "https://images.unsplash.com/photo-1476231682828-37e571bc172f?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Underexplored",
+    "rating": 4.4,
+    "visits": 226,
+    "distance": "100 km from Berhampur",
+    "cultural_significance": "Heartland of the Kutia Kandha people, whose Meriah festival traditions and terraced farming shaped this whole plateau.",
+    "best_time_visit": "November to February for frost mornings; September to October for green hills",
+    "how_to_reach": "Drive from Berhampur or Bhubaneswar via Phulbani; buses run to Daringbadi from both",
+    "local_tips": "Buy turmeric and coffee direct from the tribal cooperatives. Nights are genuinely cold in December, and heaters are rare.",
+    "accessibility": "Road-accessible viewpoints; short forest walks",
+    "connectivity": "Patchy in the surrounding villages",
+    "nearby_attractions": [
+      "Doluri River",
+      "Putudi Waterfall",
+      "Belghar Sanctuary"
+    ],
+    "submittedAt": "2024-05-27",
+    "createdAt": "2024-05-27"
+  },
+  {
+    "id": 52,
+    "title": "Satkosia Gorge",
+    "location": "Angul, Odisha",
+    "state": "Odisha",
+    "category": "wildlife",
+    "region": "east",
+    "description": "The Mahanadi narrows into a 22-kilometre gorge between the Eastern Ghats and the Chota Nagpur plateau, deep enough for gharial and mugger to share the same water. You sleep in tents on the sandbank and hear the forest change shift at dusk.",
+    "images": [
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Nature enthusiasts",
+    "rating": 4.7,
+    "visits": 187,
+    "distance": "130 km from Bhubaneswar",
+    "cultural_significance": "A meeting point of two biogeographic regions, and one of India's oldest gharial breeding and release programmes.",
+    "best_time_visit": "November to March; the reserve closes during the monsoon",
+    "how_to_reach": "Drive from Bhubaneswar or Angul to Tikarpada or Baliput on either bank of the gorge",
+    "local_tips": "Book the OTDC riverside tents ahead, there are only a handful. Boat rides run at first light and are worth the early start.",
+    "accessibility": "Boat and forest trails; camp facilities are basic",
+    "connectivity": "Very limited inside the reserve",
+    "nearby_attractions": [
+      "Tikarpada Gharial Sanctuary",
+      "Deer Park, Purunakote",
+      "Binikei Temple"
+    ],
+    "submittedAt": "2024-05-30",
+    "createdAt": "2024-05-30"
+  },
+  {
+    "id": 53,
+    "title": "Ajodhya Hills",
+    "location": "Purulia, West Bengal",
+    "state": "West Bengal",
+    "category": "nature",
+    "region": "east",
+    "description": "A low granite plateau on the Chota Nagpur edge that goes blood-red every March when the palash trees flower. The rest of the year it is climbing rock, waterfalls in the gullies, and Chhau mask villages at the foot of the hill.",
+    "images": [
+      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Off the beaten path",
+    "rating": 4.5,
+    "visits": 264,
+    "distance": "45 km from Purulia town",
+    "cultural_significance": "Home of Purulia Chhau, a masked martial dance recognised by UNESCO, with mask-making concentrated in Charida village.",
+    "best_time_visit": "March for palash bloom; October to February for climbing and trekking weather",
+    "how_to_reach": "Train to Purulia, then bus or car up to Ajodhya Pahar via Bagmundi",
+    "local_tips": "Charida's mask workshops welcome visitors and sell direct. Bamni and Turga falls need a guide after rain, the rock is slick.",
+    "accessibility": "Rough hill roads; waterfall descents are steep",
+    "connectivity": "Reasonable on the plateau, weak in the gullies",
+    "nearby_attractions": [
+      "Charida Mask Village",
+      "Bamni Falls",
+      "Marble Lake"
+    ],
+    "submittedAt": "2024-06-02",
+    "createdAt": "2024-06-02"
+  },
+  {
+    "id": 54,
+    "title": "Mousuni Island",
+    "location": "South 24 Parganas, West Bengal",
+    "state": "West Bengal",
+    "category": "beach",
+    "region": "east",
+    "description": "A 24-square-kilometre island in the Sundarbans delta that is visibly losing to the sea. Tents on the sand, a drowned casuarina forest standing in the surf, and a village economy rebuilding itself around visitors after the embankments failed.",
+    "images": [
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Growing popularity",
+    "rating": 4.3,
+    "visits": 341,
+    "distance": "105 km from Kolkata",
+    "cultural_significance": "One of the clearest places in India to see climate displacement happening now, with families relocating inland within living memory.",
+    "best_time_visit": "November to February; avoid the monsoon when ferries are unreliable",
+    "how_to_reach": "Train from Sealdah to Namkhana, then auto to Chinai river ghat and a boat crossing to the island",
+    "local_tips": "Carry cash, there is no ATM. Tide timings decide the ferry, so keep your return flexible.",
+    "accessibility": "Boat crossing, then a walk or van-rickshaw on sand tracks",
+    "connectivity": "Weak but usable mobile signal",
+    "nearby_attractions": [
+      "Bakkhali Beach",
+      "Henry Island",
+      "Frasergunj Fishing Harbour"
+    ],
+    "submittedAt": "2024-06-05",
+    "createdAt": "2024-06-05"
+  },
+  {
+    "id": 55,
+    "title": "Neora Valley National Park",
+    "location": "Kalimpong, West Bengal",
+    "state": "West Bengal",
+    "category": "wildlife",
+    "region": "east",
+    "description": "One of the last undisturbed forests in the eastern Himalaya, where the range of the red panda overlaps with that of the clouded leopard. The interior is dense enough that parts of it have still not been properly surveyed.",
+    "images": [
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Limited access",
+    "rating": 4.8,
+    "visits": 156,
+    "distance": "35 km from Kalimpong",
+    "cultural_significance": "A biodiversity hotspot straddling the Bengal-Sikkim-Bhutan junction, protected with the help of Lepcha and Bhutia villages on its edge.",
+    "best_time_visit": "October to May; the park closes from mid-June to mid-September",
+    "how_to_reach": "Drive from Siliguri or Kalimpong to Lava, then take a permitted forest jeep to the entry gates",
+    "local_tips": "Entry needs a forest permit and a registered guide from Lava or Kolakham. Leeches are relentless in the shoulder season.",
+    "accessibility": "Steep, wet forest trails; serious trekking only",
+    "connectivity": "No signal beyond Lava",
+    "nearby_attractions": [
+      "Lava Monastery",
+      "Rishop",
+      "Changey Falls"
+    ],
+    "submittedAt": "2024-06-08",
+    "createdAt": "2024-06-08"
+  },
+  {
+    "id": 56,
+    "title": "Sandakphu",
+    "location": "Darjeeling, West Bengal",
+    "state": "West Bengal",
+    "category": "trek",
+    "region": "east",
+    "description": "West Bengal's highest point at 3,636 m, and the only place on earth where you can see four of the five tallest mountains in one horizon: Everest, Kangchenjunga, Lhotse and Makalu. The Singalila ridge trail walks the India-Nepal border for days.",
+    "images": [
+      "https://images.unsplash.com/photo-1545324367-8997ba3b801e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Adventure travelers",
+    "rating": 4.9,
+    "visits": 498,
+    "distance": "51 km trek from Manebhanjan",
+    "cultural_significance": "The ridge marks an old trans-Himalayan trade route; the trail alternates between Indian and Nepali villages with shared Sherpa and Limbu heritage.",
+    "best_time_visit": "October to December for clearest skies; April to May for rhododendron bloom",
+    "how_to_reach": "Drive from Darjeeling to Manebhanjan, then trek via Tumling and Kalipokhri, or take a chartered Land Rover",
+    "local_tips": "Carry Indian ID, you cross into Nepal repeatedly. Book trekkers huts in advance in peak season and expect no heating.",
+    "accessibility": "Multi-day high-altitude trek; the jeep route is punishing but avoids walking",
+    "connectivity": "Nepali networks pick up on the ridge; Indian SIMs mostly dead",
+    "nearby_attractions": [
+      "Singalila National Park",
+      "Phalut",
+      "Tumling"
+    ],
+    "submittedAt": "2024-06-11",
+    "createdAt": "2024-06-11"
+  },
+  {
+    "id": 57,
+    "title": "Netarhat",
+    "location": "Latehar, Jharkhand",
+    "state": "Jharkhand",
+    "category": "nature",
+    "region": "east",
+    "description": "A plateau at 1,128 m that Jharkhand calls its queen of hills, with two designated points for watching the sun rise and set over an unbroken sal forest. Between them are the Magnolia meadows and a very good waterfall in the gorge below.",
+    "images": [
+      "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Few tourists",
+    "rating": 4.4,
+    "visits": 203,
+    "distance": "156 km from Ranchi",
+    "cultural_significance": "The plateau sits in the traditional territory of the Oraon and Kharia communities and is a focal point for Jharkhand's land-rights movement.",
+    "best_time_visit": "October to March; October also brings the Karma festival to nearby villages",
+    "how_to_reach": "Drive from Ranchi via Kuru and Latehar; buses run daily from Ranchi bus stand",
+    "local_tips": "Stay at the state guesthouse for the sunrise point access. Lodhaghat and Lower Ghaghri falls need a half day each.",
+    "accessibility": "Motorable to both viewpoints; the falls need a short descent",
+    "connectivity": "Patchy across the plateau",
+    "nearby_attractions": [
+      "Lodh Falls",
+      "Betla National Park",
+      "Palamu Fort"
+    ],
+    "submittedAt": "2024-06-14",
+    "createdAt": "2024-06-14"
+  },
+  {
+    "id": 58,
+    "title": "Vikramshila Ruins",
+    "location": "Bhagalpur, Bihar",
+    "state": "Bihar",
+    "category": "temple",
+    "region": "east",
+    "description": "The excavated remains of a Pala university that rivalled Nalanda, laid out as a huge cruciform stupa ringed by 208 monastic cells. Atisha, who carried Buddhism into Tibet, was its abbot. Almost nobody visits.",
+    "images": [
+      "https://images.unsplash.com/photo-1538122538818-ab5426a4d5ba?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Underexplored",
+    "rating": 4.5,
+    "visits": 141,
+    "distance": "38 km from Bhagalpur",
+    "cultural_significance": "Founded by King Dharmapala around 800 CE and destroyed in 1193; its scholars shaped Tibetan Buddhism through Atisha Dipankara.",
+    "best_time_visit": "October to March, avoiding the Gangetic summer",
+    "how_to_reach": "Train to Bhagalpur or Kahalgaon, then road to Antichak village where the site sits",
+    "local_tips": "The ASI museum beside the mound is small but worth the ticket. There is no food at the site, so carry your own.",
+    "accessibility": "Level lawns and low brick platforms; easy walking",
+    "connectivity": "Reasonable mobile coverage",
+    "nearby_attractions": [
+      "Vikramshila Gangetic Dolphin Sanctuary",
+      "Mandar Hill",
+      "Sultanganj"
+    ],
+    "submittedAt": "2024-06-17",
+    "createdAt": "2024-06-17"
+  },
+  {
+    "id": 59,
+    "title": "Harishchandragad",
+    "location": "Ahmednagar, Maharashtra",
+    "state": "Maharashtra",
+    "category": "trek",
+    "region": "west",
+    "description": "A hill fort with a sixth-century rock-cut Shiva temple, a cave-pool you wade to reach the lingam, and the Konkan Kada, a 1,200-foot concave cliff that generates its own updraft strong enough to throw a stone back at you.",
+    "images": [
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Adventure seekers",
+    "rating": 4.8,
+    "visits": 623,
+    "distance": "170 km from Mumbai",
+    "cultural_significance": "Kedareshwar cave and the Harishchandreshwar temple date to the Kalachuri era, making this one of the oldest continuously visited sites in the Sahyadris.",
+    "best_time_visit": "October to February; the monsoon is beautiful but the rock is lethal",
+    "how_to_reach": "Drive or bus to Khireshwar or Pachnai village, then trek four to six hours depending on route",
+    "local_tips": "The Pachnai route is the easiest; Nalichi Vaat needs technical gear. Carry all your water, the cave pools are not drinkable.",
+    "accessibility": "Serious trek with rock patches and exposure",
+    "connectivity": "No signal on the plateau",
+    "nearby_attractions": [
+      "Konkan Kada",
+      "Kedareshwar Cave",
+      "Malshej Ghat"
+    ],
+    "submittedAt": "2024-06-20",
+    "createdAt": "2024-06-20"
+  },
+  {
+    "id": 60,
+    "title": "Kaas Plateau",
+    "location": "Satara, Maharashtra",
+    "state": "Maharashtra",
+    "category": "nature",
+    "region": "west",
+    "description": "For about three weeks after the monsoon a lateritic plateau with barely an inch of soil turns into a sheet of flowers, and the dominant colour changes every few days as one species finishes and the next starts.",
+    "images": [
+      "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Restricted season",
+    "rating": 4.8,
+    "visits": 712,
+    "distance": "25 km from Satara",
+    "cultural_significance": "A UNESCO World Heritage site within the Western Ghats, holding over 850 flowering species, many of them endemic to these rock tables.",
+    "best_time_visit": "Late August to early October, with peak bloom usually in the second half of September",
+    "how_to_reach": "Drive from Satara on the Kaas road; entry numbers are capped and tickets must be booked online in season",
+    "local_tips": "Book your slot days ahead, walk-ins are turned away in peak bloom. Stay on the marked paths, footfall is what kills the plateau.",
+    "accessibility": "Level plateau with fenced walkways; mostly easy",
+    "connectivity": "Reasonable coverage",
+    "nearby_attractions": [
+      "Kaas Lake",
+      "Thoseghar Falls",
+      "Sajjangad Fort"
+    ],
+    "submittedAt": "2024-06-23",
+    "createdAt": "2024-06-23"
+  },
+  {
+    "id": 61,
+    "title": "Sandhan Valley",
+    "location": "Ahmednagar, Maharashtra",
+    "state": "Maharashtra",
+    "category": "trek",
+    "region": "west",
+    "description": "A canyon two hundred feet deep and in places barely wide enough for two people abreast, cut into the Sahyadris behind Samrad village. Sunlight reaches the floor for perhaps an hour a day, which is how it earned the name valley of shadows.",
+    "images": [
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Adventure travelers",
+    "rating": 4.7,
+    "visits": 434,
+    "distance": "190 km from Mumbai",
+    "cultural_significance": "The gorge sits between Alang, Madan and Kulang, the three hardest forts of the Sahyadri range, on a route once used by local herders.",
+    "best_time_visit": "November to May; the canyon is closed and dangerous in the monsoon",
+    "how_to_reach": "Drive to Samrad village via Igatpuri and Bhandardara, then descend into the canyon from the village edge",
+    "local_tips": "Do not attempt it without a guide and rappelling gear for the far end. Water pools stay cold and waist-deep even in April.",
+    "accessibility": "Boulder scrambling and rappels; technical trek only",
+    "connectivity": "No signal inside the canyon",
+    "nearby_attractions": [
+      "Bhandardara Lake",
+      "Ratangad Fort",
+      "Randha Falls"
+    ],
+    "submittedAt": "2024-06-26",
+    "createdAt": "2024-06-26"
+  },
+  {
+    "id": 62,
+    "title": "Saputara",
+    "location": "Dang, Gujarat",
+    "state": "Gujarat",
+    "category": "nature",
+    "region": "west",
+    "description": "Gujarat's only hill station, sitting at 1,000 m in the Dang forests where the state meets Maharashtra. A lake at the centre, a ropeway to the sunset point, and Dangi Adivasi villages whose bamboo craft has its own museum.",
+    "images": [
+      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Moderate crowds",
+    "rating": 4.3,
+    "visits": 389,
+    "distance": "165 km from Surat",
+    "cultural_significance": "Cultural centre of the Dangi people, whose Dang Durbar festival each March predates the state and still opens with tribal kings receiving their annual grant.",
+    "best_time_visit": "October to February; the monsoon festival from July to September fills the hills with waterfalls",
+    "how_to_reach": "Drive from Surat or Nashik via Waghai; state buses run daily from both",
+    "local_tips": "Time it with Dang Durbar in March for the dance and the drums. The tribal museum near the lake is small and genuinely informative.",
+    "accessibility": "Ropeway and paved viewpoints make most of it easy",
+    "connectivity": "Good coverage in the town",
+    "nearby_attractions": [
+      "Gira Falls",
+      "Purna Wildlife Sanctuary",
+      "Sunset Point"
+    ],
+    "submittedAt": "2024-06-29",
+    "createdAt": "2024-06-29"
+  },
+  {
+    "id": 63,
+    "title": "Polo Forest",
+    "location": "Sabarkantha, Gujarat",
+    "state": "Gujarat",
+    "category": "nature",
+    "region": "west",
+    "description": "A teak and bamboo forest on the Harnav river hiding a scatter of 15th-century Jain and Shiva temples, deliberately built in a valley that gets almost no direct sun. Vijaynagar's ruins are still half-buried and largely unsupervised.",
+    "images": [
+      "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Underexplored",
+    "rating": 4.5,
+    "visits": 271,
+    "distance": "150 km from Ahmedabad",
+    "cultural_significance": "Built under the Idar rulers and abandoned within a century; the name comes from pol, the Marwari word for gate, marking the pass into Rajasthan.",
+    "best_time_visit": "July to February; the monsoon greens the whole valley and fills the river",
+    "how_to_reach": "Drive from Ahmedabad via Himatnagar to Vijaynagar, then a forest road to the temple cluster",
+    "local_tips": "Sharneshwar temple and the Jain group are 2 km apart, so plan for walking. Camping is allowed at the eco-site but must be booked.",
+    "accessibility": "Forest tracks and river crossings; moderate walking",
+    "connectivity": "Weak inside the forest",
+    "nearby_attractions": [
+      "Vijaynagar",
+      "Idar Fort",
+      "Vanaj Reservoir"
+    ],
+    "submittedAt": "2024-07-02",
+    "createdAt": "2024-07-02"
+  },
+  {
+    "id": 64,
+    "title": "Little Rann of Kutch",
+    "location": "Surendranagar, Gujarat",
+    "state": "Gujarat",
+    "category": "wildlife",
+    "region": "west",
+    "description": "Five thousand square kilometres of cracked salt flat that floods in the monsoon and bakes solid by winter, holding the last wild population of the Asiatic wild ass. Agariya families still farm salt out here in pans they inherit.",
+    "images": [
+      "https://images.unsplash.com/photo-1549468057-5b7fa1a41d7a?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Nature enthusiasts",
+    "rating": 4.7,
+    "visits": 296,
+    "distance": "95 km from Ahmedabad",
+    "cultural_significance": "The Wild Ass Sanctuary is the only home of the khur, and the Agariya salt workers here supply roughly a quarter of India's inland salt.",
+    "best_time_visit": "November to March; the flats are impassable during and just after the monsoon",
+    "how_to_reach": "Drive from Ahmedabad to Dasada or Zainabad, the two main gateways to the sanctuary",
+    "local_tips": "Morning safaris are best for flamingo at the bets. Bring wind protection, there is nothing to break it out on the flats.",
+    "accessibility": "Jeep safaris over hard salt crust; no walking access",
+    "connectivity": "Signal near the villages, none in the interior",
+    "nearby_attractions": [
+      "Nalsarovar Bird Sanctuary",
+      "Modhera Sun Temple",
+      "Patan Rani ki Vav"
+    ],
+    "submittedAt": "2024-07-05",
+    "createdAt": "2024-07-05"
+  },
+  {
+    "id": 65,
+    "title": "Tambdi Surla Mahadev Temple",
+    "location": "Sanguem, Goa",
+    "state": "Goa",
+    "category": "temple",
+    "region": "west",
+    "description": "The oldest building in Goa and the only temple the Portuguese never found, hidden in the Bhagwan Mahavir sanctuary at the end of a forest track. Black basalt, carried in from elsewhere, assembled without mortar in the 12th century.",
+    "images": [
+      "https://images.unsplash.com/photo-1631102006950-64c80c08681e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Few tourists",
+    "rating": 4.6,
+    "visits": 218,
+    "distance": "65 km from Panaji",
+    "cultural_significance": "A Kadamba-Yadava era Shiva temple that survived four centuries of Portuguese temple demolition purely because of how remote it was.",
+    "best_time_visit": "October to March; the forest road is rough in heavy monsoon",
+    "how_to_reach": "Drive from Ponda or Molem to Tambdi Surla village inside the Bhagwan Mahavir Wildlife Sanctuary",
+    "local_tips": "Combine it with Dudhsagar in one loop. Go on a weekday morning, it is small and a single tour bus fills it.",
+    "accessibility": "Short level walk from the parking area",
+    "connectivity": "Weak signal in the sanctuary",
+    "nearby_attractions": [
+      "Dudhsagar Falls",
+      "Bhagwan Mahavir Sanctuary",
+      "Devil's Canyon"
+    ],
+    "submittedAt": "2024-07-08",
+    "createdAt": "2024-07-08"
+  },
+  {
+    "id": 66,
+    "title": "Loktak Lake",
+    "location": "Bishnupur, Manipur",
+    "state": "Manipur",
+    "category": "nature",
+    "region": "northeast",
+    "description": "The largest freshwater lake in the northeast, covered in phumdis, floating mats of vegetation and soil that fishermen live on. One of them carries Keibul Lamjao, the only floating national park on earth, and the last of the sangai deer.",
+    "images": [
+      "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Underexplored",
+    "rating": 4.8,
+    "visits": 287,
+    "distance": "48 km from Imphal",
+    "cultural_significance": "Central to Meitei cosmology and livelihood, with phumdi fishing techniques and floating huts recorded for centuries.",
+    "best_time_visit": "October to March; November to December for clear water and migratory birds",
+    "how_to_reach": "Drive from Imphal to Moirang, then on to Sendra or Thanga for boats and viewpoints",
+    "local_tips": "Hire a local boatman from Thanga rather than a package. Sangai are best spotted from the Keibul Lamjao watchtower at dawn.",
+    "accessibility": "Boat access to the phumdis; the shore viewpoints are easy",
+    "connectivity": "Reasonable near Moirang, patchy on the water",
+    "nearby_attractions": [
+      "Keibul Lamjao National Park",
+      "INA Memorial, Moirang",
+      "Sendra Island"
+    ],
+    "submittedAt": "2024-07-11",
+    "createdAt": "2024-07-11"
+  },
+  {
+    "id": 67,
+    "title": "Unakoti",
+    "location": "Kailashahar, Tripura",
+    "state": "Tripura",
+    "category": "temple",
+    "region": "northeast",
+    "description": "A hillside of colossal Shaiva rock reliefs carved straight into the cliff, some over nine metres tall, dated between the 7th and 9th centuries. The name means one less than a crore, which is how many figures the legend says are here.",
+    "images": [
+      "https://images.unsplash.com/photo-1631102006950-64c80c08681e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Off the beaten path",
+    "rating": 4.8,
+    "visits": 194,
+    "distance": "178 km from Agartala",
+    "cultural_significance": "The largest bas-relief rock-cut site in eastern India, blending tribal and classical Shaiva iconography, now on India's tentative UNESCO list.",
+    "best_time_visit": "October to March; the Ashokashtami mela in April draws large crowds",
+    "how_to_reach": "Drive or take the train from Agartala to Kumarghat, then road to Unakoti near Kailashahar",
+    "local_tips": "The steps down to the reliefs are mossy and steep, so go in dry weather. The Ganesha panel is easy to miss on the left of the main face.",
+    "accessibility": "Long flight of uneven stone steps into the gorge",
+    "connectivity": "Weak on site, fine in Kailashahar",
+    "nearby_attractions": [
+      "Jampui Hills",
+      "Kailashahar",
+      "Chabimura Rock Carvings"
+    ],
+    "submittedAt": "2024-07-14",
+    "createdAt": "2024-07-14"
+  },
+  {
+    "id": 68,
+    "title": "Shnongpdeng",
+    "location": "West Jaintia Hills, Meghalaya",
+    "state": "Meghalaya",
+    "category": "nature",
+    "region": "northeast",
+    "description": "A village on the Umngot river where the water is clear enough that boats appear to hover above their own shadows on the riverbed. Camping is on the bank, and the border with Bangladesh is a few kilometres downstream.",
+    "images": [
+      "https://images.unsplash.com/photo-1552978534-9d01e1f91517?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Growing popularity",
+    "rating": 4.8,
+    "visits": 512,
+    "distance": "8 km from Dawki",
+    "cultural_significance": "A Jaintia village that reorganised itself around community-run tourism, with the village council setting boat rates and river rules.",
+    "best_time_visit": "November to March, when the river runs at its clearest",
+    "how_to_reach": "Drive from Shillong to Dawki, then continue upstream to Shnongpdeng village",
+    "local_tips": "Stay at Shnongpdeng rather than Dawki, it is quieter and the water is cleaner. Snorkelling and cliff jumping are run by the village council.",
+    "accessibility": "Riverbank camps with a short walk down; boats need a step-in",
+    "connectivity": "Patchy but usable",
+    "nearby_attractions": [
+      "Dawki Bridge",
+      "Krang Suri Falls",
+      "Jaflong Viewpoint"
+    ],
+    "submittedAt": "2024-07-17",
+    "createdAt": "2024-07-17"
+  },
+  {
+    "id": 69,
+    "title": "Nongriat Double-Decker Root Bridge",
+    "location": "East Khasi Hills, Meghalaya",
+    "state": "Meghalaya",
+    "category": "trek",
+    "region": "northeast",
+    "description": "Three thousand five hundred steps down from Tyrna to a village where two living bridges of ficus root are grown one above the other across the same stream. Past it, Rainbow Falls throws a permanent arc in the afternoon spray.",
+    "images": [
+      "https://images.unsplash.com/photo-1587623345880-c8ec53847c25?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Adventure seekers",
+    "rating": 4.9,
+    "visits": 587,
+    "distance": "20 km from Cherrapunji",
+    "cultural_significance": "The Khasi practice of training ficus elastica roots into bridges takes fifteen to thirty years per span and is passed down as village knowledge.",
+    "best_time_visit": "October to April; the monsoon makes the steps treacherous but the falls immense",
+    "how_to_reach": "Drive from Cherrapunji to Tyrna village, then descend the concrete stairway to Nongriat",
+    "local_tips": "Stay a night in the village, the climb back is harder than the way down. Rainbow Falls is another hour past Nongriat, so start early.",
+    "accessibility": "3,500 steps each way plus wire suspension bridges; strenuous",
+    "connectivity": "No signal in the gorge",
+    "nearby_attractions": [
+      "Rainbow Falls",
+      "Nohkalikai Falls",
+      "Mawsmai Cave"
+    ],
+    "submittedAt": "2024-07-20",
+    "createdAt": "2024-07-20"
+  },
+  {
+    "id": 70,
+    "title": "Mechuka Valley",
+    "location": "Shi Yomi, Arunachal Pradesh",
+    "state": "Arunachal Pradesh",
+    "category": "village",
+    "region": "northeast",
+    "description": "A wide grassy valley at 1,900 m, 29 km from the Chinese border, with the Siyom river running through it and a 400-year-old Buddhist monastery on a hill above. The Memba people here are Tibetan in language and Arunachali in everything else.",
+    "images": [
+      "https://images.unsplash.com/photo-1531252582519-2d7e6795be96?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Limited access",
+    "rating": 4.8,
+    "visits": 168,
+    "distance": "500 km from Itanagar",
+    "cultural_significance": "Home to the Memba and Ramo communities, with the Samten Yongcha monastery of the Mahayana Nyingma school dating to the 1600s.",
+    "best_time_visit": "October to April for clear skies; the road is worst just after the monsoon",
+    "how_to_reach": "Fly or drive to Aalo, then a long day on rough road to Mechuka; an Inner Line Permit is mandatory",
+    "local_tips": "Get the ILP online before you travel, it is checked more than once. Fuel and cash both run out here, so carry both.",
+    "accessibility": "Very long rough drive; the valley floor itself is easy walking",
+    "connectivity": "Minimal, mostly BSNL",
+    "nearby_attractions": [
+      "Samten Yongcha Monastery",
+      "Hanging Bridge",
+      "Dorjeeling Village"
+    ],
+    "submittedAt": "2024-07-23",
+    "createdAt": "2024-07-23"
+  },
+  {
+    "id": 71,
+    "title": "Khonoma Green Village",
+    "location": "Kohima, Nagaland",
+    "state": "Nagaland",
+    "category": "village",
+    "region": "northeast",
+    "description": "An Angami village that fought the British for forty years and then, in 1998, banned hunting and logging across its entire 70 square kilometres. Terraced rice fields step down the whole hillside in a system worked for seven hundred years.",
+    "images": [
+      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Few tourists",
+    "rating": 4.8,
+    "visits": 246,
+    "distance": "20 km from Kohima",
+    "cultural_significance": "India's first green village, and the site of the Battle of Khonoma; the Khonoma Nature Conservation and Tragopan Sanctuary protects the Blyth's tragopan.",
+    "best_time_visit": "October to May; December for the Hornbill Festival crowds in nearby Kisama",
+    "how_to_reach": "Drive or take a shared taxi from Kohima; permits for Nagaland are required for foreign nationals",
+    "local_tips": "Stay in an Angami homestay and ask about the terrace irrigation, it is the real attraction. Do not photograph inside morungs without asking.",
+    "accessibility": "Steep stone village paths and field terraces",
+    "connectivity": "Reasonable coverage",
+    "nearby_attractions": [
+      "Dzukou Valley",
+      "Kohima War Cemetery",
+      "Kisama Heritage Village"
+    ],
+    "submittedAt": "2024-07-26",
+    "createdAt": "2024-07-26"
+  },
+  {
+    "id": 72,
+    "title": "Phawngpui Blue Mountain",
+    "location": "Lawngtlai, Mizoram",
+    "state": "Mizoram",
+    "category": "nature",
+    "region": "northeast",
+    "description": "Mizoram's highest peak at 2,157 m, wrapped in a national park of rhododendron and orchid, with a sheer cliff face called Thlazuang Khàm dropping into the Chhimtuipui gorge. The Mizo regard the summit as the home of the spirits.",
+    "images": [
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Underexplored",
+    "rating": 4.7,
+    "visits": 132,
+    "distance": "300 km from Aizawl",
+    "cultural_significance": "Sacred in Mizo tradition as the abode of the gods, and one of the few places in India where the Blyth's tragopan and Mrs Hume's pheasant are both recorded.",
+    "best_time_visit": "November to March; rhododendrons flower in March and April",
+    "how_to_reach": "Drive from Aizawl via Lunglei and Lawngtlai to Sangau village, the base for the park",
+    "local_tips": "Entry needs a forest permit from Sangau and a local guide. Inner Line Permits apply to all non-Mizoram residents.",
+    "accessibility": "Forest trek from the park gate to the summit meadow",
+    "connectivity": "No signal in the park",
+    "nearby_attractions": [
+      "Sangau Village",
+      "Chhimtuipui River",
+      "Thlazuang Khàm Cliff"
+    ],
+    "submittedAt": "2024-07-29",
+    "createdAt": "2024-07-29"
+  },
+  {
+    "id": 73,
+    "title": "Dzongu",
+    "location": "North Sikkim, Sikkim",
+    "state": "Sikkim",
+    "category": "village",
+    "region": "northeast",
+    "description": "A reserve set aside for the Lepcha, Sikkim's earliest inhabitants, where outsiders need a permit to stay a night. Cardamom terraces, hot springs beside the Teesta, and a view of Kangchenjunga the Lepcha call their ancestral origin.",
+    "images": [
+      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Limited access",
+    "rating": 4.8,
+    "visits": 178,
+    "distance": "70 km from Gangtok",
+    "cultural_significance": "A protected Lepcha reserve since 1956, and the centre of the community's long campaign against hydel dams on the Teesta.",
+    "best_time_visit": "March to May and October to December; avoid the landslide-prone monsoon",
+    "how_to_reach": "Drive from Gangtok to Mangan, then across the Teesta into Dzongu with a protected area permit",
+    "local_tips": "Permits are issued at Mangan and homestays arrange them if you book ahead. The hot springs at Ringhim are a short walk from the road.",
+    "accessibility": "Steep village paths; roads are narrow and slide-prone",
+    "connectivity": "Patchy, better near Mangan",
+    "nearby_attractions": [
+      "Tholung Monastery",
+      "Lingzya Waterfall",
+      "Mangan"
+    ],
+    "submittedAt": "2024-08-01",
+    "createdAt": "2024-08-01"
+  },
+  {
+    "id": 74,
+    "title": "Haflong and Jatinga",
+    "location": "Dima Hasao, Assam",
+    "state": "Assam",
+    "category": "village",
+    "region": "northeast",
+    "description": "Assam's only hill station, and just below it the ridge village of Jatinga, where on foggy nights in the late monsoon migratory birds fly down into the village lights. Ornithologists spent decades working out why.",
+    "images": [
+      "https://images.unsplash.com/photo-1735566993787-20572d53001b?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Off the beaten path",
+    "rating": 4.4,
+    "visits": 187,
+    "distance": "345 km from Guwahati",
+    "cultural_significance": "Home of the Dimasa and Zeme Naga communities; the Jatinga bird phenomenon is now managed with the village rather than as a spectacle.",
+    "best_time_visit": "September to November for the Jatinga phenomenon; October to March for the hills generally",
+    "how_to_reach": "Train from Guwahati to Haflong Hill on the Lumding-Badarpur line, one of India's most scenic hill sections",
+    "local_tips": "Take the train rather than the road, the gradient section is the point. The bird phenomenon happens on moonless, foggy nights only.",
+    "accessibility": "Hill roads and village paths; moderate walking",
+    "connectivity": "Reasonable in Haflong",
+    "nearby_attractions": [
+      "Jatinga Village",
+      "Maibang Ruins",
+      "Haflong Lake"
+    ],
+    "submittedAt": "2024-08-04",
+    "createdAt": "2024-08-04"
+  },
+  {
+    "id": 75,
+    "title": "Patalkot",
+    "location": "Chhindwara, Madhya Pradesh",
+    "state": "Madhya Pradesh",
+    "category": "nature",
+    "region": "central",
+    "description": "A horseshoe valley sunk 1,200 feet below the surrounding plateau, so deep that sunlight reaches the floor only for a few hours. Twelve Bharia and Gond villages inside it were effectively cut off from the rest of India until the 1990s.",
+    "images": [
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "difficult",
+    "visitors": "Underexplored",
+    "rating": 4.7,
+    "visits": 211,
+    "distance": "78 km from Chhindwara",
+    "cultural_significance": "The Bharia herbal healers of Patalkot hold one of India's most documented living traditions of forest medicine.",
+    "best_time_visit": "October to March; the descent is dangerous in the monsoon",
+    "how_to_reach": "Drive from Chhindwara to Tamia, then to the Raatedh or Gaildubba viewpoints and descend on foot",
+    "local_tips": "Take a guide from Tamia for the descent, the paths are unmarked. Ask permission before entering the villages or photographing people.",
+    "accessibility": "Steep unmarked descent of several hours; viewpoints are road-accessible",
+    "connectivity": "No signal in the valley floor",
+    "nearby_attractions": [
+      "Tamia Viewpoint",
+      "Pachmarhi",
+      "Satpura National Park"
+    ],
+    "submittedAt": "2024-08-07",
+    "createdAt": "2024-08-07"
+  },
+  {
+    "id": 76,
+    "title": "Bhedaghat Marble Rocks",
+    "location": "Jabalpur, Madhya Pradesh",
+    "state": "Madhya Pradesh",
+    "category": "nature",
+    "region": "central",
+    "description": "The Narmada runs for three kilometres between hundred-foot cliffs of magnesium limestone that glow white in daylight and turn silver under a full moon. Upstream, the same river drops through a chute called Dhuandhar, the smoke cascade.",
+    "images": [
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Moderate crowds",
+    "rating": 4.6,
+    "visits": 634,
+    "distance": "22 km from Jabalpur",
+    "cultural_significance": "The 10th-century Chausath Yogini temple above the gorge is one of only four surviving circular yogini temples in India.",
+    "best_time_visit": "October to March; full-moon night boating from November to February is the reason to time it",
+    "how_to_reach": "Train to Jabalpur, then bus or taxi to Bhedaghat; boats leave from the ghat below the ropeway",
+    "local_tips": "Boatmen sing and narrate the gorge, and the full-moon trips book out fast. Dhuandhar is best in the hour before sunset.",
+    "accessibility": "Steps down to the boats; the ropeway covers the Dhuandhar side",
+    "connectivity": "Good coverage",
+    "nearby_attractions": [
+      "Dhuandhar Falls",
+      "Chausath Yogini Temple",
+      "Madan Mahal Fort"
+    ],
+    "submittedAt": "2024-08-10",
+    "createdAt": "2024-08-10"
+  },
+  {
+    "id": 77,
+    "title": "Mandu",
+    "location": "Dhar, Madhya Pradesh",
+    "state": "Madhya Pradesh",
+    "category": "fort",
+    "region": "central",
+    "description": "A 45-kilometre fortified plateau holding the ruins of an Afghan sultanate city: a marble tomb that Shah Jahan's architects came to study, a palace built between two lakes, and baobab trees that arrived from Africa centuries ago.",
+    "images": [
+      "https://images.unsplash.com/photo-1598797369458-efbff9e6dc22?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Limited tourists",
+    "rating": 4.8,
+    "visits": 456,
+    "distance": "100 km from Indore",
+    "cultural_significance": "Capital of the Malwa Sultanate, where Hoshang Shah's tomb became the earliest marble mausoleum in India and a template for the Taj Mahal.",
+    "best_time_visit": "July to March; the monsoon fills the lakes and is when Mandu is at its best",
+    "how_to_reach": "Drive from Indore via Dhar; buses run from Indore and Maheshwar",
+    "local_tips": "Rent a cycle, the monuments are spread over kilometres. Try the baobab fruit sold at the roadside, locals call it khorasani imli.",
+    "accessibility": "Level plateau roads; monuments have steps",
+    "connectivity": "Good coverage",
+    "nearby_attractions": [
+      "Jahaz Mahal",
+      "Rani Roopmati Pavilion",
+      "Maheshwar"
+    ],
+    "submittedAt": "2024-08-13",
+    "createdAt": "2024-08-13"
+  },
+  {
+    "id": 78,
+    "title": "Bhimbetka Rock Shelters",
+    "location": "Raisen, Madhya Pradesh",
+    "state": "Madhya Pradesh",
+    "category": "cave",
+    "region": "central",
+    "description": "Seven hundred sandstone shelters in the Vindhya foothills, more than four hundred of them painted. The oldest images are around ten thousand years old and the newest are medieval, layered on the same rock walls.",
+    "images": [
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Few tourists",
+    "rating": 4.8,
+    "visits": 398,
+    "distance": "45 km from Bhopal",
+    "cultural_significance": "A UNESCO World Heritage site and the earliest known traces of human life on the subcontinent, with continuous occupation from the Palaeolithic.",
+    "best_time_visit": "October to March; morning light is best for the ochre pigments",
+    "how_to_reach": "Drive from Bhopal on the Hoshangabad road to Obaidullaganj, then a short climb to the site",
+    "local_tips": "Take the ASI guide, the fainter paintings are almost invisible without one. The zoo rock and the boar shelter are the two not to miss.",
+    "accessibility": "Paved walkway loop with some uneven rock steps",
+    "connectivity": "Reasonable coverage",
+    "nearby_attractions": [
+      "Bhojpur Shiva Temple",
+      "Sanchi Stupa",
+      "Ratapani Wildlife Sanctuary"
+    ],
+    "submittedAt": "2024-08-16",
+    "createdAt": "2024-08-16"
+  },
+  {
+    "id": 79,
+    "title": "Kanger Valley Caves",
+    "location": "Bastar, Chhattisgarh",
+    "state": "Chhattisgarh",
+    "category": "cave",
+    "region": "central",
+    "description": "Kutumsar runs 4,500 feet into limestone with blind cave fish in its pools, and Kailash cave next door holds formations that ring when struck. Above them Tirathgarh drops through the forest in a wide milky staircase.",
+    "images": [
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "moderate",
+    "visitors": "Limited access",
+    "rating": 4.7,
+    "visits": 223,
+    "distance": "35 km from Jagdalpur",
+    "cultural_significance": "The valley is Bastar's biodiversity core and the territory of the Dhurwa and Muria communities, whose ghotul tradition shaped the region's social life.",
+    "best_time_visit": "November to May; the caves close from mid-June to October when they flood",
+    "how_to_reach": "Drive from Jagdalpur into Kanger Valley National Park; cave entry is with a forest guide only",
+    "local_tips": "Cave entry is timed and limited, so start early from Jagdalpur. Carry a torch even though guides bring lamps.",
+    "accessibility": "Steep ladder descent into Kutumsar; not for claustrophobic visitors",
+    "connectivity": "No signal inside the park",
+    "nearby_attractions": [
+      "Tirathgarh Falls",
+      "Chitrakote Falls",
+      "Bastar Palace"
+    ],
+    "submittedAt": "2024-08-19",
+    "createdAt": "2024-08-19"
+  },
+  {
+    "id": 80,
+    "title": "Bhoramdeo Temple",
+    "location": "Kabirdham, Chhattisgarh",
+    "state": "Chhattisgarh",
+    "category": "temple",
+    "region": "central",
+    "description": "An 11th-century Nagara temple in the Maikal hills, carved with the same erotic and celestial registers as Khajuraho but standing in near silence at the edge of a forest. Locals call it the Khajuraho of Chhattisgarh and mean it literally.",
+    "images": [
+      "https://images.unsplash.com/photo-1585560897379-f03558b96b00?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Few tourists",
+    "rating": 4.6,
+    "visits": 189,
+    "distance": "18 km from Kawardha",
+    "cultural_significance": "Built by the Nag dynasty and still an active shrine for the Baiga and Gond communities of the surrounding hills.",
+    "best_time_visit": "October to March; the Bhoramdeo Mahotsav is held in March",
+    "how_to_reach": "Drive from Raipur via Kawardha, about three hours on good road",
+    "local_tips": "The nearby Madwa Mahal and Chherki Mahal are part of the same group and usually empty. Go on a weekday morning.",
+    "accessibility": "Level approach with a stepped plinth",
+    "connectivity": "Reasonable coverage",
+    "nearby_attractions": [
+      "Madwa Mahal",
+      "Sarodha Dam",
+      "Bhoramdeo Wildlife Sanctuary"
+    ],
+    "submittedAt": "2024-08-22",
+    "createdAt": "2024-08-22"
+  },
+  {
+    "id": 81,
+    "title": "Chunar Fort",
+    "location": "Mirzapur, Uttar Pradesh",
+    "state": "Uttar Pradesh",
+    "category": "fort",
+    "region": "central",
+    "description": "A sandstone fort on a spur where the Ganga bends hard against the Vindhyas, held in turn by Sher Shah Suri, the Mughals and the British. Inside are a solar clock, a stepwell, and a colonial cemetery nobody tends.",
+    "images": [
+      "https://images.unsplash.com/photo-1561361058-c24cecae35ca?w=1200&auto=format&fit=crop&q=80"
+    ],
+    "difficulty": "easy",
+    "visitors": "Underexplored",
+    "rating": 4.4,
+    "visits": 167,
+    "distance": "35 km from Varanasi",
+    "cultural_significance": "Fought over from the 11th century onward, and the source of the sandstone used for Ashokan pillars quarried nearby.",
+    "best_time_visit": "October to March, ideally in the late afternoon for river light",
+    "how_to_reach": "Train to Chunar station on the Varanasi-Mughalsarai line, or drive an hour from Varanasi",
+    "local_tips": "Ask at the gate about access to the upper bastions, parts are used by the state police. The river view from the north wall is the best of it.",
+    "accessibility": "Ramped entry with steep sections up to the ramparts",
+    "connectivity": "Good coverage",
+    "nearby_attractions": [
+      "Vindhyachal Temple",
+      "Sita Kund",
+      "Varanasi Ghats"
+    ],
+    "submittedAt": "2024-08-25",
+    "createdAt": "2024-08-25"
   }
 ]

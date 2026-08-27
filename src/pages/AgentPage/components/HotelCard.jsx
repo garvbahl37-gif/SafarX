@@ -1,7 +1,34 @@
 import { motion as Motion } from 'framer-motion';
-import { Star, MapPin, Award, Coffee, ArrowRight } from 'lucide-react';
+import {
+    Star, MapPin, Award, Coffee, ArrowRight,
+    Wifi, Waves, Car, Dumbbell, Flower2,
+} from 'lucide-react';
 
 const EASE = [0.22, 1, 0.36, 1];
+
+/* Amenities the listing text actually mentions — no invented facilities */
+const AMENITY_HINTS = [
+    { key: 'breakfast', icon: Coffee, label: 'Breakfast' },
+    { key: 'wifi', icon: Wifi, label: 'Wi-Fi' },
+    { key: 'pool', icon: Waves, label: 'Pool' },
+    { key: 'spa', icon: Flower2, label: 'Spa' },
+    { key: 'gym', icon: Dumbbell, label: 'Gym' },
+    { key: 'parking', icon: Car, label: 'Parking' },
+];
+
+const deriveAmenities = (hotel) => {
+    const haystack = [
+        hotel.primaryInfo,
+        hotel.secondaryInfo,
+        hotel.priceDetails,
+        ...(hotel.amenities || []),
+    ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+
+    return AMENITY_HINTS.filter((a) => haystack.includes(a.key)).slice(0, 3);
+};
 
 /* Five gold waypoints — the rating read as a route, not as stars */
 const RatingDots = ({ rating }) => {
@@ -32,6 +59,7 @@ const HotelCard = ({ hotel, onClick }) => {
     const isTravellersChoice = hotel.badge?.type === 'TRAVELLER_CHOICE';
     const isBestOfBest = hotel.badge?.type === 'BEST_OF_BEST';
     const hasBreakfast = hotel.primaryInfo?.toLowerCase().includes('breakfast');
+    const amenities = deriveAmenities(hotel);
 
     return (
         <Motion.div
@@ -119,6 +147,18 @@ const HotelCard = ({ hotel, onClick }) => {
                         </div>
                     )}
                 </div>
+
+                {/* Amenity chips */}
+                {amenities.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                        {amenities.map((a) => (
+                            <span key={a.key} className="agent-tag px-2 py-0.5 text-[9px]">
+                                <a.icon size={9} aria-hidden="true" />
+                                {a.label}
+                            </span>
+                        ))}
+                    </div>
+                )}
 
                 {/* Price + reviews */}
                 <div className="flex items-end justify-between gap-2 pt-3 border-t border-white/[0.07]">

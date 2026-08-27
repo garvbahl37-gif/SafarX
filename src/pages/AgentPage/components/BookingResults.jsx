@@ -116,7 +116,7 @@ const BookingResults = ({ results, onClose }) => {
 
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-start justify-between gap-2 mb-1">
-                                        <h3 className="text-[13.5px] font-medium text-ivory agent-clamp-1">
+                                        <h3 className="text-[13.5px] font-medium text-ivory agent-clamp-1 min-w-0">
                                             {result.title}
                                         </h3>
                                         <ArrowUpRight
