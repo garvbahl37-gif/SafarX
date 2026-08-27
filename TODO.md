@@ -53,6 +53,14 @@ Live task tracker for the current build push. Updated as work lands.
       type; the suggestion panel now offers only state/category shortcuts so it
       stops covering those live results
 
+- [x] **Local Insights rebuilt** as a real map product — live Overpass nearby
+      search across 11 categories, layer switcher (dark/satellite/terrain),
+      SafarX overlays, OSRM routing with per-leg costs, place detail sheet,
+      marker clustering, mobile bottom sheet; 1426-line page split into 15 modules
+- [x] **Bug: map basemap unusable** — CARTO now watermarks keyless requests
+      ("API KEY REQUIRED" burnt into every tile); switched to plain OSM tiles
+      darkened with a CSS filter
+
 ## In progress
 
 - [ ] **VR tours off YouTube (RULE)** — real in-app draggable equirectangular
@@ -66,9 +74,6 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
-- [ ] **Local Insights rebuild** — real map product: Overpass nearby search
-      (eat/stay/ATM/pharmacy/transport), layer switcher, SafarX data overlays,
-      OSRM routing, place detail sheet, mobile bottom sheet
 - [ ] **Bug: VR mode switcher stays pinned** and overlaps tour cards on scroll
 - [ ] Sweep any remaining old-palette components not yet reached
 

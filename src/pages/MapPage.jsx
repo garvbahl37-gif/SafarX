@@ -25,7 +25,6 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Route as RouteIcon,
-  RefreshCw,
   Compass,
   MapPinned,
 } from "lucide-react";
@@ -33,7 +32,7 @@ import {
 import MapShell from "../components/map/MapShell";
 import SearchPanel from "../components/map/SearchPanel";
 import NearbyCategories from "../components/map/NearbyCategories";
-import ResultsList from "../components/map/ResultsList";
+import ResultsPanel from "../components/map/ResultsPanel";
 import PlaceSheet from "../components/map/PlaceSheet";
 import LayerSwitcher from "../components/map/LayerSwitcher";
 import RoutePanel from "../components/map/RoutePanel";
@@ -47,7 +46,6 @@ import {
   EASE,
   INDIA_CENTER,
   TILE_LAYERS,
-  formatCoords,
   formatDistance,
   googleDirectionsTo,
   googleDirectionsUrl,
@@ -55,16 +53,6 @@ import {
   regionFor,
 } from "../components/map/mapUtils";
 import { placesService } from "../services/placesService";
-
-const REGIONS = [
-  { id: "all", name: "All regions" },
-  { id: "north", name: "North India" },
-  { id: "northeast", name: "Northeast India" },
-  { id: "east", name: "East India" },
-  { id: "central", name: "Central India" },
-  { id: "west", name: "West India" },
-  { id: "south", name: "South India" },
-];
 
 const LAYER_COLOR = SAFARX_LAYERS.reduce((acc, layer) => {
   acc[layer.id] = layer.color;
@@ -237,14 +225,16 @@ const MapPage = ({ onPageChange }) => {
         color: "#E5BE5C",
         categoryLabel: "Search result",
       };
-      setSearchPin(option.point ? null : point);
-      selectPlace(point);
+      /* A curated point already has a marker unless its layer is switched off. */
+      const alreadyOnMap = Boolean(option.point && overlays[option.point.layer]);
+      setSearchPin(alreadyOnMap ? null : point);
+      selectPlace(point, { fly: false });
       flyTo(point.lat, point.lng, 14);
       if (activeCategory) {
         overpass.search(activeCategory, [point.lat, point.lng], view.radius);
       }
     },
-    [activeCategory, flyTo, overpass, selectPlace, view.radius]
+    [activeCategory, flyTo, overlays, overpass, selectPlace, view.radius]
   );
 
   /* ── Route ──────────────────────────────────────────────────────── */
@@ -429,44 +419,6 @@ const MapPage = ({ onPageChange }) => {
       "Turn a SafarX layer back on from the layers control, or pick a category above to pull live data for this area.",
   };
 
-  const panelHeader = (
-    <div className="border-b border-white/[0.07] px-3.5 py-3">
-      <div className="flex items-center justify-between gap-3">
-        <p className="flex min-w-0 items-center gap-2">
-          <span className="route-dot shrink-0" aria-hidden="true" />
-          <span className="truncate font-data text-[9px] uppercase tracking-[0.2em] text-saffron">
-            {formatCoords(view.center[0], view.center[1])}
-          </span>
-        </p>
-        <select
-          value={region}
-          onChange={(event) => setRegion(event.target.value)}
-          aria-label="Filter SafarX places by region"
-          className="shrink-0 rounded-full border border-white/[0.09] bg-ink-800 px-2.5 py-1 font-data text-[10px] uppercase tracking-[0.1em] text-ivory-muted outline-none transition-colors focus:border-saffron/55"
-        >
-          {REGIONS.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <p className="mt-1.5 font-data text-[10px] uppercase tracking-[0.14em] text-ivory-faint">
-        {metaLine}
-      </p>
-      {areaMoved && (
-        <button
-          type="button"
-          onClick={() => runCategory(activeCategory, { force: false })}
-          className="mt-2.5 inline-flex items-center gap-2 rounded-full border border-saffron/40 bg-saffron/15 px-3 py-1.5 font-data text-[10px] uppercase tracking-[0.14em] text-saffron transition-colors hover:bg-saffron/25"
-        >
-          <RefreshCw className="h-3 w-3" aria-hidden="true" />
-          Search this area
-        </button>
-      )}
-    </div>
-  );
-
   if (!mounted) {
     return <div className="h-[calc(100vh-5rem)] w-full bg-ink-950" aria-hidden="true" />;
   }
@@ -522,12 +474,16 @@ const MapPage = ({ onPageChange }) => {
 
             <NearbyCategories activeId={activeCategory} onSelect={runCategory} />
 
-            <div className="glass-panel flex min-h-0 flex-1 flex-col overflow-hidden">
-              {panelHeader}
-              <div className="min-h-0 flex-1 overflow-y-auto px-3 pt-2">
-                <ResultsList {...listProps} />
-              </div>
-            </div>
+            <ResultsPanel
+              className="glass-panel min-h-0 flex-1 overflow-hidden"
+              center={view.center}
+              region={region}
+              onRegionChange={setRegion}
+              metaLine={metaLine}
+              areaMoved={areaMoved}
+              onSearchArea={() => runCategory(activeCategory)}
+              listProps={listProps}
+            />
           </Motion.aside>
         )}
       </AnimatePresence>
@@ -553,7 +509,7 @@ const MapPage = ({ onPageChange }) => {
             key="detail-desktop"
             place={selected}
             variant="side"
-            className="absolute bottom-4 left-4 top-4 z-30 hidden w-[23rem] md:flex"
+            className="absolute bottom-4 left-4 top-[7.25rem] z-30 hidden w-[23rem] md:flex"
             userLocation={userLocation}
             mapCenter={view.center}
             inRoute={routeIds.includes(selected.id)}
@@ -660,15 +616,21 @@ const MapPage = ({ onPageChange }) => {
           <NearbyCategories activeId={activeCategory} onSelect={runCategory} />
         </div>
 
-        <div className="shrink-0">{panelHeader}</div>
-
-        <div className="min-h-0 flex-1 overflow-y-auto px-3 pt-2">
-          <ResultsList {...listProps} />
-        </div>
-
-        <p className="shrink-0 border-t border-white/[0.07] px-3.5 py-2 font-data text-[8px] uppercase leading-relaxed tracking-[0.12em] text-ivory-faint">
-          {baseLayer.attributionText}
-        </p>
+        <ResultsPanel
+          className="min-h-0 flex-1"
+          center={view.center}
+          region={region}
+          onRegionChange={setRegion}
+          metaLine={metaLine}
+          areaMoved={areaMoved}
+          onSearchArea={() => runCategory(activeCategory)}
+          listProps={listProps}
+          footer={
+            <p className="shrink-0 border-t border-white/[0.07] px-3.5 py-2 font-data text-[8px] uppercase leading-relaxed tracking-[0.12em] text-ivory-faint">
+              {baseLayer.attributionText}
+            </p>
+          }
+        />
       </Motion.section>
 
       {/* ── Mobile place detail ───────────────────────────────────── */}
@@ -692,7 +654,7 @@ const MapPage = ({ onPageChange }) => {
       </AnimatePresence>
 
       {/* ── Identity strip (desktop, bottom-centre) ───────────────── */}
-      <div className="pointer-events-none absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-3 rounded-full border border-white/[0.07] bg-ink-950/70 px-4 py-2 backdrop-blur-xl lg:flex">
+      <div className="pointer-events-none absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-3 rounded-full border border-white/[0.07] bg-ink-950/70 px-4 py-2 backdrop-blur-xl xl:flex">
         <Compass className="h-3.5 w-3.5 text-saffron" aria-hidden="true" />
         <span className="font-data text-[9px] uppercase tracking-[0.22em] text-ivory-faint">
           Local insights

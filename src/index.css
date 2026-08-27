@@ -476,6 +476,13 @@ textarea.bg-transparent:focus {
   background: #1e453a;
 }
 
+/* OSM raster tiles darkened to match the app. CARTO's dark basemap now
+   watermarks keyless requests, so we invert the standard OSM tiles instead:
+   invert + hue-rotate keeps water blue rather than orange. */
+.map-tiles-dark {
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.92) saturate(0.55);
+}
+
 /* Leaflet dark chrome */
 .leaflet-container {
   background: var(--ink-900);

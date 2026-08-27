@@ -216,6 +216,7 @@ const MapShell = ({
         attribution={layer.attribution}
         maxZoom={layer.maxZoom}
         {...(layer.subdomains ? { subdomains: layer.subdomains } : {})}
+        {...(layer.className ? { className: layer.className } : {})}
       />
 
       <MapBridge onReady={onMapReady} onViewChange={onViewChange} onMapClick={onMapClick} />

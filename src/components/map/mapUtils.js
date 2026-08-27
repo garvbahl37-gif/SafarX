@@ -65,14 +65,18 @@ export const formatCoords = (lat, lng) => {
 
 export const TILE_LAYERS = [
   {
+    // CARTO now watermarks unauthenticated basemap requests ("API KEY
+    // REQUIRED" burnt into every tile), so the dark base is plain OSM
+    // darkened with a CSS filter — free, keyless, and on-theme.
     id: "standard",
     name: "Standard",
-    url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-    subdomains: "abcd",
-    maxZoom: 20,
+    url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    subdomains: "",
+    maxZoom: 19,
+    className: "map-tiles-dark",
     attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    attributionText: "© OpenStreetMap contributors · © CARTO",
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attributionText: "© OpenStreetMap contributors",
   },
   {
     id: "satellite",
@@ -294,6 +298,16 @@ export const parseOpenNow = (value, now = new Date()) => {
 
   return understood ? open : null;
 };
+
+export const REGIONS = [
+  { id: "all", name: "All regions" },
+  { id: "north", name: "North India" },
+  { id: "northeast", name: "Northeast India" },
+  { id: "east", name: "East India" },
+  { id: "central", name: "Central India" },
+  { id: "west", name: "West India" },
+  { id: "south", name: "South India" },
+];
 
 /**
  * A coarse region for any Indian coordinate — used by the region filter so
