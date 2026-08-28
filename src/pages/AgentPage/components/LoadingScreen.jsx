@@ -1,6 +1,6 @@
 import { motion as Motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { Plane } from 'lucide-react';
+import AnimatedCompass from "../../../components/ui/AnimatedCompass";
 
 /**
  * Agent boot screen.
@@ -98,6 +98,15 @@ const AILoadingScreen = ({ onComplete }) => {
 
             {/* ── Wordmark block ── */}
             <div className="relative z-10 flex flex-col items-center px-6">
+                <Motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.7, ease: EASE }}
+                    className="mb-7"
+                >
+                    <AnimatedCompass size={104} title="Waking the agent" />
+                </Motion.div>
+
                 <Motion.span
                     initial={{ opacity: 0, letterSpacing: '0.6em' }}
                     animate={{ opacity: 1, letterSpacing: '0.32em' }}
@@ -140,62 +149,20 @@ const AILoadingScreen = ({ onComplete }) => {
                     </Motion.span>
                 </div>
 
-                {/* ── Route-line progress ── */}
-                <div className="mt-10 w-[min(20rem,72vw)]" aria-hidden="true">
-                    <div className="relative h-4 flex items-center">
-                        {/* Dashed path */}
-                        <span className="route-line absolute inset-x-0" />
-
-                        {/* Drawn-so-far path in gold */}
-                        <span
-                            className="absolute left-0 h-px"
-                            style={{
-                                width: `${progress}%`,
-                                background:
-                                    'linear-gradient(90deg, rgba(166,126,43,0.4), rgba(229,190,92,0.95))',
-                            }}
-                        />
-
-                        {/* Origin waypoint */}
-                        <span className="route-dot absolute left-0 -translate-x-1/2" />
-
-                        {/* The aircraft riding the path */}
-                        <span
-                            className="absolute -translate-x-1/2 text-saffron"
-                            style={{ left: `${progress}%`, transition: 'left 0.12s linear' }}
+                {/* Phase label — no progress bar; the compass carries the wait */}
+                <div className="mt-9 h-4" aria-live="polite">
+                    <AnimatePresence mode="wait">
+                        <Motion.span
+                            key={phase}
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -5 }}
+                            transition={{ duration: 0.25 }}
+                            className="font-data text-[10px] uppercase tracking-[0.28em] text-ivory-faint"
                         >
-                            <Plane size={13} className="rotate-45" />
-                        </span>
-
-                        {/* Destination waypoint */}
-                        <span
-                            className="absolute right-0 translate-x-1/2 w-[5px] h-[5px] rounded-full"
-                            style={{
-                                background: progress >= 99 ? '#D4A843' : 'rgba(242,239,230,0.2)',
-                                boxShadow:
-                                    progress >= 99 ? '0 0 10px rgba(212,168,67,0.7)' : 'none',
-                            }}
-                        />
-                    </div>
-
-                    {/* Status row */}
-                    <div className="mt-5 flex items-center justify-between gap-4">
-                        <AnimatePresence mode="wait">
-                            <Motion.span
-                                key={phase}
-                                initial={{ opacity: 0, y: 4 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -4 }}
-                                transition={{ duration: 0.2 }}
-                                className="font-data text-[10px] uppercase tracking-[0.22em] text-ivory-faint"
-                            >
-                                {PHASES[phase]}
-                            </Motion.span>
-                        </AnimatePresence>
-                        <span className="font-data text-[11px] tabular-nums text-saffron/80">
-                            {Math.round(progress)}%
-                        </span>
-                    </div>
+                            {PHASES[phase]}
+                        </Motion.span>
+                    </AnimatePresence>
                 </div>
             </div>
 

@@ -74,6 +74,17 @@ Live task tracker for the current build push. Updated as work lands.
 - [x] **Bug: VR mode switcher unpinned** — it was `fixed top-24`, so it floated
       over the tour cards on scroll; now in normal flow
 
+- [x] **AnimatedCompass component** — brass marine compass in SVG: engraved
+      bezel with 72 degree ticks, cardinal letters, counter-rotating rose,
+      spring-swinging needle, direction-finder sweep, glass dome highlight
+- [x] **Both loading screens reworked** — compass is now the centrepiece;
+      progress bars removed (the stray line), wordmark handover tightened
+- [x] **Directions stay in-app** — OSRM turn-by-turn steps in the route panel,
+      no Google Maps hand-off
+- [x] **Bug: itinerary showed "Choose a destination" on open** — StrictMode
+      double-invoked the regenerate effect past its first-run boolean guard
+- [x] **Bug: navbar "VR Tours" re-opened the last tour** — stale `selectedItem`
+
 ## In progress
 
 

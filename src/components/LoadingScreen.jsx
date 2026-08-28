@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Plane } from "lucide-react";
+import AnimatedCompass from "./ui/AnimatedCompass";
 
 /**
  * Cinematic boot sequence — a four-act film.
@@ -153,38 +153,6 @@ const LoadingScreen = () => {
           </div>
         )}
 
-        {/* Slowly rotating compass ring */}
-        {!reduce && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
-          <motion.svg
-            initial={{ opacity: 0, rotate: -35, scale: 0.85 }}
-            animate={{ opacity: 0.22, rotate: 0, scale: 1 }}
-            transition={{ duration: 3, ease: EASE_OUT }}
-            viewBox="0 0 400 400"
-            className="w-[min(78vw,470px)]"
-          >
-            <circle cx="200" cy="200" r="186" fill="none" stroke="rgba(212,168,67,0.5)" strokeWidth="1" />
-            <circle cx="200" cy="200" r="168" fill="none" stroke="rgba(212,168,67,0.24)" strokeWidth="1" strokeDasharray="3 9" />
-            {Array.from({ length: 24 }).map((_, i) => {
-              const a = (i * 15 * Math.PI) / 180;
-              const long = i % 6 === 0;
-              const r1 = long ? 168 : 176;
-              return (
-                <line
-                  key={i}
-                  x1={200 + Math.cos(a) * r1}
-                  y1={200 + Math.sin(a) * r1}
-                  x2={200 + Math.cos(a) * 186}
-                  y2={200 + Math.sin(a) * 186}
-                  stroke="rgba(212,168,67,0.55)"
-                  strokeWidth={long ? 1.6 : 0.8}
-                />
-              );
-            })}
-          </motion.svg>
-          </div>
-        )}
-
         {/* Drifting gold dust */}
         {!reduce &&
           MOTES.map((m, i) => (
@@ -202,30 +170,9 @@ const LoadingScreen = () => {
 
       {/* ── Foreground stack ── */}
       <div className="relative z-10 flex flex-col items-center px-6 w-full">
-        {/* The flight path */}
-        <div className="relative w-[min(88vw,660px)] h-10 mb-3" aria-hidden="true">
-          <motion.span
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-saffron shadow-[0_0_24px_rgba(212,168,67,0.95)]"
-          />
-          <motion.span
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.2, delay: 0.35, ease: EASE_OUT }}
-            className="route-line block absolute inset-x-0 top-1/2 -translate-y-1/2"
-          />
-          {!reduce && (
-            <motion.span
-              initial={{ left: "0%", opacity: 0 }}
-              animate={{ left: "100%", opacity: [0, 1, 1, 0] }}
-              transition={{ duration: 2.3, delay: 0.6, ease: "easeInOut" }}
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-saffron"
-            >
-              <Plane size={16} className="drop-shadow-[0_0_12px_rgba(212,168,67,0.9)]" />
-            </motion.span>
-          )}
+        {/* The instrument */}
+        <div className="mb-8">
+          <AnimatedCompass size={132} title="Finding your bearings" />
         </div>
 
         {/* Wordmark: सफ़र → SafarX */}
@@ -236,9 +183,9 @@ const LoadingScreen = () => {
                 key="deva"
                 exit={{
                   opacity: 0,
-                  scale: 1.55,
+                  scale: 1.5,
                   filter: "blur(16px)",
-                  transition: { duration: 0.6, ease: EASE_FILM },
+                  transition: { duration: 0.34, ease: EASE_FILM },
                 }}
                 className="relative"
               >
@@ -275,7 +222,7 @@ const LoadingScreen = () => {
                     key={i}
                     initial={{ opacity: 0, y: "0.75em", filter: "blur(12px)", rotateX: -75 }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)", rotateX: 0 }}
-                    transition={{ duration: 0.75, delay: 0.1 + i * 0.075, ease: EASE_OUT }}
+                    transition={{ duration: 0.6, delay: 0.04 + i * 0.055, ease: EASE_OUT }}
                     className="font-display italic font-medium text-[clamp(3rem,10vw,6.5rem)] leading-none tracking-tight inline-block"
                   >
                     {letter}
@@ -293,7 +240,7 @@ const LoadingScreen = () => {
                       "0 0 20px rgba(212,168,67,0.5)",
                     ],
                   }}
-                  transition={{ duration: 0.85, delay: 0.52, ease: [0.34, 1.56, 0.64, 1] }}
+                  transition={{ duration: 0.7, delay: 0.36, ease: [0.34, 1.56, 0.64, 1] }}
                   className="font-data font-bold text-saffron text-[clamp(2.6rem,8.5vw,5.4rem)] leading-none inline-block ml-1"
                 >
                   X
@@ -313,18 +260,16 @@ const LoadingScreen = () => {
           Discover Incredible India
         </motion.p>
 
-        {/* Progress */}
-        <div className="mt-12 flex items-center gap-4" aria-hidden="true">
-          <span className="relative block w-40 md:w-60 h-[2px] bg-white/10 overflow-hidden rounded-full">
-            <motion.span
-              className="absolute inset-y-0 left-0 bg-gradient-to-r from-saffron-deep via-saffron to-saffron-bright"
-              style={{ width: `${progress}%` }}
-            />
-          </span>
-          <span className="font-data text-[11px] text-saffron/80 tabular-nums w-9">
-            {Math.round(progress)}%
-          </span>
-        </div>
+        {/* Progress — a discreet readout, no bar (the compass carries the wait) */}
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: reduce ? 0.4 : 2.9, duration: 0.8 }}
+          className="mt-9 font-data text-[11px] tracking-[0.34em] text-saffron/70 tabular-nums"
+          aria-hidden="true"
+        >
+          {String(Math.round(progress)).padStart(3, "0")}
+        </motion.span>
       </div>
 
       {/* ── Film framing marks ── */}
