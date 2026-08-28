@@ -140,6 +140,19 @@ Live task tracker for the current build push. Updated as work lands.
       "failures", but they were Wikimedia's robot policy blocking the script.
       In a real browser: 15 responses, all 200, 0 broken
 
+- [x] **Deployed to Vercel** — project `safarx-sih`, production build Ready.
+      `GROQ_API_KEY` stored as an encrypted Vercel env var
+- [x] **Groq wired securely** — `api/chat.js` serverless function holds the key
+      server-side; a `VITE_` prefixed key would ship inside the client bundle.
+      `vercel.json`'s catch-all rewrite now excludes `/api`
+- [x] **TBO-free backend written** (`backend/`) — FastAPI for the HF Space:
+      Groq chat, Amadeus flights/hotels (free tier), RapidAPI trains, Docker
+      for HF's Docker SDK. `/flights/search` contract unchanged
+- [ ] **Turn off Vercel Deployment Protection** — the live URL currently 401s
+      for anonymous visitors (Settings → Deployment Protection → Vercel
+      Authentication → Disabled). One toggle, needs your account
+- [ ] **Add Amadeus keys** to the HF Space for flights/hotels to go live
+
 ## In progress
 
 - [x] **VR tours expanded 14 → 21, with a story under every one** — 16 tours
