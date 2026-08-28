@@ -188,13 +188,37 @@ const JourneyRoad = ({ stages, onPageChange }) => {
             transform={`translate(${car.x} ${car.y}) rotate(${car.angle})`}
             style={{ transition: reduce ? undefined : "transform 120ms linear" }}
           >
-            <path d="M19 0 L68 -19 L68 19 Z" fill="#E5BE5C" opacity="0.14" />
-            <rect x="-21" y="-10" width="42" height="20" rx="7" fill="#E5BE5C" />
-            <rect x="-9" y="-7.5" width="17" height="15" rx="4" fill="#0A1D1A" opacity="0.6" />
-            <circle cx="-11" cy="11" r="4.4" fill="#061412" />
-            <circle cx="11" cy="11" r="4.4" fill="#061412" />
-            <circle cx="20" cy="0" r="3" fill="#FFF6DC" filter="url(#jr-glow)" />
-            <circle cx="-21" cy="0" r="2" fill="#E05252" opacity="0.8" />
+            {/* Headlight throw — a soft cone, not a hard grey triangle */}
+            <defs>
+              <linearGradient id="jr-beam" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#FFF6DC" stopOpacity="0.30" />
+                <stop offset="100%" stopColor="#FFF6DC" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path d="M22 -2 L64 -13 L64 13 L22 2 Z" fill="url(#jr-beam)" />
+
+            {/* Side profile: bonnet, greenhouse, boot */}
+            <path
+              d="M-23 3
+                 L-22 -2 Q-21.5 -4 -18 -4.6
+                 L-11 -5.4 Q-8 -12 -1 -12.4
+                 L6 -12.4 Q11 -12 13.5 -5.6
+                 L19 -4.8 Q23 -4 23 0.4
+                 L23 3 Q23 5 21 5
+                 L-21 5 Q-23 5 -23 3 Z"
+              fill="#E5BE5C"
+            />
+            {/* Glass */}
+            <path d="M-9.5 -5.6 Q-7 -10.6 -1.4 -11 L-1.4 -5.6 Z" fill="#0A1D1A" opacity="0.55" />
+            <path d="M1.4 -11 L5.6 -11 Q9.6 -10.6 11.6 -5.6 L1.4 -5.6 Z" fill="#0A1D1A" opacity="0.55" />
+            {/* Wheels */}
+            <circle cx="-12.5" cy="5" r="4.6" fill="#061412" />
+            <circle cx="-12.5" cy="5" r="1.9" fill="#8C7A4A" />
+            <circle cx="12.5" cy="5" r="4.6" fill="#061412" />
+            <circle cx="12.5" cy="5" r="1.9" fill="#8C7A4A" />
+            {/* Lamps */}
+            <circle cx="22" cy="-0.6" r="1.8" fill="#FFF6DC" filter="url(#jr-glow)" />
+            <circle cx="-22.4" cy="-0.6" r="1.4" fill="#E05252" opacity="0.85" />
           </g>
         </svg>
       </div>

@@ -69,6 +69,11 @@ const PAGE_TITLES = {
   "/social": "Safar Groups — SafarX",
 };
 
+// Routes that open with full-bleed media, so they must not be top-padded.
+const FULL_BLEED_PAGES = new Set([
+  "home", "tracker", "360tour", "gems", "itinerary", "360view", "map",
+]);
+
 // Helper function to get current page ID from path
 function getPageIdFromPath(pathname) {
   if (pathname === "/") return "home";
@@ -185,11 +190,14 @@ export default function App() {
             />
           )}
           {/* Adjust main padding based on current page */}
+          {/* Pages whose first element is full-bleed media run to the top of
+              the viewport and sit under the floating navbar. Padding them
+              leaves a dead ink strip between the nav and the hero. */}
           <main
             className={
-              hideHeaderFooter || currentPage === "home" || currentPage === "tracker"
+              hideHeaderFooter || FULL_BLEED_PAGES.has(currentPage)
                 ? "min-h-screen"
-                : "min-h-screen pt-20"
+                : "min-h-screen pt-24"
             }
           >
             <Routes>

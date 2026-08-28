@@ -207,16 +207,25 @@ const TourStory = ({ tour }) => {
                             {gallery.map((image, i) => (
                                 <Reveal key={image.url} delay={(i % 4) * 0.07}>
                                     <figure className="group relative h-full overflow-hidden rounded-2xl border border-white/[0.07] bg-ink-800 transition-colors duration-500 hover:border-saffron/35">
-                                        <div className="relative aspect-[4/3] overflow-hidden">
+                                        <div className="relative aspect-[4/3] overflow-hidden bg-ink-700/40">
+                                            {/* Fade in on decode so a slow image
+                                                arrives gracefully instead of popping. */}
                                             <img
                                                 src={image.url}
                                                 alt={image.caption}
-                                                loading="lazy"
+                                                width="500"
+                                                height="375"
+                                                loading={i < 4 ? "eager" : "lazy"}
+                                                fetchPriority={i < 2 ? "high" : "auto"}
                                                 decoding="async"
+                                                onLoad={(e) => {
+                                                    e.currentTarget.style.opacity = "1";
+                                                }}
                                                 onError={(e) => {
                                                     e.currentTarget.onerror = null;
                                                     e.currentTarget.style.opacity = "0";
                                                 }}
+                                                style={{ opacity: 0, transition: "opacity 600ms ease" }}
                                                 className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
                                             />
                                             <div

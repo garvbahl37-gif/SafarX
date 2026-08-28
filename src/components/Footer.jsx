@@ -34,8 +34,8 @@ const SOCIALS = [
 
 const LinkColumn = ({ title, links, onPageChange }) => (
   <div>
-    <p className="eyebrow-muted mb-5">{title}</p>
-    <ul className="space-y-3">
+    <p className="eyebrow-muted mb-4">{title}</p>
+    <ul className="space-y-2.5">
       {links.map((link) => (
         <li key={link.id}>
           <button
@@ -76,11 +76,11 @@ const Footer = ({ onPageChange }) => {
         सफ़र
       </span>
 
-      <div className="relative max-w-[1440px] mx-auto px-6 md:px-14 pt-20 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr] gap-12 lg:gap-8">
+      <div className="relative max-w-[1440px] mx-auto px-6 md:px-14 pt-14 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr] gap-10 lg:gap-8">
           {/* Brand */}
           <div>
-            <div className="flex items-baseline gap-0.5 mb-5">
+            <div className="flex items-baseline gap-0.5 mb-3.5">
               <span className="font-display italic font-medium text-3xl text-ivory tracking-tight">
                 Safar
               </span>
@@ -88,8 +88,8 @@ const Footer = ({ onPageChange }) => {
                 X
               </span>
             </div>
-            <p className="eyebrow mb-4">Smart India Hackathon 2026</p>
-            <p className="text-ivory-muted text-[14px] leading-relaxed max-w-xs mb-7">
+            <p className="eyebrow mb-3">Smart India Hackathon 2026</p>
+            <p className="text-ivory-muted text-[14px] leading-relaxed max-w-xs mb-5">
               Your companion for Incredible India — preview heritage sites in
               360°, plan with AI, and carry everything that matters in one place.
             </p>
@@ -114,11 +114,11 @@ const Footer = ({ onPageChange }) => {
 
           {/* QR — SafarX on your phone */}
           <div className="flex flex-col items-start lg:items-end">
-            <div className="flex items-center gap-5 p-4 rounded-2xl border border-white/[0.07] bg-ink-800/60">
+            <div className="flex items-center gap-4 p-3.5 rounded-2xl border border-white/[0.07] bg-ink-800/60">
               <img
                 src={qrCode}
                 alt="QR code that opens SafarX Agent"
-                className="w-20 h-20 rounded-lg bg-white p-1.5"
+                className="w-16 h-16 rounded-lg bg-white p-1.5"
               />
               <div>
                 <p className="text-[13px] font-bold text-ivory mb-1">SafarX in your pocket</p>
@@ -130,28 +130,8 @@ const Footer = ({ onPageChange }) => {
           </div>
         </div>
 
-        {/* Closing strip */}
-        <div className="mt-16 rounded-3xl border border-white/[0.08] bg-ink-800/50 p-8 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div>
-            <h3 className="font-display text-2xl md:text-[1.75rem] font-medium text-ivory leading-snug mb-2">
-              Ready when you are.
-            </h3>
-            <p className="text-ivory-muted text-[14px] max-w-md leading-relaxed">
-              Preview a heritage site in 360°, then let SafarX plan the rest of the trip around it.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3 shrink-0">
-            <button onClick={() => onPageChange("itinerary")} className="btn-primary">
-              Plan a trip
-            </button>
-            <button onClick={() => onPageChange("360tour")} className="btn-ghost">
-              Browse VR tours
-            </button>
-          </div>
-        </div>
-
         {/* Route-line divider */}
-        <div className="flex items-center gap-3 mt-16 mb-7" aria-hidden="true">
+        <div className="flex items-center gap-3 mt-9 mb-5" aria-hidden="true">
           <span className="route-dot" />
           <span className="route-line flex-1" />
           <span className="font-data text-[10px] tracking-[0.3em] uppercase text-ivory-faint whitespace-nowrap px-2">

@@ -74,11 +74,8 @@ const GemSearchBar = ({
   gems,
   value,
   onValueChange,
-  region,
-  regions,
   regionLabels,
   categoryLabels,
-  onRegionChange,
   onSelectPlace,
   onSelectState,
   onSelectRegion,
@@ -305,22 +302,6 @@ const GemSearchBar = ({
         <div className="p-2.5 bg-saffron/10 rounded-full mr-3 text-saffron shrink-0">
           <Search className="w-5 h-5" aria-hidden="true" />
         </div>
-
-        <label htmlFor="gem-region" className="sr-only">
-          Filter by region
-        </label>
-        <select
-          id="gem-region"
-          value={region}
-          onChange={(e) => onRegionChange(e.target.value)}
-          className="bg-transparent text-saffron font-data text-xs uppercase tracking-[0.08em] border-r border-white/10 pr-3 mr-3 outline-none cursor-pointer hover:text-saffron-bright transition-colors max-w-[130px]"
-        >
-          {regions.map((r) => (
-            <option key={r} value={r} className="bg-ink-900 text-ivory">
-              {regionLabels[r] || r}
-            </option>
-          ))}
-        </select>
 
         <input
           ref={inputRef}

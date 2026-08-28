@@ -35,7 +35,7 @@ const EASE = [0.22, 1, 0.36, 1];
    the 4K/60 renditions are slow to start and stutter on a mid-range laptop.
    Both the file and the poster were curl-checked before being committed. */
 const HERO_VIDEO =
-    "https://videos.pexels.com/video-files/31031041/13262889_1920_1080_60fps.mp4";
+    "https://videos.pexels.com/video-files/17453762/17453762-uhd_2560_1440_24fps.mp4";
 const HERO_POSTER =
     "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1600&auto=format&fit=crop&q=70";
 
@@ -367,7 +367,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
             {/* ── Mode switcher ──
                 In flow, not fixed: pinning it made the pill float over the tour
                 cards further down the page. */}
-            <div className="relative z-[40] flex justify-center px-4 pt-4 pb-2">
+            <div className="relative z-[40] flex justify-center px-4 pt-24 pb-2">
                 <div
                     className="inline-flex items-center gap-1 rounded-full border border-white/[0.09] bg-ink-950/85 p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
                     role="group"
@@ -436,7 +436,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                             Full-bleed footage with exactly one scrim. Stacking
                             several crushed the video to black, so legibility is
                             handled by `on-media` on the copy instead. */}
-                        <section className="relative isolate flex min-h-[58vh] items-end overflow-hidden md:min-h-[70vh]">
+                        <section className="relative isolate flex min-h-[62vh] items-center justify-center overflow-hidden md:min-h-[72vh]">
                             <video
                                 autoPlay
                                 muted
@@ -449,13 +449,18 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                 className="absolute inset-0 -z-10 h-full w-full object-cover video-crisp"
                             />
                             <div
-                                className="absolute inset-0 -z-10 bg-gradient-to-t from-ink-950 via-ink-950/40 to-ink-950/15"
+                                className="absolute inset-0 -z-10 bg-gradient-to-t from-ink-950 via-ink-950/45 to-ink-950/30"
+                                aria-hidden="true"
+                            />
+                            {/* Pool of shade under the copy — this footage is
+                                bright and busy, and type was washing out. */}
+                            <div
+                                className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_56%_50%_at_50%_52%,rgba(6,20,18,0.78)_0%,rgba(6,20,18,0.4)_55%,transparent_80%)]"
                                 aria-hidden="true"
                             />
 
-                            <div className="on-media relative mx-auto w-full max-w-[1440px] px-6 pt-24 pb-12 md:px-14 md:pt-32 md:pb-16">
+                            <div className="on-media relative mx-auto w-full max-w-3xl px-6 py-20 text-center md:px-8">
                                 <SectionHeading
-                                    align="left"
                                     eyebrow="20.59° N · 78.96° E · 360° previews"
                                     title={
                                         <>
@@ -473,7 +478,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
-                                    className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4 md:gap-x-12"
+                                    className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:gap-x-12"
                                 >
                                     {[
                                         { n: stats.tours, label: "guided tours" },
@@ -495,7 +500,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                         </section>
 
                         {/* Gallery */}
-                        <section className="pt-16 pb-24 md:pt-20 md:pb-32">
+                        <section className="pt-12 pb-24 md:pt-14 md:pb-32">
                             <div className="mx-auto max-w-[1440px] px-6 md:px-14">
                                 {/* Category filter */}
                                 {categories.length > 2 && (
@@ -613,7 +618,6 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                         <section className="border-t border-white/[0.06] bg-ink-900 py-20 md:py-28">
                             <div className="mx-auto max-w-[1440px] px-6 md:px-14">
                                 <SectionHeading
-                                    align="left"
                                     eyebrow="Free roam · no ticket required"
                                     title={
                                         <>

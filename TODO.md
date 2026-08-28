@@ -117,6 +117,21 @@ Live task tracker for the current build push. Updated as work lands.
       becomes ~0 the moment the map flies to the place. Now measured only from
       the user's real location, falling back to the region name
 
+- [x] **Dead space under the navbar** — App.jsx padded every page, including
+      those that open with full-bleed media, leaving an ink strip between the
+      floating navbar and the hero. Full-bleed routes now run to the top
+- [x] **Footer shortened** — ~700px → 384px; dropped the closing CTA strip
+      (it repeated CTAs already on every page) and tightened every step
+- [x] **Hidden gems search bar** — the native `<select>` inside the pill was
+      rendering the browser's own box and arrow. Region moved to a chip row
+- [x] **Journey car redrawn** — proper side profile with bonnet, glass, wheel
+      hubs and a soft headlight throw, instead of a blob and a grey triangle
+- [x] **VR gallery images loading late** — every image was a 1280px / ~250KB
+      thumb; now 500px / ~43KB with reserved dimensions, eager first four,
+      and a fade-in on decode
+- [x] **VR tours hero** — centred, and moved off a 1080p60 file that thrashed
+      through 8 abort/retry cycles before settling
+
 ## In progress
 
 - [x] **VR tours expanded 14 → 21, with a story under every one** — 16 tours

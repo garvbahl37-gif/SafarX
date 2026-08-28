@@ -299,8 +299,6 @@ const HiddenGemsPage = ({ onPageChange }) => {
             gems={gemsData}
             value={searchTerm}
             onValueChange={setSearchTerm}
-            region={region}
-            regions={regions}
             regionLabels={REGION_LABELS}
             categoryLabels={CATEGORY_LABELS}
             onRegionChange={handleRegionChange}
@@ -329,6 +327,29 @@ const HiddenGemsPage = ({ onPageChange }) => {
               }`}
             >
               {CATEGORY_LABELS[c] || c}
+            </button>
+          ))}
+        </div>
+
+        {/* Region chips — region used to sit as a native select inside the
+            search pill, which brought the browser's own box and arrow with it. */}
+        <div
+          className="flex flex-wrap justify-center gap-2 mt-3"
+          role="group"
+          aria-label="Filter gems by region"
+        >
+          {regions.map((r) => (
+            <button
+              key={r}
+              onClick={() => setRegion(r)}
+              aria-pressed={region === r}
+              className={`font-data text-[10px] uppercase tracking-[0.16em] px-3.5 py-1.5 rounded-full border transition-colors duration-300 ${
+                region === r
+                  ? "border-saffron/60 bg-saffron/12 text-saffron"
+                  : "border-white/[0.08] text-ivory-faint hover:text-ivory-muted hover:border-white/20"
+              }`}
+            >
+              {REGION_LABELS[r] || r}
             </button>
           ))}
         </div>
