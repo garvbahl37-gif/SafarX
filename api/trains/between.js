@@ -4,20 +4,18 @@ import { createRequire } from "node:module";
    parsed once per cold start rather than on every request. */
 const timetable = createRequire(import.meta.url)("./timetable.json");
 import { STATIONS } from "../../src/data/indiaStations.js";
-import { callIrctc, failTrains, JOURNEY_HOST, toIrctcDate, to24h, parseStationLabel } from "./_irctc.js";
+import { callIrctc, JOURNEY_HOST, toIrctcDate, to24h, parseStationLabel } from "./_irctc.js";
 
 /**
  * Every train between two stations.
  *
- * Answered from the timetable bundled with this function, not from a metered
- * API. Every train API within reach allows about fifty calls a month, which a
- * single afternoon of demoing exhausts — and a timetable does not need to be
- * live to be right. This costs nothing, never runs out, and answers in
- * milliseconds. The live endpoints stay on the API, where being live is the
- * entire point.
+ * IRCTC answers first: live data is the point, and it knows the services this
+ * dataset does not — Vande Bharat, Tejas, anything introduced after ~2018.
  *
- * The dataset predates the Vande Bharat and Tejas services, so when it finds
- * nothing the request still falls through to IRCTC.
+ * The bundled timetable is the safety net beneath it, not the source. The
+ * plan allows about fifty calls a month, so the day it runs out the panel
+ * would otherwise go empty mid-demo; instead it keeps answering from 5,208
+ * trains held offline, and says which of the two replied.
  */
 
 const DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -101,16 +99,7 @@ export default async function handler(req, res) {
   const fromCode = String(from).toUpperCase();
   const toCode = String(to).toUpperCase();
 
-  const local = searchTimetable(fromCode, toCode);
-  if (local.length) {
-    res.setHeader("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=604800");
-    return res.status(200).json({
-      data: local,
-      meta: { from: fromCode, to: toCode, count: local.length, source: "timetable" },
-    });
-  }
-
-  /* Nothing in the bundled timetable — it may be a newer service. */
+  /* 1 — live. */
   try {
     const journeyDate = toIrctcDate(date) || toIrctcDate(new Date().toISOString().slice(0, 10));
     const body = await callIrctc(
@@ -139,17 +128,22 @@ export default async function handler(req, res) {
       };
     });
 
-    return res.status(200).json({
-      data,
-      meta: { from: fromCode, to: toCode, count: data.length, source: "irctc" },
-    });
-  } catch (err) {
-    if (err.quotaExhausted || err.status === 429) {
+    if (data.length) {
+      res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
       return res.status(200).json({
-        data: [],
-        meta: { from: fromCode, to: toCode, count: 0, source: "timetable" },
+        data,
+        meta: { from: fromCode, to: toCode, count: data.length, source: "irctc", live: true },
       });
     }
-    return failTrains(res, err);
+  } catch {
+    // Out of quota, rate limited, or down — the net below catches it.
   }
+
+  /* 2 — the offline timetable, so a spent quota never empties the panel. */
+  const local = searchTimetable(fromCode, toCode);
+  res.setHeader("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=604800");
+  return res.status(200).json({
+    data: local,
+    meta: { from: fromCode, to: toCode, count: local.length, source: "timetable", live: false },
+  });
 }
