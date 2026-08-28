@@ -99,6 +99,14 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## In progress
 
+- [ ] **More VR tours + a place story under each one** — fill the 8 tours still
+      without a panorama (varanasi, jaipur, hampi, kerala, mysore, khajuraho,
+      amritsar, konark), grow the set past 20 with any Indian site that has a
+      verified equirectangular image, and add a rich editorial section beneath
+      every tour: tagline, history, a facts strip (best time / hours / entry in
+      ₹ / how to reach), what to look for, practical tips, and a verified
+      image gallery with credits
+
 
 
 - [x] **Premium calendar everywhere** — custom `RangeCalendar` (two-month trip
