@@ -526,7 +526,7 @@ const MapPage = ({ onPageChange }) => {
             key="detail-desktop"
             place={selected}
             variant="side"
-            className="absolute bottom-4 left-4 top-[7.25rem] z-30 hidden w-[23rem] md:flex"
+            className="absolute left-4 top-[7.25rem] z-30 hidden max-h-[calc(100%-9.5rem)] w-[23rem] md:flex"
             userLocation={userLocation}
             mapCenter={view.center}
             inRoute={routeIds.includes(selected.id)}

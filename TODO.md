@@ -109,6 +109,14 @@ Live task tracker for the current build push. Updated as work lands.
       Hidden Gems upgraded 1080p → 1440p60 Hogenakkal Falls; flight tracker
       raised from 60% to 90% opacity
 
+- [x] **Place detail panel** — it was pinned top-to-bottom on desktop, so a
+      place with two lines of data left a large void. Now sizes to content
+      under a max-height, with a taller image and an always-present facts
+      strip (coordinates / distance / type)
+- [x] **Bug: "10 m away"** — distance was measured from the map centre, which
+      becomes ~0 the moment the map flies to the place. Now measured only from
+      the user's real location, falling back to the region name
+
 ## In progress
 
 - [ ] **More VR tours + a place story under each one** — fill the 8 tours still

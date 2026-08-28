@@ -42,7 +42,6 @@ const PlaceSheet = ({
   place,
   variant = "side",
   userLocation = null,
-  mapCenter = null,
   inRoute = false,
   onClose,
   onAddToRoute,
@@ -61,9 +60,10 @@ const PlaceSheet = ({
   const hours = tags.opening_hours || null;
   const cuisine = tags.cuisine ? humanise(tags.cuisine) : null;
 
-  const origin = userLocation || mapCenter;
-  const distanceKm = origin
-    ? haversineKm(origin[0], origin[1], place.lat, place.lng)
+  // Only measure from the user's real position. Measuring from the map centre
+  // produced "10 m away" the moment the map flew to the place.
+  const distanceKm = userLocation
+    ? haversineKm(userLocation[0], userLocation[1], place.lat, place.lng)
     : place.distanceKm ?? null;
 
   const links = findSafarxLinks(place);
@@ -109,7 +109,7 @@ const PlaceSheet = ({
       )}
 
       {place.image && (
-        <div className="relative h-32 shrink-0 overflow-hidden">
+        <div className="relative h-40 shrink-0 overflow-hidden">
           <img
             src={place.image}
             alt=""
@@ -133,7 +133,7 @@ const PlaceSheet = ({
           </h2>
           <p className="mt-1.5 font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint">
             {formatCoords(place.lat, place.lng)}
-            {formatDistance(distanceKm) ? ` · ${formatDistance(distanceKm)} away` : ""}
+            {distanceKm ? ` · ${formatDistance(distanceKm)} away` : ""}
           </p>
         </div>
         <button
@@ -146,10 +146,32 @@ const PlaceSheet = ({
         </button>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-3">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-6 pt-3">
         {place.detail && (
-          <p className="mb-3 text-[13px] leading-relaxed text-ivory-muted">{place.detail}</p>
+          <p className="mb-3.5 text-[13px] leading-relaxed text-ivory-muted">{place.detail}</p>
         )}
+
+        {/* Facts strip — always present, so places with thin OSM data still
+            read as a designed panel rather than a gap. */}
+        <dl className="mb-3.5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.05]">
+          {[
+            ["Latitude", place.lat?.toFixed(4)],
+            ["Longitude", place.lng?.toFixed(4)],
+            distanceKm
+              ? ["From you", formatDistance(distanceKm)]
+              : ["Region", place.subtitle?.split(",").pop()?.trim() || "India"],
+            ["Type", place.categoryLabel || "Place"],
+          ].map(([label, value]) => (
+            <div key={label} className="bg-ink-900 px-3 py-2.5">
+              <dt className="font-data text-[8.5px] uppercase tracking-[0.18em] text-ivory-faint">
+                {label}
+              </dt>
+              <dd className="mt-1 truncate font-data text-[12px] tabular-nums text-ivory">
+                {value}
+              </dd>
+            </div>
+          ))}
+        </dl>
 
         <ul className="space-y-2">
           {address && <Row icon={MapPin}>{address}</Row>}
