@@ -1,8 +1,4 @@
-import { createRequire } from "node:module";
-
-/* Loaded through require so the JSON is traced into the deployed bundle and
-   parsed once per cold start rather than on every request. */
-const timetable = createRequire(import.meta.url)("./timetable.json");
+import timetable from "./timetable.js";
 import { STATIONS } from "../../src/data/indiaStations.js";
 import { callIrctc, JOURNEY_HOST, toIrctcDate, to24h, parseStationLabel } from "./_irctc.js";
 
