@@ -7,6 +7,7 @@ import {
     Plane,
     Compass,
     Hotel,
+    TrainFront,
     ArrowLeft,
     Sparkle,
     Copy,
@@ -40,11 +41,13 @@ const CAPABILITIES = [
 
 const FLIGHT_KEYWORDS = /book.*flight|flight.*book|book.*ticket|fly\s+to|flights?\s+(to|from)|search.*flight/;
 const HOTEL_KEYWORDS = /book.*hotel|hotel.*book|find.*hotel|stay\s+in|accommodation|where.*stay|search.*hotel/;
+const TRAIN_KEYWORDS = /train|rail(way)?s?\b|irctc|rajdhani|shatabdi|vande\s*bharat|duronto|tejas|express\s+to/;
 
 /* Each tool announces its work as a sequence of steps */
 const TOOL_STEPS = {
     flight: ['Searching flights', 'Reading live fares', 'Ranking by price'],
     hotel: ['Searching stays', 'Checking availability', 'Ranking by value'],
+    train: ['Searching trains', 'Reading the timetable', 'Checking running days'],
 };
 
 /* Markdown-lite: bold spans are gilded by .agent-msg-* rules in index.css */
@@ -190,6 +193,7 @@ const Chat = ({
     onSearchResults,
     onOpenFlightPanel,
     onOpenHotelPanel,
+    onOpenTrainPanel,
     onHistoryChange,
     focusMessageId,
     onNewChat,
@@ -277,6 +281,9 @@ const Chat = ({
         } else if (HOTEL_KEYWORDS.test(lower)) {
             tool = 'hotel';
             onOpenHotelPanel?.();
+        } else if (TRAIN_KEYWORDS.test(lower)) {
+            tool = 'train';
+            onOpenTrainPanel?.();
         }
         setActiveTool(tool);
         setStepIndex(0);
@@ -370,7 +377,7 @@ const Chat = ({
     const isEmpty = messages.length === 0;
     const canSend = input.trim().length > 0 && !isLoading;
     const toolSteps = activeTool ? TOOL_STEPS[activeTool] : null;
-    const toolIcon = activeTool === 'hotel' ? Hotel : Plane;
+    const toolIcon = activeTool === 'hotel' ? Hotel : activeTool === 'train' ? TrainFront : Plane;
 
     return (
         <div className="flex flex-col h-full relative overflow-hidden">
@@ -433,6 +440,14 @@ const Chat = ({
                     >
                         <Hotel size={13} className="text-saffron" aria-hidden="true" />
                         <span className="hidden sm:inline">Hotels</span>
+                    </button>
+                    <button
+                        onClick={() => onOpenTrainPanel?.()}
+                        className="agent-chip px-3 py-1.5 text-xs font-medium lg:hidden"
+                        aria-label="Open train search"
+                    >
+                        <TrainFront size={13} className="text-saffron" aria-hidden="true" />
+                        <span className="hidden sm:inline">Trains</span>
                     </button>
                     <span className="hidden lg:flex items-center gap-2 font-data text-[9px] uppercase tracking-[0.2em] text-ivory-faint">
                         {messages.filter((m) => m.type === 'user').length} prompts

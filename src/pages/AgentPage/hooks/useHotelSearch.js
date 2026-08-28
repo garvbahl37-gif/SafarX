@@ -109,23 +109,25 @@ export const useHotelSearch = () => {
         adults = 2,
         rooms = 1,
         currency = 'INR',
+        parts = 'base',
     }) => {
         setLoadingDetails(true);
         setError(null);
 
         try {
             const result = await hotelApi.getHotelDetails({
-                id,
-                checkIn,
-                checkOut,
-                adults,
-                rooms,
-                currency,
+                id, checkIn, checkOut, adults, rooms, currency, parts,
             });
-            setHotelDetails(result.data);
+            // Tabs load their own sections, so merge rather than replace —
+            // opening Reviews must not wipe the photos already on screen.
+            setHotelDetails((prev) =>
+                parts === 'base' ? result.data : { ...(prev || {}), ...result.data }
+            );
             setSelectedHotel(id);
+            return result.data;
         } catch (err) {
             setError(err.message);
+            return null;
         } finally {
             setLoadingDetails(false);
         }

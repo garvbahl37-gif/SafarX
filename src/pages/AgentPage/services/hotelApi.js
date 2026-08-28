@@ -41,6 +41,7 @@ export const hotelApi = {
     searchHotels: async (params) =>
         handleResponse(await fetch(`${BASE_URL}/search${buildQueryString(params)}`)),
 
+    /* `parts` picks which sections to fetch: base, rooms, reviews, nearby. */
     getHotelDetails: async (params) =>
         handleResponse(await fetch(`${BASE_URL}/details${buildQueryString(params)}`)),
 };

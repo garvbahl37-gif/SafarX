@@ -94,9 +94,16 @@ const HotelBookingPanel = ({ onClose }) => {
     const handleHotelClick = async (hotel) => {
         await getHotelDetails({
             id: hotel.id, checkIn, checkOut,
-            adults: guests, rooms, currency: 'INR',
+            adults: guests, rooms, currency: 'INR', parts: 'base',
         });
     };
+
+    /* Tabs fetch their own section the first time they are opened. */
+    const loadDetailPart = (id, parts) =>
+        getHotelDetails({
+            id, checkIn, checkOut,
+            adults: guests, rooms, currency: 'INR', parts,
+        });
 
     useEffect(() => {
         const handler = (e) => {
@@ -117,6 +124,7 @@ const HotelBookingPanel = ({ onClose }) => {
                 {(hotelDetails || loadingDetails) && (
                     <HotelDetailModal
                         hotel={hotelDetails} loading={loadingDetails}
+                        onLoadPart={loadDetailPart}
                         onClose={closeDetails}
                     />
                 )}

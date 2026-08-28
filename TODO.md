@@ -185,6 +185,16 @@ Live task tracker for the current build push. Updated as work lands.
       ("Unexpected token '<'"). New `/api/stays/*` functions proxy Booking.com
       with the key server-side; suggestions, results and the detail modal all
       run on live data in ₹
+- [x] **Trains in the agent** — a third booking panel beside Flights and Stays.
+      Search by train name or number, see the ends, duration, running days and
+      classes, then open the full timetable: every halt with arrival, halt
+      length, distance and day count. Live IRCTC data
+- [x] **Richer stay popup** — the card now opens onto Overview (description,
+      check-in/out, highlights), Rooms (what is free for those dates, with
+      nightly rates, beds and cancellation), Amenities, Reviews (real guest
+      pros and cons over the true score distribution) and Location (address
+      plus what is close by, with distances). Each tab fetches its own section
+      the first time it is opened
 - [x] **Bug: dev server had no API** — Vite proxied `/api` to a Strapi instance
       on :1337 from the original template. A dev plugin now runs the real
       serverless functions locally
@@ -193,6 +203,13 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
+- [ ] **Booking.com plan is the bottleneck** — BASIC allows 50 requests a
+      month for the whole site, and they are spent. Stays search returns a
+      clear "out of quota" message until it resets. Responses are cached at
+      the edge for a day, and the detail tabs fetch on demand, so the next 50
+      go much further — but a demo needs a larger plan
+- [ ] **Station-to-station train search** needs the `irctc1` RapidAPI
+      subscription; the current plan only indexes trains by name and number
 - [ ] Sweep any remaining old-palette components not yet reached
 
 ## Roadmap (post-build)

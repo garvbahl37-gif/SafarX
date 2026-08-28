@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion as Motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
-    Plane, Hotel, MessageSquarePlus, ArrowLeft, Compass, History,
+    Plane, Hotel, TrainFront, MessageSquarePlus, ArrowLeft, Compass, History,
 } from 'lucide-react';
 
 import Chat from './components/Chat';
@@ -10,6 +10,7 @@ import BookingResults from './components/BookingResults';
 import AILoadingScreen from './components/LoadingScreen';
 import FlightBookingPanel from './components/FlightBookingPanel';
 import HotelBookingPanel from './components/HotelBookingPanel';
+import TrainBookingPanel from './components/TrainBookingPanel';
 import { clearSession } from './api';
 
 import './index.css';
@@ -58,6 +59,7 @@ function App() {
 
     const openFlightPanel = useCallback(() => setActivePanel('flight'), []);
     const openHotelPanel = useCallback(() => setActivePanel('hotel'), []);
+    const openTrainPanel = useCallback(() => setActivePanel('train'), []);
     const closePanel = useCallback(() => {
         setActivePanel(null);
         setSearchResults(null);
@@ -194,6 +196,13 @@ function App() {
                                 <Hotel size={15} className="text-saffron shrink-0" aria-hidden="true" />
                                 Stays
                             </button>
+                            <button
+                                onClick={openTrainPanel}
+                                className={`agent-rail-item px-3 py-2.5 text-[13px] ${activePanel === 'train' ? 'agent-rail-item-active' : ''}`}
+                            >
+                                <TrainFront size={15} className="text-saffron shrink-0" aria-hidden="true" />
+                                Trains
+                            </button>
                             <button onClick={() => navigate('/')} className="agent-rail-item px-3 py-2.5 text-[13px]">
                                 <ArrowLeft size={15} className="text-saffron shrink-0" aria-hidden="true" />
                                 Back to SafarX
@@ -269,6 +278,7 @@ function App() {
                                         }}
                                         onOpenFlightPanel={openFlightPanel}
                                         onOpenHotelPanel={openHotelPanel}
+                                        onOpenTrainPanel={openTrainPanel}
                                         onHistoryChange={setHistory}
                                         focusMessageId={focusMessageId}
                                         onNewChat={startNewChat}
@@ -294,6 +304,9 @@ function App() {
                                     )}
                                     {activePanel === 'hotel' && (
                                         <HotelBookingPanel onClose={closePanel} />
+                                    )}
+                                    {activePanel === 'train' && (
+                                        <TrainBookingPanel onClose={closePanel} />
                                     )}
                                     {(activePanel === 'results' || searchResults) && (
                                         <BookingResults results={searchResults} onClose={closePanel} />

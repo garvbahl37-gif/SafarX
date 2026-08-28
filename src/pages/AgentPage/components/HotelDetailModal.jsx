@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 import {
-    X, Star, MapPin, Car, ChevronLeft, ChevronRight,
+    X, Star, MapPin, Car, ChevronLeft, ChevronRight, Clock, Users,
     Hotel, Sparkle, MessageSquare, Compass, UtensilsCrossed, Landmark,
+    BedDouble, ThumbsUp, ThumbsDown, Loader,
 } from 'lucide-react';
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -112,32 +113,12 @@ const RatingBar = ({ label, percentage, count }) => (
 /* ══════════════════════════════════════════════
    NEARBY ITEM CARD
    ══════════════════════════════════════════════ */
-const NearbyCard = ({ item, index }) => (
-    <Motion.div
-        initial={{ opacity: 0, x: -8 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: index * 0.06, duration: 0.28, ease: EASE }}
-        className="agent-card flex items-center gap-3 p-3 rounded-xl"
-    >
-        {item.cardPhoto?.urlTemplate && (
-            <img
-                src={item.cardPhoto.urlTemplate
-                    .replace('{width}', '60')
-                    .replace('{height}', '60')}
-                className="w-10 h-10 rounded-xl object-cover shrink-0"
-                alt={item.title}
-            />
-        )}
-        <div className="flex-1 min-w-0">
-            <p className="text-[12.5px] font-medium truncate text-ivory">{item.title}</p>
-            <p className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-faint truncate">
-                {item.primaryInfo}
-            </p>
-        </div>
-        <span className="agent-tag agent-tag-gold px-2 py-0.5 text-[9px] shrink-0">
-            {item.distance}
-        </span>
-    </Motion.div>
+
+const PartLoading = ({ label }) => (
+    <div className="flex items-center justify-center gap-2.5 py-8" role="status">
+        <Loader size={13} className="text-saffron animate-spin" aria-hidden="true" />
+        <span className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint">{label}</span>
+    </div>
 );
 
 /* ══════════════════════════════════════════════
@@ -145,13 +126,32 @@ const NearbyCard = ({ item, index }) => (
    ══════════════════════════════════════════════ */
 const TABS = [
     { id: 'overview', label: 'Overview', icon: Hotel },
+    { id: 'rooms', label: 'Rooms', icon: BedDouble, part: 'rooms' },
     { id: 'amenities', label: 'Amenities', icon: Sparkle },
-    { id: 'reviews', label: 'Reviews', icon: MessageSquare },
-    { id: 'location', label: 'Location', icon: Compass },
+    { id: 'reviews', label: 'Reviews', icon: MessageSquare, part: 'reviews' },
+    { id: 'location', label: 'Location', icon: Compass, part: 'nearby' },
 ];
 
-const HotelDetailModal = ({ hotel, loading, onClose }) => {
+const HotelDetailModal = ({ hotel, loading, onLoadPart, onClose }) => {
     const [activeTab, setActiveTab] = useState('overview');
+    const [pending, setPending] = useState(null);
+    const asked = useRef(new Set());
+
+    /* Each tab pays for its own data the first time it is opened, so a
+       property nobody scrolls past costs a single upstream call. */
+    const openTab = (tab) => {
+        setActiveTab(tab.id);
+        if (!tab.part || !hotel?.id || asked.current.has(tab.part)) return;
+        asked.current.add(tab.part);
+        setPending(tab.part);
+        Promise.resolve(onLoadPart?.(hotel.id, tab.part)).finally(() => setPending(null));
+    };
+
+    useEffect(() => {
+        // A different property means the parts already fetched no longer apply.
+        asked.current = new Set();
+        setActiveTab('overview');
+    }, [hotel?.id]);
 
     /* ── Loading state ── */
     if (loading) {
@@ -237,12 +237,6 @@ const HotelDetailModal = ({ hotel, loading, onClose }) => {
                                 <h2 className="font-display text-[22px] leading-tight text-ivory">
                                     {hotel.title}
                                 </h2>
-                                {hotel.rankingDetails && (
-                                    <p
-                                        className="font-data text-[10px] uppercase tracking-[0.16em] text-saffron mt-2"
-                                        dangerouslySetInnerHTML={{ __html: hotel.rankingDetails }}
-                                    />
-                                )}
                             </div>
 
                             {/* Rating row */}
@@ -256,7 +250,7 @@ const HotelDetailModal = ({ hotel, loading, onClose }) => {
 
                                 <div className="flex-1 min-w-0">
                                     <p className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-muted">
-                                        {hotel.reviews?.count?.toLocaleString()} reviews
+                                        {hotel.reviewCount?.toLocaleString()} reviews
                                     </p>
                                     {hotel.location?.address && (
                                         <div className="flex items-center gap-1.5 mt-1">
@@ -300,7 +294,7 @@ const HotelDetailModal = ({ hotel, loading, onClose }) => {
                                 {TABS.map((tab) => (
                                     <button
                                         key={tab.id}
-                                        onClick={() => setActiveTab(tab.id)}
+                                        onClick={() => openTab(tab)}
                                         role="tab"
                                         aria-selected={activeTab === tab.id}
                                         aria-label={tab.label}
@@ -354,26 +348,114 @@ const HotelDetailModal = ({ hotel, loading, onClose }) => {
                                             </div>
                                         )}
 
-                                        {hotel.location?.gettingThere?.content?.length > 0 && (
+                                        {hotel.about?.description && (
                                             <div className="space-y-2.5">
                                                 <h4 className="flex items-center gap-2 font-display text-[15px] text-ivory">
-                                                    <Car size={14} className="text-saffron" aria-hidden="true" />
-                                                    Getting there
+                                                    <Landmark size={14} className="text-saffron" aria-hidden="true" />
+                                                    About this property
                                                 </h4>
-                                                {hotel.location.gettingThere.content.map((info, i) => (
-                                                    <Motion.p
-                                                        key={i}
-                                                        initial={{ opacity: 0, x: -6 }}
-                                                        animate={{ opacity: 1, x: 0 }}
-                                                        transition={{ delay: i * 0.06, duration: 0.28, ease: EASE }}
-                                                        className="text-[12.5px] leading-relaxed flex items-start gap-2.5 pl-1 text-ivory-muted"
-                                                    >
-                                                        <span className="route-dot mt-1.5 shrink-0" aria-hidden="true" />
-                                                        {info}
-                                                    </Motion.p>
+                                                <p className="text-[12.5px] leading-relaxed whitespace-pre-line text-ivory-muted">
+                                                    {hotel.about.description}
+                                                </p>
+                                            </div>
+                                        )}
+
+                                        {(hotel.checkin || hotel.checkout) && (
+                                            <div className="grid grid-cols-2 gap-2.5">
+                                                {[
+                                                    { label: 'Check-in', value: hotel.checkin },
+                                                    { label: 'Check-out', value: hotel.checkout },
+                                                ].filter((r) => r.value).map((r) => (
+                                                    <div key={r.label} className="agent-card p-3.5 rounded-2xl">
+                                                        <p className="flex items-center gap-1.5 font-data text-[9px] uppercase tracking-[0.16em] text-ivory-faint">
+                                                            <Clock size={10} className="text-saffron" aria-hidden="true" />
+                                                            {r.label}
+                                                        </p>
+                                                        <p className="font-data text-[14px] text-ivory mt-1.5 tabular-nums">{r.value}</p>
+                                                    </div>
                                                 ))}
                                             </div>
                                         )}
+
+                                    </Motion.div>
+                                )}
+
+                                {/* ─────────── ROOMS ─────────── */}
+                                {activeTab === 'rooms' && (
+                                    <Motion.div
+                                        key="rooms"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.22, ease: EASE }}
+                                        role="tabpanel"
+                                        className="space-y-3 pb-6"
+                                    >
+                                        {pending === 'rooms' && <PartLoading label="Checking what is free" />}
+
+                                        {pending !== 'rooms' && (hotel.rooms || []).length === 0 && (
+                                            <p className="text-[12.5px] text-ivory-faint py-6 text-center">
+                                                No rooms are on offer for these dates.
+                                            </p>
+                                        )}
+
+                                        {(hotel.rooms || []).map((room, i) => (
+                                            <Motion.div
+                                                key={room.id}
+                                                initial={{ opacity: 0, y: 8 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: Math.min(i * 0.05, 0.3), duration: 0.28, ease: EASE }}
+                                                className="agent-card p-4 rounded-2xl space-y-2.5"
+                                            >
+                                                <div className="flex items-start justify-between gap-3">
+                                                    <h5 className="font-display text-[14.5px] leading-snug text-ivory">
+                                                        {room.name}
+                                                    </h5>
+                                                    {room.pricePerNight && (
+                                                        <span className="text-right shrink-0">
+                                                            <span className="block font-data text-[15px] font-semibold text-saffron leading-none">
+                                                                {room.pricePerNight}
+                                                            </span>
+                                                            <span className="block font-data text-[9px] uppercase tracking-[0.14em] text-ivory-faint mt-1">
+                                                                per night
+                                                            </span>
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                {room.detail && (
+                                                    <p className="text-[12px] leading-relaxed agent-clamp-2 text-ivory-muted">
+                                                        {room.detail}
+                                                    </p>
+                                                )}
+
+                                                <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                                                    {room.sleeps > 0 && (
+                                                        <span className="agent-tag agent-tag-quiet px-2.5 py-1 text-[9.5px]">
+                                                            <Users size={9} aria-hidden="true" />
+                                                            Sleeps {room.sleeps}
+                                                        </span>
+                                                    )}
+                                                    {room.beds.map((bed) => (
+                                                        <span key={bed} className="agent-tag agent-tag-quiet px-2.5 py-1 text-[9.5px]">
+                                                            <BedDouble size={9} aria-hidden="true" />
+                                                            {bed}
+                                                        </span>
+                                                    ))}
+                                                    {room.breakfast && (
+                                                        <span className="agent-tag agent-tag-quiet px-2.5 py-1 text-[9.5px]">
+                                                            <UtensilsCrossed size={9} aria-hidden="true" />
+                                                            Breakfast
+                                                        </span>
+                                                    )}
+                                                    {room.refundable && (
+                                                        <span className="agent-tag agent-tag-jade px-2.5 py-1 text-[9.5px]">
+                                                            Free cancellation
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </Motion.div>
+                                        ))}
                                     </Motion.div>
                                 )}
 
@@ -448,12 +530,12 @@ const HotelDetailModal = ({ hotel, loading, onClose }) => {
                                             <div className="flex items-center justify-between mb-1">
                                                 <div className="flex items-baseline gap-2">
                                                     <span className="font-data text-4xl font-semibold leading-none text-saffron tabular-nums">
-                                                        {hotel.reviews?.ratingValue}
+                                                        {hotel.score ?? hotel.rating}
                                                     </span>
                                                     <Star size={18} className="text-saffron fill-current" aria-hidden="true" />
                                                 </div>
                                                 <span className="agent-tag agent-tag-quiet px-2.5 py-1 text-[9.5px]">
-                                                    {hotel.reviews?.count?.toLocaleString()} reviews
+                                                    {hotel.reviewCount?.toLocaleString()} reviews
                                                 </span>
                                             </div>
 
@@ -464,10 +546,13 @@ const HotelDetailModal = ({ hotel, loading, onClose }) => {
                                             <RatingBar label="Terrible" percentage={ratingCounts.terrible?.percentage || 0} count={ratingCounts.terrible?.count || 0} />
                                         </div>
 
-                                        {/* Individual reviews */}
+                                        {pending === 'reviews' && <PartLoading label="Reading the reviews" />}
+
+                                        {/* Individual reviews — Booking collects praise and
+                                            complaint separately, so they stay apart here. */}
                                         {(hotel.reviews?.content || []).map((review, i) => (
                                             <Motion.div
-                                                key={i}
+                                                key={`${review.author?.name}-${i}`}
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: Math.min(i * 0.06, 0.4), duration: 0.3, ease: EASE }}
@@ -475,45 +560,39 @@ const HotelDetailModal = ({ hotel, loading, onClose }) => {
                                             >
                                                 <div className="flex items-start justify-between gap-2">
                                                     <h5 className="font-display text-[14px] leading-snug text-ivory">
-                                                        {review.title}
+                                                        {review.title || 'A stay here'}
                                                     </h5>
-                                                    <span className="font-data text-[9px] uppercase tracking-[0.12em] shrink-0 text-ivory-faint">
-                                                        {review.publishedDate}
-                                                    </span>
+                                                    {review.score != null && (
+                                                        <span className="font-data text-[11px] font-semibold text-saffron tabular-nums shrink-0">
+                                                            {review.score}
+                                                        </span>
+                                                    )}
                                                 </div>
 
-                                                <p
-                                                    className="text-[12.5px] leading-relaxed agent-clamp-4 text-ivory-muted"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: review.text?.replace(/<br\s*\/?>/gi, ' '),
-                                                    }}
-                                                />
+                                                {review.pros && (
+                                                    <p className="text-[12.5px] leading-relaxed flex items-start gap-2 text-ivory-muted">
+                                                        <ThumbsUp size={11} className="text-horizon mt-0.5 shrink-0" aria-hidden="true" />
+                                                        {review.pros}
+                                                    </p>
+                                                )}
+                                                {review.cons && (
+                                                    <p className="text-[12.5px] leading-relaxed flex items-start gap-2 text-ivory-muted">
+                                                        <ThumbsDown size={11} className="text-ivory-faint mt-0.5 shrink-0" aria-hidden="true" />
+                                                        {review.cons}
+                                                    </p>
+                                                )}
 
-                                                <div className="flex items-center gap-2 pt-2.5 border-t border-white/[0.07]">
-                                                    <span className="w-7 h-7 rounded-full overflow-hidden bg-white/[0.05] border border-white/[0.07] shrink-0">
-                                                        {review.userProfile?.avatar?.urlTemplate && (
-                                                            <img
-                                                                src={review.userProfile.avatar.urlTemplate
-                                                                    .replace('{width}', '48')
-                                                                    .replace('{height}', '48')}
-                                                                alt=""
-                                                                className="w-full h-full object-cover"
-                                                            />
-                                                        )}
-                                                    </span>
+                                                <div className="flex items-center justify-between gap-2 pt-2.5 border-t border-white/[0.07]">
                                                     <span className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-faint">
-                                                        {review.userProfile?.deprecatedContributionCount}
+                                                        {review.author?.name}
+                                                        {review.author?.type ? ` · ${review.author.type}` : ''}
+                                                    </span>
+                                                    <span className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-faint shrink-0">
+                                                        {review.publishedDate}
                                                     </span>
                                                 </div>
                                             </Motion.div>
                                         ))}
-
-                                        {(!hotel.reviews?.content || hotel.reviews.content.length === 0) && (
-                                            <div className="flex flex-col items-center justify-center py-12 gap-3">
-                                                <MessageSquare size={24} className="text-ivory-faint" aria-hidden="true" />
-                                                <p className="text-[13px] text-ivory-muted">No reviews yet</p>
-                                            </div>
-                                        )}
                                     </Motion.div>
                                 )}
 
@@ -547,44 +626,49 @@ const HotelDetailModal = ({ hotel, loading, onClose }) => {
                                             </div>
                                         )}
 
-                                        {hotel.restaurantsNearby?.content?.length > 0 && (
-                                            <div>
-                                                <h4 className="flex items-center gap-2 font-display text-[15px] text-ivory mb-3">
-                                                    <UtensilsCrossed size={14} className="text-saffron" aria-hidden="true" />
-                                                    Eat nearby
-                                                </h4>
-                                                <div className="space-y-2">
-                                                    {hotel.restaurantsNearby.content.slice(0, 4).map((r, i) => (
-                                                        <NearbyCard key={i} item={r} index={i} />
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
+                                        {pending === 'nearby' && <PartLoading label="Looking around" />}
 
-                                        {hotel.attractionsNearby?.content?.length > 0 && (
+                                        {(hotel.landmarks || []).length > 0 && (
                                             <div>
                                                 <h4 className="flex items-center gap-2 font-display text-[15px] text-ivory mb-3">
                                                     <Landmark size={14} className="text-saffron" aria-hidden="true" />
-                                                    See nearby
+                                                    What is close by
                                                 </h4>
                                                 <div className="space-y-2">
-                                                    {hotel.attractionsNearby.content.slice(0, 4).map((a, i) => (
-                                                        <NearbyCard key={i} item={a} index={i} />
+                                                    {hotel.landmarks.map((place, i) => (
+                                                        <Motion.div
+                                                            key={place.name}
+                                                            initial={{ opacity: 0, x: -6 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: Math.min(i * 0.05, 0.35), duration: 0.28, ease: EASE }}
+                                                            className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06]"
+                                                        >
+                                                            <span className="route-dot shrink-0" aria-hidden="true" />
+                                                            <span className="flex-1 min-w-0 text-[12.5px] truncate text-ivory">
+                                                                {place.name}
+                                                            </span>
+                                                            {place.score != null && (
+                                                                <span className="font-data text-[10px] tabular-nums text-saffron/70 shrink-0">
+                                                                    {place.score}
+                                                                </span>
+                                                            )}
+                                                            {place.km != null && (
+                                                                <span className="font-data text-[10px] uppercase tracking-[0.12em] text-ivory-faint shrink-0 tabular-nums">
+                                                                    {place.km} km
+                                                                </span>
+                                                            )}
+                                                        </Motion.div>
                                                     ))}
                                                 </div>
                                             </div>
                                         )}
 
-                                        {!hotel.location?.address &&
-                                            !hotel.restaurantsNearby?.content?.length &&
-                                            !hotel.attractionsNearby?.content?.length && (
-                                                <div className="flex flex-col items-center justify-center py-12 gap-3">
-                                                    <MapPin size={24} className="text-ivory-faint" aria-hidden="true" />
-                                                    <p className="text-[13px] text-ivory-muted">
-                                                        No location information available
-                                                    </p>
-                                                </div>
-                                            )}
+                                        {pending !== 'nearby' && (hotel.landmarks || []).length === 0 && (
+                                            <p className="text-[12.5px] text-ivory-faint py-4 text-center">
+                                                Nothing catalogued around this address yet.
+                                            </p>
+                                        )}
+
                                     </Motion.div>
                                 )}
 

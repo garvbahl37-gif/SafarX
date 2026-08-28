@@ -26,9 +26,13 @@ export const callBooking = async (path, params) => {
   });
 
   if (!upstream.ok) {
+    const body = (await upstream.text()).slice(0, 300);
     const err = new Error(`Booking.com replied ${upstream.status}.`);
     err.status = upstream.status === 429 ? 429 : 502;
-    err.detail = (await upstream.text()).slice(0, 300);
+    // RapidAPI answers 429 both for a burst and for an exhausted plan; only
+    // the body distinguishes them, and they need different advice.
+    err.quotaExhausted = /exceeded the MONTHLY quota/i.test(body);
+    err.detail = body;
     throw err;
   }
 
@@ -51,11 +55,10 @@ export const formatMoney = (value, currency = "INR") => {
 
 export const fail = (res, err) => {
   const status = err.status || 502;
-  return res.status(status).json({
-    error:
-      status === 429
-        ? "Too many searches just now — wait a few seconds and try again."
-        : err.message || "Could not reach Booking.com.",
-    detail: err.detail,
-  });
+  const message = err.quotaExhausted
+    ? "Live stay data has used up this month's Booking.com quota. It returns when the plan resets, or sooner on a larger plan."
+    : status === 429
+      ? "Too many searches just now — wait a few seconds and try again."
+      : err.message || "Could not reach Booking.com.";
+  return res.status(status).json({ error: message, quotaExhausted: Boolean(err.quotaExhausted) });
 };
