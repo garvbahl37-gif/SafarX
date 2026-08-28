@@ -15,7 +15,10 @@
     ],
     "gradient": "from-amber-200 via-orange-200 to-white",
     "duration": "5:45",
-    "views": "5.9M"
+    "views": "5.9M",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Taj_Mahal_360%C2%B0_View.jpg",
+    "panoramaCredit": "Arul Prakasam T — CC BY-SA 4.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia"
   },
   {
     "id": "varanasi",
@@ -33,7 +36,10 @@
     ],
     "gradient": "from-orange-300 via-amber-200 to-white",
     "duration": "6:20",
-    "views": "2.4M"
+    "views": "2.4M",
+    "panorama": null,
+    "panoramaCredit": null,
+    "panoramaSource": null
   },
   {
     "id": "jaipur",
@@ -51,7 +57,10 @@
     ],
     "gradient": "from-amber-300 via-orange-200 to-rose-100",
     "duration": "4:30",
-    "views": "1.8M"
+    "views": "1.8M",
+    "panorama": null,
+    "panoramaCredit": null,
+    "panoramaSource": null
   },
   {
     "id": "hampi",
@@ -69,7 +78,10 @@
     ],
     "gradient": "from-orange-200 via-amber-300 to-yellow-100",
     "duration": "7:10",
-    "views": "980K"
+    "views": "980K",
+    "panorama": null,
+    "panoramaCredit": null,
+    "panoramaSource": null
   },
   {
     "id": "kerala",
@@ -87,7 +99,10 @@
     ],
     "gradient": "from-amber-200 via-orange-100 to-white",
     "duration": "5:05",
-    "views": "1.5M"
+    "views": "1.5M",
+    "panorama": null,
+    "panoramaCredit": null,
+    "panoramaSource": null
   },
   {
     "id": "ladakh",
@@ -105,7 +120,10 @@
     ],
     "gradient": "from-orange-300 via-amber-200 to-sky-50",
     "duration": "4:15",
-    "views": "1.1M"
+    "views": "1.1M",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Hemis_Monastery_360_Degree_View.jpg/3840px-Hemis_Monastery_360_Degree_View.jpg",
+    "panoramaCredit": "Aman Gujar — CC BY-SA 4.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia"
   },
   {
     "id": "goa",
@@ -123,7 +141,10 @@
     ],
     "gradient": "from-amber-200 via-orange-300 to-rose-100",
     "duration": "3:40",
-    "views": "2.2M"
+    "views": "2.2M",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Mahalasa_temple_goa_360_view.jpg/3840px-Mahalasa_temple_goa_360_view.jpg",
+    "panoramaCredit": "Rakesh92c — CC0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia"
   },
   {
     "id": "delhi",
@@ -141,7 +162,10 @@
     ],
     "gradient": "from-orange-200 via-amber-200 to-white",
     "duration": "4:00",
-    "views": "890K"
+    "views": "890K",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Qutub_Minar_Complex_Inside_Panorama.jpg/3840px-Qutub_Minar_Complex_Inside_Panorama.jpg",
+    "panoramaCredit": "Samthe030601 — CC BY-SA 4.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia"
   },
   {
     "id": "mysore",
@@ -159,7 +183,10 @@
     ],
     "gradient": "from-amber-300 via-orange-200 to-yellow-50",
     "duration": "3:55",
-    "views": "760K"
+    "views": "760K",
+    "panorama": null,
+    "panoramaCredit": null,
+    "panoramaSource": null
   },
   {
     "id": "khajuraho",
@@ -177,7 +204,10 @@
     ],
     "gradient": "from-orange-300 via-amber-300 to-white",
     "duration": "5:20",
-    "views": "640K"
+    "views": "640K",
+    "panorama": null,
+    "panoramaCredit": null,
+    "panoramaSource": null
   },
   {
     "id": "amritsar",
@@ -195,7 +225,10 @@
     ],
     "gradient": "from-amber-200 via-yellow-200 to-orange-100",
     "duration": "4:40",
-    "views": "3.3M"
+    "views": "3.3M",
+    "panorama": null,
+    "panoramaCredit": null,
+    "panoramaSource": null
   },
   {
     "id": "ellora",
@@ -213,7 +246,10 @@
     ],
     "gradient": "from-orange-200 via-amber-200 to-stone-100",
     "duration": "6:00",
-    "views": "1.3M"
+    "views": "1.3M",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/207_Chaitya_Cave_10%2C_Interior_%2834022770331%29.jpg/3840px-207_Chaitya_Cave_10%2C_Interior_%2834022770331%29.jpg",
+    "panoramaCredit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia"
   },
   {
     "id": "madurai",
@@ -231,7 +267,10 @@
     ],
     "gradient": "from-amber-300 via-orange-300 to-rose-100",
     "duration": "5:35",
-    "views": "1.0M"
+    "views": "1.0M",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Thirumalai_Nayakkar_Mahal_open_roof_mandapam_panoramic_view.jpg/3840px-Thirumalai_Nayakkar_Mahal_open_roof_mandapam_panoramic_view.jpg",
+    "panoramaCredit": "Sakthibalan — CC BY-SA 4.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia"
   },
   {
     "id": "konark",
@@ -249,6 +288,9 @@
     ],
     "gradient": "from-orange-300 via-amber-200 to-yellow-100",
     "duration": "4:25",
-    "views": "720K"
+    "views": "720K",
+    "panorama": null,
+    "panoramaCredit": null,
+    "panoramaSource": null
   }
 ]
