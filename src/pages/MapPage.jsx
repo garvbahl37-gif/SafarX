@@ -47,8 +47,6 @@ import {
   INDIA_CENTER,
   TILE_LAYERS,
   formatDistance,
-  googleDirectionsTo,
-  googleDirectionsUrl,
   haversineKm,
   regionFor,
 } from "../components/map/mapUtils";
@@ -310,18 +308,37 @@ const MapPage = ({ onPageChange }) => {
     ]);
   }, [userLocation]);
 
-  const openRouteInGoogleMaps = useCallback(() => {
-    const url = googleDirectionsUrl(routeStops);
-    if (url) window.open(url, "_blank", "noopener");
-  }, [routeStops]);
-
+  /**
+   * Directions stay inside SafarX — no hand-off to Google Maps.
+   * Routing from the user's location (when shared) to the chosen place,
+   * with OSRM geometry and turn-by-turn steps rendered in the route panel.
+   */
   const openDirections = useCallback(
     (place) => {
-      const url = googleDirectionsTo(
-        place,
-        userLocation ? { lat: userLocation[0], lng: userLocation[1] } : null
+      if (!place || !Number.isFinite(place.lat) || !Number.isFinite(place.lng)) return;
+
+      const destination = {
+        id: place.id || `dest-${place.lat},${place.lng}`,
+        name: place.name || "Selected place",
+        lat: place.lat,
+        lng: place.lng,
+      };
+
+      setRouteStops(
+        userLocation
+          ? [
+              {
+                id: "live-location",
+                name: "My location",
+                lat: userLocation[0],
+                lng: userLocation[1],
+              },
+              destination,
+            ]
+          : [destination]
       );
-      if (url) window.open(url, "_blank", "noopener");
+      setRouteOpen(true);
+      setSelected(null);
     },
     [userLocation]
   );
@@ -576,7 +593,6 @@ const MapPage = ({ onPageChange }) => {
             onOptimize={optimiseRoute}
             onStartFromLocation={startFromLocation}
             onFocusStop={(stop) => flyTo(stop.lat, stop.lng, 15)}
-            onOpenInGoogleMaps={openRouteInGoogleMaps}
           />
         )}
       </AnimatePresence>

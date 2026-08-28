@@ -18,6 +18,32 @@ const EMPTY = {
   error: null,
 };
 
+
+/**
+ * OSRM returns a maneuver object, not a sentence. Build a readable
+ * instruction from its type/modifier plus the road name.
+ */
+function describeStep(step) {
+  const road = step?.name ? ` onto ${step.name}` : "";
+  const type = step?.maneuver?.type;
+  const mod = step?.maneuver?.modifier;
+
+  if (type === "depart") return step?.name ? `Head out along ${step.name}` : "Start here";
+  if (type === "arrive") return "Arrive at your stop";
+  if (type === "roundabout" || type === "rotary") {
+    const exit = step?.maneuver?.exit;
+    return exit ? `Take exit ${exit} at the roundabout${road}` : `Enter the roundabout${road}`;
+  }
+  if (type === "merge") return `Merge${road}`;
+  if (type === "fork") return `Keep ${mod || "straight"} at the fork${road}`;
+  if (type === "on ramp") return `Take the ramp${road}`;
+  if (type === "off ramp") return `Take the exit${road}`;
+  if (type === "continue" || !mod) return step?.name ? `Continue on ${step.name}` : "Continue";
+  if (mod === "straight") return `Continue straight${road}`;
+  if (mod === "uturn") return "Make a U-turn";
+  return `Turn ${mod}${road}`;
+}
+
 export function useOsrmRoute(stops) {
   const [state, setState] = useState(EMPTY);
   const abortRef = useRef(null);
@@ -49,7 +75,7 @@ export function useOsrmRoute(stops) {
       })
       .join(";");
 
-    fetch(`${OSRM_BASE}/${path}?overview=full&geometries=geojson&steps=false`, {
+    fetch(`${OSRM_BASE}/${path}?overview=full&geometries=geojson&steps=true&annotations=false`, {
       signal: controller.signal,
     })
       .then(async (response) => {
@@ -65,6 +91,15 @@ export function useOsrmRoute(stops) {
           legs: (route.legs || []).map((leg) => ({
             distanceKm: leg.distance / 1000,
             durationSec: leg.duration,
+            // Turn-by-turn, so directions never leave the app
+            steps: (leg.steps || []).map((step) => ({
+              instruction: describeStep(step),
+              distanceM: step.distance,
+              durationSec: step.duration,
+              name: step.name || "",
+              modifier: step.maneuver?.modifier || null,
+              type: step.maneuver?.type || null,
+            })),
           })),
           distanceKm: route.distance / 1000,
           durationSec: route.duration,

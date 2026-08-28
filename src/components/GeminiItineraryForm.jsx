@@ -174,12 +174,13 @@ const GeminiItineraryForm = ({ onItineraryGenerated, onLoadingChange, regenerate
   // Re-run the same brief when the page asks for a fresh draft.
   const submitRef = useRef(submit);
   submitRef.current = submit;
-  const firstSignal = useRef(true);
+  // Track the signal VALUE, not a "first run" flag: StrictMode invokes effects
+  // twice on mount, so a boolean guard gets consumed by the first pass and the
+  // second pass fires a submit against an empty form.
+  const lastSignal = useRef(regenerateSignal);
   useEffect(() => {
-    if (firstSignal.current) {
-      firstSignal.current = false;
-      return;
-    }
+    if (regenerateSignal === lastSignal.current) return;
+    lastSignal.current = regenerateSignal;
     submitRef.current();
   }, [regenerateSignal]);
 

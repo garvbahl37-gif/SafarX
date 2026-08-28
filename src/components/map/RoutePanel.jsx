@@ -6,7 +6,7 @@
  * unreachable we fall back to straight-line kilometres and say so.
  */
 
-import React from "react";
+import React, { useState } from "react";
 import { motion as Motion, useReducedMotion } from "framer-motion";
 import {
   X,
@@ -15,7 +15,7 @@ import {
   ArrowDown,
   Wand2,
   MapPin,
-  ExternalLink,
+  ListOrdered,
   Route as RouteIcon,
   Loader2,
 } from "lucide-react";
@@ -46,10 +46,20 @@ const RoutePanel = ({
   onOptimize,
   onStartFromLocation,
   onFocusStop,
-  onOpenInGoogleMaps,
   className = "",
 }) => {
   const reduce = useReducedMotion();
+  const [showSteps, setShowSteps] = useState(false);
+
+  // Flatten OSRM's per-leg steps into one readable list of directions.
+  const directionSteps = (route?.legs || []).flatMap((leg, legIndex) =>
+    (leg.steps || []).map((step, stepIndex) => ({
+      ...step,
+      key: `${legIndex}-${stepIndex}`,
+      legIndex,
+    }))
+  );
+  const hasSteps = directionSteps.length > 0;
 
   const straightTotal = stops.slice(1).reduce((sum, stop, index) => {
     const previous = stops[index];
@@ -230,12 +240,45 @@ const RoutePanel = ({
           <>
             <button
               type="button"
-              onClick={onOpenInGoogleMaps}
-              className="btn-primary !flex !w-full !items-center !justify-center !gap-2 !py-2.5 !text-[13px]"
+              onClick={() => setShowSteps((v) => !v)}
+              aria-expanded={showSteps}
+              disabled={!hasSteps}
+              className="btn-primary !flex !w-full !items-center !justify-center !gap-2 !py-2.5 !text-[13px] disabled:!opacity-40 disabled:!cursor-not-allowed"
             >
-              <ExternalLink className="h-4 w-4" aria-hidden="true" />
-              Open route in Google Maps
+              <ListOrdered className="h-4 w-4" aria-hidden="true" />
+              {showSteps ? "Hide directions" : "Show turn-by-turn"}
             </button>
+            {/* Turn-by-turn, rendered in-app */}
+            {showSteps && hasSteps && (
+              <Motion.ol
+                initial={reduce ? false : { opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="max-h-64 overflow-y-auto rounded-xl border border-white/[0.07] bg-ink-950/60 p-1"
+              >
+                {directionSteps.map((step, index) => (
+                  <li
+                    key={step.key}
+                    className="flex items-start gap-3 rounded-lg px-3 py-2.5 hover:bg-white/[0.04] transition-colors"
+                  >
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-saffron/30 bg-saffron/10 font-data text-[10px] text-saffron tabular-nums">
+                      {index + 1}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[13px] leading-snug text-ivory">
+                        {step.instruction}
+                      </span>
+                      {step.distanceM > 0 && (
+                        <span className="mt-0.5 block font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint tabular-nums">
+                          {formatDistance(step.distanceM / 1000)}
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </Motion.ol>
+            )}
+
             <button
               type="button"
               onClick={onClear}

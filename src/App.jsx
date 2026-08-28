@@ -131,6 +131,17 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // The header navigates with the router directly, which would leave a stale
+  // selectedItem behind — so clicking "VR Tours" re-opened the last tour you
+  // viewed. Drop the selection whenever the route changes on its own.
+  const itemPathRef = React.useRef(location.pathname);
+  useEffect(() => {
+    if (location.pathname !== itemPathRef.current) {
+      itemPathRef.current = location.pathname;
+      setSelectedItem((current) => (current === null ? current : null));
+    }
+  }, [location.pathname]);
+
   // Common props for pages
   const pageProps = {
     user: clerkUser,

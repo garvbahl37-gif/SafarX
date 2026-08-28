@@ -27,8 +27,13 @@ const GRAPH_ENDPOINT = "https://graph.mapillary.com/images";
 const FIELDS = "id,thumb_2048_url,thumb_original_url,computed_geometry,geometry,captured_at,is_pano";
 
 /** Bounding-box half-widths in degrees, tried smallest first. */
-const SEARCH_RADII = [0.0025, 0.005, 0.01];
-const RESULT_LIMIT = 25;
+// Widen generously: monument coordinates are a point, but the nearest 360°
+// capture is often a street or two away.
+const SEARCH_RADII = [0.005, 0.015, 0.03];
+// Mapillary's Indian coverage is dominated by flat (non-360) captures, so a
+// small page almost never contains a panorama — Delhi needed ~500 results
+// before its first one appeared. Ask for a big page and filter client-side.
+const RESULT_LIMIT = 500;
 const REQUEST_TIMEOUT_MS = 12000;
 
 /* ── Typed errors ───────────────────────────────────────────────────── */
