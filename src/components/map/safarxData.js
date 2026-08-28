@@ -1,9 +1,9 @@
 /**
  * SafarX's own curated content, projected onto the map.
  *
- * `hiddengems.json` and `vrTours.json` are owned by other surfaces and carry
- * no coordinates, so the gazetteer below pins each one. Destinations already
- * ship latitude/longitude and are used as-is.
+ * Hidden gems and destinations ship their own latitude/longitude and are
+ * used as-is. `vrTours.json` does not yet, so a small gazetteer pins those
+ * until it does.
  */
 
 import gemsData from "../../data/hiddengems.json";
@@ -24,33 +24,9 @@ const gemImage = (gem) => {
   return hit ? hit[1] : null;
 };
 
-/* ── Gazetteer: hidden gem title → coordinates ─────────────────────── */
-const GEM_COORDS = {
-  "Chand Baori Stepwell": [27.0074, 76.6064],
-  "Mawlynnong Village": [25.2031, 91.9182],
-  "Lepakshi Temple": [13.8058, 77.6069],
-  "Dhanushkodi Ghost Town": [9.155, 79.4183],
-  "Bhangarh Fort": [27.0959, 76.2867],
-  "Ziro Valley": [27.545, 93.8197],
-  Khajjiar: [32.5493, 76.0575],
-  "Gandikota Grand Canyon": [14.8167, 78.2833],
-  "Majuli Island": [26.9526, 94.168],
-  "Chitrakote Falls": [19.2005, 81.6167],
-  "Hampi Ruins": [15.335, 76.46],
-  "Valley of Flowers": [30.7283, 79.605],
-  "Rann of Kutch": [23.8567, 69.585],
-  "Spiti Valley": [32.227, 78.0715],
-  "Agumbe Rainforest": [13.503, 75.093],
-  "Tawang Monastery": [27.5861, 91.8594],
-  "Nubra Valley": [34.6868, 77.5659],
-  "Dzukou Valley": [25.55, 94.0833],
-  "Lonar Crater Lake": [19.9761, 76.5083],
-  "Magnetic Hill": [34.235, 77.39],
-  "Living Root Bridges": [25.25, 91.69],
-  "Kolukkumalai Tea Estate": [10.05, 77.2333],
-};
-
-/* ── Gazetteer: 360° tour id → coordinates ────────────────────────── */
+/* ── Gazetteer: VR tour id → coordinates ──────────────────────────── */
+/* vrTours.json still ships without coordinates; delete this table once
+   it does. Hidden gems and destinations now carry their own. */
 const VR_COORDS = {
   "taj-mahal": [27.1751, 78.0421],
   varanasi: [25.3109, 83.0107],
@@ -71,14 +47,14 @@ const VR_COORDS = {
 /* ── Normalised map points ────────────────────────────────────────── */
 
 export const GEM_POINTS = gemsData
-  .filter((gem) => GEM_COORDS[gem.title])
+  .filter((gem) => Number.isFinite(gem.latitude) && Number.isFinite(gem.longitude))
   .map((gem) => ({
     id: `gem-${gem.id}`,
     layer: "gems",
     glyph: "gem",
     name: gem.title,
-    lat: GEM_COORDS[gem.title][0],
-    lng: GEM_COORDS[gem.title][1],
+    lat: gem.latitude,
+    lng: gem.longitude,
     subtitle: gem.location,
     categoryLabel: "Hidden gem",
     detail: gem.description,

@@ -19,11 +19,11 @@ import { VRScene } from "../components/VirtualTour/VRScene";
 import GoogleEarthExplorer from "../components/GoogleEarthExplorer";
 import SectionHeading from "../components/ui/SectionHeading";
 import vrTours from "../data/vrTours.json";
+import PanoramaViewer from "../components/vr/PanoramaViewer";
 
 const EASE = [0.22, 1, 0.36, 1];
 
 /** Fallback thumbnail straight from the tour's own video. */
-const youtubeThumb = (videoId) => `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
 const MODES = [
     { id: "tours", label: "VR tours", icon: Film },
@@ -40,7 +40,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
     const [error, setError] = useState(null);
     const [category, setCategory] = useState("All");
     const [activeTour, setActiveTour] = useState(
-        selectedItem && selectedItem.videoId ? selectedItem : null
+        selectedItem && Number.isFinite(selectedItem.latitude) ? selectedItem : null
     );
 
     useEffect(() => {
@@ -177,14 +177,15 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                         </button>
                     </div>
 
-                    {/* 360° video */}
+                    {/* 360° panorama — rendered in-app, never an embed */}
                     <div className="relative flex-1 bg-ink-950">
-                        <iframe
-                            src={`https://www.youtube.com/embed/${activeTour.videoId}?rel=0&modestbranding=1&autoplay=1`}
-                            title={`360° tour of ${activeTour.name}`}
-                            className="absolute inset-0 w-full h-full"
-                            allow="accelerometer; autoplay; gyroscope; encrypted-media; picture-in-picture"
-                            allowFullScreen
+                        <PanoramaViewer
+                            key={activeTour.id}
+                            latitude={activeTour.latitude}
+                            longitude={activeTour.longitude}
+                            name={activeTour.name}
+                            region={activeTour.country}
+                            className="absolute inset-0"
                         />
                     </div>
 
@@ -247,10 +248,12 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
         <div className="bg-ink-950 text-ivory font-sans w-full min-h-screen">
             {tourPlayer}
 
-            {/* ── Mode switcher ── */}
-            <div className="fixed top-24 inset-x-0 z-[80] flex justify-center pointer-events-none px-4">
+            {/* ── Mode switcher ──
+                In flow, not fixed: pinning it made the pill float over the tour
+                cards further down the page. */}
+            <div className="relative z-[40] flex justify-center px-4 pt-4 pb-2">
                 <div
-                    className="pointer-events-auto inline-flex items-center gap-1 rounded-full border border-white/[0.09] bg-ink-950/85 p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
+                    className="inline-flex items-center gap-1 rounded-full border border-white/[0.09] bg-ink-950/85 p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
                     role="group"
                     aria-label="Choose a viewing mode"
                 >
@@ -374,7 +377,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                                         loading="lazy"
                                                         onError={(e) => {
                                                             e.target.onerror = null;
-                                                            e.target.src = youtubeThumb(tour.videoId);
+                                                            e.target.style.opacity = "0";
                                                         }}
                                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                                     />

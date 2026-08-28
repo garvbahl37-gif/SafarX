@@ -14,7 +14,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { CompassLoader } from "../components/VirtualTour/ImmersiveChrome";
+import PanoramaViewer from "../components/vr/PanoramaViewer";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -28,7 +28,8 @@ const locations = [
     subtitle: "Marble by moonlight and morning",
     description:
       "Walk the charbagh gardens and stand before the mausoleum itself — the 360° view puts you on the marble platform where photographs are never enough.",
-    embedUrl: "https://www.youtube.com/embed/2aJ9cOwbzxo?rel=0&modestbranding=1",
+    latitude: 27.17501,
+    longitude: 78.0421,
     icon: Crown,
     category: "Mughal wonder",
     highlights: ["Main mausoleum", "Charbagh gardens", "Yamuna riverfront"],
@@ -42,7 +43,8 @@ const locations = [
     subtitle: "The oldest living city on the Ganga",
     description:
       "Drift past the ghats at dawn, where prayer, trade, and river life have run together for three thousand years — all of it visible in one slow turn.",
-    embedUrl: "https://www.airpano.com/embed.php?3D=india_varanasi",
+    latitude: 25.3068,
+    longitude: 83.0104,
     icon: Sparkles,
     category: "Sacred city",
     highlights: ["Dashashwamedh Ghat", "Ganga aarti", "Old city lanes"],
@@ -56,7 +58,8 @@ const locations = [
     subtitle: "The pink city of the Rajputs",
     description:
       "Circle Amber Fort's ramparts and look down into the City Palace courtyards — the royal capital of Rajasthan, seen the way its builders imagined it.",
-    embedUrl: "https://www.airpano.com/embed.php?3D=jaipur-india",
+    latitude: 26.98631,
+    longitude: 75.85066,
     icon: Building,
     category: "Royal heritage",
     highlights: ["Amber Fort", "City Palace", "Hawa Mahal"],
@@ -70,7 +73,8 @@ const locations = [
     subtitle: "India's far blue frontier",
     description:
       "Hover over reefs and empty white beaches at the edge of the map — the clearest water in India, from above and below the surface.",
-    embedUrl: "https://www.airpano.com/embed.php?3D=andaman_islands",
+    latitude: 11.98320,
+    longitude: 92.94940,
     icon: Waves,
     category: "Island wilderness",
     highlights: ["Radhanagar Beach", "Coral reefs", "Mangrove creeks"],
@@ -80,7 +84,6 @@ const locations = [
 
 const TourPage360 = ({ onPageChange }) => {
   const [activeLocation, setActiveLocation] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
   const [viewStats, setViewStats] = useState({
     totalViews: 0,
     activeViewers: 0,
@@ -96,14 +99,11 @@ const TourPage360 = ({ onPageChange }) => {
       });
     }, 3000);
 
-    setTimeout(() => setIsLoading(false), 1000);
-
     return () => clearInterval(interval);
   }, []);
 
   // Reset the loading veil whenever the viewer switches location
   useEffect(() => {
-    setIsLoading(true);
   }, [activeLocation]);
 
   const enterFullscreen = () => {
@@ -307,42 +307,13 @@ const TourPage360 = ({ onPageChange }) => {
                   </div>
 
                   <div ref={viewerRef} className="relative bg-ink-950">
-                    {isLoading && (
-                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-ink-950">
-                        <CompassLoader
-                          label="Unrolling the panorama"
-                          detail={location.coords}
-                        />
-                      </div>
-                    )}
-
-                    {/* Heads-up readout */}
-                    {!isLoading && (
-                      <div className="pointer-events-none absolute bottom-5 left-5 z-10 max-w-[17rem]">
-                        <div className="glass-panel px-4 py-3">
-                          <div className="mb-1.5 flex items-center gap-2">
-                            <span className="route-dot animate-pulse" aria-hidden="true" />
-                            <span className="font-data text-[10px] uppercase tracking-[0.24em] text-saffron">
-                              360°
-                            </span>
-                          </div>
-                          <p className="truncate font-display text-lg font-medium italic text-ivory">
-                            {location.name}
-                          </p>
-                          <p className="mt-1 font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint">
-                            {location.coords}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
-                    <iframe
-                      src={location.embedUrl}
-                      title={`360° panorama of ${location.name}`}
+                    <PanoramaViewer
+                      key={location.id}
+                      latitude={location.latitude}
+                      longitude={location.longitude}
+                      name={location.name}
+                      region={location.place}
                       className="w-full aspect-video min-h-[420px] block"
-                      allow="accelerometer; gyroscope; encrypted-media; picture-in-picture"
-                      allowFullScreen
-                      onLoad={() => setIsLoading(false)}
                     />
                   </div>
                 </div>

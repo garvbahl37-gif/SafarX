@@ -37,7 +37,7 @@ npm install
 npm run dev
 ```
 
-The app runs without any keys (auth and uploads gracefully disabled). For full functionality create a `.env` in the root:
+The app runs without any keys (auth, uploads and 360° tours degrade gracefully). For full functionality create a `.env` in the root — note `VITE_MAPILLARY_TOKEN` powers the in-app 360° panoramas and is free from [mapillary.com](https://www.mapillary.com/dashboard/developers):
 
 ```env
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_pub_key
@@ -48,6 +48,7 @@ VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 VITE_CLOUD_NAME=your_cloudinary_name
 VITE_CLOUD_API_KEY=your_cloudinary_key
+VITE_MAPILLARY_TOKEN=your_mapillary_token
 VITE_OPENWEATHER_API_KEY=your_openweather_key
 VITE_AVIATION_STACK_API_KEY=your_aviation_stack_key
 ```

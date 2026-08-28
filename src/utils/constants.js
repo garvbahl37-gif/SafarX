@@ -138,7 +138,7 @@ export const SOCIAL_LINKS = {
   FACEBOOK: "https://facebook.com/safar360",
   TWITTER: "https://twitter.com/safar360",
   INSTAGRAM: "https://instagram.com/safar360",
-  YOUTUBE: "https://youtube.com/safar360",
+  YOUTUBE: "https://youtube.com/@safarx",
   LINKEDIN: "https://linkedin.com/company/safar360",
 };
 

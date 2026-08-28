@@ -61,14 +61,22 @@ Live task tracker for the current build push. Updated as work lands.
       ("API KEY REQUIRED" burnt into every tile); switched to plain OSM tiles
       darkened with a CSS filter
 
+- [x] **VR tours are off YouTube (RULE satisfied)** — in-app three.js
+      panorama viewer + Mapillary service; `videoId` replaced with verified
+      coordinates on all 14 tours; TourPage360 moved off its iframes too.
+      Wikimedia Commons was checked first and has no usable stock of Indian
+      equirectangular panoramas, so Mapillary was chosen.
+      **Needs from you:** free token at mapillary.com/dashboard/developers →
+      `.env` as `VITE_MAPILLARY_TOKEN=`. Until then every tour shows an
+      on-brand notice naming the variable — never a YouTube fallback.
+- [x] **All 81 hidden gems now on the map** — verified coordinates added to
+      the data, hand-written gazetteer deleted (was pinning only 22)
+- [x] **Bug: VR mode switcher unpinned** — it was `fixed top-24`, so it floated
+      over the tour cards on scroll; now in normal flow
+
 ## In progress
 
-- [ ] **VR tours off YouTube (RULE)** — in-app draggable three.js panoramas.
-      Source decided: **Mapillary** (free token, `is_pano` images return ready
-      equirectangular JPEGs). Wikimedia Commons was checked first and has no
-      usable stock of Indian 360° panoramas.
-      **Needs from you:** a free token at mapillary.com/dashboard/developers,
-      added to `.env` as `VITE_MAPILLARY_TOKEN=`
+
 
 - [x] **Premium calendar everywhere** — custom `RangeCalendar` (two-month trip
       window with hover preview) in Plan a Trip, plus a reusable `DateField`
@@ -78,7 +86,6 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
-- [ ] **Bug: VR mode switcher stays pinned** and overlaps tour cards on scroll
 - [ ] Sweep any remaining old-palette components not yet reached
 
 ## Roadmap (post-build)
