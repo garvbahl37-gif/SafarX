@@ -54,7 +54,11 @@ const escapeHtml = (raw) =>
     String(raw ?? '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+        .replace(/>/g, '&gt;')
+        /* Quotes matter too: link URLs below are interpolated into an href
+           attribute, so an unescaped " would break out of it. */
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 
 /* Inline marks, applied after escaping. */
 const inlineMarkdown = (line) =>

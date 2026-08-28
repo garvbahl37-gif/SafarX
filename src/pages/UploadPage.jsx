@@ -17,6 +17,10 @@ import {
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { uploadFileToStorage, insertHeritageGem } from "../lib/supabaseClient";
 import { getSubmitterInfo } from "../services/mockUserService";
+import DateField from "../components/ui/DateField";
+
+/* A visit already happened, so tomorrow is never valid. */
+const TODAY_ISO = new Date().toISOString().slice(0, 10);
 
 const UploadPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -834,14 +838,12 @@ const UploadPage = () => {
                 <label htmlFor="gem-visit-date" className="form-label">
                   When did you visit?
                 </label>
-                <input
+                <DateField
                   id="gem-visit-date"
-                  type="date"
                   value={formData.visitDate}
-                  onChange={(e) =>
-                    handleInputChange("visitDate", e.target.value)
-                  }
-                  className="glass-input w-full [color-scheme:dark]"
+                  onChange={(value) => handleInputChange("visitDate", value)}
+                  max={TODAY_ISO}
+                  placeholder="Pick the date"
                 />
               </div>
 

@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 import {
-    X, Plane, ArrowLeftRight, Calendar, Users,
+    X, Plane, ArrowLeftRight, Users,
     MapPin, Search, ArrowRight, ChevronDown,
     AlertCircle,
 } from 'lucide-react';
 import { searchFlights } from '../services/flightApi';
+import DateField from '../../../components/ui/DateField';
+import DateRangeField from '../../../components/ui/DateRangeField';
+import { toISO } from '../../../components/ui/dateUtils';
 import FlightResultsPanel from './FlightResultsPanel';
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -37,7 +40,8 @@ const FlightBookingPanel = ({ onClose }) => {
     const getMinDate = () => {
         const date = new Date();
         date.setDate(date.getDate() + 7);
-        return date.toISOString().split('T')[0];
+        // Local, not UTC: before 05:30 IST toISOString() still reports yesterday.
+        return toISO(date);
     };
 
     const handleSearch = async () => {
@@ -217,45 +221,29 @@ const FlightBookingPanel = ({ onClose }) => {
                     <div className="space-y-2.5">
                         <span className="eyebrow-muted block">Dates</span>
 
-                        <div className={`grid gap-2.5 ${tripType === 'round' ? 'grid-cols-2' : 'grid-cols-1'}`}>
-                            <div className="flex flex-col gap-1.5">
-                                <label htmlFor="flight-departure" className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint pl-1">
-                                    Departure
-                                </label>
-                                <div className="relative">
-                                    <Calendar size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-10 text-ivory-faint" aria-hidden="true" />
-                                    <input
-                                        id="flight-departure"
-                                        type="date"
-                                        value={departure}
-                                        min={getMinDate()}
-                                        onChange={(e) => setDeparture(e.target.value)}
-                                        className="agent-field w-full pl-9 pr-3 py-3 font-data text-[13px] appearance-none cursor-pointer"
-                                        style={{ colorScheme: 'dark' }}
-                                    />
-                                </div>
-                            </div>
-
-                            {tripType === 'round' && (
-                                <div className="flex flex-col gap-1.5">
-                                    <label htmlFor="flight-return" className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint pl-1">
-                                        Return
-                                    </label>
-                                    <div className="relative">
-                                        <Calendar size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-10 text-ivory-faint" aria-hidden="true" />
-                                        <input
-                                            id="flight-return"
-                                            type="date"
-                                            value={returnDate}
-                                            min={departure || getMinDate()}
-                                            onChange={(e) => setReturnDate(e.target.value)}
-                                            className="agent-field w-full pl-9 pr-3 py-3 font-data text-[13px] appearance-none cursor-pointer"
-                                            style={{ colorScheme: 'dark' }}
-                                        />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                        {tripType === 'round' ? (
+                            <DateRangeField
+                                startValue={departure}
+                                endValue={returnDate}
+                                onChange={(out, back) => {
+                                    setDeparture(out);
+                                    setReturnDate(back);
+                                }}
+                                min={getMinDate()}
+                                startLabel="Departure"
+                                endLabel="Return"
+                                unit="day"
+                                presets={false}
+                            />
+                        ) : (
+                            <DateField
+                                id="flight-departure"
+                                value={departure}
+                                onChange={setDeparture}
+                                min={getMinDate()}
+                                placeholder="Departure date"
+                            />
+                        )}
                     </div>
 
                     {/* Passengers & Class */}

@@ -2,6 +2,10 @@ import React, { useState, useRef } from "react";
 import { Upload, X, Image, MapPin, Calendar, Type } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { uploadFileToStorage, insertHeritageGem as insertPremiumGem } from "../lib/supabaseClient";
+import DateField from "./ui/DateField";
+
+/* A visit already happened, so tomorrow is never valid. */
+const TODAY_ISO = new Date().toISOString().slice(0, 10);
 
 const UploadForm = ({ user, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -607,12 +611,13 @@ const UploadForm = ({ user, onSubmit, onCancel }) => {
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="form-label">When did you visit?</label>
-                <input
-                  type="date"
-                  name="visitDate"
+                <DateField
                   value={formData.visitDate}
-                  onChange={handleInputChange}
-                  className="form-input"
+                  onChange={(value) =>
+                    handleInputChange({ target: { name: "visitDate", value } })
+                  }
+                  max={TODAY_ISO}
+                  placeholder="Pick the date"
                 />
               </div>
 

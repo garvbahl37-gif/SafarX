@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
+import DateRangeField from '../../../components/ui/DateRangeField';
+import { toISO } from '../../../components/ui/dateUtils';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 import {
     X, Hotel, Calendar, Users, MapPin, Search,
-    Star, BedDouble, ChevronDown, MapPinned, Moon, Info,
+    Star, BedDouble, ChevronDown, MapPinned, Info,
 } from 'lucide-react';
 import { useHotelSearch } from '../hooks/useHotelSearch';
 import HotelSearchResults from './HotelSearchResults';
@@ -39,7 +41,8 @@ const HotelBookingPanel = ({ onClose }) => {
         { label: 'Distance to centre', value: 'DISTANCE_FROM_CITY_CENTER' },
     ];
 
-    const today = new Date().toISOString().split('T')[0];
+    // Local, not UTC: before 05:30 IST toISOString() still reports yesterday.
+    const today = toISO(new Date());
     const isFormValid = selectedLocation && checkIn && checkOut;
 
     const handleDestinationChange = (value) => {
@@ -93,11 +96,6 @@ const HotelBookingPanel = ({ onClose }) => {
         document.addEventListener('mousedown', handler);
         return () => document.removeEventListener('mousedown', handler);
     }, []);
-
-    /* ─── night count helper ─── */
-    const nightCount = checkIn && checkOut
-        ? Math.max(1, Math.round((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)))
-        : 0;
 
     return (
         <>
@@ -310,61 +308,18 @@ const HotelBookingPanel = ({ onClose }) => {
                                 {/* ── Stay dates ── */}
                                 <div className="space-y-2.5">
                                     <span className="eyebrow-muted block">Stay dates</span>
-                                    <div className="grid grid-cols-2 gap-2.5">
-                                        <div className="flex flex-col gap-1.5">
-                                            <label htmlFor="hotel-checkin" className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint pl-1">
-                                                Check-in
-                                            </label>
-                                            <div className="relative">
-                                                <Calendar size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-10 text-ivory-faint" aria-hidden="true" />
-                                                <input
-                                                    id="hotel-checkin"
-                                                    type="date"
-                                                    value={checkIn}
-                                                    min={today}
-                                                    onChange={(e) => {
-                                                        setCheckIn(e.target.value);
-                                                        if (checkOut && e.target.value >= checkOut) setCheckOut('');
-                                                    }}
-                                                    className="agent-field w-full pl-9 pr-3 py-3 font-data text-[13px] appearance-none cursor-pointer"
-                                                    style={{ colorScheme: 'dark' }}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="flex flex-col gap-1.5">
-                                            <label htmlFor="hotel-checkout" className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint pl-1">
-                                                Check-out
-                                            </label>
-                                            <div className="relative">
-                                                <Calendar size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none z-10 text-ivory-faint" aria-hidden="true" />
-                                                <input
-                                                    id="hotel-checkout"
-                                                    type="date"
-                                                    value={checkOut}
-                                                    min={checkIn || today}
-                                                    onChange={(e) => setCheckOut(e.target.value)}
-                                                    className="agent-field w-full pl-9 pr-3 py-3 font-data text-[13px] appearance-none cursor-pointer"
-                                                    style={{ colorScheme: 'dark' }}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Night count */}
-                                    <AnimatePresence>
-                                        {nightCount > 0 && (
-                                            <Motion.div
-                                                initial={{ opacity: 0, y: -4 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                exit={{ opacity: 0, y: -4 }}
-                                                className="agent-tag agent-tag-gold px-3 py-1.5 text-[10px] w-fit"
-                                            >
-                                                <Moon size={10} aria-hidden="true" />
-                                                {nightCount} night{nightCount > 1 ? 's' : ''}
-                                            </Motion.div>
-                                        )}
-                                    </AnimatePresence>
+                                    <DateRangeField
+                                        startValue={checkIn}
+                                        endValue={checkOut}
+                                        onChange={(nextIn, nextOut) => {
+                                            setCheckIn(nextIn);
+                                            setCheckOut(nextOut);
+                                        }}
+                                        min={today}
+                                        startLabel="Check-in"
+                                        endLabel="Check-out"
+                                        unit="night"
+                                    />
                                 </div>
 
                                 {/* ── Guests & Rooms ── */}
