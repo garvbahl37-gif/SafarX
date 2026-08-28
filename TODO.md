@@ -196,6 +196,11 @@ Live task tracker for the current build push. Updated as work lands.
       the app and the browser matches them itself: 20ms to a rendered list,
       zero network calls, aliases for Bombay, Calcutta, Benares, Mysore,
       Pondicherry and Trivandrum
+- [x] **Trains panel rebuilt around four questions** — Route (A→B on a date,
+      the search people actually start from), Train (by name or number, with
+      the full timetable), Live (where it is and how late, straight from
+      IRCTC), and PNR (is my seat confirmed). 126 stations ship with the app so
+      from/to predicts in ~50ms with no network call
 - [x] **Multiple 360s per place** — Mapillary lookups now return several
       captures spread at least 55m apart instead of only the nearest, labelled
       by how far and which way they lie ("128 m south-west"). A site with one
@@ -222,8 +227,9 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
-- [ ] **Station-to-station train search** — blocked on the exact endpoint path
-      for the newly subscribed irctc-train-api host
+- [ ] **irctc-train-api monthly quota is spent** — Route, Live and PNR return
+      a clear "out of quota" message until it resets. Train mode runs on the
+      other host and is unaffected
 - [ ] **Google Images is not a usable tour source** — it indexes other
       people's copyrighted photos and grants no licence to redistribute them;
       Street View forbids extracting imagery outside its own embed. Free,
