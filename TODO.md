@@ -153,6 +153,11 @@ Live task tracker for the current build push. Updated as work lands.
       Authentication → Disabled). One toggle, needs your account
 - [ ] **Add Amadeus keys** to the HF Space for flights/hotels to go live
 
+- [x] **Map region selector** — the bare `<select>` brought the browser's own
+      box and arrow with it, breaking the pill. Native element kept for
+      behaviour and accessibility, chrome hidden, our own caret drawn
+- [x] **VITE_MAPILLARY_TOKEN added to Vercel** production (encrypted)
+
 ## In progress
 
 - [x] **VR tours expanded 14 → 21, with a story under every one** — 16 tours

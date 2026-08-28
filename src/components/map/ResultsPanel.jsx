@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { RefreshCw } from "lucide-react";
+import { ChevronDown, RefreshCw } from "lucide-react";
 
 import ResultsList from "./ResultsList";
 import { REGIONS, formatCoords } from "./mapUtils";
@@ -29,18 +29,27 @@ const ResultsPanel = ({
             {formatCoords(center[0], center[1])}
           </span>
         </p>
-        <select
-          value={region}
-          onChange={(event) => onRegionChange?.(event.target.value)}
-          aria-label="Filter SafarX places by region"
-          className="shrink-0 rounded-full border border-white/[0.09] bg-ink-800 px-2.5 py-1 font-data text-[10px] uppercase tracking-[0.1em] text-ivory-muted outline-none transition-colors focus:border-saffron/55"
-        >
-          {REGIONS.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
+        {/* A bare <select> picks up the browser's own box and arrow, which
+            broke the pill shape. Keep the native element for behaviour and
+            accessibility, but hide its chrome and draw our own caret. */}
+        <span className="relative shrink-0">
+          <select
+            value={region}
+            onChange={(event) => onRegionChange?.(event.target.value)}
+            aria-label="Filter SafarX places by region"
+            className="w-full cursor-pointer appearance-none rounded-full border border-white/[0.09] bg-ink-800 py-1 pl-3 pr-7 font-data text-[10px] uppercase tracking-[0.1em] text-ivory-muted outline-none transition-colors hover:border-white/20 focus:border-saffron/55"
+          >
+            {REGIONS.map((item) => (
+              <option key={item.id} value={item.id} className="bg-ink-900 text-ivory">
+                {item.name}
+              </option>
+            ))}
+          </select>
+          <ChevronDown
+            className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2 text-ivory-faint"
+            aria-hidden="true"
+          />
+        </span>
       </div>
 
       <p className="mt-1.5 font-data text-[10px] uppercase tracking-[0.14em] text-ivory-faint">

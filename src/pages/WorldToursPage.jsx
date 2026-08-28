@@ -361,13 +361,17 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
     // MAIN PAGE
     // ─────────────────────────────────────────────────────────────────
     return (
-        <div className="w-full min-h-screen bg-ink-950 font-sans text-ivory">
+        <div className="relative w-full min-h-screen bg-ink-950 font-sans text-ivory">
             {tourPlayer}
 
             {/* ── Mode switcher ──
-                In flow, not fixed: pinning it made the pill float over the tour
-                cards further down the page. */}
-            <div className="relative z-[40] flex justify-center px-4 pt-24 pb-2">
+                Absolutely positioned over the hero, not in flow: in flow its top
+                padding rendered as a dead ink band between the navbar and the
+                video. Not `fixed` either — pinning it made the pill float over
+                the tour cards further down the page. `top-[6.5rem]` clears the
+                72px floating navbar (fixed, pt-4 + h-14) with room to spare, and
+                z-[40] keeps it under the navbar's z-[60]. */}
+            <div className="absolute inset-x-0 top-[6.5rem] z-[40] flex justify-center px-4">
                 <div
                     className="inline-flex items-center gap-1 rounded-full border border-white/[0.09] bg-ink-950/85 p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
                     role="group"
@@ -380,7 +384,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                 key={mode.id}
                                 onClick={() => switchMode(mode.id)}
                                 aria-pressed={isActive}
-                                className={`relative inline-flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 font-data text-[11px] font-medium uppercase tracking-[0.14em] transition-colors duration-300 md:px-5 md:text-xs ${
+                                className={`relative inline-flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2.5 font-data text-[10px] font-medium uppercase tracking-[0.12em] transition-colors duration-300 sm:px-4 sm:text-[11px] sm:tracking-[0.14em] md:px-5 md:text-xs ${
                                     isActive
                                         ? "text-ink-950"
                                         : "text-ivory-muted hover:bg-white/[0.06] hover:text-ivory"
