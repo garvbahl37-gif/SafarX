@@ -48,10 +48,73 @@ const TOOL_STEPS = {
 };
 
 /* Markdown-lite: bold spans are gilded by .agent-msg-* rules in index.css */
-const formatMessage = (content) =>
-    String(content ?? '')
-        .replace(/\n/g, '<br/>')
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+/* Escape first: the model's output is untrusted text, and it goes through
+   dangerouslySetInnerHTML below. */
+const escapeHtml = (raw) =>
+    String(raw ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+/* Inline marks, applied after escaping. */
+const inlineMarkdown = (line) =>
+    line
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/(^|[\s(])\*([^*\n]+?)\*(?=[\s.,;:!?)]|$)/g, '$1<em>$2</em>')
+        .replace(/`([^`\n]+?)`/g, '<code>$1</code>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+                 '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+/**
+ * The model answers in markdown — bullet lists, bold day headings, the odd
+ * numbered step. Rendering it raw left literal asterisks all over the reply,
+ * so parse the block structure into real elements.
+ */
+const formatMessage = (content) => {
+    const lines = escapeHtml(content).split('\n');
+    const out = [];
+    let list = null;                       // 'ul' | 'ol' | null
+
+    const closeList = () => {
+        if (list) { out.push(`</${list}>`); list = null; }
+    };
+    const openList = (kind) => {
+        if (list !== kind) { closeList(); out.push(`<${kind}>`); list = kind; }
+    };
+
+    for (const raw of lines) {
+        const line = raw.trimEnd();
+        if (!line.trim()) { closeList(); continue; }
+
+        const heading = line.match(/^\s*#{1,4}\s+(.*)$/);
+        if (heading) {
+            closeList();
+            out.push(`<h4>${inlineMarkdown(heading[1])}</h4>`);
+            continue;
+        }
+
+        // "* item", "- item", "• item" — any indent
+        const bullet = line.match(/^\s*[*\-•]\s+(.*)$/);
+        if (bullet) {
+            openList('ul');
+            out.push(`<li>${inlineMarkdown(bullet[1])}</li>`);
+            continue;
+        }
+
+        // "1. item"
+        const numbered = line.match(/^\s*\d+[.)]\s+(.*)$/);
+        if (numbered) {
+            openList('ol');
+            out.push(`<li>${inlineMarkdown(numbered[1])}</li>`);
+            continue;
+        }
+
+        closeList();
+        out.push(`<p>${inlineMarkdown(line)}</p>`);
+    }
+    closeList();
+    return out.join('');
+};
 
 /* A mid-stream slice can end on an unclosed ** — close it so no raw asterisks show */
 const balanceBold = (text) =>
@@ -113,7 +176,7 @@ const StreamedBody = memo(function StreamedBody({ content, stream, onAdvance }) 
 
     return (
         <>
-            <span dangerouslySetInnerHTML={{ __html: formatMessage(shown) }} />
+            <span className="agent-prose" dangerouslySetInnerHTML={{ __html: formatMessage(shown) }} />
             {streaming && <span className="agent-caret" aria-hidden="true" />}
         </>
     );
@@ -494,7 +557,7 @@ const Chat = ({
                                             onAdvance={scrollToEndInstant}
                                         />
                                     ) : (
-                                        <span dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
+                                        <span className="agent-prose" dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
                                     )}
                                 </div>
 

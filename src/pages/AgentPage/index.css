@@ -664,3 +664,77 @@
     transform: none;
   }
 }
+
+/* ── Rendered markdown in agent replies ──────────────────────────────
+   The model answers with bullet lists and bold day headings; without
+   these rules the parsed elements collapse into an unreadable run-on. */
+.agent-prose > *:first-child { margin-top: 0; }
+.agent-prose > *:last-child { margin-bottom: 0; }
+
+.agent-prose p { margin: 0 0 0.7em; }
+
+.agent-prose h4 {
+  margin: 1.15em 0 0.5em;
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  font-size: 1.05em;
+  color: var(--ivory, #F2EFE6);
+}
+
+.agent-prose ul,
+.agent-prose ol {
+  margin: 0 0 0.8em;
+  padding-left: 0;
+  list-style: none;
+}
+
+.agent-prose li {
+  position: relative;
+  padding-left: 1.15em;
+  margin-bottom: 0.42em;
+  line-height: 1.6;
+}
+
+/* A gold waypoint instead of a disc, matching the route motif */
+.agent-prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #D4A843;
+}
+
+.agent-prose ol { counter-reset: agent-step; }
+.agent-prose ol > li { padding-left: 1.6em; }
+.agent-prose ol > li::before {
+  counter-increment: agent-step;
+  content: counter(agent-step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-family: "Space Grotesk", monospace;
+  font-size: 0.72em;
+  letter-spacing: 0.08em;
+  color: #D4A843;
+}
+
+.agent-prose strong { color: var(--ivory, #F2EFE6); font-weight: 700; }
+.agent-prose em { font-style: italic; }
+
+.agent-prose code {
+  font-family: "Space Grotesk", monospace;
+  font-size: 0.88em;
+  padding: 0.1em 0.38em;
+  border-radius: 5px;
+  background: rgba(242, 239, 230, 0.07);
+}
+
+.agent-prose a {
+  color: #D4A843;
+  text-underline-offset: 3px;
+  text-decoration: underline;
+}
+.agent-prose a:hover { color: #E5BE5C; }

@@ -398,7 +398,12 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                         aria-hidden="true"
                                     />
                                 )}
-                                <mode.icon className="relative z-10 h-4 w-4 shrink-0" aria-hidden="true" />
+                                {/* Dropped below `sm` so three pills still fit
+                                    across a 375px viewport without clipping. */}
+                                <mode.icon
+                                    className="relative z-10 hidden h-4 w-4 shrink-0 sm:block"
+                                    aria-hidden="true"
+                                />
                                 <span className="relative z-10">{mode.label}</span>
                             </button>
                         );
@@ -440,7 +445,11 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                             Full-bleed footage with exactly one scrim. Stacking
                             several crushed the video to black, so legibility is
                             handled by `on-media` on the copy instead. */}
-                        <section className="relative isolate flex min-h-[62vh] items-center justify-center overflow-hidden md:min-h-[72vh]">
+                        {/* `pt-24` is inside the section, so the video (absolute
+                            inset-0) still fills to the top of the viewport — it
+                            only pushes the centred copy clear of the overlaid
+                            mode switcher, which sits at 104–156px. */}
+                        <section className="relative isolate flex min-h-[62vh] items-center justify-center overflow-hidden pt-24 md:min-h-[72vh] md:pt-28">
                             <video
                                 autoPlay
                                 muted

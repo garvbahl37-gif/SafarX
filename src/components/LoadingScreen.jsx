@@ -42,6 +42,23 @@ const LoadingScreen = () => {
   const reduce = useReducedMotion();
   const [phase, setPhase] = useState("devanagari");
   const [progress, setProgress] = useState(0);
+  const [fontsReady, setFontsReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const done = () => !cancelled && setFontsReady(true);
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(done).catch(done);
+      // Never let a slow font host hold the boot screen hostage.
+      const bail = setTimeout(done, 1200);
+      return () => {
+        cancelled = true;
+        clearTimeout(bail);
+      };
+    }
+    done();
+    return undefined;
+  }, []);
 
   useEffect(() => {
     const morph = setTimeout(() => setPhase("latin"), reduce ? 400 : MORPH_AT);
@@ -170,7 +187,10 @@ const LoadingScreen = () => {
       {/* ── Foreground stack ── */}
       <div className="relative z-10 flex flex-col items-center px-6 w-full">
         {/* Wordmark: सफ़र → SafarX */}
-        <div className="relative h-[clamp(5rem,15vw,9rem)] flex items-center justify-center w-full">
+        <div
+          className="relative h-[clamp(5rem,15vw,9rem)] flex items-center justify-center w-full transition-opacity duration-300"
+          style={{ opacity: fontsReady ? 1 : 0 }}
+        >
           <AnimatePresence mode="wait">
             {phase === "devanagari" ? (
               <motion.div
