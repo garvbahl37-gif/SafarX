@@ -89,7 +89,7 @@ export const curatedPanoramaCount = () => byId.size;
 const shapeCurated = (entry, overrides = {}) => ({
     imageUrl: overrides.imageUrl || entry.imageUrl,
     source: PanoramaSource.CURATED,
-    provider: overrides.provider || entry.provider,
+    provider: overrides.provider || entry.provider || "wikimedia",
     attribution: overrides.credit || entry.credit || null,
     captureLabel: null,
     capturedAt: null,

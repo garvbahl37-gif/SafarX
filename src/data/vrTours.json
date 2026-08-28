@@ -16,8 +16,8 @@
     "gradient": "from-amber-200 via-orange-200 to-white",
     "duration": "5:45",
     "views": "5.9M",
-    "panorama": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Taj_Mahal_360%C2%B0_View.jpg",
-    "panoramaCredit": "Arul Prakasam T — CC BY-SA 4.0 · Wikimedia Commons",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Taj_Mahal%2C_Agra_%2836473087024%29.jpg/3840px-Taj_Mahal%2C_Agra_%2836473087024%29.jpg",
+    "panoramaCredit": "Aleksandr Zykov from Russia — CC BY-SA 2.0 · Wikimedia Commons",
     "panoramaSource": "wikimedia"
   },
   {
@@ -37,9 +37,9 @@
     "gradient": "from-orange-300 via-amber-200 to-white",
     "duration": "6:20",
     "views": "2.4M",
-    "panorama": null,
-    "panoramaCredit": null,
-    "panoramaSource": null
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Mapillary_%28skysign%29_2026-02-18_03H44M26S758_%28866160263045282_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg/3840px-Mapillary_%28skysign%29_2026-02-18_03H44M26S758_%28866160263045282_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg",
+    "panoramaCredit": "skysign — CC BY-SA 4.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia"
   },
   {
     "id": "jaipur",
@@ -58,9 +58,9 @@
     "gradient": "from-amber-300 via-orange-200 to-rose-100",
     "duration": "4:30",
     "views": "1.8M",
-    "panorama": null,
-    "panoramaCredit": null,
-    "panoramaSource": null
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/4/40/The_Facade_of_Birla_Auditorium%2C_A_360_Panorama-interactive_100_Pix_HDR-20130301.JPG",
+    "panoramaCredit": "Udaiveer — CC BY-SA 3.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia"
   },
   {
     "id": "hampi",
@@ -100,9 +100,9 @@
     "gradient": "from-amber-200 via-orange-100 to-white",
     "duration": "5:05",
     "views": "1.5M",
-    "panorama": null,
-    "panoramaCredit": null,
-    "panoramaSource": null
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Vellayani_Lake_360_-_panoramio.jpg/3840px-Vellayani_Lake_360_-_panoramio.jpg",
+    "panoramaCredit": "Anil R.V — CC BY-SA 3.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia"
   },
   {
     "id": "ladakh",

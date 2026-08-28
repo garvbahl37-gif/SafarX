@@ -240,15 +240,19 @@ const HiddenGemsPage = ({ onPageChange }) => {
       {/* ======================= HERO ======================= */}
       <section className="relative h-[68vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none bg-ink-900">
+          {/* Nohkalikai Falls, Meghalaya — one of the gems in our own data,
+              and about as off-the-tourist-map as India gets. */}
           <video
             autoPlay
             loop
             muted
             playsInline
+            preload="metadata"
+            poster="https://images.unsplash.com/photo-1571536802807-30451e3955d8?w=1600&auto=format&fit=crop&q=70"
             className="absolute top-1/2 left-1/2 w-[177.77vh] min-w-full min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 object-cover"
           >
             <source
-              src="https://res.cloudinary.com/dnmhqosoa/video/upload/v1772206428/hidden_gems_z6iwmc.mp4"
+              src="https://videos.pexels.com/video-files/31696690/13504974_1920_1080_30fps.mp4"
               type="video/mp4"
             />
           </video>

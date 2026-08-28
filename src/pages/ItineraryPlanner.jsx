@@ -7,6 +7,7 @@ import GeminiItineraryDisplay from "../components/GeminiItineraryDisplay";
 import SimpleMarkdownDisplay from "../components/SimpleMarkdownDisplay";
 import GeneratingRoute from "../components/planner/GeneratingRoute";
 import { EASE } from "../components/planner/plannerOptions";
+import JourneyStrip from "../components/planner/JourneyStrip";
 
 const ASSURANCES = [
   { icon: Route, title: "Hour by hour", copy: "Every day laid out with timings, travel legs, and how long each stop takes." },
@@ -110,7 +111,7 @@ const ItineraryPlanner = ({ selectedItem }) => {
 
       {/* ======================= HERO ======================= */}
       <section
-        className="relative min-h-[58vh] md:min-h-[62vh] overflow-hidden flex items-end"
+        className="relative min-h-[64vh] md:min-h-[68vh] overflow-hidden flex items-center justify-center"
         aria-label="AI trip planner"
       >
         {/* Video backdrop */}
@@ -120,23 +121,26 @@ const ItineraryPlanner = ({ selectedItem }) => {
             loop
             muted
             playsInline
+            preload="metadata"
+            poster="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1600&auto=format&fit=crop&q=70"
             className="w-full h-full object-cover"
           >
-            <source src="https://res.cloudinary.com/dnmhqosoa/video/upload/v1772188196/itenary_oajmr2.mp4" type="video/mp4" />
+            <source src="https://videos.pexels.com/video-files/35000186/14827904_2560_1440_30fps.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/55 to-ink-950/25" />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink-950/55 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/50 to-ink-950/30" />
+          {/* Pool of shade behind the centred copy */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(6,20,18,0.62)_0%,transparent_75%)]" />
         </div>
 
         {/* Editorial stack */}
-        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-5 sm:px-6 md:px-14 pb-14 md:pb-20 pt-10">
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-5 sm:px-6 md:px-14 py-16 text-center">
           <Motion.div
             initial={reduce ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: EASE }}
-            className="max-w-3xl"
+            className="max-w-3xl mx-auto"
           >
-            <p className="flex flex-wrap items-center gap-3 mb-6">
+            <p className="flex flex-wrap items-center justify-center gap-3 mb-6">
               <span className="route-dot" aria-hidden="true" />
               <span className="eyebrow">20.59° N · 78.96° E</span>
               <span className="route-line w-12 hidden sm:inline-block" aria-hidden="true" />
@@ -150,19 +154,23 @@ const ItineraryPlanner = ({ selectedItem }) => {
                 </>
               ) : (
                 <>
-                  Every day, <em className="font-medium italic text-saffron-bright">planned to the hour</em>
+                  Plan a trip through{" "}
+                  <em className="font-medium italic text-saffron-bright">Incredible India</em>
                 </>
               )}
             </h1>
 
-            <p className="text-ivory-muted text-base md:text-lg leading-relaxed max-w-xl">
+            <p className="text-ivory-muted text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
               {itinerary
                 ? `A day-by-day plan through ${itinerary.selectedState || "your destination"} — timings, transport, and a ₹ budget for every stop.`
-                : "Answer five short questions. SafarX drafts a day-by-day Indian itinerary with timings, transport, and ₹ budgets you can actually book against."}
+                : "The Taj at sunrise, the ghats of Varanasi, Kerala's backwaters, the high passes of Ladakh — tell SafarX where you are headed and it drafts the days, the travel legs, and a ₹ budget you can actually book against."}
             </p>
 
+            {/* Ambient journey: a car and a train running the route */}
+            <JourneyStrip className="mt-8" />
+
             {!itinerary && (
-              <p className="mt-10 flex items-center gap-2.5 font-data text-[11px] uppercase tracking-[0.22em] text-ivory-faint">
+              <p className="mt-4 flex items-center justify-center gap-2.5 font-data text-[11px] uppercase tracking-[0.22em] text-ivory-faint">
                 <ArrowDown size={14} className="text-saffron" aria-hidden="true" />
                 Five steps to a full plan
               </p>
