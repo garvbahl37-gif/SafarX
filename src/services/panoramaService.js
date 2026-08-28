@@ -33,6 +33,7 @@
 import vrTours from "../data/vrTours.json";
 import {
     findPanoramaNear,
+    findPanoramasNear,
     formatCaptureDate,
     hasMapillaryToken,
     clearPanoramaCache as clearMapillaryCache,
@@ -175,7 +176,11 @@ const shapeMapillary = (result) => ({
     source: PanoramaSource.MAPILLARY,
     provider: PanoramaSource.MAPILLARY,
     attribution: MAPILLARY_ATTRIBUTION,
-    label: "Live street capture",
+    // Name each vantage by where it stands, so the switcher reads as a walk
+    // around the place rather than a list of identical captures.
+    label: result.metres > 40 && result.bearing
+        ? `${result.metres} m ${result.bearing}`
+        : "Live street capture",
     captureLabel: formatCaptureDate(result.capturedAt),
     capturedAt: result.capturedAt ?? null,
     mapillaryId: result.mapillaryId ?? null,
@@ -288,9 +293,11 @@ export async function resolvePanoramaSet({
         );
     }
 
-    // 2 — no curated image for this site yet, so ask Mapillary for a live one.
-    const live = await findPanoramaNear(latitude, longitude, { signal });
-    if (live) return [shapeMapillary(live)];
+    // 2 — no curated image for this site yet, so ask Mapillary for live ones.
+    //     A place is worth more than one viewpoint, so take several captures
+    //     spread around the site rather than only the closest.
+    const live = await findPanoramasNear(latitude, longitude, { signal, limit: 6 });
+    if (live.length) return live.map(shapeMapillary);
 
     // 3 — the honest empty state.
     return [];
@@ -311,6 +318,24 @@ export async function findLivePanorama(latitude, longitude, { signal } = {}) {
         return live ? shapeMapillary(live) : null;
     } catch {
         return null;
+    }
+}
+
+/**
+ * Live captures to offer *alongside* a tour's curated images, so a site with
+ * one verified panorama can still be walked around. Same contract as
+ * `findLivePanorama`: every failure is swallowed, because a tour that is
+ * already painting a verified image must not be disturbed by Mapillary.
+ *
+ * @returns {Promise<object[]>} Shaped panoramas, possibly empty.
+ */
+export async function findLiveVantages(latitude, longitude, { signal, limit = 4 } = {}) {
+    if (!hasMapillaryToken()) return [];
+    try {
+        const live = await findPanoramasNear(latitude, longitude, { signal, limit });
+        return live.map(shapeMapillary);
+    } catch {
+        return [];
     }
 }
 

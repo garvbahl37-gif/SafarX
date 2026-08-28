@@ -196,6 +196,12 @@ Live task tracker for the current build push. Updated as work lands.
       the app and the browser matches them itself: 20ms to a rendered list,
       zero network calls, aliases for Bombay, Calcutta, Benares, Mysore,
       Pondicherry and Trivandrum
+- [x] **Multiple 360s per place** — Mapillary lookups now return several
+      captures spread at least 55m apart instead of only the nearest, labelled
+      by how far and which way they lie ("128 m south-west"). A site with one
+      curated panorama gains live viewpoints beside it, and the live-only tours
+      open with five or six. The old curated/live swap button is gone; the
+      vantage switcher covers it
 - [x] **Three more VR tours** — Rishikesh, Haridwar and Cubbon Park in
       Bengaluru, resolved live from Mapillary. 34 tours in 15 states
 - [x] **Trains in the agent** — a third booking panel beside Flights and Stays.
@@ -216,6 +222,12 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
+- [ ] **Station-to-station train search** — blocked on the exact endpoint path
+      for the newly subscribed irctc-train-api host
+- [ ] **Google Images is not a usable tour source** — it indexes other
+      people's copyrighted photos and grants no licence to redistribute them;
+      Street View forbids extracting imagery outside its own embed. Free,
+      licensed sources only: Mapillary (CC BY-SA) and Commons
 - [ ] **Mapillary is the ceiling on new VR tours** — of 58 Indian sites
       scanned, only six have any 360° coverage at all, and Commons' 360
       category for India is 240 files that are almost entirely one

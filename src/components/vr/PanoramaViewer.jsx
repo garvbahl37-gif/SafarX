@@ -17,7 +17,7 @@
  * There is deliberately no third-party viewer SDK here: no iframes, no vendor
  * buttons, no vendor logos. What we owe each source is attribution, and that is
  * rendered in our own type — the curated credit line for a curated image, the
- * Mapillary credit when the live capture is on screen.
+ * Mapillary credit when a live capture is on screen.
  */
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -30,7 +30,6 @@ import {
     Orbit,
     Plus,
     Minus,
-    Radio,
     MapPinOff,
     WifiOff,
     KeyRound,
@@ -43,7 +42,7 @@ import {
 } from "../../services/mapillaryService";
 import {
     resolvePanoramaSet,
-    findLivePanorama,
+    findLiveVantages,
     clearPanoramaCache,
     PanoramaSource,
 } from "../../services/panoramaService";
@@ -151,15 +150,11 @@ const PanoramaViewer = ({
        off-screen after a keyboard or programmatic change. */
     const activeVantageRef = useRef(null);
 
-    // `vantages` is every 360° view this site offers, in authoring order —
-    // curated images, or a single Mapillary capture when the site has no
-    // curated one yet. `vantageIndex` is the one on screen. `live` is the
-    // optional Mapillary capture offered *alongside* curated ones, and
-    // `showLive` picks between the two sources.
+    // `vantages` is every 360° view this site offers, in authoring order:
+    // the tour's curated images first, then any live Mapillary captures near
+    // the same coordinates. `vantageIndex` is the one on screen.
     const [vantages, setVantages] = useState([]);
     const [vantageIndex, setVantageIndex] = useState(0);
-    const [live, setLive] = useState(null);
-    const [showLive, setShowLive] = useState(false);
     const [phase, setPhase] = useState("locating"); // locating | loading | ready | empty | error
     const [error, setError] = useState(null);
     const [progress, setProgress] = useState(null);
@@ -176,14 +171,10 @@ const PanoramaViewer = ({
 
     // Memoised so the three.js effect below re-runs on a real source change,
     // not on every render.
-    const active = useMemo(
-        () => (showLive && live ? live : resolved),
-        [showLive, live, resolved]
-    );
+    const active = resolved;
 
     const coordLabel = formatCoords(latitude, longitude);
     const captureLabel = active?.captureLabel || null;
-    const canSwapSource = Boolean(resolved && live && resolved !== live);
     // The switcher only earns its space when there is somewhere else to go.
     const hasVantages = vantages.length > 1;
 
@@ -195,8 +186,6 @@ const PanoramaViewer = ({
         setPhase("locating");
         setVantages([]);
         setVantageIndex(0);
-        setLive(null);
-        setShowLive(false);
         setError(null);
         setProgress(null);
 
@@ -253,9 +242,23 @@ const PanoramaViewer = ({
         const controller = new AbortController();
         let alive = true;
 
-        findLivePanorama(latitude, longitude, { signal: controller.signal }).then(
-            (result) => {
-                if (alive && result) setLive(result);
+        /* A place is worth more than one viewpoint. Mapillary's captures are
+           appended to the switcher so a site with a single verified panorama
+           can still be walked around; only when there are none does the older
+           single-capture swap button appear instead. */
+        findLiveVantages(latitude, longitude, { signal: controller.signal, limit: 4 }).then(
+            (results) => {
+                if (!alive || !results.length) return;
+                setVantages((current) => {
+                    if (!current.length) return current;
+                    const seen = new Set(current.map((v) => v.imageUrl));
+                    const fresh = results.filter((v) => !seen.has(v.imageUrl));
+                    if (!fresh.length) return current;
+                    // The curated images stay first; the tour still opens on one.
+                    return current[0]?.source === PanoramaSource.MAPILLARY
+                        ? current
+                        : [...current, ...fresh];
+                });
             }
         );
 
@@ -574,13 +577,12 @@ const PanoramaViewer = ({
        down through its cleanup before building the new one. */
     const selectVantage = useCallback(
         (index) => {
-            if (index === vantageIndex && !showLive) return;
-            setShowLive(false);
+            if (index === vantageIndex) return;
             setVantageIndex(index);
             setProgress(null);
             setPhase("loading");
         },
-        [vantageIndex, showLive]
+        [vantageIndex]
     );
 
     /* Keep the selected vantage pill visible inside the scrolling strip. */
@@ -592,14 +594,7 @@ const PanoramaViewer = ({
             block: "nearest",
             inline: "center",
         });
-    }, [vantageIndex, showLive, reduce]);
-
-    /* Swap between the curated panorama and the live Mapillary capture. */
-    const toggleSource = useCallback(() => {
-        setShowLive((on) => !on);
-        setProgress(null);
-        setPhase("loading");
-    }, []);
+    }, [vantageIndex, reduce]);
 
     /* ── Overlays ───────────────────────────────────────────────────── */
 
@@ -744,7 +739,7 @@ const PanoramaViewer = ({
                     aria-label={`Vantage points at ${name || "this site"}`}
                 >
                     {vantages.map((v, i) => {
-                        const isActive = !showLive && i === vantageIndex;
+                        const isActive = i === vantageIndex;
                         return (
                             <button
                                 key={v.imageUrl}
@@ -769,19 +764,6 @@ const PanoramaViewer = ({
             {/* Glass controls */}
             {phase === "ready" && (
                 <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2 md:bottom-6 md:right-6">
-                    {canSwapSource && (
-                        <GlassIconButton
-                            icon={Radio}
-                            label={
-                                showLive
-                                    ? "Show the curated panorama"
-                                    : "Show the live street-level capture"
-                            }
-                            pressed={showLive}
-                            active={showLive}
-                            onClick={toggleSource}
-                        />
-                    )}
                     <GlassIconButton
                         icon={Minus}
                         label="Zoom out"

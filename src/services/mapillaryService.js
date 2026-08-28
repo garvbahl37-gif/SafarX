@@ -36,6 +36,32 @@ const SEARCH_RADII = [0.005, 0.015, 0.03];
 const RESULT_LIMIT = 500;
 const REQUEST_TIMEOUT_MS = 12000;
 
+/** Two captures closer together than this are the same vantage point. */
+const MIN_VANTAGE_SPACING_M = 55;
+
+const EARTH_R = 6371000;
+const rad = (d) => (d * Math.PI) / 180;
+
+/** Equirectangular approximation — accurate enough over a few hundred metres. */
+const metresBetween = (a, b) => {
+    if (!a || !b) return Infinity;
+    const x = rad(b.lng - a.lng) * Math.cos(rad((a.lat + b.lat) / 2));
+    const y = rad(b.lat - a.lat);
+    return Math.sqrt(x * x + y * y) * EARTH_R;
+};
+
+const COMPASS = ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"];
+
+/** Which way the capture lies from the site's own coordinates. */
+const bearingFrom = (lat, lng, point) => {
+    if (!point) return null;
+    const dy = point.lat - lat;
+    const dx = (point.lng - lng) * Math.cos(rad(lat));
+    if (!dx && !dy) return null;
+    const deg = (Math.atan2(dx, dy) * 180) / Math.PI;
+    return COMPASS[Math.round(((deg + 360) % 360) / 45) % 8];
+};
+
 /* ── Typed errors ───────────────────────────────────────────────────── */
 
 export const MapillaryErrorCode = {
@@ -193,7 +219,7 @@ async function fetchImagesInBbox(token, box, signal) {
  * } | null>} `null` when Mapillary simply has no 360° coverage there.
  * @throws {MapillaryError} NO_TOKEN · NETWORK · BAD_INPUT
  */
-export async function findPanoramaNear(lat, lng, { signal } = {}) {
+async function findPanoramaSetNear(lat, lng, { signal, limit = 1 } = {}) {
     const targetLat = Number(lat);
     const targetLng = Number(lng);
 
@@ -212,7 +238,7 @@ export async function findPanoramaNear(lat, lng, { signal } = {}) {
         );
     }
 
-    const key = cacheKey(targetLat, targetLng);
+    const key = `${cacheKey(targetLat, targetLng)}:${limit}`;
     if (cache.has(key)) return cache.get(key);
 
     for (const radius of SEARCH_RADII) {
@@ -243,23 +269,50 @@ export async function findPanoramaNear(lat, lng, { signal } = {}) {
             );
         });
 
-        const best = panoramas[0];
-        const result = {
-            imageUrl: best.image.thumb_2048_url || best.image.thumb_original_url,
-            capturedAt: best.capturedAt || null,
-            mapillaryId: String(best.image.id),
-            lat: best.point?.lat ?? targetLat,
-            lng: best.point?.lng ?? targetLng,
-        };
+        // A street is captured every few metres, so the top of that list is
+        // often ten frames of the same doorway. Walk it and keep only captures
+        // that stand far enough apart to be a different place to stand.
+        const chosen = [];
+        for (const candidate of panoramas) {
+            if (chosen.length >= limit) break;
+            const far = chosen.every(
+                (kept) => metresBetween(kept.point, candidate.point) >= MIN_VANTAGE_SPACING_M
+            );
+            if (far) chosen.push(candidate);
+        }
 
-        cache.set(key, result);
-        return result;
+        const results = chosen.map((entry) => ({
+            imageUrl: entry.image.thumb_2048_url || entry.image.thumb_original_url,
+            capturedAt: entry.capturedAt || null,
+            mapillaryId: String(entry.image.id),
+            lat: entry.point?.lat ?? targetLat,
+            lng: entry.point?.lng ?? targetLng,
+            bearing: bearingFrom(targetLat, targetLng, entry.point),
+            metres: Math.round(metresBetween({ lat: targetLat, lng: targetLng }, entry.point)),
+        }));
+
+        cache.set(key, results);
+        return results;
     }
 
     // Searched out to ~1.1 km and found no 360° imagery. That is a real,
     // honest answer — never a reason to fall back to third-party video.
-    cache.set(key, null);
-    return null;
+    cache.set(key, []);
+    return [];
+}
+
+/**
+ * Several 360° captures around one place, spread far enough apart to be worth
+ * switching between — the live equivalent of a tour's curated vantage list.
+ */
+export async function findPanoramasNear(lat, lng, { signal, limit = 6 } = {}) {
+    return findPanoramaSetNear(lat, lng, { signal, limit });
+}
+
+/** The single best capture near a point, or null. */
+export async function findPanoramaNear(lat, lng, { signal } = {}) {
+    const set = await findPanoramaSetNear(lat, lng, { signal, limit: 1 });
+    return set.length ? set[0] : null;
 }
 
 /** Human-readable copy for a failed lookup, used by the viewer's StateNotice. */
