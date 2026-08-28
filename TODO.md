@@ -196,10 +196,11 @@ Live task tracker for the current build push. Updated as work lands.
       the app and the browser matches them itself: 20ms to a rendered list,
       zero network calls, aliases for Bombay, Calcutta, Benares, Mysore,
       Pondicherry and Trivandrum
-- [x] **Page-to-page transitions** — routes used to swap instantly. Each is
-      now its own presence: the outgoing page falls and fades in 0.18s, the
-      incoming one rises and settles in 0.42s. Leaving feels immediate,
-      arriving feels composed. Honours prefers-reduced-motion
+- [x] **Page-to-page transition removed** — it read as a bug because it was
+      one: measured an 83ms window under 25% opacity (a visible blink) and
+      55px of vertical lurch, because the scroll-to-top ran against the
+      transform. Every page already choreographs its own entrance, so the
+      wrapper only added a dip. Route changes now land instantly at the top
 - [x] **Bug: square inside the map search bar** — @tailwindcss/forms draws a
       resting 1px border on every field. Each field style here supplies its
       own, so that default only ever showed as a stray rectangle inside

@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { Scroll } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import LoadingScreen from "./components/LoadingScreen";
 
 // ✅ IMPORT ANONYMOUS SUPABASE CLIENT (NO Clerk interference)
@@ -69,23 +69,6 @@ const PAGE_TITLES = {
   "/social": "Safar Groups — SafarX",
 };
 
-/* Page-to-page motion.
-
-   `mode="wait"` so two pages never overlap — several of them open with
-   full-bleed video, and cross-fading two of those together looks like a
-   glitch rather than a transition. The exit is deliberately faster than the
-   entrance: leaving should feel immediate, arriving should feel composed. */
-const PAGE_ENTER = { duration: 0.42, ease: [0.22, 1, 0.36, 1] };
-const PAGE_EXIT = { duration: 0.18, ease: [0.4, 0, 1, 1] };
-
-const PAGE_VARIANTS = {
-  initial: { opacity: 0, y: 14, scale: 0.994 },
-  animate: { opacity: 1, y: 0, scale: 1, transition: PAGE_ENTER },
-  exit: { opacity: 0, y: -8, scale: 0.996, transition: PAGE_EXIT },
-};
-
-const STILL = { initial: {}, animate: {}, exit: {} };
-
 // Routes that open with full-bleed media, so they must not be top-padded.
 const FULL_BLEED_PAGES = new Set([
   "home", "tracker", "360tour", "gems", "itinerary", "360view", "map",
@@ -150,7 +133,9 @@ export default function App() {
     const path = ROUTES[page] || "/";
     setSelectedItem(item);
     navigate(path);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Instant, not smooth: gliding the old page upward while the next one
+    // mounts reads as the layout lurching rather than as a scroll.
+    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   // The header navigates with the router directly, which would leave a stale
@@ -179,8 +164,6 @@ export default function App() {
     const timer = setTimeout(() => setIsMainLoading(false), 3800);
     return () => clearTimeout(timer);
   }, []);
-
-  const reduceMotion = useReducedMotion();
 
   // Hide header/footer on certain pages
   const hideHeaderFooter = currentPage === "chat";
@@ -219,37 +202,22 @@ export default function App() {
                 : "min-h-screen pt-24"
             }
           >
-            {/* Each route is its own presence, so leaving one page and
-                arriving at the next reads as a single move rather than a
-                jump cut. Keyed on the path: the same page re-rendering must
-                not re-animate. */}
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={location.pathname}
-                variants={reduceMotion ? STILL : PAGE_VARIANTS}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="min-h-screen"
-              >
-              <Routes>
-                <Route path="/" element={<HomePage {...pageProps} />} />
-                <Route path="/360tour" element={<WorldToursPage {...pageProps} />} />
-                <Route path="/gems" element={<HiddenGemsPage {...pageProps} />} />
-                <Route path="/itinerary" element={<ItineraryPlanner {...pageProps} />} />
-                <Route path="/chat" element={<AgentPage {...pageProps} />} />
-                <Route path="/map" element={<MapPage {...pageProps} />} />
-                <Route path="/checklist" element={<PreTripChecklist />} />
-                <Route path="/upload" element={<UploadPage {...pageProps} />} />
-                <Route path="/tracker" element={<FlightTrackerPage />} />
-                <Route path="/vault" element={<DocumentVault {...pageProps} />} />
-                <Route path="/360view" element={<TourPage360 onPageChange={handlePageChange} />} />
-                <Route path="/social" element={<SocialPage onBack={() => handlePageChange("home")} />} />
-                {/* Fallback to home for unknown routes */}
-                <Route path="*" element={<HomePage {...pageProps} />} />
-              </Routes>
-              </motion.div>
-            </AnimatePresence>
+            <Routes>
+              <Route path="/" element={<HomePage {...pageProps} />} />
+              <Route path="/360tour" element={<WorldToursPage {...pageProps} />} />
+              <Route path="/gems" element={<HiddenGemsPage {...pageProps} />} />
+              <Route path="/itinerary" element={<ItineraryPlanner {...pageProps} />} />
+              <Route path="/chat" element={<AgentPage {...pageProps} />} />
+              <Route path="/map" element={<MapPage {...pageProps} />} />
+              <Route path="/checklist" element={<PreTripChecklist />} />
+              <Route path="/upload" element={<UploadPage {...pageProps} />} />
+              <Route path="/tracker" element={<FlightTrackerPage />} />
+              <Route path="/vault" element={<DocumentVault {...pageProps} />} />
+              <Route path="/360view" element={<TourPage360 onPageChange={handlePageChange} />} />
+              <Route path="/social" element={<SocialPage onBack={() => handlePageChange("home")} />} />
+              {/* Fallback to home for unknown routes */}
+              <Route path="*" element={<HomePage {...pageProps} />} />
+            </Routes>
           </main>
           <Toaster
             position="top-right"
