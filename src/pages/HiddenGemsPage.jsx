@@ -249,17 +249,17 @@ const HiddenGemsPage = ({ onPageChange }) => {
             playsInline
             preload="metadata"
             poster="https://images.unsplash.com/photo-1571536802807-30451e3955d8?w=1600&auto=format&fit=crop&q=70"
-            className="absolute top-1/2 left-1/2 w-[177.77vh] min-w-full min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 object-cover"
+            className="absolute top-1/2 left-1/2 w-[177.77vh] min-w-full min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 object-cover video-crisp"
           >
             <source
-              src="https://videos.pexels.com/video-files/31696690/13504974_1920_1080_30fps.mp4"
+              src="https://videos.pexels.com/video-files/33560749/14268660_2560_1440_60fps.mp4"
               type="video/mp4"
             />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/35 to-ink-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/28 to-ink-950/25" />
         </div>
 
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto on-media">
           <Motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

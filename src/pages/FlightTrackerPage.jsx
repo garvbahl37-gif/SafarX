@@ -110,7 +110,7 @@ const FlightTrackerPage = () => {
                         loop
                         muted
                         playsInline
-                        className="absolute top-1/2 left-1/2 w-[177.77vh] h-[100vw] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover scale-110 pointer-events-none opacity-60"
+                        className="absolute top-1/2 left-1/2 w-[177.77vh] h-[100vw] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover scale-110 pointer-events-none opacity-90 video-crisp"
                     >
                         <source src="https://res.cloudinary.com/dnmhqosoa/video/upload/v1772188206/bgvideo_rzovxb.mp4" type="video/mp4" />
                     </video>

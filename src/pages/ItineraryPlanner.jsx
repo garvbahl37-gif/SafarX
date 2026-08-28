@@ -122,18 +122,18 @@ const ItineraryPlanner = ({ selectedItem }) => {
             muted
             playsInline
             preload="metadata"
-            poster="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1600&auto=format&fit=crop&q=70"
-            className="w-full h-full object-cover"
+            poster="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1600&auto=format&fit=crop&q=75"
+            className="w-full h-full object-cover video-crisp"
           >
-            <source src="https://videos.pexels.com/video-files/35000186/14827904_2560_1440_30fps.mp4" type="video/mp4" />
+            <source src="https://videos.pexels.com/video-files/15952999/15952999-uhd_2560_1440_30fps.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/50 to-ink-950/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-ink-950/15" />
           {/* Pool of shade behind the centred copy */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(6,20,18,0.62)_0%,transparent_75%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_58%_52%_at_50%_50%,rgba(6,20,18,0.58)_0%,transparent_76%)]" />
         </div>
 
         {/* Editorial stack */}
-        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-5 sm:px-6 md:px-14 py-16 text-center">
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-5 sm:px-6 md:px-14 py-16 text-center on-media">
           <Motion.div
             initial={reduce ? false : { opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}

@@ -116,7 +116,7 @@ export const SearchBar = ({ onSearch, isLoading }) => {
                         muted
                         playsInline
                         preload="auto"
-                        className="absolute inset-0 w-full h-full object-cover opacity-70"
+                        className="absolute inset-0 w-full h-full object-cover opacity-90 video-crisp"
                         src={BG_VIDEO_URL}
                     />
                 )}

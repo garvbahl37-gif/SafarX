@@ -303,7 +303,7 @@ const GoogleEarthExplorer = ({ onBack }) => {
             playsInline
             preload="metadata"
             poster="https://images.unsplash.com/photo-1599661046289-e31897846e41?w=1600&auto=format&fit=crop&q=70"
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.78]"
+            className="absolute inset-0 h-full w-full object-cover opacity-95 video-crisp"
             src={BG_VIDEO_URL}
           />
         )}

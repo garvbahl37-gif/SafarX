@@ -378,7 +378,7 @@ const HomePage = ({ onPageChange }) => {
                   playsInline
                   preload="auto"
                   poster={slide.poster}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover video-crisp"
                   src={slide.url}
                 />
               </motion.div>
@@ -674,7 +674,7 @@ const HomePage = ({ onPageChange }) => {
                 playsInline
                 preload="metadata"
                 poster="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&auto=format&fit=crop&q=75"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover video-crisp"
                 src="https://videos.pexels.com/video-files/19717370/19717370-uhd_3840_2160_30fps.mp4"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-transparent to-ink-950/25" />
@@ -859,10 +859,10 @@ const HomePage = ({ onPageChange }) => {
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover video-crisp"
             src="https://videos.pexels.com/video-files/34456655/14600246_3840_2160_30fps.mp4"
           />
-          <div className="absolute inset-0 bg-ink-950/70" />
+          <div className="absolute inset-0 bg-ink-950/58" />
           <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-transparent to-ink-950" />
         </div>
 

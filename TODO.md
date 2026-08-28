@@ -97,6 +97,18 @@ Live task tracker for the current build push. Updated as work lands.
       rendition with a poster frame and a single scrim plus a pool of shade
       under the copy
 
+- [x] **Video quality pass across the app** — the real culprit was the
+      film-grain overlay sitting at opacity 0.5: a grayscale noise layer that
+      acted as a grey veil over every hero. Dropped to 0.18, softened the
+      vignette, and added a `video-crisp` grading utility
+      (saturate 1.28 / contrast 1.12 / brightness 1.09) applied to every
+      background video, with `on-media` text-shadow so copy stays legible
+      without darkening the footage back down
+- [x] **Brighter, higher-res hero videos** — Plan a Trip now shows a car on a
+      winding Indian mountain road (was an alpine valley in *Switzerland*);
+      Hidden Gems upgraded 1080p → 1440p60 Hogenakkal Falls; flight tracker
+      raised from 60% to 90% opacity
+
 ## In progress
 
 - [ ] **More VR tours + a place story under each one** — fill the 8 tours still
