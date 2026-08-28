@@ -67,6 +67,24 @@ body {
   color: var(--ivory);
 }
 
+/* The same plugin also draws a resting 1px border on every field. Every field
+   style in this app supplies its own, so that default only ever surfaced as a
+   stray rectangle inside components that border their own container — the
+   map's search pill had a square sitting inside its capsule. Reset it and let
+   the component decide. */
+[type="text"],
+[type="email"],
+[type="url"],
+[type="password"],
+[type="number"],
+[type="date"],
+[type="search"],
+[type="tel"],
+[type="time"],
+textarea {
+  border-width: 0;
+}
+
 /* @tailwindcss/forms ships a blue focus ring and border on every field.
    Override it once, globally, so inputs focus in gold instead. */
 [type="text"]:focus,

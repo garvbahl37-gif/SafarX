@@ -196,6 +196,14 @@ Live task tracker for the current build push. Updated as work lands.
       the app and the browser matches them itself: 20ms to a rendered list,
       zero network calls, aliases for Bombay, Calcutta, Benares, Mysore,
       Pondicherry and Trivandrum
+- [x] **Page-to-page transitions** — routes used to swap instantly. Each is
+      now its own presence: the outgoing page falls and fades in 0.18s, the
+      incoming one rises and settles in 0.42s. Leaving feels immediate,
+      arriving feels composed. Honours prefers-reduced-motion
+- [x] **Bug: square inside the map search bar** — @tailwindcss/forms draws a
+      resting 1px border on every field. Each field style here supplies its
+      own, so that default only ever showed as a stray rectangle inside
+      components that border their own container. Reset globally
 - [x] **Trains panel rebuilt around four questions** — Route (A→B on a date,
       the search people actually start from), Train (by name or number, with
       the full timetable), Live (where it is and how late, straight from
@@ -227,6 +235,11 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
+- [ ] **Orbital view hero video** — the clip is measurably the dullest asset
+      in the app: saturation 17/255 and contrast 29, against 44–118 and 59–72
+      for the heroes that were signed off. No overlay tuning fixes footage
+      that flat; it needs replacing, which needs a free Pexels or Pixabay API
+      key to search their libraries
 - [ ] **irctc-train-api monthly quota is spent** — Route, Live and PNR return
       a clear "out of quota" message until it resets. Train mode runs on the
       other host and is unaffected
