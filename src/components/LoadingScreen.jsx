@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import AnimatedCompass from "./ui/AnimatedCompass";
 
 /**
  * Cinematic boot sequence — a four-act film.
@@ -170,11 +169,6 @@ const LoadingScreen = () => {
 
       {/* ── Foreground stack ── */}
       <div className="relative z-10 flex flex-col items-center px-6 w-full">
-        {/* The instrument */}
-        <div className="mb-8">
-          <AnimatedCompass size={132} title="Finding your bearings" />
-        </div>
-
         {/* Wordmark: सफ़र → SafarX */}
         <div className="relative h-[clamp(5rem,15vw,9rem)] flex items-center justify-center w-full">
           <AnimatePresence mode="wait">

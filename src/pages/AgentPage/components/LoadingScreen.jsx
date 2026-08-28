@@ -1,6 +1,5 @@
 import { motion as Motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import AnimatedCompass from "../../../components/ui/AnimatedCompass";
 
 /**
  * Agent boot screen.
@@ -98,15 +97,6 @@ const AILoadingScreen = ({ onComplete }) => {
 
             {/* ── Wordmark block ── */}
             <div className="relative z-10 flex flex-col items-center px-6">
-                <Motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.7, ease: EASE }}
-                    className="mb-7"
-                >
-                    <AnimatedCompass size={104} title="Waking the agent" />
-                </Motion.div>
-
                 <Motion.span
                     initial={{ opacity: 0, letterSpacing: '0.6em' }}
                     animate={{ opacity: 1, letterSpacing: '0.32em' }}
