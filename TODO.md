@@ -185,6 +185,19 @@ Live task tracker for the current build push. Updated as work lands.
       ("Unexpected token '<'"). New `/api/stays/*` functions proxy Booking.com
       with the key server-side; suggestions, results and the detail modal all
       run on live data in ₹
+- [x] **Agent side rail steadied** — switching between Stays, Flights and
+      Trains threw the conversation column 80px out and back; the rail now
+      stays mounted and only cross-fades its contents. Below 1280px the panel
+      comes over the top instead of squashing the chat to a strip
+- [x] **Tripadvisor fallback for stays** — Booking's 50-call month runs out,
+      so hotel search, results and the whole detail modal now fall through to
+      Tripadvisor on a separate quota. One normalised shape, either provider
+- [x] **Instant destination autocomplete** — 126 Indian destinations ship with
+      the app and the browser matches them itself: 20ms to a rendered list,
+      zero network calls, aliases for Bombay, Calcutta, Benares, Mysore,
+      Pondicherry and Trivandrum
+- [x] **Three more VR tours** — Rishikesh, Haridwar and Cubbon Park in
+      Bengaluru, resolved live from Mapillary. 34 tours in 15 states
 - [x] **Trains in the agent** — a third booking panel beside Flights and Stays.
       Search by train name or number, see the ends, duration, running days and
       classes, then open the full timetable: every halt with arrival, halt
@@ -203,6 +216,11 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
+- [ ] **Mapillary is the ceiling on new VR tours** — of 58 Indian sites
+      scanned, only six have any 360° coverage at all, and Commons' 360
+      category for India is 240 files that are almost entirely one
+      photographer's West Bengal series. Hampi, Mysore, Khajuraho, the Golden
+      Temple and Konark have no equirectangular imagery anywhere public
 - [ ] **Booking.com plan is the bottleneck** — BASIC allows 50 requests a
       month for the whole site, and they are spent. Stays search returns a
       clear "out of quota" message until it resets. Responses are cached at

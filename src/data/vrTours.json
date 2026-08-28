@@ -3270,5 +3270,299 @@
         }
       ]
     }
+  },
+  {
+    "id": "rishikesh",
+    "name": "Rishikesh",
+    "country": "Uttarakhand, India",
+    "category": "Spiritual",
+    "latitude": 30.1087,
+    "longitude": 78.2932,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Lakshman_Jhula_Bridge_-_Hrishikesh_-_Uttarakhand_001.jpg/1280px-Lakshman_Jhula_Bridge_-_Hrishikesh_-_Uttarakhand_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "description": "Where the Ganga leaves the mountains and the ashrams begin.",
+    "highlights": [
+      "Lakshman Jhula",
+      "Triveni Ghat aarti",
+      "Ganga rapids"
+    ],
+    "gradient": "from-emerald-200 via-teal-100 to-stone-100",
+    "duration": "3:10",
+    "views": "260K",
+    "panoramaSource": "mapillary",
+    "story": {
+      "tagline": "The river arrives green, cold and fast.",
+      "intro": "Rishikesh sits where the Ganga finishes its run through the Himalaya and meets the plains. The water here is still mountain water — green, cold and moving fast — and the town has arranged itself along both banks to be near it. Two footbridges, Lakshman Jhula and Ram Jhula, carry pilgrims, motorbikes, cows and rafting guides across the gorge.",
+      "history": "The town's name comes from a sage who is said to have meditated here until Vishnu appeared. It has been a stop on the pilgrim route to Badrinath and Kedarnath for centuries, and the ashrams along the east bank grew up to house people walking north. In February 1968 the Beatles arrived at Maharishi Mahesh Yogi's ashram above the river and wrote most of the White Album in eight weeks; the abandoned compound is now open, its meditation cells covered in murals.",
+      "visiting": {
+        "bestTime": "September to November, then February to April",
+        "hours": "Ghats are open through the day; the Ganga aarti at Triveni Ghat is at dusk",
+        "entry": "Free; the Beatles Ashram charges a small fee",
+        "duration": "Two days for the town, longer if you raft",
+        "nearestAirport": "Jolly Grant, Dehradun (DED), about 35 km"
+      },
+      "seeThis": [
+        "Lakshman Jhula, and the view straight down the gorge from the middle of it",
+        "The evening aarti at Triveni Ghat, when the lamps go onto the water",
+        "The Beatles Ashram at Chaurasi Kutia, murals and all",
+        "The white water below Shivpuri, which is where the rafting starts"
+      ],
+      "tips": [
+        "Rishikesh is vegetarian and dry by law — no meat, no alcohol.",
+        "The river is glacier-fed and genuinely cold, even in summer.",
+        "Cross the bridges on foot early; by ten they are shoulder to shoulder."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Lakshman_Jhula_Bridge_-_Hrishikesh_-_Uttarakhand_001.jpg/500px-Lakshman_Jhula_Bridge_-_Hrishikesh_-_Uttarakhand_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Lakshman Jhula across the gorge",
+          "credit": "Snehrashmi — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Lakshman_Jhula_Bridge_-_Hrishikesh_-_Uttarakhand_001.jpg/1280px-Lakshman_Jhula_Bridge_-_Hrishikesh_-_Uttarakhand_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Lakshman_Jhula_Crowd%2C_Rishikesh.jpg/500px-Lakshman_Jhula_Crowd%2C_Rishikesh.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The bridge at its busiest",
+          "credit": "Dherwalstudio — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Lakshman_Jhula_Crowd%2C_Rishikesh.jpg/1280px-Lakshman_Jhula_Crowd%2C_Rishikesh.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Lakshman_jhula%2C_Rishikesh.jpg/500px-Lakshman_jhula%2C_Rishikesh.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The span from the east bank",
+          "credit": "आशीष_भटनागर — CC BY-SA 3.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Lakshman_jhula%2C_Rishikesh.jpg/1280px-Lakshman_jhula%2C_Rishikesh.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Lakshman_jhula%2C_Rishikesh_2.jpg/500px-Lakshman_jhula%2C_Rishikesh_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Ram Jhula and the ashram bank",
+          "credit": "आशीष_भटनागर — CC BY-SA 3.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Lakshman_jhula%2C_Rishikesh_2.jpg/1280px-Lakshman_jhula%2C_Rishikesh_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Rishikesh%2C_Lakshman_Jhula.jpg/500px-Rishikesh%2C_Lakshman_Jhula.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Evening at Triveni Ghat",
+          "credit": "McKay Savage from London, UK — CC BY 2.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Rishikesh%2C_Lakshman_Jhula.jpg/1280px-Rishikesh%2C_Lakshman_Jhula.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_04.jpg/500px-Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Lamps going onto the water",
+          "credit": "Goutam1962 — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_04.jpg/1280px-Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_07.jpg/500px-Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The Ganga running green",
+          "credit": "Goutam1962 — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_07.jpg/1280px-Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_08.jpg/500px-Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The gorge above town",
+          "credit": "Goutam1962 — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_08.jpg/1280px-Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_11.jpg/500px-Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The far bank at dusk",
+          "credit": "Goutam1962 — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_11.jpg/1280px-Devotees_and_Tourist_Enjoying_the_Sunset_at_Rishikesh_Ram_jhula_11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        }
+      ]
+    }
+  },
+  {
+    "id": "haridwar",
+    "name": "Haridwar",
+    "country": "Uttarakhand, India",
+    "category": "Spiritual",
+    "latitude": 29.9457,
+    "longitude": 78.1642,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Aarti_at_Har_ki_Pauri_on_Explore.jpg/1280px-Aarti_at_Har_ki_Pauri_on_Explore.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "description": "The gateway ghat where the Ganga is received every evening with fire.",
+    "highlights": [
+      "Har ki Pauri",
+      "Ganga aarti",
+      "Mansa Devi ropeway"
+    ],
+    "gradient": "from-orange-200 via-amber-100 to-stone-100",
+    "duration": "2:50",
+    "views": "310K",
+    "panoramaSource": "mapillary",
+    "story": {
+      "tagline": "Twenty kilometres downstream, the mountains are already gone.",
+      "intro": "Haridwar is where the Ganga finally leaves the hills for the plains, and the town exists to mark that. Har ki Pauri — 'the footstep of Hari' — is the ghat at its centre, a set of steps and a bathing pool cut off from the main current by a bridge, so that pilgrims can enter water that is fast but survivable.",
+      "history": "The ghat is old enough that its founding is credited to a king building for his ancestors, and a stone in the wall is said to carry Vishnu's footprint. Haridwar is one of the four sites of the Kumbh Mela, which brings tens of millions of people here every twelve years; the town's wide approach roads and holding grounds were built for those weeks and stand mostly empty the rest of the time.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "The ghats never close; the evening aarti begins around sunset",
+        "entry": "Free",
+        "duration": "An evening for the aarti, a day with Mansa Devi",
+        "nearestAirport": "Jolly Grant, Dehradun (DED), about 35 km"
+      },
+      "seeThis": [
+        "The evening aarti, from the steps rather than the bridge",
+        "Leaf boats of marigold and flame going downstream after dark",
+        "The ropeway up to Mansa Devi, and the town laid out below it",
+        "The clock tower, which everyone uses to find each other"
+      ],
+      "tips": [
+        "Arrive an hour before the aarti if you want to sit on the steps.",
+        "The current outside the bathing enclosure is stronger than it looks.",
+        "Leather is not allowed on the ghat — that includes belts and bags."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Aarti_at_Har_ki_Pauri_on_Explore.jpg/500px-Aarti_at_Har_ki_Pauri_on_Explore.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Aarti at Har ki Pauri",
+          "credit": "Ramesh Lalwani — CC BY 2.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Aarti_at_Har_ki_Pauri_on_Explore.jpg/1280px-Aarti_at_Har_ki_Pauri_on_Explore.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Har-ki-pauri%2C_Haridwar.JPG/500px-Har-ki-pauri%2C_Haridwar.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The ghat in daylight",
+          "credit": "Mandya patil — CC BY-SA 3.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Har-ki-pauri%2C_Haridwar.JPG/1280px-Har-ki-pauri%2C_Haridwar.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Har_ki_pauri_02.jpg/500px-Har_ki_pauri_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Steps down to the water",
+          "credit": "pavankunar — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Har_ki_pauri_02.jpg/1280px-Har_ki_pauri_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/GANGA_AARTI_FF.jpg/500px-GANGA_AARTI_FF.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The bathing enclosure",
+          "credit": "Samarth chyavan — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/GANGA_AARTI_FF.jpg/1280px-GANGA_AARTI_FF.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Ganga_Aarti_in_Haridwar.jpg/500px-Ganga_Aarti_in_Haridwar.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Evening crowds on the ghat",
+          "credit": "Athulvis — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Ganga_Aarti_in_Haridwar.jpg/1280px-Ganga_Aarti_in_Haridwar.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Ganga_aarti_haridwar_03.jpg/500px-Ganga_aarti_haridwar_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Lamps on the Ganga",
+          "credit": "pavankunar — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Ganga_aarti_haridwar_03.jpg/1280px-Ganga_aarti_haridwar_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Ganga_aarti_haridwar_04.jpg/500px-Ganga_aarti_haridwar_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The clock tower",
+          "credit": "pavankunar — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Ganga_aarti_haridwar_04.jpg/1280px-Ganga_aarti_haridwar_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Ganga_aarti_haridwar_05.jpg/500px-Ganga_aarti_haridwar_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Mansa Devi above the town",
+          "credit": "pavankunar — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Ganga_aarti_haridwar_05.jpg/1280px-Ganga_aarti_haridwar_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Ganga_aarti_haridwar_06.jpg/500px-Ganga_aarti_haridwar_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The river leaving the hills",
+          "credit": "pavankunar — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Ganga_aarti_haridwar_06.jpg/1280px-Ganga_aarti_haridwar_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        }
+      ]
+    }
+  },
+  {
+    "id": "bengaluru",
+    "name": "Cubbon Park, Bengaluru",
+    "country": "Karnataka, India",
+    "category": "Nature",
+    "latitude": 12.9763,
+    "longitude": 77.5929,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Cubbon_Park_Metro_station_interior.jpg/1280px-Cubbon_Park_Metro_station_interior.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "description": "Three hundred acres of old trees holding the middle of the city open.",
+    "highlights": [
+      "Bandstand avenue",
+      "Attara Kacheri",
+      "Sunday car-free roads"
+    ],
+    "gradient": "from-lime-200 via-emerald-100 to-stone-100",
+    "duration": "2:20",
+    "views": "180K",
+    "panoramaSource": "mapillary",
+    "story": {
+      "tagline": "The city agreed, once, not to build here.",
+      "intro": "Cubbon Park runs for about three hundred acres through the middle of Bengaluru, between the red Gothic law courts and the state library. It is not landscaped so much as left alone: rain trees, gulmohars and bamboo over broad roads, with the traffic audible but out of sight.",
+      "history": "The park was laid out in 1870 by Richard Sankey, the Chief Engineer of Mysore, and named for the long-serving Commissioner Mark Cubbon. The Attara Kacheri — the eighteen offices — went up in red brick at its edge in 1868 and now houses the High Court. The park has been fought over repeatedly as the city grew around it; roads through it are closed to cars on Sundays, which is when it belongs to everyone.",
+      "visiting": {
+        "bestTime": "November to February",
+        "hours": "6 am to 6 pm; roads closed to traffic on Sundays",
+        "entry": "Free",
+        "duration": "A morning",
+        "nearestAirport": "Kempegowda International (BLR), about 35 km"
+      },
+      "seeThis": [
+        "The bandstand and the avenue of rain trees around it",
+        "Attara Kacheri, red brick against the green",
+        "The State Central Library, and the readers on its steps",
+        "Sunday morning, when the roads fill with runners and skaters"
+      ],
+      "tips": [
+        "Go early — the light through the rain trees is the point.",
+        "Cubbon Park metro station opens directly into the park.",
+        "The park closes at six and the guards mean it."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Cubbon_Park_Metro_station_interior.jpg/500px-Cubbon_Park_Metro_station_interior.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Inside Cubbon Park station",
+          "credit": "Wilhelm Tell DCCXLVI — CC0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Cubbon_Park_Metro_station_interior.jpg/1280px-Cubbon_Park_Metro_station_interior.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Cubbon_Park_W.jpg/500px-Cubbon_Park_W.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The park in the middle of the city",
+          "credit": "Augustus Binu/ facebook — CC BY-SA 3.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Cubbon_Park_W.jpg/1280px-Cubbon_Park_W.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Stage-3-cubbon_park-bangalore-India.jpg/500px-Stage-3-cubbon_park-bangalore-India.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The bandstand",
+          "credit": "Yercaud-elango — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Stage-3-cubbon_park-bangalore-India.jpg/1280px-Stage-3-cubbon_park-bangalore-India.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Gate_3_%28East%29%2C_Vidhana_Soudha_%2801%29.jpg/500px-Gate_3_%28East%29%2C_Vidhana_Soudha_%2801%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Rain trees over the road",
+          "credit": "Moheen Reeyad — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Gate_3_%28East%29%2C_Vidhana_Soudha_%2801%29.jpg/1280px-Gate_3_%28East%29%2C_Vidhana_Soudha_%2801%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Statue_of_B._R._Ambedkar%2C_Vidhana_Soudha_%2802%29.jpg/500px-Statue_of_B._R._Ambedkar%2C_Vidhana_Soudha_%2802%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Attara Kacheri in red brick",
+          "credit": "Moheen Reeyad — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Statue_of_B._R._Ambedkar%2C_Vidhana_Soudha_%2802%29.jpg/1280px-Statue_of_B._R._Ambedkar%2C_Vidhana_Soudha_%2802%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Vidhan_Soudha_Bangalore_Front_view.JPG/500px-Vidhan_Soudha_Bangalore_Front_view.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "The library steps",
+          "credit": "Rameshng at Malayalam Wikipedia — CC BY-SA 3.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Vidhan_Soudha_Bangalore_Front_view.JPG/1280px-Vidhan_Soudha_Bangalore_Front_view.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Vidhana_Soudha%2C_front_%2801%29.jpg/500px-Vidhana_Soudha%2C_front_%2801%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Paths through the bamboo",
+          "credit": "Moheen Reeyad — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Vidhana_Soudha%2C_front_%2801%29.jpg/1280px-Vidhana_Soudha%2C_front_%2801%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Vidhana_Soudha_LE.jpg/500px-Vidhana_Soudha_LE.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Morning light",
+          "credit": "DeepanjanGhosh — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Vidhana_Soudha_LE.jpg/1280px-Vidhana_Soudha_LE.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/BANGALORE_PALACE.jpg/500px-BANGALORE_PALACE.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "caption": "Green against the skyline",
+          "credit": "Basavaraj M — CC BY-SA 4.0 · Wikimedia Commons",
+          "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/BANGALORE_PALACE.jpg/1280px-BANGALORE_PALACE.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        }
+      ]
+    }
   }
 ]
