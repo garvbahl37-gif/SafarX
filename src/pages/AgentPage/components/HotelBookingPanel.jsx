@@ -12,6 +12,19 @@ import HotelDetailModal from './HotelDetailModal';
 
 const EASE = [0.22, 1, 0.36, 1];
 
+/* Marks the typed part of a suggestion without trusting provider HTML. */
+const Highlight = ({ text = '', match = '' }) => {
+    const at = match ? text.toLowerCase().indexOf(match.trim().toLowerCase()) : -1;
+    if (at < 0 || !match.trim()) return text;
+    return (
+        <>
+            {text.slice(0, at)}
+            <b className="text-saffron font-semibold">{text.slice(at, at + match.trim().length)}</b>
+            {text.slice(at + match.trim().length)}
+        </>
+    );
+};
+
 const HotelBookingPanel = ({ onClose }) => {
     const [destination, setDestination] = useState('');
     const [checkIn, setCheckIn] = useState('');
@@ -58,8 +71,7 @@ const HotelBookingPanel = ({ onClose }) => {
     };
 
     const handleSelectSuggestion = (suggestion) => {
-        const cleanTitle = suggestion.title.replace(/<\/?b>/g, '');
-        setDestination(cleanTitle);
+        setDestination(suggestion.name);
         setSelectedLocation(suggestion);
         setShowSuggestions(false);
         setLocationSuggestions([]);
@@ -69,19 +81,20 @@ const HotelBookingPanel = ({ onClose }) => {
         if (!isFormValid) return;
         setShowResults(true);
         await searchHotels({
-            geoId: selectedLocation.geoId,
+            destId: selectedLocation.destId,
+            searchType: selectedLocation.searchType,
             checkIn, checkOut,
             adults: guests, rooms,
             sort: sortBy || undefined,
-            rating: starRating > 0 ? starRating * 10 : 0,
-            currencyCode: 'USD',
+            rating: starRating,
+            currency: 'INR',
         });
     };
 
     const handleHotelClick = async (hotel) => {
         await getHotelDetails({
             id: hotel.id, checkIn, checkOut,
-            adults: guests, rooms, currency: 'USD',
+            adults: guests, rooms, currency: 'INR',
         });
     };
 
@@ -241,13 +254,13 @@ const HotelBookingPanel = ({ onClose }) => {
                                                 >
                                                     {locationSuggestions.map((s, idx) => (
                                                         <Motion.button
-                                                            key={s.documentId}
+                                                            key={s.id}
                                                             initial={{ opacity: 0, x: -6 }}
                                                             animate={{ opacity: 1, x: 0 }}
                                                             transition={{ delay: idx * 0.04 }}
                                                             onClick={() => handleSelectSuggestion(s)}
                                                             role="option"
-                                                            aria-selected={selectedLocation?.documentId === s.documentId}
+                                                            aria-selected={selectedLocation?.id === s.id}
                                                             className="w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer
                                                                        border-b border-white/[0.05] last:border-0
                                                                        hover:bg-saffron/[0.07] transition-colors"
@@ -256,28 +269,32 @@ const HotelBookingPanel = ({ onClose }) => {
                                                                 className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-white/[0.04] border border-white/[0.07]"
                                                                 aria-hidden="true"
                                                             >
-                                                                {s.trackingItems === 'hotel'
+                                                                {s.destType === 'hotel'
                                                                     ? <Hotel size={13} className="text-saffron" />
                                                                     : <MapPinned size={13} className="text-saffron" />
                                                                 }
                                                             </span>
 
                                                             <span className="flex-1 min-w-0">
-                                                                <span
-                                                                    className="block text-[13px] font-medium truncate text-ivory"
-                                                                    dangerouslySetInnerHTML={{ __html: s.title }}
-                                                                />
+                                                                <span className="block text-[13px] font-medium truncate text-ivory">
+                                                                    <Highlight text={s.name} match={destination} />
+                                                                </span>
                                                                 <span className="block text-[11px] truncate text-ivory-faint">
                                                                     {s.secondaryText}
                                                                 </span>
                                                             </span>
 
-                                                            {s.image?.urlTemplate && (
+                                                            {s.hotels > 0 && (
+                                                                <span className="font-data text-[9.5px] tabular-nums text-ivory-faint shrink-0">
+                                                                    {s.hotels.toLocaleString('en-IN')}
+                                                                </span>
+                                                            )}
+
+                                                            {s.image && (
                                                                 <img
-                                                                    src={s.image.urlTemplate
-                                                                        .replace('{width}', '48')
-                                                                        .replace('{height}', '48')}
+                                                                    src={s.image}
                                                                     alt=""
+                                                                    loading="lazy"
                                                                     className="w-9 h-9 rounded-xl object-cover shrink-0"
                                                                 />
                                                             )}

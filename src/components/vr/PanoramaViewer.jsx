@@ -146,6 +146,10 @@ const PanoramaViewer = ({
     const shellRef = useRef(null);
     const mountRef = useRef(null);
     const controlsRef = useRef(null);
+    /* The active pill in the vantage switcher. Sanchi ships eleven vantage
+       points, so the strip scrolls — without this the selected one can end up
+       off-screen after a keyboard or programmatic change. */
+    const activeVantageRef = useRef(null);
 
     // `vantages` is every 360° view this site offers, in authoring order —
     // curated images, or a single Mapillary capture when the site has no
@@ -579,6 +583,17 @@ const PanoramaViewer = ({
         [vantageIndex, showLive]
     );
 
+    /* Keep the selected vantage pill visible inside the scrolling strip. */
+    useEffect(() => {
+        const el = activeVantageRef.current;
+        if (!el?.scrollIntoView) return;
+        el.scrollIntoView({
+            behavior: reduce ? "auto" : "smooth",
+            block: "nearest",
+            inline: "center",
+        });
+    }, [vantageIndex, showLive, reduce]);
+
     /* Swap between the curated panorama and the live Mapillary capture. */
     const toggleSource = useCallback(() => {
         setShowLive((on) => !on);
@@ -733,6 +748,7 @@ const PanoramaViewer = ({
                         return (
                             <button
                                 key={v.imageUrl}
+                                ref={isActive ? activeVantageRef : null}
                                 type="button"
                                 onClick={() => selectVantage(i)}
                                 aria-pressed={isActive}

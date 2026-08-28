@@ -1,13 +1,30 @@
-const BASE_URL = import.meta.env.VITE_API_URL
-    ? `${import.meta.env.VITE_API_URL}/api/hotels`
-    : 'https://bharatverse11-safarx.hf.space/api/hotels';
+/**
+ * Stays API — Booking.com, proxied through this site's own /api/stays
+ * functions so the RapidAPI key is never shipped to the browser.
+ *
+ * VITE_API_URL still wins when it is set, for pointing the app at a
+ * self-hosted backend instead.
+ */
+/* Always same-origin: these functions are deployed alongside the site. */
+const BASE_URL = '/api/stays';
 
 const handleResponse = async (response) => {
-    if (!response.ok) {
-        const error = await response.json().catch(() => ({}));
-        throw new Error(error.detail || `HTTP error ${response.status}`);
+    // A missing function falls through to the SPA, which answers with HTML.
+    // Parsing that as JSON produced "Unexpected token '<'", which told the
+    // traveller nothing about what actually went wrong.
+    const isJson = (response.headers.get('content-type') || '').includes('application/json');
+    if (!isJson) {
+        throw new Error(
+            response.status === 404
+                ? 'Stay search is not available on this build yet.'
+                : `Stay search is temporarily unavailable (${response.status}).`
+        );
     }
-    return response.json();
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok) {
+        throw new Error(body.error || body.detail || `Booking.com is not responding (${response.status}).`);
+    }
+    return body;
 };
 
 const buildQueryString = (params) => {
@@ -18,28 +35,12 @@ const buildQueryString = (params) => {
 };
 
 export const hotelApi = {
-    searchLocation: async (query) => {
-        const qs = buildQueryString({ query });
-        return handleResponse(await fetch(`${BASE_URL}/search-location${qs}`));
-    },
+    searchLocation: async (query) =>
+        handleResponse(await fetch(`${BASE_URL}/search-location${buildQueryString({ query })}`)),
 
-    getFilters: async (geoId, checkIn, checkOut) => {
-        const qs = buildQueryString({ geoId, checkIn, checkOut });
-        return handleResponse(await fetch(`${BASE_URL}/filters${qs}`));
-    },
+    searchHotels: async (params) =>
+        handleResponse(await fetch(`${BASE_URL}/search${buildQueryString(params)}`)),
 
-    searchHotels: async (params) => {
-        const qs = buildQueryString(params);
-        return handleResponse(await fetch(`${BASE_URL}/search${qs}`));
-    },
-
-    searchHotelsByLocation: async (params) => {
-        const qs = buildQueryString(params);
-        return handleResponse(await fetch(`${BASE_URL}/search-by-location${qs}`));
-    },
-
-    getHotelDetails: async (params) => {
-        const qs = buildQueryString(params);
-        return handleResponse(await fetch(`${BASE_URL}/details${qs}`));
-    },
+    getHotelDetails: async (params) =>
+        handleResponse(await fetch(`${BASE_URL}/details${buildQueryString(params)}`)),
 };

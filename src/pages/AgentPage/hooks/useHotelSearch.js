@@ -61,15 +61,16 @@ export const useHotelSearch = () => {
 
     // ── Search hotels ──────────────────────────────────────────
     const searchHotels = useCallback(async ({
-        geoId,          // ← clean numeric id from backend
+        destId,
+        searchType = 'CITY',
         checkIn,
         checkOut,
         adults = 2,
         rooms = 1,
         sort = null,
         rating = 0,
-        currencyCode = 'USD',
-        pageNumber = 1,
+        currency = 'INR',
+        page = 1,
     }) => {
         setLoadingSearch(true);
         setError(null);
@@ -77,18 +78,21 @@ export const useHotelSearch = () => {
 
         try {
             const result = await hotelApi.searchHotels({
-                geoId,
+                destId,
+                searchType,
                 checkIn,
                 checkOut,
                 adults,
                 rooms,
                 sort,
                 rating,
-                currencyCode,
-                pageNumber,
+                currency,
+                page,
             });
             setSearchResults(result.data || []);
-            setSortDisclaimer(result.sortDisclaimer || '');
+            setSortDisclaimer(result.meta?.nights
+                ? `Prices are the total for ${result.meta.nights} night${result.meta.nights > 1 ? 's' : ''}, including taxes and charges.`
+                : '');
         } catch (err) {
             setError(err.message);
             setSearchResults([]);
@@ -104,7 +108,7 @@ export const useHotelSearch = () => {
         checkOut,
         adults = 2,
         rooms = 1,
-        currency = 'USD',
+        currency = 'INR',
     }) => {
         setLoadingDetails(true);
         setError(null);

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   MapPin,
   Compass,
-  Waves,
+  Landmark,
   Building,
   Crown,
   Sparkles,
@@ -73,19 +73,19 @@ const locations = [
   },
   {
     id: 4,
-    vrTourId: null,   // no verified panorama yet — the viewer shows its empty state
-    name: "Andaman Islands",
-    place: "Bay of Bengal",
-    coords: "11.62° N · 92.73° E",
-    subtitle: "India's far blue frontier",
+    vrTourId: "jodhpur",
+    name: "Jodhpur",
+    place: "Rajasthan",
+    coords: "26.30° N · 73.02° E",
+    subtitle: "A fort on a rock over the blue city",
     description:
-      "Hover over reefs and empty white beaches at the edge of the map — the clearest water in India, from above and below the surface.",
-    latitude: 11.98320,
-    longitude: 92.94940,
-    icon: Waves,
-    category: "Island wilderness",
-    highlights: ["Radhanagar Beach", "Coral reefs", "Mangrove creeks"],
-    bestTime: "October – May",
+      "Stand in Mehrangarh's coronation courtyard and climb through the palace apartments — four vantage points inside the fort and at Jaswant Thada below it.",
+    latitude: 26.29806,
+    longitude: 73.01889,
+    icon: Landmark,
+    category: "Rajput stronghold",
+    highlights: ["Shringar Chowk", "Palace apartments", "Jaswant Thada"],
+    bestTime: "October – March",
   },
 ];
 

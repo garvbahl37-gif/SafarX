@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """
-Walks src/data/vrTours.json and proves every curated `panorama` URL is a real,
-reachable, ~2:1 equirectangular image.
+Walks src/data/vrTours.json and proves every image it ships is real and
+reachable — every vantage point in every tour's `panoramas[]`, and (with
+`--gallery`) every image in every `story.gallery`.
 
-    python3 scripts/verify-panoramas.py
+    python3 scripts/verify-panoramas.py            # panoramas only
+    python3 scripts/verify-panoramas.py --gallery  # panoramas + story galleries
 
-For each entry it:
+For each panorama it:
   1. HEADs the URL             -> must be HTTP 200 with an image/* content-type
   2. ranged-GETs the first 384K-> parses the *actual* pixel dimensions out of
                                   the JPEG/PNG/WebP header, so we measure the
@@ -13,7 +15,18 @@ For each entry it:
                                   trusting any API's metadata
   3. asserts 1.90 <= width/height <= 2.10
 
-Exit status is non-zero if any tour fails or has no panorama.
+Gallery images are only checked for reachability and content-type: they are
+ordinary photographs, so a 2:1 ratio would be wrong for them.
+
+Note that a 2:1 ratio is necessary but *not* sufficient to call an image
+equirectangular — a 24%-wide slice of a sphere and an 18:9 phone crop are both
+exactly 2:1 and both render as a smear. Sourcing therefore also requires GPano
+XMP with full-sphere crop values, a 360 camera in EXIF, or membership of a
+Commons 360°/photosphere category. This script is the last gate, not the only
+one.
+
+Exit status is non-zero if any image fails, or if any tour ships without a
+panorama.
 """
 import io
 import json
@@ -117,11 +130,8 @@ def dimensions(b):
     return None
 
 
-def check(tour):
-    row = {"id": tour.get("id"), "url": tour.get("panorama"),
-           "source": tour.get("panoramaSource") or "-",
-           "credit": tour.get("panoramaCredit") or "-"}
-    url = tour.get("panorama")
+def check(label, url, want_ratio=True):
+    row = {"id": label, "url": url}
     if not url:
         row.update(status="NONE", dims="-", ratio="-", ok=False)
         return row
@@ -154,17 +164,40 @@ def check(tour):
     row.update(status="200 %s" % ctype.split(";")[0],
                dims="%dx%d" % (w, h), ratio=round(ratio, 3),
                bytes=int(clen) if clen else None,
-               ok=LO <= ratio <= HI)
+               ok=(LO <= ratio <= HI) if want_ratio else True)
     return row
 
 
-def main():
-    tours = json.load(open(DATA))
-    # Sequential on purpose: upload.wikimedia.org throttles parallel range reads.
-    rows = [check(t) for t in tours]
+def rows_for(tours, with_gallery):
+    """Every image the data ships, flattened into (label, url, want_ratio)."""
+    out = []
+    for t in tours:
+        tid = t.get("id")
+        pans = t.get("panoramas") or []
+        if not pans and t.get("panorama"):        # legacy single-panorama tour
+            pans = [{"url": t["panorama"], "label": t.get("name")}]
+        if not pans:
+            out.append(("%s [no panorama]" % tid, None, True))
+            continue
+        for i, p in enumerate(pans):
+            out.append(("%s#%d" % (tid, i), p.get("url"), True))
+        if with_gallery:
+            for i, g in enumerate((t.get("story") or {}).get("gallery") or []):
+                out.append(("%s gal#%d" % (tid, i), g.get("url"), False))
+                if g.get("full"):
+                    out.append(("%s gal#%df" % (tid, i), g["full"], False))
+    return out
 
-    w = [16, 62, 13, 7, 22, 6]
-    hdr = ("id", "panorama URL (tail)", "dimensions", "ratio", "status", "ok")
+
+def main():
+    with_gallery = "--gallery" in sys.argv
+    tours = json.load(open(DATA))
+    todo = rows_for(tours, with_gallery)
+    # Sequential on purpose: upload.wikimedia.org throttles parallel range reads.
+    rows = [check(label, url, want_ratio) for label, url, want_ratio in todo]
+
+    w = [20, 58, 13, 7, 22, 6]
+    hdr = ("tour / vantage", "image URL (tail)", "dimensions", "ratio", "status", "ok")
     line = "  ".join(h.ljust(x) for h, x in zip(hdr, w))
     print(line)
     print("-" * len(line))
@@ -182,7 +215,11 @@ def main():
         ]))
 
     bad = [r for r in rows if not r["ok"]]
-    print("\n%d/%d tours have a verified ~2:1 panorama." % (len(rows) - len(bad), len(rows)))
+    kind = "images" if with_gallery else "vantage points"
+    print("\n%d/%d %s verified across %d tours."
+          % (len(rows) - len(bad), len(rows), kind, len(tours)))
+    if not with_gallery:
+        print("Re-run with --gallery to check every story gallery image too.")
     if bad:
         print("Failing: " + ", ".join(str(r["id"]) for r in bad))
     return 1 if bad else 0

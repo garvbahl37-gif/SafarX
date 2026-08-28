@@ -171,6 +171,11 @@ const HotelCard = ({ hotel, onClick }) => {
                                 <p className="font-data text-base font-semibold text-saffron leading-none mt-1">
                                     {hotel.price.displayPrice}
                                 </p>
+                                {hotel.priceDetails && (
+                                    <p className="font-data text-[9.5px] text-ivory-faint mt-1">
+                                        {hotel.priceDetails}
+                                    </p>
+                                )}
                             </>
                         ) : (
                             <p className="font-data text-[9.5px] uppercase tracking-[0.16em] text-ivory-faint">
