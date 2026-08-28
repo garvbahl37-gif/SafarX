@@ -569,6 +569,14 @@ const HotelDetailModal = ({ hotel, loading, onLoadPart, onClose }) => {
                                                     )}
                                                 </div>
 
+                                                {/* Booking splits praise from complaint; Tripadvisor
+                                                    writes one passage. Render whichever came back. */}
+                                                {review.text && (
+                                                    <p className="text-[12.5px] leading-relaxed agent-clamp-4 text-ivory-muted">
+                                                        {review.text}
+                                                    </p>
+                                                )}
+
                                                 {review.pros && (
                                                     <p className="text-[12.5px] leading-relaxed flex items-start gap-2 text-ivory-muted">
                                                         <ThumbsUp size={11} className="text-horizon mt-0.5 shrink-0" aria-hidden="true" />

@@ -35,6 +35,7 @@ const HotelBookingPanel = ({ onClose }) => {
     const [sortBy, setSortBy] = useState('');
     const [showResults, setShowResults] = useState(false);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [openProvider, setOpenProvider] = useState(null);
 
     const destinationRef = useRef(null);
     const suggestionsRef = useRef(null);
@@ -82,6 +83,8 @@ const HotelBookingPanel = ({ onClose }) => {
         setShowResults(true);
         await searchHotels({
             destId: selectedLocation.destId,
+            lat: selectedLocation.lat,
+            lng: selectedLocation.lng,
             searchType: selectedLocation.searchType,
             checkIn, checkOut,
             adults: guests, rooms,
@@ -92,9 +95,12 @@ const HotelBookingPanel = ({ onClose }) => {
     };
 
     const handleHotelClick = async (hotel) => {
+        // A hotel id only means something to the provider that issued it.
+        setOpenProvider(hotel.provider);
         await getHotelDetails({
             id: hotel.id, checkIn, checkOut,
             adults: guests, rooms, currency: 'INR', parts: 'base',
+            provider: hotel.provider,
         });
     };
 
@@ -103,6 +109,7 @@ const HotelBookingPanel = ({ onClose }) => {
         getHotelDetails({
             id, checkIn, checkOut,
             adults: guests, rooms, currency: 'INR', parts,
+            provider: openProvider,
         });
 
     useEffect(() => {

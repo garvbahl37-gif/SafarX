@@ -1,4 +1,5 @@
 import { callBooking, formatMoney, fail } from "./_booking.js";
+import { hotelDetails as tripadvisorDetails } from "./_tripadvisor.js";
 
 /**
  * One property in full.
@@ -40,8 +41,18 @@ const bucket = (rows) => {
 };
 
 export default async function handler(req, res) {
-  const { id, checkIn, checkOut, adults = 2, rooms = 1, currency = "INR", parts = "base" } = req.query;
+  const { id, checkIn, checkOut, adults = 2, rooms = 1, currency = "INR", parts = "base", provider } = req.query;
   const want = new Set(String(parts).split(","));
+
+  const viaTripadvisor = async () => {
+    const data = await tripadvisorDetails({ id, checkIn, checkOut, currency, want });
+    res.setHeader("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=604800");
+    return res.status(200).json({ data });
+  };
+
+  /* A result card knows which provider produced it, and its id only means
+     something to that provider. */
+  if (provider === "tripadvisor") return viaTripadvisor().catch((err) => fail(res, err));
   if (!id || !checkIn || !checkOut) {
     return res.status(400).json({ error: "id, checkIn and checkOut are all required." });
   }
@@ -170,6 +181,7 @@ export default async function handler(req, res) {
 
     if (want.has("base")) {
       data.id = String(d.hotel_id ?? id);
+      data.provider = "booking";
       data.title = d.hotel_name;
       data.photos = photos;
       data.rating = typeof meta.reviewScore === "number" ? Number((meta.reviewScore / 2).toFixed(1)) : null;
@@ -224,6 +236,10 @@ export default async function handler(req, res) {
     res.setHeader("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=604800");
     return res.status(200).json({ data });
   } catch (err) {
-    return fail(res, err);
+    try {
+      return await viaTripadvisor();
+    } catch {
+      return fail(res, err);
+    }
   }
 }

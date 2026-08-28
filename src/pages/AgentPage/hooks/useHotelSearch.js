@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from 'react';
 import { hotelApi } from '../services/hotelApi';
+import { findPlaces } from '../../../data/indiaPlaces';
 
 export const useHotelSearch = () => {
     const [locationSuggestions, setLocationSuggestions] = useState([]);
@@ -21,47 +22,54 @@ export const useHotelSearch = () => {
     const debounceTimer = useRef(null);
     const lastQueryRef = useRef('');
 
-    // ── Debounced location search ──────────────────────────────
+    // ── Location search ────────────────────────────────────────
+    /* The gazetteer is bundled with the app, so the list appears on the first
+       keystroke with no network round-trip. The provider is asked afterwards,
+       debounced, only to add what the local list did not know — the field is
+       never waiting on it. */
     const searchLocation = useCallback((query) => {
         if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
         const normalized = query.trim().toLowerCase();
-
-        // skip short queries
-        if (!normalized || normalized.length < 3) {
+        if (normalized.length < 2) {
             setLocationSuggestions([]);
+            lastQueryRef.current = '';
             return;
         }
 
-        // skip duplicate queries
-        if (lastQueryRef.current === normalized) {
-            return;
-        }
+        const local = findPlaces(normalized, 8);
+        setLocationSuggestions(local);
+
+        // A confident local answer needs nothing else.
+        if (local.length >= 3 || lastQueryRef.current === normalized) return;
 
         debounceTimer.current = setTimeout(async () => {
             lastQueryRef.current = normalized;
             setLoadingLocation(true);
-            setError(null);
-
             try {
                 const result = await hotelApi.searchLocation(normalized);
-                setLocationSuggestions(result.data || []);
-            } catch (err) {
-                if (err.response?.status === 429) {
-                    // silently ignore rate limit
-                    return;
+                const remote = result.data || [];
+                if (remote.length) {
+                    const seen = new Set(local.map((p) => p.name.toLowerCase()));
+                    setLocationSuggestions([
+                        ...local,
+                        ...remote.filter((r) => !seen.has(String(r.name).toLowerCase())),
+                    ].slice(0, 8));
                 }
-                setError(err.message);
-                setLocationSuggestions([]);
+            } catch {
+                // The local list is already on screen; a provider outage is not
+                // the traveller's problem.
             } finally {
                 setLoadingLocation(false);
             }
-        }, 700);
+        }, 220);
     }, []);
 
     // ── Search hotels ──────────────────────────────────────────
     const searchHotels = useCallback(async ({
         destId,
+        lat,
+        lng,
         searchType = 'CITY',
         checkIn,
         checkOut,
@@ -79,6 +87,8 @@ export const useHotelSearch = () => {
         try {
             const result = await hotelApi.searchHotels({
                 destId,
+                lat,
+                lng,
                 searchType,
                 checkIn,
                 checkOut,
@@ -110,13 +120,14 @@ export const useHotelSearch = () => {
         rooms = 1,
         currency = 'INR',
         parts = 'base',
+        provider,
     }) => {
         setLoadingDetails(true);
         setError(null);
 
         try {
             const result = await hotelApi.getHotelDetails({
-                id, checkIn, checkOut, adults, rooms, currency, parts,
+                id, checkIn, checkOut, adults, rooms, currency, parts, provider,
             });
             // Tabs load their own sections, so merge rather than replace —
             // opening Reviews must not wipe the photos already on screen.

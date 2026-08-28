@@ -1,4 +1,8 @@
 import { callBooking, formatMoney, fail } from "./_booking.js";
+import { searchHotelsNear } from "./_tripadvisor.js";
+
+const nightsBetween = (from, to) =>
+  Math.max(1, Math.round((new Date(to) - new Date(from)) / 86400000));
 
 /** Booking states the neighbourhood and distance in its a11y label; nothing else carries it. */
 const placeLine = (label) => {
@@ -28,14 +32,30 @@ export default async function handler(req, res) {
   const {
     destId, searchType = "CITY", checkIn, checkOut,
     adults = 2, rooms = 1, rating = 0, sort, page = 1,
-    currency = "INR",
+    currency = "INR", lat, lng,
   } = req.query;
 
-  if (!destId || !checkIn || !checkOut) {
+  if (!checkIn || !checkOut || (!destId && !(lat && lng))) {
     return res
       .status(400)
-      .json({ error: "destId, checkIn and checkOut are all required." });
+      .json({ error: "Dates plus either destId or a lat/lng are required." });
   }
+
+  /* Tripadvisor searches around a point, so it can stand in for any
+     destination the gazetteer or Booking gave coordinates for. */
+  const viaTripadvisor = async () => {
+    if (!lat || !lng) throw Object.assign(new Error("No coordinates to search around."), { status: 502 });
+    const results = await searchHotelsNear({
+      lat, lng, checkIn, checkOut, adults, rooms, currency, page,
+    });
+    res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
+    return res.status(200).json({
+      data: results,
+      meta: { nights: nightsBetween(checkIn, checkOut), count: results.length, currency, provider: "tripadvisor" },
+    });
+  };
+
+  if (!destId) return viaTripadvisor().catch((err) => fail(res, err));
 
   try {
     const raw = await callBooking("hotels/searchHotels", {
@@ -53,10 +73,7 @@ export default async function handler(req, res) {
     });
 
     const rows = raw?.data?.hotels || [];
-    const nights = Math.max(
-      1,
-      Math.round((new Date(checkOut) - new Date(checkIn)) / 86400000)
-    );
+    const nights = nightsBetween(checkIn, checkOut);
 
     const results = rows.map((row) => {
       const p = row.property || {};
@@ -65,6 +82,7 @@ export default async function handler(req, res) {
 
       return {
         id: String(row.hotel_id),
+        provider: "booking",
         title: p.name,
         thumbnail: p.photoUrls?.[0] || null,
         // Booking scores out of 10; the card's dots are out of 5.
@@ -96,9 +114,14 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       data: results,
-      meta: { nights, count: results.length, currency },
+      meta: { nights, count: results.length, currency, provider: "booking" },
     });
   } catch (err) {
-    return fail(res, err);
+    // Booking out of quota or down: the search still happens, elsewhere.
+    try {
+      return await viaTripadvisor();
+    } catch {
+      return fail(res, err);
+    }
   }
 }
