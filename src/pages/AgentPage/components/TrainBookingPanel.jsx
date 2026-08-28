@@ -636,20 +636,29 @@ const TrainBookingPanel = ({ onClose }) => {
                                                     </div>
                                                 )}
 
-                                                <div className="flex items-center gap-1.5 pt-2 border-t border-white/[0.07]">
-                                                    <CalendarDays size={10} className="text-ivory-faint shrink-0" aria-hidden="true" />
-                                                    {train.daily ? (
-                                                        <span className="font-data text-[9.5px] uppercase tracking-[0.14em] text-horizon">Runs daily</span>
-                                                    ) : (
-                                                        <span className="flex items-center gap-1">
-                                                            {DAYS.map((day) => (
-                                                                <span key={day} className={`font-data text-[9px] uppercase tracking-[0.06em] ${
-                                                                    train.runsOn.includes(day) ? 'text-saffron' : 'text-ivory/20'
-                                                                }`}>{day[0]}</span>
-                                                            ))}
-                                                        </span>
-                                                    )}
-                                                </div>
+                                                {/* The bundled timetable knows the run but not which
+                                                    weekdays it runs, so an empty list means unknown —
+                                                    not "runs on no days". */}
+                                                {(train.daily || train.runsOn?.length > 0 || train.type) && (
+                                                    <div className="flex items-center gap-1.5 pt-2 border-t border-white/[0.07]">
+                                                        <CalendarDays size={10} className="text-ivory-faint shrink-0" aria-hidden="true" />
+                                                        {train.daily ? (
+                                                            <span className="font-data text-[9.5px] uppercase tracking-[0.14em] text-horizon">Runs daily</span>
+                                                        ) : train.runsOn?.length > 0 ? (
+                                                            <span className="flex items-center gap-1">
+                                                                {DAYS.map((day) => (
+                                                                    <span key={day} className={`font-data text-[9px] uppercase tracking-[0.06em] ${
+                                                                        train.runsOn.includes(day) ? 'text-saffron' : 'text-ivory/20'
+                                                                    }`}>{day[0]}</span>
+                                                                ))}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-faint">
+                                                                {train.type || 'Express'}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                )}
                                             </Motion.button>
                                         ))}
                                     </div>
