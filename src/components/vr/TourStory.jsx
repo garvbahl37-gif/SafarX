@@ -55,18 +55,51 @@ const FACT_ROWS = [
  * One `whileInView` reveal. Shared so every block in the section rises the
  * same way, and so reduced motion is handled in exactly one place.
  */
-const Reveal = ({ children, delay = 0, className = "" }) => {
+const Reveal = ({ children, delay = 0, from = "up", className = "" }) => {
     const reduce = useReducedMotion();
+    const offset =
+        from === "left" ? { x: -28, y: 0 } : from === "right" ? { x: 28, y: 0 } : { x: 0, y: 30 };
     return (
         <Motion.div
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 26 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, ...offset, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-70px" }}
-            transition={{ duration: reduce ? 0.4 : 0.7, delay: reduce ? 0 : delay, ease: EASE }}
+            transition={{ duration: reduce ? 0.4 : 0.8, delay: reduce ? 0 : delay, ease: EASE }}
             className={className}
         >
             {children}
         </Motion.div>
+    );
+};
+
+/** A rule that draws itself across as the section arrives. */
+const DrawLine = ({ className = "" }) => {
+    const reduce = useReducedMotion();
+    return (
+        <Motion.span
+            aria-hidden="true"
+            initial={reduce ? { opacity: 1 } : { scaleX: 0, opacity: 0 }}
+            whileInView={{ scaleX: 1, opacity: 1 }}
+            viewport={{ once: true, margin: "-70px" }}
+            transition={{ duration: 1, ease: EASE }}
+            className={`route-line block origin-left ${className}`}
+        />
+    );
+};
+
+/** Counts a number up once it scrolls into view. */
+const CountIn = ({ children, className = "" }) => {
+    const reduce = useReducedMotion();
+    return (
+        <Motion.span
+            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className={className}
+        >
+            {children}
+        </Motion.span>
     );
 };
 
@@ -106,7 +139,7 @@ const TourStory = ({ tour }) => {
 
                 {/* ── History + facts strip ────────────────────────────── */}
                 <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:gap-16">
-                    <Reveal>
+                    <Reveal from="left">
                         <h3 className="eyebrow !text-[10px] mb-4">The short history</h3>
                         <p className="max-w-[65ch] text-[15px] leading-[1.8] text-ivory-muted">
                             {story.history}
@@ -114,21 +147,25 @@ const TourStory = ({ tour }) => {
                     </Reveal>
 
                     {facts.length > 0 && (
-                        <Reveal delay={0.08}>
+                        <Reveal from="right" delay={0.1}>
                             <div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-ink-900/60">
                                 <h3 className="eyebrow !text-[10px] border-b border-white/[0.07] px-5 py-4">
                                     Planning it
                                 </h3>
                                 <dl className="divide-y divide-white/[0.06]">
-                                    {facts.map((row) => {
+                                    {facts.map((row, i) => {
                                         // Capitalised local, not a destructured
                                         // param: this config has no react plugin,
                                         // so a JSX-only identifier in argument
                                         // position reads as unused.
                                         const RowIcon = row.icon;
                                         return (
-                                            <div
+                                            <Motion.div
                                                 key={row.key}
+                                                initial={{ opacity: 0, x: 12 }}
+                                                whileInView={{ opacity: 1, x: 0 }}
+                                                viewport={{ once: true, margin: "-40px" }}
+                                                transition={{ duration: 0.5, delay: 0.14 + i * 0.07, ease: EASE }}
                                                 className="flex items-start gap-3 px-5 py-3.5"
                                             >
                                                 <RowIcon
@@ -144,7 +181,7 @@ const TourStory = ({ tour }) => {
                                                         {story.visiting[row.key]}
                                                     </dd>
                                                 </div>
-                                            </div>
+                                            </Motion.div>
                                         );
                                     })}
                                 </dl>
@@ -166,9 +203,24 @@ const TourStory = ({ tour }) => {
                         <ol className="mt-9 grid gap-x-10 gap-y-8 sm:grid-cols-2">
                             {seeThis.map((item, i) => (
                                 <Reveal key={item.title} delay={(i % 2) * 0.08}>
-                                    <li className="group relative list-none border-t border-white/[0.07] pt-5 transition-colors duration-500 hover:border-saffron/35">
+                                    <li className="group relative list-none pt-5 transition-colors duration-500">
+                                        <Motion.span
+                                            aria-hidden="true"
+                                            initial={{ scaleX: 0 }}
+                                            whileInView={{ scaleX: 1 }}
+                                            viewport={{ once: true, margin: "-60px" }}
+                                            transition={{ duration: 0.9, delay: 0.1 + (i % 2) * 0.08, ease: EASE }}
+                                            className="absolute inset-x-0 top-0 block h-px origin-left bg-white/[0.09] transition-colors duration-500 group-hover:bg-saffron/40"
+                                        />
                                         <div className="mb-3 flex items-center gap-3">
-                                            <span className="route-dot shrink-0" aria-hidden="true" />
+                                            <Motion.span
+                                                initial={{ scale: 0 }}
+                                                whileInView={{ scale: 1 }}
+                                                viewport={{ once: true, margin: "-60px" }}
+                                                transition={{ duration: 0.5, delay: 0.28 + (i % 2) * 0.08, ease: [0.34, 1.56, 0.64, 1] }}
+                                                className="route-dot shrink-0"
+                                                aria-hidden="true"
+                                            />
                                             <span className="font-data text-[10px] uppercase tracking-[0.18em] text-saffron/85">
                                                 {String(i + 1).padStart(2, "0")}
                                             </span>
@@ -205,7 +257,7 @@ const TourStory = ({ tour }) => {
 
                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                             {gallery.map((image, i) => (
-                                <Reveal key={image.url} delay={(i % 4) * 0.07}>
+                                <Reveal key={image.url} delay={(i % 4) * 0.09} from={i % 2 ? "right" : "left"}>
                                     <figure className="group relative h-full overflow-hidden rounded-2xl border border-white/[0.07] bg-ink-800 transition-colors duration-500 hover:border-saffron/35">
                                         <div className="relative aspect-[4/3] overflow-hidden bg-ink-700/40">
                                             {/* Fade in on decode so a slow image

@@ -316,20 +316,37 @@ const PreTripChecklist = () => {
         className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(ellipse_80%_100%_at_50%_0%,rgba(212,168,67,0.08),transparent_70%)]"
       />
 
-      <div className="relative mx-auto w-full max-w-[1440px] px-5 pb-24 pt-8 sm:px-8 md:pt-12">
-        {/* ---------------- editorial header ---------------- */}
-        <header className="mb-10 md:mb-14">
-          <div className="flex items-center gap-4">
+      {/* Hero footage: a traveller laying out and checking their kit — the
+          page's own subject. One scrim, graded, with a poster so it never
+          opens on a black band. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[560px] overflow-hidden" aria-hidden="true">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="https://images.unsplash.com/photo-1553531384-cc64ac80f931?w=1600&auto=format&fit=crop&q=70"
+          src="https://videos.pexels.com/video-files/8197681/8197681-hd_1920_1080_30fps.mp4"
+          className="h-full w-full object-cover object-center opacity-[0.5] video-crisp"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink-950/55 via-ink-950/70 to-ink-950" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_58%_60%_at_50%_38%,rgba(6,20,18,0.55)_0%,transparent_78%)]" />
+      </div>
+
+      <div className="relative mx-auto w-full max-w-[1440px] px-5 pb-24 pt-10 sm:px-8 md:pt-16">
+        <header className="on-media mb-12 md:mb-16 text-center">
+          <div className="flex items-center justify-center gap-4">
+            <span className="route-dot" aria-hidden="true" />
             <span className="eyebrow whitespace-nowrap">Pre-trip · packing intelligence</span>
-            <span className="route-line hidden flex-1 sm:block" aria-hidden="true" />
-            <span className="route-dot hidden sm:block" aria-hidden="true" />
+            <span className="route-dot" aria-hidden="true" />
           </div>
 
           <Motion.h1
             initial={reduce ? false : { opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 max-w-4xl font-display text-4xl font-medium leading-[1.05] tracking-tight text-ivory sm:text-5xl md:text-6xl"
+            className="mt-5 mx-auto max-w-4xl font-display text-4xl font-medium leading-[1.05] tracking-tight text-ivory sm:text-5xl md:text-6xl"
           >
             Pack for the place,
             <br className="hidden sm:block" /> <em className="italic text-saffron">not for the guesswork</em>
@@ -339,7 +356,7 @@ const PreTripChecklist = () => {
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 max-w-2xl text-base leading-relaxed text-ivory-muted"
+            className="mt-5 mx-auto max-w-2xl text-base leading-relaxed text-ivory-muted"
           >
             Tell SafarX where you are going, when, and with whom. It reads the terrain, the season and your travelling
             party, then builds the list — Diamox for Ladakh in January, dry bags for a Kerala monsoon, modest cover for
