@@ -7,18 +7,84 @@
     "latitude": 27.17501,
     "longitude": 78.0421,
     "thumbnail": "/images/vr_thumbnails/taj-mahal.jpg",
-    "description": "An ivory-white marble mausoleum of eternal love.",
+    "description": "An ivory-white marble mausoleum built by Shah Jahan for Mumtaz Mahal.",
     "highlights": [
       "Mausoleum",
-      "Charbagh Gardens",
-      "Yamuna River"
+      "Charbagh gardens",
+      "Yamuna river"
     ],
     "gradient": "from-amber-200 via-orange-200 to-white",
     "duration": "5:45",
     "views": "5.9M",
-    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Taj_Mahal%2C_Agra_%2836473087024%29.jpg/3840px-Taj_Mahal%2C_Agra_%2836473087024%29.jpg",
-    "panoramaCredit": "Aleksandr Zykov from Russia — CC BY-SA 2.0 · Wikimedia Commons",
-    "panoramaSource": "wikimedia"
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Taj_Mahal_360%C2%B0_View.jpg",
+    "panoramaCredit": "Arul Prakasam T — CC BY-SA 4.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Taj_Mahal_360%C2%B0_View.jpg",
+        "label": "On the great plinth",
+        "credit": "Arul Prakasam T — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "A grief the Mughals decided to build in marble.",
+      "intro": "The Taj Mahal is the tomb Shah Jahan raised for his wife Mumtaz Mahal on the right bank of the Yamuna at Agra. It is not one building but a complete walled complex — gateway, mosque, guest hall, and a four-part garden — arranged so that the mausoleum is the only thing that ever stands at the centre of the view. UNESCO inscribed it in 1983.",
+      "history": "Mumtaz Mahal died in 1631 at Burhanpur giving birth to her fourteenth child. Work on the tomb began at Agra the following year and the mausoleum itself was substantially complete by about 1643, with the wider complex finished around 1653. Ustad Ahmad Lahauri is the name most often attached to the design. The white marble came from Makrana in Rajasthan, and the inlaid flowers use jasper, jade, carnelian and lapis lazuli brought from across Asia. Shah Jahan was deposed by his son Aurangzeb in 1658 and spent his last years at Agra Fort; he is buried beside his wife in the crypt.",
+      "visiting": {
+        "bestTime": "October to March, and go at sunrise",
+        "hours": "Sunrise to sunset; closed Fridays. Night viewing on five nights around the full moon",
+        "entry": "₹50 Indians · ₹540 SAARC and BIMSTEC · ₹1,100 foreign nationals; add ₹200 to step onto the mausoleum platform",
+        "duration": "2–3 hours",
+        "nearestAirport": "Agra (AGR), 13 km; most travellers fly to Delhi",
+        "nearestStation": "Agra Cantt, 6 km"
+      },
+      "seeThis": [
+        {
+          "title": "The optical trick at the gate",
+          "detail": "Frame the Taj in the great gateway's arch and walk forward. The building appears to shrink as you approach — the arch is doing the work, and it is the one photograph everyone gets wrong by rushing."
+        },
+        {
+          "title": "Pietra dura, up close",
+          "detail": "The flowers on the plinth walls are not painted. Each petal is a separate sliver of stone cut to fit. Put a torch against one and the carnelian glows red."
+        },
+        {
+          "title": "The two cenotaphs",
+          "detail": "Mumtaz Mahal's cenotaph sits dead centre; Shah Jahan's was added later, larger and off-axis — the single asymmetry in an otherwise perfectly balanced building."
+        },
+        {
+          "title": "Mehtab Bagh across the river",
+          "detail": "The Moonlight Garden on the far bank lines up exactly with the mausoleum. It is where the complex was meant to be seen from at dusk, and it is nearly empty."
+        }
+      ],
+      "tips": [
+        "Tickets are timed and cheaper booked online through the ASI portal; the ₹200 mausoleum supplement is a separate stub — keep it, they check at the steps.",
+        "Tripods, food and anything larger than a small bag are refused at the gate, and there is no cloakroom worth the queue. Travel light.",
+        "Fridays are closed for prayers, so a Friday in Agra is best spent at Agra Fort and Itimad-ud-Daulah instead."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/View_of_Taj_Mahal%2C_Agra.jpg/1280px-View_of_Taj_Mahal%2C_Agra.jpg",
+          "caption": "The mausoleum from the charbagh",
+          "credit": "Rohit Sharma — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Semi-Precious_Stones_Inlay_at_the_Taj_Mahal.jpg/1280px-Semi-Precious_Stones_Inlay_at_the_Taj_Mahal.jpg",
+          "caption": "Semi-precious stone inlay on the marble",
+          "credit": "Raya Sharbain — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Charbagh_Garden_with_Main_Gateway_-_Northern_View_-_Taj_Mahal_Complex_-_Agra_2014-05-14_3927.JPG/1280px-Charbagh_Garden_with_Main_Gateway_-_Northern_View_-_Taj_Mahal_Complex_-_Agra_2014-05-14_3927.JPG",
+          "caption": "The charbagh and the great gateway",
+          "credit": "Biswarup Ganguly — CC BY 3.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/View_of_Taj_from_Mehtab_Bagh_02.jpg/1280px-View_of_Taj_from_Mehtab_Bagh_02.jpg",
+          "caption": "From Mehtab Bagh, across the Yamuna",
+          "credit": "Darshanavenugopal — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "varanasi",
@@ -28,39 +94,183 @@
     "latitude": 25.3068,
     "longitude": 83.0104,
     "thumbnail": "https://images.unsplash.com/photo-1561361058-c24cecae35ca?w=800",
-    "description": "Ganga aarti and ancient ghats in the world's oldest living city.",
+    "description": "Ganga aarti and stone ghats in one of the world's oldest living cities.",
     "highlights": [
       "Dashashwamedh Ghat",
-      "Ganga Aarti",
+      "Ganga aarti",
       "Kashi Vishwanath"
     ],
     "gradient": "from-orange-300 via-amber-200 to-white",
     "duration": "6:20",
     "views": "2.4M",
-    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Mapillary_%28skysign%29_2026-02-18_03H44M26S758_%28866160263045282_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg/3840px-Mapillary_%28skysign%29_2026-02-18_03H44M26S758_%28866160263045282_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Mapillary_%28skysign%29_2026-02-18_03H43M56S717_%281251959013538153_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg/3840px-Mapillary_%28skysign%29_2026-02-18_03H43M56S717_%281251959013538153_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg",
     "panoramaCredit": "skysign — CC BY-SA 4.0 · Wikimedia Commons",
-    "panoramaSource": "wikimedia"
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Mapillary_%28skysign%29_2026-02-18_03H43M56S717_%281251959013538153_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg/3840px-Mapillary_%28skysign%29_2026-02-18_03H43M56S717_%281251959013538153_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg",
+        "label": "Godowlia crossing",
+        "credit": "skysign — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Mapillary_%28skysign%29_2026-02-18_03H47M27S758_%282344357986080240_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg/3840px-Mapillary_%28skysign%29_2026-02-18_03H47M27S758_%282344357986080240_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg",
+        "label": "Old city, south of Godowlia",
+        "credit": "skysign — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Mapillary_%28skysign%29_2026-02-18_03H52M49S508_%28906500471995088_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg/3840px-Mapillary_%28skysign%29_2026-02-18_03H52M49S508_%28906500471995088_at_HKDsNAl2bxTtPujqrQ1Vef%29.jpg",
+        "label": "On the road toward Assi",
+        "credit": "skysign — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "A city that has never stopped being itself.",
+      "intro": "Varanasi runs along a four-kilometre curve of the Ganga in Uttar Pradesh, and almost everything that matters happens on the water's edge. Some eighty-odd ghats step down to the river; pilgrims bathe at dawn, cremations burn without pause at two of them, and the whole city turns out for the aarti at dusk. Hindus know it as Kashi, the city of light.",
+      "history": "Settlement here goes back to at least the first millennium BCE, which makes Varanasi one of the oldest continuously lived-in cities anywhere. The Buddha gave his first sermon at Sarnath, ten kilometres north, in the fifth century BCE. The present Kashi Vishwanath temple was rebuilt in 1780 by Ahilyabai Holkar of Indore after earlier temples on the site were destroyed; the gold plating on its spires was Maharaja Ranjit Singh's gift in the 1830s. Most of the stone ghats you walk on today were built or rebuilt in the eighteenth century by Maratha rulers — the Scindias, Holkars and Peshwas each left one.",
+      "visiting": {
+        "bestTime": "October to March; Dev Deepawali in November is extraordinary",
+        "hours": "The ghats never close. Ganga aarti at Dashashwamedh begins around dusk, roughly 6:30 pm in winter",
+        "entry": "Free; a shared sunrise boat is about ₹150–300 per person",
+        "duration": "Two days at minimum — one dawn, one dusk",
+        "nearestAirport": "Lal Bahadur Shastri (VNS), 26 km",
+        "nearestStation": "Varanasi Junction (Cantt), 5 km from the ghats"
+      },
+      "seeThis": [
+        {
+          "title": "The river at first light",
+          "detail": "Take a boat at 5:30 am and let it drift north to south. The whole city faces east, so sunrise hits every ghat at once — this is the view the old lithographs were drawn from."
+        },
+        {
+          "title": "Ganga aarti at Dashashwamedh",
+          "detail": "Seven priests, brass lamps the size of a torso, and a crowd of thousands. Arrive an hour early for a step, or watch it from a moored boat."
+        },
+        {
+          "title": "Manikarnika, respectfully",
+          "detail": "The main cremation ghat burns around the clock. Photography is genuinely unwelcome here; stand back, watch, and put the phone away."
+        },
+        {
+          "title": "The lanes behind the ghats",
+          "detail": "Gullies barely a shoulder wide connect the riverfront to Vishwanath Gali — silk shops, kachori stalls, and a temple every fifty metres. Getting lost is the point."
+        }
+      ],
+      "tips": [
+        "Boatmen quote per boat, not per head — settle the number and the route before you push off, and pay at the end.",
+        "The Kashi Vishwanath corridor has airport-style security: no phones, no leather, no bags. Leave everything at a locker on the approach.",
+        "Banarasi silk is sold everywhere and woven in far fewer places. If a shop offers a rickshaw ride to a 'government emporium', it is a commission run."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Dashashwamedh_Ghat%2C_Ganga%2C_Varanasi.jpg/1280px-Dashashwamedh_Ghat%2C_Ganga%2C_Varanasi.jpg",
+          "caption": "Dashashwamedh Ghat on the Ganga",
+          "credit": "Ravi Raj Gupta — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Ganga_Aarti_at_Varanasi_in_the_evening.jpg/1280px-Ganga_Aarti_at_Varanasi_in_the_evening.jpg",
+          "caption": "Evening Ganga aarti",
+          "credit": "Vimalinarc — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ganga_Aarti_at_Varanasi_During_Dev_deepawali_01.jpg/1280px-Ganga_Aarti_at_Varanasi_During_Dev_deepawali_01.jpg",
+          "caption": "Dev Deepawali on the riverfront",
+          "credit": "Goutam1962 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Dashashwamedh_Ghat%2C_Ganga.jpg/1280px-Dashashwamedh_Ghat%2C_Ganga.jpg",
+          "caption": "The ghats from the water",
+          "credit": "Ravi Raj Gupta — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "jaipur",
-    "name": "Amber Fort, Jaipur",
+    "name": "Jaipur",
     "country": "Rajasthan, India",
     "category": "Heritage",
     "latitude": 26.98631,
     "longitude": 75.85066,
     "thumbnail": "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=800",
-    "description": "Rajput ramparts and mirrored halls above the Pink City.",
+    "description": "India's first planned city, with Amber Fort on the ridge above it.",
     "highlights": [
-      "Sheesh Mahal",
-      "Ganesh Pol",
-      "Maota Lake"
+      "Amber Fort",
+      "Hawa Mahal",
+      "Jantar Mantar"
     ],
     "gradient": "from-amber-300 via-orange-200 to-rose-100",
     "duration": "4:30",
     "views": "1.8M",
     "panorama": "https://upload.wikimedia.org/wikipedia/commons/4/40/The_Facade_of_Birla_Auditorium%2C_A_360_Panorama-interactive_100_Pix_HDR-20130301.JPG",
     "panoramaCredit": "Udaiveer — CC BY-SA 3.0 · Wikimedia Commons",
-    "panoramaSource": "wikimedia"
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/40/The_Facade_of_Birla_Auditorium%2C_A_360_Panorama-interactive_100_Pix_HDR-20130301.JPG",
+        "label": "Birla Auditorium forecourt, Jaipur",
+        "credit": "Udaiveer — CC BY-SA 3.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "A city laid out on a grid three centuries before anyone called it urban planning.",
+      "intro": "Jaipur was built from nothing in 1727 when Sawai Jai Singh II moved his capital down from the hills at Amber. What he commissioned was a walled city on a nine-block grid, with streets of a fixed width and shopfronts of a fixed height — the first planned city in India, and still legible as one. The old city was inscribed by UNESCO in 2019.",
+      "history": "Jai Singh II was an astronomer as much as a ruler, and it shows. His architect Vidyadhar Bhattacharya laid the city out on principles from the Shilpa Shastra, and Jai Singh built the Jantar Mantar observatory beside his palace in 1734 — nineteen masonry instruments, including the Vrihat Samrat Yantra, a sundial twenty-seven metres tall that still keeps time to about two seconds. Amber Fort, on the ridge nine kilometres north, is older: Raja Man Singh I began the present palace in 1592 on the site of an earlier Meena fort. The Hawa Mahal came in 1799, built by Sawai Pratap Singh so the women of the court could watch the street through its 953 windows without being seen. The pink wash that gives the city its nickname was applied in 1876 to welcome the Prince of Wales.",
+      "visiting": {
+        "bestTime": "November to February",
+        "hours": "Amber Fort 8 am–5:30 pm; Hawa Mahal 9 am–4:30 pm; Jantar Mantar 9 am–4:30 pm",
+        "entry": "Amber Fort ₹100 · ₹500 foreign nationals. Hawa Mahal ₹50 · ₹200. Jantar Mantar ₹50 · ₹200",
+        "duration": "Two full days for the old city and Amber",
+        "nearestAirport": "Jaipur (JAI), 13 km",
+        "nearestStation": "Jaipur Junction, 5 km"
+      },
+      "seeThis": [
+        {
+          "title": "Sheesh Mahal at Amber",
+          "detail": "The mirror hall was built so that a single candle would read as a night sky. Guides will demonstrate; it works."
+        },
+        {
+          "title": "Ganesh Pol",
+          "detail": "The painted gate into the private palace at Amber — frescoed in mineral colours that have never been repainted, only cleaned."
+        },
+        {
+          "title": "The Vrihat Samrat Yantra",
+          "detail": "At Jantar Mantar, watch the shadow edge move down the marble quadrant. You can see it travel, which is the whole point of building a sundial this large."
+        },
+        {
+          "title": "Hawa Mahal from inside",
+          "detail": "Everyone photographs the honeycomb facade from the road. Go in and climb to the top floor — the windows are shallow alcoves, and the breeze through them is the reason for the name."
+        }
+      ],
+      "tips": [
+        "Amber Fort's elephant rides are capped and heavily queued; the jeep up the same ramp costs less and starts moving immediately.",
+        "A composite ticket covers Amber, Jantar Mantar, Hawa Mahal, Nahargarh and Albert Hall for two days — worth it if you are seeing three or more.",
+        "Sunset from Nahargarh Fort looks straight down onto the grid Jai Singh drew. Go up at about 5 pm and stay."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Amber_Fort%2C_Jaipur%2C_20191219_1011_9509.jpg/1280px-Amber_Fort%2C_Jaipur%2C_20191219_1011_9509.jpg",
+          "caption": "Amber Fort above Maota lake",
+          "credit": "Jakub Hałun — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Hawa_Mahal_in_Jaipur_India.jpg/1280px-Hawa_Mahal_in_Jaipur_India.jpg",
+          "caption": "The Hawa Mahal facade",
+          "credit": "Wander-earth — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/20191218_Jantar_Mantar%2C_Jaipur_0908_8989.jpg/1280px-20191218_Jantar_Mantar%2C_Jaipur_0908_8989.jpg",
+          "caption": "Jantar Mantar's masonry instruments",
+          "credit": "Jakub Hałun — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/20191218_Amber_Fort_seen_from_Jaigarh_Fort_1617_9427.jpg/1280px-20191218_Amber_Fort_seen_from_Jaigarh_Fort_1617_9427.jpg",
+          "caption": "Amber seen from Jaigarh Fort",
+          "credit": "Jakub Hałun — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "hampi",
@@ -70,10 +280,10 @@
     "latitude": 15.3358,
     "longitude": 76.46102,
     "thumbnail": "https://images.unsplash.com/photo-1561981969-65ee8dfc7351?w=800",
-    "description": "Boulder-strewn ruins of the Vijayanagara empire.",
+    "description": "The boulder-strewn capital of the Vijayanagara empire.",
     "highlights": [
-      "Stone Chariot",
-      "Vittala Temple",
+      "Stone chariot",
+      "Virupaksha Temple",
       "Matanga Hill"
     ],
     "gradient": "from-orange-200 via-amber-300 to-yellow-100",
@@ -81,7 +291,66 @@
     "views": "980K",
     "panorama": null,
     "panoramaCredit": null,
-    "panoramaSource": null
+    "panoramaSource": null,
+    "panoramas": [],
+    "story": {
+      "tagline": "An empire's capital, left where it fell among the boulders.",
+      "intro": "Hampi is what remains of Vijayanagara, which in the sixteenth century was among the largest cities in the world. The ruins are spread over some forty square kilometres of granite outcrop and banana plantation on the south bank of the Tungabhadra in Karnataka. Temples, bazaar streets, aqueducts and royal enclosures sit in the open, mostly unreconstructed. UNESCO inscribed the site in 1986.",
+      "history": "The Vijayanagara empire was founded in 1336 and ruled most of peninsular India for two centuries; at its height under Krishnadevaraya (1509–1529) the capital had markets where travellers reported diamonds sold by the measure. A coalition of Deccan sultanates defeated the Vijayanagara army at Talikota in 1565, and the city was sacked over the following months and never reoccupied. The Virupaksha temple is the exception — it predates the empire, has been in continuous worship for well over a thousand years, and is still a working temple today. The stone chariot in the Vittala complex, built under Krishnadevaraya, is the image on the ₹50 note.",
+      "visiting": {
+        "bestTime": "November to February; the Hampi Utsav festival falls in this window",
+        "hours": "Sites open sunrise to sunset; Virupaksha 9 am–1 pm and 5–9 pm for darshan",
+        "entry": "₹40 · ₹600 foreign nationals for a single ticket covering Vittala and the Zenana enclosure on the same day",
+        "duration": "Two to three days",
+        "nearestAirport": "Jindal Vijaynagar (VDY), 40 km; Hubballi (HBX), 145 km",
+        "nearestStation": "Hosapete Junction, 13 km"
+      },
+      "seeThis": [
+        {
+          "title": "The stone chariot at Vittala",
+          "detail": "A shrine cut as a processional chariot, wheels and all. The wheels once turned; they were cemented in place to stop visitors spinning them."
+        },
+        {
+          "title": "The musical pillars",
+          "detail": "The Vittala mandapa's slender columns ring at different pitches when struck. Touching them is now forbidden, but a guard will usually tap one for you."
+        },
+        {
+          "title": "Sunrise from Matanga Hill",
+          "detail": "The highest point in the ruins. Twenty minutes of steps in the dark, and then the whole valley of boulders comes up orange at once."
+        },
+        {
+          "title": "Hampi Bazaar's colonnade",
+          "detail": "A kilometre of stone shopfronts running east from Virupaksha — this was the diamond market foreign travellers wrote home about."
+        }
+      ],
+      "tips": [
+        "Hire a bicycle or a moped: the site is far too spread out to walk, and autos charge per stop.",
+        "Cross the river by coracle to Anegundi for the older, quieter half of the site and far cheaper stays.",
+        "Carry water and start at 6 am — there is almost no shade among the boulders and the granite radiates heat by ten."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/THE_STONE_CHARIOT%2C_HAMPI_01.jpg/1280px-THE_STONE_CHARIOT%2C_HAMPI_01.jpg",
+          "caption": "The stone chariot at Vittala Temple",
+          "credit": "Naveekadamphotography — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Hampi_-_Hemakuta_Hill%2C_Virupaksha_Temple.jpg/1280px-Hampi_-_Hemakuta_Hill%2C_Virupaksha_Temple.jpg",
+          "caption": "Virupaksha Temple from Hemakuta Hill",
+          "credit": "Ingo Mehling — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Virupaksha_-_Gopuram_-_Carvings_-_1.jpg/1280px-Virupaksha_-_Gopuram_-_Carvings_-_1.jpg",
+          "caption": "Carvings on the Virupaksha gopuram",
+          "credit": "Ingo Mehling — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Hampi_-_Underground_Shive_Temple_-_Mandapa.jpg/1280px-Hampi_-_Underground_Shive_Temple_-_Mandapa.jpg",
+          "caption": "The underground Shiva temple's mandapa",
+          "credit": "Ingo Mehling — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "kerala",
@@ -91,18 +360,84 @@
     "latitude": 9.19893,
     "longitude": 76.4856,
     "thumbnail": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=800",
-    "description": "Drift past palm-fringed lagoons on a Kumarakom houseboat.",
+    "description": "A lagoon network of lakes and canals behind the Malabar coast.",
     "highlights": [
-      "Houseboat Cruise",
+      "Houseboat cruise",
       "Vembanad Lake",
-      "Coir Villages"
+      "Kuttanad paddy"
     ],
     "gradient": "from-amber-200 via-orange-100 to-white",
     "duration": "5:05",
     "views": "1.5M",
     "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Vellayani_Lake_360_-_panoramio.jpg/3840px-Vellayani_Lake_360_-_panoramio.jpg",
     "panoramaCredit": "Anil R.V — CC BY-SA 3.0 · Wikimedia Commons",
-    "panoramaSource": "wikimedia"
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Vellayani_Lake_360_-_panoramio.jpg/3840px-Vellayani_Lake_360_-_panoramio.jpg",
+        "label": "Vellayani Lake, Thiruvananthapuram",
+        "credit": "Anil R.V — CC BY-SA 3.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Nine hundred kilometres of water where the road would be.",
+      "intro": "The backwaters are a chain of brackish lagoons and canals running parallel to the Arabian Sea for most of Kerala's length, fed by dozens of rivers and separated from the ocean by a thin barrier of sand. Vembanad, the largest lake in India, sits at the centre of the system. Villages here are strung along the banks, and for many of them the canal is still the main road.",
+      "history": "The backwaters were a working freight network long before they were a holiday. Rice, coir and spices moved along them in kettuvallams — long cargo boats stitched together with coir rope and no nails at all, some of them thirty metres from end to end. When lorries took the freight in the twentieth century the boats went idle, and from the 1990s they were converted into the houseboats now moored at Alappuzha. Inland, Kuttanad is one of very few places on earth where farming is done below sea level: paddy fields sit up to two metres beneath the water line, protected by bunds and drained by pumps, a system worked out in the nineteenth century.",
+      "visiting": {
+        "bestTime": "September to March; the Nehru Trophy Boat Race is the second Saturday of August",
+        "hours": "Houseboats board around noon and disembark the next morning at nine",
+        "entry": "Free to travel the waterways; a shared shikara hour is about ₹500, an overnight houseboat from roughly ₹7,000",
+        "duration": "One overnight, or a half-day canoe if time is short",
+        "nearestAirport": "Cochin International (COK), 75 km from Alappuzha",
+        "nearestStation": "Alappuzha, 3 km from the boat jetty"
+      },
+      "seeThis": [
+        {
+          "title": "The narrow canals, not the lake",
+          "detail": "Big houseboats are confined to wide water. Take a canoe into the village canals around Kainakary and you pass through people's back gardens."
+        },
+        {
+          "title": "Chinese fishing nets",
+          "detail": "Cantilevered shore nets, worked by four men and a stone counterweight. They line the Kochi waterfront and turn up along the northern backwaters."
+        },
+        {
+          "title": "Kuttanad's bunds",
+          "detail": "Walk a paddy bund and look down — the field is below the level of the canal beside you. The pumps run day and night."
+        },
+        {
+          "title": "Toddy shops on the bank",
+          "detail": "Unmarked sheds serving fermented palm sap and hard-fried karimeen. The food is the reason to stop."
+        }
+      ],
+      "tips": [
+        "Overnight houseboats stop cruising at sunset by law and moor for the night, so pay for the route rather than the hours.",
+        "Alappuzha is the busy hub; Kumarakom on the eastern shore of Vembanad is quieter, and Munroe Island quieter still.",
+        "The mosquitoes at dusk are serious. Repellent matters more than a good camera here."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Houseboat_of_Kerala_-_exterior.jpg/1280px-Houseboat_of_Kerala_-_exterior.jpg",
+          "caption": "A converted kettuvallam houseboat",
+          "credit": "Vis M — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Sunset_at_Alleppey_backwaters.3.jpg/1280px-Sunset_at_Alleppey_backwaters.3.jpg",
+          "caption": "Sunset over the Alappuzha backwaters",
+          "credit": "Sravanbaddi — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Coracle_fishing_in_Vembanad_Lake.jpg/1280px-Coracle_fishing_in_Vembanad_Lake.jpg",
+          "caption": "Coracle fishing on Vembanad Lake",
+          "credit": "Vis M — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Vembanad-Kol_wetlands-WUS08568.jpg/1280px-Vembanad-Kol_wetlands-WUS08568.jpg",
+          "caption": "The Vembanad–Kol wetlands",
+          "credit": "Rainer Halama — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "ladakh",
@@ -112,18 +447,84 @@
     "latitude": 34.1642,
     "longitude": 77.58481,
     "thumbnail": "https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?w=800",
-    "description": "High-altitude monasteries beneath bare Himalayan peaks.",
+    "description": "High-altitude monasteries and cold desert between the Himalaya and Karakoram.",
     "highlights": [
-      "Diskit Monastery",
+      "Hemis Monastery",
       "Nubra Valley",
-      "Maitreya Buddha"
+      "Pangong Tso"
     ],
     "gradient": "from-orange-300 via-amber-200 to-sky-50",
     "duration": "4:15",
     "views": "1.1M",
     "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Hemis_Monastery_360_Degree_View.jpg/3840px-Hemis_Monastery_360_Degree_View.jpg",
     "panoramaCredit": "Aman Gujar — CC BY-SA 4.0 · Wikimedia Commons",
-    "panoramaSource": "wikimedia"
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Hemis_Monastery_360_Degree_View.jpg/3840px-Hemis_Monastery_360_Degree_View.jpg",
+        "label": "Hemis Monastery courtyard",
+        "credit": "Aman Gujar — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Above the tree line, where the sky does most of the work.",
+      "intro": "Ladakh is a cold desert on the Tibetan plateau's western edge, held between the Himalaya and the Karakoram. Leh, the main town, sits at about 3,500 metres; the passes and lakes beyond it run higher still. Almost nothing grows without irrigation, so villages are green threads along meltwater channels, and the monasteries stand on the dry rock above them.",
+      "history": "Ladakh was an independent Buddhist kingdom from the tenth century, ruled from Shey and later Leh by the Namgyal dynasty, and it grew rich on the trade between Kashmir, Tibet and Central Asia. Hemis, the largest and wealthiest monastery in Ladakh, belongs to the Drukpa lineage and was re-established in 1672 under King Sengge Namgyal; its Hemis Tsechu masked-dance festival still fills the courtyard every summer. Ladakh was annexed by the Dogras of Jammu in the 1830s and joined the state of Jammu and Kashmir; it became a separate union territory of India in 2019.",
+      "visiting": {
+        "bestTime": "June to September; the road passes are shut by snow the rest of the year",
+        "hours": "Monasteries generally 8 am–1 pm and 2–6 pm",
+        "entry": "Hemis ₹100. An Inner Line Permit — about ₹400 plus a daily fee — is required for Nubra, Pangong and Tso Moriri",
+        "duration": "Seven days minimum, including two to acclimatise",
+        "nearestAirport": "Kushok Bakula Rimpochee, Leh (IXL)",
+        "nearestStation": "Jammu Tawi, 700 km — everyone flies or drives"
+      },
+      "seeThis": [
+        {
+          "title": "Hemis in June",
+          "detail": "The Tsechu fills the courtyard with cham dancers in silk and painted masks. Every second year a thangka the height of the building is unrolled down the wall."
+        },
+        {
+          "title": "Thiksey at dawn prayers",
+          "detail": "Twelve tiers of whitewashed buildings on a hill, laid out like a smaller Potala. Prayers start about 6:30 am and visitors are welcome to sit at the back."
+        },
+        {
+          "title": "The Maitreya at Diskit",
+          "detail": "A thirty-two-metre seated Buddha facing north up the Shyok toward Pakistan, finished in 2010 and visible from most of Nubra."
+        },
+        {
+          "title": "Pangong Tso's colour",
+          "detail": "The lake sits at 4,350 metres and changes from turquoise to near-black through the day. Two-thirds of it lies in Tibet."
+        }
+      ],
+      "tips": [
+        "Give yourself two full days in Leh doing nothing before going higher. Altitude sickness at 5,000 metres is a genuine medical emergency, not an inconvenience.",
+        "Mobile data works only on postpaid Indian connections in Ladakh, and barely outside Leh. Download maps before you leave town.",
+        "Carry cash. ATMs cluster in Leh and are unreliable everywhere else."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Diskit_Monastery_JP.jpg/1280px-Diskit_Monastery_JP.jpg",
+          "caption": "Diskit Monastery above the Nubra valley",
+          "credit": "Specialsharp87 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Maitreya_Buddha_-_Diskit_Monastery.jpg/1280px-Maitreya_Buddha_-_Diskit_Monastery.jpg",
+          "caption": "The Maitreya Buddha at Diskit",
+          "credit": "ClickAR89 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Thiksey_Monastery%2C_Ladakh_06.jpg/1280px-Thiksey_Monastery%2C_Ladakh_06.jpg",
+          "caption": "Thiksey Monastery in the Indus valley",
+          "credit": "Bernard Gagnon SONY ILCE-5000 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Pangong_Lake%2C_Ladakh_valley.jpg/1280px-Pangong_Lake%2C_Ladakh_valley.jpg",
+          "caption": "Pangong Tso at 4,350 metres",
+          "credit": "Mohanrangaphotography — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "goa",
@@ -133,18 +534,84 @@
     "latitude": 15.54249,
     "longitude": 73.75556,
     "thumbnail": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800",
-    "description": "Golden sands and swaying palms on Calangute beach.",
+    "description": "Beaches, Konkan temples and four centuries of Portuguese building.",
     "highlights": [
-      "Calangute Beach",
-      "Arabian Sea",
-      "Beach Shacks"
+      "Calangute beach",
+      "Basilica of Bom Jesus",
+      "Konkan temples"
     ],
     "gradient": "from-amber-200 via-orange-300 to-rose-100",
     "duration": "3:40",
     "views": "2.2M",
     "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Mahalasa_temple_goa_360_view.jpg/3840px-Mahalasa_temple_goa_360_view.jpg",
     "panoramaCredit": "Rakesh92c — CC0 · Wikimedia Commons",
-    "panoramaSource": "wikimedia"
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Mahalasa_temple_goa_360_view.jpg/3840px-Mahalasa_temple_goa_360_view.jpg",
+        "label": "Mahalasa Narayani temple, Mardol",
+        "credit": "Rakesh92c — CC0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Two coastlines in one state — the beach one, and the older one inland.",
+      "intro": "Goa is India's smallest state, a hundred kilometres of Konkan coast with a laterite hinterland of paddy, spice gardens and rivers behind it. The beaches from Candolim to Anjuna carry the reputation, but the interior — Old Goa's basilicas, the Ponda temples, the Western Ghats at Dudhsagar — is where the state's four hundred years of layered history actually sits.",
+      "history": "The Portuguese took Goa in 1510 under Afonso de Albuquerque and held it until Indian forces entered in December 1961 — a longer European presence than anywhere else in Asia. Old Goa was the capital until cholera and malaria emptied it in the seventeenth century; the Basilica of Bom Jesus, built between 1594 and 1605, survives from that city and holds the relics of St Francis Xavier, put on public view roughly once a decade. The churches and convents of Old Goa were inscribed by UNESCO in 1986. Hindu temples in the Ponda taluka, including Mahalasa at Mardol, were rebuilt there in the sixteenth and seventeenth centuries after deities were carried inland out of Portuguese-controlled territory — which is why they look like nothing else in India, with lamp towers and pitched Konkan roofs.",
+      "visiting": {
+        "bestTime": "November to February; the monsoon from June to September is dramatic and cheap",
+        "hours": "Basilica of Bom Jesus 9 am–6:30 pm; beaches always",
+        "entry": "Free at the churches and the beaches; Dudhsagar jeep safari about ₹400",
+        "duration": "Four to five days",
+        "nearestAirport": "Manohar International, Mopa (GOX) in the north; Dabolim (GOI) in the south",
+        "nearestStation": "Madgaon for the south, Thivim for the north"
+      },
+      "seeThis": [
+        {
+          "title": "Bom Jesus's laterite facade",
+          "detail": "The exterior plaster was stripped in 1950 and never replaced, so the basilica is raw red stone — unlike every other church in Old Goa."
+        },
+        {
+          "title": "The Ponda temple lamp towers",
+          "detail": "Multi-storeyed deepstambhas that are lit on festival nights. Mahalasa's is the finest, and its brass Garuda pillar is unique in Goa."
+        },
+        {
+          "title": "Fontainhas, Panaji",
+          "detail": "The Latin Quarter — ochre and indigo houses, azulejo street signs, and an ordinance requiring owners to repaint after every monsoon."
+        },
+        {
+          "title": "A beach shack at low tide",
+          "detail": "Palolem and Agonda in the south still have the version with plastic chairs, a kitchen behind, and grilled kingfish."
+        }
+      ],
+      "tips": [
+        "Rent a scooter — Goa is spread out, buses are slow, and taxis here are notoriously expensive and unmetered.",
+        "Old Goa is best at 9 am. Coach parties arrive by eleven and the basilica interior gets very full.",
+        "Feni is a local spirit made from cashew apple or coconut sap and does not travel legally out of state. Drink it where it is made."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Calangute_Beach%2C_Goa.jpg/1280px-Calangute_Beach%2C_Goa.jpg",
+          "caption": "Calangute beach",
+          "credit": "Arulvallavan — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Front_Elevation_of_Basilica_of_Bom_Jesus.jpg/1280px-Front_Elevation_of_Basilica_of_Bom_Jesus.jpg",
+          "caption": "The Basilica of Bom Jesus, Old Goa",
+          "credit": "iMahesh — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Beach_shack_at_sunset%2C_Palolem%2C_Goa.jpg/1280px-Beach_shack_at_sunset%2C_Palolem%2C_Goa.jpg",
+          "caption": "A beach shack at sunset, Palolem",
+          "credit": "Niranjan Ramamurthy — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Pathway_to_Basilica_of_Bom_Jesus.jpg/1280px-Pathway_to_Basilica_of_Bom_Jesus.jpg",
+          "caption": "The approach to Bom Jesus",
+          "credit": "iMahesh — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "delhi",
@@ -154,18 +621,90 @@
     "latitude": 28.52441,
     "longitude": 77.18545,
     "thumbnail": "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800",
-    "description": "The soaring sandstone minaret of medieval Delhi.",
+    "description": "The tallest brick minaret in the world, and the ruins around its foot.",
     "highlights": [
       "Qutub Minar",
       "Iron Pillar",
-      "Mehrauli Complex"
+      "Alai Darwaza"
     ],
     "gradient": "from-orange-200 via-amber-200 to-white",
     "duration": "4:00",
     "views": "890K",
     "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Qutub_Minar_Complex_Inside_Panorama.jpg/3840px-Qutub_Minar_Complex_Inside_Panorama.jpg",
     "panoramaCredit": "Samthe030601 — CC BY-SA 4.0 · Wikimedia Commons",
-    "panoramaSource": "wikimedia"
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Qutub_Minar_Complex_Inside_Panorama.jpg/3840px-Qutub_Minar_Complex_Inside_Panorama.jpg",
+        "label": "Inside the Quwwat-ul-Islam courtyard",
+        "credit": "Samthe030601 — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Qutub_Minar_Complex_Outside_Panorama.jpg/3840px-Qutub_Minar_Complex_Outside_Panorama.jpg",
+        "label": "The complex from outside the colonnade",
+        "credit": "Samthe030601 — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Delhi's first skyscraper, and it is eight hundred years old.",
+      "intro": "The Qutub Minar stands 72.5 metres above the Mehrauli ruins in south Delhi — five tapering storeys of red sandstone and marble, fluted and banded with Quranic inscription. Around it lies the Qutb complex: the earliest surviving mosque in northern India, a fourth-century iron pillar that has barely rusted, tombs, a madrasa, and the stump of a second tower that was meant to be twice as tall. UNESCO inscribed the complex in 1993.",
+      "history": "Qutb al-Din Aibak began the minaret in 1199, the year after he took Delhi, and completed only the first storey. Iltutmish added three more by about 1220, and Firoz Shah Tughlaq rebuilt the top after lightning damage in 1369 — which is why the upper storeys are marble and the lower ones are not. The Quwwat-ul-Islam mosque beside it was raised from 1192 using columns taken from twenty-seven earlier temples; you can still read the carved figures on them. The Iron Pillar in the courtyard is older than everything around it: a Gupta-period column of the fourth or fifth century, nearly seven and a quarter metres tall, whose phosphorus-rich iron has resisted corrosion for sixteen hundred years. Alauddin Khalji started the Alai Minar in 1311 intending to double the Qutub's height; he died with 25 metres built, and it was abandoned.",
+      "visiting": {
+        "bestTime": "October to March; go late afternoon for the light on the sandstone",
+        "hours": "Sunrise to sunset, daily",
+        "entry": "₹40 · ₹600 foreign nationals; ₹35 and ₹550 if booked online",
+        "duration": "1.5–2 hours",
+        "nearestAirport": "Indira Gandhi International (DEL), 14 km",
+        "nearestStation": "Qutab Minar metro on the Yellow Line, 1.5 km"
+      },
+      "seeThis": [
+        {
+          "title": "The reused temple columns",
+          "detail": "Walk the mosque colonnade and look up. Bells, garlands and defaced figures — twelfth-century builders repurposing what was already on the site, and not hiding it."
+        },
+        {
+          "title": "The Iron Pillar",
+          "detail": "Sixteen centuries in the open Delhi air with almost no rust. Metallurgists still cite it; the railing went up because visitors kept trying to encircle it."
+        },
+        {
+          "title": "Alai Darwaza",
+          "detail": "Alauddin Khalji's 1311 gateway is the first true dome and true arch built in India, and it is the most refined thing in the complex."
+        },
+        {
+          "title": "The unfinished Alai Minar",
+          "detail": "A rubble core 25 metres high behind the mosque. Standing at its base tells you exactly how ambitious the plan was."
+        }
+      ],
+      "tips": [
+        "Climbing the minaret has been closed to the public since a stairwell crush in 1981. No guide can get you in.",
+        "The Mehrauli Archaeological Park next door has Balban's tomb, Jamali Kamali and the Rajon ki Baoli — all free, and almost empty.",
+        "The complex is at its best about an hour before closing, when the low sun makes the inscription bands stand out."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Qutub_Minar%2C_Delhi_3.jpg/1280px-Qutub_Minar%2C_Delhi_3.jpg",
+          "caption": "The Qutub Minar's five storeys",
+          "credit": "Slyronit — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/The_Iron_pillar_of_Delhi_01.jpg/1280px-The_Iron_pillar_of_Delhi_01.jpg",
+          "caption": "The fourth-century Iron Pillar",
+          "credit": "Hridya08 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Qutab_Minar%2C_Alai_Darwaza_and_Imam_Zamin%27s_Tomb.jpg/1280px-Qutab_Minar%2C_Alai_Darwaza_and_Imam_Zamin%27s_Tomb.jpg",
+          "caption": "Alai Darwaza and Imam Zamin's tomb",
+          "credit": "Padmanav sahoo — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Qutb_complex_-Delhi_-Delhi_-SSI_0005.jpg/1280px-Qutb_complex_-Delhi_-Delhi_-SSI_0005.jpg",
+          "caption": "The Quwwat-ul-Islam colonnade",
+          "credit": "Syed Sajidul Islam — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "mysore",
@@ -175,18 +714,77 @@
     "latitude": 12.30522,
     "longitude": 76.65538,
     "thumbnail": "https://images.unsplash.com/photo-1580294647332-8a399cd9ed45?w=800",
-    "description": "The Wodeyar dynasty's Indo-Saracenic jewel, lit by 97,000 bulbs.",
+    "description": "The Wodeyar dynasty's Indo-Saracenic seat, lit by 97,000 bulbs.",
     "highlights": [
       "Durbar Hall",
       "Amba Vilas",
-      "Palace Illumination"
+      "Dasara illumination"
     ],
     "gradient": "from-amber-300 via-orange-200 to-yellow-50",
     "duration": "3:55",
     "views": "760K",
     "panorama": null,
     "panoramaCredit": null,
-    "panoramaSource": null
+    "panoramaSource": null,
+    "panoramas": [],
+    "story": {
+      "tagline": "A palace rebuilt in stone because the last one burned down mid-wedding.",
+      "intro": "Amba Vilas, the palace at the centre of Mysuru, is the official residence of the Wodeyar family and one of the most-visited buildings in India. It is Indo-Saracenic — domes, arches and colonnades drawn from Mughal, Rajput and Gothic sources at once — and it anchors a city that was Karnataka's princely capital until 1947.",
+      "history": "There has been a palace on this site since the fourteenth century, and it has burned down more than once. The wooden palace that stood here caught fire during a royal wedding in 1897. Maharani Kempananjammanni Devi commissioned the British architect Henry Irwin to replace it, and the present building went up between 1897 and 1912 in grey granite with deep pink marble domes. The Wodeyars ruled Mysore from 1399, with a break between 1761 and 1799 when Hyder Ali and then Tipu Sultan held power; the dynasty was restored after Tipu's death at Srirangapatna. Dasara has been celebrated here since Vijayanagara times, and the palace is still the centre of it.",
+      "visiting": {
+        "bestTime": "September to February; Dasara falls in September or October",
+        "hours": "10 am–5:30 pm daily. Illumination on Sundays and public holidays, 7–7:45 pm",
+        "entry": "₹100 · ₹200 foreign nationals; free for children under ten",
+        "duration": "2 hours, or a full evening on an illumination night",
+        "nearestAirport": "Mysuru (MYQ), 10 km; Bengaluru (BLR), 170 km",
+        "nearestStation": "Mysuru Junction, 2 km"
+      },
+      "seeThis": [
+        {
+          "title": "The Kalyana Mantapa's stained glass",
+          "detail": "An octagonal marriage pavilion under a domed ceiling of peacock-patterned stained glass, shipped from Glasgow and set into cast-iron ribs."
+        },
+        {
+          "title": "The Dasara procession painting",
+          "detail": "A long panelled sequence in the portrait gallery showing the 1930s Dasara march — useful for understanding what you are looking at during the festival."
+        },
+        {
+          "title": "The golden howdah",
+          "detail": "Eighty kilograms of gold, still carried on an elephant on the last day of Dasara. It sits in the palace the rest of the year."
+        },
+        {
+          "title": "Sunday illumination",
+          "detail": "Just under a hundred thousand bulbs trace every line of the building for forty-five minutes. Arrive by 6:30 pm for a place on the lawn."
+        }
+      ],
+      "tips": [
+        "Shoes come off at the entrance and cameras are not allowed inside the palace at all — there is a free deposit counter, use it rather than a tout's.",
+        "Skip the audio guide queue and walk anticlockwise: the crowd flows the other way and you will have the Durbar Hall almost to yourself.",
+        "Chamundi Hill, 13 km up, gives the best view of the city and has a monolithic Nandi on the old stepped path."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Glorious_Illumination.jpg/1280px-Glorious_Illumination.jpg",
+          "caption": "The palace illuminated",
+          "credit": "Nandicmb — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Mysuru_Palace_-_Main_Gate.jpg/1280px-Mysuru_Palace_-_Main_Gate.jpg",
+          "caption": "The main gate at Amba Vilas",
+          "credit": "Ingo Mehling — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Stucco_Half_Panel_Darbar_Hall_Mysore_Palace_Dec23_A7C_08278.jpg/1280px-Stucco_Half_Panel_Darbar_Hall_Mysore_Palace_Dec23_A7C_08278.jpg",
+          "caption": "Stucco panel in the Durbar Hall",
+          "credit": "This Photo was taken by Timothy A. Gonsalves . Feel free to use my photos, but please mention me as the author — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Chamundeshwari_Temple%2C_Mysuru%2C_Karnataka%2C_India_Temple.jpg/1280px-Chamundeshwari_Temple%2C_Mysuru%2C_Karnataka%2C_India_Temple.jpg",
+          "caption": "Chamundeshwari Temple on Chamundi Hill",
+          "credit": "Arun Mohan — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "khajuraho",
@@ -196,18 +794,77 @@
     "latitude": 24.85151,
     "longitude": 79.92598,
     "thumbnail": "https://images.unsplash.com/photo-1585560897379-f03558b96b00?w=800",
-    "description": "Chandela temples carved with a thousand years of stories.",
+    "description": "Chandela temples carved with a thousand years of stone figures.",
     "highlights": [
       "Kandariya Mahadeva",
-      "Western Group",
-      "Stone Carvings"
+      "Western group",
+      "Stone carving"
     ],
     "gradient": "from-orange-300 via-amber-300 to-white",
     "duration": "5:20",
     "views": "640K",
     "panorama": null,
     "panoramaCredit": null,
-    "panoramaSource": null
+    "panoramaSource": null,
+    "panoramas": [],
+    "story": {
+      "tagline": "Eighty-five temples were built. Twenty-five are still standing.",
+      "intro": "Khajuraho is a village in Chhatarpur district, Madhya Pradesh, surrounded by the sandstone temples of the Chandela dynasty. They are famous for erotic sculpture, which is real but accounts for perhaps a tenth of the carving; the rest is gods, court life, musicians, elephants, and battle. The temples were inscribed by UNESCO in 1986.",
+      "history": "The Chandelas built here between roughly 950 and 1050 CE, at the height of their power in the Bundelkhand region. Of an estimated eighty-five temples, twenty-five survive across three groups — western, eastern and southern. Kandariya Mahadeva, the largest, was completed around 1030 under Vidyadhara and rises about 31 metres through a rising sequence of spires meant to read as the peaks of Mount Kailasa. The site was abandoned as the Chandelas declined, and the forest closed over it; a British engineer, T. S. Burt, was led to the ruins by his palanquin bearers in 1838 and published the first account.",
+      "visiting": {
+        "bestTime": "October to March; the Khajuraho Dance Festival runs in February",
+        "hours": "Sunrise to sunset. Light and sound show at the western group each evening",
+        "entry": "₹40 · ₹600 foreign nationals for the western group; eastern and southern groups are free",
+        "duration": "Half a day for the western group, a full day for all three",
+        "nearestAirport": "Khajuraho (HJR), 5 km",
+        "nearestStation": "Khajuraho, 6 km"
+      },
+      "seeThis": [
+        {
+          "title": "Kandariya Mahadeva's spire",
+          "detail": "Eighty-four subsidiary turrets stacked around the main tower, each a smaller copy of it. Step back to the plinth edge to see the whole rise at once."
+        },
+        {
+          "title": "The apsara brackets",
+          "detail": "The most accomplished figures are not the erotic ones — they are the celestial women on the wall junctions, writing letters, removing thorns, playing with a monkey."
+        },
+        {
+          "title": "The Chausath Yogini temple",
+          "detail": "Granite, not sandstone, and older than everything else here. Sixty-four open cells around a courtyard, on a plinth above the rest of the site."
+        },
+        {
+          "title": "The eastern Jain group",
+          "detail": "Parshvanatha and Adinatha are as finely carved as the western temples and usually have a handful of visitors instead of hundreds."
+        }
+      ],
+      "tips": [
+        "Go at opening. The western group faces east, so the carving reads best in the first two hours and the coach parties arrive at ten.",
+        "A licensed ASI guide at the gate is worth it here more than at most sites — the iconography is dense and unlabelled.",
+        "Bring binoculars. The best figures on Kandariya Mahadeva are fifteen metres up."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/The_Kandariya_Mahadeva_Temple%2C_Khajuraho%2C_Madhya_Pradesh.jpg/1280px-The_Kandariya_Mahadeva_Temple%2C_Khajuraho%2C_Madhya_Pradesh.jpg",
+          "caption": "Kandariya Mahadeva Temple",
+          "credit": "Taru23 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Western_Group_of_Temples_Khajuraho.jpg/1280px-Western_Group_of_Temples_Khajuraho.jpg",
+          "caption": "The Western Group of temples",
+          "credit": "Jainarchit.17 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Western_Group_of_Temples_-_Khajuraho_03.jpg/1280px-Western_Group_of_Temples_-_Khajuraho_03.jpg",
+          "caption": "Sandstone figures on the temple walls",
+          "credit": "Deepa Chandran2014 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Kandariya_Mahadeva_Temple_at_Khajuraho%2C_Madhya_Pradesh%2C_India_0001_04.jpg/1280px-Kandariya_Mahadeva_Temple_at_Khajuraho%2C_Madhya_Pradesh%2C_India_0001_04.jpg",
+          "caption": "Kandariya Mahadeva's rising spires",
+          "credit": "WarmaFiesta — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "amritsar",
@@ -217,18 +874,77 @@
     "latitude": 31.61998,
     "longitude": 74.87653,
     "thumbnail": "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?w=800",
-    "description": "Harmandir Sahib shimmering over the sacred Amrit Sarovar.",
+    "description": "Harmandir Sahib on its causeway in the middle of the Amrit Sarovar.",
     "highlights": [
       "Harmandir Sahib",
       "Amrit Sarovar",
-      "Langar Hall"
+      "Langar hall"
     ],
     "gradient": "from-amber-200 via-yellow-200 to-orange-100",
     "duration": "4:40",
     "views": "3.3M",
     "panorama": null,
     "panoramaCredit": null,
-    "panoramaSource": null
+    "panoramaSource": null,
+    "panoramas": [],
+    "story": {
+      "tagline": "Four doors, one on each side, and nobody is turned away at any of them.",
+      "intro": "Harmandir Sahib — the Golden Temple — sits at the centre of a square tank in the old city of Amritsar, reached by a marble causeway. It is the most important gurdwara in Sikhism. The building is deliberately lower than the ground around it, so worshippers step down to it, and it opens on all four sides to say that it is open to everyone.",
+      "history": "Guru Ram Das founded the town and had the sacred tank excavated in 1577. His successor Guru Arjan built the temple in the middle of it, completing it in 1604 and installing the Adi Granth — the first compilation of Sikh scripture — inside. The complex was destroyed and rebuilt several times in the eighteenth century during Afghan invasions. Maharaja Ranjit Singh had the upper storeys covered in gold leaf and the lower walls inlaid with marble in the early nineteenth century, which is where the English name comes from. The Akal Takht, facing the causeway, is the seat of temporal authority in Sikhism. The community kitchen serves free meals continuously and feeds somewhere around a hundred thousand people a day, more at festivals.",
+      "visiting": {
+        "bestTime": "October to March; Baisakhi in April and Gurpurab in November are the great days",
+        "hours": "Open 24 hours. The Guru Granth Sahib is carried in around 4 am and out around 10 pm",
+        "entry": "Free, always, and so is the langar",
+        "duration": "2–3 hours, and go once at night as well",
+        "nearestAirport": "Sri Guru Ram Dass Jee International (ATQ), 11 km",
+        "nearestStation": "Amritsar Junction, 2 km"
+      },
+      "seeThis": [
+        {
+          "title": "The langar hall at full tilt",
+          "detail": "Volunteers roll roti by the thousand and wash steel plates in a line fifty long. You can join in — ask at the door, nobody will refuse you."
+        },
+        {
+          "title": "The causeway before dawn",
+          "detail": "The palki procession carrying the scripture crosses at about 4 am. The marble is cold, the crowd is quiet, and the reflection is perfect."
+        },
+        {
+          "title": "Ranjit Singh's inlay",
+          "detail": "The lower marble walls carry pietra dura flowers in the same technique as the Taj Mahal, done by craftsmen from the same tradition."
+        },
+        {
+          "title": "Jallianwala Bagh, next door",
+          "detail": "Two hundred metres from the temple, the walled garden where troops fired on a crowd in April 1919. The bullet marks are still in the brick."
+        }
+      ],
+      "tips": [
+        "Heads must be covered by everyone and shoes left at the free counter. Bandanas are handed out at the entrance if you have nothing.",
+        "Sleeping accommodation for pilgrims is free at the Guru Ram Das Niwas, and there is a separate block for foreign visitors.",
+        "Eat the langar. Sitting on the floor in a row with several hundred strangers is the point of the place, not a novelty."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Golden_temple_Harmandir_Sahib.jpg/1280px-Golden_temple_Harmandir_Sahib.jpg",
+          "caption": "Harmandir Sahib across the sarovar",
+          "credit": "Shivani — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Golden_Temple_%28Harmandir_Sahib%29_at_night%2C_Amritsar%2C_Punjab%2C_India_%282017%29_5.jpg/1280px-Golden_Temple_%28Harmandir_Sahib%29_at_night%2C_Amritsar%2C_Punjab%2C_India_%282017%29_5.jpg",
+          "caption": "The temple at night",
+          "credit": "Ftchetan — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Holy_bath_in_the_shadow_of_the_gilded_Golden_Temple_%28Harmandir_Sahib%29.jpg/1280px-Holy_bath_in_the_shadow_of_the_gilded_Golden_Temple_%28Harmandir_Sahib%29.jpg",
+          "caption": "Bathing in the Amrit Sarovar",
+          "credit": "Jayteesydney — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/The_famous_%27langar%27-_free_meals_for_one_and_all_%2838938496121%29.jpg/1280px-The_famous_%27langar%27-_free_meals_for_one_and_all_%2838938496121%29.jpg",
+          "caption": "The langar — free meals for all",
+          "credit": "shankar s. — CC BY 2.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "ellora",
@@ -238,18 +954,114 @@
     "latitude": 20.02675,
     "longitude": 75.17752,
     "thumbnail": "https://images.unsplash.com/photo-1631102006950-64c80c08681e?w=800",
-    "description": "Kailasa temple, hewn from a single mountain of basalt.",
+    "description": "Thirty-four Buddhist, Hindu and Jain caves cut into one basalt scarp.",
     "highlights": [
-      "Kailasa Temple",
-      "Cave 16",
-      "Rock-cut Monasteries"
+      "Kailasa temple",
+      "Cave 10 chaitya",
+      "Rock-cut viharas"
     ],
     "gradient": "from-orange-200 via-amber-200 to-stone-100",
     "duration": "6:00",
     "views": "1.3M",
     "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/207_Chaitya_Cave_10%2C_Interior_%2834022770331%29.jpg/3840px-207_Chaitya_Cave_10%2C_Interior_%2834022770331%29.jpg",
     "panoramaCredit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
-    "panoramaSource": "wikimedia"
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/207_Chaitya_Cave_10%2C_Interior_%2834022770331%29.jpg/3840px-207_Chaitya_Cave_10%2C_Interior_%2834022770331%29.jpg",
+        "label": "Cave 10 — inside the Vishvakarma chaitya",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/202_Cave_3_%2833342308693%29.jpg/3840px-202_Cave_3_%2833342308693%29.jpg",
+        "label": "Cave 3 — pillared vihara",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/204_Cave_5_%2834153521715%29.jpg/3840px-204_Cave_5_%2834153521715%29.jpg",
+        "label": "Cave 5 — the long refectory hall",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/205_Cave_6%2C_Side_Chapel_%2833768664460%29.jpg/3840px-205_Cave_6%2C_Side_Chapel_%2833768664460%29.jpg",
+        "label": "Cave 6 — side chapel",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/210_Cave_11%2C_Buddha_with_Sujata_%2834022764691%29.jpg/3840px-210_Cave_11%2C_Buddha_with_Sujata_%2834022764691%29.jpg",
+        "label": "Cave 11 — Buddha with Sujata",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/211_Cave_12%2C_3rd_Floor_%2834022763061%29.jpg/3840px-211_Cave_12%2C_3rd_Floor_%2834022763061%29.jpg",
+        "label": "Cave 12 — third floor of the Teen Thal",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "They started at the top of the hill and cut downwards.",
+      "intro": "Ellora is a two-kilometre line of basalt cliff near Chhatrapati Sambhajinagar in Maharashtra, hollowed out into thirty-four monasteries and temples between about the sixth and tenth centuries. Twelve are Buddhist, seventeen Hindu and five Jain, and they were excavated alongside each other rather than in sequence — which is the most interesting fact about the site. UNESCO inscribed it in 1983.",
+      "history": "The caves sit on an old trade route between the Deccan and the western ports, which paid for them. The Buddhist group in the south is the earliest, from roughly the sixth to eighth centuries, and includes Cave 10 — the Vishvakarma chaitya, the only Buddhist prayer hall at Ellora, with a stone vault carved to imitate wooden ribs. The Hindu caves belong mainly to the Kalachuri and Rashtrakuta periods. Cave 16, the Kailasa temple, was begun in the eighth century under the Rashtrakuta king Krishna I and is the largest monolithic structure anywhere: workers removed something like 200,000 tonnes of rock, cutting from the top down and inwards, and produced a full free-standing temple with courtyard, gateway and elephants — with no possibility of correcting a mistake. The Jain caves at the northern end came last, in the ninth and tenth centuries.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "Sunrise to sunset; closed Tuesdays",
+        "entry": "₹40 · ₹600 foreign nationals",
+        "duration": "Half a day; a full day if you also want Ajanta light",
+        "nearestAirport": "Chhatrapati Sambhajinagar (IXU), 35 km",
+        "nearestStation": "Chhatrapati Sambhajinagar, 30 km"
+      },
+      "seeThis": [
+        {
+          "title": "Kailasa from the cliff path",
+          "detail": "There is a track up the rock face to the south. From the top you look down into the temple and finally understand that it is a hole, not a building."
+        },
+        {
+          "title": "Cave 10's ribbed vault",
+          "detail": "Stone carved to look like curved timber beams, because that is what the builders' earlier wooden halls were made of. The acoustics under it are extraordinary."
+        },
+        {
+          "title": "Cave 12, all three floors",
+          "detail": "A three-storey monastery — the Teen Thal — with rows of seated Buddhas on the top floor and monks' cells below."
+        },
+        {
+          "title": "The Jain Indra Sabha",
+          "detail": "Cave 32 at the far north end, with traces of the original painted ceiling still readable. Almost nobody walks that far."
+        }
+      ],
+      "tips": [
+        "Closed Tuesdays; Ajanta closes Mondays. Plan two consecutive days and you can do both.",
+        "A torch is genuinely useful — the interiors are unlit and the deep shrines are very dark.",
+        "Caves 1 to 12 are Buddhist, 13 to 29 Hindu, 30 to 34 Jain. Start at 16 while you are fresh, then work outwards."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Chaitya_Griha%2C_Cave_no_10%2C_Ellora_Caves%2C_Maharashtra%2C_India_03.jpg/1280px-Chaitya_Griha%2C_Cave_no_10%2C_Ellora_Caves%2C_Maharashtra%2C_India_03.jpg",
+          "caption": "The Cave 10 chaitya hall",
+          "credit": "Amitabha Gupta — CC BY 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Chaitya_Griha%2C_Cave_no_10%2C_Ellora_Caves%2C_Maharashtra%2C_India_05.jpg/1280px-Chaitya_Griha%2C_Cave_no_10%2C_Ellora_Caves%2C_Maharashtra%2C_India_05.jpg",
+          "caption": "Inside the Vishvakarma chaitya",
+          "credit": "Amitabha Gupta — CC BY 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Chaitya_Griha%2C_Cave_no_10%2C_Ellora_Caves%2C_Maharashtra%2C_India_08.jpg/1280px-Chaitya_Griha%2C_Cave_no_10%2C_Ellora_Caves%2C_Maharashtra%2C_India_08.jpg",
+          "caption": "Ribbed stone vaulting",
+          "credit": "Amitabha Gupta — CC BY 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Chaitya_Griha%2C_Cave_no_10%2C_Ellora_Caves%2C_Maharashtra%2C_India_11.jpg/1280px-Chaitya_Griha%2C_Cave_no_10%2C_Ellora_Caves%2C_Maharashtra%2C_India_11.jpg",
+          "caption": "The stupa at the apse end",
+          "credit": "Amitabha Gupta — CC BY 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "madurai",
@@ -259,18 +1071,90 @@
     "latitude": 9.91889,
     "longitude": 78.11955,
     "thumbnail": "https://images.unsplash.com/photo-1558656274-9dae7ebade1c?w=800",
-    "description": "Technicolor gopurams rising over a 2,500-year-old city.",
+    "description": "Painted gopurams over a temple city on the Vaigai.",
     "highlights": [
       "Meenakshi Amman",
       "Thousand Pillar Hall",
-      "Gopurams"
+      "Nayak gopurams"
     ],
     "gradient": "from-amber-300 via-orange-300 to-rose-100",
     "duration": "5:35",
     "views": "1.0M",
     "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Thirumalai_Nayakkar_Mahal_open_roof_mandapam_panoramic_view.jpg/3840px-Thirumalai_Nayakkar_Mahal_open_roof_mandapam_panoramic_view.jpg",
     "panoramaCredit": "Sakthibalan — CC BY-SA 4.0 · Wikimedia Commons",
-    "panoramaSource": "wikimedia"
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Thirumalai_Nayakkar_Mahal_open_roof_mandapam_panoramic_view.jpg/3840px-Thirumalai_Nayakkar_Mahal_open_roof_mandapam_panoramic_view.jpg",
+        "label": "Thirumalai Nayak Palace — the open courtyard",
+        "credit": "Sakthibalan — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Thirumalai_Nayakkar_Mahal_roof_closed_mandapam_panoramic_view.jpg/3840px-Thirumalai_Nayakkar_Mahal_roof_closed_mandapam_panoramic_view.jpg",
+        "label": "Thirumalai Nayak Palace — the covered mandapam",
+        "credit": "Sakthibalan — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "A temple with a city built around it, rather than the other way round.",
+      "intro": "The Meenakshi Sundareswarar temple occupies six hectares in the middle of Madurai, and the old city's streets run in concentric squares around it. Fourteen gopurams — gateway towers crusted with painted stucco figures — rise over the walls, the tallest of them about 52 metres. The goddess Meenakshi is the principal deity here, and her shrine takes precedence over her consort Sundareswarar's, which is unusual.",
+      "history": "Madurai was the Pandya capital and is referred to in Tamil Sangam literature more than two thousand years ago. The temple as it now stands is largely a rebuilding: the earlier complex was sacked by Malik Kafur's forces in 1310, and reconstruction was carried out under the Nayak rulers of Madurai in the sixteenth and seventeenth centuries, above all under Thirumalai Nayak, who ruled from 1623 to 1659. He also built the palace a kilometre southeast — its surviving courtyard, ringed by twenty-metre granite columns under a stucco dome, is about a quarter of what once stood there. The temple's gopuram figures are repainted roughly every twelve years in the Kumbhabhishekam ritual, which is why they look startlingly bright.",
+      "visiting": {
+        "bestTime": "October to March; the Chithirai festival falls in April or May",
+        "hours": "5 am–12:30 pm and 4–10 pm. Thirumalai Nayak Palace 9 am–5 pm",
+        "entry": "Temple free; ₹50 for the museum in the Thousand Pillar Hall. Palace ₹50 · ₹200 foreign nationals",
+        "duration": "Half a day for the temple, an hour for the palace",
+        "nearestAirport": "Madurai (IXM), 12 km",
+        "nearestStation": "Madurai Junction, 2 km"
+      },
+      "seeThis": [
+        {
+          "title": "The Thousand Pillar Hall",
+          "detail": "985 carved columns, no two the same. A set near the entrance rings at different musical pitches when struck."
+        },
+        {
+          "title": "The Potramarai Kulam",
+          "detail": "The golden lotus tank at the centre. Pilgrims circle it clockwise; the painted ceiling of the colonnade around it is worth the crick in your neck."
+        },
+        {
+          "title": "The gopuram figures, close up",
+          "detail": "From the tank you can pick out individual gods, demons and animals thirty metres up. Each tower carries well over a thousand of them."
+        },
+        {
+          "title": "The night procession",
+          "detail": "At about 9:30 pm Sundareswarar is carried in a palanquin to Meenakshi's shrine for the night. It happens daily and few visitors stay for it."
+        }
+      ],
+      "tips": [
+        "Only Hindus may enter the two inner sanctums; everything else — halls, tank, corridors — is open to all.",
+        "Phones and cameras are not allowed inside. There are deposit counters at the East Gate.",
+        "Go barefoot on stone that has been in the sun all day, or go early. Mornings before eight are cool and much quieter."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Meenakshi_Amman_Temple_%2811875881173%29.jpg/1280px-Meenakshi_Amman_Temple_%2811875881173%29.jpg",
+          "caption": "The Meenakshi Amman temple complex",
+          "credit": "Ashwin Kumar from Bangalore, India — CC BY-SA 2.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/S-TN-34_Meenakshi_Amman_Temple_South_Gopuram_enriched_with_delicate_Stucco_works.jpg/1280px-S-TN-34_Meenakshi_Amman_Temple_South_Gopuram_enriched_with_delicate_Stucco_works.jpg",
+          "caption": "The south gopuram's stucco figures",
+          "credit": "MADHURANTHAKAN JAGADEESAN — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Thirumalai_Nayakkar_Mahal.jpg/1280px-Thirumalai_Nayakkar_Mahal.jpg",
+          "caption": "Thirumalai Nayak Palace",
+          "credit": "Vinay Datta — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Meenakshi_Temple%2C_Gopuram%2C_Madurai%2C_India.jpg/1280px-Meenakshi_Temple%2C_Gopuram%2C_Madurai%2C_India.jpg",
+          "caption": "A gopuram over the old city",
+          "credit": "Vyacheslav Argenberg — CC BY 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
   },
   {
     "id": "konark",
@@ -280,17 +1164,799 @@
     "latitude": 19.88756,
     "longitude": 86.09449,
     "thumbnail": "https://images.unsplash.com/photo-1576235282476-debff2a4d0b9?w=800",
-    "description": "A colossal stone chariot built for the sun god Surya.",
+    "description": "A stone chariot built for Surya, with twenty-four carved wheels.",
     "highlights": [
-      "Chariot Wheels",
-      "Surya Shrine",
-      "Chandrabhaga Beach"
+      "Chariot wheels",
+      "Surya shrine",
+      "Chandrabhaga beach"
     ],
     "gradient": "from-orange-300 via-amber-200 to-yellow-100",
     "duration": "4:25",
     "views": "720K",
     "panorama": null,
     "panoramaCredit": null,
-    "panoramaSource": null
+    "panoramaSource": null,
+    "panoramas": [],
+    "story": {
+      "tagline": "A temple designed as the sun god's chariot, wheels and horses included.",
+      "intro": "The Sun Temple at Konark stands three kilometres inland from the Bay of Bengal in Puri district, Odisha. The whole structure was conceived as Surya's chariot: twenty-four carved stone wheels along the plinth, and seven horses straining at the front. The main tower has collapsed, so what survives is mostly the jagamohana — the assembly hall — which is monumental on its own. UNESCO inscribed it in 1984.",
+      "history": "Narasimhadeva I of the Eastern Ganga dynasty built the temple around 1250, most likely to mark a military victory. The sanctuary tower is thought to have risen over sixty metres; it had fallen by the nineteenth century, from a mix of structural failure and the removal of stone, and the surviving hall was deliberately filled with sand and sealed by British engineers in 1903 to stop it going the same way. Sailors called it the Black Pagoda and used it to navigate the coast, in contrast to the whitewashed temple at Puri. The wheels are the best-known feature: each is about three metres across with eight spokes, and the shadow of the axle can be read as a sundial.",
+      "visiting": {
+        "bestTime": "October to February; the Konark Dance Festival is in early December",
+        "hours": "Sunrise to sunset, daily",
+        "entry": "₹40 · ₹600 foreign nationals",
+        "duration": "2–3 hours",
+        "nearestAirport": "Biju Patnaik International, Bhubaneswar (BBI), 65 km",
+        "nearestStation": "Puri, 35 km"
+      },
+      "seeThis": [
+        {
+          "title": "Reading a wheel as a clock",
+          "detail": "The spokes and the axle shadow give the time of day to within a few minutes. Guides demonstrate it, and it genuinely works."
+        },
+        {
+          "title": "The war horses at the front",
+          "detail": "Seven horses, each of them straining; the surviving ones are on the southern approach and much larger than photographs suggest."
+        },
+        {
+          "title": "The green chlorite doorframes",
+          "detail": "Konark uses three stones — khondalite, laterite and a fine-grained green chlorite reserved for the doorframes and the best sculpture."
+        },
+        {
+          "title": "Chandrabhaga beach",
+          "detail": "Three kilometres away, and where the temple's builders would have watched the sun come out of the sea. Sunrise here, temple after."
+        }
+      ],
+      "tips": [
+        "The ASI museum by the gate holds sculpture recovered from the collapsed tower, including pieces you cannot see on the building. It is included in the ticket.",
+        "Go early: the site is open stone with no shade at all, and the Odisha coast is humid by nine.",
+        "Hire a guide at the ticket office rather than the car park — the iconography is unlabelled and the site rewards explanation."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Artwork_of_Chariot_wheels_and_sculptures_in_Konark_Sun_temple%2C_Odisha_02.jpg/1280px-Artwork_of_Chariot_wheels_and_sculptures_in_Konark_Sun_temple%2C_Odisha_02.jpg",
+          "caption": "A chariot wheel and its carving",
+          "credit": "Pinakpani — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Artwork_of_Chariot_wheels_and_sculptures_in_Konark_Sun_temple%2C_Odisha_06.jpg/1280px-Artwork_of_Chariot_wheels_and_sculptures_in_Konark_Sun_temple%2C_Odisha_06.jpg",
+          "caption": "Sculpture on the temple plinth",
+          "credit": "Pinakpani — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Artwork_of_Chariot_wheels_and_sculptures_in_Konark_Sun_temple%2C_Odisha_12.jpg/1280px-Artwork_of_Chariot_wheels_and_sculptures_in_Konark_Sun_temple%2C_Odisha_12.jpg",
+          "caption": "Detail of the wheel spokes",
+          "credit": "Pinakpani — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Artwork_of_Chariot_wheels_and_sculptures_in_Konark_Sun_temple%2C_Odisha_20.jpg/1280px-Artwork_of_Chariot_wheels_and_sculptures_in_Konark_Sun_temple%2C_Odisha_20.jpg",
+          "caption": "The stone chariot's flank",
+          "credit": "Pinakpani — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "sanchi",
+    "name": "Sanchi Stupas",
+    "country": "Madhya Pradesh, India",
+    "category": "Heritage",
+    "latitude": 23.47929,
+    "longitude": 77.73963,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/The_Great_Stupa%2C_at_Sanchi%2C_Madhya_Pradesh.jpg/1280px-The_Great_Stupa%2C_at_Sanchi%2C_Madhya_Pradesh.jpg",
+    "description": "The oldest stone Buddhist monuments in India, on a hill above the Betwa plain.",
+    "highlights": [
+      "Great Stupa",
+      "Carved toranas",
+      "Ashokan pillar"
+    ],
+    "gradient": "from-amber-200 via-orange-200 to-stone-100",
+    "duration": "4:10",
+    "views": "310K",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/101_North_Gate_Outer_%2833083449404%29.jpg/3840px-101_North_Gate_Outer_%2833083449404%29.jpg",
+    "panoramaCredit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/101_North_Gate_Outer_%2833083449404%29.jpg/3840px-101_North_Gate_Outer_%2833083449404%29.jpg",
+        "label": "North gateway, from outside",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/102_North_Gate_Inner_%2833541824780%29.jpg/3840px-102_North_Gate_Inner_%2833541824780%29.jpg",
+        "label": "North gateway, from inside the railing",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/101_South_Gate_Outer_%2832969881684%29.jpg/3840px-101_South_Gate_Outer_%2832969881684%29.jpg",
+        "label": "South gateway — the main entrance",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/102_East_Gate_Outer_%2833113521003%29.jpg/3840px-102_East_Gate_Outer_%2833113521003%29.jpg",
+        "label": "East gateway",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/101_West_Gate_Outer_%2833427531520%29.jpg/3840px-101_West_Gate_Outer_%2833427531520%29.jpg",
+        "label": "West gateway",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/101_General_View_of_Stupa_3_%2833620441021%29.jpg/3840px-101_General_View_of_Stupa_3_%2833620441021%29.jpg",
+        "label": "Stupa 3, on the north terrace",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/101_Distance_View_%2833885059336%29.jpg/3840px-101_Distance_View_%2833885059336%29.jpg",
+        "label": "The hilltop, from a distance",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Two thousand two hundred years old, and the gateways still tell the whole story.",
+      "intro": "Sanchi is a hilltop of stupas, temples and monastery foundations rising above the plain in Raisen district, Madhya Pradesh. The Great Stupa at its centre is the oldest stone structure in India still standing. What makes the site remarkable is the four gateways around it: torana arches carved end to end with scenes from the Buddha's lives, told entirely without showing the Buddha himself. UNESCO inscribed Sanchi in 1989.",
+      "history": "The emperor Ashoka founded the first stupa here in the third century BCE, a brick dome over relics, and raised a polished sandstone pillar beside it. In the second and first centuries BCE the Shungas encased the dome in stone and doubled its size to the 36 metres across it is today, and added the railing and the terrace. The four toranas were carved around the first century BCE, in the Satavahana period, and paid for by donors — merchants, guilds, monks and nuns — whose names are inscribed on them. Sanchi has no direct connection to events in the Buddha's life, which is probably why it was never a target: it faded quietly as Buddhism declined in India and was forgotten until a British officer, Henry Taylor, recorded it in 1818. Careless early excavation did real damage; John Marshall's restoration between 1912 and 1919 is what you walk through now.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "Sunrise to sunset, daily",
+        "entry": "₹40 · ₹600 foreign nationals",
+        "duration": "2–3 hours including the museum",
+        "nearestAirport": "Raja Bhoj, Bhopal (BHO), 55 km",
+        "nearestStation": "Sanchi, 1.5 km; Vidisha, 10 km"
+      },
+      "seeThis": [
+        {
+          "title": "The Buddha who is never shown",
+          "detail": "On the toranas he appears as a footprint, an empty throne, a parasol or a riderless horse. Once you see the convention you cannot unsee it."
+        },
+        {
+          "title": "The north gateway's architrave",
+          "detail": "The best preserved of the four. Read it bottom to top: the Vessantara Jataka runs the full width of the lowest beam."
+        },
+        {
+          "title": "The donor inscriptions",
+          "detail": "Short Brahmi lines on the railing posts naming who paid for each. Many are women, and many are from Vidisha's merchant families."
+        },
+        {
+          "title": "Ashoka's pillar stump",
+          "detail": "Beside the south gateway. The polish on Mauryan sandstone is still visible after 2,200 years, and nobody has satisfactorily explained how it was achieved."
+        }
+      ],
+      "tips": [
+        "The ASI site museum at the foot of the hill holds the pillar's lion capital and is included in the ticket — see it before you climb.",
+        "Vidisha, 10 km away, has the Heliodorus pillar, set up by a Greek ambassador in about 110 BCE. It is free and nearly always empty.",
+        "Winter mornings on the hill are cold and often misty until nine, which is when the toranas photograph best."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/The_Great_Stupa%2C_at_Sanchi%2C_Madhya_Pradesh.jpg/1280px-The_Great_Stupa%2C_at_Sanchi%2C_Madhya_Pradesh.jpg",
+          "caption": "The Great Stupa on the hill",
+          "credit": "Varada Phadkay — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Eastern_Gateway_of_The_Great_stupa%2C_Sanchi_02.jpg/1280px-Eastern_Gateway_of_The_Great_stupa%2C_Sanchi_02.jpg",
+          "caption": "The eastern torana gateway",
+          "credit": "Rohit Sharma — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Sanchi_Sculpture_Northern_Gateway_6.jpg/1280px-Sanchi_Sculpture_Northern_Gateway_6.jpg",
+          "caption": "Carving on the northern gateway",
+          "credit": "Travel Miles With Smiles — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Sanchi_Stupa_%28Back%29.jpg/1280px-Sanchi_Stupa_%28Back%29.jpg",
+          "caption": "The stupa's dome and railing",
+          "credit": "Vruttant3 — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "ajanta",
+    "name": "Ajanta Caves",
+    "country": "Maharashtra, India",
+    "category": "Heritage",
+    "latitude": 20.55194,
+    "longitude": 75.70333,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Cave_26_%28Mahaparinirvana_of_the_Buddha%29%2C_Ajanta_caves.jpg/1280px-Cave_26_%28Mahaparinirvana_of_the_Buddha%29%2C_Ajanta_caves.jpg",
+    "description": "Thirty painted and sculpted caves in a horseshoe gorge above the Waghora.",
+    "highlights": [
+      "Cave 26 Parinirvana",
+      "Cave 19 chaitya",
+      "Wall paintings"
+    ],
+    "gradient": "from-orange-200 via-amber-300 to-stone-100",
+    "duration": "5:30",
+    "views": "420K",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/405_Cave_19_%2834272752616%29.jpg/3840px-405_Cave_19_%2834272752616%29.jpg",
+    "panoramaCredit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/405_Cave_19_%2834272752616%29.jpg/3840px-405_Cave_19_%2834272752616%29.jpg",
+        "label": "Cave 19 — the chaitya hall",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/404_Cave_16_%2834182561731%29.jpg/3840px-404_Cave_16_%2834182561731%29.jpg",
+        "label": "Cave 16 — the great vihara",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/406_Cave_26%2C_General_View_%2833929269360%29.jpg/3840px-406_Cave_26%2C_General_View_%2833929269360%29.jpg",
+        "label": "Cave 26 — the nave",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/407_Cave_26%2C_Parinirvana_Statue_%2833929269050%29.jpg/3840px-407_Cave_26%2C_Parinirvana_Statue_%2833929269050%29.jpg",
+        "label": "Cave 26 — the reclining Buddha",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/401_Viewpoint_from_the_Top_%2833503620693%29.jpg/3840px-401_Viewpoint_from_the_Top_%2833503620693%29.jpg",
+        "label": "The gorge, from the viewpoint above",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/402_Viewpoint_from_Halfway_Up_%2834272761156%29.jpg/3840px-402_Viewpoint_from_Halfway_Up_%2834272761156%29.jpg",
+        "label": "Halfway up the horseshoe",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Lost in the forest for a thousand years, and the paint survived it.",
+      "intro": "Ajanta is a horseshoe-shaped gorge on the Waghora river in Aurangabad district, Maharashtra, with thirty Buddhist caves cut into the inside of the curve. Some are chaityas — prayer halls with a stupa at the end — and the rest viharas, monasteries with cells around a central court. What separates Ajanta from every other cave site is the painting: large stretches of fifth-century mural survive on the walls and ceilings. UNESCO inscribed it in 1983.",
+      "history": "The caves were cut in two widely separated phases. The earlier group belongs to the Satavahana period, roughly the second century BCE to the first century CE, and is austere. The second phase came under the Vakataka king Harishena in the second half of the fifth century, and produced almost everything that makes Ajanta famous — Caves 1, 2, 16, 17, 19 and 26, their sculpture and their paintings. Work stopped abruptly, probably when Harishena's dynasty collapsed, leaving several caves unfinished mid-chisel. The monks left, the forest closed in, and the site was not seen again until 1819, when a British officer named John Smith, out hunting tiger, spotted an arch above the undergrowth and scratched his name on a pillar in Cave 10. It is still there.",
+      "visiting": {
+        "bestTime": "November to March; the gorge is spectacular in the monsoon but the falls close paths",
+        "hours": "9 am–5:30 pm; closed Mondays",
+        "entry": "₹40 · ₹600 foreign nationals, plus about ₹25 for the compulsory shuttle bus",
+        "duration": "Four to five hours",
+        "nearestAirport": "Chhatrapati Sambhajinagar (IXU), 100 km",
+        "nearestStation": "Jalgaon, 60 km"
+      },
+      "seeThis": [
+        {
+          "title": "The Padmapani in Cave 1",
+          "detail": "The bodhisattva with the lotus, eyes lowered, on the wall left of the shrine door. Probably the single most reproduced image in Indian art."
+        },
+        {
+          "title": "Cave 26's Parinirvana",
+          "detail": "A seven-metre reclining Buddha at the moment of death, with mourners below and celestials above. Carved out of the living rock, in one piece."
+        },
+        {
+          "title": "Cave 19's facade",
+          "detail": "The chaitya arch here is the most elaborate at Ajanta — a horseshoe window that lights the stupa at the far end and nothing else."
+        },
+        {
+          "title": "The viewpoint across the gorge",
+          "detail": "A path on the far side gives the view John Smith had: the whole horseshoe of cave mouths at once. Thirty minutes each way."
+        }
+      ],
+      "tips": [
+        "Cameras with flash are banned — flash damages the pigment — and the interiors are lit very dimly on purpose. A fast lens beats a bright torch.",
+        "Private vehicles stop 4 km short at the T-junction; the shuttle is compulsory and runs every few minutes.",
+        "Closed Mondays, while Ellora closes Tuesdays. Both can be done from Chhatrapati Sambhajinagar on consecutive days."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Cave_26_%28Mahaparinirvana_of_the_Buddha%29%2C_Ajanta_caves.jpg/1280px-Cave_26_%28Mahaparinirvana_of_the_Buddha%29%2C_Ajanta_caves.jpg",
+          "caption": "The reclining Buddha in Cave 26",
+          "credit": "Rohit Sharma — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Ajanta_Cave_17-3.jpg/1280px-Ajanta_Cave_17-3.jpg",
+          "caption": "Painted wall in Cave 17",
+          "credit": "Biswas Dibyendu — CC0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Painting_in_Ajanta_Cave_1-41.jpg/1280px-Painting_in_Ajanta_Cave_1-41.jpg",
+          "caption": "Fifth-century painting in Cave 1",
+          "credit": "Biswas Dibyendu — CC0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Ajanta_Cave_10-2.jpg/1280px-Ajanta_Cave_10-2.jpg",
+          "caption": "The chaitya hall of Cave 10",
+          "credit": "Biswas Dibyendu — CC0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mumbai",
+    "name": "Gateway of India, Mumbai",
+    "country": "Maharashtra, India",
+    "category": "Heritage",
+    "latitude": 18.92198,
+    "longitude": 72.83467,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Gateway_of_India_Port_Mumbai_3.jpg/1280px-Gateway_of_India_Port_Mumbai_3.jpg",
+    "description": "The basalt arch on Apollo Bunder, and the harbour city behind it.",
+    "highlights": [
+      "Gateway of India",
+      "Taj Mahal Palace",
+      "Elephanta ferry"
+    ],
+    "gradient": "from-amber-200 via-orange-200 to-stone-100",
+    "duration": "3:30",
+    "views": "1.4M",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pano-20230403-Gateway-of-India.jpg/3840px-Pano-20230403-Gateway-of-India.jpg",
+    "panoramaCredit": "Fuzheado — CC BY-SA 4.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pano-20230403-Gateway-of-India.jpg/3840px-Pano-20230403-Gateway-of-India.jpg",
+        "label": "On Apollo Bunder, under the arch",
+        "credit": "Fuzheado — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Pano-20230403-Taj-Mumbai-Grandstaircase.jpg/3840px-Pano-20230403-Taj-Mumbai-Grandstaircase.jpg",
+        "label": "The Taj Mahal Palace grand staircase",
+        "credit": "Fuzheado — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Pano-20230403-nmacc-india-in-fashion-gallery-10.jpg/3840px-Pano-20230403-nmacc-india-in-fashion-gallery-10.jpg",
+        "label": "NMACC gallery, Bandra Kurla Complex",
+        "credit": "Fuzheado — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Built to welcome an emperor, remembered for watching the last of them leave.",
+      "intro": "The Gateway of India is a 26-metre basalt arch on the Colaba waterfront, facing the harbour. It is Mumbai's most recognisable structure and the city's default meeting point — ferries to Elephanta leave from the steps beside it, and the Taj Mahal Palace hotel stands directly opposite.",
+      "history": "The arch was proposed to commemorate the landing of George V and Queen Mary at Apollo Bunder in December 1911 — they saw only a cardboard mock-up. George Wittet designed the permanent structure in an Indo-Saracenic manner, borrowing from sixteenth-century Gujarati architecture; the foundation was laid in 1920 and the Gateway opened in 1924. Its most quoted moment is the opposite of its purpose: in February 1948 the First Battalion of the Somerset Light Infantry marched through it to their ships, the last British troops to leave India. The Taj Mahal Palace behind it is older, opened in 1903 by Jamsetji Tata, and was one of the buildings attacked in November 2008.",
+      "visiting": {
+        "bestTime": "November to February; avoid the June–September monsoon for the ferries",
+        "hours": "The plaza is open all day; Elephanta ferries run roughly 9 am–3:30 pm",
+        "entry": "Free. Elephanta ferry about ₹200 return; Elephanta Caves ₹40 · ₹600 foreign nationals",
+        "duration": "An hour at the Gateway; half a day with Elephanta",
+        "nearestAirport": "Chhatrapati Shivaji Maharaj International (BOM), 26 km",
+        "nearestStation": "Churchgate or CSMT, both about 3 km"
+      },
+      "seeThis": [
+        {
+          "title": "The ceiling of the central arch",
+          "detail": "A perforated stone screen carrying the weight of the dome above. Stand directly beneath it and look up — most visitors never do."
+        },
+        {
+          "title": "Elephanta, an hour out",
+          "detail": "The ferry crosses to an island with sixth-century rock-cut caves and the three-headed Trimurti Shiva, six metres tall."
+        },
+        {
+          "title": "The Taj's grand staircase",
+          "detail": "The cantilevered stair in the old wing, under a stained-glass dome. Walk in for a coffee at the Sea Lounge; nobody minds."
+        },
+        {
+          "title": "Marine Drive after dark",
+          "detail": "Three kilometres of curved promenade north of here. The street lights on the curve are why it is called the Queen's Necklace."
+        }
+      ],
+      "tips": [
+        "Book the Elephanta ferry at the counters on the plaza, not from touts; the last boat back leaves the island at 5:30 pm and it is strictly enforced.",
+        "The plaza is at its emptiest at 6:30 am, and the light off the harbour is at its best then too.",
+        "Security screening at the Gateway is routine — small bags only, and expect a queue on Sunday evenings."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Gateway_of_India_Port_Mumbai_3.jpg/1280px-Gateway_of_India_Port_Mumbai_3.jpg",
+          "caption": "The Gateway of India on Apollo Bunder",
+          "credit": "Gannu03 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Panoramic_view_of_Taj_Palace_Hotel_and_Taj_Tower_with_the_iconic_Gateway_of_India_in_the_background.jpg/1280px-Panoramic_view_of_Taj_Palace_Hotel_and_Taj_Tower_with_the_iconic_Gateway_of_India_in_the_background.jpg",
+          "caption": "The Taj Palace hotel beside the Gateway",
+          "credit": "iMahesh — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Chhatrapati_Shivaji_Maharaj_Terminus_CSMT_Mumbai_best_IMG_20230814_07.jpg/1280px-Chhatrapati_Shivaji_Maharaj_Terminus_CSMT_Mumbai_best_IMG_20230814_07.jpg",
+          "caption": "Chhatrapati Shivaji Maharaj Terminus",
+          "credit": "Dr. Raju Kasambe — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Marine_Drive_Mumbai.jpg/1280px-Marine_Drive_Mumbai.jpg",
+          "caption": "Marine Drive",
+          "credit": "Gannu03 — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mahabalipuram",
+    "name": "Shore Temple, Mahabalipuram",
+    "country": "Tamil Nadu, India",
+    "category": "Heritage",
+    "latitude": 12.61686,
+    "longitude": 80.19925,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Shore_Temple%2C_Mahabalipuram_1.jpg/1280px-Shore_Temple%2C_Mahabalipuram_1.jpg",
+    "description": "A Pallava temple standing at the edge of the Bay of Bengal.",
+    "highlights": [
+      "Shore Temple",
+      "Pancha Rathas",
+      "Arjuna's Penance"
+    ],
+    "gradient": "from-amber-200 via-orange-200 to-sky-50",
+    "duration": "3:45",
+    "views": "390K",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/360_degree_View_of_the_Shore_temple.jpg/3840px-360_degree_View_of_the_Shore_temple.jpg",
+    "panoramaCredit": "Ramnanda06 — CC BY-SA 4.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/360_degree_View_of_the_Shore_temple.jpg/3840px-360_degree_View_of_the_Shore_temple.jpg",
+        "label": "At the Shore Temple, facing the sea",
+        "credit": "Ramnanda06 — CC BY-SA 4.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "The Pallavas carved a port town out of granite and left it facing the sea.",
+      "intro": "Mahabalipuram — Mamallapuram — sits 55 kilometres south of Chennai on the Coromandel coast. Its monuments are almost all cut from the granite outcrops that run through the town: monolithic shrines, cave temples, and one enormous open-air relief. The Shore Temple is the exception, built from dressed blocks right at the waterline. UNESCO inscribed the group in 1984.",
+      "history": "This was a Pallava port from the seventh century, trading with Southeast Asia — which is part of why Pallava temple forms turn up later in Cambodia and Java. Most of the rock-cut work belongs to the reigns of Mahendravarman I and Narasimhavarman I (Mamalla), after whom the town is named. The Shore Temple came a little later, around 700 to 728, under Narasimhavarman II; it is one of the earliest structural stone temples in south India, and centuries of salt wind have rounded its carving. The Pancha Rathas — five shrines, each cut whole from a single boulder in a different architectural style — were never finished or consecrated, which is exactly what makes them useful: they are a builder's sample book. In December 2004 the tsunami briefly pulled the water back and exposed submerged masonry offshore, supporting the old local account of seven temples of which only one remained.",
+      "visiting": {
+        "bestTime": "November to February; the dance festival runs December to January",
+        "hours": "6 am–6 pm daily",
+        "entry": "₹40 · ₹600 foreign nationals — one ticket covers the Shore Temple and the Pancha Rathas",
+        "duration": "Half a day",
+        "nearestAirport": "Chennai International (MAA), 60 km",
+        "nearestStation": "Chengalpattu, 30 km"
+      },
+      "seeThis": [
+        {
+          "title": "Arjuna's Penance",
+          "detail": "A relief 30 metres long and 15 high on an open rock face — elephants, ascetics, celestials and a natural cleft used as a descending river. Free to walk up to."
+        },
+        {
+          "title": "The Pancha Rathas",
+          "detail": "Five monolithic shrines in five different styles, each carved top-down out of one rock. Draupadi's is a thatched hut in granite."
+        },
+        {
+          "title": "The Shore Temple at sunrise",
+          "detail": "It faces east so the first light comes off the sea straight onto the tower. The gate opens at six for exactly this reason."
+        },
+        {
+          "title": "Krishna's Butter Ball",
+          "detail": "A six-metre granite boulder resting on a slope at an angle that should not hold. It has held for well over a thousand years."
+        }
+      ],
+      "tips": [
+        "The Shore Temple is fenced and ticketed; Arjuna's Penance, the Butter Ball and the cave temples in town are free and open.",
+        "Stone carving is still a living trade here — the workshops along the main road are working craftsmen, not souvenir stalls.",
+        "Combine it with Dakshinachitra on the drive back to Chennai; the East Coast Road makes it easy."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Shore_Temple%2C_Mahabalipuram_1.jpg/1280px-Shore_Temple%2C_Mahabalipuram_1.jpg",
+          "caption": "The Shore Temple on the Coromandel coast",
+          "credit": "Rangan Datta Wiki — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Arjuna%E2%80%99s_Penance-Mamallapuram.jpg/1280px-Arjuna%E2%80%99s_Penance-Mamallapuram.jpg",
+          "caption": "Arjuna's Penance, the great relief",
+          "credit": "Deepak2885 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Mahabalipuram-Shore_Temple-IMG_20250221_102041.jpg/1280px-Mahabalipuram-Shore_Temple-IMG_20250221_102041.jpg",
+          "caption": "The temple's twin towers",
+          "credit": "Rainer Halama — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Mahabalipuram-Shore_Temple-WUS01811.jpg/1280px-Mahabalipuram-Shore_Temple-WUS01811.jpg",
+          "caption": "Granite carving worn by sea wind",
+          "credit": "Rainer Halama — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "karla-bhaja",
+    "name": "Karla & Bhaja Caves",
+    "country": "Maharashtra, India",
+    "category": "Heritage",
+    "latitude": 18.78235,
+    "longitude": 73.47212,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Great_Chaitya_in_the_Karla_Caves.jpg/1280px-The_Great_Chaitya_in_the_Karla_Caves.jpg",
+    "description": "The oldest rock-cut Buddhist halls in the Western Ghats, above the Mumbai–Pune road.",
+    "highlights": [
+      "Great Chaitya",
+      "Bhaja stupas",
+      "Bedse columns"
+    ],
+    "gradient": "from-orange-200 via-amber-200 to-stone-100",
+    "duration": "3:20",
+    "views": "180K",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/101_Inside_the_Chaitya_Hall_%2832879689183%29.jpg/3840px-101_Inside_the_Chaitya_Hall_%2832879689183%29.jpg",
+    "panoramaCredit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/101_Inside_the_Chaitya_Hall_%2832879689183%29.jpg/3840px-101_Inside_the_Chaitya_Hall_%2832879689183%29.jpg",
+        "label": "Karla — inside the Great Chaitya",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/101_Outside_the_Chaitya_Hall_%2833692502085%29.jpg/3840px-101_Outside_the_Chaitya_Hall_%2833692502085%29.jpg",
+        "label": "Bhaja — outside the chaitya",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/102_Inside_the_Chaitya_Hall_%2833692500295%29.jpg/3840px-102_Inside_the_Chaitya_Hall_%2833692500295%29.jpg",
+        "label": "Bhaja — inside the chaitya",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/101_Inside_the_Chaitya_Hall_%2833692335955%29.jpg/3840px-101_Inside_the_Chaitya_Hall_%2833692335955%29.jpg",
+        "label": "Bedse — inside the chaitya",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/101_Inside_the_Chaitya_Hall_%2833308150130%29.jpg/3840px-101_Inside_the_Chaitya_Hall_%2833308150130%29.jpg",
+        "label": "Kondana — inside the chaitya",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Two thousand years old, cut by traders, and still on the trade route.",
+      "intro": "A cluster of early Buddhist cave complexes sits in the hills either side of the Bhor Ghat, between Mumbai and Pune. Karla holds the largest and best-preserved chaitya hall in India; Bhaja, Bedse and Kondana are smaller and older. All four look down on the pass that carried goods between the Deccan plateau and the Konkan ports — which is exactly who paid for them.",
+      "history": "Bhaja is the earliest, cut in the second century BCE, and its chaitya still shows sockets where a wooden facade was fixed to the rock. Karla's Great Chaitya followed around 120 CE under Satavahana rule: 45 metres deep, with 37 octagonal columns, a stupa at the apse, and a stone vault ribbed in teak — some of the original timber is still in place after nineteen centuries, which makes it among the oldest structural wood surviving anywhere. Inscriptions on the pillars name the donors: merchants, bankers and guilds from Nashik and Junnar, and in several cases Yavanas — Greeks settled in western India. Bedse, first century BCE, has bell-shaped capitals carrying carved riders. The complexes were monastic rest houses as much as temples, sited a day's travel apart along the road.",
+      "visiting": {
+        "bestTime": "July to February; the Ghats are green through the monsoon and the falls run",
+        "hours": "Sunrise to sunset, daily",
+        "entry": "₹25 · ₹300 foreign nationals at Karla and Bhaja",
+        "duration": "Half a day for two sites",
+        "nearestAirport": "Pune (PNQ), 60 km",
+        "nearestStation": "Lonavala, 11 km from Karla; Malavli, 3 km from Bhaja"
+      },
+      "seeThis": [
+        {
+          "title": "Karla's teak ribs",
+          "detail": "Look up in the Great Chaitya. Wooden beams from the second century, fixed into the stone vault and never replaced."
+        },
+        {
+          "title": "The donor couples at Karla",
+          "detail": "Life-size mithuna pairs flanking the entrance, in the fleshy Satavahana manner. They are portraits of the people who paid."
+        },
+        {
+          "title": "Bhaja's stupa group",
+          "detail": "Fourteen rock-cut stupas in a ravine beside the caves, memorials to individual monks — several are named in inscriptions."
+        },
+        {
+          "title": "The Bhaja dancing relief",
+          "detail": "In the last vihara: a panel usually read as Surya or Indra riding out, with a drummer and dancers. It is the oldest relief of its kind in the region."
+        }
+      ],
+      "tips": [
+        "Karla shares its hilltop with a busy Ekvira Devi temple, so weekends are crowded and the steps are lined with stalls. Weekdays are a different place.",
+        "Bhaja and Bedse involve a twenty-minute climb each; Kondana needs a proper walk in and is best skipped in heavy rain.",
+        "Malavli station is on the Mumbai–Pune local line, which makes this an easy day trip without a car."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Great_Chaitya_in_the_Karla_Caves.jpg/1280px-The_Great_Chaitya_in_the_Karla_Caves.jpg",
+          "caption": "The Great Chaitya at Karla",
+          "credit": "Ashwin Rajesh Pillai — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Bhaja_cave_-_Pune_-_Maharashtra_-_002.jpg/1280px-Bhaja_cave_-_Pune_-_Maharashtra_-_002.jpg",
+          "caption": "Bhaja Caves in the Western Ghats",
+          "credit": "Bhuppigraphy — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/The_Chaitya-griha_of_Bedse_caves.jpg/1280px-The_Chaitya-griha_of_Bedse_caves.jpg",
+          "caption": "The chaitya-griha at Bedse",
+          "credit": "Shubhamn — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Grand_Chaitya_at_Karla_Caves_-_2025_-_03.jpg/1280px-Grand_Chaitya_at_Karla_Caves_-_2025_-_03.jpg",
+          "caption": "Columns of the Karla hall",
+          "credit": "Oleg Yunakov — CC0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "kolkata",
+    "name": "Currency Building, Kolkata",
+    "country": "West Bengal, India",
+    "category": "Heritage",
+    "latitude": 22.57139,
+    "longitude": 88.34889,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Currency_Building_1%2C_Kolkata.jpg/1280px-Currency_Building_1%2C_Kolkata.jpg",
+    "description": "A restored colonial hall in Dalhousie Square, saved from demolition.",
+    "highlights": [
+      "Central Hall",
+      "Dalhousie Square",
+      "Venetian arcades"
+    ],
+    "gradient": "from-amber-200 via-orange-100 to-stone-100",
+    "duration": "2:45",
+    "views": "140K",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Central_Hall_-_Ground_Floor_-_Currency_Building_-_360x180_Degree_Equirectangular_View_-_Dalhousie_Square_-_Kolkata_2016-06-02_4130-4138_Compressed.JPG/3840px-Central_Hall_-_Ground_Floor_-_Currency_Building_-_360x180_Degree_Equirectangular_View_-_Dalhousie_Square_-_Kolkata_2016-06-02_4130-4138_Compressed.JPG",
+    "panoramaCredit": "Biswarup Ganguly — CC BY 3.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Central_Hall_-_Ground_Floor_-_Currency_Building_-_360x180_Degree_Equirectangular_View_-_Dalhousie_Square_-_Kolkata_2016-06-02_4130-4138_Compressed.JPG/3840px-Central_Hall_-_Ground_Floor_-_Currency_Building_-_360x180_Degree_Equirectangular_View_-_Dalhousie_Square_-_Kolkata_2016-06-02_4130-4138_Compressed.JPG",
+        "label": "Central Hall, ground floor",
+        "credit": "Biswarup Ganguly — CC BY 3.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Central_Hall_-_Ground_Floor_-_Currency_Building_-_360x180_Degree_Equirectangular_View_-_Dalhousie_Square_-_Kolkata_2016-06-02_4184-4194_Compressed.JPG/3840px-Central_Hall_-_Ground_Floor_-_Currency_Building_-_360x180_Degree_Equirectangular_View_-_Dalhousie_Square_-_Kolkata_2016-06-02_4184-4194_Compressed.JPG",
+        "label": "Central Hall, under the domes",
+        "credit": "Biswarup Ganguly — CC BY 3.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/South-eastern_Hall_-_Ground_Floor_-_Currency_Building_-_360x180_Degree_Equirectangular_View_-_Dalhousie_Square_-_Kolkata_2016-06-02_4161-4169_Compressed.JPG/3840px-South-eastern_Hall_-_Ground_Floor_-_Currency_Building_-_360x180_Degree_Equirectangular_View_-_Dalhousie_Square_-_Kolkata_2016-06-02_4161-4169_Compressed.JPG",
+        "label": "South-eastern hall",
+        "credit": "Biswarup Ganguly — CC BY 3.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Half demolished before anyone realised what it was.",
+      "intro": "The Currency Building stands on Dalhousie Square — officially B. B. D. Bagh — in the administrative heart of old Calcutta. Three storeys of red brick with Venetian arcaded windows and a triple-domed central hall, it is now an exhibition space run by the Archaeological Survey of India, and one of the more unexpected things to walk into in central Kolkata.",
+      "history": "The building went up in 1833 for the Agra Bank, and from 1868 the Government of India used it as its currency office — issuing and later destroying paper money, which is where the name comes from. It was abandoned in the twentieth century and by 1994 demolition was under way; the domes had already been taken down when the ASI intervened and had it declared a protected monument in 1998. Restoration ran for the better part of two decades, and the building reopened as a gallery and exhibition venue in January 2020. Dalhousie Square around it is one of the densest surviving colonial-era ensembles anywhere in Asia — the Writers' Building, the GPO on the site of the old Fort William, St Andrew's Kirk — and the whole square has been listed by the World Monuments Fund as endangered.",
+      "visiting": {
+        "bestTime": "October to February",
+        "hours": "11 am–6 pm; closed Mondays",
+        "entry": "Free; some ticketed exhibitions",
+        "duration": "An hour here, half a day for the square",
+        "nearestAirport": "Netaji Subhas Chandra Bose International (CCU), 17 km",
+        "nearestStation": "Howrah, 3 km; Sealdah, 4 km"
+      },
+      "seeThis": [
+        {
+          "title": "The rebuilt domes",
+          "detail": "The three central domes were reconstructed from photographs and surviving springing points. From inside, the scale of what was nearly lost is obvious."
+        },
+        {
+          "title": "The arcaded windows",
+          "detail": "Round-headed openings in two tiers along the facade — the closest thing Kolkata has to Venetian Gothic, and unusual for an office building of the 1830s."
+        },
+        {
+          "title": "Dalhousie Square on foot",
+          "detail": "The Writers' Building, GPO, St Andrew's Kirk and the Lal Dighi tank are all within four hundred metres."
+        },
+        {
+          "title": "The old Fort William marker",
+          "detail": "Brass lines set into the GPO steps trace the bastion of the fort that stood here before 1756."
+        }
+      ],
+      "tips": [
+        "Weekdays only in practice — the square is a working government district and it is deserted and much more photogenic on Sunday, but the building is shut Mondays.",
+        "Take the ferry from Howrah to Fairlie Ghat rather than a taxi across the bridge. It costs a few rupees and takes ten minutes.",
+        "Combine with the Indian Museum on Chowringhee, 2 km south, which is the oldest museum in the region."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Currency_Building_1%2C_Kolkata.jpg/1280px-Currency_Building_1%2C_Kolkata.jpg",
+          "caption": "The restored Currency Building",
+          "credit": "Rangan Datta Wiki — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Currency_Building_-_Dalhousie_Square_-_Kolkata_2012-09-22_0284.JPG/1280px-Currency_Building_-_Dalhousie_Square_-_Kolkata_2012-09-22_0284.JPG",
+          "caption": "The facade on Dalhousie Square",
+          "credit": "Biswarup Ganguly — CC BY 3.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Victoria_Memorial%2C_Kolkata_at_night.jpg/1280px-Victoria_Memorial%2C_Kolkata_at_night.jpg",
+          "caption": "Victoria Memorial at night",
+          "credit": "Dlinemedia — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Howrah_Bridge%2C_Kolkata%2C_1_April_2019-2.jpg/1280px-Howrah_Bridge%2C_Kolkata%2C_1_April_2019-2.jpg",
+          "caption": "Howrah Bridge over the Hooghly",
+          "credit": "Alexey Komarov — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "aurangabad-caves",
+    "name": "Aurangabad Caves",
+    "country": "Maharashtra, India",
+    "category": "Heritage",
+    "latitude": 19.90639,
+    "longitude": 75.32056,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-04.jpg/1280px-Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-04.jpg",
+    "description": "Twelve hillside Buddhist caves above the city, and almost nobody in them.",
+    "highlights": [
+      "Cave 4 chaitya",
+      "Tara figures",
+      "Deccan hill view"
+    ],
+    "gradient": "from-amber-200 via-orange-200 to-stone-100",
+    "duration": "2:30",
+    "views": "96K",
+    "panorama": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/104_Chaitya_Hall_%2833248943193%29.jpg/3840px-104_Chaitya_Hall_%2833248943193%29.jpg",
+    "panoramaCredit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+    "panoramaSource": "wikimedia",
+    "panoramas": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/104_Chaitya_Hall_%2833248943193%29.jpg/3840px-104_Chaitya_Hall_%2833248943193%29.jpg",
+        "label": "Cave 4 — the chaitya hall",
+        "credit": "Photo Dharma from Sadao, Thailand — CC BY 2.0 · Wikimedia Commons",
+        "source": "wikimedia"
+      }
+    ],
+    "story": {
+      "tagline": "Ajanta's crowds are two hours away. These caves get about nine visitors an hour.",
+      "intro": "Twelve rock-cut Buddhist caves sit in two groups on a ridge north of Chhatrapati Sambhajinagar, a couple of kilometres uphill from Bibi ka Maqbara. They are cut into softer trap rock than Ajanta and Ellora, so the carving has weathered — but the sculpture in the later caves is some of the most accomplished Vajrayana work in the Deccan, and you will usually have it to yourself.",
+      "history": "The caves span roughly the second to the eighth centuries CE. Cave 4, the only chaitya hall in the group, is the earliest — a modest apsidal prayer hall of about the second century, contemporary with the Satavahana work at Karla. The rest are viharas of the sixth and seventh centuries, when the Kalachuris and then the Chalukyas held the region, and they belong to the same wave of patronage that produced the later caves at Ajanta. Cave 7 is the one worth the climb: a shrine surrounded by large panels of bodhisattvas and female figures, including a much-photographed dancing scene with musicians, and litany panels showing Avalokiteshvara delivering worshippers from eight named perils. The site sits on the ancient route between Pratishthana, the Satavahana capital, and the western ports.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "Sunrise to sunset, daily",
+        "entry": "₹25 · ₹300 foreign nationals",
+        "duration": "1.5–2 hours",
+        "nearestAirport": "Chhatrapati Sambhajinagar (IXU), 12 km",
+        "nearestStation": "Chhatrapati Sambhajinagar, 6 km"
+      },
+      "seeThis": [
+        {
+          "title": "Cave 7's dancing panel",
+          "detail": "A female dancer with six musicians, cut almost in the round beside the shrine door. It is the best-known sculpture at the site and it is barely fenced."
+        },
+        {
+          "title": "The litany of Avalokiteshvara",
+          "detail": "Panels showing the bodhisattva rescuing travellers from shipwreck, fire, bandits and elephants — a merchant's anxieties, carved for merchants."
+        },
+        {
+          "title": "Cave 4's apsidal plan",
+          "detail": "The oldest cave here, and a straightforward early chaitya: a stupa at the far end, a curved ambulatory around it, nothing decorative."
+        },
+        {
+          "title": "The view south",
+          "detail": "From the western group the whole city is laid out, with Bibi ka Maqbara's dome in the middle distance and the Daulatabad hill beyond."
+        }
+      ],
+      "tips": [
+        "There is no transport up the hill and no shade on the approach — take an auto to the gate and ask it to wait.",
+        "Bring a torch. The shrines are unlit and Cave 7's best panels are in deep shadow.",
+        "Pair it with Bibi ka Maqbara below and Daulatabad Fort 15 km out for a full day that avoids the Ajanta and Ellora coach traffic entirely."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-04.jpg/1280px-Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-04.jpg",
+          "caption": "The caves on the ridge above the city",
+          "credit": "Biswas Dibyendu — CC0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-07.jpg/1280px-Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-07.jpg",
+          "caption": "Carved shrine doorway",
+          "credit": "Biswas Dibyendu — CC0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-10.jpg/1280px-Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-10.jpg",
+          "caption": "A pillared vihara interior",
+          "credit": "Biswas Dibyendu — CC0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-14.jpg/1280px-Aurangabad_Caves%2C_Aurangabad%2C_Maharashtra%2C_India-14.jpg",
+          "caption": "Sculpture in the western group",
+          "credit": "Biswas Dibyendu — CC0 · Wikimedia Commons"
+        }
+      ]
+    }
   }
 ]

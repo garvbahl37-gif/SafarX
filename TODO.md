@@ -119,13 +119,17 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## In progress
 
-- [ ] **More VR tours + a place story under each one** — fill the 8 tours still
-      without a panorama (varanasi, jaipur, hampi, kerala, mysore, khajuraho,
-      amritsar, konark), grow the set past 20 with any Indian site that has a
-      verified equirectangular image, and add a rich editorial section beneath
-      every tour: tagline, history, a facts strip (best time / hours / entry in
-      ₹ / how to reach), what to look for, practical tips, and a verified
-      image gallery with credits
+- [x] **VR tours expanded 14 → 21, with a story under every one** — 16 tours
+      now carry 44 verified vantage points (multi-panorama sites get a glass
+      vantage switcher), every tour has an editorial section (tagline, history,
+      facts grid, what to look for, tips, gallery), and all 84 gallery images
+      plus 44 panoramas were curl-verified — 148 URLs, 0 failures
+- [x] **VR tours hero video** — Mehrangarh Fort over Jodhpur, graded and scrimmed
+- [x] **"Free roam" section rebuilt** — three real cards (street view, orbital,
+      atlas) with imagery, icon tiles and clear actions, instead of loose text
+- [x] **All 21 tours now show on the map** — the VR gazetteer gated points on a
+      hardcoded table, hiding the 7 new tours; it now reads coordinates from
+      the data like every other layer
 
 
 

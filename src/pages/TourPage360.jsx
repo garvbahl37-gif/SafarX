@@ -18,10 +18,14 @@ import PanoramaViewer from "../components/vr/PanoramaViewer";
 
 const EASE = [0.22, 1, 0.36, 1];
 
-// 360° tour locations — Indian heritage only
+// 360° tour locations — Indian heritage only.
+// `vrTourId` points at the matching entry in vrTours.json, which is where the
+// verified equirectangular panoramas live. A site may have several vantage
+// points; PanoramaViewer resolves the whole list and offers a switcher.
 const locations = [
   {
     id: 1,
+    vrTourId: "taj-mahal",
     name: "Taj Mahal",
     place: "Agra, Uttar Pradesh",
     coords: "27.17° N · 78.04° E",
@@ -37,6 +41,7 @@ const locations = [
   },
   {
     id: 2,
+    vrTourId: "varanasi",
     name: "Varanasi",
     place: "Uttar Pradesh",
     coords: "25.32° N · 83.01° E",
@@ -52,6 +57,7 @@ const locations = [
   },
   {
     id: 3,
+    vrTourId: "jaipur",
     name: "Jaipur",
     place: "Rajasthan",
     coords: "26.92° N · 75.82° E",
@@ -67,6 +73,7 @@ const locations = [
   },
   {
     id: 4,
+    vrTourId: null,   // no verified panorama yet — the viewer shows its empty state
     name: "Andaman Islands",
     place: "Bay of Bengal",
     coords: "11.62° N · 92.73° E",
@@ -309,6 +316,7 @@ const TourPage360 = ({ onPageChange }) => {
                   <div ref={viewerRef} className="relative bg-ink-950">
                     <PanoramaViewer
                       key={location.id}
+                      tourId={location.vrTourId}
                       latitude={location.latitude}
                       longitude={location.longitude}
                       name={location.name}

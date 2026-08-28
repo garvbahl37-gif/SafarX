@@ -1,9 +1,8 @@
 /**
  * SafarX's own curated content, projected onto the map.
  *
- * Hidden gems and destinations ship their own latitude/longitude and are
- * used as-is. `vrTours.json` does not yet, so a small gazetteer pins those
- * until it does.
+ * Gems, destinations and VR tours all ship their own latitude/longitude now,
+ * so every layer reads coordinates straight from its data file.
  */
 
 import gemsData from "../../data/hiddengems.json";
@@ -24,25 +23,6 @@ const gemImage = (gem) => {
   return hit ? hit[1] : null;
 };
 
-/* ── Gazetteer: VR tour id → coordinates ──────────────────────────── */
-/* vrTours.json still ships without coordinates; delete this table once
-   it does. Hidden gems and destinations now carry their own. */
-const VR_COORDS = {
-  "taj-mahal": [27.1751, 78.0421],
-  varanasi: [25.3109, 83.0107],
-  jaipur: [26.9855, 75.8513],
-  hampi: [15.335, 76.46],
-  kerala: [9.4981, 76.3388],
-  ladakh: [34.1526, 77.5771],
-  goa: [15.01, 74.0232],
-  delhi: [28.5245, 77.1855],
-  mysore: [12.3052, 76.6552],
-  khajuraho: [24.8318, 79.9199],
-  amritsar: [31.62, 74.8765],
-  ellora: [20.0268, 75.1779],
-  madurai: [9.9195, 78.1193],
-  konark: [19.8876, 86.0945],
-};
 
 /* ── Normalised map points ────────────────────────────────────────── */
 
@@ -86,14 +66,14 @@ export const HERITAGE_POINTS = destinationsData
   }));
 
 export const VR_POINTS = vrToursData
-  .filter((tour) => VR_COORDS[tour.id])
+  .filter((tour) => Number.isFinite(tour.latitude) && Number.isFinite(tour.longitude))
   .map((tour) => ({
     id: `vr-${tour.id}`,
     layer: "vr",
     glyph: "vr",
     name: tour.name,
-    lat: VR_COORDS[tour.id][0],
-    lng: VR_COORDS[tour.id][1],
+    lat: tour.latitude,
+    lng: tour.longitude,
     subtitle: tour.country,
     categoryLabel: "360° tour",
     detail: tour.description,

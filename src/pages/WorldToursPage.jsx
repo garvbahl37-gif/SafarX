@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { motion as Motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
     X,
@@ -12,6 +12,11 @@ import {
     Eye,
     Film,
     Calendar,
+    ChevronDown,
+    BookOpen,
+    Compass,
+    Map as MapIcon,
+    Layers,
 } from "lucide-react";
 import { geocode } from "../utils/mapHelpers";
 import { SearchBar } from "../components/VirtualTour/SearchBar";
@@ -20,15 +25,70 @@ import GoogleEarthExplorer from "../components/GoogleEarthExplorer";
 import SectionHeading from "../components/ui/SectionHeading";
 import vrTours from "../data/vrTours.json";
 import PanoramaViewer from "../components/vr/PanoramaViewer";
+import TourStory from "../components/vr/TourStory";
 
 const EASE = [0.22, 1, 0.36, 1];
 
-/** Fallback thumbnail straight from the tour's own video. */
+/* ── Hero footage ───────────────────────────────────────────────────────
+   Mehrangarh Fort, Jodhpur, at 1080p60. Deliberately not the 4K Taj clip the
+   home page opens with: repeating it across two pages reads as a template, and
+   the 4K/60 renditions are slow to start and stutter on a mid-range laptop.
+   Both the file and the poster were curl-checked before being committed. */
+const HERO_VIDEO =
+    "https://videos.pexels.com/video-files/31031041/13262889_1920_1080_60fps.mp4";
+const HERO_POSTER =
+    "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1600&auto=format&fit=crop&q=70";
 
 const MODES = [
     { id: "tours", label: "VR tours", icon: Film },
     { id: "streetview", label: "Street view", icon: Navigation2 },
     { id: "earth", label: "Orbital view", icon: Globe },
+];
+
+/* ── Free-roam modes ────────────────────────────────────────────────────
+   Each card says what the mode actually does and when you would reach for it,
+   over a verified image. Images are Commons files already shipping in the tour
+   galleries, so they are covered by the same verification pass. */
+const FREE_ROAM = [
+    {
+        id: "streetview",
+        icon: Navigation2,
+        title: "Street view",
+        benefit: "Stand at any address in India and look around at eye level.",
+        detail:
+            "Search a landmark, a station, a market street — anywhere with coverage — and you are dropped at ground level facing it. Use it to work out where the entrance is, how far the walk from the station really is, or what a neighbourhood looks like before you book a room in it.",
+        action: "Search a place",
+        image:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Dashashwamedh_Ghat%2C_Ganga%2C_Varanasi.jpg/1280px-Dashashwamedh_Ghat%2C_Ganga%2C_Varanasi.jpg",
+        alt: "The ghats at Varanasi from street level",
+        mode: "streetview",
+    },
+    {
+        id: "earth",
+        icon: Globe,
+        title: "Orbital view",
+        benefit: "Sweep over forts, ghats and coastlines from a satellite's seat.",
+        detail:
+            "The whole country in 3D terrain — tilt into the Himalaya, follow the Konkan coast, or circle a fort to see how its walls actually sit on the ridge. Use it for the shape of a place: the valley a monastery hangs over, how close a beach is to the road.",
+        action: "Open orbital view",
+        image:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Pangong_Lake%2C_Ladakh_valley.jpg/1280px-Pangong_Lake%2C_Ladakh_valley.jpg",
+        alt: "Pangong Tso in the Ladakh valley from above",
+        mode: "earth",
+    },
+    {
+        id: "map",
+        icon: MapIcon,
+        title: "The atlas",
+        benefit: "Every tour, hidden gem and heritage city pinned on one map.",
+        detail:
+            "The flat view of the same content — filterable by layer, with distances you can measure. Use it when you are stitching a route together and need to know what else is within an afternoon's drive of where you already are.",
+        action: "Open the map",
+        image:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Hampi_-_Hemakuta_Hill%2C_Virupaksha_Temple.jpg/1280px-Hampi_-_Hemakuta_Hill%2C_Virupaksha_Temple.jpg",
+        alt: "Virupaksha Temple seen from Hemakuta Hill, Hampi",
+        page: "map",
+    },
 ];
 
 const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
@@ -42,6 +102,11 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
     const [activeTour, setActiveTour] = useState(
         selectedItem && Number.isFinite(selectedItem.latitude) ? selectedItem : null
     );
+
+    // The open tour is one scrolling surface: panorama first, then its story.
+    // These refs let the "Read about…" affordance move between the two.
+    const playerRef = useRef(null);
+    const storyRef = useRef(null);
 
     useEffect(() => {
         if (setIsImmersiveMode) {
@@ -59,6 +124,18 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
         return () => window.removeEventListener("keydown", onKey);
     }, [activeTour]);
 
+    // A newly opened tour always starts at the panorama, never mid-story.
+    useEffect(() => {
+        if (activeTour) playerRef.current?.scrollTo({ top: 0 });
+    }, [activeTour]);
+
+    const scrollToStory = useCallback(() => {
+        storyRef.current?.scrollIntoView({
+            behavior: reduce ? "auto" : "smooth",
+            block: "start",
+        });
+    }, [reduce]);
+
     const categories = useMemo(
         () => ["All", ...new Set(vrTours.map((t) => t.category))],
         []
@@ -68,6 +145,17 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
         () => (category === "All" ? vrTours : vrTours.filter((t) => t.category === category)),
         [category]
     );
+
+    // Headline numbers for the hero — counted from the data, never hardcoded,
+    // so they cannot drift as tours and vantage points are added.
+    const stats = useMemo(() => {
+        const vantages = vrTours.reduce(
+            (n, t) => n + (Array.isArray(t.panoramas) ? t.panoramas.length : t.panorama ? 1 : 0),
+            0
+        );
+        const states = new Set(vrTours.map((t) => t.country));
+        return { tours: vrTours.length, vantages, states: states.size };
+    }, []);
 
     /**
      * handleSearch
@@ -136,34 +224,40 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
 
     // ─────────────────────────────────────────────────────────────────
     // FULLSCREEN VR TOUR PLAYER
+    //
+    // One scrolling surface rather than a fixed viewport: the panorama fills
+    // the first screen, and the place's story sits directly beneath it. The
+    // canvas swallows the wheel (that is its zoom), so there is an explicit
+    // affordance down to the story rather than only a scroll gesture.
     // ─────────────────────────────────────────────────────────────────
     const tourPlayer = (
         <AnimatePresence>
             {activeTour && (
                 <Motion.div
                     key={`player-${activeTour.id}`}
+                    ref={playerRef}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.4 }}
-                    className="fixed inset-0 z-[999] bg-ink-950 flex flex-col"
+                    className="fixed inset-0 z-[999] overflow-y-auto overscroll-contain bg-ink-950"
                     role="dialog"
                     aria-modal="true"
                     aria-label={`360° tour of ${activeTour.name}`}
                 >
-                    {/* Player top bar */}
-                    <div className="flex items-center justify-between gap-4 px-4 md:px-8 py-4 border-b border-white/[0.07] bg-ink-950/90 backdrop-blur-md">
+                    {/* Player top bar — sticky, so leaving is always one click away */}
+                    <div className="sticky top-0 z-30 flex items-center justify-between gap-4 border-b border-white/[0.07] bg-ink-950/90 px-4 py-4 backdrop-blur-md md:px-8">
                         <button
                             onClick={() => setActiveTour(null)}
-                            className="flex items-center gap-2 text-ivory px-4 py-2 rounded-full border border-white/15 hover:border-saffron/40 transition-colors duration-200"
+                            className="flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-ivory transition-colors duration-200 hover:border-saffron/40"
                         >
-                            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+                            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                             <span className="text-sm font-semibold tracking-wide">All tours</span>
                         </button>
 
-                        <div className="hidden sm:flex items-center gap-3 min-w-0">
+                        <div className="hidden min-w-0 items-center gap-3 sm:flex">
                             <span className="route-dot animate-pulse" />
-                            <span className="font-data text-[11px] tracking-[0.2em] uppercase text-ivory/80 truncate">
+                            <span className="truncate font-data text-[11px] uppercase tracking-[0.2em] text-ivory/80">
                                 360° · {activeTour.name} · {activeTour.country}
                             </span>
                         </div>
@@ -171,70 +265,92 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                         <button
                             onClick={() => setActiveTour(null)}
                             aria-label="Close tour"
-                            className="w-9 h-9 rounded-full border border-white/15 hover:border-saffron/40 flex items-center justify-center text-ivory-muted hover:text-ivory transition-colors"
+                            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-ivory-muted transition-colors hover:border-saffron/40 hover:text-ivory"
                         >
-                            <X className="w-4 h-4" aria-hidden="true" />
+                            <X className="h-4 w-4" aria-hidden="true" />
                         </button>
                     </div>
 
                     {/* 360° panorama — rendered in-app, never an embed */}
-                    <div className="relative flex-1 bg-ink-950">
+                    <div className="relative h-[calc(100svh-4.25rem)] min-h-[26rem] bg-ink-950">
                         <PanoramaViewer
                             key={activeTour.id}
+                            tourId={activeTour.id}
                             latitude={activeTour.latitude}
                             longitude={activeTour.longitude}
                             name={activeTour.name}
                             region={activeTour.country}
+                            panoramas={activeTour.panoramas}
+                            panorama={activeTour.panorama}
+                            panoramaCredit={activeTour.panoramaCredit}
+                            panoramaSource={activeTour.panoramaSource}
                             className="absolute inset-0"
                         />
                     </div>
 
                     {/* Tour notes */}
-                    <div className="border-t border-white/[0.07] bg-ink-900/95 backdrop-blur-md px-4 md:px-8 py-5 max-h-[38vh] overflow-y-auto">
-                        <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row md:items-start gap-5 md:gap-10">
+                    <div className="border-t border-white/[0.07] bg-ink-900/95 px-4 py-5 backdrop-blur-md md:px-8">
+                        <div className="mx-auto flex max-w-[1440px] flex-col gap-5 md:flex-row md:items-start md:gap-10">
                             <div className="min-w-0 flex-1">
                                 <p className="eyebrow !text-[10px] mb-2">
                                     {activeTour.category} · {activeTour.country}
                                 </p>
-                                <h2 className="font-display italic text-2xl md:text-3xl font-medium text-ivory mb-2">
+                                <h2 className="mb-2 font-display text-2xl font-medium italic text-ivory md:text-3xl">
                                     {activeTour.name}
                                 </h2>
-                                <p className="text-ivory-muted text-sm leading-relaxed max-w-2xl">
+                                <p className="max-w-2xl text-sm leading-relaxed text-ivory-muted">
                                     {activeTour.description}
                                 </p>
                             </div>
 
                             <div className="shrink-0 md:text-right">
-                                <div className="flex md:justify-end flex-wrap gap-2 mb-4">
+                                <div className="mb-4 flex flex-wrap gap-2 md:justify-end">
                                     {(activeTour.highlights || []).map((h) => (
                                         <span
                                             key={h}
-                                            className="font-data text-[10px] tracking-[0.12em] uppercase text-ivory/70 border border-white/[0.12] rounded-full px-3 py-1"
+                                            className="rounded-full border border-white/[0.12] px-3 py-1 font-data text-[10px] uppercase tracking-[0.12em] text-ivory/70"
                                         >
                                             {h}
                                         </span>
                                     ))}
                                 </div>
-                                <div className="flex md:justify-end items-center gap-4 font-data text-[11px] tracking-[0.08em] text-ivory/60 uppercase mb-4">
+                                <div className="mb-4 flex items-center gap-4 font-data text-[11px] uppercase tracking-[0.08em] text-ivory/60 md:justify-end">
                                     <span className="flex items-center gap-1.5">
                                         <Clock size={11} className="text-saffron/80" aria-hidden="true" />
                                         {activeTour.duration}
                                     </span>
-                                    <span className="w-px h-3 bg-white/20" aria-hidden="true" />
+                                    <span className="h-3 w-px bg-white/20" aria-hidden="true" />
                                     <span className="flex items-center gap-1.5">
                                         <Eye size={11} className="text-saffron/80" aria-hidden="true" />
                                         {activeTour.views} views
                                     </span>
                                 </div>
-                                <button
-                                    onClick={() => onPageChange("itinerary")}
-                                    className="btn-primary !py-2.5 !px-5 text-sm"
-                                >
-                                    <Calendar size={14} aria-hidden="true" />
-                                    Plan this trip
-                                </button>
+                                <div className="flex flex-wrap gap-2 md:justify-end">
+                                    {activeTour.story && (
+                                        <button
+                                            onClick={scrollToStory}
+                                            className="btn-ghost !py-2.5 !px-5 text-sm"
+                                        >
+                                            <BookOpen size={14} aria-hidden="true" />
+                                            Read about {activeTour.name.split(",")[0]}
+                                            <ChevronDown size={14} aria-hidden="true" />
+                                        </button>
+                                    )}
+                                    <button
+                                        onClick={() => onPageChange("itinerary")}
+                                        className="btn-primary !py-2.5 !px-5 text-sm"
+                                    >
+                                        <Calendar size={14} aria-hidden="true" />
+                                        Plan this trip
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    {/* The place itself, below the 360° view */}
+                    <div ref={storyRef}>
+                        <TourStory tour={activeTour} />
                     </div>
                 </Motion.div>
             )}
@@ -245,7 +361,7 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
     // MAIN PAGE
     // ─────────────────────────────────────────────────────────────────
     return (
-        <div className="bg-ink-950 text-ivory font-sans w-full min-h-screen">
+        <div className="w-full min-h-screen bg-ink-950 font-sans text-ivory">
             {tourPlayer}
 
             {/* ── Mode switcher ──
@@ -296,10 +412,10 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                         className="fixed top-40 left-1/2 z-[200] flex -translate-x-1/2 items-center gap-3 rounded-2xl border border-saffron/30 bg-ink-900/95 px-5 py-3 shadow-2xl backdrop-blur-xl"
                         role="alert"
                     >
-                        <AlertCircle className="w-4 h-4 text-saffron shrink-0" aria-hidden="true" />
+                        <AlertCircle className="h-4 w-4 shrink-0 text-saffron" aria-hidden="true" />
                         <p className="text-sm text-ivory-muted">{error}</p>
                         <button onClick={() => setError(null)} aria-label="Dismiss message">
-                            <X className="w-3 h-3 text-ivory-faint hover:text-ivory transition-colors" aria-hidden="true" />
+                            <X className="h-3 w-3 text-ivory-faint transition-colors hover:text-ivory" aria-hidden="true" />
                         </button>
                     </Motion.div>
                 )}
@@ -316,27 +432,75 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                         transition={{ duration: 0.4, ease: EASE }}
                         className="w-full min-h-screen"
                     >
-                        {/* Gallery */}
-                        <section className="pt-28 md:pt-32 pb-24 md:pb-32">
-                            <div className="max-w-[1440px] mx-auto px-6 md:px-14">
+                        {/* ── Hero ──
+                            Full-bleed footage with exactly one scrim. Stacking
+                            several crushed the video to black, so legibility is
+                            handled by `on-media` on the copy instead. */}
+                        <section className="relative isolate flex min-h-[58vh] items-end overflow-hidden md:min-h-[70vh]">
+                            <video
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                poster={HERO_POSTER}
+                                src={HERO_VIDEO}
+                                aria-hidden="true"
+                                className="absolute inset-0 -z-10 h-full w-full object-cover video-crisp"
+                            />
+                            <div
+                                className="absolute inset-0 -z-10 bg-gradient-to-t from-ink-950 via-ink-950/40 to-ink-950/15"
+                                aria-hidden="true"
+                            />
+
+                            <div className="on-media relative mx-auto w-full max-w-[1440px] px-6 pt-24 pb-12 md:px-14 md:pt-32 md:pb-16">
                                 <SectionHeading
-                                    eyebrow="20.59° N · 78.96° E · VR previews"
+                                    align="left"
+                                    eyebrow="20.59° N · 78.96° E · 360° previews"
                                     title={
                                         <>
                                             VR tours of{" "}
-                                            <em className="italic text-saffron-bright font-medium">
+                                            <em className="font-medium italic text-saffron-bright">
                                                 Incredible India
                                             </em>
                                         </>
                                     }
-                                    lede="Step inside monuments, ghats, and valleys in full 360° — filmed on location, played right here. Drag inside the video to look around."
-                                    className="mb-12"
+                                    lede="Step inside monuments, ghats and cave temples in full 360° — real equirectangular panoramas, rendered here, with nobody else's player around them. Drag to look around, then scroll into the story of the place."
                                 />
 
+                                <Motion.dl
+                                    initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
+                                    className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4 md:gap-x-12"
+                                >
+                                    {[
+                                        { n: stats.tours, label: "guided tours" },
+                                        { n: stats.vantages, label: "verified vantage points" },
+                                        { n: stats.states, label: "states & territories" },
+                                    ].map((stat) => (
+                                        <div key={stat.label} className="flex items-baseline gap-2.5">
+                                            <dt className="sr-only">{stat.label}</dt>
+                                            <dd className="font-display text-3xl font-medium text-ivory md:text-4xl">
+                                                {stat.n}
+                                            </dd>
+                                            <span className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-muted">
+                                                {stat.label}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </Motion.dl>
+                            </div>
+                        </section>
+
+                        {/* Gallery */}
+                        <section className="pt-16 pb-24 md:pt-20 md:pb-32">
+                            <div className="mx-auto max-w-[1440px] px-6 md:px-14">
                                 {/* Category filter */}
                                 {categories.length > 2 && (
                                     <div
-                                        className="flex flex-wrap justify-center gap-2 mb-12"
+                                        className="mb-12 flex flex-wrap justify-center gap-2"
                                         role="group"
                                         aria-label="Filter tours by category"
                                     >
@@ -345,10 +509,10 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                                 key={c}
                                                 onClick={() => setCategory(c)}
                                                 aria-pressed={category === c}
-                                                className={`font-data text-[11px] uppercase tracking-[0.14em] px-4 py-2 rounded-full border transition-colors duration-300 ${
+                                                className={`rounded-full border px-4 py-2 font-data text-[11px] uppercase tracking-[0.14em] transition-colors duration-300 ${
                                                     category === c
-                                                        ? "bg-saffron text-ink-950 border-saffron"
-                                                        : "border-white/[0.12] text-ivory-muted hover:text-ivory hover:border-saffron/35"
+                                                        ? "border-saffron bg-saffron text-ink-950"
+                                                        : "border-white/[0.12] text-ivory-muted hover:border-saffron/35 hover:text-ivory"
                                                 }`}
                                             >
                                                 {c}
@@ -358,132 +522,187 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                 )}
 
                                 {visibleTours.length > 0 ? (
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                                        {visibleTours.map((tour, i) => (
-                                            <Motion.button
-                                                key={tour.id}
-                                                initial={{ opacity: 0, y: 28 }}
-                                                whileInView={{ opacity: 1, y: 0 }}
-                                                viewport={{ once: true, margin: "-60px" }}
-                                                transition={{ duration: 0.65, delay: (i % 3) * 0.08, ease: EASE }}
-                                                onClick={() => setActiveTour(tour)}
-                                                className="group relative rounded-2xl overflow-hidden border border-white/[0.07] text-left hover:border-saffron/35 transition-colors duration-500"
-                                                aria-label={`Watch the 360° tour of ${tour.name}`}
-                                            >
-                                                <div className="relative h-[300px] overflow-hidden bg-ink-800">
-                                                    <img
-                                                        src={tour.thumbnail}
-                                                        alt={`${tour.name}, ${tour.country}`}
-                                                        loading="lazy"
-                                                        onError={(e) => {
-                                                            e.target.onerror = null;
-                                                            e.target.style.opacity = "0";
-                                                        }}
-                                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                                    />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/30 to-transparent" />
+                                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                                        {visibleTours.map((tour, i) => {
+                                            const vantages = Array.isArray(tour.panoramas)
+                                                ? tour.panoramas.length
+                                                : 0;
+                                            return (
+                                                <Motion.button
+                                                    key={tour.id}
+                                                    initial={{ opacity: 0, y: 28 }}
+                                                    whileInView={{ opacity: 1, y: 0 }}
+                                                    viewport={{ once: true, margin: "-60px" }}
+                                                    transition={{ duration: 0.65, delay: (i % 3) * 0.08, ease: EASE }}
+                                                    onClick={() => setActiveTour(tour)}
+                                                    className="group relative overflow-hidden rounded-2xl border border-white/[0.07] text-left transition-colors duration-500 hover:border-saffron/35"
+                                                    aria-label={`Open the 360° tour of ${tour.name}`}
+                                                >
+                                                    <div className="relative h-[300px] overflow-hidden bg-ink-800">
+                                                        <img
+                                                            src={tour.thumbnail}
+                                                            alt={`${tour.name}, ${tour.country}`}
+                                                            loading="lazy"
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                e.target.style.opacity = "0";
+                                                            }}
+                                                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                        />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/30 to-transparent" />
 
-                                                    {/* Play affordance */}
-                                                    <span
-                                                        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-ink-950/60 backdrop-blur-md border border-white/[0.12] flex items-center justify-center text-saffron opacity-80 group-hover:opacity-100 group-hover:border-saffron/50 transition-all duration-300"
-                                                        aria-hidden="true"
-                                                    >
-                                                        <Play size={14} className="fill-saffron ml-0.5" />
-                                                    </span>
+                                                        {/* Play affordance */}
+                                                        <span
+                                                            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.12] bg-ink-950/60 text-saffron opacity-80 backdrop-blur-md transition-all duration-300 group-hover:border-saffron/50 group-hover:opacity-100"
+                                                            aria-hidden="true"
+                                                        >
+                                                            <Play size={14} className="ml-0.5 fill-saffron" />
+                                                        </span>
 
-                                                    <div className="absolute bottom-0 inset-x-0 p-6">
-                                                        <p className="eyebrow !text-[10px] mb-2">{tour.category}</p>
-                                                        <h3 className="font-display italic text-3xl font-medium text-ivory mb-1">
-                                                            {tour.name}
-                                                        </h3>
-                                                        <p className="text-ivory-muted text-[13px] mb-4">{tour.country}</p>
+                                                        {/* How many vantage points this site was shot from */}
+                                                        {vantages > 1 && (
+                                                            <span className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-ink-950/70 px-2.5 py-1 font-data text-[10px] uppercase tracking-[0.12em] text-ivory/80 backdrop-blur-md">
+                                                                <Layers size={10} className="text-saffron" aria-hidden="true" />
+                                                                {vantages} views
+                                                            </span>
+                                                        )}
 
-                                                        <div className="flex items-center gap-4 font-data text-[11px] tracking-[0.08em] text-ivory/70 uppercase">
-                                                            <span className="flex items-center gap-1.5">
-                                                                <Clock size={11} className="text-saffron/80" aria-hidden="true" />
-                                                                {tour.duration}
-                                                            </span>
-                                                            <span className="w-px h-3 bg-white/20" aria-hidden="true" />
-                                                            <span className="flex items-center gap-1.5">
-                                                                <Eye size={11} className="text-saffron/80" aria-hidden="true" />
-                                                                {tour.views}
-                                                            </span>
-                                                            <span className="ml-auto flex items-center gap-1 text-saffron opacity-0 group-hover:opacity-100 transition-opacity duration-300 normal-case tracking-normal font-sans font-bold">
-                                                                Enter VR
-                                                                <ArrowUpRight size={12} aria-hidden="true" />
-                                                            </span>
+                                                        <div className="absolute inset-x-0 bottom-0 p-6">
+                                                            <p className="eyebrow !text-[10px] mb-2">{tour.category}</p>
+                                                            <h3 className="mb-1 font-display text-3xl font-medium italic text-ivory">
+                                                                {tour.name}
+                                                            </h3>
+                                                            <p className="mb-4 text-[13px] text-ivory-muted">{tour.country}</p>
+
+                                                            <div className="flex items-center gap-4 font-data text-[11px] uppercase tracking-[0.08em] text-ivory/70">
+                                                                <span className="flex items-center gap-1.5">
+                                                                    <Clock size={11} className="text-saffron/80" aria-hidden="true" />
+                                                                    {tour.duration}
+                                                                </span>
+                                                                <span className="h-3 w-px bg-white/20" aria-hidden="true" />
+                                                                <span className="flex items-center gap-1.5">
+                                                                    <Eye size={11} className="text-saffron/80" aria-hidden="true" />
+                                                                    {tour.views}
+                                                                </span>
+                                                                <span className="ml-auto flex items-center gap-1 font-sans font-bold normal-case tracking-normal text-saffron opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                                                    Enter VR
+                                                                    <ArrowUpRight size={12} aria-hidden="true" />
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </Motion.button>
-                                        ))}
+                                                </Motion.button>
+                                            );
+                                        })}
                                     </div>
                                 ) : (
-                                    <div className="text-center py-20 bg-ink-900/60 rounded-3xl border border-white/[0.07] max-w-2xl mx-auto">
-                                        <Film className="w-12 h-12 text-ivory-faint mx-auto mb-4" aria-hidden="true" />
-                                        <h3 className="font-display text-2xl text-ivory mb-2">No tours in this category yet</h3>
-                                        <p className="text-ivory-muted max-w-md mx-auto">
-                                            Try another category — new 360° tours are added as we film them.
+                                    <div className="mx-auto max-w-2xl rounded-3xl border border-white/[0.07] bg-ink-900/60 py-20 text-center">
+                                        <Film className="mx-auto mb-4 h-12 w-12 text-ivory-faint" aria-hidden="true" />
+                                        <h3 className="mb-2 font-display text-2xl text-ivory">No tours in this category yet</h3>
+                                        <p className="mx-auto max-w-md text-ivory-muted">
+                                            Try another category — new 360° tours are added as verified panoramas appear.
                                         </p>
                                     </div>
                                 )}
                             </div>
                         </section>
 
-                        {/* Free-roam modes */}
-                        <section className="py-20 md:py-24 bg-ink-900 border-t border-white/[0.06]">
-                            <div className="max-w-[1440px] mx-auto px-6 md:px-14">
+                        {/* ── Free roam ──
+                            Three real cards rather than loose blurbs: what the
+                            mode does, when you would use it, and one action. */}
+                        <section className="border-t border-white/[0.06] bg-ink-900 py-20 md:py-28">
+                            <div className="mx-auto max-w-[1440px] px-6 md:px-14">
                                 <SectionHeading
                                     align="left"
-                                    eyebrow="Free roam"
-                                    title="Go beyond the guided tours"
-                                    lede="Drop into any street in India, or circle a monument from orbit — no ticket required."
-                                    className="mb-10"
+                                    eyebrow="Free roam · no ticket required"
+                                    title={
+                                        <>
+                                            Go beyond the{" "}
+                                            <em className="font-medium italic text-saffron-bright">
+                                                guided tours
+                                            </em>
+                                        </>
+                                    }
+                                    lede="The tours above are the places we have verified panoramas for. These three modes cover everywhere else in India — at eye level, from orbit, or laid flat on a map."
+                                    className="mb-12 md:mb-16"
                                 />
-                                <div className="grid sm:grid-cols-2 gap-5 max-w-3xl">
-                                    <Motion.button
-                                        initial={{ opacity: 0, y: 24 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.6, ease: EASE }}
-                                        onClick={() => switchMode("streetview")}
-                                        className="group text-left rounded-2xl border border-white/[0.07] bg-ink-800 p-6 hover:border-saffron/35 transition-colors duration-500"
-                                    >
-                                        <Navigation2 size={18} className="text-saffron mb-4" aria-hidden="true" />
-                                        <span className="flex items-center gap-2 text-lg font-bold text-ivory mb-1">
-                                            Street view
-                                            <ArrowUpRight
-                                                size={15}
-                                                className="text-saffron opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-                                        <span className="block text-[13px] text-ivory-muted leading-snug">
-                                            Stand at any address or landmark and look around at street level.
-                                        </span>
-                                    </Motion.button>
-                                    <Motion.button
-                                        initial={{ opacity: 0, y: 24 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
-                                        onClick={() => switchMode("earth")}
-                                        className="group text-left rounded-2xl border border-white/[0.07] bg-ink-800 p-6 hover:border-saffron/35 transition-colors duration-500"
-                                    >
-                                        <Globe size={18} className="text-saffron mb-4" aria-hidden="true" />
-                                        <span className="flex items-center gap-2 text-lg font-bold text-ivory mb-1">
-                                            Orbital view
-                                            <ArrowUpRight
-                                                size={15}
-                                                className="text-saffron opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-                                        <span className="block text-[13px] text-ivory-muted leading-snug">
-                                            Sweep over forts, ghats, and coastlines from a satellite's seat.
-                                        </span>
-                                    </Motion.button>
+
+                                <div className="grid gap-5 md:grid-cols-3">
+                                    {FREE_ROAM.map((card, i) => {
+                                        const CardIcon = card.icon;
+                                        return (
+                                            <Motion.button
+                                                key={card.id}
+                                                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 26 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true, margin: "-60px" }}
+                                                transition={{ duration: 0.7, delay: i * 0.09, ease: EASE }}
+                                                onClick={() =>
+                                                    card.page ? onPageChange(card.page) : switchMode(card.mode)
+                                                }
+                                                className="group flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-ink-800 text-left transition-colors duration-500 hover:border-saffron/35"
+                                            >
+                                                {/* Illustrative visual */}
+                                                <div className="relative h-40 overflow-hidden bg-ink-700 sm:h-44">
+                                                    <img
+                                                        src={card.image}
+                                                        alt={card.alt}
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        onError={(e) => {
+                                                            e.currentTarget.onerror = null;
+                                                            e.currentTarget.style.opacity = "0";
+                                                        }}
+                                                        className="h-full w-full object-cover opacity-80 transition-all duration-[900ms] ease-out group-hover:scale-105 group-hover:opacity-100"
+                                                    />
+                                                    <div
+                                                        className="absolute inset-0 bg-gradient-to-t from-ink-800 via-ink-800/35 to-transparent"
+                                                        aria-hidden="true"
+                                                    />
+                                                    {/* Icon tile */}
+                                                    <span
+                                                        className="absolute bottom-4 left-5 flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.12] bg-ink-950/70 text-saffron backdrop-blur-md transition-colors duration-500 group-hover:border-saffron/45"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <CardIcon size={18} />
+                                                    </span>
+                                                </div>
+
+                                                <div className="flex flex-1 flex-col p-6">
+                                                    <h3 className="mb-2 font-display text-xl font-medium text-ivory md:text-2xl">
+                                                        {card.title}
+                                                    </h3>
+                                                    <p className="mb-3 text-[14px] font-medium leading-snug text-saffron/90">
+                                                        {card.benefit}
+                                                    </p>
+                                                    <p className="mb-6 text-[13.5px] leading-relaxed text-ivory-muted">
+                                                        {card.detail}
+                                                    </p>
+
+                                                    <span className="mt-auto flex items-center gap-2 border-t border-white/[0.07] pt-4 font-data text-[11px] uppercase tracking-[0.14em] text-ivory transition-colors duration-300 group-hover:text-saffron">
+                                                        {card.action}
+                                                        <ArrowUpRight
+                                                            size={14}
+                                                            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                                            aria-hidden="true"
+                                                        />
+                                                    </span>
+                                                </div>
+                                            </Motion.button>
+                                        );
+                                    })}
                                 </div>
+
+                                <Motion.p
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.7, delay: 0.3, ease: EASE }}
+                                    className="mt-10 flex items-center gap-3 font-data text-[11px] uppercase tracking-[0.14em] text-ivory-faint"
+                                >
+                                    <Compass size={13} className="text-saffron/70" aria-hidden="true" />
+                                    Every panorama is a verified, freely licensed image — never a video embed
+                                </Motion.p>
                             </div>
                         </section>
                     </Motion.div>

@@ -2,10 +2,17 @@
  * PanoramaViewer — SafarX's own 360° panorama surface.
  *
  * Hard rule #1 of the design system: VR tours are never YouTube videos. This
- * component is what replaces them. It resolves a real equirectangular image
- * for the site — the tour's own curated, verified panorama first, a live
+ * component is what replaces them. It resolves real equirectangular imagery
+ * for the site — the tour's own curated, verified panoramas first, a live
  * Mapillary capture second — and paints it on the inside of a three.js sphere:
  * draggable, zoomable, and wearing nothing but SafarX chrome.
+ *
+ * A site may have been shot from several vantage points (the four gateways at
+ * Sanchi, inside and outside the Qutb colonnade, six caves at Ellora). Those
+ * arrive as a list, and the viewer offers a switcher for them. Selecting one
+ * re-runs the scene effect below, which disposes the old texture, geometry and
+ * renderer before the next image is fetched — the same teardown an unmount
+ * performs, so switching leaks nothing.
  *
  * There is deliberately no third-party viewer SDK here: no iframes, no vendor
  * buttons, no vendor logos. What we owe each source is attribution, and that is
@@ -35,7 +42,7 @@ import {
     MAPILLARY_DEVELOPER_URL,
 } from "../../services/mapillaryService";
 import {
-    resolvePanorama,
+    resolvePanoramaSet,
     findLivePanorama,
     clearPanoramaCache,
     PanoramaSource,
@@ -129,6 +136,7 @@ const PanoramaViewer = ({
     region,
     tourId,
     panorama: curatedUrl,
+    panoramas: curatedSet,
     panoramaCredit,
     panoramaSource,
     className = "",
@@ -139,10 +147,13 @@ const PanoramaViewer = ({
     const mountRef = useRef(null);
     const controlsRef = useRef(null);
 
-    // `resolved` is what the tour opens with (curated, or Mapillary when the
-    // site has no curated image yet). `live` is the optional Mapillary capture
-    // offered *alongside* a curated one, and `showLive` picks between them.
-    const [resolved, setResolved] = useState(null);
+    // `vantages` is every 360° view this site offers, in authoring order —
+    // curated images, or a single Mapillary capture when the site has no
+    // curated one yet. `vantageIndex` is the one on screen. `live` is the
+    // optional Mapillary capture offered *alongside* curated ones, and
+    // `showLive` picks between the two sources.
+    const [vantages, setVantages] = useState([]);
+    const [vantageIndex, setVantageIndex] = useState(0);
     const [live, setLive] = useState(null);
     const [showLive, setShowLive] = useState(false);
     const [phase, setPhase] = useState("locating"); // locating | loading | ready | empty | error
@@ -151,6 +162,13 @@ const PanoramaViewer = ({
     const [attempt, setAttempt] = useState(0);
     const [autoRotate, setAutoRotate] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
+
+    // The curated vantage currently selected. Clamped, because the vantage list
+    // is replaced whenever the tour changes and the old index may not exist.
+    const resolved = useMemo(
+        () => vantages[Math.min(vantageIndex, vantages.length - 1)] || null,
+        [vantages, vantageIndex]
+    );
 
     // Memoised so the three.js effect below re-runs on a real source change,
     // not on every render.
@@ -162,6 +180,8 @@ const PanoramaViewer = ({
     const coordLabel = formatCoords(latitude, longitude);
     const captureLabel = active?.captureLabel || null;
     const canSwapSource = Boolean(resolved && live && resolved !== live);
+    // The switcher only earns its space when there is somewhere else to go.
+    const hasVantages = vantages.length > 1;
 
     /* ── 1. Resolve the panorama this tour opens with ───────────────── */
     useEffect(() => {
@@ -169,28 +189,31 @@ const PanoramaViewer = ({
         let alive = true;
 
         setPhase("locating");
-        setResolved(null);
+        setVantages([]);
+        setVantageIndex(0);
         setLive(null);
         setShowLive(false);
         setError(null);
         setProgress(null);
 
-        resolvePanorama({
+        resolvePanoramaSet({
             tourId,
             latitude,
             longitude,
             panorama: curatedUrl,
+            panoramas: curatedSet,
             panoramaCredit,
             panoramaSource,
             signal: controller.signal,
         })
             .then((result) => {
                 if (!alive) return;
-                if (!result) {
+                if (!result.length) {
                     setPhase("empty");
                     return;
                 }
-                setResolved(result);
+                setVantages(result);
+                setVantageIndex(0);
                 setPhase("loading");
             })
             .catch((err) => {
@@ -208,6 +231,7 @@ const PanoramaViewer = ({
         latitude,
         longitude,
         curatedUrl,
+        curatedSet,
         panoramaCredit,
         panoramaSource,
         attempt,
@@ -539,6 +563,22 @@ const PanoramaViewer = ({
         setAttempt((n) => n + 1);
     }, []);
 
+    /* Move to another vantage point at the same site.
+
+       Nothing is disposed by hand here: changing `vantageIndex` changes
+       `active`, the scene effect's dependency, so React tears the old scene
+       down through its cleanup before building the new one. */
+    const selectVantage = useCallback(
+        (index) => {
+            if (index === vantageIndex && !showLive) return;
+            setShowLive(false);
+            setVantageIndex(index);
+            setProgress(null);
+            setPhase("loading");
+        },
+        [vantageIndex, showLive]
+    );
+
     /* Swap between the curated panorama and the live Mapillary capture. */
     const toggleSource = useCallback(() => {
         setShowLive((on) => !on);
@@ -640,7 +680,7 @@ const PanoramaViewer = ({
             {/* Screen-reader description of what the canvas shows */}
             <p className="sr-only">
                 {phase === "ready"
-                    ? `Interactive 360° panorama of ${name || "this site"}${coordLabel ? ` at ${coordLabel}` : ""}. Drag to look around, scroll to zoom.`
+                    ? `Interactive 360° panorama of ${name || "this site"}${active?.label ? `, ${active.label}` : ""}${coordLabel ? `, at ${coordLabel}` : ""}. Drag to look around, scroll to zoom.${hasVantages ? ` ${vantages.length} vantage points are available.` : ""}`
                     : "Loading a 360° panorama."}
             </p>
 
@@ -657,7 +697,13 @@ const PanoramaViewer = ({
                     badge="360°"
                     name={name}
                     coords={coordLabel}
-                    meta={region ? `${region} · drag to look around` : "Drag to look around"}
+                    meta={
+                        active?.label && hasVantages
+                            ? `${active.label} · drag to look around`
+                            : region
+                              ? `${region} · drag to look around`
+                              : "Drag to look around"
+                    }
                     className="absolute left-4 top-4 z-10 md:left-6 md:top-6"
                 />
             )}
@@ -670,6 +716,37 @@ const PanoramaViewer = ({
                         {active.attribution}
                         {captureLabel ? ` · Captured ${captureLabel}` : ""}
                     </p>
+                </div>
+            )}
+
+            {/* Vantage-point switcher — only when the site was shot more than once.
+                Sits above the controls row so it never collides with them, and
+                scrolls horizontally at narrow widths rather than wrapping. */}
+            {hasVantages && (phase === "ready" || phase === "loading") && (
+                <div
+                    className="absolute bottom-[4.25rem] left-1/2 z-10 flex max-w-[calc(100%-1.5rem)] -translate-x-1/2 gap-1.5 overflow-x-auto rounded-full border border-white/[0.09] bg-ink-950/80 p-1.5 backdrop-blur-xl [scrollbar-width:none] md:bottom-[5.25rem] md:max-w-[min(70%,52rem)] [&::-webkit-scrollbar]:hidden"
+                    role="group"
+                    aria-label={`Vantage points at ${name || "this site"}`}
+                >
+                    {vantages.map((v, i) => {
+                        const isActive = !showLive && i === vantageIndex;
+                        return (
+                            <button
+                                key={v.imageUrl}
+                                type="button"
+                                onClick={() => selectVantage(i)}
+                                aria-pressed={isActive}
+                                title={v.label}
+                                className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 font-data text-[10px] uppercase tracking-[0.12em] transition-colors duration-300 md:text-[11px] ${
+                                    isActive
+                                        ? "bg-saffron text-ink-950"
+                                        : "text-ivory-muted hover:bg-white/[0.07] hover:text-ivory"
+                                }`}
+                            >
+                                {v.label}
+                            </button>
+                        );
+                    })}
                 </div>
             )}
 
