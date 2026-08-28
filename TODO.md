@@ -90,6 +90,13 @@ Live task tracker for the current build push. Updated as work lands.
       into the curves, headlight wash, tail lamp), and waypoints + stage
       eyebrows that light up in gold as the car reaches them
 
+- [x] **Compass component removed** — it competed with the wordmark; both boot
+      screens now let the सफ़र → SafarX morph carry the moment
+- [x] **Orbital view video fixed** — was a 4K/50fps file under three stacked
+      dark overlays, so it started slowly and rendered near-black. Now a 1080p
+      rendition with a poster frame and a single scrim plus a pool of shade
+      under the copy
+
 ## In progress
 
 

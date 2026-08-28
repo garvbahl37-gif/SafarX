@@ -283,7 +283,7 @@ const GoogleEarthExplorer = ({ onBack }) => {
     : "";
 
   const BG_VIDEO_URL =
-    "https://videos.pexels.com/video-files/32485709/13852738_3840_2160_50fps.mp4";
+    "https://videos.pexels.com/video-files/32485709/13852736_1920_1080_50fps.mp4";
 
   const coordReadout = activeCoords
     ? formatCoords(activeCoords.lat, activeCoords.lng)
@@ -293,21 +293,28 @@ const GoogleEarthExplorer = ({ onBack }) => {
     <div className="relative min-h-screen bg-ink-950 font-sans text-ivory">
       {/* ── Background ── */}
       <div className="absolute inset-0 z-0 overflow-hidden film-grain vignette" aria-hidden="true">
+        {/* Poster shows instantly so the hero is never a black rectangle
+            while a multi-megabyte video negotiates its first frames. */}
         {BG_VIDEO_URL && (
           <video
             autoPlay
             loop
             muted
             playsInline
-            preload="auto"
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.62]"
+            preload="metadata"
+            poster="https://images.unsplash.com/photo-1599661046289-e31897846e41?w=1600&auto=format&fit=crop&q=70"
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.78]"
             src={BG_VIDEO_URL}
           />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-b from-ink-950/70 via-ink-950/45 to-ink-950" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(212,168,67,0.10)_0%,transparent_62%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_80%,rgba(46,139,116,0.08)_0%,transparent_55%)]" />
+        {/* One legibility scrim, weighted to the bottom where the copy sits —
+            the previous three stacked overlays crushed the footage to black. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-ink-950/50 via-ink-950/30 to-ink-950" />
+        {/* Pool of shade under the headline and search, so type stays legible
+            while the edges of the frame keep their detail. */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_58%_46%_at_50%_50%,rgba(6,20,18,0.72)_0%,rgba(6,20,18,0.35)_55%,transparent_78%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(212,168,67,0.09)_0%,transparent_60%)]" />
       </div>
 
       {/* ── Hero / search ── */}
