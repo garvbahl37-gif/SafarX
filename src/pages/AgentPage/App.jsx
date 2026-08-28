@@ -21,6 +21,17 @@ const MIN_LOADER_DURATION = 1500;
 
 const EASE = [0.22, 1, 0.36, 1];
 
+/* The side rail: one spring drives the rail's width and the chat's cap, so the
+   two edges travel together instead of racing each other. */
+const PANEL_WIDTH = 420;
+const CHAT_MAX_WIDTH = 928;
+const PANEL_GAP = 20;
+const PANEL_SPRING = { type: 'spring', damping: 30, stiffness: 240, mass: 0.9 };
+/* Two columns need the rail (248) plus a readable conversation plus the panel
+   (420) plus gutters. At 1024 that left the conversation a 268px strip, so the
+   split only starts once there is genuinely room for it. */
+const WIDE_LAYOUT = '(min-width: 1280px)';
+
 function App() {
     const navigate = useNavigate();
     const reduce = useReducedMotion();
@@ -76,6 +87,25 @@ function App() {
     }, [closePanel]);
 
     const panelOpen = activePanel !== null || searchResults !== null;
+    const panelKey = activePanel || (searchResults ? 'results' : 'none');
+
+    /* Two columns need room for two columns. */
+    const [isWideLayout, setIsWideLayout] = useState(
+        () => typeof window === 'undefined' || window.matchMedia(WIDE_LAYOUT).matches
+    );
+    useEffect(() => {
+        const query = window.matchMedia(WIDE_LAYOUT);
+        const sync = (e) => setIsWideLayout(e.matches);
+        query.addEventListener('change', sync);
+        return () => query.removeEventListener('change', sync);
+    }, []);
+
+    const panelContent =
+        activePanel === 'flight' ? <FlightBookingPanel onClose={closePanel} /> :
+        activePanel === 'hotel' ? <HotelBookingPanel onClose={closePanel} /> :
+        activePanel === 'train' ? <TrainBookingPanel onClose={closePanel} /> :
+        (activePanel === 'results' || searchResults) ? <BookingResults results={searchResults} onClose={closePanel} /> :
+        null;
 
     return (
         <>
@@ -249,71 +279,94 @@ function App() {
                     </Motion.aside>
 
                     {/* ══════════ Main column + side panel ══════════ */}
-                    <div className="flex-1 flex gap-4 md:gap-5 min-h-0 min-w-0 items-stretch">
+                    <div className="relative flex-1 flex min-h-0 min-w-0 items-stretch">
 
-                        {/* Chat Window — shrinks when panel is open */}
-                        <Motion.div
-                            layout
-                            transition={{ duration: 0.45, ease: EASE }}
-                            className="flex flex-col min-h-0 min-w-0"
-                            style={{
-                                flex: panelOpen ? '1 1 0%' : '1 1 100%',
-                                maxWidth: panelOpen ? '100%' : '58rem',
-                                marginLeft: 'auto',
-                                marginRight: panelOpen ? 0 : 'auto',
-                            }}
-                        >
+                        {/* Chat window — the cap lifts when a panel takes the right side */}
+                        <div className="flex-1 flex flex-col min-h-0 min-w-0">
+                            {/* A fixed cap, not an animated one: lifting the cap on open
+                                let the conversation flash out to the full column width
+                                before the rail had taken its space, so it grew before it
+                                shrank. Flex alone gets it there in one direction. */}
+                            <div className="w-full h-full mx-auto flex flex-col" style={{ maxWidth: CHAT_MAX_WIDTH }}>
+                                <Motion.div
+                                    initial={{ opacity: 0, y: 12 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, ease: EASE, delay: 0.08 }}
+                                    className="h-full flex flex-col"
+                                >
+                                    <div className="agent-panel agent-filament flex-1 rounded-2xl md:rounded-3xl overflow-hidden relative flex flex-col shadow-[0_24px_64px_rgba(0,0,0,0.45)]">
+                                        <Chat
+                                            key={sessionKey}
+                                            onSearchResults={(results) => {
+                                                setSearchResults(results);
+                                                setActivePanel('results');
+                                            }}
+                                            onOpenFlightPanel={openFlightPanel}
+                                            onOpenHotelPanel={openHotelPanel}
+                                            onOpenTrainPanel={openTrainPanel}
+                                            onHistoryChange={setHistory}
+                                            focusMessageId={focusMessageId}
+                                            onNewChat={startNewChat}
+                                        />
+                                    </div>
+                                </Motion.div>
+                            </div>
+                        </div>
+
+                        {/* Side panel.
+
+                            On a wide screen the rail stays mounted for as long as any
+                            panel is open and only its width animates, so moving between
+                            Stays, Flights and Trains cross-fades the contents without the
+                            chat column lurching out and back. The contents sit at a fixed
+                            width inside an overflow-hidden shell, so nothing inside
+                            reflows while that width animates.
+
+                            Narrow screens have no room for two columns — 420px beside a
+                            phone-width chat squashed it to a strip — so the panel comes
+                            over the top instead. */}
+                        {isWideLayout ? (
                             <Motion.div
-                                initial={{ opacity: 0, y: 12 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, ease: EASE, delay: 0.08 }}
-                                className="h-full flex flex-col"
+                                initial={false}
+                                animate={{
+                                    width: panelOpen ? PANEL_WIDTH : 0,
+                                    marginLeft: panelOpen ? PANEL_GAP : 0,
+                                    opacity: panelOpen ? 1 : 0,
+                                }}
+                                transition={PANEL_SPRING}
+                                className="relative shrink-0 min-h-0 overflow-hidden"
+                                aria-hidden={!panelOpen}
                             >
-                                <div className="agent-panel agent-filament flex-1 rounded-2xl md:rounded-3xl overflow-hidden relative flex flex-col shadow-[0_24px_64px_rgba(0,0,0,0.45)]">
-                                    <Chat
-                                        key={sessionKey}
-                                        onSearchResults={(results) => {
-                                            setSearchResults(results);
-                                            setActivePanel('results');
-                                        }}
-                                        onOpenFlightPanel={openFlightPanel}
-                                        onOpenHotelPanel={openHotelPanel}
-                                        onOpenTrainPanel={openTrainPanel}
-                                        onHistoryChange={setHistory}
-                                        focusMessageId={focusMessageId}
-                                        onNewChat={startNewChat}
-                                    />
+                                <div className="h-full" style={{ width: PANEL_WIDTH }}>
+                                    <AnimatePresence mode="wait">
+                                        {panelOpen && (
+                                            <Motion.div key={panelKey} className="h-full">
+                                                {panelContent}
+                                            </Motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
                             </Motion.div>
-                        </Motion.div>
-
-                        {/* Booking Side Panel */}
-                        <AnimatePresence mode="wait">
-                            {panelOpen && (
-                                <Motion.div
-                                    key={activePanel || (searchResults ? 'results' : 'none')}
-                                    initial={{ opacity: 0, x: 80, width: 0 }}
-                                    animate={{ opacity: 1, x: 0, width: '420px' }}
-                                    exit={{ opacity: 0, x: 80, width: 0 }}
-                                    transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-                                    className="relative flex-shrink-0 min-h-0"
-                                    style={{ width: '420px', minWidth: '340px', maxWidth: '440px', overflow: 'hidden' }}
-                                >
-                                    {activePanel === 'flight' && (
-                                        <FlightBookingPanel onClose={closePanel} />
-                                    )}
-                                    {activePanel === 'hotel' && (
-                                        <HotelBookingPanel onClose={closePanel} />
-                                    )}
-                                    {activePanel === 'train' && (
-                                        <TrainBookingPanel onClose={closePanel} />
-                                    )}
-                                    {(activePanel === 'results' || searchResults) && (
-                                        <BookingResults results={searchResults} onClose={closePanel} />
-                                    )}
-                                </Motion.div>
-                            )}
-                        </AnimatePresence>
+                        ) : (
+                            <AnimatePresence>
+                                {panelOpen && (
+                                    <Motion.div
+                                        key="panel-overlay"
+                                        initial={{ opacity: 0, y: 28 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 28 }}
+                                        transition={PANEL_SPRING}
+                                        className="absolute inset-0 z-30"
+                                    >
+                                        <AnimatePresence mode="wait">
+                                            <Motion.div key={panelKey} className="h-full">
+                                                {panelContent}
+                                            </Motion.div>
+                                        </AnimatePresence>
+                                    </Motion.div>
+                                )}
+                            </AnimatePresence>
+                        )}
 
                     </div>
                 </div>
