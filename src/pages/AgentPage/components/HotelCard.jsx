@@ -185,7 +185,7 @@ const HotelCard = ({ hotel, onClick }) => {
                     </div>
 
                     <span className="font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-faint">
-                        {hotel.reviewCount} reviews
+                        {hotel.reviewCount?.toLocaleString('en-IN')} reviews
                     </span>
                 </div>
 

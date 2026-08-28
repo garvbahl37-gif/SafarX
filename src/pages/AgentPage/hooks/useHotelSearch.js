@@ -91,7 +91,7 @@ export const useHotelSearch = () => {
             });
             setSearchResults(result.data || []);
             setSortDisclaimer(result.meta?.nights
-                ? `Prices are the total for ${result.meta.nights} night${result.meta.nights > 1 ? 's' : ''}, including taxes and charges.`
+                ? `Nightly rates include taxes and charges, averaged over ${result.meta.nights} night${result.meta.nights > 1 ? 's' : ''}.`
                 : '');
         } catch (err) {
             setError(err.message);

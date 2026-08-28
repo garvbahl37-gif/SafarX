@@ -174,9 +174,20 @@ Live task tracker for the current build push. Updated as work lands.
 
 
 
-- [x] **Premium calendar everywhere** — custom `RangeCalendar` (two-month trip
-      window with hover preview) in Plan a Trip, plus a reusable `DateField`
-      popover replacing every native `<input type="date">` across the app
+- [x] **Premium calendar everywhere** — a shared `CalendarPanel` behind
+      `DateField` (single date) and `DateRangeField` (check-in → check-out on
+      one two-month calendar, with a gold band that follows the cursor and
+      flows across month boundaries). No native `<input type="date">` is left
+      in the app; the agent's booking panels were the last holdouts
+- [x] **Stays search actually works** — the destination autocomplete had been
+      calling `/api/hotels/search-location`, which nothing served, so typing
+      never produced suggestions and the search returned the SPA's HTML
+      ("Unexpected token '<'"). New `/api/stays/*` functions proxy Booking.com
+      with the key server-side; suggestions, results and the detail modal all
+      run on live data in ₹
+- [x] **Bug: dev server had no API** — Vite proxied `/api` to a Strapi instance
+      on :1337 from the original template. A dev plugin now runs the real
+      serverless functions locally
 - [x] **Bug: broken Udaipur thumbnail** on the planner
 - [x] **Rule recorded**: VR tours are never YouTube videos (`DESIGN_SYSTEM.md`)
 

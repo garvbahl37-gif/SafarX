@@ -12,9 +12,15 @@
  * So the order of resolution is:
  *
  *   1. The **curated** panoramas recorded on the tour in `vrTours.json` — one
- *      or more hand-verified, 2:1 equirectangular files on Wikimedia Commons,
- *      each labelled with the vantage point it was shot from. This is what
+ *      or more hand-verified equirectangular files on Wikimedia Commons, each
+ *      labelled with the vantage point it was shot from. This is what
  *      guarantees a tour works, and what feeds the viewer's vantage switcher.
+ *      A 2:1 aspect ratio is necessary but nowhere near sufficient to call a
+ *      file equirectangular — a narrow slice of a sphere and an 18:9 phone
+ *      crop are both exactly 2:1 and both render as a smear — so sourcing also
+ *      requires GPano XMP with full-sphere crop values, a 360 camera in EXIF,
+ *      or membership of a Commons 360°/photosphere category, plus a look at
+ *      the rendered thumbnail. `scripts/verify-panoramas.py` is the last gate.
  *   2. A **live Mapillary** lookup — used as the source when a tour has no
  *      curated image, and offered alongside the curated one as an optional
  *      "live capture" when both exist.
