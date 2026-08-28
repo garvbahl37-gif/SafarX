@@ -20,6 +20,7 @@ import {
 import SectionHeading, { RouteDivider } from "../components/ui/SectionHeading";
 import CurvedLoop from "../components/animations/CurvedLoop";
 import CountUp from "../components/ui/CountUp";
+import JourneyRoad from "../components/home/JourneyRoad";
 import vrToursData from "../data/vrTours.json";
 
 /* ------------------------------------------------------------------ */
@@ -686,46 +687,11 @@ const HomePage = ({ onPageChange }) => {
           <SectionHeading
             eyebrow="Departure → Arrival"
             title="Built around the shape of a trip"
+            lede="Before you go, on the way, and once you are on the ground — follow the road."
             className="mb-20"
           />
 
-          <div className="relative">
-            {/* Connecting route line across the three stages */}
-            <div className="hidden md:block absolute top-[22px] left-[12%] right-[12%] route-line" aria-hidden="true" />
-
-            <div className="grid md:grid-cols-3 gap-10 md:gap-8">
-            {STAGES.map((stage, i) => (
-              <motion.div
-                key={stage.step}
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.7, delay: i * 0.12 }}
-                className="relative flex flex-col"
-              >
-                <div className="flex items-center gap-4 mb-6">
-                  <span className="relative z-10 w-11 h-11 rounded-full bg-ink-800 border border-saffron/40 flex items-center justify-center font-data text-sm text-saffron">
-                    {stage.step}
-                  </span>
-                  <span className="eyebrow-muted">{stage.phase}</span>
-                </div>
-                <h3 className="font-display text-2xl md:text-[1.7rem] font-medium text-ivory leading-snug mb-4">
-                  {stage.title}
-                </h3>
-                <p className="text-ivory-muted text-[15px] leading-relaxed mb-6 flex-1">
-                  {stage.desc}
-                </p>
-                <button
-                  onClick={() => onPageChange(stage.page)}
-                  className="group inline-flex items-center gap-2 text-saffron text-[13px] font-bold tracking-wide self-start"
-                >
-                  {stage.cta}
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-              </motion.div>
-            ))}
-            </div>
-          </div>
+          <JourneyRoad stages={STAGES} onPageChange={onPageChange} />
         </div>
       </section>
 

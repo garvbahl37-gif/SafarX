@@ -2,17 +2,18 @@
  * PanoramaViewer — SafarX's own 360° panorama surface.
  *
  * Hard rule #1 of the design system: VR tours are never YouTube videos. This
- * component is what replaces them. It takes a latitude/longitude, asks
- * Mapillary for the nearest real 360° capture, and paints that equirectangular
- * JPEG on the inside of a three.js sphere — draggable, zoomable, and wearing
- * nothing but SafarX chrome.
+ * component is what replaces them. It resolves a real equirectangular image
+ * for the site — the tour's own curated, verified panorama first, a live
+ * Mapillary capture second — and paints it on the inside of a three.js sphere:
+ * draggable, zoomable, and wearing nothing but SafarX chrome.
  *
  * There is deliberately no third-party viewer SDK here: no iframes, no vendor
- * buttons, no vendor logos. The only thing we owe Mapillary is attribution,
- * and that is rendered in our own type.
+ * buttons, no vendor logos. What we owe each source is attribution, and that is
+ * rendered in our own type — the curated credit line for a curated image, the
+ * Mapillary credit when the live capture is on screen.
  */
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useReducedMotion } from "framer-motion";
 import {
@@ -22,20 +23,23 @@ import {
     Orbit,
     Plus,
     Minus,
+    Radio,
     MapPinOff,
     WifiOff,
     KeyRound,
 } from "lucide-react";
 import {
-    findPanoramaNear,
-    formatCaptureDate,
     describeMapillaryError,
-    clearPanoramaCache,
     MapillaryErrorCode,
-    MAPILLARY_ATTRIBUTION,
     MAPILLARY_TOKEN_ENV,
     MAPILLARY_DEVELOPER_URL,
 } from "../../services/mapillaryService";
+import {
+    resolvePanorama,
+    findLivePanorama,
+    clearPanoramaCache,
+    PanoramaSource,
+} from "../../services/panoramaService";
 import {
     CompassLoader,
     StateNotice,
@@ -84,9 +88,7 @@ function loadPanoramaTexture(url, { onProgress, isCancelled }) {
                 undefined,
                 () =>
                     reject(
-                        new Error(
-                            "The panorama image could not be downloaded from Mapillary."
-                        )
+                        new Error("The panorama image could not be downloaded.")
                     )
             );
         };
@@ -125,6 +127,10 @@ const PanoramaViewer = ({
     longitude,
     name,
     region,
+    tourId,
+    panorama: curatedUrl,
+    panoramaCredit,
+    panoramaSource,
     className = "",
 }) => {
     const reduce = useReducedMotion();
@@ -133,7 +139,12 @@ const PanoramaViewer = ({
     const mountRef = useRef(null);
     const controlsRef = useRef(null);
 
-    const [panorama, setPanorama] = useState(null);
+    // `resolved` is what the tour opens with (curated, or Mapillary when the
+    // site has no curated image yet). `live` is the optional Mapillary capture
+    // offered *alongside* a curated one, and `showLive` picks between them.
+    const [resolved, setResolved] = useState(null);
+    const [live, setLive] = useState(null);
+    const [showLive, setShowLive] = useState(false);
     const [phase, setPhase] = useState("locating"); // locating | loading | ready | empty | error
     const [error, setError] = useState(null);
     const [progress, setProgress] = useState(null);
@@ -141,27 +152,45 @@ const PanoramaViewer = ({
     const [autoRotate, setAutoRotate] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
 
-    const coordLabel = formatCoords(latitude, longitude);
-    const captureLabel = formatCaptureDate(panorama?.capturedAt);
+    // Memoised so the three.js effect below re-runs on a real source change,
+    // not on every render.
+    const active = useMemo(
+        () => (showLive && live ? live : resolved),
+        [showLive, live, resolved]
+    );
 
-    /* ── 1. Resolve a panorama for this point ───────────────────────── */
+    const coordLabel = formatCoords(latitude, longitude);
+    const captureLabel = active?.captureLabel || null;
+    const canSwapSource = Boolean(resolved && live && resolved !== live);
+
+    /* ── 1. Resolve the panorama this tour opens with ───────────────── */
     useEffect(() => {
         const controller = new AbortController();
         let alive = true;
 
         setPhase("locating");
-        setPanorama(null);
+        setResolved(null);
+        setLive(null);
+        setShowLive(false);
         setError(null);
         setProgress(null);
 
-        findPanoramaNear(latitude, longitude, { signal: controller.signal })
+        resolvePanorama({
+            tourId,
+            latitude,
+            longitude,
+            panorama: curatedUrl,
+            panoramaCredit,
+            panoramaSource,
+            signal: controller.signal,
+        })
             .then((result) => {
                 if (!alive) return;
                 if (!result) {
                     setPhase("empty");
                     return;
                 }
-                setPanorama(result);
+                setResolved(result);
                 setPhase("loading");
             })
             .catch((err) => {
@@ -174,12 +203,44 @@ const PanoramaViewer = ({
             alive = false;
             controller.abort();
         };
-    }, [latitude, longitude, attempt]);
+    }, [
+        tourId,
+        latitude,
+        longitude,
+        curatedUrl,
+        panoramaCredit,
+        panoramaSource,
+        attempt,
+    ]);
+
+    /* ── 1b. Mapillary as an enhancement, never as a dependency ─────── */
+    // When a curated image is already on screen we still ask Mapillary whether
+    // it has a recent street-level capture here. If it does, the viewer offers
+    // it as a second source. Every failure is swallowed inside the service —
+    // a tour that is already painting a verified panorama must not break
+    // because a token is missing or the network blipped.
+    useEffect(() => {
+        if (resolved?.source !== PanoramaSource.CURATED) return undefined;
+
+        const controller = new AbortController();
+        let alive = true;
+
+        findLivePanorama(latitude, longitude, { signal: controller.signal }).then(
+            (result) => {
+                if (alive && result) setLive(result);
+            }
+        );
+
+        return () => {
+            alive = false;
+            controller.abort();
+        };
+    }, [resolved, latitude, longitude]);
 
     /* ── 2. Build the three.js scene around the panorama ─────────────── */
     useEffect(() => {
         const mount = mountRef.current;
-        const imageUrl = panorama?.imageUrl;
+        const imageUrl = active?.imageUrl;
         if (!mount || !imageUrl) return undefined;
 
         let cancelled = false;
@@ -448,7 +509,7 @@ const PanoramaViewer = ({
             renderer.forceContextLoss?.();
             if (canvas.parentNode === mount) mount.removeChild(canvas);
         };
-    }, [panorama, reduce]);
+    }, [active, reduce]);
 
     /* ── Fullscreen ─────────────────────────────────────────────────── */
     useEffect(() => {
@@ -478,6 +539,13 @@ const PanoramaViewer = ({
         setAttempt((n) => n + 1);
     }, []);
 
+    /* Swap between the curated panorama and the live Mapillary capture. */
+    const toggleSource = useCallback(() => {
+        setShowLive((on) => !on);
+        setProgress(null);
+        setPhase("loading");
+    }, []);
+
     /* ── Overlays ───────────────────────────────────────────────────── */
 
     const isBusy = phase === "locating" || phase === "loading";
@@ -503,7 +571,7 @@ const PanoramaViewer = ({
                 <StateNotice
                     icon={MapPinOff}
                     title="Panorama coming soon"
-                    body={`Mapillary has no 360° coverage within about a kilometre of ${name || "this site"} yet. New street-level captures appear all the time — we'll pick them up automatically.`}
+                    body={`We haven't verified a 360° image of ${name || "this site"} yet, and there's no street-level capture within about a kilometre of it either. We add sites as freely licensed panoramas appear — never as a video embed.`}
                     actionLabel="Check again"
                     onAction={retry}
                 />
@@ -594,11 +662,12 @@ const PanoramaViewer = ({
                 />
             )}
 
-            {/* Attribution — required, and rendered in our own type */}
-            {phase === "ready" && (
-                <div className="pointer-events-none absolute bottom-4 left-4 z-10 md:bottom-6 md:left-6">
+            {/* Attribution — legally required, and rendered in our own type.
+                Whichever source is on screen is the one that gets credited. */}
+            {phase === "ready" && active?.attribution && (
+                <div className="pointer-events-none absolute bottom-4 left-4 z-10 max-w-[70%] md:bottom-6 md:left-6">
                     <p className="glass-panel !rounded-full px-3.5 py-1.5 font-data text-[10px] uppercase tracking-[0.14em] text-ivory-faint">
-                        {MAPILLARY_ATTRIBUTION}
+                        {active.attribution}
                         {captureLabel ? ` · Captured ${captureLabel}` : ""}
                     </p>
                 </div>
@@ -607,6 +676,19 @@ const PanoramaViewer = ({
             {/* Glass controls */}
             {phase === "ready" && (
                 <div className="absolute bottom-4 right-4 z-10 flex items-center gap-2 md:bottom-6 md:right-6">
+                    {canSwapSource && (
+                        <GlassIconButton
+                            icon={Radio}
+                            label={
+                                showLive
+                                    ? "Show the curated panorama"
+                                    : "Show the live street-level capture"
+                            }
+                            pressed={showLive}
+                            active={showLive}
+                            onClick={toggleSource}
+                        />
+                    )}
                     <GlassIconButton
                         icon={Minus}
                         label="Zoom out"

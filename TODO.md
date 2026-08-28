@@ -85,6 +85,11 @@ Live task tracker for the current build push. Updated as work lands.
       double-invoked the regenerate effect past its first-run boolean guard
 - [x] **Bug: navbar "VR Tours" re-opened the last tour** — stale `selectedItem`
 
+- [x] **Journey section is now a road trip** — a winding tarmac road with a
+      painted centre line that draws in on scroll, a car that drives it (banking
+      into the curves, headlight wash, tail lamp), and waypoints + stage
+      eyebrows that light up in gold as the car reaches them
+
 ## In progress
 
 
