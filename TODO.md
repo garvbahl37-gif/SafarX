@@ -132,6 +132,14 @@ Live task tracker for the current build push. Updated as work lands.
 - [x] **VR tours hero** — centred, and moved off a 1080p60 file that thrashed
       through 8 abort/retry cycles before settling
 
+- [x] **Local Insights shows India only** — a world-rect polygon with the
+      India outline punched out as a hole dims every neighbouring country,
+      with a gold hairline coastline and the view bounded to the subcontinent.
+      Outline simplified from the 10MB Survey of India composite to 41KB
+- [x] **VR gallery images confirmed working** — a paced script reported 72/84
+      "failures", but they were Wikimedia's robot policy blocking the script.
+      In a real browser: 15 responses, all 200, 0 broken
+
 ## In progress
 
 - [x] **VR tours expanded 14 → 21, with a story under every one** — 16 tours

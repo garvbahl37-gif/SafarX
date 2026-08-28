@@ -33,6 +33,7 @@ import {
   createRouteStopIcon,
   createUserIcon,
 } from "./markers";
+import IndiaMask from "./IndiaMask";
 
 /* Leaflet ships PNG marker paths that Vite cannot resolve — every marker on
    this page is a div-icon, so we simply neutralise the default. */
@@ -195,6 +196,7 @@ const MapShell = ({
   userLocation = null,
   routeStops = [],
   routeGeometry = null,
+  indiaOnly = true,
 }) => {
   const layer = TILE_LAYERS.find((l) => l.id === baseLayerId) || TILE_LAYERS[0];
   const straightLine =
@@ -205,8 +207,9 @@ const MapShell = ({
       center={INDIA_CENTER}
       zoom={5}
       minZoom={4}
+      maxBounds={[[5.5, 66.5], [37.5, 98.5]]}
+      maxBoundsViscosity={0.85}
       zoomControl={false}
-      worldCopyJump
       preferCanvas
       style={{ height: "100%", width: "100%" }}
     >
@@ -218,6 +221,9 @@ const MapShell = ({
         {...(layer.subdomains ? { subdomains: layer.subdomains } : {})}
         {...(layer.className ? { className: layer.className } : {})}
       />
+
+      {/* Sits above the tiles so neighbouring countries fall back to ink */}
+      <IndiaMask show={indiaOnly} />
 
       <MapBridge onReady={onMapReady} onViewChange={onViewChange} onMapClick={onMapClick} />
 
