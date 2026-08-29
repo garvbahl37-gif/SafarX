@@ -526,18 +526,45 @@ const TrainBookingPanel = ({ onClose }) => {
                                                 </h4>
                                                 <p className="font-data text-[9.5px] uppercase tracking-[0.16em] text-ivory-faint mt-1 tabular-nums">
                                                     {[ticket.trainNumber, ticket.from && ticket.to && `${ticket.from} → ${ticket.to}`,
-                                                      ticket.journeyDate, ticket.travelClass].filter(Boolean).join(' · ')}
+                                                      ticket.travelClass].filter(Boolean).join(' · ')}
                                                 </p>
                                             </div>
 
+                                            {(ticket.journeyDate || ticket.chartPrepared) && (
+                                                <div className="flex items-center gap-2 flex-wrap">
+                                                    {ticket.journeyDate && (
+                                                        <span className="agent-tag agent-tag-quiet px-2.5 py-1 text-[9.5px]">
+                                                            <CalendarDays size={9} aria-hidden="true" />
+                                                            {ticket.journeyDate}
+                                                        </span>
+                                                    )}
+                                                    {ticket.chartPrepared && (
+                                                        <span className={`agent-tag px-2.5 py-1 text-[9.5px] ${
+                                                            /PREPARED/i.test(ticket.chartPrepared) ? 'agent-tag-jade' : 'agent-tag-gold'
+                                                        }`}>
+                                                            {ticket.chartPrepared}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
+
                                             <div className="space-y-1.5">
                                                 {ticket.passengers.map((p) => (
-                                                    <div key={p.number} className="flex items-center justify-between gap-3 px-3 py-2 rounded-xl bg-white/[0.02] border border-white/[0.05]">
-                                                        <span className="font-data text-[10px] uppercase tracking-[0.14em] text-ivory-faint">
-                                                            Passenger {p.number}
+                                                    <div key={p.number} className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+                                                        <span className="min-w-0">
+                                                            <span className="block text-[12.5px] truncate text-ivory">
+                                                                {p.name || `Passenger ${p.number}`}
+                                                            </span>
+                                                            <span className="block font-data text-[9px] uppercase tracking-[0.14em] text-ivory-faint">
+                                                                {[p.age && `${p.age}`, p.gender, p.booking].filter(Boolean).join(' · ')}
+                                                            </span>
                                                         </span>
-                                                        <span className="text-right">
-                                                            <span className="block font-data text-[12.5px] text-saffron">{p.current || p.booking || '—'}</span>
+                                                        <span className="text-right shrink-0">
+                                                            <span className={`block font-data text-[12.5px] ${
+                                                                /^CNF/i.test(p.current || '') ? 'text-horizon' : 'text-saffron'
+                                                            }`}>
+                                                                {p.current || '—'}
+                                                            </span>
                                                             {(p.coach || p.berth) && (
                                                                 <span className="block font-data text-[9.5px] uppercase tracking-[0.12em] text-ivory-faint">
                                                                     {[p.coach, p.berth].filter(Boolean).join(' · ')}

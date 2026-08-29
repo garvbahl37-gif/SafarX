@@ -9,6 +9,7 @@
 
 export const SEARCH_HOST = "indian-railway-irctc.p.rapidapi.com";
 export const JOURNEY_HOST = "irctc-train-api.p.rapidapi.com";
+export const PNR_HOST = "real-time-pnr-status-api-for-indian-railways.p.rapidapi.com";
 
 export const callIrctc = async (host, path, extraHeaders = {}) => {
   const key = process.env.RAPIDAPI_KEY;

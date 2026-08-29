@@ -1,12 +1,22 @@
-import { callIrctc, failTrains, JOURNEY_HOST } from "./_irctc.js";
+import { callIrctc, failTrains, PNR_HOST } from "./_irctc.js";
 
 /**
  * Ticket status for a PNR.
  *
- * The response carries passenger details, so nothing here is cached, logged or
- * stored — it is read from IRCTC, passed to the traveller who asked, and
- * forgotten.
+ * The response carries passenger names, ages and seat numbers, so nothing
+ * here is cached, logged or stored — it is read from the railway, handed to
+ * the traveller who asked for it, and forgotten. `no-store` is on the
+ * response for the same reason.
  */
+
+/* "23-12-2023  22:05" → "23 Dec 2023, 22:05" */
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const prettyDate = (raw) => {
+  const m = /^(\d{2})-(\d{2})-(\d{4})\s+(\d{2}:\d{2})/.exec(String(raw || "").trim());
+  if (!m) return String(raw || "").trim() || null;
+  return `${Number(m[1])} ${MONTHS[Number(m[2]) - 1]} ${m[3]}, ${m[4]}`;
+};
+
 export default async function handler(req, res) {
   const pnr = String(req.query.pnr || "").replace(/\s/g, "");
   if (!/^\d{10}$/.test(pnr)) {
@@ -14,26 +24,33 @@ export default async function handler(req, res) {
   }
 
   try {
-    const body = await callIrctc(JOURNEY_HOST, `api/v1/pnr-status?pnrNo=${pnr}`);
-    const d = body.data || body;
+    const d = await callIrctc(PNR_HOST, `name/${pnr}`);
+
+    if (d?.errorMsg) {
+      return res.status(404).json({ error: String(d.errorMsg).slice(0, 200) });
+    }
 
     res.setHeader("Cache-Control", "no-store");
     return res.status(200).json({
       data: {
-        pnr,
-        trainNumber: d.trainNumber ?? d.trainNo ?? null,
+        pnr: d.pnrNo || pnr,
+        trainNumber: d.trainNum ?? null,
         trainName: d.trainName ?? null,
-        journeyDate: d.dateOfJourney ?? d.journeyDate ?? null,
-        from: d.sourceStation ?? d.boardingPoint ?? null,
-        to: d.destinationStation ?? d.reservationUpto ?? null,
-        travelClass: d.journeyClass ?? d.class ?? null,
-        chartPrepared: d.chartPrepared ?? null,
-        passengers: (d.passengerList || d.passengers || []).map((p, i) => ({
-          number: p.passengerSerialNumber ?? i + 1,
-          booking: p.bookingStatus ?? p.bookingStatusDetails ?? null,
-          current: p.currentStatus ?? p.currentStatusDetails ?? null,
-          coach: p.currentCoachId ?? p.coach ?? null,
-          berth: p.currentBerthNo ?? p.berth ?? null,
+        journeyDate: prettyDate(d.departureDate),
+        arrivalDate: prettyDate(d.arrivalDate),
+        from: d.boardingPoint || d.stationFrom || null,
+        to: d.reservationUpTo || d.stationTo || null,
+        travelClass: d.journeyClass ?? null,
+        chartPrepared: d.chartStts ?? null,
+        passengers: (d.passengerDetailsDTO || []).map((p, i) => ({
+          number: p.serialNo ?? i + 1,
+          name: p.displayName || p.name || null,
+          age: p.age || null,
+          gender: p.gender || null,
+          current: p.seatStts || null,
+          booking: p.quotaCode || null,
+          coach: p.coachNo || null,
+          berth: p.seatNo || null,
         })),
       },
     });
