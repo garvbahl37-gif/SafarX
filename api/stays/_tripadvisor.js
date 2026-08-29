@@ -61,7 +61,7 @@ const countFrom = (s) => {
 
 /** Hotels around a point, in the same shape the Booking search returns. */
 export const searchHotelsNear = async ({ lat, lng, checkIn, checkOut, adults, rooms, currency, page = 1 }) => {
-  const data = await callTripadvisor("hotels/searchHotelsByLocation", {
+  const params = {
     latitude: lat,
     longitude: lng,
     checkIn,
@@ -70,9 +70,19 @@ export const searchHotelsNear = async ({ lat, lng, checkIn, checkOut, adults, ro
     adults,
     rooms,
     currencyCode: currency,
-  });
+  };
 
-  const rows = data?.data || [];
+  /* The provider intermittently answers 200 with status:true and an empty
+     list for a search that returns thirty hotels a second later. Treat an
+     empty first answer as a hiccup rather than as "nowhere to stay". */
+  let data = await callTripadvisor("hotels/searchHotelsByLocation", params);
+  let rows = data?.data || [];
+  if (!rows.length) {
+    await new Promise((r) => setTimeout(r, 400));
+    data = await callTripadvisor("hotels/searchHotelsByLocation", params);
+    rows = data?.data || [];
+  }
+
   return rows
     .filter((r) => r.title)
     .map((r) => ({
