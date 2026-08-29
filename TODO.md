@@ -6,6 +6,14 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Srishti** — the voice of SafarX. Ask her anything by voice or text, in
+      Hindi, Tamil, Telugu, Malayalam or English, and she answers in the
+      language she was asked in. She reaches into the app's own APIs — stays,
+      trains, PNR, 360° tours, hidden gems — and can open a page while she
+      talks, then steps aside to the corner so you can see it. Her form is a
+      kolam of dashed rings that travel inward while she listens and outward
+      while she speaks
+
 - [x] **Rebrand Safar360 → SafarX** across app, titles, manifest, docs
 - [x] **"Peacock & Gold" design system** — teal ink + antique gold, Fraunces /
       Schibsted Grotesk / Space Grotesk, route-line motif (`DESIGN_SYSTEM.md`)

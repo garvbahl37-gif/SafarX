@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { Scroll } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import SrishtiLauncher from "./components/srishti/SrishtiLauncher";
+import SrishtiPanel from "./components/srishti/SrishtiPanel";
 import LoadingScreen from "./components/LoadingScreen";
 
 // ✅ IMPORT ANONYMOUS SUPABASE CLIENT (NO Clerk interference)
@@ -165,6 +167,8 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  const [srishtiOpen, setSrishtiOpen] = useState(false);
+
   // Hide header/footer on certain pages
   const hideHeaderFooter = currentPage === "chat";
 
@@ -182,6 +186,13 @@ export default function App() {
           className="min-h-screen bg-ink-950"
         >
           <GlobalMusicPlayer />
+
+          {/* Srishti travels with you rather than living on a page of her own —
+              she can be asked from anywhere, and steps aside to the corner when
+              she opens something for you. Hidden inside the agent, which is
+              already a conversation. */}
+          <SrishtiLauncher onOpen={() => setSrishtiOpen(true)} hidden={srishtiOpen || hideHeaderFooter} />
+          <SrishtiPanel open={srishtiOpen} onClose={() => setSrishtiOpen(false)} />
           {/* Hide Header on Salahkar & Story pages */}
           {!hideHeaderFooter && (
             <Header
