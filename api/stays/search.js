@@ -1,5 +1,6 @@
 import { callBooking, formatMoney, fail } from "./_booking.js";
 import { searchHotelsNear } from "./_tripadvisor.js";
+import { rateLimit, clientIp } from "../trains/_ratelimit.js";
 
 const nightsBetween = (from, to) =>
   Math.max(1, Math.round((new Date(to) - new Date(from)) / 86400000));
@@ -29,6 +30,13 @@ const perks = (label = "") => {
  * so the panel renders the same whichever provider is behind it.
  */
 export default async function handler(req, res) {
+  /* These calls cost metered quota, and the endpoint is public. */
+  const burst = rateLimit(`stays:${clientIp(req)}`, { limit: 20, windowMs: 60_000 });
+  if (!burst.ok) {
+    res.setHeader("Retry-After", String(burst.retryAfter));
+    return res.status(429).json({ error: "Too many searches from this connection. Try again shortly." });
+  }
+
   const {
     destId, searchType = "CITY", checkIn, checkOut,
     adults = 2, rooms = 1, rating = 0, sort, page = 1,

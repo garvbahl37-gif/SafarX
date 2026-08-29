@@ -1,5 +1,6 @@
 import { callBooking, formatMoney, fail } from "./_booking.js";
 import { hotelDetails as tripadvisorDetails } from "./_tripadvisor.js";
+import { rateLimit, clientIp } from "../trains/_ratelimit.js";
 
 /**
  * One property in full.
@@ -41,6 +42,13 @@ const bucket = (rows) => {
 };
 
 export default async function handler(req, res) {
+  /* These calls cost metered quota, and the endpoint is public. */
+  const burst = rateLimit(`detail:${clientIp(req)}`, { limit: 30, windowMs: 60_000 });
+  if (!burst.ok) {
+    res.setHeader("Retry-After", String(burst.retryAfter));
+    return res.status(429).json({ error: "Too many searches from this connection. Try again shortly." });
+  }
+
   const { id, checkIn, checkOut, adults = 2, rooms = 1, currency = "INR", parts = "base", provider } = req.query;
   const want = new Set(String(parts).split(","));
 

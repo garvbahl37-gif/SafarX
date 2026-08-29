@@ -1,4 +1,5 @@
 import { callIrctc, failTrains, PNR_HOST } from "./_irctc.js";
+import { rateLimit, clientIp } from "./_ratelimit.js";
 
 /**
  * Ticket status for a PNR.
@@ -21,6 +22,16 @@ export default async function handler(req, res) {
   const pnr = String(req.query.pnr || "").replace(/\s/g, "");
   if (!/^\d{10}$/.test(pnr)) {
     return res.status(400).json({ error: "A PNR is ten digits." });
+  }
+
+  /* Someone checking their own ticket does it a handful of times. Anything
+     past that is walking the PNR space for other people's names. */
+  const quota = rateLimit(`pnr:${clientIp(req)}`, { limit: 8, windowMs: 60_000 });
+  if (!quota.ok) {
+    res.setHeader("Retry-After", String(quota.retryAfter));
+    return res.status(429).json({
+      error: "Too many PNR checks from this connection. Try again in a minute.",
+    });
   }
 
   try {

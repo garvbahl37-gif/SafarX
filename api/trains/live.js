@@ -1,4 +1,5 @@
 import { callIrctc, failTrains, JOURNEY_HOST } from "./_irctc.js";
+import { rateLimit, clientIp } from "./_ratelimit.js";
 
 /**
  * Where a train is right now, and how late.
@@ -6,6 +7,13 @@ import { callIrctc, failTrains, JOURNEY_HOST } from "./_irctc.js";
  * Nothing here is cached: a running position is worthless a few minutes old.
  */
 export default async function handler(req, res) {
+  /* These calls cost metered quota, and the endpoint is public. */
+  const burst = rateLimit(`live:${clientIp(req)}`, { limit: 15, windowMs: 60_000 });
+  if (!burst.ok) {
+    res.setHeader("Retry-After", String(burst.retryAfter));
+    return res.status(429).json({ error: "Too many searches from this connection. Try again shortly." });
+  }
+
   const trainNo = String(req.query.trainNo || "").trim();
   const startDay = String(req.query.startDay || "1");
 
