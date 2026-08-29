@@ -14,13 +14,21 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
 
-// ✅ RLS BYPASS: Use service_role key for uploads (temp fix)
-const serviceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY;
-export const supabaseAdmin = serviceRoleKey
-  ? createClient(supabaseUrl, serviceRoleKey, {
-      auth: { autoRefreshToken: false },
-    })
-  : supabase;
+/**
+ * There is deliberately no admin client here.
+ *
+ * This file used to read VITE_SUPABASE_SERVICE_ROLE_KEY to "bypass RLS" for
+ * uploads. A service role key bypasses every row-level policy in the project —
+ * full read, write and delete on every table and bucket — and anything with a
+ * VITE_ prefix is compiled into the JavaScript served to every visitor. Setting
+ * that variable would have handed the whole database to anyone who opened
+ * devtools.
+ *
+ * Uploads go through the anon key and are governed by row-level security, which
+ * is what RLS is for. If a policy blocks a legitimate upload, the fix is the
+ * policy, not a skeleton key in the browser.
+ */
+export const supabaseAdmin = supabase;
 
 // ✅ BYPASS RLS - Use admin client
 export const uploadFileToStorage = async (file, filePath) => {

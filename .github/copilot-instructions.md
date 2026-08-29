@@ -54,7 +54,8 @@ Create `.env.local` with:
 VITE_GEMINI_API_KEY=your_gemini_key
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_anon_key
-VITE_SUPABASE_SERVICE_ROLE_KEY=your_service_role_key  # For RLS bypass
+# Never add a service role key here. A VITE_ prefix compiles the value into
+# the browser bundle, and a service role key bypasses every RLS policy.
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key
 VITE_AI_API_URL=http://localhost:8000  # Local AI service (optional)
 ```
