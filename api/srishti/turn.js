@@ -20,7 +20,9 @@ import { rateLimit, clientIp } from "../trains/_ratelimit.js";
  */
 
 const API = "https://generativelanguage.googleapis.com/v1beta/models";
-const BRAIN = "gemini-2.5-flash";
+/* Free-tier quota is counted per model per day, so a spent one is not a spent
+   account. She works down this list rather than going quiet. */
+const BRAINS = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-flash-latest"];
 const MAX_TOOL_ROUNDS = 3;
 
 const callGemini = async (model, body) => {
@@ -36,13 +38,31 @@ const callGemini = async (model, body) => {
     body: JSON.stringify(body),
   });
   if (!res.ok) {
-    const detail = (await res.text()).slice(0, 200);
-    const err = new Error("Srishti could not answer that just now.");
+    const detail = (await res.text()).slice(0, 300);
+    const err = new Error(
+      /RESOURCE_EXHAUSTED|quota/i.test(detail)
+        ? "Srishti has used up today's free Gemini quota. It resets tomorrow, or sooner with billing enabled."
+        : "Srishti could not answer that just now."
+    );
     err.status = res.status === 429 ? 429 : 502;
-    err.detail = detail;
+    err.exhausted = res.status === 429;
     throw err;
   }
   return res.json();
+};
+
+/** Asks the first model with quota left. */
+const think = async (body) => {
+  let last;
+  for (const model of BRAINS) {
+    try {
+      return await callGemini(model, body);
+    } catch (err) {
+      last = err;
+      if (!err.exhausted) throw err;
+    }
+  }
+  throw last;
 };
 
 export default async function handler(req, res) {
@@ -95,7 +115,7 @@ export default async function handler(req, res) {
     let reply = null;
 
     for (let round = 0; round < MAX_TOOL_ROUNDS; round += 1) {
-      const out = await callGemini(BRAIN, request);
+      const out = await think(request);
       const parts = out.candidates?.[0]?.content?.parts || [];
       const calls = parts.filter((p) => p.functionCall).map((p) => p.functionCall);
 

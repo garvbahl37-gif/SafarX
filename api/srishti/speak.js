@@ -10,7 +10,8 @@ import { rateLimit, clientIp } from "../trains/_ratelimit.js";
  * base64 — the browser feeds it straight into an AudioBuffer.
  */
 
-const VOICE_MODEL = "gemini-3.1-flash-tts-preview";
+/* Speech quota is per model too. */
+const VOICE_MODELS = ["gemini-3.1-flash-tts-preview", "gemini-2.5-flash-preview-tts"];
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -30,35 +31,33 @@ export default async function handler(req, res) {
   const key = process.env.GEMINI_API_KEY;
   if (!key) return res.status(503).json({ error: "Srishti's voice is not configured." });
 
-  try {
-    const upstream = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${VOICE_MODEL}:generateContent?key=${key}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text }] }],
-          generationConfig: {
-            responseModalities: ["AUDIO"],
-            speechConfig: {
-              voiceConfig: { prebuiltVoiceConfig: { voiceName: req.body?.voice || SRISHTI_VOICE } },
-            },
-          },
-        }),
-      }
-    );
+  const payload = JSON.stringify({
+    contents: [{ parts: [{ text }] }],
+    generationConfig: {
+      responseModalities: ["AUDIO"],
+      speechConfig: {
+        voiceConfig: { prebuiltVoiceConfig: { voiceName: req.body?.voice || SRISHTI_VOICE } },
+      },
+    },
+  });
 
-    if (!upstream.ok) {
-      return res.status(502).json({ error: "Her voice did not come through." });
+  for (const model of VOICE_MODELS) {
+    try {
+      const upstream = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+        { method: "POST", headers: { "Content-Type": "application/json" }, body: payload }
+      );
+      if (!upstream.ok) continue;
+      const out = await upstream.json();
+      const audio = out.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+      if (!audio) continue;
+      res.setHeader("Cache-Control", "private, max-age=600");
+      return res.status(200).json({ audio, sampleRate: 24000 });
+    } catch {
+      /* try the next voice model */
     }
-
-    const out = await upstream.json();
-    const audio = out.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data || null;
-    if (!audio) return res.status(502).json({ error: "Her voice did not come through." });
-
-    res.setHeader("Cache-Control", "private, max-age=600");
-    return res.status(200).json({ audio, sampleRate: 24000 });
-  } catch {
-    return res.status(502).json({ error: "Her voice did not come through." });
   }
+
+  // She can still be read when she cannot be heard.
+  return res.status(502).json({ error: "Her voice did not come through." });
 }

@@ -7,8 +7,10 @@
  * showing you Varanasi while she describes it.
  */
 
-import vrTours from "../../src/data/vrTours.json";
-import gems from "../../src/data/hiddengems.json";
+/* Node runs these functions as real ESM, so JSON needs the attribute — without
+   it the whole function fails to load. */
+import vrTours from "../../src/data/vrTours.json" with { type: "json" };
+import gems from "../../src/data/hiddengems.json" with { type: "json" };
 import { findPlaces } from "../stays/_places.js";
 import { findStations } from "../../src/data/indiaStations.js";
 
