@@ -23,6 +23,11 @@ create index if not exists documents_user_id_idx on public.documents (user_id, u
 alter table public.documents enable row level security;
 
 -- Private bucket. Files are only ever handed out as short-lived signed URLs.
+--
+-- Run this part SECOND, and only after Storage has been opened once in the
+-- dashboard. On a project where Storage has never been used, storage.buckets
+-- does not exist yet and this statement fails with 42P01 — which also rolls
+-- back the table above if they are run together.
 insert into storage.buckets (id, name, public)
 values ('vault', 'vault', false)
 on conflict (id) do update set public = false;
