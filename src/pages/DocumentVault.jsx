@@ -67,7 +67,10 @@ export default function DocumentVault() {
       setShowUploadModal(false);
     } catch (err) {
       console.error('Upload Error:', err);
-      setUploadError("The upload didn't go through — check your connection and try again.");
+      /* Say what actually went wrong. Blaming the connection sent people to
+         check their wifi when the real answer was that the vault had no
+         server behind it at all. */
+      setUploadError(err?.message || "The upload didn't go through — try again.");
     } finally {
       setLoading(false);
     }

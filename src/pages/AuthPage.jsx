@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useSignIn, useSignUp, useClerk } from "@clerk/clerk-react";
 import { ArrowRight, ArrowLeft, Eye, EyeOff } from "lucide-react";
-import vrTours from "../data/vrTours.json";
 
 /**
  * Signing in to SafarX.
@@ -20,10 +19,41 @@ import vrTours from "../data/vrTours.json";
 
 const EASE = [0.22, 1, 0.36, 1];
 
-/* A few of the 34 tours, chosen to open on somewhere unmistakably Indian and
-   then move through the country rather than around one state. */
-const VISTA_IDS = ["taj-mahal", "varanasi", "kerala", "ladakh", "jaipur"];
-const VISTA_MS = 7000;
+/* Three places, moving, with the still from the tour library behind each one.
+   Every clip is a 1080p rendition rather than the 4K files the rest of the app
+   opens with: the same Taj footage is 2.3MB at 1080p and 8.8MB at 4K, and a
+   sign-in screen that spends eight megabytes before you can type your password
+   is a worse screen, not a richer one. Sizes were curl-checked. */
+const VISTAS = [
+  {
+    id: "taj-mahal",
+    name: "Taj Mahal",
+    where: "Agra, Uttar Pradesh",
+    lat: 27.17501,
+    lng: 78.0421,
+    still: "/images/vr_thumbnails/taj-mahal.jpg",
+    video: "https://videos.pexels.com/video-files/19717370/19717370-hd_1920_1080_30fps.mp4",
+  },
+  {
+    id: "jodhpur",
+    name: "Mehrangarh Fort",
+    where: "Jodhpur, Rajasthan",
+    lat: 26.29785,
+    lng: 73.01862,
+    still: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1600&auto=format&fit=crop&q=70",
+    video: "https://videos.pexels.com/video-files/17453762/17453762-hd_1920_1080_24fps.mp4",
+  },
+  {
+    id: "jaipur",
+    name: "The Pink City",
+    where: "Jaipur, Rajasthan",
+    lat: 26.98631,
+    lng: 75.85066,
+    still: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=1600&auto=format&fit=crop&q=70",
+    video: "https://videos.pexels.com/video-files/37056813/15698517_1920_1080_50fps.mp4",
+  },
+];
+const VISTA_MS = 11000;
 
 /** 27.17501 → 27.1750° N. The readout the rest of SafarX uses. */
 const coord = (value, positive, negative) =>
@@ -31,47 +61,81 @@ const coord = (value, positive, negative) =>
 
 /* ── The vista ──────────────────────────────────────────────────────── */
 
+/**
+ * One scene: the still underneath, the film over it once it can actually play.
+ *
+ * The order matters. The photograph is up immediately, so the panel is never
+ * blank and never a black hole while several megabytes arrive; the video fades
+ * in only on `canplay`, so a slow connection degrades to a still rather than to
+ * nothing. If the file fails outright the still simply stays.
+ */
+const Scene = ({ place, active, reduce }) => {
+  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    if (active) el.play?.().catch(() => {});
+    else el.pause?.();
+  }, [active]);
+
+  return (
+    <>
+      <img
+        src={place.still}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover"
+        onError={(e) => { e.currentTarget.style.opacity = 0; }}
+      />
+      {!reduce && (
+        <motion.video
+          ref={videoRef}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: playing ? 1 : 0 }}
+          transition={{ duration: 1.2, ease: EASE }}
+          src={place.video}
+          poster={place.still}
+          muted
+          loop
+          playsInline
+          /* Only the scene on screen is worth bytes; the rest wait their turn. */
+          preload={active ? "auto" : "none"}
+          onCanPlay={() => setPlaying(true)}
+          onError={() => setPlaying(false)}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+    </>
+  );
+};
+
 const Vista = () => {
   const reduce = useReducedMotion();
-  const places = useMemo(
-    () =>
-      VISTA_IDS.map((id) => vrTours.find((t) => t.id === id)).filter(Boolean),
-    []
-  );
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     // One place, held, if the traveller has asked for less movement.
-    if (reduce || places.length < 2) return undefined;
-    const timer = setInterval(() => setIndex((i) => (i + 1) % places.length), VISTA_MS);
+    if (reduce || VISTAS.length < 2) return undefined;
+    const timer = setInterval(() => setIndex((i) => (i + 1) % VISTAS.length), VISTA_MS);
     return () => clearInterval(timer);
-  }, [reduce, places.length]);
+  }, [reduce]);
 
-  const place = places[index];
-  if (!place) return null;
+  const place = VISTAS[index];
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-ink-950">
       <AnimatePresence mode="sync">
         <motion.div
           key={place.id}
-          initial={{ opacity: 0, scale: reduce ? 1 : 1.06 }}
+          initial={{ opacity: 0, scale: reduce ? 1 : 1.04 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ opacity: { duration: 1.4, ease: EASE }, scale: { duration: VISTA_MS / 1000 + 1.4, ease: "linear" } }}
           className="absolute inset-0"
         >
-          {/* The tour's own gradient sits underneath, so a photograph that
-              never arrives leaves a composed panel rather than a black hole. */}
-          <div className={`absolute inset-0 bg-gradient-to-br ${place.gradient} opacity-40`} />
-          <img
-            src={place.thumbnail}
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover"
-            loading="eager"
-            onError={(e) => { e.currentTarget.style.opacity = 0; }}
-          />
+          <Scene place={place} active reduce={reduce} />
         </motion.div>
       </AnimatePresence>
 
@@ -107,11 +171,14 @@ const Vista = () => {
               transition={{ duration: 0.7, ease: EASE }}
             >
               <p className="eyebrow mb-3">
-                {coord(place.latitude, "N", "S")} · {coord(place.longitude, "E", "W")}
+                {coord(place.lat, "N", "S")} · {coord(place.lng, "E", "W")}
               </p>
               <h2 className="font-display text-[2.6rem] xl:text-[3.2rem] leading-[1.05] text-ivory">
                 {place.name}
               </h2>
+              <p className="mt-2 font-data text-[10px] uppercase tracking-[0.2em] text-ivory-faint">
+                {place.where}
+              </p>
             </motion.div>
           </AnimatePresence>
 

@@ -43,6 +43,37 @@ const loadLocalHttps = () => {
  * shaped like the ones Vercel passes. Without it the stays autocomplete and
  * the agent chat only work once deployed.
  */
+/**
+ * Vercel's file routing, as much of it as these functions rely on:
+ * /api/a/b -> api/a/b.js, then api/a/b/index.js, then a [param] segment
+ * such as api/documents/[id].js, whose value is handed back as a query param.
+ *
+ * Without the last two rules /api/documents and /api/documents/<id> fell
+ * through to the static server, which answered with the function's own source.
+ */
+const resolveApiFile = (pathname) => {
+  const parts = pathname.slice(5).split("/").filter(Boolean);
+  if (!parts.length) return null;
+  const base = path.resolve(__dirname, "api");
+
+  const direct = path.resolve(base, `${parts.join("/")}.js`);
+  if (fs.existsSync(direct)) return { file: direct, params: {} };
+
+  const index = path.resolve(base, ...parts, "index.js");
+  if (fs.existsSync(index)) return { file: index, params: {} };
+
+  // One dynamic segment, in the last position, which is all these routes use.
+  const dir = path.resolve(base, ...parts.slice(0, -1));
+  if (fs.existsSync(dir)) {
+    const dynamic = fs.readdirSync(dir).find((f) => /^\[[^\]]+\]\.js$/.test(f));
+    if (dynamic) {
+      const name = dynamic.slice(1, dynamic.indexOf("]"));
+      return { file: path.resolve(dir, dynamic), params: { [name]: parts[parts.length - 1] } };
+    }
+  }
+  return null;
+};
+
 const vercelApiDev = () => ({
   name: "vercel-api-dev",
   apply: "serve",
@@ -77,8 +108,9 @@ const vercelApiDev = () => ({
       if (!req.url?.startsWith("/api/")) return next();
 
       const url = new URL(req.url, "http://localhost");
-      const file = path.resolve(__dirname, "api", `${url.pathname.slice(5)}.js`);
-      if (!fs.existsSync(file)) return next();
+      const resolved = resolveApiFile(url.pathname);
+      if (!resolved) return next();
+      const { file, params } = resolved;
 
       const send = (code, payload) => {
         res.statusCode = code;
@@ -105,7 +137,8 @@ const vercelApiDev = () => ({
           end: (payload) => res.end(payload),
         };
         await mod.default(
-          { method: req.method, url: req.url, headers: req.headers, query: Object.fromEntries(url.searchParams), body },
+          { method: req.method, url: req.url, headers: req.headers,
+            query: { ...Object.fromEntries(url.searchParams), ...params }, body },
           shimRes
         );
       } catch (err) {
