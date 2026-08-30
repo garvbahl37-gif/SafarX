@@ -33,7 +33,7 @@ const JourneyRoad = ({ stages, onPageChange }) => {
   const sectionRef = useRef(null);
   const pathRef = useRef(null);
 
-  const [car, setCar] = useState({ x: 26, y: 214, angle: 0 });
+  const carRef = useRef(null);
   const [pins, setPins] = useState([]);
   const [ticks, setTicks] = useState([]);
   const [passed, setPassed] = useState(0);
@@ -74,8 +74,12 @@ const JourneyRoad = ({ stages, onPageChange }) => {
     setTicks(marks);
 
     const start = path.getPointAtLength(0);
-    setCar({ x: start.x, y: start.y, angle: 0 });
+    place(start.x, start.y, 0);
   }, []);
+
+  const place = (x, y, angle) => {
+    carRef.current?.setAttribute("transform", `translate(${x} ${y}) rotate(${angle})`);
+  };
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     const path = pathRef.current;
@@ -84,12 +88,18 @@ const JourneyRoad = ({ stages, onPageChange }) => {
     const at = len * t;
     const p = path.getPointAtLength(at);
     const ahead = path.getPointAtLength(Math.min(at + 6, len));
-    const angle = (Math.atan2(ahead.y - p.y, ahead.x - p.x) * 180) / Math.PI;
-    setCar({ x: p.x, y: p.y, angle });
-    setPassed(STOPS.filter((s) => t >= s - 0.015).length);
+    place(p.x, p.y, (Math.atan2(ahead.y - p.y, ahead.x - p.x) * 180) / Math.PI);
+
+    /* Six changes over the whole scroll, not one per frame — this is the only
+       thing on the road that still costs a render. */
+    const reached = STOPS.filter((stop) => t >= stop - 0.015).length;
+    setPassed((was) => (was === reached ? was : reached));
   });
 
-  const dashOffset = useTransform(scrollYProgress, [0, 0.95], [len, 0]);
+  /* Uncovers the centre line as the car drives it. A single dash the length of
+     the whole road, retracted to nothing — so the road is revealed once, in
+     order, rather than a dash pattern sliding along it. */
+  const revealOffset = useTransform(scrollYProgress, [0, 0.95], [len, 0]);
 
   return (
     <div ref={sectionRef}>
@@ -103,6 +113,10 @@ const JourneyRoad = ({ stages, onPageChange }) => {
               <stop offset="50%" stopColor="#1e4038" />
               <stop offset="94%" stopColor="#17352D" stopOpacity="1" />
               <stop offset="100%" stopColor="#17352D" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="jr-beam" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#FFF6DC" stopOpacity="0.30" />
+              <stop offset="100%" stopColor="#FFF6DC" stopOpacity="0" />
             </linearGradient>
             <filter id="jr-glow" x="-60%" y="-60%" width="220%" height="220%">
               <feGaussianBlur stdDeviation="5" result="b" />
@@ -137,17 +151,35 @@ const JourneyRoad = ({ stages, onPageChange }) => {
             />
           ))}
 
-          {/* Painted centre line, drawn as you scroll */}
-          <Motion.path
+          {/* Painted centre line, drawn as you scroll.
+              The dashes themselves must not move. Animating strokeDashoffset
+              on a 16/18 pattern slid it along the tarmac instead of laying it
+              down — forty-odd cycles across one section, which reads as a
+              strobe rather than a road being painted. The dashes now sit still
+              and a mask uncovers them from the start of the road onward. */}
+          {!reduce && len > 0 && (
+            <mask id="jr-reveal" maskUnits="userSpaceOnUse">
+              <Motion.path
+                d={ROAD_D}
+                fill="none"
+                stroke="#fff"
+                strokeWidth="40"
+                strokeLinecap="round"
+                strokeDasharray={len}
+                style={{ strokeDashoffset: revealOffset }}
+              />
+            </mask>
+          )}
+          <path
             ref={pathRef}
             d={ROAD_D}
             fill="none"
             stroke="#D4A843"
             strokeWidth="2.5"
             strokeLinecap="round"
-            strokeDasharray={reduce ? undefined : "16 18"}
-            style={reduce ? undefined : { strokeDashoffset: dashOffset }}
+            strokeDasharray="16 18"
             opacity="0.85"
+            mask={!reduce && len > 0 ? "url(#jr-reveal)" : undefined}
           />
 
           {/* Waypoints */}
@@ -184,17 +216,8 @@ const JourneyRoad = ({ stages, onPageChange }) => {
           })}
 
           {/* The car */}
-          <g
-            transform={`translate(${car.x} ${car.y}) rotate(${car.angle})`}
-            style={{ transition: reduce ? undefined : "transform 120ms linear" }}
-          >
+          <g ref={carRef} transform="translate(26 214)">
             {/* Headlight throw — a soft cone, not a hard grey triangle */}
-            <defs>
-              <linearGradient id="jr-beam" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#FFF6DC" stopOpacity="0.30" />
-                <stop offset="100%" stopColor="#FFF6DC" stopOpacity="0" />
-              </linearGradient>
-            </defs>
             <path d="M22 -2 L64 -13 L64 13 L22 2 Z" fill="url(#jr-beam)" />
 
             {/* Side profile: bonnet, greenhouse, boot */}
