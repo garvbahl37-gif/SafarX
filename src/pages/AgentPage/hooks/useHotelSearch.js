@@ -68,6 +68,9 @@ export const useHotelSearch = () => {
     // ── Search hotels ──────────────────────────────────────────
     const searchHotels = useCallback(async ({
         destId,
+        // Agoda searches by city name rather than by a point, so the name has
+        // to survive this hop or that provider can never be the fallback.
+        place,
         lat,
         lng,
         searchType = 'CITY',
@@ -87,6 +90,7 @@ export const useHotelSearch = () => {
         try {
             const result = await hotelApi.searchHotels({
                 destId,
+                place,
                 lat,
                 lng,
                 searchType,

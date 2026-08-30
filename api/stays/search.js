@@ -1,5 +1,6 @@
 import { callBooking, formatMoney, fail } from "./_booking.js";
 import { searchHotelsNear } from "./_tripadvisor.js";
+import { searchAgoda } from "./_agoda.js";
 import { rateLimit, clientIp } from "../trains/_ratelimit.js";
 
 const nightsBetween = (from, to) =>
@@ -40,7 +41,7 @@ export default async function handler(req, res) {
   const {
     destId, searchType = "CITY", checkIn, checkOut,
     adults = 2, rooms = 1, rating = 0, sort, page = 1,
-    currency = "INR", lat, lng,
+    currency = "INR", lat, lng, place,
   } = req.query;
 
   if (!checkIn || !checkOut || (!destId && !(lat && lng))) {
@@ -48,6 +49,23 @@ export default async function handler(req, res) {
       .status(400)
       .json({ error: "Dates plus either destId or a lat/lng are required." });
   }
+
+  /* Agoda searches by its own city id, so it needs the place's name rather
+     than a point. It is a separate subscription from Booking and Tripadvisor,
+     which matters: all three are metered monthly and run dry independently. */
+  const viaAgoda = async () => {
+    if (!place) throw Object.assign(new Error("No place name to search for."), { status: 502 });
+    const results = await searchAgoda({
+      place, checkIn, checkOut, adults, rooms, currency,
+      nights: nightsBetween(checkIn, checkOut),
+    });
+    if (!results.length) throw Object.assign(new Error("Agoda had nothing there."), { status: 404 });
+    res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
+    return res.status(200).json({
+      data: results,
+      meta: { nights: nightsBetween(checkIn, checkOut), count: results.length, currency, provider: "agoda" },
+    });
+  };
 
   /* Tripadvisor searches around a point, so it can stand in for any
      destination the gazetteer or Booking gave coordinates for. */
@@ -63,7 +81,7 @@ export default async function handler(req, res) {
     });
   };
 
-  if (!destId) return viaTripadvisor().catch((err) => fail(res, err));
+  if (!destId) return viaAgoda().catch(() => viaTripadvisor()).catch((err) => fail(res, err));
 
   try {
     const raw = await callBooking("hotels/searchHotels", {
@@ -125,11 +143,17 @@ export default async function handler(req, res) {
       meta: { nights, count: results.length, currency, provider: "booking" },
     });
   } catch (err) {
-    // Booking out of quota or down: the search still happens, elsewhere.
+    /* Booking out of quota or down: the search still happens, elsewhere.
+       Each provider is tried in turn and only the original failure is
+       reported if none of them can answer. */
     try {
-      return await viaTripadvisor();
+      return await viaAgoda();
     } catch {
-      return fail(res, err);
+      try {
+        return await viaTripadvisor();
+      } catch {
+        return fail(res, err);
+      }
     }
   }
 }

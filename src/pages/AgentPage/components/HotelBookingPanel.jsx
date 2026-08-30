@@ -83,6 +83,7 @@ const HotelBookingPanel = ({ onClose, prefill }) => {
         setShowResults(true);
         await searchHotels({
             destId: selectedLocation.destId,
+            place: selectedLocation.name,
             lat: selectedLocation.lat,
             lng: selectedLocation.lng,
             searchType: selectedLocation.searchType,
@@ -132,6 +133,7 @@ const HotelBookingPanel = ({ onClose, prefill }) => {
         setShowResults(true);
         searchHotels({
             destId: prefill.place.destId,
+            place: prefill.place.name,
             lat: prefill.place.lat,
             lng: prefill.place.lng,
             searchType: prefill.place.searchType,

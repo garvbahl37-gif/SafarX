@@ -206,7 +206,8 @@ export const runTool = async (name, args, { origin }) => {
       let data = [];
       try {
         ({ data = [] } = await get(
-          `/api/stays/search?lat=${place.lat}&lng=${place.lng}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${args.guests || 2}`
+          `/api/stays/search?lat=${place.lat}&lng=${place.lng}&place=${encodeURIComponent(place.name)}` +
+          `&checkIn=${checkIn}&checkOut=${checkOut}&adults=${args.guests || 2}`
         ));
       } catch (err) {
         /* No live prices — say so plainly, but still open the panel with the
