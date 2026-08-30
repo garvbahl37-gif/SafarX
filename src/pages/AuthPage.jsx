@@ -412,7 +412,7 @@ const AuthPage = ({ mode = "signin" }) => {
   const heading = joining ? "Begin your" : "Continue your";
 
   return (
-    <div className="grid min-h-screen bg-ink-950 lg:grid-cols-[1.05fr_minmax(0,0.95fr)]">
+    <div className="grid min-h-screen bg-ink-950 lg:h-screen lg:overflow-hidden lg:grid-cols-[1.05fr_minmax(0,0.95fr)]">
       {/* Vista: the left half on a desktop, a band above the form on a phone. */}
       <div className="relative hidden lg:block">
         <Vista />
@@ -421,7 +421,7 @@ const AuthPage = ({ mode = "signin" }) => {
         <Vista />
       </div>
 
-      <div className="flex items-center justify-center px-6 py-12 sm:px-10 lg:px-14">
+      <div className="flex items-center justify-center px-6 py-8 [@media(min-height:880px)]:py-12 sm:px-10 lg:h-screen lg:overflow-y-auto lg:px-14">
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -430,18 +430,18 @@ const AuthPage = ({ mode = "signin" }) => {
         >
           <Link
             to="/"
-            className="mb-9 inline-flex items-center gap-2 font-data text-[10.5px] uppercase tracking-[0.22em] text-ivory-faint transition-colors hover:text-ivory focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron/70 focus-visible:ring-offset-4 focus-visible:ring-offset-ink-950"
+            className="mb-5 [@media(min-height:880px)]:mb-7 inline-flex items-center gap-2 font-data text-[10.5px] uppercase tracking-[0.22em] text-ivory-faint transition-colors hover:text-ivory focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron/70 focus-visible:ring-offset-4 focus-visible:ring-offset-ink-950"
           >
             <ArrowLeft size={13} aria-hidden="true" />
             Back to SafarX
           </Link>
 
           <p className="eyebrow mb-4">{joining ? "Create account" : "Sign in"}</p>
-          <h1 className="font-display text-[2.5rem] leading-[1.06] text-ivory">
+          <h1 className="font-display text-[2.1rem] [@media(min-height:880px)]:text-[2.5rem] leading-[1.06] text-ivory">
             {heading}{" "}
             <em className="not-italic font-display italic text-saffron">journey.</em>
           </h1>
-          <p className="mt-4 font-sans text-[15px] leading-relaxed text-ivory-muted">
+          <p className="mt-3 font-sans text-[14.5px] leading-relaxed text-ivory-muted">
             {joining
               ? "Your itineraries, saved tours and travel documents stay with your account."
               : "Pick up your saved itineraries, tours and documents where you left them."}
@@ -449,7 +449,7 @@ const AuthPage = ({ mode = "signin" }) => {
 
           {/* Waypoints, only where there are genuinely two legs. */}
           {joining && (
-            <div className="mt-9 flex items-center gap-3" aria-hidden="true">
+            <div className="mt-6 [@media(min-height:880px)]:mt-8 flex items-center gap-3" aria-hidden="true">
               {["Details", "Confirm"].map((label, i) => {
                 const active = (stage === "details" ? 0 : 1) >= i;
                 return (
@@ -475,7 +475,7 @@ const AuthPage = ({ mode = "signin" }) => {
             </div>
           )}
 
-          <form onSubmit={submit} className="mt-8 space-y-5">
+          <form onSubmit={submit} className="mt-5 space-y-3.5 [@media(min-height:880px)]:mt-7 [@media(min-height:880px)]:space-y-5">
             {confirming ? (
               <>
                 <p className="font-sans text-[14px] leading-relaxed text-ivory-muted">
@@ -552,7 +552,7 @@ const AuthPage = ({ mode = "signin" }) => {
 
           {!confirming && (
             <>
-              <div className="my-9 flex items-center gap-4" aria-hidden="true">
+              <div className="my-5 [@media(min-height:880px)]:my-7 flex items-center gap-4" aria-hidden="true">
                 <span className="route-line flex-1" />
                 <span className="font-data text-[9.5px] uppercase tracking-[0.24em] text-ivory-faint">or</span>
                 <span className="route-line flex-1" />
@@ -570,7 +570,7 @@ const AuthPage = ({ mode = "signin" }) => {
             </>
           )}
 
-          <p className="mt-9 font-sans text-[13.5px] text-ivory-muted">
+          <p className="mt-6 [@media(min-height:880px)]:mt-8 font-sans text-[13.5px] text-ivory-muted">
             {joining ? "Already travelling with us? " : "New to SafarX? "}
             <Link
               to={joining ? "/signin" : "/signup"}
