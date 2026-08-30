@@ -46,11 +46,13 @@ const callGemini = async (model, body) => {
   });
   if (!res.ok) {
     const detail = (await res.text()).slice(0, 300);
+    const quota = /RESOURCE_EXHAUSTED|quota/i.test(detail);
     const err = new Error(
-      /RESOURCE_EXHAUSTED|quota/i.test(detail)
-        ? "Srishti has used up today's free Gemini quota. It resets tomorrow, or sooner with billing enabled."
+      quota
+        ? "Srishti has used up today's free Gemini quota. It resets tomorrow, or straight away if billing is enabled on the API key."
         : "Srishti could not answer that just now."
     );
+    err.quota = quota;
     err.status = res.status === 429 ? 429 : 502;
     // 429 is a spent quota, 503 is an overloaded model. Both mean: try the next one.
     err.exhausted = res.status === 429 || res.status === 503;
@@ -61,16 +63,24 @@ const callGemini = async (model, body) => {
   return res.json();
 };
 
-/** Asks the first model with quota left. */
+/** Asks the first model with capacity left. */
 const think = async (body) => {
   let last;
+  let anyExhausted = false;
   for (const model of BRAINS) {
     try {
       return await callGemini(model, body);
     } catch (err) {
       last = err;
+      anyExhausted = anyExhausted || err.quota;
       if (!err.exhausted) throw err;
     }
+  }
+  // Every model refused. If any of them was out of quota rather than merely
+  // busy, that is the real reason and the one worth telling someone.
+  if (anyExhausted && last) {
+    last.message =
+      "Srishti has used up today's free Gemini quota. It resets tomorrow, or straight away if billing is enabled on the API key.";
   }
   throw last;
 };
