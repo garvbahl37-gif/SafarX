@@ -22,6 +22,7 @@ import GlobalMusicPlayer from "./components/GlobalMusicPlayer";
 
 // Pages
 import HomePage from "./pages/HomePage";
+import AuthPage, { SsoCallback } from "./pages/AuthPage";
 import WorldToursPage from "./pages/WorldToursPage";
 
 import HiddenGemsPage from "./pages/HiddenGemsPage";
@@ -170,7 +171,10 @@ export default function App() {
   const [srishtiOpen, setSrishtiOpen] = useState(false);
 
   // Hide header/footer on certain pages
-  const hideHeaderFooter = currentPage === "chat";
+  /* Signing in is its own room: no nav, no footer, and no Srishti hovering
+     over the password field. */
+  const AUTH_PAGES = new Set(["signin", "signup", "sso-callback"]);
+  const hideHeaderFooter = currentPage === "chat" || AUTH_PAGES.has(currentPage);
 
   return (
     <AnimatePresence mode="wait">
@@ -185,7 +189,7 @@ export default function App() {
           transition={{ duration: 0.8 }}
           className="min-h-screen bg-ink-950"
         >
-          <GlobalMusicPlayer />
+          {!hideHeaderFooter && <GlobalMusicPlayer />}
 
           {/* Srishti travels with you rather than living on a page of her own —
               she can be asked from anywhere, and steps aside to the corner when
@@ -230,6 +234,11 @@ export default function App() {
               <Route path="/vault" element={<DocumentVault {...pageProps} />} />
               <Route path="/360view" element={<TourPage360 onPageChange={handlePageChange} />} />
               <Route path="/social" element={<SocialPage onBack={() => handlePageChange("home")} />} />
+              <Route path="/signin" element={<AuthPage mode="signin" />} />
+              <Route path="/signup" element={<AuthPage mode="signup" />} />
+              {/* Where Google sends the traveller back to. Clerk finishes the
+                  handshake and forwards them on. */}
+              <Route path="/sso-callback" element={<SsoCallback />} />
               {/* Fallback to home for unknown routes */}
               <Route path="*" element={<HomePage {...pageProps} />} />
             </Routes>

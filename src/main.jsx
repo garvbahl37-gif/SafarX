@@ -56,7 +56,15 @@ if ("serviceWorker" in navigator) {
 // Render React App with Clerk Provider
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={clerkPublishableKey}>
+    {/* Clerk must be told where our own screens live. Left to itself it
+        falls back to its hosted pages, which is how its interface reappears
+        in an app that deliberately has none of it. */}
+    <ClerkProvider
+      publishableKey={clerkPublishableKey}
+      signInUrl="/signin"
+      signUpUrl="/signup"
+      afterSignOutUrl="/"
+    >
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <App />

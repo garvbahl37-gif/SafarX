@@ -11,12 +11,8 @@ import {
   Upload,
   ChevronDown,
 } from "lucide-react";
-import {
-  useUser,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
+import AccountMenu from "./AccountMenu";
 import { createOrUpdateUser } from "../services/userService";
 
 const ROUTES = {
@@ -241,21 +237,23 @@ const Header = () => {
           <div className="hidden md:flex items-center gap-1.5">
             {isSignedIn && clerkUser ? (
               <div className="px-2">
-                <UserButton afterSignOutUrl="/" />
+                <AccountMenu onNavigate={handleNavigation} />
               </div>
             ) : (
               isLoaded && (
                 <>
-                  <SignInButton>
-                    <button className="px-3.5 py-2 rounded-full text-[13px] font-semibold text-ivory/75 hover:text-ivory hover:bg-white/[0.06] transition-colors">
-                      Sign in
-                    </button>
-                  </SignInButton>
-                  <SignUpButton>
-                    <button className="px-5 py-2 rounded-full text-[13px] font-bold text-ink-950 bg-gradient-to-br from-saffron-bright to-saffron hover:shadow-glow transition-shadow duration-300">
-                      Get started
-                    </button>
-                  </SignUpButton>
+                  <button
+                    onClick={() => navigate("/signin")}
+                    className="px-3.5 py-2 rounded-full text-[13px] font-semibold text-ivory/75 hover:text-ivory hover:bg-white/[0.06] transition-colors"
+                  >
+                    Sign in
+                  </button>
+                  <button
+                    onClick={() => navigate("/signup")}
+                    className="px-5 py-2 rounded-full text-[13px] font-bold text-ink-950 bg-gradient-to-br from-saffron-bright to-saffron hover:shadow-glow transition-shadow duration-300"
+                  >
+                    Get started
+                  </button>
                 </>
               )
             )}
@@ -323,12 +321,12 @@ const Header = () => {
 
               {!isSignedIn && isLoaded && (
                 <div className="flex gap-3 mt-8">
-                  <SignInButton>
-                    <button className="btn-ghost flex-1">Sign in</button>
-                  </SignInButton>
-                  <SignUpButton>
-                    <button className="btn-primary flex-1">Get started</button>
-                  </SignUpButton>
+                  <button onClick={() => { setIsMenuOpen(false); navigate("/signin"); }} className="btn-ghost flex-1">
+                    Sign in
+                  </button>
+                  <button onClick={() => { setIsMenuOpen(false); navigate("/signup"); }} className="btn-primary flex-1">
+                    Get started
+                  </button>
                 </div>
               )}
             </nav>
