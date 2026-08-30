@@ -55,7 +55,7 @@ export const TOOL_DECLARATIONS = [
   {
     name: "find_vr_tour",
     description:
-      "Find a 360° virtual tour of an Indian place that SafarX can open. Use when someone wants to see or look around somewhere.",
+      "Find a 360° virtual tour of an Indian place AND open it on screen. Use when someone wants to see or look around somewhere. This both finds and opens it — no other call is needed.",
     parameters: {
       type: "OBJECT",
       properties: { place: { type: "STRING", description: "Place name, e.g. Varanasi" } },
@@ -186,9 +186,15 @@ export const runTool = async (name, args, { origin }) => {
       const hit =
         vrTours.find((t) => t.name.toLowerCase().includes(q)) ||
         vrTours.find((t) => (t.country || "").toLowerCase().includes(q));
-      if (!hit) return { error: `No 360° tour for ${args.place} yet.` };
+      if (!hit) return { unavailable: `There is no 360° tour of ${args.place} yet.` };
+      /* Finding a tour and opening it are one intention, so this navigates by
+         itself. Asking her to chain find_vr_tour into open_page meant that on
+         a weaker model she announced "I'm opening Varanasi" and then opened
+         nothing — worse than not offering, because it is untrue. */
       return {
+        navigate: "/360tour",
         tourId: hit.id,
+        opened: hit.name,
         name: hit.name,
         where: hit.country,
         about: hit.description,

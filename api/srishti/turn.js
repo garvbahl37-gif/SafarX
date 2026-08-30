@@ -23,7 +23,13 @@ import { rateLimit, clientIp } from "../trains/_ratelimit.js";
 const API = "https://generativelanguage.googleapis.com/v1beta/models";
 /* Free-tier quota is counted per model per day, so a spent one is not a spent
    account. She works down this list rather than going quiet. */
-const BRAINS = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-flash-latest"];
+const BRAINS = [
+  "gemini-2.5-flash",
+  "gemini-2.5-flash-lite",
+  "gemini-flash-latest",
+  "gemini-flash-lite-latest",
+  "gemini-pro-latest",
+];
 const MAX_TOOL_ROUNDS = 3;
 
 const callGemini = async (model, body) => {
@@ -46,7 +52,10 @@ const callGemini = async (model, body) => {
         : "Srishti could not answer that just now."
     );
     err.status = res.status === 429 ? 429 : 502;
-    err.exhausted = res.status === 429;
+    // 429 is a spent quota, 503 is an overloaded model. Both mean: try the next one.
+    err.exhausted = res.status === 429 || res.status === 503;
+    err.detail = detail;
+    console.error("[srishti]", model, res.status, detail);
     throw err;
   }
   return res.json();
@@ -145,6 +154,26 @@ export default async function handler(req, res) {
       request.contents.push({ role: "user", parts: responses });
     }
 
+    /* Out of tool rounds with nothing said. Nudge her to answer in words
+       rather than reach for another tool — usually to explain that a lookup
+       did not come back, which is far better than a shrug. The tools stay
+       declared: a conversation containing tool calls is rejected without them. */
+    if (!reply) {
+      try {
+        request.contents.push({
+          role: "user",
+          parts: [{ text: "Answer now, in words, in the language you were asked in. Do not call another tool." }],
+        });
+        const out = await think(request);
+        reply = (out.candidates?.[0]?.content?.parts || [])
+          .map((p) => p.text)
+          .filter(Boolean)
+          .join(" ")
+          .trim();
+      } catch {
+        /* fall through to the apology */
+      }
+    }
     if (!reply) reply = "Sorry — I lost my thread there. Ask me again?";
 
     /* Deliberately no audio here. Rendering her voice takes four times as
