@@ -3,6 +3,7 @@ import { motion as Motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { X, Mic, MicOff, Keyboard, CornerDownLeft } from "lucide-react";
 import SrishtiRings from "./SrishtiRings";
+import vrTours from "../../data/vrTours.json";
 import { LiveSession } from "../../services/srishtiLive";
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -25,7 +26,7 @@ const TOOL_LABEL = {
   open_page: "opened the page",
 };
 
-const SrishtiPanel = ({ open, onClose }) => {
+const SrishtiPanel = ({ open, onClose, onPageChange }) => {
   const navigate = useNavigate();
 
   const [state, setState] = useState("idle"); // idle | listening | thinking | speaking
@@ -82,7 +83,13 @@ const SrishtiPanel = ({ open, onClose }) => {
       onSaid: (text) => setCaption(text || null),
       onNavigate: (to, tourId) => {
         setDocked(true);
-        navigate(to, tourId ? { state: { tourId } } : undefined);
+        // A tour has to be *opened*, not just navigated near: the tours page is
+        // an index, and arriving there after she says "I'm opening the Taj
+        // Mahal" leaves you looking at a list. Hand the tour to the app the
+        // same way clicking its card does.
+        const tour = tourId && vrTours.find((t) => t.id === tourId);
+        if (tour && onPageChange) onPageChange("360view", tour);
+        else navigate(to);
       },
       onTool: (name) => setReceipts((prev) => [...new Set([...prev, TOOL_LABEL[name] || name])]),
       onError: (message) => setError(message),
@@ -101,7 +108,7 @@ const SrishtiPanel = ({ open, onClose }) => {
       );
       setState("idle");
     }
-  }, [navigate]);
+  }, [navigate, onPageChange]);
 
   const toggleMute = useCallback(() => {
     setMuted((wasMuted) => {

@@ -192,7 +192,11 @@ export default function App() {
               she opens something for you. Hidden inside the agent, which is
               already a conversation. */}
           <SrishtiLauncher onOpen={() => setSrishtiOpen(true)} hidden={srishtiOpen || hideHeaderFooter} />
-          <SrishtiPanel open={srishtiOpen} onClose={() => setSrishtiOpen(false)} />
+          <SrishtiPanel
+            open={srishtiOpen}
+            onClose={() => setSrishtiOpen(false)}
+            onPageChange={handlePageChange}
+          />
           {/* Hide Header on Salahkar & Story pages */}
           {!hideHeaderFooter && (
             <Header

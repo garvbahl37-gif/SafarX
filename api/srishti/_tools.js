@@ -18,7 +18,7 @@ export const TOOL_DECLARATIONS = [
   {
     name: "search_stays",
     description:
-      "Find real places to stay in an Indian city for given dates. Use whenever someone asks about hotels, rooms, where to stay, or prices for a night.",
+      "Find real places to stay in an Indian city. Use whenever someone asks about hotels, rooms, where to stay, or prices. Only the city is required — if they have not said when, search anyway with the default dates and mention what you assumed. Never ask for dates before searching.",
     parameters: {
       type: "OBJECT",
       properties: {
@@ -122,7 +122,7 @@ export const runTool = async (name, args, { origin }) => {
     if (!res.ok) {
       throw new Error(
         res.status === 429
-          ? "that service is busy at the moment"
+          ? "live prices are unavailable for the rest of the month"
           : "that information isn't available right now"
       );
     }
@@ -132,13 +132,24 @@ export const runTool = async (name, args, { origin }) => {
   switch (name) {
     case "search_stays": {
       const place = findPlaces(args.city, 1)[0];
-      if (!place) return { error: `I don't know ${args.city} in India.` };
+      if (!place) return { unavailable: `I don't know ${args.city} in India.` };
       const today = new Date();
       const checkIn = args.checkIn || new Date(today.getTime() + 864e5).toISOString().slice(0, 10);
       const checkOut = args.checkOut || new Date(today.getTime() + 3 * 864e5).toISOString().slice(0, 10);
-      const { data = [] } = await get(
-        `/api/stays/search?lat=${place.lat}&lng=${place.lng}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${args.guests || 2}`
-      );
+      let data = [];
+      try {
+        ({ data = [] } = await get(
+          `/api/stays/search?lat=${place.lat}&lng=${place.lng}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${args.guests || 2}`
+        ));
+      } catch (err) {
+        /* No live prices — say so plainly and stay useful about the place
+           itself rather than going quiet. */
+        return {
+          unavailable: `Live hotel prices for ${place.name} are unavailable right now (${err.message}).`,
+          city: place.name,
+          suggestion: "Offer to show them the place, or hidden gems nearby, instead.",
+        };
+      }
       return {
         city: place.name,
         checkIn,

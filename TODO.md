@@ -6,6 +6,9 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Bug: tours she announced never opened** — she navigated to the tours
+      index rather than opening the tour, so "I'm opening the Taj Mahal" left
+      you looking at a list. She now opens it the same way clicking its card does
 - [x] **Srishti greets you in Hindi** — "SafarX में आपका स्वागत है। कहाँ जाने
       का प्लान है?" — and then follows whatever language you reply in, every
       turn. The greeting no longer locks the conversation into Hindi
@@ -276,6 +279,10 @@ Live task tracker for the current build push. Updated as work lands.
       category for India is 240 files that are almost entirely one
       photographer's West Bengal series. Hampi, Mysore, Khajuraho, the Golden
       Temple and Konark have no equirectangular imagery anywhere public
+- [ ] **All three stay providers are out of monthly quota** — Booking,
+      Tripadvisor and Airbnb. Hotel search cannot return results until one
+      resets or a new free API is subscribed; Srishti says so plainly and
+      offers what she can still do
 - [ ] **Booking.com plan is the bottleneck** — BASIC allows 50 requests a
       month for the whole site, and they are spent. Stays search returns a
       clear "out of quota" message until it resets. Responses are cached at
