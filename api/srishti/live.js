@@ -2,6 +2,7 @@ import http from "node:http";
 import { WebSocketServer, WebSocket } from "ws";
 import { SRISHTI_LIVE, SRISHTI_VOICE } from "./_persona.js";
 import { TOOL_DECLARATIONS, runTool } from "./_tools.js";
+import { selfOrigin, isAllowedOrigin } from "./_origin.js";
 
 /**
  * Srishti's live voice, proxied.
@@ -39,6 +40,13 @@ const server = http.createServer((req, res) => {
 const wss = new WebSocketServer({ server });
 
 wss.on("connection", (client, req) => {
+  /* Nothing else stops another site opening this socket in a visitor's
+     browser and spending the quota — an upgrade never passes through CORS. */
+  if (!isAllowedOrigin(req.headers.origin)) {
+    client.close(1008, "origin not allowed");
+    return;
+  }
+
   const key = process.env.GEMINI_API_KEY;
   if (!key) {
     client.send(JSON.stringify({ type: "error", message: "Srishti is not configured on the server." }));
@@ -46,10 +54,7 @@ wss.on("connection", (client, req) => {
     return;
   }
 
-  /* Her tools call this same deployment; locally that is plain http. */
-  const host = req.headers["x-forwarded-host"] || req.headers.host || "";
-  const scheme = req.headers["x-forwarded-proto"] || (host.startsWith("localhost") ? "http" : "https");
-  const origin = `${scheme}://${host}`;
+  const origin = selfOrigin(req);
   const upstream = new WebSocket(`${UPSTREAM}?key=${key}`);
 
   let closed = false;

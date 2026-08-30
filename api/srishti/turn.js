@@ -1,6 +1,7 @@
 import { SRISHTI_SYSTEM, KAHANI_SYSTEM } from "./_persona.js";
 import { TOOL_DECLARATIONS, runTool } from "./_tools.js";
 import { detectLanguage } from "./_language.js";
+import { selfOrigin } from "./_origin.js";
 import { rateLimit, clientIp } from "../trains/_ratelimit.js";
 
 /**
@@ -103,10 +104,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Send speech or text." });
   }
 
-  /* Her tools call this same deployment. Locally that is plain http. */
-  const host = req.headers["x-forwarded-host"] || req.headers.host || "";
-  const scheme = req.headers["x-forwarded-proto"] || (host.startsWith("localhost") ? "http" : "https");
-  const origin = `${scheme}://${host}`;
+  const origin = selfOrigin(req);
 
   try {
     const said = audio
