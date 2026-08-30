@@ -1,4 +1,4 @@
-import timetable from "./timetable.js";
+import timetable from "./_timetable.js";
 import { STATIONS } from "../../src/data/indiaStations.js";
 import { callIrctc, JOURNEY_HOST, toIrctcDate, to24h, parseStationLabel } from "./_irctc.js";
 

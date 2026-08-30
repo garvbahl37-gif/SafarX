@@ -1,4 +1,4 @@
-import { guard, send, readJson, BUCKET, SIGNED_URL_TTL } from "./_lib.js";
+import { guard, send, readJson, BUCKET, SIGNED_URL_TTL } from "./documents/_lib.js";
 
 /**
  * GET  /api/documents  — everything this traveller has stored.
