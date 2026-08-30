@@ -1,4 +1,5 @@
 import { callIrctc, failTrains, JOURNEY_HOST } from "./_irctc.js";
+import { liveStatus, shapeLive } from "./_railradar.js";
 import { rateLimit, clientIp } from "./_ratelimit.js";
 
 /**
@@ -19,6 +20,14 @@ export default async function handler(req, res) {
 
   if (!/^\d{5}$/.test(trainNo)) {
     return res.status(400).json({ error: "A five-digit train number is required." });
+  }
+
+  /* RailRadar first: the RapidAPI plan this used to run on is out of monthly
+     quota, so the old path answers with an apology rather than a position. */
+  try {
+    return res.status(200).json({ data: shapeLive(await liveStatus(trainNo), trainNo) });
+  } catch {
+    /* fall through to the original provider */
   }
 
   try {

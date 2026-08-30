@@ -12,8 +12,9 @@ import between from "./_between.js";
 import live from "./_live.js";
 import pnr from "./_pnr.js";
 import search from "./_search.js";
+import seats from "./_seats.js";
 
-const ROUTES = { between, live, pnr, search };
+const ROUTES = { between, live, pnr, search, seats };
 
 export default async function handler(req, res) {
   const action = req.query?.action || req.url.split("?")[0].split("/").pop();
