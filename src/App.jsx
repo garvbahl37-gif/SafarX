@@ -73,6 +73,11 @@ const PAGE_TITLES = {
 };
 
 // Routes that open with full-bleed media, so they must not be top-padded.
+/* Arriving at one of these means something already sent you there; a
+   three-second title sequence in front of it is an interruption. */
+const INTRO_SKIP_PATHS = new Set(["/signin", "/signup", "/sso-callback"]);
+const INTRO_PLAYED = "safarx:intro-played";
+
 const FULL_BLEED_PAGES = new Set([
   "home", "tracker", "360tour", "gems", "itinerary", "360view", "map",
 ]);
@@ -90,7 +95,20 @@ export default function App() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
-  const [isMainLoading, setIsMainLoading] = useState(true);
+  /* The boot sequence is an arrival, and you only arrive once. It used to run
+     on every full document load, so signing in played it twice — once landing
+     on /signin, again on the way back — and three times through Google, which
+     also passes through /sso-callback. It now plays once per browser session,
+     and never on a page you were sent to rather than chose. */
+  const [isMainLoading, setIsMainLoading] = useState(() => {
+    if (typeof window === "undefined") return false;
+    if (INTRO_SKIP_PATHS.has(window.location.pathname)) return false;
+    try {
+      return !window.sessionStorage.getItem(INTRO_PLAYED);
+    } catch {
+      return true; // private browsing: show it, rather than never showing it
+    }
+  });
 
   const { user: clerkUser, isSignedIn, isLoaded } = useUser();
   const { getToken } = useAuth();
@@ -164,9 +182,17 @@ export default function App() {
 
   // Cinematic boot sequence runs ~3.8s — never block the app on auth loading
   useEffect(() => {
-    const timer = setTimeout(() => setIsMainLoading(false), 3800);
+    if (!isMainLoading) return undefined;
+    const timer = setTimeout(() => {
+      setIsMainLoading(false);
+      try {
+        window.sessionStorage.setItem(INTRO_PLAYED, "1");
+      } catch {
+        /* private browsing — the intro simply plays again next load */
+      }
+    }, 3800);
     return () => clearTimeout(timer);
-  }, []);
+  }, [isMainLoading]);
 
   const [srishtiOpen, setSrishtiOpen] = useState(false);
 

@@ -347,9 +347,14 @@ const AuthPage = ({ mode = "signin" }) => {
     navigate("/");
   };
 
+  const inFlight = useRef(false);
   const submit = async (e) => {
     e.preventDefault();
-    if (!ready || busy) return;
+    /* `busy` is state, so two submits in the same tick both read it as false —
+       Enter and a click together were enough to send the attempt twice. A ref
+       is set synchronously and closes that window. */
+    if (!ready || busy || inFlight.current) return;
+    inFlight.current = true;
     setBusy(true);
     setError(null);
     try {
@@ -383,6 +388,7 @@ const AuthPage = ({ mode = "signin" }) => {
     } catch (err) {
       setError(readError(err));
     } finally {
+      inFlight.current = false;
       setBusy(false);
     }
   };
