@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Sparkles, Plus, X, ArrowLeft, Users } from 'lucide-react';
 import { useGroups } from '../hooks/social/useGroups';
 import GroupExplorer from '../components/SocialGroups/GroupExplorer';
+import GroupsBackdrop from '../components/SocialGroups/GroupsBackdrop';
 import GroupDetail from '../components/SocialGroups/GroupDetail';
 import GroupSearchFilters from '../components/SocialGroups/GroupSearchFilters';
 import GroupCreationForm from '../components/SocialGroups/GroupCreationForm';
@@ -77,15 +78,8 @@ const SocialPage = ({ onBack }) => {
 
     return (
         <div className="min-h-screen relative overflow-x-hidden bg-ink-950">
-            {/* Backdrop — travelers image under a heavy ink scrim */}
-            <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-                <img
-                    src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1920&auto=format&fit=crop&q=70"
-                    alt=""
-                    className="w-full h-full object-cover opacity-25"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-ink-950/80 via-ink-950/70 to-ink-950" />
-            </div>
+            {/* Backdrop — a still at full quality, with film fading in over it */}
+            <GroupsBackdrop />
 
             {createError && (
                 <div role="alert" className="fixed inset-x-0 top-24 z-[70] mx-auto w-fit max-w-[90vw] rounded-full border border-[#E05252]/35 bg-[#E05252]/[0.12] px-5 py-2.5 font-sans text-[13.5px] text-[#F0A8A8] backdrop-blur-xl">

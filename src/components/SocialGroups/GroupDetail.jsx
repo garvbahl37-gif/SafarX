@@ -8,7 +8,7 @@ import GroupEvents from './GroupEvents';
 import GroupPhotos from './GroupPhotos';
 import GroupChat from './GroupChat';
 import GroupSplit from './GroupSplit';
-import MemberList from './MemberList';
+import GroupMembers from './GroupMembers';
 
 const GroupDetail = ({ group, onBack, initialTab = 'about', isJoined, onToggleJoin }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -260,7 +260,7 @@ const GroupDetail = ({ group, onBack, initialTab = 'about', isJoined, onToggleJo
             </div>
           )}
           {activeTab === 'events' && <div className="bg-ink-900/60 rounded-2xl p-6 border border-white/[0.07]"><GroupEvents group={group} /></div>}
-          {activeTab === 'members' && <div className="bg-ink-900/60 rounded-2xl p-6 border border-white/[0.07]"><MemberList groupId={group.groupId} /></div>}
+          {activeTab === 'members' && <GroupMembers group={group} isJoined={isJoined} />}
           {activeTab === 'photos' && <div className="bg-ink-900/60 rounded-2xl p-6 border border-white/[0.07]"><GroupPhotos group={group} /></div>}
           {activeTab === 'discussions' && <GroupChat group={group} isJoined={isJoined} />}
           {activeTab === 'split' && <GroupSplit group={group} isJoined={isJoined} />}
