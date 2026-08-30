@@ -1,4 +1,5 @@
 import { SRISHTI_VOICE } from "./_persona.js";
+import { detectLanguage } from "./_language.js";
 import { rateLimit, clientIp } from "../trains/_ratelimit.js";
 
 /**
@@ -31,11 +32,15 @@ export default async function handler(req, res) {
   const key = process.env.GEMINI_API_KEY;
   if (!key) return res.status(503).json({ error: "Srishti's voice is not configured." });
 
+  /* Without this the model reads Devanagari with an English mouth. */
+  const language = req.body?.language || detectLanguage(text).code;
+
   const payload = JSON.stringify({
     contents: [{ parts: [{ text }] }],
     generationConfig: {
       responseModalities: ["AUDIO"],
       speechConfig: {
+        languageCode: language,
         voiceConfig: { prebuiltVoiceConfig: { voiceName: req.body?.voice || SRISHTI_VOICE } },
       },
     },

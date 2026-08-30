@@ -1,5 +1,6 @@
 import { SRISHTI_SYSTEM, KAHANI_SYSTEM } from "./_persona.js";
 import { TOOL_DECLARATIONS, runTool } from "./_tools.js";
+import { detectLanguage } from "./_language.js";
 import { rateLimit, clientIp } from "../trains/_ratelimit.js";
 
 /**
@@ -131,7 +132,8 @@ export default async function handler(req, res) {
         try {
           result = await runTool(call.name, call.args || {}, { origin });
         } catch (err) {
-          result = { error: String(err.message || err).slice(0, 120) };
+          // Phrased so that repeating it verbatim is still a sentence.
+          result = { unavailable: String(err.message || "that isn't available right now").slice(0, 120) };
         }
         used.push(call.name);
         if (result?.navigate) {
@@ -149,8 +151,12 @@ export default async function handler(req, res) {
        long as working out what to say, and holding the words back until the
        sound is ready makes her feel slow. The browser shows this immediately,
        moves the app if she asked it to, and fetches the speech separately. */
+    const language = detectLanguage(reply);
+
     return res.status(200).json({
       text: reply,
+      language: language.code,
+      languageName: language.name,
       navigate,
       tourId,
       toolsUsed: used,

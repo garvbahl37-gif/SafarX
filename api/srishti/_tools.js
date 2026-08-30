@@ -115,9 +115,17 @@ const near = (lat, lng, rows, limit) =>
  * trimmed hard: she has to say it out loud, so a wall of JSON is useless.
  */
 export const runTool = async (name, args, { origin }) => {
+  /* Whatever goes wrong, she is told it in words she can repeat out loud.
+     She was quoting HTTP status codes at travellers. */
   const get = async (path) => {
     const res = await fetch(`${origin}${path}`);
-    if (!res.ok) throw new Error(`${path} → ${res.status}`);
+    if (!res.ok) {
+      throw new Error(
+        res.status === 429
+          ? "that service is busy at the moment"
+          : "that information isn't available right now"
+      );
+    }
     return res.json();
   };
 

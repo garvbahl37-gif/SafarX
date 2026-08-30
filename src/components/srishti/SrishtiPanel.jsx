@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { X, Mic, Keyboard, CornerDownLeft } from "lucide-react";
+import { X, Mic, MicOff, Keyboard, CornerDownLeft } from "lucide-react";
 import SrishtiRings from "./SrishtiRings";
-import { Listener, Voice, ask } from "../../services/srishtiClient";
+import { Ears, Voice, ask } from "../../services/srishtiClient";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -35,32 +35,50 @@ const SrishtiPanel = ({ open, onClose }) => {
   const [docked, setDocked] = useState(false);
   const [typing, setTyping] = useState(false);
   const [draft, setDraft] = useState("");
+  const [live, setLive] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [language, setLanguage] = useState(null);
 
-  const listener = useRef(null);
+  const ears = useRef(null);
   const voice = useRef(null);
   const history = useRef([]);
   const inputRef = useRef(null);
+  const busy = useRef(false);
+  const micLevel = useRef(0);
 
   voice.current ||= new Voice();
 
   /* Reset everything when she is dismissed. */
   useEffect(() => {
     if (open) return;
-    listener.current?.cancel();
+    ears.current?.close();
+    ears.current = null;
     voice.current?.stop();
+    busy.current = false;
     setState("idle");
+    setLive(false);
+    setMuted(false);
     setDocked(false);
     setTyping(false);
   }, [open]);
+
+  /* Never leave the microphone open behind us. */
+  useEffect(() => () => ears.current?.close(), []);
 
   useEffect(() => {
     if (typing) inputRef.current?.focus();
   }, [typing]);
 
+  /** One exchange: she hears, answers, speaks, and goes back to listening. */
   const respond = useCallback(
     async (payload) => {
+      if (busy.current) return;
+      busy.current = true;
+      // Deaf while she works, so she never records herself or the room.
+      ears.current?.deafen();
       setError(null);
       setState("thinking");
+
       try {
         const reply = await ask({ ...payload, history: history.current });
 
@@ -71,6 +89,7 @@ const SrishtiPanel = ({ open, onClose }) => {
         ].slice(-8);
 
         setCaption(reply.text);
+        setLanguage(reply.languageName || null);
         setReceipts((reply.toolsUsed || []).map((t) => TOOL_LABEL[t] || t));
 
         // She moves the app first, then talks over it — so pull her aside to
@@ -81,82 +100,85 @@ const SrishtiPanel = ({ open, onClose }) => {
         }
 
         setState("speaking");
-        await voice.current.say(reply.text);
-        setState("idle");
+        // She can be interrupted, so hearing resumes now rather than after —
+        // but harder to trigger, so her own voice does not answer her.
+        if (!muted) ears.current?.listen(2.4);
+        await voice.current.say(reply.text, reply.language);
       } catch (err) {
-        setError(err.message);
-        setState("idle");
+        if (err.name !== "AbortError") setError(err.message);
+      } finally {
+        busy.current = false;
+        setState(live && !muted ? "listening" : "idle");
+        if (!muted) ears.current?.listen(1);
       }
     },
-    [navigate]
+    [navigate, live, muted]
   );
 
-  const startListening = useCallback(async () => {
-    if (state === "listening" || state === "thinking") return;
-    voice.current?.stop();
+  /** Someone talking over her means they want her to stop. */
+  const onUtterance = useCallback(
+    (clip) => {
+      voice.current?.stop();
+      respond(clip);
+    },
+    [respond]
+  );
+
+  const goLive = useCallback(async () => {
+    if (ears.current) return;
     setError(null);
-    setCaption(null);
-    setReceipts([]);
-    listener.current = new Listener();
+    const nextEars = new Ears({
+      onUtterance,
+      onLevel: (l) => {
+        micLevel.current = l;
+      },
+      onStateChange: (s2) => {
+        if (s2 === "hearing" && !busy.current) setState("listening");
+      },
+    });
     try {
-      await listener.current.start();
+      await nextEars.open();
+      ears.current = nextEars;
+      setLive(true);
+      setMuted(false);
       setState("listening");
     } catch {
-      setError("I can't reach your microphone. Check the browser's permission for this site.");
+      setError("I can't reach your microphone. Allow it for this site and I'll start listening.");
       setState("idle");
     }
-  }, [state]);
+  }, [onUtterance]);
 
-  const stopListening = useCallback(async () => {
-    if (state !== "listening") return;
-    const clip = await listener.current?.stop();
-    if (!clip) {
-      setState("idle");
-      setError("That was too short to hear. Hold the button while you speak.");
-      return;
-    }
-    respond(clip);
-  }, [state, respond]);
+  const toggleMute = useCallback(() => {
+    setMuted((wasMuted) => {
+      const next = !wasMuted;
+      if (next) ears.current?.deafen();
+      else ears.current?.listen(1);
+      setState(next ? "idle" : "listening");
+      return next;
+    });
+  }, []);
 
   const send = (text) => {
     const said = text.trim();
     if (!said) return;
     setDraft("");
     setTyping(false);
+    voice.current?.stop();
     respond({ text: said });
   };
 
-  /* Space to talk, escape to leave. */
   useEffect(() => {
     if (!open) return undefined;
-    const down = (e) => {
-      if (e.key === "Escape") return onClose();
-      if (e.code === "Space" && !typing && !e.repeat && document.activeElement?.tagName !== "INPUT") {
-        e.preventDefault();
-        startListening();
-      }
-      return undefined;
-    };
-    const up = (e) => {
-      if (e.code === "Space" && !typing) {
-        e.preventDefault();
-        stopListening();
-      }
-    };
+    const down = (e) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", down);
-    window.addEventListener("keyup", up);
-    return () => {
-      window.removeEventListener("keydown", down);
-      window.removeEventListener("keyup", up);
-    };
-  }, [open, typing, startListening, stopListening, onClose]);
+    return () => window.removeEventListener("keydown", down);
+  }, [open, onClose]);
 
-  const status = {
-    idle: "Hold to speak",
-    listening: "Listening",
-    thinking: "One moment",
-    speaking: "Srishti",
-  }[state];
+  const status = !live
+    ? "Tap to start talking"
+    : muted
+      ? "Microphone off"
+      : { idle: "Listening", listening: "Listening", thinking: "One moment", speaking: "Srishti" }[state];
 
   return (
     <AnimatePresence>
@@ -224,9 +246,25 @@ const SrishtiPanel = ({ open, onClose }) => {
             {!docked && (
               <>
                 {/* Her name, and the state she is in — one line, no chrome. */}
-                <p className="mt-8 font-data text-[10px] uppercase tracking-[0.28em] text-saffron">
-                  {status}
-                </p>
+                <div className="mt-8 flex items-center justify-center gap-3">
+                  <p className="font-data text-[10px] uppercase tracking-[0.28em] text-saffron">{status}</p>
+                  {/* She picks the language up from how she was spoken to, so
+                      showing it is proof rather than decoration. */}
+                  <AnimatePresence>
+                    {language && (
+                      <Motion.span
+                        key={language}
+                        initial={{ opacity: 0, x: -6 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="rounded-full border border-white/[0.09] px-2.5 py-0.5 font-data text-[9px]
+                                   uppercase tracking-[0.16em] text-ivory-faint"
+                      >
+                        {language}
+                      </Motion.span>
+                    )}
+                  </AnimatePresence>
+                </div>
 
                 {/* What she says, as a caption rather than a chat bubble.
                     Only the last thing — this is a conversation, not a log. */}
@@ -309,20 +347,30 @@ const SrishtiPanel = ({ open, onClose }) => {
                     </div>
                   ) : (
                     <button
-                      onPointerDown={startListening}
-                      onPointerUp={stopListening}
-                      onPointerLeave={stopListening}
-                      disabled={state === "thinking" || state === "speaking"}
-                      aria-label="Hold to speak to Srishti"
-                      className={`flex h-16 w-16 items-center justify-center rounded-full border transition-all duration-300
-                                  disabled:cursor-not-allowed disabled:opacity-40 ${
-                                    state === "listening"
-                                      ? "border-horizon/60 bg-horizon/15 text-horizon scale-110"
-                                      : "border-saffron/35 bg-saffron/10 text-saffron hover:border-saffron/60 hover:bg-saffron/15"
-                                  }`}
+                      onClick={live ? toggleMute : goLive}
+                      aria-label={
+                        !live ? "Start talking to Srishti" : muted ? "Turn the microphone on" : "Turn the microphone off"
+                      }
+                      className={`flex h-16 w-16 items-center justify-center rounded-full border transition-all duration-500 ${
+                        !live
+                          ? "border-saffron/40 bg-saffron/10 text-saffron hover:border-saffron/70 hover:bg-saffron/20"
+                          : muted
+                            ? "border-white/[0.12] bg-white/[0.04] text-ivory-faint hover:text-ivory"
+                            : state === "listening"
+                              ? "scale-110 border-horizon/60 bg-horizon/15 text-horizon"
+                              : "border-saffron/35 bg-saffron/10 text-saffron"
+                      }`}
                     >
-                      <Mic size={22} />
+                      {live && muted ? <MicOff size={22} /> : <Mic size={22} />}
                     </button>
+                  )}
+
+                  {/* Once she is listening there is nothing to press — say so,
+                      so nobody sits waiting for a button. */}
+                  {live && !muted && (
+                    <p className="font-data text-[9px] uppercase tracking-[0.18em] text-ivory-faint">
+                      Just talk — she hears you. Interrupt any time.
+                    </p>
                   )}
 
                   <button
@@ -367,17 +415,15 @@ const SrishtiPanel = ({ open, onClose }) => {
             {docked && (
               <div className="mt-3 flex items-center gap-2 border-t border-white/[0.07] pt-3">
                 <button
-                  onPointerDown={startListening}
-                  onPointerUp={stopListening}
-                  disabled={state === "thinking" || state === "speaking"}
-                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition-colors disabled:opacity-40 ${
-                    state === "listening"
+                  onClick={live ? toggleMute : goLive}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition-colors ${
+                    live && !muted
                       ? "border-horizon/60 bg-horizon/15 text-horizon"
                       : "border-saffron/35 bg-saffron/10 text-saffron"
                   }`}
-                  aria-label="Hold to speak to Srishti"
+                  aria-label={live && !muted ? "Turn the microphone off" : "Turn the microphone on"}
                 >
-                  <Mic size={14} />
+                  {live && muted ? <MicOff size={14} /> : <Mic size={14} />}
                 </button>
                 <button
                   onClick={() => setDocked(false)}

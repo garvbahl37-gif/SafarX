@@ -6,6 +6,15 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Srishti is hands-free** — grant the microphone once and she stays
+      open: she hears you start, hears you stop, answers, and listens again.
+      Talk over her and she stops mid-word. The room is measured first, so the
+      threshold works in a quiet flat and a loud hall
+- [x] **Srishti speaks Indian languages properly** — the speech model was
+      reading Devanagari with an English mouth because nothing told it
+      otherwise. Her reply's script now picks the voice: hi-IN, ta-IN, te-IN,
+      and en-IN rather than en-US for English, which is the accent she is meant
+      to have
 - [x] **Srishti** — the voice of SafarX. Ask her anything by voice or text, in
       Hindi, Tamil, Telugu, Malayalam or English, and she answers in the
       language she was asked in. She reaches into the app's own APIs — stays,
