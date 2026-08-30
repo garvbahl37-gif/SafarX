@@ -10,6 +10,12 @@ Live task tracker for the current build push. Updated as work lands.
       explorer, which carries its own list of four places and always opens the
       first. Asking for the Taj looked right; asking for Varanasi quietly gave
       the Taj too. Tours now go to the VR tours page, which knows all 34
+- [x] **Bug: her voice broke up mid-answer** — Gemini was working out when
+      someone was speaking from the microphone, and the microphone could hear
+      her, so her own voice read as an interruption. No sensitivity setting
+      fixes that, because the echo genuinely is speech. The browser now marks
+      where an utterance starts and ends, since it knows the one thing Gemini
+      cannot: whether the voice is hers. The threshold calibrates to the room
 - [x] **Bug: her voice flickered** — playback re-based its clock on every
       chunk, so each one restarted a fraction late and you heard the seams. A
       short jitter buffer absorbs the network, and the timeline is only reset

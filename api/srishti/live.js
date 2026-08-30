@@ -90,19 +90,14 @@ wss.on("connection", (client, req) => {
           },
           systemInstruction: { parts: [{ text: SRISHTI_LIVE }] },
           tools: [{ functionDeclarations: TOOL_DECLARATIONS }],
-          // Gemini decides when a turn has ended, from the audio itself.
+          /* The browser decides when someone is speaking, not Gemini.
+             Letting Gemini judge it from the audio meant her own voice coming
+             back through the microphone counted as an interruption, and she
+             broke up mid-sentence — no sensitivity setting fixed it, because
+             the echo really is speech, just hers. The browser knows something
+             Gemini cannot: whether she is the one talking. */
           realtimeInputConfig: {
-            automaticActivityDetection: {
-              /* HIGH start sensitivity cut her off mid-sentence: her own voice
-                 coming back through the microphone was enough to register as
-                 someone interrupting. Deliberate interruption is loud and
-                 close; echo is neither, so a low threshold to *start* hearing
-                 someone keeps barge-in without her talking over herself. */
-              startOfSpeechSensitivity: "START_SENSITIVITY_LOW",
-              endOfSpeechSensitivity: "END_SENSITIVITY_HIGH",
-              prefixPaddingMs: 220,
-              silenceDurationMs: 700,
-            },
+            automaticActivityDetection: { disabled: true },
           },
           outputAudioTranscription: {},
           inputAudioTranscription: {},
@@ -132,6 +127,15 @@ wss.on("connection", (client, req) => {
     // Text is only ever a control message or a typed question.
     try {
       const msg = JSON.parse(data.toString());
+      /* The browser tells us where an utterance starts and ends. */
+      if (msg.type === "speech-start") {
+        upstream.send(JSON.stringify({ realtimeInput: { activityStart: {} } }));
+        return;
+      }
+      if (msg.type === "speech-end") {
+        upstream.send(JSON.stringify({ realtimeInput: { activityEnd: {} } }));
+        return;
+      }
       if (msg.type === "text" && msg.text) {
         upstream.send(
           JSON.stringify({

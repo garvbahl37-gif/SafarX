@@ -20,7 +20,17 @@ const HER_RATE = 24000;
    register as an interruption and cut her off mid-sentence. So while she talks,
    only sound clearly louder than the leftovers is passed on — which is what
    actually interrupting someone sounds like. */
-const BARGE_IN_LEVEL = 0.055;
+/* Speech has to clear this to count. The bar is raised while she is talking,
+   because then the microphone is also hearing her. */
+const SPEECH_LEVEL = 0.035;
+const BARGE_IN_LEVEL = 0.085;
+
+/* Her voice keeps arriving from the speakers for a moment after the last chunk
+   plays, so the higher bar stays up briefly after she finishes. */
+const ECHO_TAIL_MS = 500;
+
+/* Quiet for this long ends an utterance. Long enough to pause mid-sentence. */
+const END_OF_SPEECH_MS = 800;
 
 /* Audio arrives over the network in uneven bursts. Starting playback the
    instant the first chunk lands means the second one is late and you hear a
@@ -58,13 +68,13 @@ registerProcessor('srishti-tap', Tap);
 `;
 
 /** Root mean square of a PCM16 frame, 0–1 — how loud this slice of sound is. */
-const loudEnough = (samples, threshold) => {
+const rms = (samples) => {
   let sum = 0;
   for (let i = 0; i < samples.length; i += 1) {
     const v = samples[i] / 32768;
     sum += v * v;
   }
-  return Math.sqrt(sum / samples.length) > threshold;
+  return Math.sqrt(sum / samples.length);
 };
 
 export class LiveSession {
@@ -90,6 +100,26 @@ export class LiveSession {
     this.queued = new Set();
     this.speaking = false;
     this.muted = false;
+    /* True from her first chunk until the turn is done. `speaking` tracks
+       whether sound is leaving the speakers this instant and flickers between
+       chunks; this does not, and it is what the microphone is judged against.
+       Gating on `speaking` left gaps in which her own voice reached Gemini,
+       which read it as an interruption and cut her off — the breaking up. */
+    this.herTurn = false;
+    this.herTurnEndedAt = 0;
+
+    /* We tell Gemini where each utterance begins and ends rather than letting
+       it work that out from the audio, so the decision can take into account
+       the one thing only this side knows: whether the sound is her. */
+    this.userSpeaking = false;
+    this.lastLoudAt = 0;
+    this.silenceTimer = null;
+    /* A fixed threshold suits one microphone and one room. This one settles on
+       whatever it hears in the first moments and judges speech against that,
+       so a quiet laptop mic is not ignored and a noisy hall is not permanently
+       triggered. */
+    this.floor = null;
+    this.floorSamples = [];
 
     /* Transcripts arrive a few words at a time and have to be assembled, but
        only within one exchange: appending them forever ran every answer into
@@ -181,7 +211,8 @@ export class LiveSession {
     this.node = new AudioWorkletNode(this.micContext, "srishti-tap");
     this.node.port.onmessage = (e) => {
       if (this.muted || this.socket?.readyState !== WebSocket.OPEN) return;
-      if (this.speaking && !loudEnough(e.data, BARGE_IN_LEVEL)) return;
+      this.#hear(e.data);
+      // Audio always flows; only the activity markers gate a turn.
       this.socket.send(e.data.buffer);
     };
     source.connect(this.node);
@@ -209,11 +240,15 @@ export class LiveSession {
       case "interrupted":
         // She has been talked over. Everything queued is now stale, and so is
         // the half-finished sentence on screen.
+        this.herTurn = false;
+        this.herTurnEndedAt = Date.now();
         this.#flush();
         this.#endTurn();
         this.h.onState?.("listening");
         break;
       case "turn-complete":
+        this.herTurn = false;
+        this.herTurnEndedAt = Date.now();
         this.#endTurn();
         if (!this.queued.size) {
           this.speaking = false;
@@ -288,9 +323,60 @@ export class LiveSession {
       this.speaking = true;
       this.h.onState?.("speaking");
     }
+    this.herTurn = true;
+  }
+
+  /**
+   * Decides whether this slice of sound is someone talking, and marks the
+   * start and end of an utterance for Gemini.
+   */
+  #hear(frame) {
+    const level = rms(frame);
+
+    // Listen to the room before judging anything against it.
+    if (this.floor === null) {
+      this.floorSamples.push(level);
+      if (this.floorSamples.length < 25) return;
+      const sorted = [...this.floorSamples].sort((a, b) => a - b);
+      const median = sorted[Math.floor(sorted.length / 2)];
+      this.floor = Math.max(0.004, median);
+      this.floorSamples = [];
+    }
+
+    const guarded = this.herTurn || Date.now() - this.herTurnEndedAt < ECHO_TAIL_MS;
+    // Speech stands clear of the room; interrupting her has to stand clear of
+    // her voice as well.
+    const bar = Math.max(
+      guarded ? BARGE_IN_LEVEL : SPEECH_LEVEL,
+      this.floor * (guarded ? 6 : 3)
+    );
+    const now = Date.now();
+
+    if (level > bar) {
+      this.lastLoudAt = now;
+      if (!this.userSpeaking) {
+        this.userSpeaking = true;
+        this.#send({ type: "speech-start" });
+      }
+      clearTimeout(this.silenceTimer);
+      this.silenceTimer = setTimeout(() => this.#endUtterance(), END_OF_SPEECH_MS);
+    }
+  }
+
+  #endUtterance() {
+    if (!this.userSpeaking) return;
+    this.userSpeaking = false;
+    this.#send({ type: "speech-end" });
+  }
+
+  #send(message) {
+    if (this.socket?.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify(message));
+    }
   }
 
   #flush() {
+    this.herTurn = false;
     for (const source of this.queued) {
       try {
         source.onended = null;
@@ -307,6 +393,8 @@ export class LiveSession {
   /** Ask by typing — same conversation, no microphone. */
   say(text) {
     if (this.socket?.readyState !== WebSocket.OPEN) return;
+    this.#endUtterance();
+    clearTimeout(this.silenceTimer);
     this.#flush();
     this.#endTurn();
     this.heard = text;
@@ -323,6 +411,7 @@ export class LiveSession {
   }
 
   stop() {
+    clearTimeout(this.silenceTimer);
     this.#flush();
     try {
       this.socket?.close();
