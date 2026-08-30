@@ -6,6 +6,14 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Bug: every tour opened as the Taj Mahal** — she routed to the 360°
+      explorer, which carries its own list of four places and always opens the
+      first. Asking for the Taj looked right; asking for Varanasi quietly gave
+      the Taj too. Tours now go to the VR tours page, which knows all 34
+- [x] **Bug: her voice flickered** — playback re-based its clock on every
+      chunk, so each one restarted a fraction late and you heard the seams. A
+      short jitter buffer absorbs the network, and the timeline is only reset
+      when it has genuinely fallen behind
 - [x] **Bug: she cut herself off mid-sentence** — her own voice returning
       through the microphone registered as an interruption. Two guards: a lower
       start-of-speech threshold, and the browser only forwarding sound clearly

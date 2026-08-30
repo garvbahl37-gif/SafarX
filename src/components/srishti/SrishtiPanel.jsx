@@ -83,12 +83,13 @@ const SrishtiPanel = ({ open, onClose, onPageChange }) => {
       onSaid: (text) => setCaption(text || null),
       onNavigate: (to, tourId) => {
         setDocked(true);
-        // A tour has to be *opened*, not just navigated near: the tours page is
-        // an index, and arriving there after she says "I'm opening the Taj
-        // Mahal" leaves you looking at a list. Hand the tour to the app the
-        // same way clicking its card does.
+        /* The tour goes to the VR tours page, which knows all 34 of them and
+           opens whichever it is handed. The 360° explorer carries its own list
+           of four and always opens the first — which is the Taj, so asking for
+           the Taj looked right and asking for anything else quietly showed the
+           Taj instead. */
         const tour = tourId && vrTours.find((t) => t.id === tourId);
-        if (tour && onPageChange) onPageChange("360view", tour);
+        if (tour && onPageChange) onPageChange("360tour", tour);
         else navigate(to);
       },
       onTool: (name) => setReceipts((prev) => [...new Set([...prev, TOOL_LABEL[name] || name])]),

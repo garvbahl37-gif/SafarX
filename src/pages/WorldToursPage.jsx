@@ -114,6 +114,15 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
         }
     }, [step, activeTab, activeTour, setIsImmersiveMode]);
 
+    /* Srishti can open a tour while this page is already on screen, and the
+       initial state above only runs on mount. Without this, asking for a
+       second place leaves the first one playing. */
+    useEffect(() => {
+        if (selectedItem && Number.isFinite(selectedItem.latitude)) {
+            setActiveTour(selectedItem);
+        }
+    }, [selectedItem]);
+
     // Close the tour player with Escape
     useEffect(() => {
         if (!activeTour) return;

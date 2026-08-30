@@ -22,6 +22,12 @@ const HER_RATE = 24000;
    actually interrupting someone sounds like. */
 const BARGE_IN_LEVEL = 0.055;
 
+/* Audio arrives over the network in uneven bursts. Starting playback the
+   instant the first chunk lands means the second one is late and you hear a
+   gap — the flicker in her voice. A short head start absorbs the jitter; long
+   enough to cover a hiccup, short enough that nobody notices her beginning. */
+const JITTER_BUFFER_S = 0.18;
+
 /* Captures the microphone off the main thread and hands up 16kHz PCM16. */
 const WORKLET = `
 class Tap extends AudioWorkletProcessor {
@@ -257,17 +263,22 @@ export class LiveSession {
     source.buffer = audio;
     source.connect(this.analyser);
 
-    // Queue behind whatever is already playing, or start now if she has been
-    // silent. A small lead avoids clicking between chunks.
+    /* Each chunk is scheduled immediately after the one before, so the pieces
+       play as one unbroken voice. The timeline is only re-based when it has
+       actually fallen behind — re-basing on every chunk was what made her
+       stutter, because each new chunk restarted the clock a fraction late. */
     const now = this.out.currentTime;
-    if (this.playAt < now) this.playAt = now + 0.04;
+    if (this.playAt < now + 0.02) this.playAt = now + JITTER_BUFFER_S;
     source.start(this.playAt);
     this.playAt += audio.duration;
 
     this.queued.add(source);
     source.onended = () => {
       this.queued.delete(source);
-      if (!this.queued.size) {
+      /* An empty queue does not mean she has finished — the next chunk may
+         still be in flight. She is done only when nothing is queued and the
+         timeline has actually run out. */
+      if (!this.queued.size && this.out && this.out.currentTime >= this.playAt - 0.05) {
         this.speaking = false;
         this.h.onState?.("listening");
       }
