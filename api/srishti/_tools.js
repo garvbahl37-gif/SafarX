@@ -113,7 +113,8 @@ export const TOOL_DECLARATIONS = [
         page: {
           type: "STRING",
           description:
-            "One of: home, tours, gems, planner, map, flights, vault, checklist, agent",
+            "One of: home, tours, gems, planner, map, flights, vault, checklist, agent, " +
+            "groups (travellers to share a trip with), upload (add a document to the vault)",
         },
         tourId: {
           type: "STRING",
@@ -125,10 +126,14 @@ export const TOOL_DECLARATIONS = [
   },
 ];
 
+/* Every page a traveller can reach on their own, she can reach for them.
+   `/360view` is deliberately absent: it carries its own fixed shortlist and
+   ignores the tour asked for, so tours go through `/360tour`. */
 const ROUTES = {
   home: "/", tours: "/360tour", gems: "/gems", planner: "/itinerary",
   map: "/map", flights: "/tracker", vault: "/vault",
   checklist: "/checklist", agent: "/chat",
+  groups: "/social", upload: "/upload",
 };
 
 const near = (lat, lng, rows, limit) =>
