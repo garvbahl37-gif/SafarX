@@ -226,17 +226,25 @@ const LoadingScreen = () => {
             ) : (
               <motion.div
                 key="latin"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="flex items-baseline gap-1"
+                /* The focus-pull belongs to the whole wordmark, not to each
+                   letter. A filter clips to its own region, and Fraunces'
+                   italic f overhangs its advance width by more than half —
+                   blurred per letter, its ascender was cut off and the clip
+                   resized every frame, which is the flicker. One filter over
+                   the line has room for every glyph, and is one layer instead
+                   of five. */
+                initial={{ opacity: 0, filter: "blur(14px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.75, ease: EASE_OUT }}
+                className="flex items-baseline gap-1 px-[0.12em]"
               >
                 {"Safar".split("").map((letter, i) => (
                   <motion.span
                     key={i}
-                    initial={{ opacity: 0, y: "0.75em", filter: "blur(12px)", rotateX: -75 }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)", rotateX: 0 }}
+                    initial={{ opacity: 0, y: "0.75em", rotateX: -75 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
                     transition={{ duration: 0.6, delay: 0.04 + i * 0.055, ease: EASE_OUT }}
+                    style={{ willChange: "transform, opacity", backfaceVisibility: "hidden" }}
                     className="font-display italic font-medium text-[clamp(3rem,10vw,6.5rem)] leading-none tracking-tight inline-block"
                   >
                     {letter}
