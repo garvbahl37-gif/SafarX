@@ -437,13 +437,13 @@ const MapPage = ({ onPageChange }) => {
   };
 
   if (!mounted) {
-    return <div className="h-[calc(100vh-5rem)] w-full bg-ink-950" aria-hidden="true" />;
+    return <div className="h-screen [height:100dvh] w-full bg-ink-950" aria-hidden="true" />;
   }
 
   return (
     <div
       ref={shellRef}
-      className="relative w-full overflow-hidden bg-ink-950 h-[calc(100vh-5rem)] [height:calc(100dvh-5rem)]"
+      className="relative w-full overflow-hidden bg-ink-950 h-screen [height:100dvh]"
     >
       {/* ── Map canvas. z-0 keeps every Leaflet pane inside one stacking
              context so the glass chrome always paints above it. ─────── */}
@@ -476,7 +476,7 @@ const MapPage = ({ onPageChange }) => {
             exit={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }}
             transition={{ duration: 0.32, ease: EASE }}
             aria-label="Local insights results"
-            className="absolute bottom-4 left-4 top-4 z-20 hidden w-[23rem] flex-col gap-2.5 md:flex"
+            className="absolute bottom-4 left-4 top-[5.5rem] z-20 hidden w-[23rem] flex-col gap-2.5 md:flex"
           >
             <div className="flex items-center gap-2">
               <div className="min-w-0 flex-1">
@@ -509,7 +509,7 @@ const MapPage = ({ onPageChange }) => {
         <button
           type="button"
           onClick={() => setPanelOpen(true)}
-          className="absolute left-4 top-4 z-20 hidden items-center gap-2 rounded-full border border-white/[0.09] bg-ink-950/80 px-4 py-2.5 text-[13px] font-medium text-ivory backdrop-blur-xl transition-colors hover:border-saffron/35 md:inline-flex"
+          className="absolute left-4 top-[5.5rem] z-20 hidden items-center gap-2 rounded-full border border-white/[0.09] bg-ink-950/80 px-4 py-2.5 text-[13px] font-medium text-ivory backdrop-blur-xl transition-colors hover:border-saffron/35 md:inline-flex"
         >
           <PanelLeftOpen className="h-4 w-4 text-saffron" aria-hidden="true" />
           Local insights
@@ -526,7 +526,7 @@ const MapPage = ({ onPageChange }) => {
             key="detail-desktop"
             place={selected}
             variant="side"
-            className="absolute left-4 top-[7.25rem] z-30 hidden max-h-[calc(100%-9.5rem)] w-[23rem] md:flex"
+            className="absolute left-4 top-[10.75rem] z-30 hidden max-h-[calc(100%-13rem)] w-[23rem] md:flex"
             userLocation={userLocation}
             mapCenter={view.center}
             inRoute={routeIds.includes(selected.id)}
@@ -541,7 +541,7 @@ const MapPage = ({ onPageChange }) => {
 
       {/* ── Right-hand chrome ─────────────────────────────────────── */}
       <div
-        className={`absolute top-[4.5rem] z-20 flex flex-col items-end gap-2 transition-[right] duration-300 md:top-4 ${
+        className={`absolute top-[4.5rem] z-20 flex flex-col items-end gap-2 transition-[right] duration-300 md:top-[5.5rem] ${
           routeOpen ? "right-3 md:right-[22.5rem]" : "right-3 md:right-4"
         }`}
       >
@@ -579,7 +579,7 @@ const MapPage = ({ onPageChange }) => {
         {routeOpen && (
           <RoutePanel
             key="route"
-            className="absolute inset-x-3 bottom-3 top-3 z-30 md:inset-x-auto md:bottom-4 md:right-4 md:top-4 md:w-[21rem]"
+            className="absolute inset-x-3 bottom-3 top-3 z-30 md:inset-x-auto md:bottom-4 md:right-4 md:top-[5.5rem] md:w-[21rem]"
             stops={routeStops}
             route={route}
             userLocation={userLocation}

@@ -17,7 +17,7 @@ const MemberCard = ({ member, compact = false }) => {
             <div className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer group">
                 <div className="relative">
                     <img
-                        src={member.avatar || `https://ui-avatars.com/api/?name=${member.username}`}
+                        src={member.avatar || undefined}
                         alt={member.username}
                         className="w-10 h-10 rounded-full object-cover border border-gray-200"
                     />
@@ -45,7 +45,7 @@ const MemberCard = ({ member, compact = false }) => {
             {/* Avatar */}
             <div className="relative">
                 <img
-                    src={member.avatar || member.userAvatar || `https://ui-avatars.com/api/?name=${member.username}`}
+                    src={member.avatar || member.userAvatar || undefined}
                     alt={member.username}
                     className="w-12 h-12 rounded-full object-cover border-2 border-[#121622] shadow-sm"
                 />

@@ -1,96 +1,150 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, Calendar, Globe, Check, TrendingUp } from 'lucide-react';
-// import { useNavigate } from 'react-router-dom';
+import { MapPin, Check, Users } from 'lucide-react';
+import Avatar from './Avatar';
+
+/**
+ * One group, as a card.
+ *
+ * It used to invent its own members — four generated avatars reading "L0",
+ * "L1", "L2" — and a match score from Math.random() that changed on every
+ * render. Everything here is now the group's actual data or it is not shown.
+ *
+ * The one piece of chrome that earns its place is the capacity meter: it is
+ * the app's dashed route line with the taken portion filled in gold, so how
+ * full a group is reads at a glance and in SafarX's own vocabulary. A group
+ * that is nearly full is the single most decision-changing fact on the card.
+ */
+
+/** "15 Jan – 24 Jan" — the year only when it is not the coming one. */
+const dateRange = (start, end) => {
+  if (!start) return null;
+  const opts = { day: 'numeric', month: 'short' };
+  const from = new Date(start);
+  const to = end ? new Date(end) : null;
+  const thisYear = new Date().getFullYear();
+  const year = from.getFullYear() !== thisYear ? ` ${from.getFullYear()}` : '';
+  return to
+    ? `${from.toLocaleDateString('en-IN', opts)} – ${to.toLocaleDateString('en-IN', opts)}${year}`
+    : `${from.toLocaleDateString('en-IN', opts)}${year}`;
+};
 
 const GroupCard = ({ group, onClick }) => {
-  // const navigate = useNavigate();
-
-  const calculateMatchScore = () => {
-    // Simplified matching algorithm
-    return Math.floor(Math.random() * 30) + 70; // 70-100%
-  };
-
-  const matchScore = calculateMatchScore();
-
-  // Use fetched image or fallback to a fast placeholder (avoiding Unsplash random which can be slow/rate-limited)
-  const bgImage = group.image || "https://images.pexels.com/photos/210186/pexels-photo-210186.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=800";
-
-
-  // Dummy Members Logic
-  const members = (group.members && group.members.length > 0)
-    ? group.members
-    : Array.from({ length: 4 }).map((_, i) => ({
-      userId: `dummy_${group.groupId}_${i}`,
-      username: `Member ${i}`,
-      avatar: `https://ui-avatars.com/api/?name=${group.name.substring(0, 2)}+${i}&background=random&color=fff`
-    }));
+  const taken = group.memberCount || 0;
+  const capacity = group.maxMembers || 0;
+  const fullness = capacity ? Math.min(1, taken / capacity) : 0;
+  const placesLeft = Math.max(0, capacity - taken);
+  const members = group.members || [];
+  const dates = dateRange(group.travelDates?.startDate, group.travelDates?.endDate);
 
   return (
-    <motion.div
-      className="bg-ink-800 rounded-2xl overflow-hidden border border-white/[0.07] cursor-pointer transition-all duration-300 hover:border-saffron/35 hover:bg-ink-700 hover:shadow-2xl hover:shadow-saffron/10 h-full flex flex-col justify-between group relative"
+    <motion.article
       whileHover={{ y: -4 }}
+      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
       onClick={() => onClick(group.groupId)}
+      className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-ink-800 transition-colors duration-300 hover:border-saffron/35"
     >
-      {/* Group Image - Premium Large */}
-      <div className="h-64 overflow-hidden bg-ink-900 relative">
+      <div className="relative h-52 overflow-hidden bg-ink-900">
         <img
-          src={bgImage}
-          alt={group.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+          src={group.image}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          onError={(e) => { e.currentTarget.style.opacity = 0; }}
+          className="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
         />
-        {/* Subtle Gradient Overlay for premium feel */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/20 to-transparent"></div>
-      </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-ink-800 via-ink-950/25 to-transparent" />
 
-      <div className="p-5 flex flex-col flex-grow relative z-10 -mt-8">
-        {/* Header content pulled up over the image slightly */}
-        <div className="mb-3">
-          <h3 className="text-lg font-display font-semibold text-ivory leading-tight line-clamp-1 tracking-tight group-hover:text-saffron-bright transition-colors drop-shadow-md pb-1" title={group.name}>
-            {group.name}
-          </h3>
-          <p className="text-xs text-ivory-muted font-medium flex items-center gap-2">
-            <Users size={14} className="text-saffron" />
-            {group.memberCount} members
-          </p>
+        <div className="absolute left-4 top-4 flex items-center gap-2">
+          {group.verified && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-saffron/35 bg-ink-950/70 px-2.5 py-1 font-data text-[9.5px] uppercase tracking-[0.16em] text-saffron backdrop-blur-md">
+              <Check size={10} aria-hidden="true" /> Verified
+            </span>
+          )}
+          {group.isMember && (
+            <span className="rounded-full border border-horizon/40 bg-ink-950/70 px-2.5 py-1 font-data text-[9.5px] uppercase tracking-[0.16em] text-horizon-bright backdrop-blur-md">
+              Joined
+            </span>
+          )}
         </div>
 
-        {/* Description */}
-        <p className="text-ivory-faint text-sm line-clamp-2 leading-relaxed mb-4 flex-grow font-light">{group.description}</p>
+        {dates && (
+          <span className="absolute right-4 top-4 rounded-full bg-ink-950/70 px-2.5 py-1 font-data text-[9.5px] uppercase tracking-[0.14em] text-ivory-muted backdrop-blur-md">
+            {dates}
+          </span>
+        )}
+      </div>
 
-        {/* Footer Info */}
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/[0.07]">
-          {/* Members Stack */}
-          <div className="flex items-center -space-x-2">
-            {members.slice(0, 4).map((member) => (
-              <img
-                key={member.userId}
-                src={member.avatar || member.userAvatar}
-                alt={member.username}
-                className="w-7 h-7 rounded-full border-2 border-ink-900 object-cover bg-white/10 shadow-sm"
-              />
-            ))}
-            {(group.memberCount > 4) && (
-              <div className="w-7 h-7 rounded-full bg-saffron/15 border-2 border-ink-900 flex items-center justify-center text-[10px] font-bold text-saffron">
-                +{group.memberCount - 4}
-              </div>
-            )}
+      <div className="flex flex-1 flex-col p-5">
+        <p className="mb-2 flex items-center gap-1.5 font-data text-[9.5px] uppercase tracking-[0.18em] text-saffron">
+          <MapPin size={11} aria-hidden="true" />
+          {group.destination?.city}
+          {group.category ? <span className="text-ivory-faint">· {group.category}</span> : null}
+        </p>
+
+        <h3 className="font-display text-[1.2rem] leading-snug text-ivory transition-colors group-hover:text-saffron-bright">
+          {group.name}
+        </h3>
+
+        <p className="mt-2 line-clamp-2 font-sans text-[13.5px] font-light leading-relaxed text-ivory-faint">
+          {group.description}
+        </p>
+
+        {/* How full it is — the route line, filled to the group's capacity. */}
+        <div className="mt-5">
+          <div className="mb-2 flex items-baseline justify-between gap-2">
+            <span className="font-data text-[9.5px] uppercase tracking-[0.16em] text-ivory-faint">
+              {taken} of {capacity} travelling
+            </span>
+            <span className={`font-data text-[9.5px] uppercase tracking-[0.16em] ${placesLeft <= 3 ? 'text-saffron' : 'text-ivory-faint'}`}>
+              {placesLeft === 0 ? 'Full' : `${placesLeft} left`}
+            </span>
           </div>
+          <div className="relative h-[3px] overflow-hidden rounded-full bg-white/[0.07]">
+            <span
+              style={{ width: `${fullness * 100}%` }}
+              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-saffron/70 to-saffron-bright"
+            />
+          </div>
+        </div>
 
-          {/* Action */}
-          <button
-            className="text-xs font-bold text-ink-950 bg-gradient-to-r from-saffron-bright to-saffron hover:from-saffron hover:to-saffron-bright px-4 py-1.5 rounded-full transition-all shadow-lg hover:shadow-saffron/25"
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick(group.groupId, 'about');
-            }}
+        <div className="mt-auto flex items-center justify-between gap-3 pt-5">
+          {/* Only real people appear here. */}
+          {members.length ? (
+            <div className="flex items-center -space-x-2">
+              {members.slice(0, 4).map((m) => (
+                <Avatar
+                  key={m.userId}
+                  src={m.avatar}
+                  name={m.name}
+                  size={28}
+                  className="ring-2 ring-ink-800"
+                />
+              ))}
+              {taken > 4 && (
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-saffron/15 font-data text-[10px] font-bold text-saffron ring-2 ring-ink-800">
+                  +{taken - 4}
+                </span>
+              )}
+            </div>
+          ) : (
+            <span className="flex items-center gap-1.5 font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint">
+              <Users size={12} aria-hidden="true" /> {taken} travelling
+            </span>
+          )}
+
+          <span
+            className={`shrink-0 rounded-full px-4 py-1.5 font-sans text-[12px] font-bold transition-colors ${
+              group.isMember
+                ? 'border border-white/[0.12] text-ivory-muted'
+                : 'bg-gradient-to-r from-saffron-bright to-saffron text-ink-950'
+            }`}
           >
-            Join Now
-          </button>
+            {group.isMember ? 'Open' : 'View & join'}
+          </span>
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 };
 

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Share2, MapPin, Users, Calendar, MessageSquare, Shield, Info, ImageIcon } from 'lucide-react';
+import { ArrowLeft, Share2, MapPin, Users, Calendar, MessageSquare, Shield, Info, ImageIcon, Wallet } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Import Sibling Components
 import GroupAbout from './GroupAbout';
 import GroupEvents from './GroupEvents';
 import GroupPhotos from './GroupPhotos';
-import GroupDiscussions from './GroupDiscussions';
+import GroupChat from './GroupChat';
+import GroupSplit from './GroupSplit';
 import MemberList from './MemberList';
 
 const GroupDetail = ({ group, onBack, initialTab = 'about', isJoined, onToggleJoin }) => {
@@ -48,12 +49,15 @@ const GroupDetail = ({ group, onBack, initialTab = 'about', isJoined, onToggleJo
     "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=150&q=80"
   ];
 
+  /* Talk and money first: they are what a group is actually for, and what
+     people come back to. Everything else is reference. */
   const tabs = [
+    { id: 'discussions', label: 'Chat', icon: MessageSquare },
+    { id: 'split', label: 'Split', icon: Wallet },
     { id: 'about', label: 'About', icon: Info },
-    { id: 'events', label: 'Meetups', icon: Calendar },
     { id: 'members', label: 'Members', icon: Users },
+    { id: 'events', label: 'Meetups', icon: Calendar },
     { id: 'photos', label: 'Photos', icon: ImageIcon },
-    { id: 'discussions', label: 'Discussions', icon: MessageSquare },
   ];
 
   return (
@@ -258,7 +262,8 @@ const GroupDetail = ({ group, onBack, initialTab = 'about', isJoined, onToggleJo
           {activeTab === 'events' && <div className="bg-ink-900/60 rounded-2xl p-6 border border-white/[0.07]"><GroupEvents group={group} /></div>}
           {activeTab === 'members' && <div className="bg-ink-900/60 rounded-2xl p-6 border border-white/[0.07]"><MemberList groupId={group.groupId} /></div>}
           {activeTab === 'photos' && <div className="bg-ink-900/60 rounded-2xl p-6 border border-white/[0.07]"><GroupPhotos group={group} /></div>}
-          {activeTab === 'discussions' && <div className="bg-ink-900/60 rounded-2xl p-6 border border-white/[0.07]"><GroupDiscussions group={group} /></div>}
+          {activeTab === 'discussions' && <GroupChat group={group} isJoined={isJoined} />}
+          {activeTab === 'split' && <GroupSplit group={group} isJoined={isJoined} />}
         </motion.div>
       </div>
     </div>

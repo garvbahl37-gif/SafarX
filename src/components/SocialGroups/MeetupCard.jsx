@@ -35,7 +35,7 @@ const MeetupCard = ({ meetup, onClick }) => {
 
             <div className="hidden sm:flex items-center -space-x-2 mr-2">
                 {meetup.attendees.slice(0, 3).map((a, i) => (
-                    <img key={i} src={a.userAvatar || `https://ui-avatars.com/api/?name=${a.username}`} className="w-6 h-6 rounded-full border border-white dark:border-[#121622]" />
+                    <img key={i} src={a.userAvatar || undefined} className="w-6 h-6 rounded-full border border-white dark:border-[#121622]" />
                 ))}
                 {attendingCount > 3 && <span className="w-6 h-6 rounded-full bg-gray-100 border border-white flex items-center justify-center text-[10px] text-gray-500 font-bold dark:bg-white/10 dark:border-[#121622] dark:text-gray-300">+{attendingCount - 3}</span>}
             </div>

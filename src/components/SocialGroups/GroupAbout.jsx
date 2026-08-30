@@ -16,30 +16,11 @@ const GroupAbout = ({ group }) => {
   const seed = getHash(group.groupId || group.name);
 
   // 1. Mock Members
-  const userNames = ["Alice", "Bob", "Charlie", "Diana", "Evan", "Fiona", "George", "Hannah", "Ian", "Julia", "Kevin", "Liam", "Mia", "Noah", "Olivia", "Peter", "Quinn", "Rachel", "Sam", "Tina", "Ursula", "Victor", "Wendy", "Xander", "Yara", "Zack"];
-
-  const generateDummyMembers = (count) => {
-    return Array.from({ length: count }).map((_, i) => {
-      const nameIndex = (seed + i) % userNames.length;
-      const name = userNames[nameIndex];
-      return {
-        userId: `dummy_${group.groupId}_${i}`,
-        username: name,
-        avatar: `https://ui-avatars.com/api/?name=${name}+${userNames[(nameIndex + 1) % userNames.length]}&background=random&color=fff`
-      };
-    });
-  };
-
-  const membersPreview = (group.members && group.members.length > 0)
-    ? group.members.slice(0, 12)
-    : generateDummyMembers(12);
-
-  // 2. Mock Organizers
-  const organizers = (group.members && group.members.some(m => m.role === 'admin'))
-    ? group.members.filter(m => m.role === 'admin')
-    : [
-      { userId: 'org1', avatar: `https://ui-avatars.com/api/?name=${group.name.substring(0, 2)}&background=0D8ABC&color=fff`, username: 'Group Admin' }
-    ];
+  /* Real members or none. This used to invent twelve travellers called Alice,
+     Bob and Charlie, and an organiser named after a stock portrait — people
+     who do not exist, presented as the group you were about to join. */
+  const membersPreview = (group.members || []).slice(0, 12);
+  const organizers = (group.members || []).filter((m) => m.role === 'organiser' || m.role === 'admin');
 
   // 3. Mock Events
   const eventTypes = ["Social Mixer", "Workshop", "Networking", "Coffee & Chat", "Guided Tour", "Dinner", "Outdoor Adventure", "Language Exchange"];

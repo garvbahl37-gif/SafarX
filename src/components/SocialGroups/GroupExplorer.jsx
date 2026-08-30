@@ -30,7 +30,7 @@ const GroupExplorer = ({ onGroupClick, headless = false, externalSearchQuery, ex
   const [showFilters, setShowFilters] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
   const [showMatchMaker, setShowMatchMaker] = useState(false);
-  const { groups, loading, fetchGroups } = useGroups();
+  const { groups, loading, error, fetchGroups } = useGroups();
 
   useEffect(() => {
     fetchGroups({ ...filters, search: searchQuery });
@@ -59,20 +59,23 @@ const GroupExplorer = ({ onGroupClick, headless = false, externalSearchQuery, ex
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3].map(i => (
-                <div key={i} className="h-80 bg-gray-100 rounded-2xl animate-pulse" />
+                <div key={i} className="h-80 rounded-2xl border border-white/[0.06] bg-white/[0.03] animate-pulse" />
               ))}
             </div>
           ) : groups.length === 0 ? (
-            <div className="text-center py-20 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
-              <p className="text-white text-lg font-medium mb-4">
-                No groups found matching your criteria.
+            <div className="rounded-2xl border border-white/[0.08] bg-ink-900/50 px-6 py-16 text-center">
+              <span className="route-line mx-auto mb-6 block w-24" aria-hidden="true" />
+              <p className="font-display text-[1.5rem] text-ivory">
+                {error ? 'Groups are not available right now' : 'No groups going that way yet'}
               </p>
-              <button
-                className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold"
-                onClick={() => setShowCreate(true)}
-              >
-                Create Your Own Group
-              </button>
+              <p className="mx-auto mt-3 max-w-md font-sans text-[14px] leading-relaxed text-ivory-muted">
+                {error || 'Nobody has started one for that search. Be the first — whoever starts a group organises it.'}
+              </p>
+              {!error && (
+                <button className="btn-primary mt-7" onClick={() => setShowCreate(true)}>
+                  Start this group
+                </button>
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -171,7 +174,7 @@ const GroupExplorer = ({ onGroupClick, headless = false, externalSearchQuery, ex
             <Filter className="w-5 h-5" />
             Filters
             {Object.values(filters).filter(v => v !== 'any' && v.length > 0 && typeof v === 'string').length > 0 && (
-              <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full absolute -top-2 -right-2 border-2 border-white">
+              <span className="absolute -right-2 -top-2 rounded-full border border-ink-950 bg-saffron px-2 py-0.5 font-data text-[10px] font-bold text-ink-950">
                 {Object.values(filters).filter(v => v !== 'any' && v.length > 0 && typeof v === 'string').length}
               </span>
             )}
@@ -200,20 +203,23 @@ const GroupExplorer = ({ onGroupClick, headless = false, externalSearchQuery, ex
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {[1, 2, 3].map(i => (
-              <div key={i} className="h-80 bg-gray-100 rounded-2xl animate-pulse" />
+              <div key={i} className="h-80 rounded-2xl border border-white/[0.06] bg-white/[0.03] animate-pulse" />
             ))}
           </div>
         ) : groups.length === 0 ? (
-          <div className="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-            <p className="text-gray-500 text-lg font-medium mb-4">
-              No groups found matching your criteria.
+          <div className="rounded-2xl border border-white/[0.08] bg-ink-900/50 px-6 py-16 text-center">
+            <span className="route-line mx-auto mb-6 block w-24" aria-hidden="true" />
+            <p className="font-display text-[1.5rem] text-ivory">
+              {error ? 'Groups are not available right now' : 'No groups going that way yet'}
             </p>
-            <button
-              className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold"
-              onClick={() => setShowCreate(true)}
-            >
-              Create Your Own Group
-            </button>
+            <p className="mx-auto mt-3 max-w-md font-sans text-[14px] leading-relaxed text-ivory-muted">
+              {error || 'Nobody has started one for that search. Be the first — whoever starts a group organises it.'}
+            </p>
+            {!error && (
+              <button className="btn-primary mt-7" onClick={() => setShowCreate(true)}>
+                Start this group
+              </button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -13,11 +13,12 @@ const SocialPage = ({ onBack }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [selectedGroupId, setSelectedGroupId] = useState(null);
-    const [selectedGroupTab, setSelectedGroupTab] = useState('about');
+    const [selectedGroupTab, setSelectedGroupTab] = useState('discussions');
     const { getGroupById, addGroup, getJoinedGroups, toggleJoinGroup, isGroupJoined } = useGroups();
 
     // Modal State
     const [activeModal, setActiveModal] = useState(null); // 'create' | 'match' | null
+    const [createError, setCreateError] = useState(null);
 
     // Search & Filter State
     const [searchQuery, setSearchQuery] = useState('');
@@ -58,7 +59,7 @@ const SocialPage = ({ onBack }) => {
         language: 'any'
     });
 
-    const handleGroupClick = (groupId, tab = 'about') => {
+    const handleGroupClick = (groupId, tab = 'discussions') => {
         setSelectedGroupId(groupId);
         setSelectedGroupTab(tab);
         window.scrollTo(0, 0);
@@ -86,15 +87,28 @@ const SocialPage = ({ onBack }) => {
                 <div className="absolute inset-0 bg-gradient-to-b from-ink-950/80 via-ink-950/70 to-ink-950" />
             </div>
 
+            {createError && (
+                <div role="alert" className="fixed inset-x-0 top-24 z-[70] mx-auto w-fit max-w-[90vw] rounded-full border border-[#E05252]/35 bg-[#E05252]/[0.12] px-5 py-2.5 font-sans text-[13.5px] text-[#F0A8A8] backdrop-blur-xl">
+                    {createError}
+                    <button onClick={() => setCreateError(null)} className="ml-3 font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint hover:text-ivory">Dismiss</button>
+                </div>
+            )}
+
             {/* Modals Layer */}
             <AnimatePresence>
                 {activeModal === 'create' && (
                     <GroupCreationForm
                         onClose={() => setActiveModal(null)}
-                        onSubmit={(data) => {
-                            const newGroup = addGroup(data);
-                            setSelectedGroupId(newGroup.groupId);
-                            setActiveModal(null);
+                        /* Creating a group is a round trip now, so open it only
+                           once the server has actually made it. */
+                        onSubmit={async (data) => {
+                            try {
+                                const created = await addGroup(data);
+                                setActiveModal(null);
+                                setSelectedGroupId(created.groupId);
+                            } catch (err) {
+                                setCreateError(err.message);
+                            }
                         }}
                     />
                 )}
@@ -146,7 +160,7 @@ const SocialPage = ({ onBack }) => {
                                 initial={{ opacity: 0, y: 24 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                                className="w-full text-center mt-14 mb-12 relative z-20 px-6"
+                                className="w-full text-center mt-2 mb-8 relative z-20 px-6"
                             >
                                 <p className="flex items-center justify-center gap-3 mb-5">
                                     <span className="route-line w-12 hidden sm:inline-block" />
@@ -227,7 +241,7 @@ const SocialPage = ({ onBack }) => {
                                                 value={searchQuery}
                                                 onChange={(e) => setSearchQuery(e.target.value)}
                                                 aria-label="Search travel groups"
-                                                className="glass-input w-full py-3.5 pl-12 pr-5 text-ivory placeholder:text-ivory-faint"
+                                                className="glass-input w-full !py-3.5 !pl-12 !pr-5 text-ivory placeholder:text-ivory-faint"
                                             />
                                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-ivory-faint" size={18} />
                                             {isSearchActive && searchQuery && (
@@ -375,11 +389,11 @@ const SocialPage = ({ onBack }) => {
                         {/* Results Section */}
                         <AnimatePresence>
                             <motion.div
-                                initial={{ opacity: 0, y: 50 }}
+                                initial={{ opacity: 0, y: 18 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0 }}
-                                transition={{ delay: 0.3, duration: 0.5 }}
-                                className={`w-full max-w-7xl mx-auto px-4 py-8 ${!isSearchActive ? 'mt-8' : ''}`}
+                                transition={{ delay: 0.12, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                                className="w-full max-w-7xl mx-auto px-4 pb-8"
                             >
                                 <GroupExplorer
                                     headless={true}

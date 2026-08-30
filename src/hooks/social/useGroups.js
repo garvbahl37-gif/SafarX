@@ -1,281 +1,181 @@
-import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/clerk-react';
-import { MOCK_GROUPS } from '../../data/socialMockData';
-import { REAL_WORLD_GROUPS } from '../../data/realWorldGroups';
-import { getCityImages } from '../../utils/staticImageService';
+import { useCallback, useEffect, useState } from 'react';
+import { useAuth, useUser } from '@clerk/clerk-react';
+
+/**
+ * Safar Groups, against the real thing.
+ *
+ * This used to hand back six objects from a mock file with local storage
+ * deliberately switched off "for demo purity", so nothing anyone did survived
+ * a refresh and no two people ever saw the same group. Groups are now rows:
+ * joining is a row, a message is a row, and a shared cost is a row.
+ *
+ * The exported shape is unchanged, so every component built against the mock
+ * keeps working.
+ */
+
+const API = '/api/groups';
+
+/** The server's own words where it has them — they are written to be read. */
+const explain = async (res, fallback) => {
+  const body = await res.json().catch(() => ({}));
+  return new Error(body.error || fallback);
+};
 
 export const useGroups = () => {
+  const { getToken, isSignedIn } = useAuth();
+  const { user } = useUser();
+
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Track if images have been assigned (no API calls needed!)
-  const [imagesAssigned, setImagesAssigned] = useState(false);
+  /* Who you are, sent with a join or a message so the group can show a name
+     and a face rather than an id. The server still takes identity from the
+     verified token — this is only for display. */
+  const identity = useCallback(() => ({
+    displayName: user?.fullName || user?.firstName || user?.username || 'Traveller',
+    avatarUrl: user?.imageUrl || null,
+  }), [user]);
 
-  // Helper: Simple string hash for deterministic random numbers
-  const getHash = (str) => {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return Math.abs(hash);
-  };
+  const authHeaders = useCallback(async () => {
+    if (!isSignedIn) return {};
+    const token = await getToken();
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }, [getToken, isSignedIn]);
 
-  // 1. Get Custom User Groups from cache
-  const getCustomGroups = () => {
+  const fetchGroups = useCallback(async (filters = {}) => {
+    setLoading(true);
+    setError(null);
     try {
-      const saved = localStorage.getItem('safar_custom_groups');
-      return saved ? JSON.parse(saved) : [];
-    } catch (e) {
-      return [];
+      const query = new URLSearchParams();
+      if (filters.searchQuery) query.set('query', filters.searchQuery);
+      if (filters.destination) query.set('city', filters.destination);
+      if (filters.category && filters.category !== 'all') query.set('category', filters.category);
+
+      const res = await fetch(`${API}/list?${query}`, { headers: await authHeaders() });
+      if (!res.ok) throw await explain(res, 'Groups could not be loaded.');
+      const body = await res.json();
+      setGroups(body.data || []);
+    } catch (err) {
+      setError(err.message);
+      setGroups([]);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [authHeaders]);
 
-  const fetchGroups = async (filters = {}) => {
-    if (!imagesAssigned) setLoading(true);
+  useEffect(() => { fetchGroups(); }, [fetchGroups]);
 
-    // 1. Initial Data Merge (Disabled Custom Local Storage Groups for Demo purity)
-    // Only return the 6 demo mock groups
-    let allGroups = [...MOCK_GROUPS.slice(0, 6)];
-
-    // 2. Assign Images from Static Cache (NO API CALLS!)
-    if (!imagesAssigned) {
-      // Group items by city for efficient image distribution
-      const cityGroupsMap = {};
-
-      allGroups.forEach(group => {
-        const city = group.destination?.city || 'Paris'; // Default to Paris
-
-        if (!cityGroupsMap[city]) {
-          cityGroupsMap[city] = [];
-        }
-        cityGroupsMap[city].push(group);
-      });
-
-      // Assign images from pre-fetched cache
-      Object.entries(cityGroupsMap).forEach(([city, groupsInCity]) => {
-        // Get all images for this city from static cache
-        const cityImages = getCityImages(city);
-
-        if (cityImages.length > 0) {
-          groupsInCity.forEach((group, index) => {
-            // Simple Linear Congruential Generator (LCG) for deterministic randomness
-            // seeded by the group ID. This guarantees the same group gets the same images,
-            // but different groups get different images.
-            const seedStr = group.groupId + "v1";
-            let seed = 0;
-            for (let i = 0; i < seedStr.length; i++) {
-              seed = ((seed << 5) - seed) + seedStr.charCodeAt(i);
-              seed |= 0; // Convert to 32bit integer
-            }
-            seed = Math.abs(seed);
-
-            const lcg = () => {
-              seed = (1664525 * seed + 1013904223) % 4294967296;
-              return seed / 4294967296;
-            };
-
-            // Create a pool of indices available for this city
-            let indices = Array.from({ length: cityImages.length }, (_, i) => i);
-
-            // Shuffle indices using our seeded random
-            // Fisher-Yates shuffle
-            for (let i = indices.length - 1; i > 0; i--) {
-              const j = Math.floor(lcg() * (i + 1));
-              [indices[i], indices[j]] = [indices[j], indices[i]];
-            }
-
-            // Assign Hero Image (pick 1st from shuffled)
-            const heroIndex = indices[0];
-            const heroImage = cityImages[heroIndex];
-
-            // Prioritize the group's predefined image if it's an external URL (like unsplash), 
-            // otherwise use the city image, otherwise fallback to existing
-            if (group.image && group.image.includes('unsplash.com')) {
-              // Keep the existing high-quality image
-            } else {
-              group.image = heroImage?.url || heroImage || group.image;
-            }
-
-            // Assign Gallery (pick next 8 from shuffled)
-            // If we run out of unique images, we loop back
-            group.gallery = Array.from({ length: 8 }).map((_, i) => {
-              const idx = indices[(i + 1) % indices.length];
-              const img = cityImages[idx];
-
-              // Handle both object format and string URL format
-              if (typeof img === 'object') {
-                return {
-                  id: `img_${idx}_${group.groupId}`,
-                  url: img.url,
-                  thumbnail: img.thumbnail || img.url,
-                  caption: city,
-                  user: img.photographer || 'Pexels'
-                };
-              } else {
-                // Legacy: plain URL string
-                return {
-                  id: `img_${idx}_${group.groupId}`,
-                  url: img,
-                  thumbnail: img,
-                  caption: city,
-                  user: 'Pexels'
-                };
-              }
-            });
-          });
-        }
-      });
-
-      setImagesAssigned(true);
-    }
-
-    // 3. Filtering Logic
-    let filtered = allGroups;
-
-    if (filters.search) {
-      const q = filters.search.toLowerCase();
-      filtered = filtered.filter(g =>
-        g.name.toLowerCase().includes(q) ||
-        g.description.toLowerCase().includes(q) ||
-        g.destination.city.toLowerCase().includes(q) ||
-        g.destination.country.toLowerCase().includes(q) ||
-        g.category.toLowerCase().includes(q)
-      );
-    }
-
-    if (filters.destination) {
-      const destTerms = filters.destination.toLowerCase().split(',').map(s => s.trim()).filter(Boolean);
-
-      if (destTerms.length > 0) {
-        filtered = filtered.filter(g => {
-          const city = g.destination.city.toLowerCase();
-          const country = g.destination.country.toLowerCase();
-          return destTerms.some(term => city.includes(term) || country.includes(term));
-        });
-      }
-    }
-
-    if (filters.interests && filters.interests.length > 0) {
-      filtered = filtered.filter(g =>
-        filters.interests.some(interest =>
-          g.name.toLowerCase().includes(interest.toLowerCase()) ||
-          g.description.toLowerCase().includes(interest.toLowerCase()) ||
-          g.category.toLowerCase().includes(interest.toLowerCase())
-        )
-      );
-    }
-
-    setGroups(filtered);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchGroups();
-  }, []); // Run on mount
-
-  const getGroupById = (id) => {
-    // Find within the internal state 'groups' if populated, 
-    // otherwise fall back to raw data & custom cache
-    const customGroups = getCustomGroups();
-    return groups.find(g => g.groupId === id) || [...customGroups, ...REAL_WORLD_GROUPS, ...MOCK_GROUPS].find(g => g.groupId === id);
-  };
-
-  const addGroup = (newGroupData) => {
-    const newGroup = {
-      groupId: `g_${Date.now()}`,
-      name: newGroupData.name,
-      description: newGroupData.description,
-      destination: {
-        city: newGroupData.destination.split(',')[0].trim(),
-        country: newGroupData.destination.split(',')[1]?.trim() || 'Global'
-      },
-      category: 'Social',
-      memberCount: 1,
-      rating: 5.0,
-      image: "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      members: [],
-      upcomingMeetups: [],
-      gallery: [],
-      privacy: newGroupData.privacy,
-      ...newGroupData
-    };
-
-    // Save it to custom persistent cache
-    const customGroups = getCustomGroups();
-    localStorage.setItem('safar_custom_groups', JSON.stringify([newGroup, ...customGroups]));
-
-    setGroups(prev => [newGroup, ...prev]);
-
-    // Automatically have the creator join their own group!
-    setJoinedGroupIds(prev => {
-      const updated = [...prev, newGroup.groupId];
-      localStorage.setItem(storageKey, JSON.stringify(updated));
-      return updated;
+  /** One group with its members. */
+  const getGroup = useCallback(async (groupId) => {
+    const res = await fetch(`${API}/detail?id=${encodeURIComponent(groupId)}`, {
+      headers: await authHeaders(),
     });
+    if (!res.ok) throw await explain(res, 'That group could not be opened.');
+    return (await res.json()).data;
+  }, [authHeaders]);
 
-    return newGroup;
-  };
+  /* Synchronous, for components that render straight from the loaded list. */
+  const getGroupById = useCallback(
+    (id) => groups.find((g) => g.groupId === id) || null,
+    [groups]
+  );
 
-  // Joined Groups State (Persisted)
-  const { user } = useUser();
-  const storageKey = user?.primaryEmailAddress?.emailAddress
-    ? `safar_joined_groups_${user.primaryEmailAddress.emailAddress}`
-    : 'safar_joined_groups_guest';
-
-  const [joinedGroupIds, setJoinedGroupIds] = useState([]);
-
-  // Load from local storage on mount or when user changes
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(storageKey);
-      if (saved) {
-        setJoinedGroupIds(JSON.parse(saved));
-      } else {
-        setJoinedGroupIds([]); // No old state saved for this user
-      }
-    } catch (e) {
-      console.error("Failed to load joined groups", e);
-    }
-  }, [storageKey]);
-
-  // Save to localStorage specifically on intentional toggles only
-  const toggleJoinGroup = (groupId) => {
-    setJoinedGroupIds(prev => {
-      let updated;
-      if (prev.includes(groupId)) {
-        updated = prev.filter(id => id !== groupId);
-      } else {
-        updated = [...prev, groupId];
-      }
-      // Instantly write to correct storageKey securely
-      localStorage.setItem(storageKey, JSON.stringify(updated));
-      return updated;
+  const addGroup = useCallback(async (data) => {
+    const res = await fetch(`${API}/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+      body: JSON.stringify({ ...data, ...identity() }),
     });
-  };
+    if (!res.ok) throw await explain(res, 'The group could not be created.');
+    const { data: created } = await res.json();
+    await fetchGroups();
+    return { groupId: created.groupId };
+  }, [authHeaders, identity, fetchGroups]);
 
-  const isGroupJoined = (groupId) => joinedGroupIds.includes(groupId);
+  const setMembership = useCallback(async (groupId, join) => {
+    const res = await fetch(`${API}/${join ? 'join' : 'leave'}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+      body: JSON.stringify({ groupId, ...identity() }),
+    });
+    if (!res.ok) throw await explain(res, join ? 'You could not be added.' : 'You could not be removed.');
 
-  // Helper: Get full objects for joined groups
-  const getJoinedGroups = () => {
-    // Combine all potential sources
-    const customGroups = getCustomGroups();
-    const all = [...groups, ...customGroups, ...REAL_WORLD_GROUPS, ...MOCK_GROUPS];
-    // Deduplicate by ID
-    const uniqueMap = new Map();
-    all.forEach(g => uniqueMap.set(g.groupId, g));
+    // Reflect it immediately; the list refreshes behind the change.
+    setGroups((prev) => prev.map((g) => (
+      g.groupId === groupId
+        ? { ...g, isMember: join, memberCount: g.memberCount + (join ? 1 : -1) }
+        : g
+    )));
+    return join;
+  }, [authHeaders, identity]);
 
-    return joinedGroupIds.map(id => uniqueMap.get(id)).filter(Boolean);
-  };
+  const toggleJoinGroup = useCallback(async (groupId) => {
+    const current = groups.find((g) => g.groupId === groupId);
+    return setMembership(groupId, !current?.isMember);
+  }, [groups, setMembership]);
+
+  const isGroupJoined = useCallback(
+    (groupId) => Boolean(groups.find((g) => g.groupId === groupId)?.isMember),
+    [groups]
+  );
+
+  const getJoinedGroups = useCallback(() => groups.filter((g) => g.isMember), [groups]);
+
+  /* ── The conversation ─────────────────────────────────────────────── */
+
+  const getMessages = useCallback(async (groupId) => {
+    const res = await fetch(`${API}/messages?id=${encodeURIComponent(groupId)}`, {
+      headers: await authHeaders(),
+    });
+    if (!res.ok) throw await explain(res, 'The conversation could not be loaded.');
+    return (await res.json()).data || [];
+  }, [authHeaders]);
+
+  const sendMessage = useCallback(async (groupId, body) => {
+    const res = await fetch(`${API}/message`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+      body: JSON.stringify({ groupId, body, ...identity() }),
+    });
+    if (!res.ok) throw await explain(res, 'That message did not send.');
+  }, [authHeaders, identity]);
+
+  /* ── What the trip costs ──────────────────────────────────────────── */
+
+  const getExpenses = useCallback(async (groupId) => {
+    const res = await fetch(`${API}/expenses?id=${encodeURIComponent(groupId)}`, {
+      headers: await authHeaders(),
+    });
+    if (!res.ok) throw await explain(res, 'The costs could not be loaded.');
+    return (await res.json()).data;
+  }, [authHeaders]);
+
+  const addExpense = useCallback(async (groupId, description, amount) => {
+    const res = await fetch(`${API}/expense`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
+      body: JSON.stringify({ groupId, description, amount, ...identity() }),
+    });
+    if (!res.ok) throw await explain(res, 'That cost was not added.');
+  }, [authHeaders, identity]);
 
   return {
     groups,
     loading,
+    error,
     fetchGroups,
+    getGroup,
     getGroupById,
     addGroup,
-    joinedGroupIds,
     toggleJoinGroup,
     isGroupJoined,
-    getJoinedGroups
+    getJoinedGroups,
+    joinedGroupIds: groups.filter((g) => g.isMember).map((g) => g.groupId),
+    getMessages,
+    sendMessage,
+    getExpenses,
+    addExpense,
+    signedIn: Boolean(isSignedIn),
   };
 };
