@@ -3,7 +3,7 @@ import { motion as Motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { X, Mic, MicOff, Keyboard, CornerDownLeft } from "lucide-react";
 import SrishtiRings from "./SrishtiRings";
-import { Ears, Voice, ask } from "../../services/srishtiClient";
+import { LiveSession } from "../../services/srishtiLive";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -30,6 +30,7 @@ const SrishtiPanel = ({ open, onClose }) => {
 
   const [state, setState] = useState("idle"); // idle | listening | thinking | speaking
   const [caption, setCaption] = useState(null);
+  const [heard, setHeard] = useState(null);
   const [receipts, setReceipts] = useState([]);
   const [error, setError] = useState(null);
   const [docked, setDocked] = useState(false);
@@ -37,24 +38,15 @@ const SrishtiPanel = ({ open, onClose }) => {
   const [draft, setDraft] = useState("");
   const [live, setLive] = useState(false);
   const [muted, setMuted] = useState(false);
-  const [language, setLanguage] = useState(null);
 
-  const ears = useRef(null);
-  const voice = useRef(null);
-  const history = useRef([]);
+  const session = useRef(null);
   const inputRef = useRef(null);
-  const busy = useRef(false);
-  const micLevel = useRef(0);
-
-  voice.current ||= new Voice();
 
   /* Reset everything when she is dismissed. */
   useEffect(() => {
     if (open) return;
-    ears.current?.close();
-    ears.current = null;
-    voice.current?.stop();
-    busy.current = false;
+    session.current?.stop();
+    session.current = null;
     setState("idle");
     setLive(false);
     setMuted(false);
@@ -63,97 +55,58 @@ const SrishtiPanel = ({ open, onClose }) => {
   }, [open]);
 
   /* Never leave the microphone open behind us. */
-  useEffect(() => () => ears.current?.close(), []);
+  useEffect(() => () => session.current?.stop(), []);
 
   useEffect(() => {
     if (typing) inputRef.current?.focus();
   }, [typing]);
 
-  /** One exchange: she hears, answers, speaks, and goes back to listening. */
-  const respond = useCallback(
-    async (payload) => {
-      if (busy.current) return;
-      busy.current = true;
-      // Deaf while she works, so she never records herself or the room.
-      ears.current?.deafen();
-      setError(null);
-      setState("thinking");
-
-      try {
-        const reply = await ask({ ...payload, history: history.current });
-
-        history.current = [
-          ...history.current,
-          { role: "user", text: payload.text || "(spoken)" },
-          { role: "srishti", text: reply.text },
-        ].slice(-8);
-
-        setCaption(reply.text);
-        setLanguage(reply.languageName || null);
-        setReceipts((reply.toolsUsed || []).map((t) => TOOL_LABEL[t] || t));
-
-        // She moves the app first, then talks over it — so pull her aside to
-        // the corner where the page is visible behind her.
-        if (reply.navigate) {
-          setDocked(true);
-          navigate(reply.navigate, reply.tourId ? { state: { tourId: reply.tourId } } : undefined);
-        }
-
-        setState("speaking");
-        // She can be interrupted, so hearing resumes now rather than after —
-        // but harder to trigger, so her own voice does not answer her.
-        if (!muted) ears.current?.listen(2.4);
-        await voice.current.say(reply.text, reply.language);
-      } catch (err) {
-        if (err.name !== "AbortError") setError(err.message);
-      } finally {
-        busy.current = false;
-        setState(live && !muted ? "listening" : "idle");
-        if (!muted) ears.current?.listen(1);
-      }
-    },
-    [navigate, live, muted]
-  );
-
-  /** Someone talking over her means they want her to stop. */
-  const onUtterance = useCallback(
-    (clip) => {
-      voice.current?.stop();
-      respond(clip);
-    },
-    [respond]
-  );
-
+  /** Opens the microphone and the socket. After this she simply listens. */
   const goLive = useCallback(async () => {
-    if (ears.current) return;
+    if (session.current) return;
     setError(null);
-    const nextEars = new Ears({
-      onUtterance,
-      onLevel: (l) => {
-        micLevel.current = l;
+    setState("thinking");
+
+    const next = new LiveSession({
+      onState: (s2) => {
+        if (s2 === "closed") {
+          session.current = null;
+          setLive(false);
+          setState("idle");
+          return;
+        }
+        setState(s2 === "connecting" ? "thinking" : s2);
       },
-      onStateChange: (s2) => {
-        if (s2 === "hearing" && !busy.current) setState("listening");
+      onHeard: (text) => setHeard((prev) => ((prev || "") + text).slice(-200)),
+      // Her transcript arrives in pieces as she speaks.
+      onSaid: (text) => setCaption((prev) => ((prev || "") + text).slice(-400)),
+      onNavigate: (to, tourId) => {
+        setDocked(true);
+        navigate(to, tourId ? { state: { tourId } } : undefined);
       },
+      onTool: (name) => setReceipts((prev) => [...new Set([...prev, TOOL_LABEL[name] || name])]),
+      onError: (message) => setError(message),
     });
+
     try {
-      await nextEars.open();
-      ears.current = nextEars;
+      await next.start();
+      session.current = next;
       setLive(true);
       setMuted(false);
-      setState("listening");
-    } catch {
-      setError("I can't reach your microphone. Allow it for this site and I'll start listening.");
+    } catch (err) {
+      setError(
+        err?.name === "NotAllowedError"
+          ? "I need the microphone to hear you. Allow it for this site and tap again."
+          : err?.message || "I couldn't start listening."
+      );
       setState("idle");
     }
-  }, [onUtterance]);
+  }, [navigate]);
 
   const toggleMute = useCallback(() => {
     setMuted((wasMuted) => {
       const next = !wasMuted;
-      if (next) ears.current?.deafen();
-      else ears.current?.listen(1);
-      setState(next ? "idle" : "listening");
+      session.current?.mute(next);
       return next;
     });
   }, []);
@@ -163,9 +116,18 @@ const SrishtiPanel = ({ open, onClose }) => {
     if (!said) return;
     setDraft("");
     setTyping(false);
-    voice.current?.stop();
-    respond({ text: said });
+    setCaption(null);
+    setHeard(said);
+    if (session.current) session.current.say(said);
+    else setError("Tap the microphone first — she listens live.");
   };
+
+  /* A new turn wipes the last one: this is a conversation, not a transcript. */
+  useEffect(() => {
+    if (state !== "speaking") return undefined;
+    setHeard(null);
+    return undefined;
+  }, [state]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -178,7 +140,7 @@ const SrishtiPanel = ({ open, onClose }) => {
     ? "Tap to start talking"
     : muted
       ? "Microphone off"
-      : { idle: "Listening", listening: "Listening", thinking: "One moment", speaking: "Srishti" }[state];
+      : { idle: "Listening", listening: "Listening", thinking: "Connecting", speaking: "Srishti" }[state];
 
   return (
     <AnimatePresence>
@@ -231,7 +193,7 @@ const SrishtiPanel = ({ open, onClose }) => {
             </button>
 
             <div className={docked ? "flex items-center gap-3" : "flex flex-col items-center"}>
-              <SrishtiRings state={state} level={() => voice.current?.level() ?? 0} size={docked ? 74 : 300} />
+              <SrishtiRings state={state} level={() => session.current?.level() ?? 0} size={docked ? 74 : 300} />
 
               {docked && (
                 <div className="min-w-0 flex-1">
@@ -248,27 +210,29 @@ const SrishtiPanel = ({ open, onClose }) => {
                 {/* Her name, and the state she is in — one line, no chrome. */}
                 <div className="mt-8 flex items-center justify-center gap-3">
                   <p className="font-data text-[10px] uppercase tracking-[0.28em] text-saffron">{status}</p>
-                  {/* She picks the language up from how she was spoken to, so
-                      showing it is proof rather than decoration. */}
-                  <AnimatePresence>
-                    {language && (
-                      <Motion.span
-                        key={language}
-                        initial={{ opacity: 0, x: -6 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0 }}
-                        className="rounded-full border border-white/[0.09] px-2.5 py-0.5 font-data text-[9px]
-                                   uppercase tracking-[0.16em] text-ivory-faint"
-                      >
-                        {language}
-                      </Motion.span>
-                    )}
-                  </AnimatePresence>
                 </div>
 
                 {/* What she says, as a caption rather than a chat bubble.
                     Only the last thing — this is a conversation, not a log. */}
-                <div className="mt-5 flex min-h-[7.5rem] max-w-2xl items-start justify-center">
+                {/* What she heard you say. Small, above her reply, so a
+                    mishearing is obvious rather than mysterious. */}
+                <div className="mt-4 flex min-h-[1.5rem] items-center justify-center">
+                  <AnimatePresence mode="wait">
+                    {heard && (
+                      <Motion.p
+                        key={heard}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="max-w-xl truncate text-[13px] text-ivory-faint"
+                      >
+                        “{heard}”
+                      </Motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <div className="mt-2 flex min-h-[7.5rem] max-w-2xl items-start justify-center">
                   <AnimatePresence mode="wait">
                     {error ? (
                       <Motion.p

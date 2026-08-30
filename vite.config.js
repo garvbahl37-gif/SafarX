@@ -54,6 +54,25 @@ const vercelApiDev = () => ({
       if (process.env[key] === undefined) process.env[key] = value;
     }
 
+    /* WebSocket functions export an http.Server rather than a handler, and an
+       upgrade never reaches the middleware stack — so it is forwarded here.
+       Without this the voice socket only works once deployed. */
+    server.httpServer?.on("upgrade", async (req, socket, head) => {
+      if (!req.url?.startsWith("/api/")) return;
+      const url = new URL(req.url, "http://localhost");
+      const file = path.resolve(__dirname, "api", `${url.pathname.slice(5)}.js`);
+      if (!fs.existsSync(file)) return;
+      try {
+        const mod = await server.ssrLoadModule(file);
+        const upstream = mod.default;
+        if (typeof upstream?.emit !== "function") return;
+        upstream.emit("upgrade", req, socket, head);
+      } catch (err) {
+        server.config.logger.error(`[api upgrade] ${url.pathname}: ${err}`);
+        socket.destroy();
+      }
+    });
+
     server.middlewares.use(async (req, res, next) => {
       if (!req.url?.startsWith("/api/")) return next();
 
