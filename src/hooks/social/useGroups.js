@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useAuth, useUser } from '@clerk/clerk-react';
+import { useAuth } from '@clerk/clerk-react';
 
 /**
  * Safar Groups, against the real thing.
@@ -23,19 +23,15 @@ const explain = async (res, fallback) => {
 
 export const useGroups = () => {
   const { getToken, isSignedIn } = useAuth();
-  const { user } = useUser();
 
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* Who you are, sent with a join or a message so the group can show a name
-     and a face rather than an id. The server still takes identity from the
-     verified token — this is only for display. */
-  const identity = useCallback(() => ({
-    displayName: user?.fullName || user?.firstName || user?.username || 'Traveller',
-    avatarUrl: user?.imageUrl || null,
-  }), [user]);
+  /* Deliberately no identity is sent. The server looks your name and picture
+     up from Clerk against the token you presented: a client that could supply
+     its own display name could post a message rendering as somebody else,
+     with their photograph, under a user id that was technically correct. */
 
   const authHeaders = useCallback(async () => {
     if (!isSignedIn) return {};
@@ -85,19 +81,19 @@ export const useGroups = () => {
     const res = await fetch(`${API}/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-      body: JSON.stringify({ ...data, ...identity() }),
+      body: JSON.stringify(data),
     });
     if (!res.ok) throw await explain(res, 'The group could not be created.');
     const { data: created } = await res.json();
     await fetchGroups();
     return { groupId: created.groupId };
-  }, [authHeaders, identity, fetchGroups]);
+  }, [authHeaders, fetchGroups]);
 
   const setMembership = useCallback(async (groupId, join) => {
     const res = await fetch(`${API}/${join ? 'join' : 'leave'}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-      body: JSON.stringify({ groupId, ...identity() }),
+      body: JSON.stringify({ groupId }),
     });
     if (!res.ok) throw await explain(res, join ? 'You could not be added.' : 'You could not be removed.');
 
@@ -108,7 +104,7 @@ export const useGroups = () => {
         : g
     )));
     return join;
-  }, [authHeaders, identity]);
+  }, [authHeaders]);
 
   const toggleJoinGroup = useCallback(async (groupId) => {
     const current = groups.find((g) => g.groupId === groupId);
@@ -136,10 +132,10 @@ export const useGroups = () => {
     const res = await fetch(`${API}/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-      body: JSON.stringify({ groupId, body, ...identity() }),
+      body: JSON.stringify({ groupId, body }),
     });
     if (!res.ok) throw await explain(res, 'That message did not send.');
-  }, [authHeaders, identity]);
+  }, [authHeaders]);
 
   /* ── What the trip costs ──────────────────────────────────────────── */
 
@@ -155,10 +151,10 @@ export const useGroups = () => {
     const res = await fetch(`${API}/expense`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-      body: JSON.stringify({ groupId, description, amount, ...identity() }),
+      body: JSON.stringify({ groupId, description, amount }),
     });
     if (!res.ok) throw await explain(res, 'That cost was not added.');
-  }, [authHeaders, identity]);
+  }, [authHeaders]);
 
   return {
     groups,

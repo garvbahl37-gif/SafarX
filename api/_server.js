@@ -1,4 +1,4 @@
-import { verifyToken } from "@clerk/backend";
+import { verifyToken, createClerkClient } from "@clerk/backend";
 import { createClient } from "@supabase/supabase-js";
 
 /**
@@ -41,6 +41,40 @@ export const userFromRequest = async (req) => {
   } catch {
     return null;
   }
+};
+
+/* Names and faces are looked up, never accepted. A caller who could send its
+   own display name could post a message that renders as somebody else with
+   somebody else's photograph — the user id would be right and the byline a
+   lie. Cached per warm instance, since it is the same handful of people. */
+const profiles = new Map();
+
+/**
+ * The traveller's real name and picture, from Clerk.
+ * @returns {Promise<{displayName: string, avatarUrl: string|null}>}
+ */
+export const profileOf = async (userId) => {
+  if (!userId) return { displayName: "Traveller", avatarUrl: null };
+  if (profiles.has(userId)) return profiles.get(userId);
+
+  let profile = { displayName: "Traveller", avatarUrl: null };
+  try {
+    const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+    const user = await clerk.users.getUser(userId);
+    profile = {
+      displayName:
+        user.fullName ||
+        [user.firstName, user.lastName].filter(Boolean).join(" ") ||
+        user.username ||
+        user.primaryEmailAddress?.emailAddress?.split("@")[0] ||
+        "Traveller",
+      avatarUrl: user.imageUrl || null,
+    };
+  } catch {
+    /* Clerk unreachable: a generic byline is better than a borrowed one. */
+  }
+  profiles.set(userId, profile);
+  return profile;
 };
 
 /** Reads a JSON body whether or not the platform has already parsed it. */

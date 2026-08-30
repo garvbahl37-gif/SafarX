@@ -1,4 +1,5 @@
-import { guard, send, readJson } from "../_server.js";
+import { guard, send, readJson, profileOf } from "../_server.js";
+import { rateLimit, clientIp } from "../trains/_ratelimit.js";
 
 /**
  * Safar Groups.
@@ -52,30 +53,48 @@ const shape = (row, joinedCount = 0, isMember = false) => ({
   isMember,
 });
 
+/** Only http(s). A cover image loads in every viewer's browser, so the
+    creator does not get to choose the scheme it is fetched over. */
+const httpUrl = (value) => {
+  if (!value) return null;
+  try {
+    const url = new URL(String(value));
+    return url.protocol === "https:" || url.protocol === "http:" ? url.toString() : null;
+  } catch {
+    return null;
+  }
+};
+
 /** A stable, readable id for a group somebody starts. */
 const slug = (name) =>
   `grp_${String(name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40)}_${Date.now().toString(36)}`;
 
+/** Every group this caller is in. Drives both visibility and the joined flag. */
+const myGroupIds = async (db, userId) => {
+  if (!userId) return new Set();
+  const { data } = await db.from("group_members").select("group_id").eq("user_id", userId);
+  return new Set((data || []).map((r) => r.group_id));
+};
+
 const listGroups = async (req, res, { db, userId }) => {
   const { query = "", category = "", city = "" } = req.query || {};
+  const mine = await myGroupIds(db, userId);
 
   let q = db.from("groups").select("*").order("start_date", { ascending: true });
   if (category && category !== "all") q = q.eq("category", category);
   if (city) q = q.ilike("city", `%${city}%`);
   if (query) q = q.or(`name.ilike.%${query}%,description.ilike.%${query}%,city.ilike.%${query}%`);
 
+  /* A private group is not browsable. It appears only to people already in
+     it — otherwise "private" meant nothing but a label on the card. */
+  q = mine.size
+    ? q.or(`visibility.eq.public,id.in.(${[...mine].map((id) => `"${id}"`).join(",")})`)
+    : q.eq("visibility", "public");
+
   const { data, error } = await q;
   if (error) return send(res, 500, { error: error.message });
 
-  const ids = (data || []).map((r) => r.id);
-  const counts = await countMembers(db, ids);
-
-  let mine = new Set();
-  if (userId && ids.length) {
-    const { data: rows } = await db
-      .from("group_members").select("group_id").eq("user_id", userId).in("group_id", ids);
-    mine = new Set((rows || []).map((r) => r.group_id));
-  }
+  const counts = await countMembers(db, (data || []).map((r) => r.id));
 
   return send(res, 200, {
     data: (data || []).map((row) => shape(row, counts[row.id] || 0, mine.has(row.id))),
@@ -95,12 +114,25 @@ const groupDetail = async (req, res, { db, userId }) => {
     .eq("group_id", id).order("joined_at", { ascending: true });
 
   const list = members || [];
+  const joined = list.some((m) => m.user_id === userId);
+
+  /* A private group does not exist as far as outsiders are concerned — a 403
+     would confirm it is there, which is most of what an enumerator wants. */
+  if (row.visibility === "private" && !joined) {
+    return send(res, 404, { error: "That group no longer exists." });
+  }
+
   return send(res, 200, {
     data: {
-      ...shape(row, list.length, list.some((m) => m.user_id === userId)),
-      members: list.map((m) => ({
-        userId: m.user_id, name: m.display_name, avatar: m.avatar_url, role: m.role,
-      })),
+      ...shape(row, list.length, joined),
+      /* The roster is for the people in it. Handing every visitor a list of
+         names, faces and account ids is a directory of strangers, not a
+         group page. */
+      members: joined
+        ? list.map((m) => ({
+            userId: m.user_id, name: m.display_name, avatar: m.avatar_url, role: m.role,
+          }))
+        : [],
     },
   });
 };
@@ -125,15 +157,16 @@ const createGroup = async (req, res, { db, userId }) => {
     category: body.category || "general",
     visibility: body.visibility === "private" ? "private" : "public",
     max_members: Math.min(200, Math.max(2, Number(body.maxMembers) || 20)),
-    cover_image: body.image || null,
+    cover_image: httpUrl(body.image),
     created_by: userId,
   });
   if (error) return send(res, 500, { error: error.message });
 
   // Whoever starts a group is in it.
+  const me = await profileOf(userId);
   await db.from("group_members").insert({
     group_id: id, user_id: userId, role: "organiser",
-    display_name: body.displayName || null, avatar_url: body.avatarUrl || null,
+    display_name: me.displayName, avatar_url: me.avatarUrl,
   });
 
   return send(res, 201, { data: { groupId: id } });
@@ -153,9 +186,10 @@ const joinGroup = async (req, res, { db, userId }) => {
     return send(res, 409, { error: "This group is full." });
   }
 
+  const me = await profileOf(userId);
   const { error } = await db.from("group_members").upsert({
     group_id: id, user_id: userId,
-    display_name: body.displayName || null, avatar_url: body.avatarUrl || null,
+    display_name: me.displayName, avatar_url: me.avatarUrl,
   }, { onConflict: "group_id,user_id" });
   if (error) return send(res, 500, { error: error.message });
 
@@ -203,9 +237,10 @@ const postMessage = async (req, res, { db, userId }) => {
   if (!(await isMember(db, body.groupId, userId))) {
     return send(res, 403, { error: "Join the group before posting." });
   }
+  const me = await profileOf(userId);
   const { error } = await db.from("group_messages").insert({
     group_id: body.groupId, user_id: userId, body: text,
-    display_name: body.displayName || null, avatar_url: body.avatarUrl || null,
+    display_name: me.displayName, avatar_url: me.avatarUrl,
   });
   if (error) return send(res, 500, { error: error.message });
   return send(res, 201, { data: { posted: true } });
@@ -277,8 +312,9 @@ const addExpense = async (req, res, { db, userId }) => {
   if (!(await isMember(db, body.groupId, userId))) {
     return send(res, 403, { error: "Join the group before adding costs." });
   }
+  const me = await profileOf(userId);
   const { error } = await db.from("group_expenses").insert({
-    group_id: body.groupId, paid_by: userId, paid_by_name: body.displayName || null,
+    group_id: body.groupId, paid_by: userId, paid_by_name: me.displayName,
     description, amount_paise: Math.round(rupees * 100),
   });
   if (error) return send(res, 500, { error: error.message });
@@ -303,6 +339,19 @@ export default async function handler(req, res) {
   const action = req.query?.action || req.url.split("?")[0].split("/").pop();
   const route = ROUTES[action];
   if (!route) return res.status(404).json({ error: `No groups endpoint called "${action}".` });
+
+  /* Writes are cheap to automate and expensive to clean up — a script can
+     fill a group's conversation or create a thousand groups faster than
+     anyone can moderate them. Reads are looser; they cost only a query. */
+  const write = route.methods.includes("POST");
+  const burst = rateLimit(`groups:${write ? "w" : "r"}:${clientIp(req)}`, {
+    limit: write ? 20 : 90,
+    windowMs: 60_000,
+  });
+  if (!burst.ok) {
+    res.setHeader("Retry-After", String(burst.retryAfter));
+    return res.status(429).json({ error: "Too many requests from this connection. Try again shortly." });
+  }
 
   const ctx = await guard(req, res, route.methods, route.auth);
   if (!ctx) return;
