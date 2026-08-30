@@ -67,6 +67,34 @@ export class LiveSession {
     this.queued = new Set();
     this.speaking = false;
     this.muted = false;
+
+    /* Transcripts arrive a few words at a time and have to be assembled, but
+       only within one exchange: appending them forever ran every answer into
+       the one before it. `pending` marks that the next fragment belongs to a
+       new turn and should replace what is on screen rather than extend it. */
+    this.heard = "";
+    this.said = "";
+    this.pending = { heard: false, said: false };
+  }
+
+  #startHeard() {
+    if (!this.pending.heard) return;
+    this.pending.heard = false;
+    this.heard = "";
+    // A new question means her last answer is history.
+    this.said = "";
+    this.h.onSaid?.("");
+  }
+
+  #startSaid() {
+    if (!this.pending.said) return;
+    this.pending.said = false;
+    this.said = "";
+  }
+
+  /** Both sides of the exchange are finished; the next fragment starts a new one. */
+  #endTurn() {
+    this.pending = { heard: true, said: true };
   }
 
   /** Her loudness right now, 0–1, for the rings. */
@@ -155,21 +183,28 @@ export class LiveSession {
         this.h.onState?.("listening");
         break;
       case "interrupted":
-        // She has been talked over. Everything queued is now stale.
+        // She has been talked over. Everything queued is now stale, and so is
+        // the half-finished sentence on screen.
         this.#flush();
+        this.#endTurn();
         this.h.onState?.("listening");
         break;
       case "turn-complete":
+        this.#endTurn();
         if (!this.queued.size) {
           this.speaking = false;
           this.h.onState?.("listening");
         }
         break;
       case "said":
-        this.h.onSaid?.(msg.text);
+        this.#startSaid();
+        this.said += msg.text;
+        this.h.onSaid?.(this.said);
         break;
       case "heard":
-        this.h.onHeard?.(msg.text);
+        this.#startHeard();
+        this.heard += msg.text;
+        this.h.onHeard?.(this.heard);
         break;
       case "navigate":
         this.h.onNavigate?.(msg.to, msg.tourId);
@@ -244,6 +279,12 @@ export class LiveSession {
   say(text) {
     if (this.socket?.readyState !== WebSocket.OPEN) return;
     this.#flush();
+    this.#endTurn();
+    this.heard = text;
+    this.said = "";
+    this.h.onHeard?.(text);
+    this.h.onSaid?.("");
+    this.pending.heard = false;
     this.socket.send(JSON.stringify({ type: "text", text }));
   }
 

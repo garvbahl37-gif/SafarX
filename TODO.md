@@ -6,6 +6,12 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Srishti greets you in Hindi** — "SafarX में आपका स्वागत है। कहाँ जाने
+      का प्लान है?" — and then follows whatever language you reply in, every
+      turn. The greeting no longer locks the conversation into Hindi
+- [x] **Captions fixed** — transcript fragments were appended forever, so each
+      answer ran into the one before it. They now assemble per turn and reset
+      cleanly when the next one starts
 - [x] **Srishti is hands-free** — grant the microphone once and she stays
       open: she hears you start, hears you stop, answers, and listens again.
       Talk over her and she stops mid-word. The room is measured first, so the

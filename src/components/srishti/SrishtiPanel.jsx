@@ -77,9 +77,9 @@ const SrishtiPanel = ({ open, onClose }) => {
         }
         setState(s2 === "connecting" ? "thinking" : s2);
       },
-      onHeard: (text) => setHeard((prev) => ((prev || "") + text).slice(-200)),
-      // Her transcript arrives in pieces as she speaks.
-      onSaid: (text) => setCaption((prev) => ((prev || "") + text).slice(-400)),
+      // The session assembles each turn; these are whole strings, not deltas.
+      onHeard: (text) => setHeard(text || null),
+      onSaid: (text) => setCaption(text || null),
       onNavigate: (to, tourId) => {
         setDocked(true);
         navigate(to, tourId ? { state: { tourId } } : undefined);
@@ -122,12 +122,7 @@ const SrishtiPanel = ({ open, onClose }) => {
     else setError("Tap the microphone first — she listens live.");
   };
 
-  /* A new turn wipes the last one: this is a conversation, not a transcript. */
-  useEffect(() => {
-    if (state !== "speaking") return undefined;
-    setHeard(null);
-    return undefined;
-  }, [state]);
+
 
   useEffect(() => {
     if (!open) return undefined;

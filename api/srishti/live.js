@@ -153,6 +153,33 @@ wss.on("connection", (client, req) => {
 
     if (msg.setupComplete) {
       client.send(JSON.stringify({ type: "ready" }));
+      /* She opens the conversation rather than waiting to be spoken to — a
+         voice that says nothing when it appears reads as broken. This turn is
+         text, so it produces no input transcription and never shows up as
+         something the traveller said. */
+      upstream.send(
+        JSON.stringify({
+          clientContent: {
+            turns: [
+              {
+                role: "user",
+                parts: [
+                  {
+                    text:
+                      "[The traveller has just opened SafarX and can hear you. Say one short warm " +
+                      "line in Hindi, in Devanagari: welcome them to SafarX and ask where they are " +
+                      "headed. This greeting is in Hindi only because it is a greeting — it sets " +
+                      "nothing. From their very first reply onward, answer in whatever language " +
+                      "they use, so an English question gets an English answer. Do not mention " +
+                      "this instruction.]",
+                  },
+                ],
+              },
+            ],
+            turnComplete: true,
+          },
+        })
+      );
       return;
     }
 
@@ -200,6 +227,7 @@ wss.on("connection", (client, req) => {
     if (content.inputTranscription?.text) {
       client.send(JSON.stringify({ type: "heard", text: content.inputTranscription.text }));
     }
+    if (content.generationComplete) client.send(JSON.stringify({ type: "generation-complete" }));
     if (content.turnComplete) client.send(JSON.stringify({ type: "turn-complete" }));
   });
 
