@@ -15,6 +15,13 @@
 const MIC_RATE = 16000;
 const HER_RATE = 24000;
 
+/* While she is speaking, the microphone is hearing her as well as you. Echo
+   cancellation removes most of it but not all, and what survives was enough to
+   register as an interruption and cut her off mid-sentence. So while she talks,
+   only sound clearly louder than the leftovers is passed on — which is what
+   actually interrupting someone sounds like. */
+const BARGE_IN_LEVEL = 0.055;
+
 /* Captures the microphone off the main thread and hands up 16kHz PCM16. */
 const WORKLET = `
 class Tap extends AudioWorkletProcessor {
@@ -43,6 +50,16 @@ class Tap extends AudioWorkletProcessor {
 }
 registerProcessor('srishti-tap', Tap);
 `;
+
+/** Root mean square of a PCM16 frame, 0–1 — how loud this slice of sound is. */
+const loudEnough = (samples, threshold) => {
+  let sum = 0;
+  for (let i = 0; i < samples.length; i += 1) {
+    const v = samples[i] / 32768;
+    sum += v * v;
+  }
+  return Math.sqrt(sum / samples.length) > threshold;
+};
 
 export class LiveSession {
   /**
@@ -158,6 +175,7 @@ export class LiveSession {
     this.node = new AudioWorkletNode(this.micContext, "srishti-tap");
     this.node.port.onmessage = (e) => {
       if (this.muted || this.socket?.readyState !== WebSocket.OPEN) return;
+      if (this.speaking && !loudEnough(e.data, BARGE_IN_LEVEL)) return;
       this.socket.send(e.data.buffer);
     };
     source.connect(this.node);

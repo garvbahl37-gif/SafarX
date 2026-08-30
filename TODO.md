@@ -6,6 +6,10 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Bug: she cut herself off mid-sentence** — her own voice returning
+      through the microphone registered as an interruption. Two guards: a lower
+      start-of-speech threshold, and the browser only forwarding sound clearly
+      louder than the echo while she is speaking. Genuine barge-in still works
 - [x] **Bug: tours she announced never opened** — she navigated to the tours
       index rather than opening the tour, so "I'm opening the Taj Mahal" left
       you looking at a list. She now opens it the same way clicking its card does

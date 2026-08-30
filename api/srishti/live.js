@@ -93,10 +93,15 @@ wss.on("connection", (client, req) => {
           // Gemini decides when a turn has ended, from the audio itself.
           realtimeInputConfig: {
             automaticActivityDetection: {
-              startOfSpeechSensitivity: "START_SENSITIVITY_HIGH",
+              /* HIGH start sensitivity cut her off mid-sentence: her own voice
+                 coming back through the microphone was enough to register as
+                 someone interrupting. Deliberate interruption is loud and
+                 close; echo is neither, so a low threshold to *start* hearing
+                 someone keeps barge-in without her talking over herself. */
+              startOfSpeechSensitivity: "START_SENSITIVITY_LOW",
               endOfSpeechSensitivity: "END_SENSITIVITY_HIGH",
-              prefixPaddingMs: 180,
-              silenceDurationMs: 620,
+              prefixPaddingMs: 220,
+              silenceDurationMs: 700,
             },
           },
           outputAudioTranscription: {},
