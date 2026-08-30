@@ -11,6 +11,7 @@ import AILoadingScreen from './components/LoadingScreen';
 import FlightBookingPanel from './components/FlightBookingPanel';
 import HotelBookingPanel from './components/HotelBookingPanel';
 import TrainBookingPanel from './components/TrainBookingPanel';
+import { takeIntent, onIntent } from '../../services/srishtiIntent';
 import { clearSession } from './api';
 
 import './index.css';
@@ -71,6 +72,19 @@ function App() {
     const openFlightPanel = useCallback(() => setActivePanel('flight'), []);
     const openHotelPanel = useCallback(() => setActivePanel('hotel'), []);
     const openTrainPanel = useCallback(() => setActivePanel('train'), []);
+
+    /* Srishti can send someone here having already looked something up. The
+       panel she meant opens with what she found, rather than empty. */
+    const [prefill, setPrefill] = useState(null);
+    useEffect(() => {
+        const apply = (intent) => {
+            if (!intent) return;
+            if (intent.type === 'trains') { setPrefill(intent.payload); setActivePanel('train'); }
+            if (intent.type === 'stays') { setPrefill(intent.payload); setActivePanel('hotel'); }
+        };
+        apply(takeIntent('trains') || takeIntent('stays'));
+        return onIntent(apply);
+    }, []);
     const closePanel = useCallback(() => {
         setActivePanel(null);
         setSearchResults(null);
@@ -102,8 +116,8 @@ function App() {
 
     const panelContent =
         activePanel === 'flight' ? <FlightBookingPanel onClose={closePanel} /> :
-        activePanel === 'hotel' ? <HotelBookingPanel onClose={closePanel} /> :
-        activePanel === 'train' ? <TrainBookingPanel onClose={closePanel} /> :
+        activePanel === 'hotel' ? <HotelBookingPanel onClose={closePanel} prefill={prefill} /> :
+        activePanel === 'train' ? <TrainBookingPanel onClose={closePanel} prefill={prefill} /> :
         (activePanel === 'results' || searchResults) ? <BookingResults results={searchResults} onClose={closePanel} /> :
         null;
 

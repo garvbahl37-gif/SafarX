@@ -39,6 +39,10 @@ export const TOOL_DECLARATIONS = [
       properties: {
         from: { type: "STRING", description: "Origin city or station name" },
         to: { type: "STRING", description: "Destination city or station name" },
+        date: {
+          type: "STRING",
+          description: "Date of travel as YYYY-MM-DD, if they said one. Assume the next occurrence of a bare date like '3 September'.",
+        },
       },
       required: ["from", "to"],
     },
@@ -70,6 +74,33 @@ export const TOOL_DECLARATIONS = [
       type: "OBJECT",
       properties: { place: { type: "STRING", description: "City or state name" } },
       required: ["place"],
+    },
+  },
+  {
+    name: "plan_itinerary",
+    description:
+      "Plan a day-by-day trip and put it on screen. Use whenever someone wants an itinerary, a plan, or help working out what to do somewhere over several days. Fills the planner in and starts it — do not send them to the planner to do it themselves.",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        destination: { type: "STRING", description: "Indian city, state or region" },
+        startDate: {
+          type: "STRING",
+          description:
+            "First day of the trip as YYYY-MM-DD — exactly the date they named, not the day before. " +
+            "\"three days from 6 September\" starts on the 6th. Leave out if they did not say.",
+        },
+        days: { type: "NUMBER", description: "How many days, default 3" },
+        interests: {
+          type: "STRING",
+          description:
+            "Comma separated, from: Heritage, Nature, Food, Adventure, Spiritual, Shopping, Nightlife, Photography",
+        },
+        pace: { type: "STRING", description: "Relaxed, Moderate or Packed" },
+        budget: { type: "STRING", description: "Total budget in rupees, digits only" },
+        travellers: { type: "NUMBER", description: "How many adults, default 2" },
+      },
+      required: ["destination"],
     },
   },
   {
@@ -114,6 +145,37 @@ const near = (lat, lng, rows, limit) =>
  * Runs one tool call and returns a small, speakable result. Everything here is
  * trimmed hard: she has to say it out loud, so a wall of JSON is useless.
  */
+/**
+ * Whether a spoken destination and a gazetteer entry are the same place.
+ * Tolerates the odd transcription slip ("Kerela"/"Kerala", "Varnasi"/"Varanasi")
+ * without letting "Coorg" quietly become "Coimbatore".
+ */
+const isSamePlace = (asked, name) => {
+  const a = asked.toLowerCase().trim();
+  const b = name.toLowerCase().trim();
+  if (b.startsWith(a.slice(0, 4))) return true;
+  // A misspelling stays about the same length; a different place rarely does.
+  if (Math.abs(a.length - b.length) > 2) return false;
+  return editDistance(a, b) <= Math.min(2, Math.floor(a.length / 4));
+};
+
+/** Levenshtein, one row at a time — these strings are a few characters long. */
+const editDistance = (a, b) => {
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i += 1) {
+    const row = [i];
+    for (let j = 1; j <= b.length; j += 1) {
+      row[j] = Math.min(
+        prev[j] + 1,
+        row[j - 1] + 1,
+        prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+    }
+    prev = row;
+  }
+  return prev[b.length];
+};
+
 export const runTool = async (name, args, { origin }) => {
   /* Whatever goes wrong, she is told it in words she can repeat out loud.
      She was quoting HTTP status codes at travellers. */
@@ -142,12 +204,19 @@ export const runTool = async (name, args, { origin }) => {
           `/api/stays/search?lat=${place.lat}&lng=${place.lng}&checkIn=${checkIn}&checkOut=${checkOut}&adults=${args.guests || 2}`
         ));
       } catch (err) {
-        /* No live prices — say so plainly and stay useful about the place
-           itself rather than going quiet. */
+        /* No live prices — say so plainly, but still open the panel with the
+           city and the nights filled in. Promising a page and then leaving
+           them where they were is worse than an honest empty one, and the
+           search is one tap away when the quota comes back. */
         return {
           unavailable: `Live hotel prices for ${place.name} are unavailable right now (${err.message}).`,
           city: place.name,
-          suggestion: "Offer to show them the place, or hidden gems nearby, instead.",
+          suggestion: "Say prices are not coming through, and that you have opened the stays panel for that city anyway.",
+          navigate: "/chat",
+          intent: {
+            type: "stays",
+            payload: { place, checkIn, checkOut, guests: Number(args.guests) || 2 },
+          },
         };
       }
       return {
@@ -160,6 +229,11 @@ export const runTool = async (name, args, { origin }) => {
           perNight: h.price?.displayPrice || null,
           rating: h.rating,
         })),
+        navigate: "/chat",
+        intent: {
+          type: "stays",
+          payload: { place, checkIn, checkOut, guests: Number(args.guests) || 2 },
+        },
       };
     }
 
@@ -168,6 +242,7 @@ export const runTool = async (name, args, { origin }) => {
       const to = findStations(args.to, 1)[0];
       if (!from || !to) return { error: "I couldn't place one of those stations." };
       const { data = [] } = await get(`/api/trains/between?from=${from.code}&to=${to.code}`);
+      const best = data[0];
       return {
         from: from.city,
         to: to.city,
@@ -179,6 +254,18 @@ export const runTool = async (name, args, { origin }) => {
           arrives: t.to.time,
           takes: t.duration,
         })),
+        /* Opens the trains panel already filled in, with the one she named
+           picked out — so "the Shatabdi at six" is on screen, not a form. */
+        navigate: "/chat",
+        intent: {
+          type: "trains",
+          payload: {
+            from: { code: from.code, name: from.name, city: from.city },
+            to: { code: to.code, name: to.name, city: to.city },
+            date: args.date || null,
+            highlight: best?.number || null,
+          },
+        },
       };
     }
 
@@ -220,6 +307,55 @@ export const runTool = async (name, args, { origin }) => {
       return {
         near: place.name,
         gems: found.map((g) => ({ name: g.name, state: g.state, about: g.description })),
+      };
+    }
+
+    case "plan_itinerary": {
+      /* "Kerala" is a place to plan a trip around; resolving it to the first
+         Kerala city in the gazetteer quietly narrowed a whole state to
+         Alappuzha. Only take the match when it is what they actually named. */
+      const asked = String(args.destination || "").trim();
+      const place = findPlaces(asked, 1)[0];
+      /* Take the gazetteer's spelling when it is plainly the same place —
+         she dictates from speech and writes "Kerela" often enough that the
+         traveller would otherwise see their own trip misspelled back at them.
+         A near-miss is a typo; anything further is a different place. */
+      const sameThing = place && isSamePlace(asked, place.name);
+      const destination = sameThing ? place.name : asked;
+      if (!destination) return { unavailable: "I need somewhere in India to plan for." };
+
+      const days = Math.min(14, Math.max(1, Number(args.days) || 3));
+      /* Parsed as UTC, deliberately. Without the Z, "2026-09-06T00:00:00" is
+         local midnight, and toISOString then walks it back across the offset —
+         on an IST machine every trip started the day before the one she said. */
+      const start = args.startDate && /^\d{4}-\d{2}-\d{2}$/.test(args.startDate)
+        ? new Date(`${args.startDate}T00:00:00Z`)
+        : new Date(Date.now() + 7 * 864e5);
+      const end = new Date(start.getTime() + (days - 1) * 864e5);
+      const iso = (d) => d.toISOString().slice(0, 10);
+
+      /* The planner does the writing; she sets it going and talks over it. */
+      return {
+        planning: destination,
+        days,
+        from: iso(start),
+        to: iso(end),
+        navigate: "/itinerary",
+        intent: {
+          type: "itinerary",
+          payload: {
+            destination,
+            startDate: iso(start),
+            endDate: iso(end),
+            interests: String(args.interests || "")
+              .split(",")
+              .map((i) => i.trim())
+              .filter(Boolean),
+            pace: ["Relaxed", "Moderate", "Packed"].includes(args.pace) ? args.pace : "Moderate",
+            budget: String(args.budget || "").replace(/[^\d]/g, ""),
+            adults: Math.max(1, Number(args.travellers) || 2),
+          },
+        },
       };
     }
 

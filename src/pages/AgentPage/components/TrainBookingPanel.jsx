@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 import {
     X, TrainFront, Search, Clock, ArrowRight, ChevronLeft,
@@ -201,7 +201,7 @@ const MODES = [
     { id: 'pnr', label: 'PNR', icon: Ticket },
 ];
 
-const TrainBookingPanel = ({ onClose }) => {
+const TrainBookingPanel = ({ onClose, prefill }) => {
     const [mode, setMode] = useState('route');
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
@@ -217,11 +217,52 @@ const TrainBookingPanel = ({ onClose }) => {
 
     /* Live and PNR */
     const [trainNo, setTrainNo] = useState('');
+    const [highlight, setHighlight] = useState(null);
     const [pnr, setPnr] = useState('');
     const [liveStatus, setLiveStatus] = useState(null);
     const [ticket, setTicket] = useState(null);
 
     const reset = () => { setError(null); setSearched(true); };
+
+    /* Srishti has already worked out the journey out loud. Arriving at an
+       empty search form would make the traveller do it again, so the panel
+       fills itself in and runs the search, with the train she named picked out. */
+    const ran = useRef(null);
+    /* Read, never depended on: the effect sets the date itself, so listing it
+       as a dependency re-ran the effect, and that re-run's cleanup cancelled
+       the search still in flight — the fields filled in and no train ever
+       arrived. */
+    const dateRef = useRef(date);
+    dateRef.current = date;
+    useEffect(() => {
+        if (!prefill?.from || !prefill?.to) return;
+        const signature = `${prefill.from.code}-${prefill.to.code}-${prefill.date || ''}`;
+        if (ran.current === signature) return;
+        ran.current = signature;
+
+        setMode('route');
+        setFrom({ code: prefill.from.code, name: prefill.from.name, city: prefill.from.city });
+        setTo({ code: prefill.to.code, name: prefill.to.name, city: prefill.to.city });
+        if (prefill.date) setDate(prefill.date);
+        setHighlight(prefill.highlight || null);
+
+        /* Deliberately not cancelled on cleanup. The parent hands down a fresh
+           `prefill` object as it re-renders, so a cleanup-based guard aborted
+           the search a few milliseconds after starting it and the panel sat
+           empty under a filled-in form. The signature ref is the real guard —
+           it already allows exactly one search per request. */
+        (async () => {
+            setLoading(true); setError(null); setSearched(true); setResults([]);
+            try {
+                const { data } = await trainApi.between(prefill.from.code, prefill.to.code, prefill.date || dateRef.current);
+                if (ran.current === signature) setResults(data || []);
+            } catch (err) {
+                if (ran.current === signature) setError(err.message);
+            } finally {
+                if (ran.current === signature) setLoading(false);
+            }
+        })();
+    }, [prefill]);
 
     const swapEnds = () => { setFrom(to); setTo(from); };
 
@@ -614,6 +655,10 @@ const TrainBookingPanel = ({ onClose }) => {
                                                 aria-label={train.schedule?.length ? `Route of ${train.name}` : train.name}
                                                 className={`agent-card w-full text-left p-4 rounded-2xl space-y-3 transition-colors group ${
                                                     train.schedule?.length ? 'cursor-pointer hover:border-saffron/30' : 'cursor-default'
+                                                } ${
+                                                    highlight && train.number === highlight
+                                                        ? 'border-saffron/60 bg-saffron/[0.06] shadow-[0_0_0_1px_rgba(212,168,67,0.25)]'
+                                                        : ''
                                                 }`}
                                             >
                                                 <div className="flex items-start justify-between gap-3">
@@ -621,8 +666,11 @@ const TrainBookingPanel = ({ onClose }) => {
                                                         <h4 className="font-display text-[15px] text-ivory truncate">
                                                             <Highlight text={train.name} match={mode === 'train' ? query : ''} />
                                                         </h4>
-                                                        <p className="font-data text-[9.5px] uppercase tracking-[0.16em] text-ivory-faint mt-1 tabular-nums">
-                                                            {train.number}
+                                                        <p className="font-data text-[9.5px] uppercase tracking-[0.16em] mt-1 tabular-nums">
+                                                            <span className="text-ivory-faint">{train.number}</span>
+                                                            {highlight && train.number === highlight && (
+                                                                <span className="ml-2 text-saffron">Srishti&apos;s pick</span>
+                                                            )}
                                                         </p>
                                                     </div>
                                                     {train.duration && (

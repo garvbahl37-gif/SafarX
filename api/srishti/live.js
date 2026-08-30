@@ -202,10 +202,15 @@ wss.on("connection", (client, req) => {
         } catch (err) {
           result = { unavailable: String(err.message || "that isn't available right now").slice(0, 120) };
         }
-        // Navigation is for the browser, not for her.
+        // Navigation and prefill are for the browser, not for her.
         if (result?.navigate) {
           client.send(
-            JSON.stringify({ type: "navigate", to: result.navigate, tourId: result.tourId || null })
+            JSON.stringify({
+              type: "navigate",
+              to: result.navigate,
+              tourId: result.tourId || null,
+              intent: result.intent || null,
+            })
           );
         }
         client.send(JSON.stringify({ type: "tool", name: call.name }));

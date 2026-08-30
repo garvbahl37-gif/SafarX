@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import { motion as Motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowDown, Sparkles, Compass, Route, IndianRupee } from "lucide-react";
 
@@ -8,6 +8,7 @@ import SimpleMarkdownDisplay from "../components/SimpleMarkdownDisplay";
 import GeneratingRoute from "../components/planner/GeneratingRoute";
 import { EASE } from "../components/planner/plannerOptions";
 import JourneyStrip from "../components/planner/JourneyStrip";
+import { takeIntent, onIntent } from "../services/srishtiIntent";
 
 const ASSURANCES = [
   { icon: Route, title: "Hour by hour", copy: "Every day laid out with timings, travel legs, and how long each stop takes." },
@@ -25,6 +26,21 @@ const ItineraryPlanner = ({ selectedItem }) => {
   const [draft, setDraft] = useState(null);
   const [regenerateSignal, setRegenerateSignal] = useState(0);
   const [formKey, setFormKey] = useState(0);
+  /* A brief Srishti has already taken, so the planner starts writing rather
+     than asking the traveller everything they just said out loud. */
+  const [brief, setBrief] = useState(null);
+
+  useEffect(() => {
+    const apply = (intent) => {
+      if (intent?.type !== "itinerary") return;
+      setItinerary(null);
+      setFormData(null);
+      setBrief(intent.payload);
+      setFormKey((n) => n + 1);
+    };
+    apply(takeIntent("itinerary"));
+    return onIntent(apply);
+  }, []);
 
   const resultsRef = useRef(null);
   const formRef = useRef(null);
@@ -214,6 +230,7 @@ const ItineraryPlanner = ({ selectedItem }) => {
           <div ref={formRef} className={showForm ? "" : "hidden"} aria-hidden={showForm ? undefined : true}>
             <GeminiItineraryForm
               key={formKey}
+              brief={brief}
               onItineraryGenerated={handleItineraryGenerated}
               onLoadingChange={handleLoadingChange}
               regenerateSignal={regenerateSignal}

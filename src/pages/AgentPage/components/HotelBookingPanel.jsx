@@ -25,7 +25,7 @@ const Highlight = ({ text = '', match = '' }) => {
     );
 };
 
-const HotelBookingPanel = ({ onClose }) => {
+const HotelBookingPanel = ({ onClose, prefill }) => {
     const [destination, setDestination] = useState('');
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
@@ -111,6 +111,37 @@ const HotelBookingPanel = ({ onClose }) => {
             adults: guests, rooms, currency: 'INR', parts,
             provider: openProvider,
         });
+
+    /* She has already picked the city and the nights out loud. */
+    const ranPrefill = useRef(null);
+    useEffect(() => {
+        if (!prefill?.place) return;
+        const signature = `${prefill.place.name}-${prefill.checkIn}-${prefill.checkOut}`;
+        if (ranPrefill.current === signature) return;
+        ranPrefill.current = signature;
+        setDestination(prefill.place.name);
+        setSelectedLocation(prefill.place);
+        setShowSuggestions(false);
+        if (prefill.checkIn) setCheckIn(prefill.checkIn);
+        if (prefill.checkOut) setCheckOut(prefill.checkOut);
+        if (prefill.guests) setGuests(prefill.guests);
+
+        /* Run it too, reading the prefill rather than the state just queued —
+           she has already asked out loud, so a filled form waiting on a tap is
+           still making the traveller ask twice. */
+        setShowResults(true);
+        searchHotels({
+            destId: prefill.place.destId,
+            lat: prefill.place.lat,
+            lng: prefill.place.lng,
+            searchType: prefill.place.searchType,
+            checkIn: prefill.checkIn || checkIn,
+            checkOut: prefill.checkOut || checkOut,
+            adults: prefill.guests || guests,
+            rooms,
+            currency: 'INR',
+        });
+    }, [prefill, setSelectedLocation]);
 
     useEffect(() => {
         const handler = (e) => {

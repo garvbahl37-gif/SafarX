@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { X, Mic, MicOff, Keyboard, CornerDownLeft } from "lucide-react";
 import SrishtiRings from "./SrishtiRings";
 import vrTours from "../../data/vrTours.json";
+import { setIntent } from "../../services/srishtiIntent";
 import { LiveSession } from "../../services/srishtiLive";
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -81,8 +82,10 @@ const SrishtiPanel = ({ open, onClose, onPageChange }) => {
       // The session assembles each turn; these are whole strings, not deltas.
       onHeard: (text) => setHeard(text || null),
       onSaid: (text) => setCaption(text || null),
-      onNavigate: (to, tourId) => {
+      onNavigate: (to, tourId, intent) => {
         setDocked(true);
+        // Published before navigating, so the page finds it as it mounts.
+        if (intent) setIntent(intent);
         /* The tour goes to the VR tours page, which knows all 34 of them and
            opens whichever it is handed. The 360° explorer carries its own list
            of four and always opens the first — which is the Taj, so asking for

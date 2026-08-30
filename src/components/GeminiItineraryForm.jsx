@@ -29,7 +29,7 @@ import {
  *   specialRequests } — traveller counts are UI state only and are folded back
  * into the two booleans the Gemini prompt expects.
  */
-const GeminiItineraryForm = ({ onItineraryGenerated, onLoadingChange, regenerateSignal = 0 }) => {
+const GeminiItineraryForm = ({ onItineraryGenerated, onLoadingChange, regenerateSignal = 0, brief = null }) => {
   const reduce = useReducedMotion();
 
   const [form, setForm] = useState({
@@ -177,6 +177,29 @@ const GeminiItineraryForm = ({ onItineraryGenerated, onLoadingChange, regenerate
   // Track the signal VALUE, not a "first run" flag: StrictMode invokes effects
   // twice on mount, so a boolean guard gets consumed by the first pass and the
   // second pass fires a submit against an empty form.
+  /* Srishti has taken the brief already. Fill it in, jump to the end of the
+     form so the traveller can see what she understood, and start writing. */
+  const briefRan = useRef(null);
+  useEffect(() => {
+    if (!brief?.destination) return;
+    const signature = JSON.stringify(brief);
+    if (briefRan.current === signature) return;
+    briefRan.current = signature;
+
+    setForm((prev) => ({
+      ...prev,
+      destination: brief.destination,
+      startDate: brief.startDate || prev.startDate,
+      endDate: brief.endDate || prev.endDate,
+      pace: brief.pace || prev.pace,
+      budget: brief.budget || prev.budget,
+      interests: brief.interests?.length ? brief.interests : prev.interests,
+    }));
+    if (brief.adults) setCounts((prev) => ({ ...prev, adults: brief.adults }));
+    setStep(lastStep);
+    setFurthest(lastStep);
+  }, [brief, lastStep]);
+
   const lastSignal = useRef(regenerateSignal);
   useEffect(() => {
     if (regenerateSignal === lastSignal.current) return;

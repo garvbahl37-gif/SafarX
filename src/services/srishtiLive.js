@@ -266,7 +266,7 @@ export class LiveSession {
         this.h.onHeard?.(this.heard);
         break;
       case "navigate":
-        this.h.onNavigate?.(msg.to, msg.tourId);
+        this.h.onNavigate?.(msg.to, msg.tourId, msg.intent);
         break;
       case "tool":
         this.h.onTool?.(msg.name);
