@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { sendMessage } from '../api';
+import { useSpeechInput } from '../../../hooks/useSpeechInput';
+import ListeningOrb from '../../../components/ui/ListeningOrb';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -204,7 +206,25 @@ const Chat = ({
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isRecording, setIsRecording] = useState(false);
+    /* Dictation. Finals are appended to whatever is already typed so you can
+       start a sentence with the keyboard and finish it out loud; the interim
+       text is shown separately rather than written into the box, because
+       watching your own words get rewritten mid-phrase is unpleasant. */
+    const {
+        listening,
+        starting: micStarting,
+        interim,
+        error: speechError,
+        toggle: toggleDictation,
+        stop: stopDictation,
+        getLevel,
+        supported: speechSupported,
+    } = useSpeechInput({
+        onFinal: (text) => {
+            if (!text) return;
+            setInput((prev) => (prev ? `${prev.replace(/\s+$/, '')} ${text}` : text));
+        },
+    });
     const [activeTool, setActiveTool] = useState(null);
     const [stepIndex, setStepIndex] = useState(0);
     const [copiedId, setCopiedId] = useState(null);
@@ -345,7 +365,12 @@ const Chat = ({
         await runAgent(text);
     };
 
-    const handleSend = () => submit(input);
+    /* Sending closes the microphone. Leaving it open after a message is away
+       means the agent's own reply gets dictated back into the next one. */
+    const handleSend = () => {
+        if (listening) stopDictation();
+        submit(input);
+    };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -670,6 +695,57 @@ const Chat = ({
 
             {/* ══════════ Composer ══════════ */}
             <div className="relative z-10 px-4 md:px-8 pt-3 pb-4 border-t border-white/[0.07] bg-ink-950/40">
+
+                {/* While dictating, the orb takes over the composer's airspace.
+                    It sits above the field rather than replacing it so the text
+                    you have already typed stays visible behind the decision. */}
+                <AnimatePresence>
+                    {listening && (
+                        <Motion.div
+                            initial={{ opacity: 0, y: 14, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.97 }}
+                            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                            className="absolute inset-x-4 md:inset-x-8 bottom-full mb-3 z-20 overflow-hidden
+                                       rounded-[22px] border border-saffron/25 bg-ink-900/[0.97] backdrop-blur-xl
+                                       shadow-[0_20px_60px_rgba(6,20,18,0.75)]"
+                            role="status"
+                            aria-live="polite"
+                        >
+                            <div className="flex items-center gap-5 px-5 py-4">
+                                <ListeningOrb level={getLevel} size={92} className="shrink-0" />
+
+                                <div className="min-w-0 flex-1">
+                                    <p className="eyebrow mb-1.5">Listening</p>
+                                    <p className="font-sans text-[14.5px] leading-relaxed text-ivory min-h-[1.4em]">
+                                        {interim || (
+                                            <span className="text-ivory-faint">
+                                                Say where you want to go — I&apos;m writing it down.
+                                            </span>
+                                        )}
+                                    </p>
+                                    <p className="mt-2 font-data text-[9.5px] uppercase tracking-[0.18em] text-ivory-faint">
+                                        Pauses are fine · stops on its own after a silence
+                                    </p>
+                                </div>
+
+                                <button
+                                    onClick={stopDictation}
+                                    className="btn-ghost shrink-0 !px-4 !py-2 text-[12.5px]"
+                                >
+                                    Done
+                                </button>
+                            </div>
+                        </Motion.div>
+                    )}
+                </AnimatePresence>
+
+                {speechError && !listening && (
+                    <p className="mb-2 font-sans text-[12.5px] text-danger-bright" role="alert">
+                        {speechError}
+                    </p>
+                )}
+
                 <div className="agent-composer flex items-end gap-2 pl-4 pr-2 py-2">
                     <label htmlFor="agent-composer-input" className="sr-only">
                         Message the SafarX Agent
@@ -691,12 +767,30 @@ const Chat = ({
                     />
 
                     <button
-                        onClick={() => setIsRecording(!isRecording)}
-                        className={`agent-icon-btn p-2 mb-0.5 shrink-0 ${isRecording ? 'text-saffron border-saffron/40' : ''
-                            }`}
-                        aria-label={isRecording ? 'Stop voice input' : 'Start voice input'}
-                        aria-pressed={isRecording}
+                        onClick={toggleDictation}
+                        disabled={!speechSupported || isLoading}
+                        className={`agent-icon-btn relative p-2 mb-0.5 shrink-0 ${listening ? 'text-ink-950 border-saffron bg-saffron' : ''
+                            } ${micStarting ? 'text-saffron border-saffron/50' : ''
+                            } ${!speechSupported ? 'opacity-40 cursor-not-allowed' : ''}`}
+                        aria-label={
+                            !speechSupported
+                                ? 'Voice input is not available in this browser'
+                                : listening
+                                    ? 'Stop dictating'
+                                    : micStarting
+                                        ? 'Waiting for microphone access'
+                                        : 'Dictate your message'
+                        }
+                        title={speechSupported ? undefined : 'This browser has no speech recognition'}
+                        aria-pressed={listening}
                     >
+                        {(listening || micStarting) && !reduce && (
+                            <span
+                                className={`absolute inset-0 rounded-xl border border-saffron ${listening ? 'animate-ping opacity-60' : 'animate-pulse opacity-40'
+                                    }`}
+                                aria-hidden="true"
+                            />
+                        )}
                         <Mic size={17} />
                     </button>
 
