@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
  Users,
- Calendar,
  Clock,
  TrendingDown,
  Sparkles,
@@ -15,10 +14,16 @@ import {
  Zap
 } from "lucide-react";
 import { predictCrowdLevel } from "../../services/crowdPredictionService";
+import DateField from "../ui/DateField";
+import { toISO } from "../ui/dateUtils";
 
 export default function CrowdPredictionCard({
  destination = "Jaipur",
- initialDate = new Date().toISOString().split("T")[0],
+ /* Local date, not UTC. toISOString() is a UTC calendar date, so on an IST
+    machine before 05:30 this defaulted to yesterday — and once the picker
+    below floors at today, yesterday is out of range and the forecast opens
+    on a date it will not let you select. */
+ initialDate = toISO(new Date()),
  onSelectAlternative = null
 }) {
  const [selectedDest, setSelectedDest] = useState(destination);
@@ -73,17 +78,16 @@ export default function CrowdPredictionCard({
  </p>
  </div>
 
- {/* Date Selector */}
- <div className="flex items-center gap-2">
- <div className="relative">
- <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-ivory-muted pointer-events-none" />
- <input
- type="date"
+ {/* The forecast date. The same calendar the rest of the app uses — this
+     input was the last native one left, and the browser's own picker
+     arrives white, in the system font, with a blue selection. */}
+ <div className="w-[190px] shrink-0">
+ <DateField
  value={selectedDate}
- onChange={(e) => setSelectedDate(e.target.value)}
- className="bg-ink-950 border border-white/15 rounded-xl pl-9 pr-3 py-2 text-xs text-ivory focus:outline-none focus:border-ivory-muted transition"
+ onChange={setSelectedDate}
+ min={toISO(new Date())}
+ placeholder="Pick a date"
  />
- </div>
  </div>
  </div>
 
