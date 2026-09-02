@@ -3,10 +3,13 @@ import { motion } from 'framer-motion';
 import { Sparkles, Share2, Upload, Trash2, Film, X, Lightbulb } from 'lucide-react';
 import { ReelPlayer } from './components/ReelPlayer';
 import { ShareModal } from './components/ShareModal';
+import DiaryHero from './components/DiaryHero';
 import { SAMPLE_RAJASTHAN_JOURNEY, diaryService } from './services/diaryService';
 import toast from 'react-hot-toast';
 
 export const TravelDiary = () => {
+ /* Where the hero's two buttons send you. */
+ const contentRef = useRef(null);
  const [photos, setPhotos] = useState(SAMPLE_RAJASTHAN_JOURNEY.photos);
  const [tripTitle, setTripTitle] = useState(SAMPLE_RAJASTHAN_JOURNEY.tripTitle);
  const [travelerName, setTravelerName] = useState(SAMPLE_RAJASTHAN_JOURNEY.travelerName);
@@ -70,64 +73,41 @@ export const TravelDiary = () => {
 
  const removePhoto = (id) => setPhotos(prev => prev.filter(p => p.id !== id));
 
- return (<div className="min-h-screen bg-ink-950 text-ivory pt-20 pb-24 px-4 sm:px-6 lg:px-8">
+ return (<div className="min-h-screen bg-ink-950 text-ivory">
+ <DiaryHero
+ photoCount={photos.length}
+ onShare={() => handleOpenShare(null)}
+ onScrollToContent={() =>
+ contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+ }
+ />
+
  {/* Ambient blobs */}
  <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
  <div className="absolute top-1/4 -left-48 w-[500px] h-[500px] bg-saffron/5 rounded-full blur-3xl" />
  <div className="absolute bottom-1/3 -right-48 w-[500px] h-[500px] bg-horizon/5 rounded-full blur-3xl" />
  </div>
 
- <div className="max-w-7xl mx-auto relative z-10 space-y-10">
-
- {/* ── Hero ── */}
- <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 border-b border-white/8 pb-8">
- <div>
- <p className="flex items-center gap-3 mb-4">
- <span className="route-dot" aria-hidden="true" />
- <span className="eyebrow">Digital diary</span>
- <span className="route-line w-12 hidden sm:inline-block" aria-hidden="true" />
- </p>
- <h1 className="text-3xl sm:text-5xl font-display font-light text-ivory tracking-tight leading-[1.05]">
- Upload Photos,{' '}
- <em className="not-italic font-display italic text-saffron">
- Create Your Reel
- </em>
- </h1>
- <p className="text-sm sm:text-base text-ivory-muted max-w-xl mt-2.5">
- Upload 15–20 travel photos · Auto-generate a cinematic reel · Share via QR or link
- </p>
- <p className="text-xs text-saffron-bright/90 flex items-center gap-1.5 mt-2 font-medium">
- <Lightbulb size={13} aria-hidden="true" className="shrink-0" />
- <span>For your personalized reel, first delete all photos and add yours.</span>
- </p>
- </div>
- <button
- onClick={() => handleOpenShare(null)}
- className="px-5 py-3 rounded-2xl bg-gradient-to-r from-saffron to-saffron hover:from-saffron-bright hover:to-saffron-bright text-ink-950 font-bold text-sm flex items-center gap-2 shadow-lg shadow-saffron/20 shrink-0 transition-all"
- >
- <Share2 size={15} />
- Share Journey & QR
- </button>
- </div>
+ <div ref={contentRef} className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-10 pb-24 relative z-10 space-y-12 scroll-mt-24">
 
  {/* ── Journey Info ── */}
  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
  <div className="space-y-1.5">
- <label className="text-xs font-semibold text-ivory-muted uppercase tracking-wider">Trip Title</label>
+ <label className="eyebrow-muted">Trip Title</label>
  <input
  value={tripTitle}
  onChange={e => setTripTitle(e.target.value)}
  placeholder="e.g. Royal Echoes of Rajasthan"
- className="w-full bg-ink-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron/50 transition-colors"
+ className="search-field search-field-bare text-[15px]"
  />
  </div>
  <div className="space-y-1.5">
- <label className="text-xs font-semibold text-ivory-muted uppercase tracking-wider">Traveler / Group Name</label>
+ <label className="eyebrow-muted">Traveler / Group Name</label>
  <input
  value={travelerName}
  onChange={e => setTravelerName(e.target.value)}
  placeholder="e.g. Aarav & Meera"
- className="w-full bg-ink-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron/50 transition-colors"
+ className="search-field search-field-bare text-[15px]"
  />
  </div>
  </div>
@@ -135,21 +115,23 @@ export const TravelDiary = () => {
  {/* ── Photo Upload Zone ── */}
  <div>
  <div className="flex items-center justify-between mb-4">
- <div className="flex items-center gap-2">
- <h2 className="text-sm font-bold text-ivory">Photos</h2>
- <span className="px-2 py-0.5 rounded-full bg-saffron/15 text-saffron-bright text-xs font-bold">{photos.length}</span>
+ <div className="flex min-w-0 flex-1 items-center gap-3">
+ <span className="route-dot shrink-0" aria-hidden="true" />
+ <h2 className="eyebrow whitespace-nowrap">Your photographs</h2>
+ <span className="font-data text-[10px] tabular-nums text-saffron">{photos.length}</span>
+ <span className="route-line hidden flex-1 sm:block" aria-hidden="true" />
  </div>
  <div className="flex items-center gap-2">
  {photos.length > 0 && (<button
  onClick={handleDeleteAll}
- className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-danger/10 border border-danger/20 text-danger-bright hover:bg-danger/20 text-xs font-semibold transition-colors"
+ className="flex items-center gap-2 rounded-full border border-danger/30 px-4 py-2 font-sans text-[12.5px] font-semibold text-danger-bright transition-colors hover:bg-danger/10"
  >
  <Trash2 size={12} />
  Delete All
  </button>
  )}
  <label htmlFor="photo-upload"
- className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-saffron/10 border border-saffron/25 text-saffron-bright hover:bg-saffron/20 text-xs font-semibold cursor-pointer transition-colors">
+ className="flex cursor-pointer items-center gap-2 rounded-full bg-gradient-to-br from-saffron-bright to-saffron px-4 py-2 font-sans text-[12.5px] font-bold text-ink-950 transition-transform hover:scale-[1.02]">
  <Upload size={12} />
  Upload Photos
  </label>
@@ -233,15 +215,21 @@ export const TravelDiary = () => {
  </div>
 
  {/* ── Reel Creator ── */}
- {photos.length > 0 && (<div className="border-t border-white/8 pt-10">
- <div className="flex items-center gap-3 mb-6">
- <div className="w-8 h-8 rounded-xl bg-saffron/15 flex items-center justify-center">
- <Film size={16} className="text-saffron-bright" />
+ {/* Wider than the reading column: three panels of controls beside a film
+ do not fit a measure meant for text. */}
+ {photos.length > 0 && (<div className="border-t border-white/8 pt-10 xl:-mx-[7rem] 2xl:-mx-[10rem]">
+ <div className="mb-7">
+ <div className="flex items-center gap-3">
+ <span className="route-dot shrink-0" aria-hidden="true" />
+ <h2 className="eyebrow whitespace-nowrap">Cinematic reel</h2>
+ <span className="route-line flex-1" aria-hidden="true" />
  </div>
- <div>
- <h2 className="text-sm font-bold text-ivory">Cinematic Reel</h2>
- <p className="text-xs text-ivory-faint">Preview, customize ratio & audio, then download or share</p>
- </div>
+ <p className="mt-3 font-display text-[1.5rem] font-light leading-snug text-ivory">
+ Your trip, cut to music.
+ </p>
+ <p className="mt-1 font-sans text-[13.5px] text-ivory-muted">
+ Choose a look and a ratio, pick a track, then download it or send the link.
+ </p>
  </div>
  <ReelPlayer
  photos={photos}

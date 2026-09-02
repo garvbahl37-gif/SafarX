@@ -89,6 +89,8 @@ const INTRO_PLAYED = "safarx:intro-played";
 
 const FULL_BLEED_PAGES = new Set([
  "home", "tracker", "360tour", "gems", "itinerary", "360view", "map",
+  // The diary opens on a full-bleed hero that runs under the floating nav.
+  "diary",
 ]);
 
 // Helper function to get current page ID from path
