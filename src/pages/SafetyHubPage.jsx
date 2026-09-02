@@ -101,12 +101,15 @@ export default function SafetyHubPage() {
  {/* ======================================================== */}
  <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-white/10 pb-8">
  <div className="max-w-3xl space-y-4">
- <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron/10 border border-saffron/25 text-saffron text-xs font-data uppercase tracking-widest">
- <ShieldAlert className="w-3.5 h-3.5 animate-pulse" />
- <span>SafarX Tourist Safety & Crowd Intelligence Layer</span>
- </div>
+ {/* The app marks a section with a dashed route between two dots, not a
+ pill. Same motif as the flight paths and the itinerary waypoints. */}
+ <p className="flex items-center gap-3">
+ <span className="route-dot" aria-hidden="true" />
+ <span className="eyebrow">Tourist safety &amp; crowd intelligence</span>
+ <span className="route-line w-12 hidden sm:inline-block" aria-hidden="true" />
+ </p>
 
- <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-bold tracking-tight text-ivory">
+ <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-light tracking-tight leading-[1.05] text-ivory">
  Travel with confidence, <br />
  <em className="not-italic font-display italic text-saffron">guarded everywhere.</em>
  </h1>

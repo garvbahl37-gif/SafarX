@@ -235,7 +235,7 @@ Captions count should match ${photos.length} spots.`;
  <Sparkles size={14} />
  <span>Step 1: Upload & Curate Photos</span>
  </div>
- <h2 className="text-2xl font-display font-bold text-ivory">
+ <h2 className="text-2xl font-display text-ivory">
  Create Your Digital Travel Reel & Diary
  </h2>
  <p className="text-sm text-ivory-muted mt-1">

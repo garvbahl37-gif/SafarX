@@ -224,7 +224,7 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
  <ShieldAlert className="w-7 h-7 text-ivory animate-pulse" />
  </div>
  <div>
- <h2 className="text-xl sm:text-2xl font-bold font-display tracking-tight flex items-center gap-2">
+ <h2 className="text-xl sm:text-2xl font-display tracking-tight flex items-center gap-2">
  SafarX Emergency SOS
  <span className="text-xs font-data font-normal uppercase bg-white/25 px-2 py-0.5 rounded-full">
  24x7 Beacon

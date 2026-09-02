@@ -75,7 +75,7 @@ export const DiaryViewer = () => {
  <Sparkles size={12} />
  Shared SafarX Travel Story
  </div>
- <h1 className="text-3xl sm:text-5xl font-display font-bold text-ivory tracking-tight">
+ <h1 className="text-3xl sm:text-5xl font-display font-light text-ivory tracking-tight">
  {journey.tripTitle}
  </h1>
  <div className="flex items-center justify-center gap-4 text-xs text-ivory-faint">

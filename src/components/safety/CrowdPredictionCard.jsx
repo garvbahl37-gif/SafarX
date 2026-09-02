@@ -61,7 +61,7 @@ export default function CrowdPredictionCard({
  <Users className="w-4 h-4 text-horizon-bright" />
  <span>AI Crowd Prediction Engine · Footfall Forecaster</span>
  </div>
- <h3 className="text-xl sm:text-2xl font-bold font-display text-ivory flex items-center gap-2 flex-wrap">
+ <h3 className="text-xl sm:text-2xl font-display text-ivory flex items-center gap-2 flex-wrap">
  <span>Crowd Level & Quiet Windows</span>
  <span className="text-ivory-faint font-normal text-sm">for</span>
  <span className="text-saffron-bright font-bold bg-saffron/10 border border-saffron/20 px-2.5 py-0.5 rounded-xl text-sm sm:text-base">

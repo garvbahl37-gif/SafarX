@@ -42,7 +42,7 @@ export default function EmergencyDirectory() {
  <Building2 className="w-4 h-4 text-saffron-bright" />
  <span>Official Government Helplines & Embassy Directory</span>
  </div>
- <h3 className="text-2xl sm:text-3xl font-bold font-display text-ivory">
+ <h3 className="text-2xl sm:text-3xl font-display font-light text-ivory">
  Verified Emergency Contacts
  </h3>
  <p className="text-xs text-ivory-muted">

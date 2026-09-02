@@ -57,7 +57,7 @@ export const JourneyMap = ({ photos }) => {
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2">
  <Navigation size={18} className="text-saffron" />
- <h3 className="text-lg font-display font-bold text-ivory">
+ <h3 className="text-lg font-display text-ivory">
  Journey Route Map
  </h3>
  </div>
@@ -104,7 +104,7 @@ export const JourneyMap = ({ photos }) => {
  <div className="text-[10px] font-bold uppercase tracking-wider text-saffron-deep">
  Stop #{index + 1} • {point.day || 'Milestone'}
  </div>
- <div className="text-xs font-bold font-display">{point.location}</div>
+ <div className="text-xs font-display">{point.location}</div>
  {point.caption && (<div className="text-[11px] text-ivory-faint italic mt-0.5">
  "{point.caption}"
  </div>

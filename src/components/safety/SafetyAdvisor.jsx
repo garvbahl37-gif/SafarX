@@ -178,7 +178,7 @@ export default function SafetyAdvisor({
  <ShieldCheck className="w-4 h-4" />
  <span>360° Tourist Safety Intelligence & Protective Layer</span>
  </div>
- <h3 className="text-2xl sm:text-3xl font-bold font-display text-ivory flex items-center gap-2">
+ <h3 className="text-2xl sm:text-3xl font-display font-light text-ivory flex items-center gap-2">
  Safety Measures for <span className="text-ivory">{safetyData.state}</span>
  </h3>
  <p className="text-xs text-ivory-muted">
@@ -392,7 +392,7 @@ export default function SafetyAdvisor({
  <ShieldAlert className="w-8 h-8 animate-pulse" />
  </div>
  <div>
- <h4 className="text-xl font-bold font-display text-ivory">
+ <h4 className="text-xl font-display text-ivory">
  Active Tourist SOS Beacon
  </h4>
  <p className="text-xs text-danger-bright mt-0.5 max-w-md">

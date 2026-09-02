@@ -9,7 +9,7 @@ export const StoryTimeline = ({ photos, tripTitle, summary, travelerName }) => {
  <Sparkles size={12} />
  <span>SafarX Digital Travel Journal</span>
  </div>
- <h2 className="text-3xl sm:text-4xl font-display font-bold text-ivory tracking-tight">
+ <h2 className="text-3xl sm:text-4xl font-display font-light text-ivory tracking-tight">
  {tripTitle || 'Chronicles of Rajasthan'}
  </h2>
  {travelerName && (<p className="text-sm text-saffron/90 font-medium">
@@ -61,7 +61,7 @@ export const StoryTimeline = ({ photos, tripTitle, summary, travelerName }) => {
 
  {/* Title & Caption */}
  <div>
- <h3 className="text-xl sm:text-2xl font-display font-bold text-ivory flex items-center gap-2">
+ <h3 className="text-xl sm:text-2xl font-display text-ivory flex items-center gap-2">
  <MapPin size={18} className="text-saffron shrink-0" />
  {photo.location}
  </h3>

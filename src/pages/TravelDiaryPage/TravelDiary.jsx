@@ -82,11 +82,12 @@ export const TravelDiary = () => {
  {/* ── Hero ── */}
  <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 border-b border-white/8 pb-8">
  <div>
- <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron/10 border border-saffron/25 text-saffron-bright text-xs font-semibold uppercase tracking-widest mb-3">
- <Sparkles size={13} />
- Digital Diary
- </div>
- <h1 className="text-3xl sm:text-5xl font-display font-bold text-ivory tracking-tight leading-tight">
+ <p className="flex items-center gap-3 mb-4">
+ <span className="route-dot" aria-hidden="true" />
+ <span className="eyebrow">Digital diary</span>
+ <span className="route-line w-12 hidden sm:inline-block" aria-hidden="true" />
+ </p>
+ <h1 className="text-3xl sm:text-5xl font-display font-light text-ivory tracking-tight leading-[1.05]">
  Upload Photos,{' '}
  <em className="not-italic font-display italic text-saffron">
  Create Your Reel
