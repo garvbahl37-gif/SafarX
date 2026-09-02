@@ -67,8 +67,10 @@ const TrackCard = ({ track, isSelected, onSelect, isPlaying }) => (<div onClick=
  : 'bg-ink-950 border-white/8 text-ivory-muted hover:border-white/20 hover:bg-white/5'
  }`}>
  {track.image ? (<img src={track.image} alt={track.title} className="w-9 h-9 rounded-lg object-cover shrink-0" />
- ) : (<div className={`w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0 ${isSelected ? 'bg-saffron/20 text-saffron-bright' : 'bg-white/5'}`}>
- 
+ ) : (<div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? 'bg-saffron/20 text-saffron-bright' : 'bg-white/[0.06] text-ivory-faint'}`}>
+ {/* Artwork arrives with the stream; until then, say what this is
+ rather than leaving a coloured hole in the list. */}
+ <Music size={15} aria-hidden="true" />
  </div>
  )}
  <div className="flex-1 min-w-0">
@@ -593,26 +595,20 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  };
 
  // Calculate exact preview dimensions based on the selected aspect ratio
- const getPreviewDimensions = (ratio) => {
- const aspect = ratio.width / ratio.height;
- const maxH = 430;
- const maxW = 320;
+ /* The film is fitted into a stage of fixed height rather than sized to a
+ fixed width. A 16:9 reel used to come out 320x180 — the smallest thing in
+ a section that exists to show it — while a 9:16 reel was 430 tall, so
+ changing the ratio also changed the height of the page. A stage keeps the
+ frame still and letterboxes whatever is put in it, which is what a screen
+ does. */
+ const STAGE = { width: 520, height: 440 };
 
- let w, h;
- if (aspect <= 1) {
- // Portrait / Square (9:16, 4:5, 3:4, 1:1)
- h = Math.min(maxH, 430);
- w = h * aspect;
- if (w > maxW) {
- w = maxW;
- h = w / aspect;
- }
- } else {
- // Landscape (16:9)
- w = maxW;
- h = w / aspect;
- }
- return { width: Math.round(w), height: Math.round(h) };
+ const getPreviewDimensions = (ratio) => {
+ const scale = Math.min(STAGE.width / ratio.width, STAGE.height / ratio.height);
+ return {
+ width: Math.round(ratio.width * scale),
+ height: Math.round(ratio.height * scale),
+ };
  };
 
  const previewDim = getPreviewDimensions(selectedRatio);
@@ -623,36 +619,29 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
 
  {/* ── LEFT COLUMN (lg:col-span-4): Reel Canvas Preview & Player Controls ── */}
- <div className="lg:col-span-4 flex flex-col items-center bg-ink-900 border border-white/8 rounded-3xl p-4 shadow-xl space-y-3 transition-all duration-300">
+ <div className="lg:col-span-5 flex flex-col bg-ink-900 border border-white/[0.08] rounded-3xl p-5 shadow-xl space-y-4">
  {/* Header Badges */}
- <div className="flex items-center justify-between w-full px-1">
- <span className="text-[11px] font-data text-ivory-faint">{selectedRatio.width}×{selectedRatio.height}</span>
- <div className="flex items-center gap-1.5">
- <span className="px-2 py-0.5 rounded-full bg-saffron/15 border border-saffron/30 text-saffron-bright text-[10px] font-bold">
- {selectedRatio.label}
+ <div className="flex items-center gap-3">
+ <span className="route-dot shrink-0" aria-hidden="true" />
+ <span className="eyebrow whitespace-nowrap">Preview</span>
+ <span className="route-line flex-1" aria-hidden="true" />
+ <span className="font-data text-[10px] uppercase tracking-[0.16em] text-ivory-faint tabular-nums">
+ {selectedRatio.width}×{selectedRatio.height}
  </span>
- <span className="px-2 py-0.5 rounded-full bg-saffron/15 border border-saffron/30 text-saffron-bright text-[10px] font-semibold">
- {selectedStyle.label}
- </span>
- </div>
  </div>
 
  {/* Canvas frame with dynamic aspect ratio container */}
  <div
- className="relative flex items-center justify-center transition-all duration-300 py-1"
- style={{ width: '100%', minHeight: `${previewDim.height + 10}px` }}
+ className="relative flex items-center justify-center overflow-hidden rounded-2xl bg-ink-950"
+ style={{ height: `${STAGE.height}px` }}
  >
- <div className="absolute -inset-3 bg-gradient-to-tr from-saffron/10 via-horizon/8 to-horizon/10 rounded-3xl blur-xl pointer-events-none" />
+ {/* A screening ground: darker than the card it sits in, with the light
+ falling off at the edges so the frame is the brightest thing here. */}
+ <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,168,67,0.07),transparent_65%)]" />
  <motion.div
  layout
  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
- className={`relative overflow-hidden bg-ink-950 shadow-2xl shadow-black/90 transition-all duration-300 ${
- selectedRatio.height > selectedRatio.width
- ? 'rounded-[24px] border-[4px] border-ink-800'
- : selectedRatio.width === selectedRatio.height
- ? 'rounded-2xl border-[3px] border-ink-800'
- : 'rounded-xl border-[3px] border-ink-800'
- }`}
+ className="relative overflow-hidden rounded-lg bg-ink-950 shadow-[0_24px_60px_rgba(0,0,0,0.75)] ring-1 ring-saffron/25"
  style={{ width: `${previewDim.width}px`, height: `${previewDim.height}px` }}
  >
  <canvas ref={canvasRef} className="w-full h-full object-contain block" />
@@ -665,10 +654,9 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  </motion.div>
  </div>
 
- {/* Timeline & Controls */}
- <div className="w-full bg-ink-950 border border-white/8 rounded-2xl p-3 space-y-2">
- {/* Scrubber */}
- <div className="space-y-1">
+ {/* Transport. Under the film, like a player, rather than beside it. */}
+ <div className="w-full space-y-3">
+ <div className="space-y-1.5">
  <input
  type="range"
  min={0}
@@ -676,22 +664,23 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  step={0.05}
  value={currentTime}
  onChange={handleSeek}
- className="w-full h-1.5 bg-ink-800 rounded-lg appearance-none cursor-pointer accent-saffron"
+ aria-label="Scrub the reel"
+ className="reel-scrubber w-full cursor-pointer"
  />
- <div className="flex justify-between text-[10px] text-ivory-faint font-data">
- <span>{formatTime(currentTime)}</span>
+ <div className="flex justify-between font-data text-[10.5px] tabular-nums text-ivory-faint">
+ <span className="text-saffron">{formatTime(currentTime)}</span>
  <span>{formatTime(totalDuration)}</span>
  </div>
  </div>
 
- {/* Buttons Row */}
- <div className="flex items-center justify-between">
- <div className="flex items-center gap-2">
+ <div className="flex items-center justify-between gap-3">
+ <div className="flex items-center gap-2.5">
  <button
  onClick={togglePlay}
- className="w-9 h-9 rounded-xl bg-gradient-to-tr from-saffron to-saffron text-ink-950 flex items-center justify-center font-bold hover:brightness-110 active:scale-95 transition-all shadow-md shadow-saffron/20 cursor-pointer"
+ aria-label={isPlaying ? 'Pause' : 'Play'}
+ className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-saffron-bright to-saffron text-ink-950 shadow-[0_8px_24px_rgba(212,168,67,0.3)] transition-transform hover:scale-105 active:scale-95 cursor-pointer"
  >
- {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-0.5" />}
+ {isPlaying ? <Pause size={19} fill="currentColor" /> : <Play size={19} fill="currentColor" className="ml-0.5" />}
  </button>
  <button
  onClick={() => {
@@ -700,36 +689,43 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  if (curatedAudioPlayerRef.current) curatedAudioPlayerRef.current.currentTime = audioStartTime;
  if (customAudioPlayerRef.current) customAudioPlayerRef.current.currentTime = audioStartTime;
  }}
- className="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 text-ivory-muted hover:text-ivory flex items-center justify-center transition-colors cursor-pointer"
- title="Restart"
+ aria-label="Restart"
+ className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.09] text-ivory-muted transition-colors hover:border-saffron/35 hover:text-ivory cursor-pointer"
  >
- <RotateCcw size={14} />
+ <RotateCcw size={15} />
  </button>
  </div>
 
- {/* Audio status badge & mute toggle */}
- <div className="flex items-center gap-2">
- <span className="text-[10px] text-ivory-muted truncate max-w-[120px]">
- {audioMode === 'custom' ? ` ${customAudioFile?.name || 'Custom'}` : audioMode === 'none' ? 'Silent' : selectedTrack.title}
- </span>
+ {/* What is playing, and what it is being cut as. */}
+ <div className="flex min-w-0 items-center gap-2.5">
+ <div className="min-w-0 text-right">
+ <p className="truncate font-sans text-[13px] text-ivory">
+ {audioMode === 'custom'
+ ? (customAudioFile?.name || 'Custom track')
+ : audioMode === 'none' ? 'Silent' : selectedTrack.title}
+ </p>
+ <p className="font-data text-[9.5px] uppercase tracking-[0.16em] text-ivory-faint">
+ {selectedRatio.label} · {selectedStyle.label}
+ </p>
+ </div>
  <button
  onClick={toggleMute}
- className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors cursor-pointer ${
+ aria-label={isMuted ? 'Unmute' : 'Mute'}
+ className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors cursor-pointer ${
  isMuted || audioMode === 'none'
- ? 'bg-danger/15 text-danger-bright border border-danger/30'
- : 'bg-white/5 hover:bg-white/10 text-ivory-muted hover:text-ivory'
+ ? 'border-danger/30 bg-danger/15 text-danger-bright'
+ : 'border-white/[0.09] text-ivory-muted hover:border-saffron/35 hover:text-ivory'
  }`}
- title={isMuted ? 'Unmute' : 'Mute'}
  >
- {isMuted || audioMode === 'none' ? <VolumeX size={14} /> : <Volume2 size={14} />}
+ {isMuted || audioMode === 'none' ? <VolumeX size={15} /> : <Volume2 size={15} />}
  </button>
  </div>
  </div>
  </div>
  </div>
 
- {/* ── MIDDLE COLUMN (lg:col-span-4): Editing Style & FX + Reel Size / Ratio ── */}
- <div className="lg:col-span-4 space-y-4">
+ {/* ── MIDDLE COLUMN: Editing Style & FX + Reel Size / Ratio ── */}
+ <div className="lg:col-span-3 space-y-4">
           
  {/* Editing Style & FX Card */}
  <div className="bg-ink-900 border border-white/8 rounded-3xl p-4 shadow-xl space-y-3">
@@ -760,7 +756,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  </div>
  </div>
 
- {/* ── RIGHT COLUMN (lg:col-span-4): Soundtrack, Search & Audio Trimmer ── */}
+ {/* ── RIGHT COLUMN: Soundtrack, Search & Audio Trimmer ── */}
  <div className="lg:col-span-4 space-y-4">
  <div className="bg-ink-900 border border-white/8 rounded-3xl p-4 shadow-xl space-y-3.5">
             

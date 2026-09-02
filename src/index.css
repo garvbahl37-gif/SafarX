@@ -585,3 +585,55 @@ textarea.bg-transparent:focus {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Reel scrubber ────────────────────────────────────────────────────
+   A native range input is grey, chunky and looks nothing like the rest of
+   this app. This is the same hairline-and-gold language as the route line:
+   a thin dark track, the played portion in gold, and a small round head
+   that only grows when you take hold of it. */
+.reel-scrubber {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(242, 239, 230, 0.12);
+  outline: none;
+}
+
+.reel-scrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  background: #E5BE5C;
+  border: 2px solid var(--ink-950, #061412);
+  box-shadow: 0 0 0 1px rgba(212, 168, 67, 0.5), 0 2px 8px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: transform 0.18s ease;
+}
+
+.reel-scrubber:hover::-webkit-slider-thumb,
+.reel-scrubber:active::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
+
+.reel-scrubber::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  background: #E5BE5C;
+  border: 2px solid var(--ink-950, #061412);
+  cursor: pointer;
+}
+
+.reel-scrubber::-moz-range-progress {
+  background: #D4A843;
+  height: 3px;
+  border-radius: 999px;
+}
+
+.reel-scrubber:focus-visible {
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.18);
+}
