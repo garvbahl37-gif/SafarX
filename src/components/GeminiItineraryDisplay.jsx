@@ -375,21 +375,21 @@ const GeminiItineraryDisplay = ({ itinerary, formData, onRegenerate, onTweak }) 
         </div>
 
         {/* Safety Hub Deep Link Banner */}
-        <div className="mt-6 bg-gradient-to-r from-red-950/40 via-ink-900 to-ink-950 border border-red-500/30 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-6 bg-gradient-to-r from-danger-950/40 via-ink-900 to-ink-950 border border-danger/30 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-red-600/20 text-red-400 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-danger/20 text-danger-bright flex items-center justify-center shrink-0">
               <ShieldAlert className="w-5 h-5" />
             </div>
             <div>
               <p className="text-sm font-bold text-ivory">Tourist Safety Layer & Emergency SOS</p>
-              <p className="text-xs text-sand-400">
+              <p className="text-xs text-ivory-muted">
                 Verified state emergency helplines, safety index, and 1-tap live emergency broadcast.
               </p>
             </div>
           </div>
           <Link
             to="/safety"
-            className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-semibold text-xs rounded-xl flex items-center gap-1.5 transition shrink-0"
+            className="px-4 py-2 bg-danger hover:bg-danger text-ivory font-semibold text-xs rounded-xl flex items-center gap-1.5 transition shrink-0"
           >
             <span>Open Safety Hub</span>
             <ArrowRight className="w-3.5 h-3.5" />

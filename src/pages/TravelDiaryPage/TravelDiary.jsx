@@ -71,11 +71,11 @@ export const TravelDiary = () => {
   const removePhoto = (id) => setPhotos(prev => prev.filter(p => p.id !== id));
 
   return (
-    <div className="min-h-screen bg-[#070a13] text-slate-100 pt-20 pb-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#070a13] text-ivory pt-20 pb-24 px-4 sm:px-6 lg:px-8">
       {/* Ambient blobs */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-1/4 -left-48 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 -right-48 w-[500px] h-[500px] bg-sky-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -left-48 w-[500px] h-[500px] bg-saffron/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 -right-48 w-[500px] h-[500px] bg-horizon/5 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10 space-y-10">
@@ -83,27 +83,27 @@ export const TravelDiary = () => {
         {/* ── Hero ── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 border-b border-white/8 pb-8">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron/10 border border-saffron/25 text-saffron-bright text-xs font-semibold uppercase tracking-widest mb-3">
               <Sparkles size={13} />
               Digital Diary
             </div>
-            <h1 className="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-5xl font-display font-bold text-ivory tracking-tight leading-tight">
               Upload Photos,{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">
+              <em className="not-italic font-display italic text-saffron">
                 Create Your Reel
-              </span>
+              </em>
             </h1>
-            <p className="text-sm sm:text-base text-slate-400 max-w-xl mt-2.5">
+            <p className="text-sm sm:text-base text-ivory-muted max-w-xl mt-2.5">
               Upload 15–20 travel photos · Auto-generate a cinematic reel · Share via QR or link
             </p>
-            <p className="text-xs text-amber-400/90 flex items-center gap-1.5 mt-2 font-medium">
+            <p className="text-xs text-saffron-bright/90 flex items-center gap-1.5 mt-2 font-medium">
               <span>💡</span>
               <span>For your personalized reel, first delete all photos and add yours.</span>
             </p>
           </div>
           <button
             onClick={() => handleOpenShare(null)}
-            className="px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-sm flex items-center gap-2 shadow-lg shadow-amber-500/20 shrink-0 transition-all"
+            className="px-5 py-3 rounded-2xl bg-gradient-to-r from-saffron to-saffron hover:from-saffron-bright hover:to-saffron-bright text-ink-950 font-bold text-sm flex items-center gap-2 shadow-lg shadow-saffron/20 shrink-0 transition-all"
           >
             <Share2 size={15} />
             Share Journey & QR
@@ -113,21 +113,21 @@ export const TravelDiary = () => {
         {/* ── Journey Info ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Trip Title</label>
+            <label className="text-xs font-semibold text-ivory-muted uppercase tracking-wider">Trip Title</label>
             <input
               value={tripTitle}
               onChange={e => setTripTitle(e.target.value)}
               placeholder="e.g. Royal Echoes of Rajasthan"
-              className="w-full bg-[#0b0f19] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500/50 transition-colors"
+              className="w-full bg-[#0b0f19] border border-white/10 rounded-xl px-4 py-3 text-sm text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron/50 transition-colors"
             />
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Traveler / Group Name</label>
+            <label className="text-xs font-semibold text-ivory-muted uppercase tracking-wider">Traveler / Group Name</label>
             <input
               value={travelerName}
               onChange={e => setTravelerName(e.target.value)}
               placeholder="e.g. Aarav & Meera"
-              className="w-full bg-[#0b0f19] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-500/50 transition-colors"
+              className="w-full bg-[#0b0f19] border border-white/10 rounded-xl px-4 py-3 text-sm text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron/50 transition-colors"
             />
           </div>
         </div>
@@ -136,21 +136,21 @@ export const TravelDiary = () => {
         <div>
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold text-white">Photos</h2>
-              <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 text-xs font-bold">{photos.length}</span>
+              <h2 className="text-sm font-bold text-ivory">Photos</h2>
+              <span className="px-2 py-0.5 rounded-full bg-saffron/15 text-saffron-bright text-xs font-bold">{photos.length}</span>
             </div>
             <div className="flex items-center gap-2">
               {photos.length > 0 && (
                 <button
                   onClick={handleDeleteAll}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 text-xs font-semibold transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-danger/10 border border-danger/20 text-danger-bright hover:bg-danger/20 text-xs font-semibold transition-colors"
                 >
                   <Trash2 size={12} />
                   Delete All
                 </button>
               )}
               <label htmlFor="photo-upload"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-400 hover:bg-amber-500/20 text-xs font-semibold cursor-pointer transition-colors">
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-saffron/10 border border-saffron/25 text-saffron-bright hover:bg-saffron/20 text-xs font-semibold cursor-pointer transition-colors">
                 <Upload size={12} />
                 Upload Photos
               </label>
@@ -163,16 +163,16 @@ export const TravelDiary = () => {
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
-            className={`transition-all ${dragOver ? 'ring-2 ring-amber-500/50 rounded-2xl' : ''}`}
+            className={`transition-all ${dragOver ? 'ring-2 ring-saffron/50 rounded-2xl' : ''}`}
           >
             {photos.length === 0 ? (
-              <label htmlFor="photo-upload" className="flex flex-col items-center justify-center gap-4 border-2 border-dashed border-white/15 rounded-2xl p-16 cursor-pointer hover:border-amber-500/40 hover:bg-amber-500/3 transition-all">
-                <div className="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center">
-                  <Upload size={24} className="text-amber-400" />
+              <label htmlFor="photo-upload" className="flex flex-col items-center justify-center gap-4 border-2 border-dashed border-white/15 rounded-2xl p-16 cursor-pointer hover:border-saffron/40 hover:bg-saffron/3 transition-all">
+                <div className="w-14 h-14 rounded-2xl bg-saffron/10 flex items-center justify-center">
+                  <Upload size={24} className="text-saffron-bright" />
                 </div>
                 <div className="text-center">
-                  <p className="text-white font-semibold">Drop photos here or click to upload</p>
-                  <p className="text-sm text-slate-500 mt-1">JPG, PNG, WEBP — up to 25 photos</p>
+                  <p className="text-ivory font-semibold">Drop photos here or click to upload</p>
+                  <p className="text-sm text-ivory-faint mt-1">JPG, PNG, WEBP — up to 25 photos</p>
                 </div>
               </label>
             ) : (
@@ -183,10 +183,10 @@ export const TravelDiary = () => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.2, delay: idx * 0.02 }}
-                    className="group flex flex-col rounded-2xl overflow-hidden bg-[#0b0f19] border border-white/10 hover:border-amber-500/40 transition-all shadow-lg"
+                    className="group flex flex-col rounded-2xl overflow-hidden bg-[#0b0f19] border border-white/10 hover:border-saffron/40 transition-all shadow-lg"
                   >
                     {/* Photo Container */}
-                    <div className="relative aspect-[4/3] bg-slate-950 overflow-hidden">
+                    <div className="relative aspect-[4/3] bg-ink-950 overflow-hidden">
                       <img
                         src={photo.url}
                         alt={photo.location}
@@ -196,13 +196,13 @@ export const TravelDiary = () => {
                       {/* Delete button */}
                       <button
                         onClick={() => removePhoto(photo.id)}
-                        className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/80 text-slate-300 hover:text-white hover:bg-red-500 flex items-center justify-center transition-colors shadow-md"
+                        className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/80 text-ivory-muted hover:text-ivory hover:bg-danger flex items-center justify-center transition-colors shadow-md"
                         title="Remove photo"
                       >
                         <X size={12} />
                       </button>
                       {/* Index badge */}
-                      <div className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-amber-500 text-slate-950 text-[10px] font-bold shadow-md">
+                      <div className="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-saffron text-ink-950 text-[10px] font-bold shadow-md">
                         #{idx + 1}
                       </div>
                     </div>
@@ -219,7 +219,7 @@ export const TravelDiary = () => {
                           ));
                         }}
                         placeholder="Place name / text..."
-                        className="w-full bg-[#070a13] border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 font-medium transition-colors"
+                        className="w-full bg-[#070a13] border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron font-medium transition-colors"
                       />
                     </div>
                   </motion.div>
@@ -227,9 +227,9 @@ export const TravelDiary = () => {
                 {/* Add more tile */}
                 {photos.length < 25 && (
                   <label htmlFor="photo-upload"
-                    className="aspect-[4/3] rounded-2xl border-2 border-dashed border-white/15 flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-amber-500/40 hover:bg-amber-500/5 transition-all">
-                    <Upload size={20} className="text-amber-400" />
-                    <span className="text-xs text-slate-400 font-medium">Add photo</span>
+                    className="aspect-[4/3] rounded-2xl border-2 border-dashed border-white/15 flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-saffron/40 hover:bg-saffron/5 transition-all">
+                    <Upload size={20} className="text-saffron-bright" />
+                    <span className="text-xs text-ivory-muted font-medium">Add photo</span>
                   </label>
                 )}
               </div>
@@ -241,12 +241,12 @@ export const TravelDiary = () => {
         {photos.length > 0 && (
           <div className="border-t border-white/8 pt-10">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 rounded-xl bg-amber-500/15 flex items-center justify-center">
-                <Film size={16} className="text-amber-400" />
+              <div className="w-8 h-8 rounded-xl bg-saffron/15 flex items-center justify-center">
+                <Film size={16} className="text-saffron-bright" />
               </div>
               <div>
-                <h2 className="text-sm font-bold text-white">Cinematic Reel</h2>
-                <p className="text-xs text-slate-500">Preview, customize ratio & audio, then download or share</p>
+                <h2 className="text-sm font-bold text-ivory">Cinematic Reel</h2>
+                <p className="text-xs text-ivory-faint">Preview, customize ratio & audio, then download or share</p>
               </div>
             </div>
             <ReelPlayer

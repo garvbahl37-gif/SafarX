@@ -54,20 +54,20 @@ export const JourneyMap = ({ photos }) => {
     : [26.9124, 75.7873]; // Jaipur fallback
 
   return (
-    <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 backdrop-blur-xl space-y-4">
+    <div className="bg-ink-900/80 border border-ink-800 rounded-3xl p-6 backdrop-blur-xl space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Navigation size={18} className="text-amber-500" />
-          <h3 className="text-lg font-serif font-bold text-white">
+          <Navigation size={18} className="text-saffron" />
+          <h3 className="text-lg font-display font-bold text-ivory">
             Journey Route Map
           </h3>
         </div>
-        <span className="text-xs font-mono text-slate-400">
+        <span className="text-xs font-data text-ivory-muted">
           {validPoints.length} Milestones Tracked
         </span>
       </div>
 
-      <div className="h-[380px] sm:h-[450px] w-full rounded-2xl overflow-hidden border border-slate-800 relative z-0">
+      <div className="h-[380px] sm:h-[450px] w-full rounded-2xl overflow-hidden border border-ink-800 relative z-0">
         <MapContainer
           center={defaultCenter}
           zoom={7}
@@ -103,13 +103,13 @@ export const JourneyMap = ({ photos }) => {
               icon={createCustomIcon(index + 1, point.location)}
             >
               <Popup className="custom-popup">
-                <div className="p-1 max-w-[200px] text-slate-900">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-amber-600">
+                <div className="p-1 max-w-[200px] text-ink-900">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-saffron-deep">
                     Stop #{index + 1} • {point.day || 'Milestone'}
                   </div>
-                  <div className="text-xs font-bold font-serif">{point.location}</div>
+                  <div className="text-xs font-bold font-display">{point.location}</div>
                   {point.caption && (
-                    <div className="text-[11px] text-slate-600 italic mt-0.5">
+                    <div className="text-[11px] text-ivory-faint italic mt-0.5">
                       "{point.caption}"
                     </div>
                   )}

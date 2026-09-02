@@ -175,14 +175,14 @@ export default function SafetyAdvisor({
       {/* Header & 3-Phase Navigation */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-emerald-400 mb-1">
+          <div className="flex items-center gap-2 text-xs font-data uppercase tracking-widest text-horizon-bright mb-1">
             <ShieldCheck className="w-4 h-4" />
             <span>360° Tourist Safety Intelligence & Protective Layer</span>
           </div>
           <h3 className="text-2xl sm:text-3xl font-bold font-display text-ivory flex items-center gap-2">
-            Safety Measures for <span className="text-sand-200">{safetyData.state}</span>
+            Safety Measures for <span className="text-ivory">{safetyData.state}</span>
           </h3>
-          <p className="text-xs text-sand-400">
+          <p className="text-xs text-ivory-muted">
             Official emergency response, verified women safety scores, and proactive measures before, during & after travel
           </p>
         </div>
@@ -191,9 +191,9 @@ export default function SafetyAdvisor({
         <button
           onClick={handleFetchCurrentGPS}
           disabled={locLoading}
-          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-ink-950 hover:bg-ink-800 border border-white/15 text-xs text-sand-300 hover:text-white transition shrink-0"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-ink-950 hover:bg-ink-800 border border-white/15 text-xs text-ivory-muted hover:text-ivory transition shrink-0"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${locLoading ? "animate-spin text-emerald-400" : ""}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${locLoading ? "animate-spin text-horizon-bright" : ""}`} />
           <span>{locLoading ? "Detecting GPS…" : "Sync with Live GPS"}</span>
         </button>
       </div>
@@ -204,8 +204,8 @@ export default function SafetyAdvisor({
           onClick={() => setActiveTab("before")}
           className={`py-2.5 px-3 rounded-xl transition flex items-center justify-center gap-2 ${
             activeTab === "before"
-              ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
-              : "text-sand-400 hover:text-white"
+              ? "bg-gradient-to-r from-horizon to-horizon text-ivory shadow-lg"
+              : "text-ivory-muted hover:text-ivory"
           }`}
         >
           <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[11px]">1</span>
@@ -216,8 +216,8 @@ export default function SafetyAdvisor({
           onClick={() => setActiveTab("during")}
           className={`py-2.5 px-3 rounded-xl transition flex items-center justify-center gap-2 ${
             activeTab === "during"
-              ? "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-lg"
-              : "text-sand-400 hover:text-white"
+              ? "bg-gradient-to-r from-danger to-danger text-ivory shadow-lg"
+              : "text-ivory-muted hover:text-ivory"
           }`}
         >
           <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[11px]">2</span>
@@ -228,8 +228,8 @@ export default function SafetyAdvisor({
           onClick={() => setActiveTab("after")}
           className={`py-2.5 px-3 rounded-xl transition flex items-center justify-center gap-2 ${
             activeTab === "after"
-              ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg"
-              : "text-sand-400 hover:text-white"
+              ? "bg-gradient-to-r from-horizon to-horizon text-ivory shadow-lg"
+              : "text-ivory-muted hover:text-ivory"
           }`}
         >
           <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[11px]">3</span>
@@ -245,54 +245,54 @@ export default function SafetyAdvisor({
           {/* Safety Scores Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 text-center">
-              <div className="flex items-center justify-center gap-1 text-emerald-400 mb-1">
+              <div className="flex items-center justify-center gap-1 text-horizon-bright mb-1">
                 <Heart className="w-4 h-4" />
                 <span className="text-[11px] font-semibold uppercase tracking-wider">Women Safety</span>
               </div>
               <p className="text-2xl sm:text-3xl font-black font-display text-ivory">
-                {safetyData.scores.womenSafety}<span className="text-xs text-sand-500 font-sans">/10</span>
+                {safetyData.scores.womenSafety}<span className="text-xs text-ivory-faint font-sans">/10</span>
               </p>
-              <p className="text-[11px] text-emerald-300 mt-0.5">High Confidence</p>
+              <p className="text-[11px] text-horizon-bright mt-0.5">High Confidence</p>
             </div>
 
             <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 text-center">
-              <div className="flex items-center justify-center gap-1 text-indigo-400 mb-1">
+              <div className="flex items-center justify-center gap-1 text-horizon-bright mb-1">
                 <Moon className="w-4 h-4" />
                 <span className="text-[11px] font-semibold uppercase tracking-wider">Night Transit</span>
               </div>
               <p className="text-2xl sm:text-3xl font-black font-display text-ivory">
-                {safetyData.scores.nightSafety}<span className="text-xs text-sand-500 font-sans">/10</span>
+                {safetyData.scores.nightSafety}<span className="text-xs text-ivory-faint font-sans">/10</span>
               </p>
-              <p className="text-[11px] text-indigo-300 mt-0.5">Safe Corridors</p>
+              <p className="text-[11px] text-horizon-bright mt-0.5">Safe Corridors</p>
             </div>
 
             <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 text-center">
-              <div className="flex items-center justify-center gap-1 text-amber-400 mb-1">
+              <div className="flex items-center justify-center gap-1 text-saffron-bright mb-1">
                 <Car className="w-4 h-4" />
                 <span className="text-[11px] font-semibold uppercase tracking-wider">Transport Safety</span>
               </div>
               <p className="text-2xl sm:text-3xl font-black font-display text-ivory">
-                {safetyData.scores.transportSafety}<span className="text-xs text-sand-500 font-sans">/10</span>
+                {safetyData.scores.transportSafety}<span className="text-xs text-ivory-faint font-sans">/10</span>
               </p>
-              <p className="text-[11px] text-amber-300 mt-0.5">Verified Fleets</p>
+              <p className="text-[11px] text-saffron-bright mt-0.5">Verified Fleets</p>
             </div>
 
             <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 text-center">
-              <div className="flex items-center justify-center gap-1 text-rose-400 mb-1">
+              <div className="flex items-center justify-center gap-1 text-danger-bright mb-1">
                 <Cross className="w-4 h-4" />
                 <span className="text-[11px] font-semibold uppercase tracking-wider">Medical Access</span>
               </div>
               <p className="text-2xl sm:text-3xl font-black font-display text-ivory">
-                {safetyData.scores.medical}<span className="text-xs text-sand-500 font-sans">/10</span>
+                {safetyData.scores.medical}<span className="text-xs text-ivory-faint font-sans">/10</span>
               </p>
-              <p className="text-[11px] text-rose-300 mt-0.5">Civil & 108 Fleet</p>
+              <p className="text-[11px] text-danger-bright mt-0.5">Civil & 108 Fleet</p>
             </div>
           </div>
 
           {/* Pre-Trip Mandatory Safety Measures */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-sand-300 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-blue-400" />
+            <h4 className="text-xs font-bold uppercase tracking-wider text-ivory-muted flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-horizon-bright" />
               Pre-Trip Safety Protocol & Documentation Check
             </h4>
 
@@ -306,27 +306,27 @@ export default function SafetyAdvisor({
                     onClick={() => toggleChecklist(`pretrip_${safetyData.state}_${idx}`)}
                     className={`text-left p-4 rounded-2xl border transition flex items-start gap-3 group ${
                       isDone
-                        ? "bg-blue-950/20 border-blue-500/30 text-sand-400"
+                        ? "bg-horizon-deep/20 border-horizon/30 text-ivory-muted"
                         : "bg-ink-950/80 border-white/10 hover:border-white/20 text-ivory"
                     }`}
                   >
                     <div className="mt-0.5 shrink-0">
                       {isDone ? (
-                        <CheckCircle2 className="w-5 h-5 text-blue-400" />
+                        <CheckCircle2 className="w-5 h-5 text-horizon-bright" />
                       ) : (
-                        <Circle className="w-5 h-5 text-sand-500 group-hover:text-blue-300" />
+                        <Circle className="w-5 h-5 text-ivory-faint group-hover:text-horizon-bright" />
                       )}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-white/10 text-sand-300">
+                        <span className="text-[10px] uppercase font-data px-2 py-0.5 rounded-full bg-white/10 text-ivory-muted">
                           {item.tag}
                         </span>
-                        <p className={`text-xs font-bold ${isDone ? "line-through text-sand-500" : "text-ivory"}`}>
+                        <p className={`text-xs font-bold ${isDone ? "line-through text-ivory-faint" : "text-ivory"}`}>
                           {item.title}
                         </p>
                       </div>
-                      <p className="text-xs text-sand-400 mt-1 leading-relaxed">{item.desc}</p>
+                      <p className="text-xs text-ivory-muted mt-1 leading-relaxed">{item.desc}</p>
                     </div>
                   </button>
                 );
@@ -337,50 +337,50 @@ export default function SafetyAdvisor({
           {/* State Emergency Contacts Snapshot */}
           <div className="bg-ink-950/90 border border-white/10 rounded-2xl p-5 space-y-3">
             <div className="flex items-center justify-between">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-sand-300 flex items-center gap-2">
-                <Radio className="w-4 h-4 text-emerald-400" />
+              <h4 className="text-xs font-bold uppercase tracking-wider text-ivory-muted flex items-center gap-2">
+                <Radio className="w-4 h-4 text-horizon-bright" />
                 Verified Government Helplines for {safetyData.state}
               </h4>
-              <span className="text-[11px] text-sand-500">ERSS 112 Active</span>
+              <span className="text-[11px] text-ivory-faint">ERSS 112 Active</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
               <a
                 href={getCleanTelUri(stateContacts.police)}
-                className="bg-ink-900 hover:bg-ink-800 border border-white/10 hover:border-red-500/40 p-3 rounded-xl transition flex flex-col justify-between group"
+                className="bg-ink-900 hover:bg-ink-800 border border-white/10 hover:border-danger/40 p-3 rounded-xl transition flex flex-col justify-between group"
               >
-                <p className="text-sand-400 text-[11px] flex items-center justify-between">
+                <p className="text-ivory-muted text-[11px] flex items-center justify-between">
                   <span>State Police Control</span>
-                  <PhoneCall className="w-3.5 h-3.5 text-red-400 group-hover:scale-110 transition" />
+                  <PhoneCall className="w-3.5 h-3.5 text-danger-bright group-hover:scale-110 transition" />
                 </p>
-                <p className="font-bold font-mono text-ivory mt-1">{stateContacts.police}</p>
+                <p className="font-bold font-data text-ivory mt-1">{stateContacts.police}</p>
               </a>
 
               <a
                 href={getCleanTelUri(stateContacts.womenHelpline)}
-                className="bg-ink-900 hover:bg-ink-800 border border-white/10 hover:border-rose-500/40 p-3 rounded-xl transition flex flex-col justify-between group"
+                className="bg-ink-900 hover:bg-ink-800 border border-white/10 hover:border-danger/40 p-3 rounded-xl transition flex flex-col justify-between group"
               >
-                <p className="text-sand-400 text-[11px] flex items-center justify-between">
+                <p className="text-ivory-muted text-[11px] flex items-center justify-between">
                   <span>Women Helpline (WCD)</span>
-                  <PhoneCall className="w-3.5 h-3.5 text-rose-400 group-hover:scale-110 transition" />
+                  <PhoneCall className="w-3.5 h-3.5 text-danger-bright group-hover:scale-110 transition" />
                 </p>
-                <p className="font-bold font-mono text-rose-300 mt-1">{stateContacts.womenHelpline}</p>
+                <p className="font-bold font-data text-danger-bright mt-1">{stateContacts.womenHelpline}</p>
               </a>
 
               <a
                 href={getCleanTelUri(stateContacts.touristPolice)}
-                className="bg-ink-900 hover:bg-ink-800 border border-white/10 hover:border-amber-500/40 p-3 rounded-xl transition flex flex-col justify-between group"
+                className="bg-ink-900 hover:bg-ink-800 border border-white/10 hover:border-saffron/40 p-3 rounded-xl transition flex flex-col justify-between group"
               >
-                <p className="text-sand-400 text-[11px] flex items-center justify-between">
+                <p className="text-ivory-muted text-[11px] flex items-center justify-between">
                   <span>Tourist Police / Mitra</span>
-                  <PhoneCall className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition" />
+                  <PhoneCall className="w-3.5 h-3.5 text-saffron-bright group-hover:scale-110 transition" />
                 </p>
-                <p className="font-bold font-mono text-amber-300 mt-1 truncate">{stateContacts.touristPolice}</p>
+                <p className="font-bold font-data text-saffron-bright mt-1 truncate">{stateContacts.touristPolice}</p>
               </a>
             </div>
             {stateContacts.stateNotes && (
-              <p className="text-xs text-sand-400 bg-white/5 p-3 rounded-xl border border-white/5">
-                💡 <strong className="text-sand-200">State Advisory:</strong> {stateContacts.stateNotes}
+              <p className="text-xs text-ivory-muted bg-white/5 p-3 rounded-xl border border-white/5">
+                💡 <strong className="text-ivory">State Advisory:</strong> {stateContacts.stateNotes}
               </p>
             )}
           </div>
@@ -393,16 +393,16 @@ export default function SafetyAdvisor({
       {activeTab === "during" && (
         <div className="space-y-6">
           {/* Big SOS Trigger Banner */}
-          <div className="bg-gradient-to-r from-red-950/60 via-rose-900/40 to-ink-950 border-2 border-red-500/40 rounded-3xl p-6 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-2xl">
+          <div className="bg-gradient-to-r from-danger-950/60 via-danger-900/40 to-ink-950 border-2 border-danger/40 rounded-3xl p-6 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-2xl">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-lg shadow-red-900/50">
+              <div className="w-14 h-14 rounded-2xl bg-danger text-ivory flex items-center justify-center shrink-0 shadow-lg shadow-danger-900/50">
                 <ShieldAlert className="w-8 h-8 animate-pulse" />
               </div>
               <div>
-                <h4 className="text-xl font-bold font-display text-white">
+                <h4 className="text-xl font-bold font-display text-ivory">
                   Active Tourist SOS Beacon
                 </h4>
-                <p className="text-xs text-red-200 mt-0.5 max-w-md">
+                <p className="text-xs text-danger-bright mt-0.5 max-w-md">
                   Broadcasts your live GPS coordinates, battery status, and customized distress message directly to family via WhatsApp and triggers siren.
                 </p>
               </div>
@@ -410,7 +410,7 @@ export default function SafetyAdvisor({
 
             <button
               onClick={onOpenSOS}
-              className="w-full sm:w-auto bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold text-sm py-3.5 px-6 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-red-900/50 transition-transform active:scale-95 shrink-0"
+              className="w-full sm:w-auto bg-gradient-to-r from-danger to-danger hover:from-danger hover:to-danger text-ivory font-bold text-sm py-3.5 px-6 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-danger-900/50 transition-transform active:scale-95 shrink-0"
             >
               <ShieldAlert className="w-5 h-5" />
               Trigger SOS Beacon
@@ -425,49 +425,49 @@ export default function SafetyAdvisor({
                 className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 space-y-1.5"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-300">
+                  <span className="text-[10px] uppercase font-data px-2 py-0.5 rounded-full bg-danger/15 text-danger-bright">
                     {item.tag}
                   </span>
                   <p className="text-xs font-bold text-ivory">{item.title}</p>
                 </div>
-                <p className="text-xs text-sand-400 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-ivory-muted leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
 
           {/* Direct Rapid Call Grid */}
           <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-5 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-sand-300 flex items-center gap-2">
-              <PhoneCall className="w-4 h-4 text-emerald-400" />
+            <h4 className="text-xs font-bold uppercase tracking-wider text-ivory-muted flex items-center gap-2">
+              <PhoneCall className="w-4 h-4 text-horizon-bright" />
               One-Tap Direct Govt Dispatch Links
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
               <a
                 href="tel:112"
-                className="p-3 bg-red-950/40 hover:bg-red-900/50 border border-red-500/30 rounded-xl text-center font-bold text-red-300 hover:text-white transition flex items-center justify-center gap-1.5"
+                className="p-3 bg-danger-950/40 hover:bg-danger-900/50 border border-danger/30 rounded-xl text-center font-bold text-danger-bright hover:text-ivory transition flex items-center justify-center gap-1.5"
               >
-                <PhoneCall className="w-3.5 h-3.5 text-red-400" />
+                <PhoneCall className="w-3.5 h-3.5 text-danger-bright" />
                 Dial 112 (ERSS)
               </a>
               <a
                 href="tel:1091"
-                className="p-3 bg-rose-950/40 hover:bg-rose-900/50 border border-rose-500/30 rounded-xl text-center font-bold text-rose-300 hover:text-white transition flex items-center justify-center gap-1.5"
+                className="p-3 bg-danger-950/40 hover:bg-danger-900/50 border border-danger/30 rounded-xl text-center font-bold text-danger-bright hover:text-ivory transition flex items-center justify-center gap-1.5"
               >
-                <PhoneCall className="w-3.5 h-3.5 text-rose-400" />
+                <PhoneCall className="w-3.5 h-3.5 text-danger-bright" />
                 Dial 1091 (Women)
               </a>
               <a
                 href="tel:1363"
-                className="p-3 bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 rounded-xl text-center font-bold text-amber-300 hover:text-white transition flex items-center justify-center gap-1.5"
+                className="p-3 bg-saffron-900/40 hover:bg-saffron-900/50 border border-saffron/30 rounded-xl text-center font-bold text-saffron-bright hover:text-ivory transition flex items-center justify-center gap-1.5"
               >
-                <PhoneCall className="w-3.5 h-3.5 text-amber-400" />
+                <PhoneCall className="w-3.5 h-3.5 text-saffron-bright" />
                 Dial 1363 (Tourist)
               </a>
               <a
                 href="tel:108"
-                className="p-3 bg-emerald-950/40 hover:bg-emerald-900/50 border border-emerald-500/30 rounded-xl text-center font-bold text-emerald-300 hover:text-white transition flex items-center justify-center gap-1.5"
+                className="p-3 bg-horizon-deep/40 hover:bg-horizon-deep/50 border border-horizon/30 rounded-xl text-center font-bold text-horizon-bright hover:text-ivory transition flex items-center justify-center gap-1.5"
               >
-                <PhoneCall className="w-3.5 h-3.5 text-emerald-400" />
+                <PhoneCall className="w-3.5 h-3.5 text-horizon-bright" />
                 Dial 108 (Ambulance)
               </a>
             </div>
@@ -487,11 +487,11 @@ export default function SafetyAdvisor({
                 key={idx}
                 className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 space-y-1.5"
               >
-                <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300">
+                <span className="text-[10px] uppercase font-data px-2 py-0.5 rounded-full bg-horizon/15 text-horizon-bright">
                   {item.tag}
                 </span>
                 <p className="text-xs font-bold text-ivory">{item.title}</p>
-                <p className="text-xs text-sand-400 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-ivory-muted leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -502,24 +502,24 @@ export default function SafetyAdvisor({
             className="bg-ink-950/80 border border-white/10 rounded-2xl p-5 space-y-4"
           >
             <h4 className="text-sm font-bold text-ivory flex items-center gap-2">
-              <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+              <Star className="w-4 h-4 text-saffron-bright fill-saffron-bright" />
               Rate & Review Destination Safety
             </h4>
 
             {/* Custom Location Field with GPS Autofill */}
             <div className="space-y-1.5">
-              <label className="block text-[11px] text-sand-300 font-semibold uppercase tracking-wider">
+              <label className="block text-[11px] text-ivory-muted font-semibold uppercase tracking-wider">
                 Location / Monument / City Visited
               </label>
               <div className="flex items-center gap-2">
                 <div className="relative flex-1">
-                  <MapPin className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-sand-400" />
+                  <MapPin className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-ivory-muted" />
                   <input
                     type="text"
                     value={reviewForm.location}
                     onChange={(e) => setReviewForm({ ...reviewForm, location: e.target.value })}
                     placeholder="Enter place name (e.g. Fort Kochi, Taj Mahal, Calangute Beach, Udaipur)..."
-                    className="w-full bg-ink-900 border border-white/15 focus:border-emerald-500 rounded-xl pl-9 pr-3 py-2 text-xs text-ivory focus:outline-none transition"
+                    className="w-full bg-ink-900 border border-white/15 focus:border-horizon rounded-xl pl-9 pr-3 py-2 text-xs text-ivory focus:outline-none transition"
                   />
                 </div>
                 <button
@@ -527,7 +527,7 @@ export default function SafetyAdvisor({
                   onClick={handleUseCurrentLocForReview}
                   disabled={locLoading}
                   title="Detect & Use Current GPS Location"
-                  className="px-3.5 py-2 bg-ink-900 hover:bg-ink-800 border border-white/15 hover:border-emerald-500/40 rounded-xl text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 transition shrink-0 cursor-pointer"
+                  className="px-3.5 py-2 bg-ink-900 hover:bg-ink-800 border border-white/15 hover:border-horizon/40 rounded-xl text-xs text-horizon-bright hover:text-horizon-bright flex items-center gap-1.5 transition shrink-0 cursor-pointer"
                 >
                   <LocateFixed className={`w-3.5 h-3.5 ${locLoading ? "animate-spin" : ""}`} />
                   <span className="text-[11px] font-semibold">Use GPS</span>
@@ -537,13 +537,13 @@ export default function SafetyAdvisor({
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-[11px] text-sand-400 mb-1 font-semibold">
+                <label className="block text-[11px] text-ivory-muted mb-1 font-semibold">
                   Overall Safety Rating (1-5)
                 </label>
                 <select
                   value={reviewForm.rating}
                   onChange={(e) => setReviewForm({ ...reviewForm, rating: Number(e.target.value) })}
-                  className="w-full bg-ink-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-ivory focus:outline-none focus:border-sand-400"
+                  className="w-full bg-ink-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-ivory focus:outline-none focus:border-ivory-muted"
                 >
                   <option value={5}>⭐⭐⭐⭐⭐ (5/5) Exceptionally Safe</option>
                   <option value={4}>⭐⭐⭐⭐ (4/5) Very Safe</option>
@@ -554,13 +554,13 @@ export default function SafetyAdvisor({
               </div>
 
               <div>
-                <label className="block text-[11px] text-sand-400 mb-1 font-semibold">
+                <label className="block text-[11px] text-ivory-muted mb-1 font-semibold">
                   Women Safety Comfort
                 </label>
                 <select
                   value={reviewForm.womenSafetyRating}
                   onChange={(e) => setReviewForm({ ...reviewForm, womenSafetyRating: Number(e.target.value) })}
-                  className="w-full bg-ink-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-ivory focus:outline-none focus:border-sand-400"
+                  className="w-full bg-ink-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-ivory focus:outline-none focus:border-ivory-muted"
                 >
                   <option value={5}>High (Pink Police / Respectful)</option>
                   <option value={4}>Good (Safe with Normal Caution)</option>
@@ -570,13 +570,13 @@ export default function SafetyAdvisor({
               </div>
 
               <div>
-                <label className="block text-[11px] text-sand-400 mb-1 font-semibold">
+                <label className="block text-[11px] text-ivory-muted mb-1 font-semibold">
                   Did you encounter any touts/scams?
                 </label>
                 <select
                   value={reviewForm.scamEncountered}
                   onChange={(e) => setReviewForm({ ...reviewForm, scamEncountered: e.target.value })}
-                  className="w-full bg-ink-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-ivory focus:outline-none focus:border-sand-400"
+                  className="w-full bg-ink-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-ivory focus:outline-none focus:border-ivory-muted"
                 >
                   <option value="No">No - Smooth & Verified</option>
                   <option value="Minor">Minor - High souvenir haggling</option>
@@ -586,7 +586,7 @@ export default function SafetyAdvisor({
             </div>
 
             <div>
-              <label className="block text-[11px] text-sand-400 mb-1 font-semibold">
+              <label className="block text-[11px] text-ivory-muted mb-1 font-semibold">
                 Your Safety Experience & Community Tips
               </label>
               <textarea
@@ -594,13 +594,13 @@ export default function SafetyAdvisor({
                 value={reviewForm.comment}
                 onChange={(e) => setReviewForm({ ...reviewForm, comment: e.target.value })}
                 placeholder="Share advice on lighting, reliable cabs, friendly police booths, or areas to avoid at night…"
-                className="w-full bg-ink-900 border border-white/15 rounded-xl px-3.5 py-2 text-xs text-ivory placeholder-sand-600 focus:outline-none focus:border-sand-400"
+                className="w-full bg-ink-900 border border-white/15 rounded-xl px-3.5 py-2 text-xs text-ivory placeholder-ivory-faint focus:outline-none focus:border-ivory-muted"
               />
             </div>
 
             <button
               type="submit"
-              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 px-5 rounded-xl flex items-center gap-2 transition cursor-pointer"
+              className="bg-horizon hover:bg-horizon text-ivory font-bold text-xs py-2.5 px-5 rounded-xl flex items-center gap-2 transition cursor-pointer"
             >
               <Send className="w-4 h-4" />
               Publish Safety Review
@@ -609,8 +609,8 @@ export default function SafetyAdvisor({
 
           {/* Community Verified Safety Feed */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-sand-300 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-amber-400" />
+            <h4 className="text-xs font-bold uppercase tracking-wider text-ivory-muted flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-saffron-bright" />
               Community Safety Insights & Verified Reports
             </h4>
 
@@ -623,14 +623,14 @@ export default function SafetyAdvisor({
                   <div className="flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-ivory">{rev.user}</span>
-                      <span className="text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md text-[11px] font-medium flex items-center gap-1">
+                      <span className="text-horizon-bright bg-horizon/10 border border-horizon/20 px-2 py-0.5 rounded-md text-[11px] font-medium flex items-center gap-1">
                         <MapPin className="w-3 h-3" />
                         {rev.dest}
                       </span>
                     </div>
-                    <span className="text-sand-500 text-[11px]">{rev.date}</span>
+                    <span className="text-ivory-faint text-[11px]">{rev.date}</span>
                   </div>
-                  <p className="text-xs text-sand-300 leading-relaxed">{rev.text}</p>
+                  <p className="text-xs text-ivory-muted leading-relaxed">{rev.text}</p>
                 </div>
               ))}
             </div>

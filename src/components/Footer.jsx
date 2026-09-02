@@ -120,7 +120,7 @@ const Footer = ({ onPageChange }) => {
               <img
                 src={qrCode}
                 alt="QR code that opens SafarX Agent"
-                className="w-16 h-16 rounded-lg bg-white p-1.5"
+                className="w-16 h-16 rounded-lg bg-ivory p-1.5"
               />
               <div>
                 <p className="text-[13px] font-bold text-ivory mb-1">SafarX in your pocket</p>

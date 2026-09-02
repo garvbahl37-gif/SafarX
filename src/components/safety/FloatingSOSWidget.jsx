@@ -19,14 +19,14 @@ export default function FloatingSOSWidget({ defaultDestination = "Current Locati
           onMouseLeave={() => setIsHovered(false)}
           onClick={() => setIsOpen(true)}
           aria-label="Emergency SOS Beacon"
-          className="relative group flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-red-600 via-rose-600 to-amber-500 text-white shadow-2xl shadow-red-900/50 border-2 border-white/20 focus:outline-none focus:ring-4 focus:ring-red-500/40 cursor-pointer"
+          className="relative group flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-danger via-danger to-saffron text-ivory shadow-2xl shadow-danger-900/50 border-2 border-white/20 focus:outline-none focus:ring-4 focus:ring-danger/40 cursor-pointer"
         >
           {/* Subtle Outer Radar Pulse */}
-          <span className="absolute -inset-1 rounded-full bg-red-500/30 animate-ping pointer-events-none" />
+          <span className="absolute -inset-1 rounded-full bg-danger/30 animate-ping pointer-events-none" />
           
           <div className="relative flex flex-col items-center justify-center">
-            <ShieldAlert className="w-6 h-6 text-white group-hover:animate-pulse" />
-            <span className="text-[9px] font-black tracking-widest uppercase font-mono mt-0.5">
+            <ShieldAlert className="w-6 h-6 text-ivory group-hover:animate-pulse" />
+            <span className="text-[9px] font-black tracking-widest uppercase font-data mt-0.5">
               SOS
             </span>
           </div>
@@ -39,9 +39,9 @@ export default function FloatingSOSWidget({ defaultDestination = "Current Locati
               initial={{ opacity: 0, x: -10, scale: 0.95 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -10, scale: 0.95 }}
-              className="hidden sm:flex items-center gap-2 bg-ink-900/90 backdrop-blur-xl border border-red-500/30 text-ivory text-xs px-3.5 py-2 rounded-2xl shadow-xl whitespace-nowrap pointer-events-none"
+              className="hidden sm:flex items-center gap-2 bg-ink-900/90 backdrop-blur-xl border border-danger/30 text-ivory text-xs px-3.5 py-2 rounded-2xl shadow-xl whitespace-nowrap pointer-events-none"
             >
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+              <span className="w-2 h-2 rounded-full bg-danger animate-ping" />
               <span>
                 <strong>Tourist Safety & SOS</strong> · 1-Click WhatsApp Live Broadcast
               </span>

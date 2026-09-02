@@ -169,19 +169,19 @@ export const ShareModal = ({ isOpen, onClose, journey, videoBlob }) => {
           >
             {/* Close */}
             <button onClick={onClose}
-              className="absolute top-4 right-4 p-2 rounded-xl bg-white/5 text-slate-500 hover:text-white hover:bg-white/10 transition-colors">
+              className="absolute top-4 right-4 p-2 rounded-xl bg-white/5 text-ivory-faint hover:text-ivory hover:bg-white/10 transition-colors">
               <X size={16} />
             </button>
 
             {/* Header */}
             <div className="mb-4 pr-8">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-400 text-[11px] font-semibold uppercase tracking-wider mb-2">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-saffron/10 border border-saffron/25 text-saffron-bright text-[11px] font-semibold uppercase tracking-wider mb-2">
                 <Share2 size={11} /> Share Reel
               </div>
-              <h3 className="text-lg font-bold text-white leading-tight">
+              <h3 className="text-lg font-bold text-ivory leading-tight">
                 {journey.tripTitle || 'Your Travel Reel'}
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-ivory-muted mt-1">
                 {journey.travelerName ? `by ${journey.travelerName} · ` : ''}
                 {journey.photos?.length || 0} moments
               </p>
@@ -190,7 +190,7 @@ export const ShareModal = ({ isOpen, onClose, journey, videoBlob }) => {
             {/* Share Reel through Apps Button */}
             <button
               onClick={handleNativeShare}
-              className="w-full py-3.5 mb-2 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
+              className="w-full py-3.5 mb-2 rounded-2xl bg-gradient-to-r from-saffron via-saffron-deep to-saffron hover:from-saffron-bright hover:to-saffron-bright text-ink-950 font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-saffron/20 transition-all cursor-pointer"
             >
               <Share2 size={16} /> Share Reel through Apps
             </button>
@@ -198,7 +198,7 @@ export const ShareModal = ({ isOpen, onClose, journey, videoBlob }) => {
             {/* Save to Device */}
             <button
               onClick={handleDirectDownload}
-              className="w-full py-2.5 mb-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sky-400 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              className="w-full py-2.5 mb-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-horizon-bright font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
             >
               <Download size={13} /> Save Video to Device
             </button>
@@ -206,22 +206,22 @@ export const ShareModal = ({ isOpen, onClose, journey, videoBlob }) => {
             {/* Optional On-Demand Cloud Link & QR Code Card */}
             <div className="p-3.5 rounded-2xl bg-white/3 border border-white/8 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
+                <span className="text-[11px] font-bold text-saffron-bright flex items-center gap-1.5">
                   <QrCode size={13} /> Public Link & QR Code
                 </span>
                 {uploadState === 'done' && (
-                  <span className="text-[10px] text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-full">✓ Ready</span>
+                  <span className="text-[10px] text-horizon-bright font-semibold bg-horizon/10 px-2 py-0.5 rounded-full">✓ Ready</span>
                 )}
               </div>
 
               {uploadState === 'idle' && (
                 <div className="text-center py-2 space-y-2.5">
-                  <p className="text-[11px] text-slate-400 leading-relaxed">
+                  <p className="text-[11px] text-ivory-muted leading-relaxed">
                     Generate a public web link & QR code so anyone can scan or open the video on any phone.
                   </p>
                   <button
                     onClick={handleGenerateLinkAndQR}
-                    className="w-full py-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-400 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                    className="w-full py-2.5 rounded-xl bg-saffron/15 hover:bg-saffron/25 border border-saffron/30 text-saffron-bright font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                   >
                     <Sparkles size={13} /> Generate Link & QR Code
                   </button>
@@ -230,20 +230,20 @@ export const ShareModal = ({ isOpen, onClose, journey, videoBlob }) => {
 
               {uploadState === 'uploading' && (
                 <div className="flex flex-col items-center justify-center py-4 space-y-2 text-center">
-                  <Loader2 size={24} className="animate-spin text-amber-400" />
-                  <p className="text-xs font-semibold text-white">Uploading reel to cloud…</p>
-                  <p className="text-[10px] text-slate-500">{uploadProgress}% complete</p>
+                  <Loader2 size={24} className="animate-spin text-saffron-bright" />
+                  <p className="text-xs font-semibold text-ivory">Uploading reel to cloud…</p>
+                  <p className="text-[10px] text-ivory-faint">{uploadProgress}% complete</p>
                   <div className="w-28 h-1 bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-500 transition-all duration-300 rounded-full" style={{ width: `${uploadProgress}%` }} />
+                    <div className="h-full bg-saffron transition-all duration-300 rounded-full" style={{ width: `${uploadProgress}%` }} />
                   </div>
                 </div>
               )}
 
               {uploadState === 'error' && (
                 <div className="text-center py-2 space-y-1.5">
-                  <p className="text-xs text-red-400 font-semibold">Upload failed</p>
-                  <p className="text-[10px] text-slate-500">Check your internet or server</p>
-                  <button onClick={handleGenerateLinkAndQR} className="text-[11px] text-amber-400 underline font-semibold cursor-pointer">
+                  <p className="text-xs text-danger-bright font-semibold">Upload failed</p>
+                  <p className="text-[10px] text-ivory-faint">Check your internet or server</p>
+                  <button onClick={handleGenerateLinkAndQR} className="text-[11px] text-saffron-bright underline font-semibold cursor-pointer">
                     Retry
                   </button>
                 </div>
@@ -251,20 +251,20 @@ export const ShareModal = ({ isOpen, onClose, journey, videoBlob }) => {
 
               {uploadState === 'done' && (
                 <div className="space-y-3 flex flex-col items-center">
-                  <div className="p-2.5 bg-white rounded-xl shadow-lg shadow-black/40">
+                  <div className="p-2.5 bg-ivory rounded-xl shadow-lg shadow-black/40">
                     <QRCodeSVG value={shareUrl} size={140} level="M" fgColor="#0f172a" bgColor="#ffffff" />
                   </div>
-                  <p className="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
-                    <Smartphone size={11} className="text-amber-400" /> Scan QR to watch on any phone
+                  <p className="text-[11px] text-ivory-muted flex items-center gap-1 font-medium">
+                    <Smartphone size={11} className="text-saffron-bright" /> Scan QR to watch on any phone
                   </p>
 
                   {/* Public link copy box */}
                   <div className="w-full flex items-center gap-1.5">
                     <input readOnly value={shareUrl}
-                      className="w-full bg-[#070a13] border border-white/10 rounded-lg px-2.5 py-1.5 text-[10px] text-slate-300 font-mono focus:outline-none truncate" />
+                      className="w-full bg-[#070a13] border border-white/10 rounded-lg px-2.5 py-1.5 text-[10px] text-ivory-muted font-data focus:outline-none truncate" />
                     <button onClick={handleCopy}
                       className={`px-2.5 py-1.5 rounded-lg text-[11px] font-bold shrink-0 flex items-center gap-1 transition-all ${
-                        copied ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500 hover:bg-amber-400 text-slate-950'
+                        copied ? 'bg-horizon/20 text-horizon-bright border border-horizon/30' : 'bg-saffron hover:bg-saffron-bright text-ink-950'
                       }`}>
                       {copied ? <Check size={11} /> : <Copy size={11} />}
                       {copied ? '✓' : 'Copy'}

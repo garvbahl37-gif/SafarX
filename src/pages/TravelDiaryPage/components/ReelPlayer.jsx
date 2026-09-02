@@ -28,14 +28,14 @@ const RatioSelector = ({ selectedRatio, onSelect }) => (
       <button key={r.id} onClick={() => onSelect(r)}
         className={`relative flex flex-col items-center gap-1 p-2.5 rounded-xl border transition-all ${
           selectedRatio.id === r.id
-            ? 'bg-amber-500/15 border-amber-500 text-amber-400 shadow-md shadow-amber-500/10'
-            : 'bg-[#070a13] border-white/8 text-slate-400 hover:border-white/20 hover:text-slate-200'
+            ? 'bg-saffron/15 border-saffron text-saffron-bright shadow-md shadow-saffron/10'
+            : 'bg-[#070a13] border-white/8 text-ivory-muted hover:border-white/20 hover:text-ivory'
         }`}>
         <span className="text-base">{r.emoji}</span>
         <span className="text-[11px] font-bold">{r.label}</span>
         <span className="text-[10px] opacity-70 leading-tight text-center">{r.desc}</span>
-        {r.popular && <span className="absolute -top-1.5 -right-1.5 text-[8px] font-bold bg-amber-500 text-slate-950 px-1.5 py-0.2 rounded-full">TOP</span>}
-        {selectedRatio.id === r.id && <div className="absolute bottom-1.5 right-1.5 w-3 h-3 rounded-full bg-amber-500 flex items-center justify-center"><Check size={8} strokeWidth={3} className="text-slate-950" /></div>}
+        {r.popular && <span className="absolute -top-1.5 -right-1.5 text-[8px] font-bold bg-saffron text-ink-950 px-1.5 py-0.2 rounded-full">TOP</span>}
+        {selectedRatio.id === r.id && <div className="absolute bottom-1.5 right-1.5 w-3 h-3 rounded-full bg-saffron flex items-center justify-center"><Check size={8} strokeWidth={3} className="text-ink-950" /></div>}
       </button>
     ))}
   </div>
@@ -48,17 +48,17 @@ const StyleSelector = ({ selectedStyle, onSelect }) => (
       <button key={preset.id} onClick={() => onSelect(preset)}
         className={`relative flex flex-col text-left p-3 rounded-xl border transition-all ${
           selectedStyle.id === preset.id
-            ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/10 border-amber-500 text-white shadow-md shadow-amber-500/10'
-            : 'bg-[#070a13] border-white/8 text-slate-400 hover:border-white/20 hover:bg-white/5'
+            ? 'bg-gradient-to-br from-saffron/20 to-saffron/10 border-saffron text-ivory shadow-md shadow-saffron/10'
+            : 'bg-[#070a13] border-white/8 text-ivory-muted hover:border-white/20 hover:bg-white/5'
         }`}>
         <div className="flex items-center gap-1.5 mb-1">
           <span className="text-base">{preset.emoji}</span>
-          <span className="text-xs font-bold text-white">{preset.label}</span>
+          <span className="text-xs font-bold text-ivory">{preset.label}</span>
         </div>
-        <span className="text-[11px] text-slate-400 leading-tight">{preset.desc}</span>
+        <span className="text-[11px] text-ivory-muted leading-tight">{preset.desc}</span>
         {selectedStyle.id === preset.id && (
-          <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-amber-500 flex items-center justify-center">
-            <Check size={9} strokeWidth={3} className="text-slate-950" />
+          <div className="absolute top-2 right-2 w-3.5 h-3.5 rounded-full bg-saffron flex items-center justify-center">
+            <Check size={9} strokeWidth={3} className="text-ink-950" />
           </div>
         )}
       </button>
@@ -71,29 +71,29 @@ const TrackCard = ({ track, isSelected, onSelect, isPlaying }) => (
   <div onClick={() => onSelect(track)}
     className={`flex items-center gap-2.5 p-2 rounded-xl border cursor-pointer transition-all ${
       isSelected
-        ? 'bg-amber-500/15 border-amber-500 text-white shadow-md shadow-amber-500/10'
-        : 'bg-[#070a13] border-white/8 text-slate-400 hover:border-white/20 hover:bg-white/5'
+        ? 'bg-saffron/15 border-saffron text-ivory shadow-md shadow-saffron/10'
+        : 'bg-[#070a13] border-white/8 text-ivory-muted hover:border-white/20 hover:bg-white/5'
     }`}>
     {track.image ? (
       <img src={track.image} alt={track.title} className="w-9 h-9 rounded-lg object-cover shrink-0" />
     ) : (
-      <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0 ${isSelected ? 'bg-amber-500/20 text-amber-400' : 'bg-white/5'}`}>
+      <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-base shrink-0 ${isSelected ? 'bg-saffron/20 text-saffron-bright' : 'bg-white/5'}`}>
         {track.emoji || '🎵'}
       </div>
     )}
     <div className="flex-1 min-w-0">
       <div className="flex items-center gap-1">
-        <p className="text-xs font-bold text-white truncate">{track.title}</p>
-        {track.tag && <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-500/15 text-amber-400 font-semibold shrink-0">{track.tag}</span>}
+        <p className="text-xs font-bold text-ivory truncate">{track.title}</p>
+        {track.tag && <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-saffron/15 text-saffron-bright font-semibold shrink-0">{track.tag}</span>}
       </div>
-      <p className="text-[10px] text-slate-400 truncate mt-0.5">
+      <p className="text-[10px] text-ivory-muted truncate mt-0.5">
         {track.movie ? `${track.movie} · ${track.artist}` : track.artist || track.subtitle}
       </p>
     </div>
     {isSelected && isPlaying && (
       <div className="flex items-end gap-0.5 h-3.5 shrink-0">
         {[1, 2, 3].map(i => (
-          <div key={i} className="w-1 bg-amber-500 rounded-full animate-bounce"
+          <div key={i} className="w-1 bg-saffron rounded-full animate-bounce"
             style={{ height: `${5 + i * 3}px`, animationDelay: `${i * 0.1}s` }} />
         ))}
       </div>
@@ -641,12 +641,12 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
         <div className="lg:col-span-4 flex flex-col items-center bg-[#0b0f19] border border-white/8 rounded-3xl p-4 shadow-xl space-y-3 transition-all duration-300">
           {/* Header Badges */}
           <div className="flex items-center justify-between w-full px-1">
-            <span className="text-[11px] font-mono text-slate-500">{selectedRatio.width}×{selectedRatio.height}</span>
+            <span className="text-[11px] font-data text-ivory-faint">{selectedRatio.width}×{selectedRatio.height}</span>
             <div className="flex items-center gap-1.5">
-              <span className="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400 text-[10px] font-bold">
+              <span className="px-2 py-0.5 rounded-full bg-saffron/15 border border-saffron/30 text-saffron-bright text-[10px] font-bold">
                 {selectedRatio.emoji} {selectedRatio.label}
               </span>
-              <span className="px-2 py-0.5 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-[10px] font-semibold">
+              <span className="px-2 py-0.5 rounded-full bg-saffron/15 border border-saffron/30 text-saffron-bright text-[10px] font-semibold">
                 {selectedStyle.label}
               </span>
             </div>
@@ -657,16 +657,16 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
             className="relative flex items-center justify-center transition-all duration-300 py-1"
             style={{ width: '100%', minHeight: `${previewDim.height + 10}px` }}
           >
-            <div className="absolute -inset-3 bg-gradient-to-tr from-amber-500/10 via-sky-500/8 to-indigo-500/10 rounded-3xl blur-xl pointer-events-none" />
+            <div className="absolute -inset-3 bg-gradient-to-tr from-saffron/10 via-horizon/8 to-horizon/10 rounded-3xl blur-xl pointer-events-none" />
             <motion.div
               layout
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className={`relative overflow-hidden bg-black shadow-2xl shadow-black/90 transition-all duration-300 ${
+              className={`relative overflow-hidden bg-ink-950 shadow-2xl shadow-black/90 transition-all duration-300 ${
                 selectedRatio.height > selectedRatio.width
-                  ? 'rounded-[24px] border-[4px] border-slate-800'
+                  ? 'rounded-[24px] border-[4px] border-ink-800'
                   : selectedRatio.width === selectedRatio.height
-                    ? 'rounded-2xl border-[3px] border-slate-800'
-                    : 'rounded-xl border-[3px] border-slate-800'
+                    ? 'rounded-2xl border-[3px] border-ink-800'
+                    : 'rounded-xl border-[3px] border-ink-800'
               }`}
               style={{ width: `${previewDim.width}px`, height: `${previewDim.height}px` }}
             >
@@ -674,8 +674,8 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
 
               {isLoadingImages && (
                 <div className="absolute inset-0 bg-black/75 flex flex-col items-center justify-center gap-3">
-                  <div className="w-8 h-8 rounded-full border-2 border-amber-500 border-t-transparent animate-spin" />
-                  <p className="text-xs text-slate-400">Loading moments…</p>
+                  <div className="w-8 h-8 rounded-full border-2 border-saffron border-t-transparent animate-spin" />
+                  <p className="text-xs text-ivory-muted">Loading moments…</p>
                 </div>
               )}
             </motion.div>
@@ -692,9 +692,9 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
                 step={0.05}
                 value={currentTime}
                 onChange={handleSeek}
-                className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                className="w-full h-1.5 bg-ink-800 rounded-lg appearance-none cursor-pointer accent-saffron"
               />
-              <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+              <div className="flex justify-between text-[10px] text-ivory-faint font-data">
                 <span>{formatTime(currentTime)}</span>
                 <span>{formatTime(totalDuration)}</span>
               </div>
@@ -705,7 +705,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
               <div className="flex items-center gap-2">
                 <button
                   onClick={togglePlay}
-                  className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-slate-950 flex items-center justify-center font-bold hover:brightness-110 active:scale-95 transition-all shadow-md shadow-amber-500/20 cursor-pointer"
+                  className="w-9 h-9 rounded-xl bg-gradient-to-tr from-saffron to-saffron text-ink-950 flex items-center justify-center font-bold hover:brightness-110 active:scale-95 transition-all shadow-md shadow-saffron/20 cursor-pointer"
                 >
                   {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-0.5" />}
                 </button>
@@ -716,7 +716,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
                     if (curatedAudioPlayerRef.current) curatedAudioPlayerRef.current.currentTime = audioStartTime;
                     if (customAudioPlayerRef.current) customAudioPlayerRef.current.currentTime = audioStartTime;
                   }}
-                  className="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                  className="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 text-ivory-muted hover:text-ivory flex items-center justify-center transition-colors cursor-pointer"
                   title="Restart"
                 >
                   <RotateCcw size={14} />
@@ -725,15 +725,15 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
 
               {/* Audio status badge & mute toggle */}
               <div className="flex items-center gap-2">
-                <span className="text-[10px] text-slate-400 truncate max-w-[120px]">
+                <span className="text-[10px] text-ivory-muted truncate max-w-[120px]">
                   {audioMode === 'custom' ? `📁 ${customAudioFile?.name || 'Custom'}` : audioMode === 'none' ? '🔇 Silent' : `${selectedTrack.emoji} ${selectedTrack.title}`}
                 </span>
                 <button
                   onClick={toggleMute}
                   className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors cursor-pointer ${
                     isMuted || audioMode === 'none'
-                      ? 'bg-red-500/15 text-red-400 border border-red-500/30'
-                      : 'bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white'
+                      ? 'bg-danger/15 text-danger-bright border border-danger/30'
+                      : 'bg-white/5 hover:bg-white/10 text-ivory-muted hover:text-ivory'
                   }`}
                   title={isMuted ? 'Unmute' : 'Mute'}
                 >
@@ -750,12 +750,12 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
           {/* Editing Style & FX Card */}
           <div className="bg-[#0b0f19] border border-white/8 rounded-3xl p-4 shadow-xl space-y-3">
             <div className="flex items-center gap-2.5 pb-2 border-b border-white/6">
-              <div className="w-8 h-8 rounded-lg bg-orange-500/15 flex items-center justify-center">
-                <Clapperboard size={16} className="text-orange-400" />
+              <div className="w-8 h-8 rounded-lg bg-saffron/15 flex items-center justify-center">
+                <Clapperboard size={16} className="text-saffron-bright" />
               </div>
               <div>
-                <p className="text-xs font-bold text-white">Editing Style & FX</p>
-                <p className="text-[10px] text-slate-400">{selectedStyle.emoji} {selectedStyle.label} preset active</p>
+                <p className="text-xs font-bold text-ivory">Editing Style & FX</p>
+                <p className="text-[10px] text-ivory-muted">{selectedStyle.emoji} {selectedStyle.label} preset active</p>
               </div>
             </div>
             <StyleSelector selectedStyle={selectedStyle} onSelect={handleStyleChange} />
@@ -764,12 +764,12 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
           {/* Reel Size / Ratio Card */}
           <div className="bg-[#0b0f19] border border-white/8 rounded-3xl p-4 shadow-xl space-y-3">
             <div className="flex items-center gap-2.5 pb-2 border-b border-white/6">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center">
-                <Layers size={16} className="text-amber-400" />
+              <div className="w-8 h-8 rounded-lg bg-saffron/15 flex items-center justify-center">
+                <Layers size={16} className="text-saffron-bright" />
               </div>
               <div>
-                <p className="text-xs font-bold text-white">Reel Size & Aspect Ratio</p>
-                <p className="text-[10px] text-slate-400">{selectedRatio.label} ({selectedRatio.desc})</p>
+                <p className="text-xs font-bold text-ivory">Reel Size & Aspect Ratio</p>
+                <p className="text-[10px] text-ivory-muted">{selectedRatio.label} ({selectedRatio.desc})</p>
               </div>
             </div>
             <RatioSelector selectedRatio={selectedRatio} onSelect={handleRatioChange} />
@@ -783,12 +783,12 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
             {/* Header */}
             <div className="flex items-center justify-between pb-2 border-b border-white/6">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-sky-500/15 flex items-center justify-center">
-                  <Music size={16} className="text-sky-400" />
+                <div className="w-8 h-8 rounded-lg bg-horizon/15 flex items-center justify-center">
+                  <Music size={16} className="text-horizon-bright" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white">Soundtrack & Trimmer</p>
-                  <p className="text-[10px] text-slate-400 truncate max-w-[160px]">
+                  <p className="text-xs font-bold text-ivory">Soundtrack & Trimmer</p>
+                  <p className="text-[10px] text-ivory-muted truncate max-w-[160px]">
                     {audioMode === 'custom' ? `🎵 ${customAudioFile?.name || 'Custom'}` : audioMode === 'none' ? 'Silent' : `${selectedTrack.emoji || '🎵'} ${selectedTrack.title}`}
                   </p>
                 </div>
@@ -797,12 +797,12 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
 
             {/* ✂️ Song Segment Trimmer (Sync with Reel Length) */}
             {audioMode !== 'none' && (
-              <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/25 space-y-2">
+              <div className="p-3 rounded-2xl bg-saffron/10 border border-saffron/25 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1.5">
+                  <span className="text-[11px] font-bold text-saffron-bright flex items-center gap-1.5">
                     <Scissors size={12} /> Trim Audio Segment
                   </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-900 border border-amber-500/30 text-amber-300">
+                  <span className="text-[10px] font-data px-2 py-0.5 rounded-full bg-ink-900 border border-saffron/30 text-saffron-bright">
                     Reel Length: {totalDuration.toFixed(1)}s
                   </span>
                 </div>
@@ -815,17 +815,17 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
                     step={1}
                     value={audioStartTime}
                     onChange={(e) => handleAudioStartTimeChange(parseFloat(e.target.value))}
-                    className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                    className="w-full h-2 bg-ink-800 rounded-lg appearance-none cursor-pointer accent-saffron"
                   />
-                  <div className="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
-                    <span>Start: <strong className="text-amber-400">{formatTime(audioStartTime)}</strong></span>
-                    <span>End: <strong className="text-white">{formatTime(audioStartTime + totalDuration)}</strong></span>
+                  <div className="flex justify-between text-[10px] text-ivory-muted mt-1 font-data">
+                    <span>Start: <strong className="text-saffron-bright">{formatTime(audioStartTime)}</strong></span>
+                    <span>End: <strong className="text-ivory">{formatTime(audioStartTime + totalDuration)}</strong></span>
                   </div>
                 </div>
 
                 {/* Quick jumps */}
                 <div className="flex items-center gap-1 pt-0.5">
-                  <span className="text-[9px] text-slate-500 font-semibold">Jump:</span>
+                  <span className="text-[9px] text-ivory-faint font-semibold">Jump:</span>
                   {[
                     { label: '0:00 (Intro)', time: 0 },
                     { label: '0:30', time: 30 },
@@ -837,8 +837,8 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
                       onClick={() => handleAudioStartTimeChange(q.time)}
                       className={`text-[9px] px-1.5 py-0.5 rounded-md border transition-all ${
                         Math.abs(audioStartTime - q.time) < 3
-                          ? 'bg-amber-500 text-slate-950 font-bold border-amber-400'
-                          : 'bg-slate-900/80 border-white/10 text-slate-400 hover:text-white'
+                          ? 'bg-saffron text-ink-950 font-bold border-saffron-bright'
+                          : 'bg-ink-900/80 border-white/10 text-ivory-muted hover:text-ivory'
                       }`}
                     >
                       {q.label}
@@ -851,9 +851,9 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
             {/* 🔍 Search Online Songs & Live Recommendations */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">🔍 Search Any Song Online</p>
+                <p className="text-[10px] font-semibold text-ivory-muted uppercase tracking-wider">🔍 Search Any Song Online</p>
                 {isSearching && (
-                  <span className="text-[9px] text-amber-400 font-medium flex items-center gap-1">
+                  <span className="text-[9px] text-saffron-bright font-medium flex items-center gap-1">
                     <Loader2 size={10} className="animate-spin" /> Live searching...
                   </span>
                 )}
@@ -866,14 +866,14 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
                     value={searchQuery}
                     onChange={handleSearchInputChange}
                     placeholder="Type song name (e.g. Kesariya, Pasoori, Ilahi)..."
-                    className="w-full bg-[#070a13] border border-white/10 rounded-xl pl-7 pr-7 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500"
+                    className="w-full bg-[#070a13] border border-white/10 rounded-xl pl-7 pr-7 py-1.5 text-xs text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron"
                   />
-                  <Search size={12} className="absolute left-2.5 top-2.5 text-slate-500" />
+                  <Search size={12} className="absolute left-2.5 top-2.5 text-ivory-faint" />
                   {searchQuery && (
                     <button 
                       type="button" 
                       onClick={handleClearSearch} 
-                      className="absolute right-2 top-2 text-slate-400 hover:text-white p-0.5"
+                      className="absolute right-2 top-2 text-ivory-muted hover:text-ivory p-0.5"
                       title="Clear Search"
                     >
                       <X size={12} />
@@ -883,7 +883,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
                 <button
                   type="submit"
                   disabled={isSearching || !searchQuery.trim()}
-                  className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1 shrink-0 transition-colors disabled:opacity-50 cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-saffron hover:bg-saffron-bright text-ink-950 font-bold text-xs flex items-center gap-1 shrink-0 transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {isSearching ? <Loader2 size={12} className="animate-spin" /> : 'Search'}
                 </button>
@@ -892,13 +892,13 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
               {/* Quick Recommendation Chips (when search input is empty) */}
               {!searchQuery.trim() && (
                 <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                  <span className="text-[9px] text-slate-500 font-semibold">Try:</span>
+                  <span className="text-[9px] text-ivory-faint font-semibold">Try:</span>
                   {['Kesariya', 'Ilahi', 'Pasoori', 'Safarnama', 'Chaleya', 'Kabira', 'Chaudhary'].map(rec => (
                     <button
                       key={rec}
                       type="button"
                       onClick={() => setSearchQuery(rec)}
-                      className="text-[9px] px-2 py-0.5 rounded-full bg-white/5 hover:bg-amber-500/20 text-slate-400 hover:text-amber-300 border border-white/10 hover:border-amber-500/30 transition-all cursor-pointer"
+                      className="text-[9px] px-2 py-0.5 rounded-full bg-white/5 hover:bg-saffron/20 text-ivory-muted hover:text-saffron-bright border border-white/10 hover:border-saffron/30 transition-all cursor-pointer"
                     >
                       {rec}
                     </button>
@@ -910,11 +910,11 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
               {searchQuery.trim() && searchResults.length > 0 && (
                 <div className="space-y-1 max-h-40 overflow-y-auto pr-1">
                   <div className="flex items-center justify-between">
-                    <p className="text-[9px] text-amber-400 font-semibold">Found {searchResults.length} recommendations:</p>
+                    <p className="text-[9px] text-saffron-bright font-semibold">Found {searchResults.length} recommendations:</p>
                     <button
                       type="button"
                       onClick={handleClearSearch}
-                      className="text-[9px] text-slate-500 hover:text-slate-300"
+                      className="text-[9px] text-ivory-faint hover:text-ivory-muted"
                     >
                       Clear
                     </button>
@@ -933,7 +933,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
 
               {/* No results message when user typed a query and search completed */}
               {searchQuery.trim().length >= 2 && !isSearching && searchResults.length === 0 && (
-                <p className="text-[10px] text-slate-500 italic py-1">
+                <p className="text-[10px] text-ivory-faint italic py-1">
                   No matching tracks found for "{searchQuery}". Try another keyword or pick from trending below.
                 </p>
               )}
@@ -941,7 +941,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
 
             {/* Trending Curated Bollywood Tracks */}
             <div className="space-y-1.5">
-              <p className="text-[10px] font-semibold text-amber-400 uppercase tracking-wider">🎬 Trending Bollywood Songs</p>
+              <p className="text-[10px] font-semibold text-saffron-bright uppercase tracking-wider">🎬 Trending Bollywood Songs</p>
               <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
                 {CURATED_TRACKS.map(track => (
                   <TrackCard key={track.id} track={track}
@@ -952,7 +952,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
                 {/* Silent */}
                 <div onClick={() => { setAudioMode('none'); pauseAudio(); }}
                   className={`flex items-center gap-2.5 p-2 rounded-xl border cursor-pointer transition-all ${
-                    audioMode === 'none' ? 'bg-slate-700/40 border-slate-600 text-slate-300' : 'bg-[#070a13] border-white/8 text-slate-500 hover:border-white/20'
+                    audioMode === 'none' ? 'bg-ink-800/40 border-ink-800 text-ivory-muted' : 'bg-[#070a13] border-white/8 text-ivory-faint hover:border-white/20'
                   }`}>
                   <VolumeX size={14} />
                   <div><p className="text-xs font-semibold">No Audio (Silent)</p></div>
@@ -965,13 +965,13 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
             <div>
               <label htmlFor="custom-audio-upload"
                 className={`flex items-center gap-2.5 p-2 rounded-xl border border-dashed cursor-pointer transition-all ${
-                  audioMode === 'custom' ? 'border-sky-500/50 bg-sky-500/8 text-sky-400' : 'border-white/15 hover:border-white/30 text-slate-400'
+                  audioMode === 'custom' ? 'border-horizon/50 bg-horizon/8 text-horizon-bright' : 'border-white/15 hover:border-white/30 text-ivory-muted'
                 }`}>
                 <Upload size={14} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-white truncate">{customAudioFile ? customAudioFile.name : 'Upload MP3 / WAV'}</p>
+                  <p className="text-xs font-semibold text-ivory truncate">{customAudioFile ? customAudioFile.name : 'Upload MP3 / WAV'}</p>
                 </div>
-                {audioMode === 'custom' && <Check size={14} className="ml-auto text-sky-400" />}
+                {audioMode === 'custom' && <Check size={14} className="ml-auto text-horizon-bright" />}
               </label>
               <input id="custom-audio-upload" type="file" accept="audio/*" onChange={handleCustomAudioUpload} className="hidden" />
             </div>
@@ -988,8 +988,8 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
         <div className="flex items-center gap-3 flex-wrap">
           {[{ label: 'Photos', value: `${photos.length} shots` }, { label: 'Duration', value: `${Math.round(totalDuration)}s` }, { label: 'Style', value: selectedStyle.label }, { label: 'Ratio', value: selectedRatio.label }].map(s => (
             <div key={s.label} className="bg-[#070a13] border border-white/8 rounded-xl px-3.5 py-2 text-left">
-              <p className="text-[10px] text-slate-500 uppercase font-semibold">{s.label}</p>
-              <p className="text-xs font-bold text-amber-400 truncate">{s.value}</p>
+              <p className="text-[10px] text-ivory-faint uppercase font-semibold">{s.label}</p>
+              <p className="text-xs font-bold text-saffron-bright truncate">{s.value}</p>
             </div>
           ))}
         </div>
@@ -998,17 +998,17 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
         <div className="flex items-center gap-3 w-full md:w-auto">
           <button onClick={handleShareClick}
             disabled={isExporting || !photos.length}
-            className="flex-1 md:flex-initial px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all disabled:opacity-50 cursor-pointer"
+            className="flex-1 md:flex-initial px-6 py-3.5 rounded-2xl bg-gradient-to-r from-saffron via-saffron-deep to-saffron hover:from-saffron-bright hover:to-saffron-bright text-ink-950 font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-saffron/20 transition-all disabled:opacity-50 cursor-pointer"
           >
             <Share2 size={16} />
             Share Reel via App or QR Code
-            {lastVideoBlob && <span className="text-[10px] ml-1 bg-slate-950/30 px-2 py-0.5 rounded-full font-bold">✓ Ready</span>}
+            {lastVideoBlob && <span className="text-[10px] ml-1 bg-ink-950/30 px-2 py-0.5 rounded-full font-bold">✓ Ready</span>}
           </button>
           
           <button onClick={handleExport} disabled={isExporting || !photos.length}
-            className="flex-1 md:flex-initial px-5 py-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition-all disabled:opacity-40 cursor-pointer"
+            className="flex-1 md:flex-initial px-5 py-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-ivory font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition-all disabled:opacity-40 cursor-pointer"
           >
-            <Download size={14} className="text-sky-400" />
+            <Download size={14} className="text-horizon-bright" />
             {isExporting ? `Encoding… ${exportProgress}%` : lastVideoBlob ? `Download Reel (Instant)` : `Download ${selectedRatio.label} Video`}
           </button>
         </div>
@@ -1019,7 +1019,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
       <AnimatePresence>
         {isExporting && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 bg-ink-950/85 backdrop-blur-md flex items-center justify-center p-4 z-50"
           >
             <div className="bg-[#0b0f19] border border-white/10 rounded-3xl p-7 max-w-sm w-full text-center space-y-4 shadow-2xl relative">
               {/* Cut / Stop Icon at Top Right */}
@@ -1029,23 +1029,23 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
                   setIsExporting(false);
                   toast('Rendering stopped', { icon: '🛑' });
                 }}
-                className="absolute top-4 right-4 p-2 rounded-xl bg-white/5 hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
+                className="absolute top-4 right-4 p-2 rounded-xl bg-white/5 hover:bg-danger/20 text-ivory-muted hover:text-danger-bright transition-colors cursor-pointer"
                 title="Stop rendering"
               >
                 <X size={16} />
               </button>
 
-              <Sparkles className="animate-spin w-10 h-10 text-amber-500 mx-auto" />
+              <Sparkles className="animate-spin w-10 h-10 text-saffron mx-auto" />
               <div>
-                <h4 className="text-lg font-bold text-white">Rendering Cinematic Reel</h4>
-                <p className="text-xs text-slate-400 mt-1">{exportMessage}</p>
+                <h4 className="text-lg font-bold text-ivory">Rendering Cinematic Reel</h4>
+                <p className="text-xs text-ivory-muted mt-1">{exportMessage}</p>
               </div>
 
               <div className="space-y-1.5">
                 <div className="w-full bg-white/8 h-2 rounded-full overflow-hidden">
-                  <div className="bg-gradient-to-r from-amber-500 to-orange-500 h-full transition-all duration-300 rounded-full" style={{ width: `${exportProgress}%` }} />
+                  <div className="bg-gradient-to-r from-saffron to-saffron h-full transition-all duration-300 rounded-full" style={{ width: `${exportProgress}%` }} />
                 </div>
-                <p className="text-right text-xs font-mono text-amber-400">{exportProgress}%</p>
+                <p className="text-right text-xs font-data text-saffron-bright">{exportProgress}%</p>
               </div>
 
               {/* Stop Midway Button */}
@@ -1055,7 +1055,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
                   setIsExporting(false);
                   toast('Rendering stopped', { icon: '🛑' });
                 }}
-                className="w-full py-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/25 text-red-400 font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full py-2.5 rounded-xl bg-danger/10 hover:bg-danger/20 border border-danger/25 text-danger-bright font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <X size={14} /> Stop / Cancel Render
               </button>

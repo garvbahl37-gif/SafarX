@@ -230,20 +230,20 @@ Captions count should match ${photos.length} spots.`;
   return (
     <div className="space-y-6">
       {/* Top Banner / Controls */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-xl">
+      <div className="bg-ink-900/80 border border-ink-800 rounded-2xl p-6 backdrop-blur-xl">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-amber-500 mb-1">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-saffron mb-1">
               <Sparkles size={14} />
               <span>Step 1: Upload & Curate Photos</span>
             </div>
-            <h2 className="text-2xl font-serif font-bold text-white">
+            <h2 className="text-2xl font-display font-bold text-ivory">
               Create Your Digital Travel Reel & Diary
             </h2>
-            <p className="text-sm text-slate-400 mt-1">
+            <p className="text-sm text-ivory-muted mt-1">
               Upload 15–20 photos from your journey. AI will generate poetic milestones and craft a 9:16 cinematic Reel.
             </p>
-            <p className="text-xs text-amber-400/90 flex items-center gap-1.5 mt-2 font-medium">
+            <p className="text-xs text-saffron-bright/90 flex items-center gap-1.5 mt-2 font-medium">
               <span>💡</span>
               <span>For your personalized reel, first delete all photos and add yours.</span>
             </p>
@@ -253,7 +253,7 @@ Captions count should match ${photos.length} spots.`;
             <button
               onClick={handleLoadSample}
               type="button"
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/20 transition-all flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-saffron/10 text-saffron-bright border border-saffron/30 hover:bg-saffron/20 transition-all flex items-center gap-2"
             >
               <RefreshCw size={14} />
               Load 16 Sample Rajasthan Photos
@@ -263,7 +263,7 @@ Captions count should match ${photos.length} spots.`;
               onClick={handleAiEnhance}
               disabled={isAiGenerating || !photos.length}
               type="button"
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold hover:shadow-lg hover:shadow-amber-500/20 transition-all flex items-center gap-2 disabled:opacity-50"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-saffron to-saffron-deep text-ink-950 font-bold hover:shadow-lg hover:shadow-saffron/20 transition-all flex items-center gap-2 disabled:opacity-50"
             >
               <Sparkles size={14} className={isAiGenerating ? 'animate-spin' : ''} />
               {isAiGenerating ? 'Generating Story...' : 'AI Storyteller'}
@@ -273,7 +273,7 @@ Captions count should match ${photos.length} spots.`;
               <button
                 onClick={onGenerateReel}
                 type="button"
-                className="px-5 py-2.5 rounded-xl text-xs font-bold bg-sky-500 text-white hover:bg-sky-400 hover:shadow-lg hover:shadow-sky-500/25 transition-all flex items-center gap-2"
+                className="px-5 py-2.5 rounded-xl text-xs font-bold bg-horizon text-ivory hover:bg-horizon-bright hover:shadow-lg hover:shadow-horizon/25 transition-all flex items-center gap-2"
               >
                 <Eye size={14} />
                 Preview Cinematic Reel ({photos.length} Photos)
@@ -283,9 +283,9 @@ Captions count should match ${photos.length} spots.`;
         </div>
 
         {/* Metadata Inputs */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-slate-800">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-ink-800">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-ivory-muted uppercase tracking-wider mb-2">
               Trip Title
             </label>
             <input
@@ -293,12 +293,12 @@ Captions count should match ${photos.length} spots.`;
               value={tripTitle}
               onChange={(e) => setTripTitle(e.target.value)}
               placeholder="e.g. Royal Echoes of Rajasthan"
-              className="w-full bg-slate-950/60 border border-slate-700/60 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
+              className="w-full bg-ink-950/60 border border-ink-800/60 rounded-xl px-4 py-2.5 text-sm text-ivory focus:outline-none focus:border-saffron transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-ivory-muted uppercase tracking-wider mb-2">
               Traveler / Group Name
             </label>
             <input
@@ -306,12 +306,12 @@ Captions count should match ${photos.length} spots.`;
               value={travelerName}
               onChange={(e) => setTravelerName(e.target.value)}
               placeholder="e.g. Aarav & Friends"
-              className="w-full bg-slate-950/60 border border-slate-700/60 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
+              className="w-full bg-ink-950/60 border border-ink-800/60 rounded-xl px-4 py-2.5 text-sm text-ivory focus:outline-none focus:border-saffron transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-semibold text-ivory-muted uppercase tracking-wider mb-2">
               Journey Summary
             </label>
             <input
@@ -319,7 +319,7 @@ Captions count should match ${photos.length} spots.`;
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
               placeholder="e.g. 7 days exploring forts, desert dunes, and lakes."
-              className="w-full bg-slate-950/60 border border-slate-700/60 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
+              className="w-full bg-ink-950/60 border border-ink-800/60 rounded-xl px-4 py-2.5 text-sm text-ivory focus:outline-none focus:border-saffron transition-colors"
             />
           </div>
         </div>
@@ -336,8 +336,8 @@ Captions count should match ${photos.length} spots.`;
         }}
         className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all cursor-pointer ${
           dragOver
-            ? 'border-amber-500 bg-amber-500/10'
-            : 'border-slate-800 bg-slate-900/40 hover:border-slate-700 hover:bg-slate-900/60'
+            ? 'border-saffron bg-saffron/10'
+            : 'border-ink-800 bg-ink-900/40 hover:border-ink-800 hover:bg-ink-900/60'
         }`}
       >
         <input
@@ -349,16 +349,16 @@ Captions count should match ${photos.length} spots.`;
           className="hidden"
         />
         <label htmlFor="photo-upload-input" className="cursor-pointer flex flex-col items-center">
-          <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3 group-hover:scale-110 transition-transform">
+          <div className="w-14 h-14 rounded-2xl bg-saffron/10 border border-saffron/30 flex items-center justify-center text-saffron-bright mb-3 group-hover:scale-110 transition-transform">
             <Upload size={24} />
           </div>
-          <p className="text-base font-semibold text-white">
+          <p className="text-base font-semibold text-ivory">
             Click to upload or drag & drop 15–20 travel photos
           </p>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-ivory-muted mt-1">
             JPG, PNG, WebP supported • Recommended aspect ratio 3:4 or 9:16 vertical
           </p>
-          <div className="mt-3 inline-flex items-center gap-1.5 text-xs text-amber-400/90 bg-amber-400/10 px-3 py-1 rounded-full font-medium">
+          <div className="mt-3 inline-flex items-center gap-1.5 text-xs text-saffron-bright/90 bg-saffron-bright/10 px-3 py-1 rounded-full font-medium">
             <Sparkles size={12} />
             {photos.length} photos ready for reel generation
           </div>
@@ -369,13 +369,13 @@ Captions count should match ${photos.length} spots.`;
       {photos.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-              <ImageIcon size={16} className="text-amber-500" />
+            <h3 className="text-sm font-semibold text-ivory-muted uppercase tracking-wider flex items-center gap-2">
+              <ImageIcon size={16} className="text-saffron" />
               Photos Timeline ({photos.length} items)
             </h3>
             <button
               onClick={() => setPhotos([])}
-              className="text-xs text-red-400 hover:text-red-300 transition-colors"
+              className="text-xs text-danger-bright hover:text-danger-bright transition-colors"
             >
               Clear All
             </button>
@@ -388,23 +388,23 @@ Captions count should match ${photos.length} spots.`;
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2, delay: index * 0.03 }}
-                className="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden group hover:border-amber-500/40 transition-all flex flex-col"
+                className="bg-ink-900/90 border border-ink-800 rounded-xl overflow-hidden group hover:border-saffron/40 transition-all flex flex-col"
               >
                 {/* Photo Thumbnail */}
-                <div className="relative aspect-[4/3] bg-slate-950 overflow-hidden">
+                <div className="relative aspect-[4/3] bg-ink-950 overflow-hidden">
                   <img
                     src={photo.url}
                     alt={photo.location}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-slate-950/80 backdrop-blur-md text-[11px] font-bold text-amber-400 border border-amber-500/30">
+                  <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-ink-950/80 backdrop-blur-md text-[11px] font-bold text-saffron-bright border border-saffron/30">
                     #{index + 1} • {photo.day || `Day 0${(index % 7) + 1}`}
                   </div>
 
                   <button
                     onClick={() => removePhoto(photo.id)}
-                    className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-950/80 text-slate-400 hover:text-red-400 transition-colors"
+                    className="absolute top-2 right-2 p-1.5 rounded-lg bg-ink-950/80 text-ivory-muted hover:text-danger-bright transition-colors"
                     title="Remove Photo"
                   >
                     <Trash2 size={13} />
@@ -412,9 +412,9 @@ Captions count should match ${photos.length} spots.`;
                 </div>
 
                 {/* Single Text Box Below Image */}
-                <div className="p-3 bg-slate-900/90 flex-1 flex flex-col justify-end space-y-1.5 border-t border-white/5">
-                  <label className="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                    <MapPin size={11} className="text-amber-400 shrink-0" /> Place Name / Text for Reel:
+                <div className="p-3 bg-ink-900/90 flex-1 flex flex-col justify-end space-y-1.5 border-t border-white/5">
+                  <label className="block text-[10px] font-semibold text-ivory-muted uppercase tracking-wider flex items-center gap-1">
+                    <MapPin size={11} className="text-saffron-bright shrink-0" /> Place Name / Text for Reel:
                   </label>
                   <input
                     type="text"
@@ -425,7 +425,7 @@ Captions count should match ${photos.length} spots.`;
                       updatePhoto(photo.id, 'caption', val);
                     }}
                     placeholder="Enter place name or custom text..."
-                    className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 font-medium transition-colors"
+                    className="w-full bg-ink-950/80 border border-ink-800/80 rounded-xl px-3 py-2 text-xs text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron font-medium transition-colors"
                   />
                 </div>
               </motion.div>

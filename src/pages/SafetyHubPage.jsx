@@ -93,8 +93,8 @@ export default function SafetyHubPage() {
   return (
     <div className="min-h-screen bg-ink-950 text-ivory pt-24 pb-20 px-4 sm:px-6 md:px-12 relative overflow-hidden">
       {/* Background Ambience Glows */}
-      <div className="absolute top-10 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-10 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-10 left-1/4 w-96 h-96 bg-saffron/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 right-10 w-96 h-96 bg-horizon/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto space-y-10 relative z-10">
         {/* ======================================================== */}
@@ -102,31 +102,29 @@ export default function SafetyHubPage() {
         {/* ======================================================== */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-white/10 pb-8">
           <div className="max-w-3xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-mono uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saffron/10 border border-saffron/25 text-saffron text-xs font-data uppercase tracking-widest">
               <ShieldAlert className="w-3.5 h-3.5 animate-pulse" />
               <span>SafarX Tourist Safety & Crowd Intelligence Layer</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-bold tracking-tight text-ivory">
-              Travel with Confidence, <br />
-              <span className="bg-gradient-to-r from-red-400 via-amber-300 to-emerald-400 bg-clip-text text-transparent">
-                Guarded Everywhere.
-              </span>
+              Travel with confidence, <br />
+              <em className="not-italic font-display italic text-saffron">guarded everywhere.</em>
             </h1>
 
-            <p className="text-sand-300 text-sm sm:text-base leading-relaxed max-w-2xl">
+            <p className="text-ivory-muted text-sm sm:text-base leading-relaxed max-w-2xl">
               Authentic multi-factor crowd forecasting to avoid suffocating queues, paired with verified 24x7 government emergency response, women safety ratings, and one-tap live WhatsApp location broadcasting.
             </p>
 
             {/* Destination Search & Quick Selector */}
             <div className="pt-2 space-y-3">
-              <label className="block text-[11px] uppercase tracking-wider text-sand-400 font-semibold">
+              <label className="block text-[11px] uppercase tracking-wider text-ivory-muted font-semibold">
                 Active Destination / Region / Monument
               </label>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-2.5">
                 <div className="relative flex-1 max-w-md">
-                  <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-sand-400 pointer-events-none" />
+                  <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-muted pointer-events-none" />
                   <input
                     type="text"
                     value={customInput}
@@ -143,7 +141,7 @@ export default function SafetyHubPage() {
                       }
                     }}
                     placeholder="Search any place (e.g. Varanasi, Hampi, Agra, Shimla)..."
-                    className="w-full bg-ink-900/90 border border-white/15 focus:border-red-500/80 rounded-2xl pl-10 pr-8 py-2.5 text-xs sm:text-sm text-ivory placeholder-sand-500 focus:outline-none shadow-inner transition"
+                    className="w-full bg-ink-900/90 border border-white/15 focus:border-saffron/60 rounded-2xl pl-10 pr-8 py-2.5 text-xs sm:text-sm text-ivory placeholder-ivory-faint focus:outline-none shadow-inner transition"
                   />
                   {customInput && (
                     <button
@@ -151,7 +149,7 @@ export default function SafetyHubPage() {
                         setCustomInput("");
                         setSelectedDestination("Rajasthan");
                       }}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-sand-400 hover:text-white text-xs p-1"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-ivory-muted hover:text-ivory text-xs p-1"
                     >
                       ✕
                     </button>
@@ -162,7 +160,7 @@ export default function SafetyHubPage() {
                 <button
                   onClick={handleSyncCurrentLocation}
                   disabled={gpsLoading}
-                  className="px-4 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold rounded-2xl text-xs flex items-center justify-center gap-1.5 transition shrink-0 shadow-lg shadow-red-900/30 cursor-pointer active:scale-95"
+                  className="px-4 py-2.5 bg-gradient-to-br from-saffron-bright to-saffron hover:brightness-105 text-ink-950 font-semibold rounded-2xl text-xs flex items-center justify-center gap-1.5 transition shrink-0 shadow-lg shadow-saffron/20 cursor-pointer active:scale-95"
                 >
                   <LocateFixed className={`w-3.5 h-3.5 ${gpsLoading ? "animate-spin" : ""}`} />
                   <span>{gpsLoading ? "Acquiring GPS…" : "Update Safety Feed (My Location)"}</span>
@@ -181,8 +179,8 @@ export default function SafetyHubPage() {
                       }}
                       className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
                         selectedDestination.toLowerCase() === dest.toLowerCase()
-                          ? "bg-red-600 text-white shadow-md shadow-red-900/30 scale-105"
-                          : "bg-ink-900/80 text-sand-300 hover:text-white border border-white/10 hover:border-white/20"
+                          ? "bg-saffron text-ink-950 shadow-md shadow-saffron/25 scale-105"
+                          : "bg-ink-900/80 text-ivory-muted hover:text-ivory border border-white/10 hover:border-white/20"
                       }`}
                     >
                       {dest}
@@ -194,19 +192,19 @@ export default function SafetyHubPage() {
           </div>
 
           {/* Quick SOS Trigger Card */}
-          <div className="bg-gradient-to-br from-red-950/80 via-ink-900 to-ink-950 border-2 border-red-500/40 rounded-3xl p-6 shadow-2xl flex flex-col justify-between gap-5 lg:min-w-[340px]">
+          <div className="bg-gradient-to-br from-danger-950/80 via-ink-900 to-ink-950 border-2 border-danger/40 rounded-3xl p-6 shadow-2xl flex flex-col justify-between gap-5 lg:min-w-[340px]">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-mono text-red-400 font-bold uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-xs font-data text-danger-bright font-bold uppercase tracking-wider">
                 <Radio className="w-4 h-4 animate-ping" />
                 <span>Live Emergency Core</span>
               </div>
-              <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-medium">
+              <span className="text-[10px] bg-horizon/20 text-horizon-bright px-2 py-0.5 rounded-full font-medium">
                 ERSS 112 Ready
               </span>
             </div>
 
             <div>
-              <p className="text-xs text-sand-400">Current GPS Detection:</p>
+              <p className="text-xs text-ivory-muted">Current GPS Detection:</p>
               <p className="text-sm font-bold text-ivory mt-0.5">
                 {gpsLocation ? `${gpsLocation.city}, ${gpsLocation.state}` : "GPS Ready · Tap to Broadcast"}
               </p>
@@ -214,7 +212,7 @@ export default function SafetyHubPage() {
 
             <button
               onClick={() => setIsSOSOpen(true)}
-              className="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold text-sm py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2.5 shadow-xl shadow-red-900/50 transition active:scale-95 cursor-pointer"
+              className="w-full bg-gradient-to-r from-danger to-danger hover:from-danger hover:to-danger text-ivory font-bold text-sm py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2.5 shadow-xl shadow-danger-900/50 transition active:scale-95 cursor-pointer"
             >
               <ShieldAlert className="w-5 h-5 animate-pulse" />
               Open Emergency SOS Beacon
@@ -228,53 +226,53 @@ export default function SafetyHubPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <a
             href="tel:112"
-            className="bg-ink-900/70 hover:bg-red-950/40 border border-white/10 hover:border-red-500/40 p-4 rounded-2xl flex items-center gap-3 transition group"
+            className="bg-ink-900/70 hover:bg-danger-950/40 border border-white/10 hover:border-danger/40 p-4 rounded-2xl flex items-center gap-3 transition group"
           >
-            <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center font-bold text-base shadow">
+            <div className="w-10 h-10 rounded-xl bg-danger text-ivory flex items-center justify-center font-bold text-base shadow">
               112
             </div>
             <div>
-              <p className="text-xs font-bold text-ivory group-hover:text-red-300 transition">National Emergency</p>
-              <p className="text-[11px] text-sand-500">Police, Fire, Ambulance</p>
+              <p className="text-xs font-bold text-ivory group-hover:text-danger-bright transition">National Emergency</p>
+              <p className="text-[11px] text-ivory-faint">Police, Fire, Ambulance</p>
             </div>
           </a>
 
           <a
             href="tel:1363"
-            className="bg-ink-900/70 hover:bg-amber-950/40 border border-white/10 hover:border-amber-500/40 p-4 rounded-2xl flex items-center gap-3 transition group"
+            className="bg-ink-900/70 hover:bg-saffron-900/40 border border-white/10 hover:border-saffron/40 p-4 rounded-2xl flex items-center gap-3 transition group"
           >
-            <div className="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-base shadow">
+            <div className="w-10 h-10 rounded-xl bg-saffron-deep text-ivory flex items-center justify-center font-bold text-base shadow">
               1363
             </div>
             <div>
-              <p className="text-xs font-bold text-ivory group-hover:text-amber-300 transition">Tourist Helpline</p>
-              <p className="text-[11px] text-sand-500">Ministry of Tourism (12 Lngs)</p>
+              <p className="text-xs font-bold text-ivory group-hover:text-saffron-bright transition">Tourist Helpline</p>
+              <p className="text-[11px] text-ivory-faint">Ministry of Tourism (12 Lngs)</p>
             </div>
           </a>
 
           <a
             href="tel:1091"
-            className="bg-ink-900/70 hover:bg-rose-950/40 border border-white/10 hover:border-rose-500/40 p-4 rounded-2xl flex items-center gap-3 transition group"
+            className="bg-ink-900/70 hover:bg-danger-950/40 border border-white/10 hover:border-danger/40 p-4 rounded-2xl flex items-center gap-3 transition group"
           >
-            <div className="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center font-bold text-base shadow">
+            <div className="w-10 h-10 rounded-xl bg-danger text-ivory flex items-center justify-center font-bold text-base shadow">
               1091
             </div>
             <div>
-              <p className="text-xs font-bold text-ivory group-hover:text-rose-300 transition">Women in Distress</p>
-              <p className="text-[11px] text-sand-500">24x7 NCW Response</p>
+              <p className="text-xs font-bold text-ivory group-hover:text-danger-bright transition">Women in Distress</p>
+              <p className="text-[11px] text-ivory-faint">24x7 NCW Response</p>
             </div>
           </a>
 
           <a
             href="tel:108"
-            className="bg-ink-900/70 hover:bg-emerald-950/40 border border-white/10 hover:border-emerald-500/40 p-4 rounded-2xl flex items-center gap-3 transition group"
+            className="bg-ink-900/70 hover:bg-horizon-deep/40 border border-white/10 hover:border-horizon/40 p-4 rounded-2xl flex items-center gap-3 transition group"
           >
-            <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-base shadow">
+            <div className="w-10 h-10 rounded-xl bg-horizon text-ivory flex items-center justify-center font-bold text-base shadow">
               108
             </div>
             <div>
-              <p className="text-xs font-bold text-ivory group-hover:text-emerald-300 transition">Medical Ambulance</p>
-              <p className="text-[11px] text-sand-500">Free Emergency Transport</p>
+              <p className="text-xs font-bold text-ivory group-hover:text-horizon-bright transition">Medical Ambulance</p>
+              <p className="text-[11px] text-ivory-faint">Free Emergency Transport</p>
             </div>
           </a>
         </div>
@@ -287,8 +285,8 @@ export default function SafetyHubPage() {
             onClick={() => setActiveMainTab("advisor")}
             className={`pb-4 px-2 transition flex items-center gap-2 border-b-2 ${
               activeMainTab === "advisor"
-                ? "border-red-500 text-red-400 font-bold"
-                : "border-transparent text-sand-400 hover:text-white"
+                ? "border-saffron text-saffron font-bold"
+                : "border-transparent text-ivory-muted hover:text-ivory"
             }`}
           >
             <ShieldCheck className="w-5 h-5" />
@@ -299,8 +297,8 @@ export default function SafetyHubPage() {
             onClick={() => setActiveMainTab("crowd")}
             className={`pb-4 px-2 transition flex items-center gap-2 border-b-2 ${
               activeMainTab === "crowd"
-                ? "border-red-500 text-red-400 font-bold"
-                : "border-transparent text-sand-400 hover:text-white"
+                ? "border-saffron text-saffron font-bold"
+                : "border-transparent text-ivory-muted hover:text-ivory"
             }`}
           >
             <Users className="w-5 h-5" />
@@ -311,8 +309,8 @@ export default function SafetyHubPage() {
             onClick={() => setActiveMainTab("directory")}
             className={`pb-4 px-2 transition flex items-center gap-2 border-b-2 ${
               activeMainTab === "directory"
-                ? "border-red-500 text-red-400 font-bold"
-                : "border-transparent text-sand-400 hover:text-white"
+                ? "border-saffron text-saffron font-bold"
+                : "border-transparent text-ivory-muted hover:text-ivory"
             }`}
           >
             <Building2 className="w-5 h-5" />

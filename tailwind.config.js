@@ -92,6 +92,17 @@ export default {
           800: "#62491A",
         },
         error: "#E05252",
+        /* Emergency red. Deliberately the only warm-cool break in Peacock &
+           Gold, and reserved for things that are actually urgent — the SOS
+           beacon, emergency numbers, destructive actions. Kept as one token so
+           red means one thing rather than appearing in a dozen shades. */
+        danger: {
+          DEFAULT: "#E05252",
+          bright: "#F0706F",
+          deep: "#8E2C2C",
+          900: "#4A1717",
+          950: "#2A0F0F",
+        },
         warning: "#D4A843",
       },
 
