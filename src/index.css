@@ -443,6 +443,53 @@ textarea.bg-transparent:focus {
   box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.12);
 }
 
+/* ── Search field ─────────────────────────────────────────────────────
+   Every search bar in the app was hand-rolled with its own border, radius
+   and focus colour. This is the one treatment they share.
+
+   A search field is where a page invites you to speak first, so it gets a
+   little more than a plain input: a top highlight so it reads as raised
+   rather than cut into the page, and a gold ring on focus that matches the
+   route-line accent used everywhere else. The leading padding assumes an
+   icon at left-4; use .search-field-bare without it. */
+.search-field {
+  width: 100%;
+  padding: 0.875rem 1.125rem 0.875rem 3rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(242, 239, 230, 0.055), rgba(242, 239, 230, 0.025));
+  border: 1px solid var(--line);
+  box-shadow: inset 0 1px 0 rgba(242, 239, 230, 0.06);
+  color: var(--ivory);
+  font-family: "Schibsted Grotesk", sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-field::placeholder {
+  color: var(--ivory-faint);
+}
+
+.search-field:hover {
+  border-color: rgba(242, 239, 230, 0.16);
+}
+
+.search-field:focus {
+  outline: none;
+  border-color: rgba(212, 168, 67, 0.55);
+  background:
+    linear-gradient(180deg, rgba(242, 239, 230, 0.08), rgba(242, 239, 230, 0.04));
+  box-shadow:
+    inset 0 1px 0 rgba(242, 239, 230, 0.08),
+    0 0 0 3px rgba(212, 168, 67, 0.12);
+}
+
+.search-field-bare {
+  padding-left: 1.125rem;
+}
+
+
 /* ============================================================
    SIGNATURE — ROUTE LINE MOTIF
    Dashed flight-path used in section headers and dividers

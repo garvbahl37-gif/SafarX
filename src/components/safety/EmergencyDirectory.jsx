@@ -58,7 +58,7 @@ export default function EmergencyDirectory() {
  value={searchQuery}
  onChange={(e) => setSearchQuery(e.target.value)}
  placeholder="Search state, embassy, or service…"
- className="w-full bg-ink-950 border border-white/15 rounded-xl pl-9 pr-3.5 py-2 text-xs text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron-bright transition"
+ className="search-field text-sm"
  />
  </div>
  </div>

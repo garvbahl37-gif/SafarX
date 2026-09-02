@@ -140,7 +140,7 @@ export default function SafetyHubPage() {
  }
  }}
  placeholder="Search any place (e.g. Varanasi, Hampi, Agra, Shimla)..."
- className="w-full bg-ink-900/90 border border-white/15 focus:border-saffron/60 rounded-2xl pl-10 pr-8 py-2.5 text-xs sm:text-sm text-ivory placeholder-ivory-faint focus:outline-none shadow-inner transition"
+ className="search-field pr-10 text-sm"
  />
  {customInput && (<button
  onClick={() => {

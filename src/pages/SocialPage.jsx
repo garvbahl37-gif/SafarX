@@ -235,7 +235,7 @@ const SocialPage = ({ onBack }) => {
                                                 value={searchQuery}
                                                 onChange={(e) => setSearchQuery(e.target.value)}
                                                 aria-label="Search travel groups"
-                                                className="glass-input w-full !py-3.5 !pl-12 !pr-5 text-ivory placeholder:text-ivory-faint"
+                                                className="search-field !pr-5"
                                             />
                                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-ivory-faint" size={18} />
                                             {isSearchActive && searchQuery && (
