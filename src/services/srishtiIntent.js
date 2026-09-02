@@ -15,7 +15,7 @@ const listeners = new Set();
 
 /**
  * @typedef {object} Intent
- * @property {"trains"|"stays"|"itinerary"|"tour"|"page"} type
+ * @property {"trains"|"stays"|"itinerary"|"tour"|"sos"|"safety"|"diary"|"page"} type
  * @property {object} [payload] what the page needs to fill itself in
  */
 

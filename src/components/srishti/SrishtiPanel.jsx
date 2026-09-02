@@ -24,6 +24,10 @@ const TOOL_LABEL = {
   pnr_status: "checked your ticket",
   find_vr_tour: "found a 360° tour",
   hidden_gems_near: "looked for hidden gems",
+  plan_itinerary: "drew up an itinerary",
+  emergency_sos: "opened the emergency beacon",
+  check_safety: "checked how safe it is",
+  create_reel: "set up your reel",
   open_page: "opened the page",
 };
 

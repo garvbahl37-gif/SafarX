@@ -104,6 +104,56 @@ export const TOOL_DECLARATIONS = [
     },
   },
   {
+    name: "emergency_sos",
+    description:
+      "Open the emergency SOS beacon immediately. Use the moment someone says they are in danger, hurt, lost, being followed, or asks for help — do not ask clarifying questions first, open it and keep talking. This is the one tool where acting early is better than acting correctly.",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        reason: {
+          type: "STRING",
+          description: "What they said is wrong, in a few words, so the screen opens with context",
+        },
+      },
+      required: [],
+    },
+  },
+  {
+    name: "check_safety",
+    description:
+      "Open the safety hub for a place: verified emergency numbers, women's safety ratings, and crowd forecasts. Use when someone asks whether somewhere is safe, how crowded it will be, when to avoid queues, or who to call there.",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        destination: { type: "STRING", description: "Indian state, city or monument" },
+        focus: {
+          type: "STRING",
+          description: "advisor for safety measures, crowd for queue forecasts, directory for emergency contacts",
+        },
+      },
+      required: ["destination"],
+    },
+  },
+  {
+    name: "create_reel",
+    description:
+      "Open the digital diary with a reel set up from a trip: title, edit style, aspect ratio and soundtrack. Use when someone wants to turn their trip photos into a video, make a reel, or share their journey. Fill in whatever they told you and leave the rest out.",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        tripTitle: { type: "STRING", description: "What to call the trip, e.g. Royal Echoes of Rajasthan" },
+        travellers: { type: "STRING", description: "Who went, e.g. Aarav & Meera" },
+        style: {
+          type: "STRING",
+          description: "One of: Trending Reel, 35mm Film, Polaroid Vlog, Luxury Gallery",
+        },
+        ratio: { type: "STRING", description: "One of: 9:16, 4:5, 1:1, 16:9, 4:3" },
+        track: { type: "STRING", description: "A song to score it with, e.g. Ilahi or Safarnama" },
+      },
+      required: [],
+    },
+  },
+  {
     name: "open_page",
     description:
       "Move the SafarX app to a page while you keep talking. Use it to show what you are describing.",
@@ -155,6 +205,12 @@ const near = (lat, lng, rows, limit) =>
  * Tolerates the odd transcription slip ("Kerela"/"Kerala", "Varnasi"/"Varanasi")
  * without letting "Coorg" quietly become "Coimbatore".
  */
+/** The regions the safety hub carries, mirroring POPULAR_DESTINATIONS. */
+const SAFETY_REGIONS = [
+  "Goa", "Rajasthan", "Kerala", "Himachal Pradesh", "Ladakh", "Uttarakhand",
+  "Tamil Nadu", "Karnataka", "Uttar Pradesh", "Meghalaya", "Sikkim", "Delhi",
+];
+
 const isSamePlace = (asked, name) => {
   const a = asked.toLowerCase().trim();
   const b = name.toLowerCase().trim();
@@ -360,6 +416,59 @@ export const runTool = async (name, args, { origin }) => {
             pace: ["Relaxed", "Moderate", "Packed"].includes(args.pace) ? args.pace : "Moderate",
             budget: String(args.budget || "").replace(/[^\d]/g, ""),
             adults: Math.max(1, Number(args.travellers) || 2),
+          },
+        },
+      };
+    }
+
+    case "emergency_sos": {
+      /* No lookup, no confirmation. Someone saying they need help should not
+         wait on a round trip, and a voice that asks "which city?" first is
+         the wrong thing to be in an emergency. */
+      return {
+        opened: "sos",
+        say: "Opening the emergency beacon now. Stay with me.",
+        navigate: "/safety",
+        intent: { type: "sos", payload: { reason: String(args.reason || "").slice(0, 200) } },
+      };
+    }
+
+    case "check_safety": {
+      const asked = String(args.destination || "").trim();
+      if (!asked) return { unavailable: "I need somewhere in India to check." };
+
+      /* The safety hub is organised by state, so this resolves against the
+         regions it actually holds rather than the stays city index — that one
+         answers "Rajasthan" with "Ajmer", which is a real place and the wrong
+         one. Anything outside the list is passed through untouched: the
+         advisor takes free text, and a city we cannot map is still a better
+         question than a state we guessed at. */
+      const near = SAFETY_REGIONS.find((r) => isSamePlace(asked, r));
+      const destination = near || asked;
+
+      const focus = ["advisor", "crowd", "directory"].includes(args.focus) ? args.focus : "advisor";
+      return {
+        checking: destination,
+        focus,
+        navigate: "/safety",
+        intent: { type: "safety", payload: { destination, focus } },
+      };
+    }
+
+    case "create_reel": {
+      const STYLES = ["Trending Reel", "35mm Film", "Polaroid Vlog", "Luxury Gallery"];
+      const RATIOS = ["9:16", "4:5", "1:1", "16:9", "4:3"];
+      return {
+        opening: "diary",
+        navigate: "/diary",
+        intent: {
+          type: "diary",
+          payload: {
+            tripTitle: String(args.tripTitle || "").slice(0, 80) || null,
+            travellers: String(args.travellers || "").slice(0, 60) || null,
+            style: STYLES.includes(args.style) ? args.style : null,
+            ratio: RATIOS.includes(args.ratio) ? args.ratio : null,
+            track: String(args.track || "").slice(0, 60) || null,
           },
         },
       };

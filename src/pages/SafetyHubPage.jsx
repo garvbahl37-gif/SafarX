@@ -23,6 +23,7 @@ import CrowdPredictionCard from "../components/safety/CrowdPredictionCard";
 import SafetyAdvisor from "../components/safety/SafetyAdvisor";
 import EmergencyDirectory from "../components/safety/EmergencyDirectory";
 import SOSBeaconModal from "../components/safety/SOSBeaconModal";
+import { takeIntent, onIntent } from "../services/srishtiIntent";
 import { getCurrentDeviceLocation, reverseGeocodeCoords } from "../services/safetyService";
 
 const POPULAR_DESTINATIONS = [
@@ -47,6 +48,29 @@ export default function SafetyHubPage() {
  const [activeMainTab, setActiveMainTab] = useState("advisor"); // 'advisor' | 'crowd' | 'directory'
  const [gpsLocation, setGpsLocation] = useState(null);
  const [gpsLoading, setGpsLoading] = useState(false);
+
+ /* Srishti hands this page a request rather than just opening it.
+    "I need help" opens the beacon on arrival — in an emergency the last
+    thing that should stand between someone and the SOS is a screen they
+    still have to read and a button they still have to find. */
+ useEffect(() => {
+ const apply = (intent) => {
+ if (intent?.type === "sos") {
+ setIsSOSOpen(true);
+ return;
+ }
+ if (intent?.type === "safety") {
+ const { destination, focus } = intent.payload || {};
+ if (destination) {
+ setSelectedDestination(destination);
+ setCustomInput(destination);
+ }
+ if (["advisor", "crowd", "directory"].includes(focus)) setActiveMainTab(focus);
+ }
+ };
+ apply(takeIntent("sos") || takeIntent("safety"));
+ return onIntent(apply);
+ }, []);
 
  useEffect(() => {
  // Attempt background high accuracy GPS lock

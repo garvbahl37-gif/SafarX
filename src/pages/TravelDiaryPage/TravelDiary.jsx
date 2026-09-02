@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Share2, Upload, Trash2, Film, X, Lightbulb } from 'lucide-react';
 import { ReelPlayer } from './components/ReelPlayer';
@@ -6,6 +6,7 @@ import { ShareModal } from './components/ShareModal';
 import DiaryHero from './components/DiaryHero';
 import { SAMPLE_RAJASTHAN_JOURNEY, diaryService } from './services/diaryService';
 import toast from 'react-hot-toast';
+import { takeIntent, onIntent } from '../../services/srishtiIntent';
 
 export const TravelDiary = () => {
  /* Where the hero's two buttons send you. */
@@ -16,6 +17,22 @@ export const TravelDiary = () => {
  const [dragOver, setDragOver] = useState(false);
  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
  const [shareVideoBlob, setShareVideoBlob] = useState(null);
+ /* What Srishti was told about the reel, handed to the editor below. Held as
+    state rather than read once, so asking her for a different cut while the
+    page is already open re-arms it instead of being ignored. */
+ const [reelPreset, setReelPreset] = useState(null);
+
+ useEffect(() => {
+ const apply = (intent) => {
+ if (intent?.type !== 'diary') return;
+ const { tripTitle: title, travellers, style, ratio, track } = intent.payload || {};
+ if (title) setTripTitle(title);
+ if (travellers) setTravelerName(travellers);
+ if (style || ratio || track) setReelPreset({ style, ratio, track, at: Date.now() });
+ };
+ apply(takeIntent('diary'));
+ return onIntent(apply);
+ }, []);
 
  const shareIdRef = useRef(`sfx_${Math.random().toString(36).slice(2, 10)}`);
 
@@ -242,6 +259,7 @@ export const TravelDiary = () => {
  photos={photos}
  tripTitle={tripTitle}
  travelerName={travelerName}
+ preset={reelPreset}
  onOpenShareModal={handleOpenShare}
  />
  </div>

@@ -92,7 +92,7 @@ const TrackCard = ({ track, isSelected, onSelect, isPlaying }) => (<div onClick=
 );
 
 // ─── Main ReelPlayer ──────────────────────────────────────────────────────────
-export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }) => {
+export const ReelPlayer = ({ photos, tripTitle, travelerName, preset, onOpenShareModal }) => {
  const canvasRef = useRef(null);
  const rendererRef = useRef(null);
  const animFrameRef = useRef(null);
@@ -345,6 +345,57 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  setIsLoadingTrack(false);
  }
  };
+
+ // ── What Srishti was asked for out loud ───────────────────────────────────
+ /* "Make a 9:16 reel of Rajasthan with Ilahi" should land on a configured
+    cut, not on a form with the right title and every other default.
+    The curated list is searched first so the common case costs no request; a
+    song we do not carry falls through to the catalogue. Anything that cannot
+    be matched is left alone rather than guessed at — the wrong song is worse
+    than the default one. */
+ useEffect(() => {
+ if (!preset) return;
+ let live = true;
+
+ if (preset.ratio) {
+ const ratio = REEL_RATIOS.find((r) => r.label === preset.ratio);
+ if (ratio) {
+ setSelectedRatio(ratio);
+ /* Latch the detector off. A ratio she was told outright outranks what
+    the photographs suggest — and leaving this armed means the preload
+    effect, which re-runs because the ratio just changed, quietly
+    overwrites her choice with its own guess. */
+ setAutoDetected(true);
+ }
+ }
+
+ if (preset.style) {
+ const style = EDIT_PRESETS.find((e) => e.label === preset.style);
+ if (style) {
+ setSelectedStyle(style);
+ rendererRef.current?.setStylePreset?.(style.id);
+ }
+ }
+
+ if (preset.track) {
+ const wanted = preset.track.trim().toLowerCase();
+ const curated = CURATED_TRACKS.find(
+ (t) => t.title.toLowerCase() === wanted || t.title.toLowerCase().includes(wanted)
+ );
+ if (curated) {
+ handleSelectTrack(curated);
+ } else {
+ searchOnlineSongs(preset.track)
+ .then((results) => { if (live && results?.[0]) handleSelectTrack(results[0]); })
+ .catch(() => {});
+ }
+ }
+
+ return () => { live = false; };
+ /* Keyed on the whole preset: each request arrives as a fresh object, so
+    asking her for a different cut while the page is open applies too. */
+ // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, [preset]);
 
  // ── Live Debounced Song Search & Auto-Recommendations ─────────────────────
  useEffect(() => {
