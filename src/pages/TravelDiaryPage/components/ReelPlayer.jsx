@@ -196,7 +196,6 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  const detected = detectBestRatio(loaded);
  if (detected.id !== selectedRatio.id) {
  setSelectedRatio(detected);
- toast(`Ratio auto-set to ${detected.label}`);
  }
  setAutoDetected(true);
  }
@@ -335,13 +334,13 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  }
  setIsPlaying(true);
  setSongTotalDuration(result.duration || 180);
- toast.success(`Now playing: ${result.title} — ${result.artist}`, { id: 'track-loading' });
+ toast.dismiss('track-loading');
  } else {
  toast.error(`Could not load "${track.title}". Try uploading your own MP3.`, { id: 'track-loading' });
  }
  } catch (err) {
  console.error('Track fetch error:', err);
- toast.error(`Failed to load song. Check if the server is running.`, { id: 'track-loading' });
+ toast.error(`That track would not load. Try another, or upload your own MP3.`, { id: 'track-loading' });
  } finally {
  setIsLoadingTrack(false);
  }
@@ -450,7 +449,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  p.load();
  if (isPlaying && !isMuted) p.play().catch(() => {});
  }
- toast.success(` "${file.name}" set as soundtrack!`);
+ toast.success(`"${file.name}" set as the soundtrack.`);
  };
 
  // ── Audio Start Time Change ───────────────────────────────────────────────
@@ -468,7 +467,6 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  const handleRatioChange = ratio => {
  setSelectedRatio(ratio);
  setAutoDetected(true);
- toast(` ${ratio.label} — ${ratio.desc}`);
  };
 
  // ── Style Change ──────────────────────────────────────────────────────────
@@ -478,7 +476,6 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  rendererRef.current.setStylePreset(style.id);
  rendererRef.current.renderFrame(currentTime);
  }
- toast(`Edit style: ${style.label}`);
  };
 
  // ── Export Video ──────────────────────────────────────────────────────────
@@ -563,7 +560,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  if (!photos.length || isExporting) return;
 
  cancelExportRef.current = false;
- toast('Preparing your reel for sharing...');
+ toast('Preparing your reel to share…');
  setIsExporting(true);
  setExportProgress(0);
  setExportMessage('Rendering video for sharing...');
