@@ -162,7 +162,7 @@ export const ShareModal = ({ isOpen, onClose, journey, videoBlob }) => {
  animate={{ opacity: 1, scale: 1, y: 0 }}
  exit={{ opacity: 0, scale: 0.93, y: 24 }}
  transition={{ type: 'spring', damping: 22, stiffness: 280 }}
- className="bg-ink-900 border border-white/10 rounded-3xl p-6 max-w-sm w-full shadow-2xl shadow-black/70 relative"
+ className="bg-ink-900 border border-white/[0.07] rounded-3xl p-6 max-w-sm w-full shadow-2xl shadow-black/70 relative"
  >
  {/* Close */}
  <button onClick={onClose}
@@ -195,13 +195,13 @@ export const ShareModal = ({ isOpen, onClose, journey, videoBlob }) => {
  {/* Save to Device */}
  <button
  onClick={handleDirectDownload}
- className="w-full py-2.5 mb-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-horizon-bright font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+ className="w-full py-2.5 mb-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/[0.07] text-horizon-bright font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
  >
  <Download size={13} /> Save Video to Device
  </button>
 
  {/* Optional On-Demand Cloud Link & QR Code Card */}
- <div className="p-3.5 rounded-2xl bg-white/3 border border-white/8 space-y-3">
+ <div className="p-3.5 rounded-2xl bg-white/3 border border-white/[0.07] space-y-3">
  <div className="flex items-center justify-between">
  <span className="text-[11px] font-bold text-saffron-bright flex items-center gap-1.5">
  <QrCode size={13} /> Public Link & QR Code
@@ -253,7 +253,7 @@ export const ShareModal = ({ isOpen, onClose, journey, videoBlob }) => {
  {/* Public link copy box */}
  <div className="w-full flex items-center gap-1.5">
  <input readOnly value={shareUrl}
- className="w-full bg-ink-950 border border-white/10 rounded-lg px-2.5 py-1.5 text-[10px] text-ivory-muted font-data focus:outline-none truncate" />
+ className="w-full bg-ink-950 border border-white/[0.07] rounded-lg px-2.5 py-1.5 text-[10px] text-ivory-muted font-data focus:outline-none truncate" />
  <button onClick={handleCopy}
  className={`px-2.5 py-1.5 rounded-lg text-[11px] font-bold shrink-0 flex items-center gap-1 transition-all ${
  copied ? 'bg-horizon/20 text-horizon-bright border border-horizon/30' : 'bg-saffron hover:bg-saffron-bright text-ink-950'

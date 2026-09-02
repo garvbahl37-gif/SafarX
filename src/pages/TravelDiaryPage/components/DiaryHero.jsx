@@ -18,11 +18,13 @@ import { Share2, Upload, ChevronDown } from 'lucide-react';
 
 const EASE = [0.22, 1, 0.36, 1];
 
+/* The Golden Temple at Amritsar, lit gold on black water at night — its own footage rather
+   than a clip borrowed from another page, and a palette that happens to be the
+   app's own. 1080p at 6.6MB, with its poster from the same source; both
+   curl-checked. */
 const STILL =
-  'https://images.unsplash.com/photo-1477587458883-47145ed94245?w=2000&q=80&auto=format&fit=crop';
-/* Mehrangarh at 1080p, 4.4MB — curl-checked. Deliberately not one of the 4K
-   files elsewhere in the app: this sits under a heavy scrim at low opacity. */
-const FILM = 'https://videos.pexels.com/video-files/17453762/17453762-hd_1920_1080_24fps.mp4';
+  'https://images.pexels.com/videos/10307864/pexels-photo-10307864.jpeg?auto=compress&cs=tinysrgb&w=1920';
+const FILM = 'https://videos.pexels.com/video-files/10307864/10307864-hd_1920_1080_25fps.mp4';
 
 const DiaryHero = ({ photoCount, onShare, onScrollToContent }) => {
   const reduce = useReducedMotion();
@@ -35,13 +37,13 @@ const DiaryHero = ({ photoCount, onShare, onScrollToContent }) => {
 
   return (
     <header className="relative isolate flex min-h-[60vh] items-center justify-center overflow-hidden">
-      <img src={STILL} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover opacity-45" />
+      <img src={STILL} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover brightness-[0.42] saturate-[1.15]" />
 
       {!reduce && (
         <motion.video
           ref={videoRef}
           initial={{ opacity: 0 }}
-          animate={{ opacity: playing ? 0.45 : 0 }}
+          animate={{ opacity: playing ? 1 : 0 }}
           transition={{ duration: 1.6, ease: EASE }}
           src={FILM}
           poster={STILL}
@@ -52,20 +54,30 @@ const DiaryHero = ({ photoCount, onShare, onScrollToContent }) => {
           onCanPlay={() => setPlaying(true)}
           onError={() => setPlaying(false)}
           aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover brightness-[0.42] saturate-[1.15]"
         />
       )}
 
-      {/* Ink from every edge, so the type sits on ground rather than on film. */}
-      <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/70 to-ink-950" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(6,20,18,0.85)_100%)]" />
+      {/* The film plays at full strength; only the edges are inked, so it
+          reads as footage rather than as a tinted texture. The top band
+          carries the floating navbar, the bottom hands off to the page, and
+          a soft plate sits behind the type so it stays legible without
+          greying out the whole frame. */}
+      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink-950 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-ink-950 via-ink-950/80 to-transparent" />
+      {/* A band, not an ellipse. It runs the full width so it has no edge to
+          notice — the earlier radial plate read as a black circle sitting on
+          the picture. Darkest through the middle, where the words are. */}
+      <div className="absolute inset-x-0 top-[14%] bottom-[18%] bg-gradient-to-b from-transparent via-ink-950/45 to-transparent" />
 
       <motion.div
         initial={{ opacity: 0, y: reduce ? 0 : 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: EASE }}
-        className="relative mx-auto max-w-3xl px-6 pb-12 pt-28 text-center"
+        className="relative mx-auto max-w-3xl px-6 pb-12 pt-28 text-center [text-shadow:0_2px_20px_rgba(6,20,18,0.9)]"
       >
+
+        <div className="relative z-10">
         <p className="mb-5 flex items-center justify-center gap-3">
           <span className="route-line w-10 hidden sm:inline-block" aria-hidden="true" />
           <span className="route-dot" aria-hidden="true" />
@@ -105,6 +117,7 @@ const DiaryHero = ({ photoCount, onShare, onScrollToContent }) => {
           Your journey
           <ChevronDown size={14} className={reduce ? '' : 'animate-bounce'} aria-hidden="true" />
         </button>
+        </div>
       </motion.div>
     </header>
   );

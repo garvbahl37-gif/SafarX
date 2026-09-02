@@ -27,7 +27,7 @@ const RatioSelector = ({ selectedRatio, onSelect }) => (<div className="grid gri
  className={`relative flex flex-col items-center gap-1 p-2.5 rounded-xl border transition-all ${
  selectedRatio.id === r.id
  ? 'bg-saffron/15 border-saffron text-saffron-bright shadow-md shadow-saffron/10'
- : 'bg-ink-950 border-white/8 text-ivory-muted hover:border-white/20 hover:text-ivory'
+ : 'bg-ink-950 border-white/[0.07] text-ivory-muted hover:border-white/[0.12] hover:text-ivory'
  }`}>
   <span className="text-[11px] font-bold">{r.label}</span>
  <span className="text-[10px] opacity-70 leading-tight text-center">{r.desc}</span>
@@ -44,7 +44,7 @@ const StyleSelector = ({ selectedStyle, onSelect }) => (<div className="grid gri
  className={`relative flex flex-col text-left p-3 rounded-xl border transition-all ${
  selectedStyle.id === preset.id
  ? 'bg-gradient-to-br from-saffron/20 to-saffron/10 border-saffron text-ivory shadow-md shadow-saffron/10'
- : 'bg-ink-950 border-white/8 text-ivory-muted hover:border-white/20 hover:bg-white/5'
+ : 'bg-ink-950 border-white/[0.07] text-ivory-muted hover:border-white/[0.12] hover:bg-white/5'
  }`}>
  <div className="flex items-center gap-1.5 mb-1">
   <span className="text-xs font-bold text-ivory">{preset.label}</span>
@@ -64,7 +64,7 @@ const TrackCard = ({ track, isSelected, onSelect, isPlaying }) => (<div onClick=
  className={`flex items-center gap-2.5 p-2 rounded-xl border cursor-pointer transition-all ${
  isSelected
  ? 'bg-saffron/15 border-saffron text-ivory shadow-md shadow-saffron/10'
- : 'bg-ink-950 border-white/8 text-ivory-muted hover:border-white/20 hover:bg-white/5'
+ : 'bg-ink-950 border-white/[0.07] text-ivory-muted hover:border-white/[0.12] hover:bg-white/5'
  }`}>
  {track.image ? (<img src={track.image} alt={track.title} className="w-9 h-9 rounded-lg object-cover shrink-0" />
  ) : (<div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? 'bg-saffron/20 text-saffron-bright' : 'bg-white/[0.06] text-ivory-faint'}`}>
@@ -598,7 +598,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  changing the ratio also changed the height of the page. A stage keeps the
  frame still and letterboxes whatever is put in it, which is what a screen
  does. */
- const STAGE = { width: 520, height: 440 };
+ const STAGE = { width: 620, height: 520 };
 
  const getPreviewDimensions = (ratio) => {
  const scale = Math.min(STAGE.width / ratio.width, STAGE.height / ratio.height);
@@ -616,7 +616,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
 
  {/* ── LEFT COLUMN (lg:col-span-4): Reel Canvas Preview & Player Controls ── */}
- <div className="lg:col-span-5 flex flex-col bg-ink-900 border border-white/[0.08] rounded-3xl p-5 shadow-xl space-y-4">
+ <div className="lg:col-span-5 flex flex-col bg-ink-900 border border-white/[0.07] rounded-3xl p-5 shadow-xl space-y-4">
  {/* Header Badges */}
  <div className="flex items-center gap-3">
  <span className="route-dot shrink-0" aria-hidden="true" />
@@ -687,7 +687,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  if (customAudioPlayerRef.current) customAudioPlayerRef.current.currentTime = audioStartTime;
  }}
  aria-label="Restart"
- className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.09] text-ivory-muted transition-colors hover:border-saffron/35 hover:text-ivory cursor-pointer"
+ className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.07] text-ivory-muted transition-colors hover:border-saffron/35 hover:text-ivory cursor-pointer"
  >
  <RotateCcw size={15} />
  </button>
@@ -711,7 +711,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors cursor-pointer ${
  isMuted || audioMode === 'none'
  ? 'border-danger/30 bg-danger/15 text-danger-bright'
- : 'border-white/[0.09] text-ivory-muted hover:border-saffron/35 hover:text-ivory'
+ : 'border-white/[0.07] text-ivory-muted hover:border-saffron/35 hover:text-ivory'
  }`}
  >
  {isMuted || audioMode === 'none' ? <VolumeX size={15} /> : <Volume2 size={15} />}
@@ -725,8 +725,8 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  <div className="lg:col-span-3 space-y-4">
           
  {/* Editing Style & FX Card */}
- <div className="bg-ink-900 border border-white/8 rounded-3xl p-4 shadow-xl space-y-3">
- <div className="flex items-center gap-2.5 pb-2 border-b border-white/6">
+ <div className="bg-ink-900 border border-white/[0.07] rounded-3xl p-4 shadow-xl space-y-3">
+ <div className="flex items-center gap-2.5 pb-2 border-b border-white/[0.07]">
  <div className="w-8 h-8 rounded-lg bg-saffron/15 flex items-center justify-center">
  <Clapperboard size={16} className="text-saffron-bright" />
  </div>
@@ -739,8 +739,8 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  </div>
 
  {/* Reel Size / Ratio Card */}
- <div className="bg-ink-900 border border-white/8 rounded-3xl p-4 shadow-xl space-y-3">
- <div className="flex items-center gap-2.5 pb-2 border-b border-white/6">
+ <div className="bg-ink-900 border border-white/[0.07] rounded-3xl p-4 shadow-xl space-y-3">
+ <div className="flex items-center gap-2.5 pb-2 border-b border-white/[0.07]">
  <div className="w-8 h-8 rounded-lg bg-saffron/15 flex items-center justify-center">
  <Layers size={16} className="text-saffron-bright" />
  </div>
@@ -755,10 +755,10 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
 
  {/* ── RIGHT COLUMN: Soundtrack, Search & Audio Trimmer ── */}
  <div className="lg:col-span-4 space-y-4">
- <div className="bg-ink-900 border border-white/8 rounded-3xl p-4 shadow-xl space-y-3.5">
+ <div className="bg-ink-900 border border-white/[0.07] rounded-3xl p-4 shadow-xl space-y-3.5">
             
  {/* Header */}
- <div className="flex items-center justify-between pb-2 border-b border-white/6">
+ <div className="flex items-center justify-between pb-2 border-b border-white/[0.07]">
  <div className="flex items-center gap-2.5">
  <div className="w-8 h-8 rounded-lg bg-horizon/15 flex items-center justify-center">
  <Music size={16} className="text-horizon-bright" />
@@ -813,7 +813,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  className={`text-[9px] px-1.5 py-0.5 rounded-md border transition-all ${
  Math.abs(audioStartTime - q.time) < 3
  ? 'bg-saffron text-ink-950 font-bold border-saffron-bright'
- : 'bg-ink-900/80 border-white/10 text-ivory-muted hover:text-ivory'
+ : 'bg-ink-900/80 border-white/[0.07] text-ivory-muted hover:text-ivory'
  }`}
  >
  {q.label}
@@ -840,7 +840,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  value={searchQuery}
  onChange={handleSearchInputChange}
  placeholder="Type song name (e.g. Kesariya, Pasoori, Ilahi)..."
- className="w-full bg-ink-950 border border-white/10 rounded-xl pl-7 pr-7 py-1.5 text-xs text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron"
+ className="w-full bg-ink-950 border border-white/[0.07] rounded-xl pl-7 pr-7 py-1.5 text-xs text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron"
  />
  <Search size={12} className="absolute left-2.5 top-2.5 text-ivory-faint" />
  {searchQuery && (<button 
@@ -869,7 +869,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  key={rec}
  type="button"
  onClick={() => setSearchQuery(rec)}
- className="text-[9px] px-2 py-0.5 rounded-full bg-white/5 hover:bg-saffron/20 text-ivory-muted hover:text-saffron-bright border border-white/10 hover:border-saffron/30 transition-all cursor-pointer"
+ className="text-[9px] px-2 py-0.5 rounded-full bg-white/5 hover:bg-saffron/20 text-ivory-muted hover:text-saffron-bright border border-white/[0.07] hover:border-saffron/30 transition-all cursor-pointer"
  >
  {rec}
  </button>
@@ -919,7 +919,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  {/* Silent */}
  <div onClick={() => { setAudioMode('none'); pauseAudio(); }}
  className={`flex items-center gap-2.5 p-2 rounded-xl border cursor-pointer transition-all ${
- audioMode === 'none' ? 'bg-ink-800/40 border-ink-800 text-ivory-muted' : 'bg-ink-950 border-white/8 text-ivory-faint hover:border-white/20'
+ audioMode === 'none' ? 'bg-ink-800/40 border-ink-800 text-ivory-muted' : 'bg-ink-950 border-white/[0.07] text-ivory-faint hover:border-white/[0.12]'
  }`}>
  <VolumeX size={14} />
  <div><p className="text-xs font-semibold">No Audio (Silent)</p></div>
@@ -932,7 +932,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  <div>
  <label htmlFor="custom-audio-upload"
  className={`flex items-center gap-2.5 p-2 rounded-xl border border-dashed cursor-pointer transition-all ${
- audioMode === 'custom' ? 'border-horizon/50 bg-horizon/8 text-horizon-bright' : 'border-white/15 hover:border-white/30 text-ivory-muted'
+ audioMode === 'custom' ? 'border-horizon/50 bg-horizon/8 text-horizon-bright' : 'border-white/[0.12] hover:border-white/[0.12] text-ivory-muted'
  }`}>
  <Upload size={14} />
  <div className="flex-1 min-w-0">
@@ -949,11 +949,11 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  </div>
 
  {/* ── BOTTOM ACTION & SHARING BAR (Full Width Spanning Across Bottom) ── */}
- <div className="bg-ink-900 border border-white/8 rounded-3xl p-5 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+ <div className="bg-ink-900 border border-white/[0.07] rounded-3xl p-5 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
         
  {/* Journey Stats */}
  <div className="flex items-center gap-3 flex-wrap">
- {[{ label: 'Photos', value: `${photos.length} shots` }, { label: 'Duration', value: `${Math.round(totalDuration)}s` }, { label: 'Style', value: selectedStyle.label }, { label: 'Ratio', value: selectedRatio.label }].map(s => (<div key={s.label} className="bg-ink-950 border border-white/8 rounded-xl px-3.5 py-2 text-left">
+ {[{ label: 'Photos', value: `${photos.length} shots` }, { label: 'Duration', value: `${Math.round(totalDuration)}s` }, { label: 'Style', value: selectedStyle.label }, { label: 'Ratio', value: selectedRatio.label }].map(s => (<div key={s.label} className="bg-ink-950 border border-white/[0.07] rounded-xl px-3.5 py-2 text-left">
  <p className="text-[10px] text-ivory-faint uppercase font-semibold">{s.label}</p>
  <p className="text-xs font-bold text-saffron-bright truncate">{s.value}</p>
  </div>
@@ -972,7 +972,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  </button>
           
  <button onClick={handleExport} disabled={isExporting || !photos.length}
- className="flex-1 md:flex-initial px-5 py-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-ivory font-semibold text-xs flex items-center justify-center gap-2 border border-white/10 transition-all disabled:opacity-40 cursor-pointer"
+ className="flex-1 md:flex-initial px-5 py-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-ivory font-semibold text-xs flex items-center justify-center gap-2 border border-white/[0.07] transition-all disabled:opacity-40 cursor-pointer"
  >
  <Download size={14} className="text-horizon-bright" />
  {isExporting ? `Encoding… ${exportProgress}%` : lastVideoBlob ? `Download Reel (Instant)` : `Download ${selectedRatio.label} Video`}
@@ -986,7 +986,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, onOpenShareModal }
  {isExporting && (<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
  className="fixed inset-0 bg-ink-950/85 backdrop-blur-md flex items-center justify-center p-4 z-50"
  >
- <div className="bg-ink-900 border border-white/10 rounded-3xl p-7 max-w-sm w-full text-center space-y-4 shadow-2xl relative">
+ <div className="bg-ink-900 border border-white/[0.07] rounded-3xl p-7 max-w-sm w-full text-center space-y-4 shadow-2xl relative">
  {/* Cut / Stop Icon at Top Right */}
  <button
  onClick={() => {

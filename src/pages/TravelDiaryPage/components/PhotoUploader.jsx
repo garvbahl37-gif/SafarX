@@ -407,7 +407,7 @@ Captions count should match ${photos.length} spots.`;
  </div>
 
  {/* Single Text Box Below Image */}
- <div className="p-3 bg-ink-900/90 flex-1 flex flex-col justify-end space-y-1.5 border-t border-white/5">
+ <div className="p-3 bg-ink-900/90 flex-1 flex flex-col justify-end space-y-1.5 border-t border-white/[0.07]">
  <label className="block text-[10px] font-semibold text-ivory-muted uppercase tracking-wider flex items-center gap-1">
  <MapPin size={11} className="text-saffron-bright shrink-0" /> Place Name / Text for Reel:
  </label>

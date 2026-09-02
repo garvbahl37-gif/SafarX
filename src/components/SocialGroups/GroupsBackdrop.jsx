@@ -18,10 +18,11 @@ import { motion, useReducedMotion } from 'framer-motion';
 
 const STILL =
   'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=2000&q=80&auto=format&fit=crop';
-/* Jaipur at street level, 1080p at 9.4MB — curl-checked. Deliberately not one
-   of the 4K files elsewhere in the app: this is a backdrop at a quarter
-   opacity, and nobody should pay 25MB for something they half-see. */
-const FILM = 'https://videos.pexels.com/video-files/37056813/15698517_1920_1080_50fps.mp4';
+/* Two travellers settling a fare with an auto driver — which is what this page
+   is about, and its own footage rather than the clip the sign-in page already
+   rotates through. 1080p at 5.2MB, curl-checked: this is a backdrop at a
+   quarter opacity, and nobody should pay 25MB for something they half-see. */
+const FILM = 'https://videos.pexels.com/video-files/16177442/16177442-hd_1920_1080_25fps.mp4';
 
 const GroupsBackdrop = () => {
   const reduce = useReducedMotion();

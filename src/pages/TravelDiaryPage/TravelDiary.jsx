@@ -146,7 +146,7 @@ export const TravelDiary = () => {
  onDrop={handleDrop}
  className={`transition-all ${dragOver ? 'ring-2 ring-saffron/50 rounded-2xl' : ''}`}
  >
- {photos.length === 0 ? (<label htmlFor="photo-upload" className="flex flex-col items-center justify-center gap-4 border-2 border-dashed border-white/15 rounded-2xl p-16 cursor-pointer hover:border-saffron/40 hover:bg-saffron/3 transition-all">
+ {photos.length === 0 ? (<label htmlFor="photo-upload" className="flex flex-col items-center justify-center gap-4 border-2 border-dashed border-white/[0.12] rounded-2xl p-16 cursor-pointer hover:border-saffron/40 hover:bg-saffron/3 transition-all">
  <div className="w-14 h-14 rounded-2xl bg-saffron/10 flex items-center justify-center">
  <Upload size={24} className="text-saffron-bright" />
  </div>
@@ -161,7 +161,7 @@ export const TravelDiary = () => {
  initial={{ opacity: 0, scale: 0.9 }}
  animate={{ opacity: 1, scale: 1 }}
  transition={{ duration: 0.2, delay: idx * 0.02 }}
- className="group flex flex-col rounded-2xl overflow-hidden bg-ink-900 border border-white/10 hover:border-saffron/40 transition-all shadow-lg"
+ className="group flex flex-col rounded-2xl overflow-hidden bg-ink-900 border border-white/[0.07] hover:border-saffron/40 transition-all shadow-lg"
  >
  {/* Photo Container */}
  <div className="relative aspect-[4/3] bg-ink-950 overflow-hidden">
@@ -186,7 +186,7 @@ export const TravelDiary = () => {
  </div>
 
  {/* Text Box BELOW Image */}
- <div className="p-2.5 bg-ink-800 border-t border-white/5 space-y-1">
+ <div className="p-2.5 bg-ink-800 border-t border-white/[0.07] space-y-1">
  <input
  type="text"
  value={photo.location || ''}
@@ -197,14 +197,14 @@ export const TravelDiary = () => {
  ));
  }}
  placeholder="Place name / text..."
- className="w-full bg-ink-950 border border-white/10 rounded-lg px-2.5 py-1.5 text-xs text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron font-medium transition-colors"
+ className="w-full bg-ink-950 border border-white/[0.07] rounded-lg px-2.5 py-1.5 text-xs text-ivory placeholder-ivory-faint focus:outline-none focus:border-saffron font-medium transition-colors"
  />
  </div>
  </motion.div>
  ))}
  {/* Add more tile */}
  {photos.length < 25 && (<label htmlFor="photo-upload"
- className="aspect-[4/3] rounded-2xl border-2 border-dashed border-white/15 flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-saffron/40 hover:bg-saffron/5 transition-all">
+ className="aspect-[4/3] rounded-2xl border-2 border-dashed border-white/[0.12] flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-saffron/40 hover:bg-saffron/5 transition-all">
  <Upload size={20} className="text-saffron-bright" />
  <span className="text-xs text-ivory-muted font-medium">Add photo</span>
  </label>
@@ -214,10 +214,17 @@ export const TravelDiary = () => {
  </div>
  </div>
 
+ {/* A dashed route, not a rule: the same divider the rest of SafarX uses. */}
+ <div className="flex items-center gap-3 pt-2" aria-hidden="true">
+ <span className="route-line flex-1" />
+ <span className="route-dot" />
+ <span className="route-line flex-1" />
+ </div>
+
  {/* ── Reel Creator ── */}
  {/* Wider than the reading column: three panels of controls beside a film
  do not fit a measure meant for text. */}
- {photos.length > 0 && (<div className="border-t border-white/8 pt-10 xl:-mx-[7rem] 2xl:-mx-[10rem]">
+ {photos.length > 0 && (<div className="pt-10 xl:-mx-[7rem] 2xl:-mx-[10rem]">
  <div className="mb-7">
  <div className="flex items-center gap-3">
  <span className="route-dot shrink-0" aria-hidden="true" />

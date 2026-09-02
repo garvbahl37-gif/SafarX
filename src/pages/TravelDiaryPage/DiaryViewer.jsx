@@ -58,7 +58,7 @@ export const DiaryViewer = () => {
  {/* Top nav */}
  <div className="flex items-center justify-between">
  <Link to="/diary"
- className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-ivory-muted hover:text-ivory hover:border-white/20 transition-all">
+ className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/[0.07] text-xs font-semibold text-ivory-muted hover:text-ivory hover:border-white/[0.12] transition-all">
  <ArrowLeft size={13} />
  Back to Studio
  </Link>
@@ -92,7 +92,7 @@ export const DiaryViewer = () => {
  )}
 
  {/* Tabs */}
- <div className="flex items-center justify-center gap-1.5 border-b border-white/8 pb-3 overflow-x-auto">
+ <div className="flex items-center justify-center gap-1.5 border-b border-white/[0.07] pb-3 overflow-x-auto">
  {TABS.map(tab => (<button key={tab.id} onClick={() => setActiveTab(tab.id)}
  className={`px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 shrink-0 transition-all ${
  activeTab === tab.id
