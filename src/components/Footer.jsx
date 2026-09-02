@@ -17,6 +17,8 @@ const EXPLORE_LINKS = [
 ];
 
 const TOOLKIT_LINKS = [
+  { id: "safety", label: "Tourist Safety & SOS" },
+  { id: "diary", label: "Digital Diary" },
   { id: "chat", label: "SafarX Agent" },
   { id: "tracker", label: "Flight Tracker" },
   { id: "vault", label: "Document Vault" },

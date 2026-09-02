@@ -38,6 +38,11 @@ import DocumentVault from './pages/DocumentVault';
 import TourPage360 from './pages/TourPage360';
 import SocialPage from './pages/SocialPage';
 
+import TravelDiary from './pages/TravelDiaryPage/TravelDiary';
+import DiaryViewer from './pages/TravelDiaryPage/DiaryViewer';
+import SafetyHubPage from './pages/SafetyHubPage';
+import FloatingSOSWidget from './components/safety/FloatingSOSWidget';
+
 import { createOrUpdateUser } from "./services/userService";
 
 // Route configuration for easy management
@@ -54,6 +59,8 @@ const ROUTES = {
   vault: "/vault",
   "360view": "/360view",
   social: "/social",
+  diary: "/diary",
+  safety: "/safety",
 };
 
 // Page titles for SEO
@@ -70,6 +77,8 @@ const PAGE_TITLES = {
   "/vault": "Document Vault — SafarX",
   "/360view": "360° Explorer — SafarX",
   "/social": "Safar Groups — SafarX",
+  "/diary": "AI Cinematic Reel & Digital Diary — SafarX",
+  "/safety": "Tourist Safety Hub & Live SOS — SafarX",
 };
 
 // Routes that open with full-bleed media, so they must not be top-padded.
@@ -265,10 +274,15 @@ export default function App() {
               {/* Where Google sends the traveller back to. Clerk finishes the
                   handshake and forwards them on. */}
               <Route path="/sso-callback" element={<SsoCallback />} />
+              <Route path="/diary" element={<TravelDiary {...pageProps} />} />
+              <Route path="/diary/:id" element={<DiaryViewer {...pageProps} />} />
+              <Route path="/diary/view" element={<DiaryViewer {...pageProps} />} />
+              <Route path="/safety" element={<SafetyHubPage {...pageProps} />} />
               {/* Fallback to home for unknown routes */}
               <Route path="*" element={<HomePage {...pageProps} />} />
             </Routes>
           </main>
+          <FloatingSOSWidget defaultDestination="Current Location" />
           <Toaster
             position="top-right"
             toastOptions={{

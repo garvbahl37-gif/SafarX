@@ -5,6 +5,8 @@ const cors = require('cors');
 const cloudinary = require('cloudinary').v2;
 const { clerkMiddleware } = require('@clerk/express');
 const documentRoutes = require('./routes/documents');
+const musicRoutes = require('./routes/music');
+const uploadRoutes = require('./routes/upload');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -32,6 +34,8 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // 👈 Matches frontend calls exactly
 app.use('/documents', documentRoutes);
+app.use('/music', musicRoutes);
+app.use('/upload', uploadRoutes);
 
 app.get('/', (req, res) => res.json({ message: 'Document Wallet API running!' }));
 

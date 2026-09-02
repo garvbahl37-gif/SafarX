@@ -1,4 +1,5 @@
 // src/services/confidenceService.js
+import { predictCrowdLevel } from "./crowdPredictionService";
 
 // Language database (local - no API needed)
 const LANGUAGE_DATABASE = {
@@ -345,6 +346,17 @@ export function getCrowdLevel(destination, date) {
         }
     }
 
+    try {
+        const prediction = predictCrowdLevel(destination, date);
+        if (prediction && typeof prediction.score === "number") {
+            cache.set(cacheKey, { data: prediction.score, timestamp: Date.now() });
+            console.log('✓ Crowd level calculated (predictCrowdLevel engine):', prediction.score);
+            return prediction.score;
+        }
+    } catch (e) {
+        console.warn("predictCrowdLevel fallback:", e);
+    }
+
     // Smart calculation based on date and destination
     const travelDate = new Date(date);
     const month = travelDate.getMonth(); // 0-11
@@ -366,6 +378,7 @@ export function getCrowdLevel(destination, date) {
         'tokyo': 15, 'paris': 18, 'london': 15, 'dubai': 12,
         'new york': 17, 'singapore': 10, 'barcelona': 16, 'rome': 18,
         'amsterdam': 14, 'bangkok': 12, 'bali': 13, 'maldives': 10,
+        'jaipur': 16, 'goa': 18, 'manali': 15, 'kerala': 14, 'delhi': 15
     };
 
     for (const [dest, bonus] of Object.entries(popularDestinations)) {

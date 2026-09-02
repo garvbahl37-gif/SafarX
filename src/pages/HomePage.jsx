@@ -224,6 +224,14 @@ const STAGES = [
     cta: "See hidden gems",
     icon: Compass,
   },
+  {
+    step: "04",
+    phase: "Relive & Share",
+    title: "Cinematic Reel & Digital Diary",
+    desc: "Upload 15–20 photos from your trip. Get an instant 9:16 cinematic Reel with Ken Burns motion, Indian folk music, and a shareable QR story.",
+    page: "diary",
+    cta: "Create Travel Reel",
+  },
 ];
 
 /* ------------------------------------------------------------------ */
