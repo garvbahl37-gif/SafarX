@@ -20,7 +20,7 @@ export const BOLLYWOOD_TRAVEL_TRACKS = [
  title: 'Safarnama',
  movie: 'Tamasha',
  artist: 'Lucky Ali',
- tag: '⭐ Road Trip Soul',
+ tag: 'Road Trip Soul',
  mood: 'Nostalgic & Soulful',
  searchQuery: 'Safarnama Tamasha',
  streamUrl: null,
@@ -115,8 +115,7 @@ export const CURATED_TRACKS = BOLLYWOOD_TRAVEL_TRACKS;
 export async function fetchSongStreamUrl(track) {
  try {
  const query = track.searchQuery || `${track.title} ${track.movie}`;
- const serverUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
- const res = await fetch(`${serverUrl}/music/search?q=${encodeURIComponent(query)}&limit=3`);
+ const res = await fetch(`/api/music/search?q=${encodeURIComponent(query)}&limit=3`);
     
  if (!res.ok) throw new Error(`Server returned ${res.status}`);
     
@@ -152,8 +151,7 @@ export async function fetchSongStreamUrl(track) {
 export async function searchOnlineSongs(query) {
  if (!query || !query.trim()) return [];
  try {
- const serverUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
- const res = await fetch(`${serverUrl}/music/search?q=${encodeURIComponent(query.trim())}&limit=8`);
+ const res = await fetch(`/api/music/search?q=${encodeURIComponent(query.trim())}&limit=8`);
  if (!res.ok) throw new Error(`Server returned ${res.status}`);
  const data = await res.json();
  if (!data.success || !data.results) return [];

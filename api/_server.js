@@ -38,9 +38,48 @@ export const userFromRequest = async (req) => {
   try {
     const claims = await verifyToken(token, { secretKey: process.env.CLERK_SECRET_KEY });
     return claims?.sub || null;
-  } catch {
+  } catch (err) {
+    /* The failure worth naming. If CLERK_SECRET_KEY belongs to a different
+       Clerk application than VITE_CLERK_PUBLISHABLE_KEY, every real sign-in
+       produces a token this server cannot verify — and the traveller is told
+       to sign in, which they just did. The two keys must be copied from the
+       same application's API Keys page. */
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("[auth] token rejected:", err?.message || err);
+    }
     return null;
   }
+};
+
+/**
+ * Whether the frontend and backend Clerk keys are the same application.
+ *
+ * Cheap to check and worth checking: a mismatch looks exactly like "not
+ * signed in" from the browser, which sends people to re-enter a password
+ * that was never the problem.
+ * @returns {Promise<string|null>} an explanation, or null when they agree.
+ */
+export const clerkKeyMismatch = async () => {
+  const pk = process.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const sk = process.env.CLERK_SECRET_KEY;
+  if (!pk || !sk) return null;
+  try {
+    const frontendApi = Buffer.from(pk.replace(/^pk_(test|live)_/, ""), "base64")
+      .toString("utf8")
+      .replace(/\$$/, "");
+    const [theirs, ours] = await Promise.all([
+      fetch(`https://${frontendApi}/.well-known/jwks.json`).then((r) => r.json()),
+      fetch("https://api.clerk.com/v1/jwks", { headers: { Authorization: `Bearer ${sk}` } }).then((r) => r.json()),
+    ]);
+    const a = theirs?.keys?.[0]?.kid;
+    const b = ours?.keys?.[0]?.kid;
+    if (a && b && a !== b) {
+      return `The Clerk keys are from different applications: the browser signs in to ${a} but this server verifies ${b}. Copy both keys from the same application.`;
+    }
+  } catch {
+    /* Never block a request on a diagnostic. */
+  }
+  return null;
 };
 
 /* Names and faces are looked up, never accepted. A caller who could send its
@@ -95,6 +134,9 @@ export const readJson = async (req) => {
    skipped the shim's status handling and every reply came back 200. */
 export const send = (res, status, body) => res.status(status).json(body);
 
+/* Resolved once per warm instance, and only if something actually fails. */
+let mismatchNote;
+
 /**
  * Guards a route: config present, method allowed, caller identified.
  * @param {boolean} [needsUser] when false, an anonymous caller is allowed
@@ -115,7 +157,11 @@ export const guard = async (req, res, methods, needsUser = true) => {
   }
   const userId = await userFromRequest(req);
   if (needsUser && !userId) {
-    send(res, 401, { error: "Sign in first." });
+    /* Only on the failure path, and only once per warm instance: a
+       misconfiguration should explain itself rather than send someone back to
+       a password that was never wrong. */
+    if (mismatchNote === undefined) mismatchNote = await clerkKeyMismatch();
+    send(res, 401, { error: mismatchNote || "Sign in first." });
     return null;
   }
   return { userId, db: admin() };
