@@ -33,6 +33,7 @@ import {
  getCleanTelUri
 } from "../../services/safetyService";
 import { getEmergencyContactsForState } from "../../data/emergencyContacts";
+import MeasureList from "./MeasureList";
 
 const CHECKLIST_STORAGE_KEY = "safarx_safety_checklist_state";
 
@@ -441,21 +442,7 @@ export default function SafetyAdvisor({
  </div>
 
  {/* During Travel Guidelines */}
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
- {safetyData.duringTripMeasures.map((item, idx) => (<div
- key={idx}
- className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 space-y-1.5"
- >
- <div className="flex items-center gap-2">
- <span className="text-[10px] uppercase font-data px-2 py-0.5 rounded-full bg-danger/15 text-danger-bright">
- {item.tag}
- </span>
- <p className="text-xs font-bold text-ivory">{item.title}</p>
- </div>
- <p className="text-xs text-ivory-muted leading-relaxed">{item.desc}</p>
- </div>
- ))}
- </div>
+ <MeasureList items={safetyData.duringTripMeasures} tone="danger" />
 
  {/* Direct Rapid Call Grid */}
  <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-5 space-y-3">
@@ -502,19 +489,7 @@ export default function SafetyAdvisor({
  {/* ======================================================== */}
  {activeTab === "after" && (<div className="space-y-6">
  {/* Post Trip Measures Cards */}
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
- {safetyData.postTripMeasures.map((item, idx) => (<div
- key={idx}
- className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 space-y-1.5"
- >
- <span className="text-[10px] uppercase font-data px-2 py-0.5 rounded-full bg-horizon/15 text-horizon-bright">
- {item.tag}
- </span>
- <p className="text-xs font-bold text-ivory">{item.title}</p>
- <p className="text-xs text-ivory-muted leading-relaxed">{item.desc}</p>
- </div>
- ))}
- </div>
+ <MeasureList items={safetyData.postTripMeasures} tone="horizon" />
 
  {/* Submit Safety Feedback Form */}
  <form
@@ -642,23 +617,50 @@ export default function SafetyAdvisor({
  </div>
 
  <div className="space-y-2.5">
- {submittedReviews.map((rev) => (<div
- key={rev.id}
- className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 space-y-1.5"
- >
- <div className="flex items-center justify-between text-xs">
- <div className="flex items-center gap-2">
- <span className="font-bold text-ivory">{rev.user}</span>
- <span className="text-horizon-bright bg-horizon/10 border border-horizon/20 px-2 py-0.5 rounded-md text-[11px] font-medium flex items-center gap-1">
- <MapPin className="w-3 h-3" />
+ {/* Divided rather than boxed, like the advisories above, so the tab
+     has one structural language instead of three. */}
+ <div className="overflow-hidden rounded-[22px] border border-white/[0.08] bg-ink-950/60 divide-y divide-white/[0.06]">
+ {submittedReviews.map((rev) => {
+ /* Names arrive as "Ananya S. (Solo Traveler)" — the parenthetical
+    is who they travelled as, which belongs on the meta line rather
+    than inside the name. */
+ const [, name = rev.user, kind = ""] = /^(.*?)\s*\((.*)\)\s*$/.exec(rev.user) || [];
+ return (
+ <article key={rev.id} className="p-5">
+ <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+ <p className="font-display text-[1.05rem] font-medium text-ivory">{name}</p>
+ <p className="flex items-baseline gap-3 font-data text-[12px] text-ivory-faint">
+ {/* The rating was collected and then never shown, which is
+     the one number a safety review exists to carry. */}
+ {rev.rating != null && (
+ <span className="text-saffron-bright">{Number(rev.rating).toFixed(1)}<span className="text-ivory-faint">/5</span></span>
+ )}
+ <span>{rev.date}</span>
+ </p>
+ </div>
+
+ <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 font-sans text-[12.5px] text-ivory-faint">
+ {kind && <span>{kind}</span>}
+ {kind && <span className="route-dot" aria-hidden="true" />}
+ <span className="inline-flex items-center gap-1.5">
+ <MapPin className="h-3 w-3 text-horizon-bright" aria-hidden="true" />
  {rev.dest}
  </span>
+ {rev.womenSafetyRating != null && (
+ <>
+ <span className="route-dot" aria-hidden="true" />
+ <span>Women&apos;s safety {Number(rev.womenSafetyRating).toFixed(1)}</span>
+ </>
+ )}
+ </p>
+
+ <p className="mt-3 max-w-[62ch] font-sans text-[13.5px] leading-relaxed text-ivory-muted">
+ {rev.text}
+ </p>
+ </article>
+ );
+ })}
  </div>
- <span className="text-ivory-faint text-[11px]">{rev.date}</span>
- </div>
- <p className="text-xs text-ivory-muted leading-relaxed">{rev.text}</p>
- </div>
- ))}
  </div>
  </div>
  </div>
