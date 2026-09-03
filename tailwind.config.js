@@ -169,6 +169,11 @@ export default {
       },
 
       spacing: {
+        /* Tailwind's half-steps stop at 3.5, so p-4.5 in the emergency
+           directory generated no rule at all and those cards rendered with
+           zero padding — every number pill and badge sat flush on the border.
+           Naming it here is what the markup already assumed. */
+        4.5: "1.125rem",
         18: "4.5rem",
         88: "22rem",
         128: "32rem",
