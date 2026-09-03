@@ -1,473 +1,410 @@
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
-import { Search, Plane, Clock, Navigation, MapPin, AlertCircle, RefreshCw } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css'; // Ensure CSS is imported
+import 'leaflet/dist/leaflet.css';
+import { Search, Plane, TrainFront, RefreshCw, AlertCircle } from 'lucide-react';
+import JourneyStrip from '../components/tracker/JourneyStrip';
 
-// Fix Leaflet Default Icon Issue in React
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+/**
+ * Track a flight or a train.
+ *
+ * Two things changed here beyond the look. The Aviation Stack key used to sit
+ * on a VITE_ variable, which Vite compiles into the client bundle — anyone
+ * could read it out of devtools and spend the account's ten thousand monthly
+ * calls. It is behind /api/flights now. And trains were not here at all,
+ * though SafarX has had live running status from RailRadar for weeks; a
+ * traveller waiting on something does not care which kind of vehicle it is.
+ *
+ * The page is built around the line between two points rather than a grid of
+ * cards, because that is what the subject actually is.
+ */
 
-let DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
+/* Changing this changes the hero. It is the one thing on this page I could
+   not source: Pexels needs an API key, and Mixkit and Coverr both refuse
+   hotlinking. Drop a Cloudinary URL here — the project's other backdrops all
+   live in that account. */
+const HERO_VIDEO =
+  'https://res.cloudinary.com/dnmhqosoa/video/upload/v1772188206/bgvideo_rzovxb.mp4';
+
+const EASE = [0.22, 1, 0.36, 1];
+
+const MARKER = new L.Icon({
+  iconUrl: 'data:image/svg+xml;base64,' + btoa(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+       <circle cx="9" cy="9" r="5" fill="#E5BE5C" stroke="#061412" stroke-width="3"/>
+     </svg>`
+  ),
+  iconSize: [18, 18],
+  iconAnchor: [9, 9],
 });
-L.Marker.prototype.options.icon = DefaultIcon;
 
-// Custom Plane Icon
-const planeIcon = new L.Icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/7893/7893979.png',
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
-    popupAnchor: [0, -20],
-    className: 'plane-marker'
-});
+/* Leaflet cannot know the container resized under it, and the panel appears
+   after a search. Without this the tiles render as grey. */
+const FitRoute = ({ points }) => {
+  const map = useMap();
+  useEffect(() => {
+    map.invalidateSize();
+    if (points.length >= 2) map.fitBounds(points, { padding: [48, 48] });
+    else if (points.length === 1) map.setView(points[0], 6);
+  }, [map, points]);
+  return null;
+};
 
-// Component to recenter map
-const MapRecenter = ({ lat, lng }) => {
-    const map = useMap();
-    useEffect(() => {
-        if (lat && lng) {
-            map.flyTo([lat, lng], 6, { duration: 1.5 });
-        }
-    }, [lat, lng, map]);
-    return null;
+const STATUS = {
+  scheduled: { label: 'Scheduled', tone: 'text-ivory-muted' },
+  active: { label: 'In the air', tone: 'text-horizon-bright' },
+  landed: { label: 'Landed', tone: 'text-ivory-muted' },
+  cancelled: { label: 'Cancelled', tone: 'text-danger-bright' },
+  incident: { label: 'Incident', tone: 'text-danger-bright' },
+  diverted: { label: 'Diverted', tone: 'text-saffron-bright' },
+};
+
+const TRAIN_STATUS = {
+  'not-started': { label: 'Not departed yet', tone: 'text-ivory-muted' },
+  running: { label: 'Running', tone: 'text-horizon-bright' },
+  completed: { label: 'Journey complete', tone: 'text-ivory-muted' },
 };
 
 const FlightTrackerPage = () => {
-    const [flightNumber, setFlightNumber] = useState('');
-    const [flightData, setFlightData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+  const reduce = useReducedMotion();
+  const [mode, setMode] = useState('flight');
+  const [query, setQuery] = useState('');
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const resultRef = useRef(null);
 
-    const API_KEY = import.meta.env.VITE_AVIATION_STACK_API_KEY;
+  const placeholder = mode === 'flight' ? 'AI 302, 6E 2341, UK 995' : '12951, 12009, 22691';
 
-    const fetchFlightData = async (e) => {
-        if (e) e.preventDefault();
-        if (!flightNumber.trim()) return;
+  const track = useCallback(async (raw) => {
+    const value = String(raw ?? '').trim().toUpperCase().replace(/\s+/g, '');
+    if (!value) return;
+    setLoading(true);
+    setError(null);
+    setResult(null);
 
-        setLoading(true);
-        setError(null);
-        setFlightData(null);
+    try {
+      if (mode === 'flight') {
+        const res = await fetch(`/api/flights/track?flight=${encodeURIComponent(value)}`);
+        const body = await res.json();
+        if (!res.ok) throw new Error(body.error || 'That flight could not be found.');
+        setResult({ kind: 'flight', flight: body.flights[0], alternates: body.flights.slice(1) });
+      } else {
+        const res = await fetch(`/api/trains/live?trainNo=${encodeURIComponent(value)}`);
+        const body = await res.json();
+        if (!res.ok) throw new Error(body.error || 'That train could not be found.');
+        setResult({ kind: 'train', train: body.data });
+      }
+    } catch (err) {
+      setError(err.message || 'Nothing came back. Try again in a moment.');
+    } finally {
+      setLoading(false);
+    }
+  }, [mode]);
 
-        if (!API_KEY || API_KEY === 'YOUR_API_KEY_HERE') {
-            setError('The tracker needs an Aviation Stack API key. Add VITE_AVIATION_STACK_API_KEY to your .env file and restart the app.');
-            setLoading(false);
-            return;
+  /* Bring the answer into view; it lands below the fold on a laptop. */
+  useEffect(() => {
+    if (result || error) resultRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }, [result, error, reduce]);
+
+  return (
+    <div className="min-h-screen bg-ink-950 font-sans text-ivory pb-24">
+      {/* ══════════ Hero ══════════ */}
+      <header className="relative isolate flex min-h-[72vh] flex-col items-center justify-center overflow-hidden px-6">
+        {!reduce && (
+          <video
+            autoPlay loop muted playsInline preload="auto" aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover brightness-[0.38] saturate-[1.1]"
+          >
+            <source src={HERO_VIDEO} type="video/mp4" />
+          </video>
+        )}
+        <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-ink-950 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-ink-950 via-ink-950/80 to-transparent" />
+        <div className="absolute inset-x-0 top-[16%] bottom-[16%] bg-gradient-to-b from-transparent via-ink-950/45 to-transparent" />
+
+        <motion.div
+          initial={{ opacity: 0, y: reduce ? 0 : 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, ease: EASE }}
+          className="relative z-10 w-full max-w-2xl pt-24 text-center [text-shadow:0_2px_20px_rgba(6,20,18,0.85)]"
+        >
+          <p className="mb-5 flex items-center justify-center gap-3">
+            <span className="route-line w-10 hidden sm:inline-block" aria-hidden="true" />
+            <span className="route-dot" aria-hidden="true" />
+            <span className="eyebrow">Live tracker</span>
+            <span className="route-dot" aria-hidden="true" />
+            <span className="route-line w-10 hidden sm:inline-block" aria-hidden="true" />
+          </p>
+
+          <h1 className="font-display text-4xl font-light leading-[1.06] tracking-tight text-ivory sm:text-5xl">
+            Somebody is waiting for this to land.
+          </h1>
+          <p className="mx-auto mt-4 max-w-md font-sans text-[15px] leading-relaxed text-ivory-muted">
+            Flights and trains on one board — where it is now, how late it is
+            running, and which gate or platform to stand at.
+          </p>
+
+          {/* Mode + search, one row on desktop */}
+          <div className="mx-auto mt-8 max-w-xl">
+            <div
+              role="tablist"
+              aria-label="What are you tracking"
+              className="mx-auto mb-3 inline-flex rounded-full border border-white/[0.1] bg-ink-900/80 p-1 backdrop-blur"
+            >
+              {[
+                { id: 'flight', label: 'Flight', Icon: Plane },
+                { id: 'train', label: 'Train', Icon: TrainFront },
+              ].map(({ id, label, Icon }) => (
+                <button
+                  key={id}
+                  role="tab"
+                  aria-selected={mode === id}
+                  onClick={() => { setMode(id); setResult(null); setError(null); setQuery(''); }}
+                  className={`flex items-center gap-2 rounded-full px-5 py-2 font-sans text-[13.5px] transition-colors ${
+                    mode === id
+                      ? 'bg-saffron text-ink-950 font-semibold'
+                      : 'text-ivory-muted hover:text-ivory'
+                  }`}
+                >
+                  <Icon size={14} />
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            <form
+              onSubmit={(e) => { e.preventDefault(); track(query); }}
+              className="flex flex-col gap-2.5 sm:flex-row"
+            >
+              <label htmlFor="tracker-input" className="sr-only">
+                {mode === 'flight' ? 'Flight number' : 'Train number'}
+              </label>
+              <div className="relative flex-1">
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ivory-faint" />
+                <input
+                  id="tracker-input"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder={placeholder}
+                  autoComplete="off"
+                  className="search-field w-full pl-11 font-data tracking-[0.06em]"
+                />
+              </div>
+              <button type="submit" disabled={loading || !query.trim()} className="btn-primary shrink-0">
+                {loading ? <RefreshCw size={15} className="animate-spin" /> : <Search size={15} />}
+                {loading ? 'Looking' : 'Track'}
+              </button>
+            </form>
+          </div>
+        </motion.div>
+      </header>
+
+      {/* ══════════ Result ══════════ */}
+      <main ref={resultRef} className="mx-auto w-full max-w-4xl scroll-mt-24 px-5 sm:px-6">
+        <AnimatePresence mode="wait">
+          {error && (
+            <motion.div
+              key="error"
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: EASE }}
+              className="flex items-start gap-3 rounded-2xl border border-danger/30 bg-danger/10 p-5"
+              role="alert"
+            >
+              <AlertCircle size={17} className="mt-0.5 shrink-0 text-danger-bright" />
+              <p className="font-sans text-[14px] text-ivory">{error}</p>
+            </motion.div>
+          )}
+
+          {result?.kind === 'flight' && (
+            <FlightResult key="flight" data={result.flight} />
+          )}
+          {result?.kind === 'train' && (
+            <TrainResult key="train" data={result.train} />
+          )}
+        </AnimatePresence>
+      </main>
+    </div>
+  );
+};
+
+/* ── Flights ──────────────────────────────────────────────────────────── */
+
+const FlightResult = ({ data }) => {
+  const status = STATUS[data.status] || { label: data.status || 'Unknown', tone: 'text-ivory-muted' };
+  const points = [];
+  if (data.from.lat != null) points.push([data.from.lat, data.from.lng]);
+  if (data.to.lat != null) points.push([data.to.lat, data.to.lng]);
+  const live = data.live;
+
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+      transition={{ duration: 0.45, ease: EASE }}
+      className="space-y-5"
+    >
+      <JourneyStrip
+        mode="flight"
+        code={data.number}
+        operator={data.airline?.name}
+        statusLabel={status.label}
+        statusTone={status.tone}
+        delayMinutes={data.from.delayMinutes}
+        from={{ code: data.from.iata, name: data.from.name, scheduled: data.from.scheduled, actual: data.from.actual, estimated: data.from.estimated, terminal: data.from.terminal, gate: data.from.gate }}
+        to={{ code: data.to.iata, name: data.to.name, scheduled: data.to.scheduled, actual: data.to.actual, estimated: data.to.estimated, terminal: data.to.terminal, baggage: data.to.baggage }}
+        progress={live?.progress ?? null}
+        progressNote={
+          live?.estimated
+            ? `About ${Math.floor(live.minutesRemaining / 60)}h ${live.minutesRemaining % 60}m left — worked out from the timetable, not radar.`
+            : live
+              ? `${Math.round(live.altitude)} m · ${Math.round(live.speed)} km/h`
+              : null
         }
+      />
 
-        try {
-            // Updated to HTTPS for better browser compatibility.
-            // NOTE: If using a free plan that ONLY supports HTTP, this might need a proxy or fallback.
-            const response = await fetch(`https://api.aviationstack.com/v1/flights?access_key=${API_KEY}&flight_iata=${flightNumber}`);
-
-            if (response.status === 401) {
-                throw new Error('The Aviation Stack API key was rejected. Check the key in your .env file.');
-            }
-
-            if (!response.ok) {
-                throw new Error(`The flight service returned an error (${response.status}). Wait a minute and try again — free plans have a small request limit.`);
-            }
-
-            const data = await response.json();
-
-            if (data.error) {
-                throw new Error(data.error.message || 'The flight service returned an error. Try again in a moment.');
-            }
-
-            if (data.data && data.data.length > 0) {
-                // Find the active flight or the most recent one
-                const activeFlight = data.data.find(f => f.flight_status === 'active') || data.data[0];
-                setFlightData(activeFlight);
-            } else {
-                setError('No flight found for that number. Use the airline code plus number, like AI302 or 6E204.');
-            }
-        } catch (err) {
-            console.error("Error fetching flight:", err);
-            setError(err.message || 'Could not reach the flight service. Check your connection and try again.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const statusChip = (status) => {
-        if (status === 'active') return 'bg-saffron/15 text-saffron border border-saffron/30';
-        if (status === 'scheduled') return 'bg-white/[0.05] text-ivory-muted border border-white/[0.09]';
-        return 'bg-white/[0.04] text-ivory-faint border border-white/[0.07]';
-    };
-
-    return (
-        <div className="min-h-screen bg-ink-950 font-sans text-ivory pb-24">
-            {/* ======================= HERO ======================= */}
-            <div className="relative h-screen px-6 overflow-hidden flex flex-col justify-center items-center bg-ink-950">
-                {/* Video backdrop */}
-                <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-                    <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="absolute top-1/2 left-1/2 w-[177.77vh] h-[100vw] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover scale-110 pointer-events-none opacity-90 video-crisp"
-                    >
-                        <source src="https://res.cloudinary.com/dnmhqosoa/video/upload/v1772188206/bgvideo_rzovxb.mp4" type="video/mp4" />
-                    </video>
-                    {/* Ink scrims for legibility */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-ink-950/70 via-ink-950/35 to-ink-950" />
-                    <div className="absolute inset-0 bg-ink-950/30" />
-                </div>
-
-                <div className="max-w-6xl mx-auto text-center relative z-10 w-full px-4">
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.1 }}
-                        className="flex items-center justify-center gap-3 mb-8"
-                    >
-                        <span className="route-line w-12 hidden sm:inline-block" />
-                        <span className="route-dot animate-pulse" />
-                        <span className="eyebrow">Live flight telemetry</span>
-                        <span className="route-dot animate-pulse" />
-                        <span className="route-line w-12 hidden sm:inline-block" />
-                    </motion.p>
-
-                    <motion.h1
-                        initial={{ opacity: 0, y: 32 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                        className="font-display text-5xl sm:text-6xl md:text-[5.5rem] font-light tracking-tight leading-[1.02] text-ivory mb-7"
-                    >
-                        Follow your flight{' '}
-                        <em className="italic font-medium text-saffron-bright">across the sky</em>
-                    </motion.h1>
-
-                    <motion.p
-                        initial={{ opacity: 0, y: 24 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.35 }}
-                        className="text-base md:text-lg text-ivory-muted max-w-xl mx-auto leading-relaxed"
-                    >
-                        Live position, altitude, and speed for any flight — enter a flight number below to put it on the map.
-                    </motion.p>
-                </div>
-
-                {/* Scroll cue */}
-                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-40" aria-hidden="true">
-                    <div className="w-px h-12 bg-gradient-to-b from-saffron to-transparent" />
-                </div>
-            </div>
-
-            {/* ======================= SEARCH ======================= */}
-            <div className="bg-ink-900 border-y border-white/[0.06] relative z-30 py-20">
-                <div className="max-w-2xl mx-auto px-6">
-                    <p className="eyebrow-muted text-center mb-6">Enter a flight number</p>
-                    <form onSubmit={fetchFlightData} className="relative group">
-                        <div className="relative flex items-center">
-                            <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                                <Search className="h-5 w-5 text-ivory-faint group-focus-within:text-saffron transition-colors" />
-                            </div>
-                            <input
-                                type="text"
-                                value={flightNumber}
-                                onChange={(e) => setFlightNumber(e.target.value.toUpperCase())}
-                                placeholder="Flight number, e.g. AI302"
-                                aria-label="Flight number"
-                                className="glass-input w-full !rounded-full pl-14 pr-36 py-5 font-data text-lg tracking-[0.08em] uppercase"
-                            />
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="absolute right-2 top-2 bottom-2 btn-primary !py-0 !px-8 !rounded-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
-                            >
-                                {loading ? <RefreshCw className="w-4 h-4 animate-spin" aria-label="Searching" /> : 'Track'}
-                            </button>
-                        </div>
-                    </form>
-
-                    {error && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            role="alert"
-                            className="mt-8 flex items-start justify-center gap-3 text-red-300 bg-red-500/[0.08] px-6 py-4 rounded-2xl border border-red-400/20"
-                        >
-                            <AlertCircle className="w-5 h-5 mt-0.5 shrink-0 text-red-400" />
-                            <span className="text-sm leading-relaxed">{error}</span>
-                        </motion.div>
-                    )}
-                </div>
-            </div>
-
-            {/* ======================= FLIGHT DASHBOARD ======================= */}
-            <div className="max-w-7xl mx-auto px-6 relative z-20 mt-16">
-                <AnimatePresence>
-                    {flightData && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 50 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{ type: "spring", damping: 20 }}
-                            className="bg-ink-900 rounded-3xl border border-white/[0.07] overflow-hidden mb-24 shadow-2xl"
-                        >
-                            {/* Header: Route Info */}
-                            <div className="border-b border-white/[0.06] p-8 md:p-10 flex flex-col md:flex-row justify-between items-center gap-8">
-                                <div className="text-center md:text-left">
-                                    <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
-                                        <div className="bg-saffron text-ink-950 px-4 py-1.5 rounded-lg font-data text-base font-semibold tracking-[0.08em]">
-                                            {flightData.flight?.iata || flightNumber}
-                                        </div>
-                                        <div className={`px-4 py-1.5 rounded-lg font-data text-[10px] uppercase tracking-[0.2em] ${statusChip(flightData.flight_status)}`}>
-                                            {flightData.flight_status}
-                                        </div>
-                                    </div>
-                                    <h2 className="font-display text-3xl md:text-4xl font-medium text-ivory mb-2">
-                                        {flightData.airline?.name}
-                                    </h2>
-                                    <p className="text-ivory-faint text-sm flex items-center justify-center md:justify-start gap-2.5">
-                                        <span className="route-dot animate-pulse" />
-                                        Live data from Aviation Stack
-                                    </p>
-                                </div>
-
-                                <div className="flex items-center gap-8 md:gap-14 bg-ink-800 p-6 md:p-8 rounded-2xl border border-white/[0.07]">
-                                    <div className="text-center">
-                                        <div className="font-data text-4xl md:text-5xl font-medium text-ivory tracking-tight">
-                                            {flightData.departure?.iata}
-                                        </div>
-                                        <div className="font-data text-[10px] text-saffron/80 uppercase tracking-[0.3em] mt-2">Departure</div>
-                                        <div className="font-data text-lg text-ivory-muted mt-2 tabular-nums">
-                                            {new Date(flightData.departure?.scheduled).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                        </div>
-                                    </div>
-
-                                    <div className="flex flex-col items-center">
-                                        <motion.div
-                                            animate={{ x: [0, 5, 0] }}
-                                            transition={{ repeat: Infinity, duration: 3 }}
-                                            className="w-28 md:w-40 route-line relative mb-4"
-                                        >
-                                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-ink-900 p-2 border border-saffron/35 rounded-full">
-                                                <Plane className="w-5 h-5 text-saffron rotate-90" />
-                                            </div>
-                                        </motion.div>
-                                        <div className="font-data text-[10px] text-ivory-faint uppercase tracking-[0.16em]">Non-stop</div>
-                                    </div>
-
-                                    <div className="text-center">
-                                        <div className="font-data text-4xl md:text-5xl font-medium text-ivory tracking-tight">
-                                            {flightData.arrival?.iata}
-                                        </div>
-                                        <div className="font-data text-[10px] text-saffron/80 uppercase tracking-[0.3em] mt-2">Arrival</div>
-                                        <div className="font-data text-lg text-ivory-muted mt-2 tabular-nums">
-                                            {new Date(flightData.arrival?.scheduled).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Content Grid: Map + Details */}
-                            <div className="grid grid-cols-1 lg:grid-cols-3">
-                                {/* Map Section - Spans 2 cols */}
-                                <div className="lg:col-span-2 h-[650px] bg-ink-950 relative z-0">
-                                    {/* MAP CONTAINER */}
-                                    {(flightData.live || (flightData.departure?.latitude)) ? (
-                                        <MapContainer
-                                            center={[
-                                                flightData.live?.latitude || flightData.departure.latitude || 20,
-                                                flightData.live?.longitude || flightData.departure.longitude || 0
-                                            ]}
-                                            zoom={5}
-                                            className="w-full h-full z-0"
-                                            scrollWheelZoom={false}
-                                            attributionControl={false}
-                                        >
-                                            <TileLayer
-                                                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                                            />
-
-                                            {/* Live Plane Marker */}
-                                            {flightData.live && (
-                                                <Marker position={[flightData.live.latitude, flightData.live.longitude]} icon={planeIcon}>
-                                                    <Popup>
-                                                        <div className="font-data font-semibold flex items-center gap-2">
-                                                            <span className="route-dot animate-pulse" />
-                                                            {flightData.flight?.iata}
-                                                        </div>
-                                                        <div className="font-data text-xs mt-1">
-                                                            <div>Alt {Math.round(flightData.live.altitude * 3.28084).toLocaleString()} ft</div>
-                                                            <div>Spd {Math.round(flightData.live.speed_horizontal * 0.539957)} kts</div>
-                                                        </div>
-                                                    </Popup>
-                                                </Marker>
-                                            )}
-
-                                            {/* Origin Marker */}
-                                            {flightData.departure?.latitude && (
-                                                <Marker position={[Number(flightData.departure.latitude), Number(flightData.departure.longitude)]}>
-                                                    <Popup>Departure: {flightData.departure.airport}</Popup>
-                                                </Marker>
-                                            )}
-
-                                            {/* Destination Marker */}
-                                            {flightData.arrival?.latitude && (
-                                                <Marker position={[Number(flightData.arrival.latitude), Number(flightData.arrival.longitude)]}>
-                                                    <Popup>Arrival: {flightData.arrival.airport}</Popup>
-                                                </Marker>
-                                            )}
-
-                                            {/* Path Line */}
-                                            {flightData.departure?.latitude && flightData.arrival?.latitude && (
-                                                <Polyline
-                                                    positions={[
-                                                        [Number(flightData.departure.latitude), Number(flightData.departure.longitude)],
-                                                        [Number(flightData.arrival.latitude), Number(flightData.arrival.longitude)]
-                                                    ]}
-                                                    color="#D4A843"
-                                                    weight={3}
-                                                    dashArray="12, 12"
-                                                    opacity={0.7}
-                                                />
-                                            )}
-
-                                            <MapRecenter lat={flightData.live?.latitude || flightData.departure?.latitude} lng={flightData.live?.longitude || flightData.departure?.longitude} />
-                                        </MapContainer>
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-ink-950">
-                                            <div className="text-center">
-                                                <MapPin className="w-14 h-14 mx-auto mb-4 text-ivory-faint opacity-40" />
-                                                <p className="text-ivory-muted text-sm">No live position for this flight yet — map data appears once the aircraft is airborne.</p>
-                                            </div>
-                                        </div>
-                                    )}
-                                    {/* Map Data Badge */}
-                                    <div className="absolute bottom-6 left-6 z-10 glass-panel !rounded-full px-4 py-2 pointer-events-none">
-                                        <div className="flex items-center gap-2.5 font-data text-[10px] tracking-[0.2em] text-ivory/80 uppercase">
-                                            <span className="route-dot animate-pulse" />
-                                            Live telemetry
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Details Panel */}
-                                <div className="bg-ink-900 p-8 md:p-10 border-t lg:border-t-0 lg:border-l border-white/[0.06] flex flex-col justify-between">
-                                    <div>
-                                        <h3 className="eyebrow-muted mb-10">Telemetry</h3>
-
-                                        <div className="space-y-10">
-                                            <div className="flex items-start gap-5">
-                                                <div className="p-3.5 bg-ink-800 border border-white/[0.07] text-saffron rounded-2xl">
-                                                    <Navigation className="w-5 h-5" />
-                                                </div>
-                                                <div>
-                                                    <div className="font-data text-[10px] text-ivory-faint uppercase tracking-[0.16em] mb-1.5">Altitude</div>
-                                                    <div className="font-data text-3xl md:text-4xl font-medium text-ivory leading-none tabular-nums">
-                                                        {flightData.live?.altitude ? Math.round(flightData.live.altitude * 3.28084).toLocaleString() : '--'}{' '}
-                                                        <span className="text-sm text-saffron uppercase">ft</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="flex items-start gap-5">
-                                                <div className="p-3.5 bg-ink-800 border border-white/[0.07] text-saffron rounded-2xl">
-                                                    <Clock className="w-5 h-5" />
-                                                </div>
-                                                <div>
-                                                    <div className="font-data text-[10px] text-ivory-faint uppercase tracking-[0.16em] mb-1.5">Ground speed</div>
-                                                    <div className="font-data text-3xl md:text-4xl font-medium text-ivory leading-none tabular-nums">
-                                                        {flightData.live?.speed_horizontal ? Math.round(flightData.live.speed_horizontal * 0.539957) : '--'}{' '}
-                                                        <span className="text-sm text-saffron uppercase">kts</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="flex items-start gap-5">
-                                                <div className="p-3.5 bg-ink-800 border border-white/[0.07] text-saffron rounded-2xl">
-                                                    <MapPin className="w-5 h-5" />
-                                                </div>
-                                                <div>
-                                                    <div className="font-data text-[10px] text-ivory-faint uppercase tracking-[0.16em] mb-1.5">Position</div>
-                                                    <div className="font-data text-lg text-ivory tabular-nums">
-                                                        {flightData.live?.latitude?.toFixed(4) || '---'} / {flightData.live?.longitude?.toFixed(4) || '---'}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-14 p-6 bg-ink-800 rounded-2xl border border-white/[0.07]">
-                                        <div className="flex items-center gap-2.5 mb-5">
-                                            <span className="route-dot" />
-                                            <h4 className="font-data text-ivory text-[11px] uppercase tracking-[0.16em]">Flight details</h4>
-                                        </div>
-                                        <ul className="space-y-3 text-sm">
-                                            <li className="flex justify-between items-center bg-white/[0.03] px-4 py-2.5 rounded-lg border border-white/[0.05]">
-                                                <span className="text-ivory-muted">Aircraft</span>
-                                                <span className="font-data text-ivory">{flightData.aircraft?.iata || 'TBD'}</span>
-                                            </li>
-                                            <li className="flex justify-between items-center bg-white/[0.03] px-4 py-2.5 rounded-lg border border-white/[0.05]">
-                                                <span className="text-ivory-muted">Terminal</span>
-                                                <span className="font-data text-ivory">{flightData.departure?.terminal || '---'}</span>
-                                            </li>
-                                            <li className="flex justify-between items-center bg-white/[0.03] px-4 py-2.5 rounded-lg border border-white/[0.05]">
-                                                <span className="text-ivory-muted">Gate</span>
-                                                <span className="font-data text-ivory">{flightData.departure?.gate || '---'}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-
-                {/* Empty state — what the tracker does */}
-                {!flightData && !loading && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-4 mb-24">
-                        {[
-                            {
-                                icon: Search,
-                                code: 'STEP 01',
-                                title: "Find a flight",
-                                desc: "Enter an IATA flight number — the airline code plus the flight number, like AI302 for Air India or 6E204 for IndiGo."
-                            },
-                            {
-                                icon: Navigation,
-                                code: 'STEP 02',
-                                title: "Watch it live",
-                                desc: "Active flights appear on the map with their current position, altitude, and ground speed, updated from live telemetry."
-                            },
-                            {
-                                icon: Clock,
-                                code: 'STEP 03',
-                                title: "Check the details",
-                                desc: "Departure and arrival times, terminals, and gates — everything you need for a pickup at Delhi, Mumbai, or any airport."
-                            }
-                        ].map((item, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, y: 24 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-60px" }}
-                                transition={{ duration: 0.65, delay: idx * 0.1 }}
-                                className="heritage-card p-8"
-                            >
-                                <div className="flex items-center justify-between mb-8">
-                                    <span className="w-11 h-11 rounded-xl bg-ink-950/60 border border-white/[0.09] flex items-center justify-center">
-                                        <item.icon className="w-5 h-5 text-saffron" />
-                                    </span>
-                                    <span className="font-data text-[10px] tracking-[0.24em] text-ivory-faint uppercase">{item.code}</span>
-                                </div>
-                                <h3 className="font-display text-xl font-medium text-ivory mb-3">{item.title}</h3>
-                                <p className="text-ivory-muted text-sm leading-relaxed">{item.desc}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                )}
-            </div>
+      {points.length >= 2 && (
+        <div className="overflow-hidden rounded-[26px] border border-white/[0.08]">
+          <MapContainer
+            center={points[0]} zoom={4} scrollWheelZoom={false}
+            style={{ height: 340, width: '100%', background: '#061412' }}
+          >
+            <TileLayer
+              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              attribution='&copy; OpenStreetMap &copy; CARTO'
+            />
+            <Polyline positions={points} pathOptions={{ color: '#D4A843', weight: 1.5, dashArray: '5 7', opacity: 0.75 }} />
+            {points.map((p, i) => <Marker key={i} position={p} icon={MARKER} />)}
+            {live && <Marker position={[live.lat, live.lng]} icon={MARKER} />}
+            <FitRoute points={points} />
+          </MapContainer>
         </div>
-    );
+      )}
+
+      {data.aircraft && (
+        <p className="font-sans text-[13px] text-ivory-faint">Aircraft {data.aircraft}</p>
+      )}
+    </motion.section>
+  );
+};
+
+/* ── Trains ───────────────────────────────────────────────────────────── */
+
+const TrainResult = ({ data }) => {
+  const status = TRAIN_STATUS[data.status?.state] || { label: data.status?.state || 'Unknown', tone: 'text-ivory-muted' };
+
+  /* Progress from the route: how many halts are behind it. Real, because
+     RailRadar reports actual times per station. */
+  const route = data.route || [];
+  const done = route.filter((s) => s.actual).length;
+  const progress = route.length > 1 ? done / route.length : null;
+
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+      transition={{ duration: 0.45, ease: EASE }}
+      className="space-y-5"
+    >
+      <JourneyStrip
+        mode="train"
+        code={data.number}
+        operator={data.name}
+        statusLabel={status.label}
+        statusTone={status.tone}
+        delayMinutes={data.status?.delayMinutes}
+        from={{ code: data.from?.code, name: data.from?.name, scheduled: route[0]?.scheduled, actual: route[0]?.actual }}
+        to={{ code: data.to?.code, name: data.to?.name, scheduled: route[route.length - 1]?.scheduled, actual: route[route.length - 1]?.actual }}
+        progress={progress}
+        progressNote={
+          data.status?.at
+            ? `Last reported at ${data.status.at}${data.status.next ? `, next stop ${data.status.next}` : ''}.`
+            : null
+        }
+      />
+
+      {route.length > 0 && <Halts route={route} />}
+
+    </motion.section>
+  );
+};
+
+/**
+ * The stations, but only the ones anyone is looking for.
+ *
+ * RailRadar returns every station the train passes — 221 of them for a
+ * Mumbai–Delhi Rajdhani, most of which it does not stop at and none of which
+ * are flagged as halts. Printing all of them is a wall nobody reads. What a
+ * person waiting actually wants is where it has just been and what is coming,
+ * so that is what opens; the rest is one click away.
+ */
+const Halts = ({ route }) => {
+  const [all, setAll] = useState(false);
+
+  const lastPassed = route.reduce((acc, s, i) => (s.actual ? i : acc), -1);
+  const shown = all
+    ? route
+    : (() => {
+        /* Clamped at both ends so the window keeps its size. Without the
+           upper clamp a train one stop from its destination showed three
+           rows, because the slice ran off the end of the route. */
+        const size = 8;
+        const start = Math.min(
+          Math.max(0, lastPassed - 2),
+          Math.max(0, route.length - size)
+        );
+        const window = route.slice(start, start + size);
+        /* Keep the two ends visible: they are the journey. */
+        const withEnds = [route[0], ...window, route[route.length - 1]];
+        return withEnds.filter((s, i, arr) => s && arr.indexOf(s) === i);
+      })();
+
+  return (
+    <div className="rounded-[26px] border border-white/[0.08] bg-ink-900/60 p-6">
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <p className="eyebrow">{all ? `All ${route.length} stations` : 'Where it is now'}</p>
+        <button
+          onClick={() => setAll((v) => !v)}
+          className="font-sans text-[12.5px] text-saffron-bright transition-colors hover:text-saffron"
+        >
+          {all ? 'Show less' : `Show all ${route.length}`}
+        </button>
+      </div>
+
+      <ol className={all ? 'max-h-[26rem] space-y-0 overflow-y-auto pr-1' : 'space-y-0'}>
+        {shown.map((stop, i) => {
+          const passed = Boolean(stop.actual);
+          return (
+            <li key={`${stop.code}-${i}`} className="flex items-baseline gap-3 py-2 sm:gap-4">
+              <span
+                className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${passed ? 'bg-saffron' : 'bg-white/20'}`}
+                aria-hidden="true"
+              />
+              <span className="w-14 shrink-0 font-data text-[12px] text-ivory-faint">{stop.code}</span>
+              <span className={`flex-1 truncate font-sans text-[13.5px] ${passed ? 'text-ivory' : 'text-ivory-muted'}`}>
+                {stop.name}
+              </span>
+              <span className="font-data text-[12.5px] text-ivory-faint">
+                {stopClock(stop.actual || stop.scheduled)}
+              </span>
+              {stop.delayMinutes > 0 && (
+                <span className="w-9 shrink-0 text-right font-data text-[11.5px] text-saffron-bright">
+                  +{stop.delayMinutes}
+                </span>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+};
+
+/* The API sends full ISO timestamps; a timetable shows a clock. */
+const stopClock = (iso) => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '—';
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 };
 
 export default FlightTrackerPage;

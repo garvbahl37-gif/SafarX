@@ -73,7 +73,7 @@ const PAGE_TITLES = {
  "/map": "Local Insights — SafarX",
  "/checklist": "Pre-trip Checklist — SafarX",
  "/upload": "Share a Hidden Gem — SafarX",
- "/tracker": "Flight Tracker — SafarX",
+ "/tracker": "Track a Flight or Train — SafarX",
  "/vault": "Document Vault — SafarX",
  "/360view": "360° Explorer — SafarX",
  "/social": "Safar Groups — SafarX",
