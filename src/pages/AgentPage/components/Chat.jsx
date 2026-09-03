@@ -206,6 +206,10 @@ const Chat = ({
     const navigate = useNavigate();
     const reduce = useReducedMotion();
 
+    /* True once the reply has started arriving. The working card is a
+       stand-in for an answer that has not begun; the moment it has, the
+       answer itself is the thing to look at. */
+
     /* The model reasons on a separate channel before it writes anything; that
        gap is what the panel reports while it lasts. */
     const [isThinking, setIsThinking] = useState(false);
@@ -217,6 +221,7 @@ const Chat = ({
     /* Kept in a ref so the send handler can read the transcript without
        being rebuilt on every streamed token. */
     messagesRef.current = messages;
+    const isStreamingReply = messages.some((m) => m.streaming && m.content);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     /* Dictation. Finals are appended to whatever is already typed so you can
@@ -357,6 +362,14 @@ const Chat = ({
             setMessages((prev) =>
                 prev.map((m) => (m.id === replyId ? { ...m, content: reply, streaming: false } : m))
             );
+
+            /* The turn is over the moment the words are. Leaving isLoading set
+               through the photo lookup below brought the "Plotting a route"
+               card back underneath the finished answer — the reply had stopped
+               streaming, so it no longer suppressed the card, but the turn had
+               not formally ended. That was the duplicate. */
+            setIsLoading(false);
+            setActiveTool(null);
 
             /* Photographs of whatever places the answer actually named. Fetched
                after the text so they never hold the words back. */
@@ -612,7 +625,11 @@ const Chat = ({
                 {/* ── Messages ── */}
                 <div className="space-y-7">
                     <AnimatePresence initial={false}>
-                        {messages.map((msg) => (
+                        {/* An assistant bubble with nothing in it yet is not worth
+                            drawing — the working card below stands in its place
+                            until the first token lands. Rendering both is what put
+                            an empty bubble above "Plotting a route". */}
+                        {messages.filter((m) => !(m.streaming && !m.content)).map((msg) => (
                             <Motion.div
                                 key={msg.id}
                                 id={`agent-msg-${msg.id}`}
@@ -732,7 +749,7 @@ const Chat = ({
 
                     {/* ── Working state ── */}
                     <AnimatePresence>
-                        {isLoading && (
+                        {isLoading && !isStreamingReply && (
                             <Motion.div
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -749,7 +766,13 @@ const Chat = ({
 
                                 <div className="agent-msg-assistant px-4 py-3.5 space-y-3 min-w-[220px]">
                                     <RouteThinking
-                                        label={activeTool ? 'Running tools' : 'Plotting a route'}
+                                        label={
+                                            activeTool
+                                                ? 'Running tools'
+                                                : isThinking
+                                                    ? 'Thinking it through'
+                                                    : 'Plotting a route'
+                                        }
                                     />
 
                                     {toolSteps && (
