@@ -107,33 +107,126 @@ export function saveEmergencyContacts(contacts, userId = null) {
 /**
  * Get real-time device Geolocation coordinates
  */
-export function getCurrentDeviceLocation() {
- return new Promise((resolve, reject) => {
- if (!navigator.geolocation) {
- reject(new Error("Geolocation is not supported by your browser"));
- return;
- }
+/**
+ * Where the device is.
+ *
+ * The previous version asked for a high-accuracy fix with a twelve second
+ * timeout, and that fails for three separate reasons that all look identical
+ * to a traveller — "GPS not working".
+ *
+ * First, the timeout covers the permission prompt. The clock starts when you
+ * call, not when the person answers, so anyone who takes twelve seconds to
+ * read "SafarX wants to know your location" gets a TIMEOUT even though they
+ * pressed Allow. Second, enableHighAccuracy forces a hardware fix; indoors,
+ * and on most desktops, that returns POSITION_UNAVAILABLE — macOS reports
+ * kCLErrorLocationUnknown — while a coarse network fix would have answered
+ * instantly. Third, maximumAge of five seconds rejects a perfectly good fix
+ * obtained six seconds ago and starts the whole acquisition again.
+ *
+ * So this asks for the cheap answer first and refines afterwards. A coarse
+ * fix that arrives in a second is worth more in an emergency than a precise
+ * one that never arrives, and precision is no use if nobody is told where to
+ * look.
+ *
+ * @param {object} [opts]
+ * @param {number} [opts.timeout] total budget in ms, prompt included
+ * @returns {Promise<object>} coords, plus `precise` telling you which stage answered
+ */
+export function getCurrentDeviceLocation({ timeout = 30000 } = {}) {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(Object.assign(new Error("This browser cannot share a location."), { kind: "unsupported" }));
+      return;
+    }
+    /* A page served over plain http gets no location at all in any modern
+       browser, and the error it returns does not say so. */
+    if (!window.isSecureContext) {
+      reject(Object.assign(new Error("Location needs a secure (https) connection."), { kind: "insecure" }));
+      return;
+    }
 
- navigator.geolocation.getCurrentPosition((position) => {
- resolve({
- latitude: position.coords.latitude,
- longitude: position.coords.longitude,
- accuracy: Math.round(position.coords.accuracy),
- altitude: position.coords.altitude,
- speed: position.coords.speed,
- timestamp: new Date(position.timestamp).toISOString()
- });
- },
- (error) => {
- reject(error);
- },
- {
- enableHighAccuracy: true,
- timeout: 12000,
- maximumAge: 5000
- }
- );
- });
+    const shape = (position, precise) => ({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+      accuracy: Math.round(position.coords.accuracy),
+      altitude: position.coords.altitude,
+      speed: position.coords.speed,
+      precise,
+      timestamp: new Date(position.timestamp).toISOString(),
+    });
+
+    const fail = (error) => {
+      const kind =
+        error.code === 1 ? "denied" : error.code === 3 ? "timeout" : "unavailable";
+      const message =
+        kind === "denied"
+          ? "Location permission is blocked. Allow it in your browser's site settings."
+          : kind === "timeout"
+            ? "Could not get a location in time. Move somewhere with a clearer view of the sky and try again."
+            : "Your device could not work out where it is. Try again, or check that location services are on.";
+      reject(Object.assign(new Error(message), { kind, code: error.code }));
+    };
+
+    const started = Date.now();
+    const remaining = () => Math.max(4000, timeout - (Date.now() - started));
+
+    /* Stage two: a hardware fix, only after the coarse one has failed. */
+    const precise = () =>
+      navigator.geolocation.getCurrentPosition(
+        (position) => resolve(shape(position, true)),
+        fail,
+        { enableHighAccuracy: true, timeout: remaining(), maximumAge: 0 }
+      );
+
+    /* Stage one: whatever the network already knows. A fix from the last
+       minute is fine — nobody has crossed a state line in that time. */
+    navigator.geolocation.getCurrentPosition(
+      (position) => resolve(shape(position, false)),
+      (error) => {
+        // A refusal is a final answer, not something to retry harder.
+        if (error.code === 1) {
+          fail(error);
+          return;
+        }
+        precise();
+      },
+      { enableHighAccuracy: false, timeout: Math.min(8000, timeout), maximumAge: 60000 }
+    );
+  });
+}
+
+/**
+ * Keep following the device after the first fix.
+ *
+ * The beacon calls its readout a live location, which was not true of a
+ * single snapshot taken when the panel opened — someone being driven away
+ * from where they pressed the button is exactly who needs this.
+ *
+ * @param {(coords: object) => void} onUpdate
+ * @returns {() => void} stop watching
+ */
+export function watchDeviceLocation(onUpdate) {
+  if (!navigator.geolocation || !window.isSecureContext) return () => {};
+
+  const id = navigator.geolocation.watchPosition(
+    (position) => {
+      onUpdate({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: Math.round(position.coords.accuracy),
+        altitude: position.coords.altitude,
+        speed: position.coords.speed,
+        precise: true,
+        timestamp: new Date(position.timestamp).toISOString(),
+      });
+    },
+    /* Errors here are not worth surfacing: there is already a fix on screen
+       from the initial call, and this only ever improves on it. */
+    () => {},
+    { enableHighAccuracy: true, timeout: 20000, maximumAge: 15000 }
+  );
+
+  return () => navigator.geolocation.clearWatch(id);
 }
 
 /**
@@ -195,6 +288,7 @@ export function buildWhatsAppSOSPayload({
  recipientPhone = "",
  latitude,
  longitude,
+ accuracy = null,
  address = "",
  state = "",
  activeTripName = "Active Travel Journey",
@@ -207,16 +301,29 @@ export function buildWhatsAppSOSPayload({
  timeStyle: "short"
  });
 
- const mapsLink = `https://maps.google.com/?q=${latitude},${longitude}`;
+ /* A fix is not guaranteed, and a missing one must read as missing. The
+    alternative — which this used to do — is a map link to coordinates nobody
+    measured, under a heading that calls them live. */
+ const located = Number.isFinite(latitude) && Number.isFinite(longitude);
+ const mapsLink = located ? `https://maps.google.com/?q=${latitude},${longitude}` : null;
  const stateContacts = getEmergencyContactsForState(state);
 
  let message = ` *[SAFARX EMERGENCY SOS]* \n\n`;
  message += `I am in an emergency situation and need immediate help / check-in.\n\n`;
- message += ` *Live Location:* ${latitude.toFixed(5)}° N, ${longitude.toFixed(5)}° E\n`;
+ if (located) {
+ message += ` *Live Location:* ${latitude.toFixed(5)}° N, ${longitude.toFixed(5)}° E`;
+ message += accuracy ? ` (accurate to about ${accuracy}m)\n` : `\n`;
  if (address) {
  message += ` *Address / Area:* ${address}\n`;
  }
  message += ` *Google Maps Link:* ${mapsLink}\n`;
+ } else {
+ message += ` *Location:* UNAVAILABLE — my phone could not get a GPS fix.\n`;
+ message += `Please call me to find out where I am. Do not assume a location.\n`;
+ if (address) {
+ message += ` *Last known area:* ${address}\n`;
+ }
+ }
  message += `⏱ *Time (IST):* ${timeString}\n`;
  if (batteryLevel !== null) {
  message += ` *Device Battery:* ${batteryLevel}%\n`;

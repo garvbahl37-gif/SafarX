@@ -473,8 +473,23 @@ export const EMBASSY_DIRECTORY = [
  }
 ];
 
+/** Lines that work anywhere in India — the right answer when the state is unknown. */
+const NATIONAL_EMERGENCY_CONTACTS = {
+ state: "India (National)",
+ police: "112 / 100",
+ womenHelpline: "1091 / 181",
+ touristPolice: "1363 (24x7 Incredible India Helpline)",
+ hospital: "108 / 102",
+ disasterControl: "1070",
+ stateNotes: "Dial 112 for all police, medical, and fire emergencies in any location in India."
+};
+
 export const getEmergencyContactsForState = (stateName) => {
- if (!stateName) return STATE_EMERGENCY_DATA["Delhi"];
+ /* Not knowing which state someone is in is not a reason to hand them
+    Delhi's local numbers — AIIMS's switchboard and the India Gate tourist
+    police van are no use in Shillong. The national lines below work
+    everywhere, which is exactly what an unknown location needs. */
+ if (!stateName || !String(stateName).trim()) return NATIONAL_EMERGENCY_CONTACTS;
   
  // Clean match
  const stateKey = Object.keys(STATE_EMERGENCY_DATA).find((key) => key.toLowerCase() === stateName.trim().toLowerCase()
@@ -493,13 +508,5 @@ export const getEmergencyContactsForState = (stateName) => {
  }
 
  // Default to universal national numbers
- return {
- state: stateName || "India (National)",
- police: "112 / 100",
- womenHelpline: "1091 / 181",
- touristPolice: "1363 (24x7 Incredible India Helpline)",
- hospital: "108 / 102",
- disasterControl: "1070",
- stateNotes: "Dial 112 for all police, medical, and fire emergencies in any location in India."
- };
+ return { ...NATIONAL_EMERGENCY_CONTACTS, state: stateName || "India (National)" };
 };

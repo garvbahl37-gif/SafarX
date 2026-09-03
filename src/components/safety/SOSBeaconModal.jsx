@@ -18,11 +18,13 @@ import {
  Copy,
  Check,
  ExternalLink,
- ChevronRight
+ ChevronRight,
+ RefreshCw
 } from "lucide-react";
 import toast from "react-hot-toast";
 import {
  getCurrentDeviceLocation,
+ watchDeviceLocation,
  reverseGeocodeCoords,
  buildWhatsAppSOSPayload,
  getSavedEmergencyContacts,
@@ -48,6 +50,7 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
  const [copied, setCopied] = useState(false);
  const [batteryLevel, setBatteryLevel] = useState(null);
  const [activeTab, setActiveTab] = useState("sos"); // 'sos' | 'contacts' | 'direct_call'
+ const [locationError, setLocationError] = useState(null);
  const countdownRef = useRef(null);
 
  // Load Contacts & Battery on mount or when user changes
@@ -84,6 +87,30 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
  };
  }, [isOpen, user?.id]);
 
+ /* The footer tells you to press ESC; nothing was listening for it. */
+ useEffect(() => {
+ if (!isOpen) return undefined;
+ const onKey = (e) => { if (e.key === "Escape") onClose(); };
+ window.addEventListener("keydown", onKey);
+ return () => window.removeEventListener("keydown", onKey);
+ }, [isOpen, onClose]);
+
+ /* The readout calls itself a live location, so it has to keep up. A single
+    snapshot taken when the panel opened is wrong the moment someone is being
+    driven away from where they pressed the button — which is precisely the
+    person this screen exists for. */
+ useEffect(() => {
+ if (!isOpen || locationError) return undefined;
+ return watchDeviceLocation((coords) => {
+ setLocationData((prev) => {
+ /* Only accept a genuinely better or newer fix, so a noisy reading
+    cannot widen a tight one. */
+ if (prev && prev.accuracy && coords.accuracy > prev.accuracy * 2) return prev;
+ return { ...prev, ...coords };
+ });
+ });
+ }, [isOpen, locationError]);
+
  // Countdown timer for auto-arm / accidental trigger cancel
  useEffect(() => {
  if (!isOpen || !isArmed) return;
@@ -106,26 +133,28 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
  };
  }, [isOpen, isArmed]);
 
+ /* No invented coordinates here, ever.
+    This used to fall back to Connaught Place when the fix failed, and the
+    broadcast below then sent those numbers out under the heading "Live
+    Location" with a Google Maps link. Someone stranded in Ladakh would have
+    sent their family to Delhi. An SOS that admits it does not know where you
+    are is far safer than one that is confidently wrong, so a failure is now
+    reported as a failure and the message says so. */
  const fetchLiveLocation = async () => {
  setLocationLoading(true);
+ setLocationError(null);
  try {
  const coords = await getCurrentDeviceLocation();
- const geocoded = await reverseGeocodeCoords(coords.latitude, coords.longitude);
- setLocationData({
- ...coords,
- ...geocoded
- });
+ setLocationData(coords);
+ /* The address is a nicety; the numbers are what rescuers need. Show the
+    fix immediately and let the name arrive late rather than holding the
+    whole thing behind a geocoding request that may never return. */
+ reverseGeocodeCoords(coords.latitude, coords.longitude)
+ .then((geocoded) => setLocationData((prev) => (prev ? { ...prev, ...geocoded } : prev)))
+ .catch(() => {});
  } catch (err) {
- console.warn("GPS direct access failed, using fallback:", err);
- setLocationData({
- latitude: 28.6139,
- longitude: 77.2090,
- formattedAddress: "Connaught Place, New Delhi, India (Approximate fallback)",
- city: "New Delhi",
- state: "Delhi",
- country: "India",
- accuracy: 100
- });
+ setLocationError(err.message || "Could not get your location.");
+ setLocationData(null);
  } finally {
  setLocationLoading(false);
  }
@@ -153,20 +182,22 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
  }
  };
 
- const getPayload = () => {
- const lat = locationData?.latitude || 28.6139;
- const lng = locationData?.longitude || 77.2090;
- return buildWhatsAppSOSPayload({
+ /* Passes through whatever is actually known. When there is no fix, latitude
+    and longitude go out as null and the builder writes "location unavailable"
+    instead of a map pin — the message still sends, because someone in trouble
+    with no GPS still needs help, but it never points anywhere false. */
+ const getPayload = () =>
+ buildWhatsAppSOSPayload({
  recipientPhone: selectedContactPhone,
- latitude: lat,
- longitude: lng,
- address: locationData?.formattedAddress || defaultDestination,
- state: locationData?.state || "Delhi",
+ latitude: locationData?.latitude ?? null,
+ longitude: locationData?.longitude ?? null,
+ accuracy: locationData?.accuracy ?? null,
+ address: locationData?.formattedAddress || "",
+ state: locationData?.state || "",
  activeTripName: defaultDestination,
  batteryLevel,
  customNote
  });
- };
 
  const handleSendWhatsApp = () => {
  const payload = getPayload();
@@ -194,7 +225,9 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
 
  if (!isOpen) return null;
 
- const stateContacts = getEmergencyContactsForState(locationData?.state || "Delhi");
+ /* Falling back to the national numbers is right; they work everywhere.
+    Falling back to Delhi's *state* helpline for someone in Assam is not. */
+ const stateContacts = getEmergencyContactsForState(locationData?.state || "");
 
  return (<AnimatePresence>
  <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 pt-16 sm:pt-20 pb-12 overflow-y-auto">
@@ -311,17 +344,32 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
  <MapPin className="w-4 h-4" />
  </div>
  <div>
- <p className="text-ivory-muted font-medium">Verified Current GPS Location</p>
- {locationLoading ? (<p className="text-ivory-faint animate-pulse">Acquiring high accuracy GPS lock…</p>
- ) : (<>
+ <p className="text-ivory-muted font-medium">
+ {locationData?.precise === false ? "Approximate location · refining" : "Current GPS location"}
+ </p>
+ {locationLoading ? (<p className="text-ivory-faint animate-pulse">Finding you…</p>
+ ) : locationError ? (<>
+ {/* Said plainly. The old build quietly showed a Delhi address here
+     whatever went wrong, which is the failure a person is least able
+     to catch when they need this screen. */}
+ <p className="text-danger-bright font-semibold text-sm">Location unavailable</p>
+ <p className="text-ivory-faint text-[11px] leading-relaxed max-w-[280px]">{locationError}</p>
+ <button
+ onClick={fetchLiveLocation}
+ className="mt-1.5 inline-flex items-center gap-1.5 rounded-lg border border-saffron/40 bg-saffron/10 px-2.5 py-1 font-data text-[10px] uppercase tracking-[0.14em] text-saffron-bright transition hover:bg-saffron/20"
+ >
+ <RefreshCw className="w-3 h-3" /> Try again
+ </button>
+ </>
+ ) : locationData ? (<>
  <p className="text-ivory font-semibold text-sm">
- {locationData?.city}, {locationData?.state}
+ {locationData.city ? `${locationData.city}, ${locationData.state}` : "Locating the address…"}
  </p>
  <p className="text-ivory-faint text-[11px] font-data">
- {locationData?.latitude?.toFixed(5)}° N, {locationData?.longitude?.toFixed(5)}° E (±{locationData?.accuracy || 15}m)
+ {locationData.latitude.toFixed(5)}° N, {locationData.longitude.toFixed(5)}° E (±{locationData.accuracy}m)
  </p>
  </>
- )}
+ ) : null}
  </div>
  </div>
 
