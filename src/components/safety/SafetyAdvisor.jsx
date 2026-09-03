@@ -275,9 +275,9 @@ export default function SafetyAdvisor({
  <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 text-center">
  <div className="flex items-center justify-center gap-1 text-horizon-bright mb-1">
  <Heart className="w-4 h-4" />
- <span className="text-[11px] font-semibold uppercase tracking-wider">Women Safety</span>
+ <span className="font-data text-[10px] font-medium uppercase tracking-[0.18em]">Women Safety</span>
  </div>
- <p className="text-2xl sm:text-3xl font-black font-display text-ivory">
+ <p className="text-2xl sm:text-3xl font-medium font-display text-ivory">
  {safetyData.scores.womenSafety}<span className="text-xs text-ivory-faint font-sans">/10</span>
  </p>
  <p className="text-[11px] text-horizon-bright mt-0.5">High Confidence</p>
@@ -286,9 +286,9 @@ export default function SafetyAdvisor({
  <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 text-center">
  <div className="flex items-center justify-center gap-1 text-horizon-bright mb-1">
  <Moon className="w-4 h-4" />
- <span className="text-[11px] font-semibold uppercase tracking-wider">Night Transit</span>
+ <span className="font-data text-[10px] font-medium uppercase tracking-[0.18em]">Night Transit</span>
  </div>
- <p className="text-2xl sm:text-3xl font-black font-display text-ivory">
+ <p className="text-2xl sm:text-3xl font-medium font-display text-ivory">
  {safetyData.scores.nightSafety}<span className="text-xs text-ivory-faint font-sans">/10</span>
  </p>
  <p className="text-[11px] text-horizon-bright mt-0.5">Safe Corridors</p>
@@ -297,9 +297,9 @@ export default function SafetyAdvisor({
  <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 text-center">
  <div className="flex items-center justify-center gap-1 text-saffron-bright mb-1">
  <Car className="w-4 h-4" />
- <span className="text-[11px] font-semibold uppercase tracking-wider">Transport Safety</span>
+ <span className="font-data text-[10px] font-medium uppercase tracking-[0.18em]">Transport Safety</span>
  </div>
- <p className="text-2xl sm:text-3xl font-black font-display text-ivory">
+ <p className="text-2xl sm:text-3xl font-medium font-display text-ivory">
  {safetyData.scores.transportSafety}<span className="text-xs text-ivory-faint font-sans">/10</span>
  </p>
  <p className="text-[11px] text-saffron-bright mt-0.5">Verified Fleets</p>
@@ -308,9 +308,9 @@ export default function SafetyAdvisor({
  <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-4 text-center">
  <div className="flex items-center justify-center gap-1 text-danger-bright mb-1">
  <Cross className="w-4 h-4" />
- <span className="text-[11px] font-semibold uppercase tracking-wider">Medical Access</span>
+ <span className="font-data text-[10px] font-medium uppercase tracking-[0.18em]">Medical Access</span>
  </div>
- <p className="text-2xl sm:text-3xl font-black font-display text-ivory">
+ <p className="text-2xl sm:text-3xl font-medium font-display text-ivory">
  {safetyData.scores.medical}<span className="text-xs text-ivory-faint font-sans">/10</span>
  </p>
  <p className="text-[11px] text-danger-bright mt-0.5">Civil & 108 Fleet</p>
@@ -319,7 +319,7 @@ export default function SafetyAdvisor({
 
  {/* Pre-Trip Mandatory Safety Measures */}
  <div className="space-y-3">
- <h4 className="text-xs font-bold uppercase tracking-wider text-ivory-muted flex items-center gap-2">
+ <h4 className="font-data text-[11px] font-medium uppercase tracking-[0.18em] text-ivory-muted flex items-center gap-2">
  <ShieldCheck className="w-4 h-4 text-horizon-bright" />
  Pre-Trip Safety Protocol & Documentation Check
  </h4>
@@ -362,7 +362,7 @@ export default function SafetyAdvisor({
  {/* State Emergency Contacts Snapshot */}
  <div className="bg-ink-950/90 border border-white/10 rounded-2xl p-5 space-y-3">
  <div className="flex items-center justify-between">
- <h4 className="text-xs font-bold uppercase tracking-wider text-ivory-muted flex items-center gap-2">
+ <h4 className="font-data text-[11px] font-medium uppercase tracking-[0.18em] text-ivory-muted flex items-center gap-2">
  <Radio className="w-4 h-4 text-horizon-bright" />
  Verified Government Helplines for {safetyData.state}
  </h4>
@@ -459,7 +459,7 @@ export default function SafetyAdvisor({
 
  {/* Direct Rapid Call Grid */}
  <div className="bg-ink-950/80 border border-white/10 rounded-2xl p-5 space-y-3">
- <h4 className="text-xs font-bold uppercase tracking-wider text-ivory-muted flex items-center gap-2">
+ <h4 className="font-data text-[11px] font-medium uppercase tracking-[0.18em] text-ivory-muted flex items-center gap-2">
  <PhoneCall className="w-4 h-4 text-horizon-bright" />
  One-Tap Direct Govt Dispatch Links
  </h4>
@@ -629,7 +629,7 @@ export default function SafetyAdvisor({
 
  {/* Community Verified Safety Feed */}
  <div className="space-y-3">
- <h4 className="text-xs font-bold uppercase tracking-wider text-ivory-muted flex items-center gap-2">
+ <h4 className="font-data text-[11px] font-medium uppercase tracking-[0.18em] text-ivory-muted flex items-center gap-2">
  <Sparkles className="w-4 h-4 text-saffron-bright" />
  Community Safety Insights & Verified Reports
  </h4>

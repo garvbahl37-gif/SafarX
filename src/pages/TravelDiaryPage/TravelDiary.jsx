@@ -131,12 +131,21 @@ export const TravelDiary = () => {
 
  {/* ── Photo Upload Zone ── */}
  <div>
- <div className="flex items-center justify-between mb-4">
- <div className="flex min-w-0 flex-1 items-center gap-3">
+ <div className="flex items-end justify-between mb-4 gap-4">
+ <div className="min-w-0 flex-1">
+ <div className="flex min-w-0 items-center gap-3">
  <span className="route-dot shrink-0" aria-hidden="true" />
- <h2 className="eyebrow whitespace-nowrap">Your photographs</h2>
+ {/* The eyebrow is a label, not the heading. It was marked up as an
+     h2, which left this section with no display-face heading at all
+     while the reel section below had one — the two read as different
+     designs on the same page. */}
+ <p className="eyebrow whitespace-nowrap">Your photographs</p>
  <span className="font-data text-[10px] tabular-nums text-saffron">{photos.length}</span>
  <span className="route-line hidden flex-1 sm:block" aria-hidden="true" />
+ </div>
+ <h2 className="mt-3 font-display text-[1.5rem] font-light leading-snug text-ivory">
+ Everything you came home with.
+ </h2>
  </div>
  <div className="flex items-center gap-2">
  {photos.length > 0 && (<button
@@ -245,12 +254,12 @@ export const TravelDiary = () => {
  <div className="mb-7">
  <div className="flex items-center gap-3">
  <span className="route-dot shrink-0" aria-hidden="true" />
- <h2 className="eyebrow whitespace-nowrap">Cinematic reel</h2>
+ <p className="eyebrow whitespace-nowrap">Cinematic reel</p>
  <span className="route-line flex-1" aria-hidden="true" />
  </div>
- <p className="mt-3 font-display text-[1.5rem] font-light leading-snug text-ivory">
+ <h2 className="mt-3 font-display text-[1.5rem] font-light leading-snug text-ivory">
  Your trip, cut to music.
- </p>
+ </h2>
  <p className="mt-1 font-sans text-[13.5px] text-ivory-muted">
  Choose a look and a ratio, pick a track, then download it or send the link.
  </p>

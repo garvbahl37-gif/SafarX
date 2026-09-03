@@ -176,7 +176,7 @@ export default function SafetyHubPage() {
 
  {/* Destination Search & Quick Selector */}
  <div className="pt-2 space-y-3">
- <label className="block text-[11px] uppercase tracking-wider text-ivory-muted font-semibold">
+ <label className="block font-data text-[10px] font-medium uppercase tracking-[0.18em] text-ivory-muted">
  Active Destination / Region / Monument
  </label>
 

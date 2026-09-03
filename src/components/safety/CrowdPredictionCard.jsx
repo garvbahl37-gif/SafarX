@@ -101,7 +101,7 @@ export default function CrowdPredictionCard({
  </div>
  )}
 
- <span className="text-4xl sm:text-5xl font-black font-display tracking-tight text-ivory flex items-baseline justify-center gap-1">
+ <span className="text-4xl sm:text-5xl font-medium font-display tracking-tight text-ivory flex items-baseline justify-center gap-1">
  {prediction.score}%
  <span className="text-sm font-sans font-normal text-ivory-muted">density</span>
  </span>

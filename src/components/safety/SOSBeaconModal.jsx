@@ -398,7 +398,7 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
  {/* Target WhatsApp Recipient */}
  <div>
  <div className="flex items-center justify-between mb-1.5">
- <label className="block text-xs font-semibold text-ivory-muted uppercase tracking-wider">
+ <label className="font-data font-medium block text-xs text-ivory-muted uppercase tracking-[0.18em]">
  Emergency WhatsApp Recipient
  </label>
  <button
@@ -482,7 +482,7 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
 
  {/* Optional Custom Emergency Note */}
  <div>
- <label className="block text-xs font-semibold text-ivory-muted mb-1.5 uppercase tracking-wider">
+ <label className="font-data font-medium block text-xs text-ivory-muted mb-1.5 uppercase tracking-[0.18em]">
  Custom Situation Note (Optional)
  </label>
  <input
