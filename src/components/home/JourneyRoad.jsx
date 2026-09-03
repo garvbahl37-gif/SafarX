@@ -246,71 +246,90 @@ const JourneyRoad = ({ stages, onPageChange }) => {
         </svg>
       </div>
 
-      {/* ── Stage cards ── */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* ── The stages, threaded on the road rather than parked under it ──
+          Seven of them in a three-column grid left a last row holding one
+          card beside two empty slots, which is what made the section read as
+          loose blocks. They are stations on a line now: the count stops
+          mattering, each one is lighter than a bordered box, and the dashed
+          rule continues the road drawn above instead of restarting the
+          composition. Numbering earns its place here because this genuinely
+          is a sequence. */}
+      <div className="relative mx-auto mt-14 max-w-3xl">
+        {/* The route itself, behind the nodes. It lives out here rather than
+            inside the list: an ol may only contain li elements, and a stray
+            span in there is invalid markup that a screen reader has to
+            reconcile. */}
+        <span
+          className="absolute left-[19px] top-2 bottom-2 w-px bg-[repeating-linear-gradient(to_bottom,rgba(212,168,67,0.34)_0_6px,transparent_6px_13px)] sm:left-[23px]"
+          aria-hidden="true"
+        />
+
+        <ol>
         {stages.map((stage, i) => {
           const active = passed > i;
           const Icon = stage.icon || MapPin;
           return (
-            <Motion.button
+            <Motion.li
               key={stage.step}
-              initial={{ opacity: 0, y: 26 }}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.65, delay: (i % 3) * 0.08 }}
-              onClick={() => onPageChange(stage.page)}
-              className={`group relative text-left rounded-2xl border p-6 md:p-7 transition-all duration-500 hover:-translate-y-1 ${
-                active
-                  ? "border-saffron/35 bg-ink-800/70 shadow-[0_18px_50px_-24px_rgba(212,168,67,0.5)]"
-                  : "border-white/[0.07] bg-ink-800/40 hover:border-white/20"
-              }`}
+              viewport={{ once: true, margin: "-70px" }}
+              transition={{ duration: 0.5, delay: Math.min(i * 0.05, 0.3), ease: [0.22, 1, 0.36, 1] }}
+              className="relative"
             >
-              {/* Gold filament along the top edge once reached */}
-              <span
-                className={`absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-saffron to-transparent transition-opacity duration-500 ${
-                  active ? "opacity-70" : "opacity-0"
-                }`}
-                aria-hidden="true"
-              />
-
-              <div className="flex items-center gap-3 mb-5">
+              <button
+                type="button"
+                onClick={() => onPageChange(stage.page)}
+                className="group flex w-full items-start gap-5 rounded-2xl py-6 pl-0 pr-4 text-left transition-colors duration-300 sm:gap-7"
+              >
+                {/* The node sits on the line, so it has to hide the dashes
+                    behind it — hence the solid ink fill. */}
                 <span
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-colors duration-500 ${
+                  className={`relative z-10 mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border bg-ink-950 transition-colors duration-500 sm:h-12 sm:w-12 ${
                     active
-                      ? "border-saffron/45 bg-saffron/10"
-                      : "border-white/[0.09] bg-white/[0.03]"
+                      ? "border-saffron/50 text-saffron"
+                      : "border-white/[0.1] text-ivory/40 group-hover:border-white/25"
                   }`}
                 >
-                  <Icon
-                    size={17}
-                    className={active ? "text-saffron" : "text-ivory/45"}
-                    aria-hidden="true"
-                  />
+                  <Icon size={17} aria-hidden="true" />
                 </span>
-                <span className="flex flex-col">
+
+                <span className="min-w-0 flex-1 pt-1">
                   <span
-                    className={`font-data text-[10px] tracking-[0.24em] uppercase transition-colors duration-500 ${
+                    className={`font-data text-[10px] uppercase tracking-[0.24em] transition-colors duration-500 ${
                       active ? "text-saffron" : "text-ivory-faint"
                     }`}
                   >
                     {stage.step} · {stage.phase}
                   </span>
-                </span>
-              </div>
 
-              <h3 className="font-display text-[1.4rem] md:text-[1.5rem] font-medium text-ivory leading-snug mb-3">
-                {stage.title}
-              </h3>
-              <p className="text-ivory-muted text-[14.5px] leading-relaxed mb-5">
-                {stage.desc}
-              </p>
-              <span className="inline-flex items-center gap-2 text-saffron text-[13px] font-bold tracking-wide">
-                {stage.cta}
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Motion.button>
+                  <h3 className="mt-2 font-display text-[1.35rem] font-medium leading-snug text-ivory md:text-[1.5rem]">
+                    {stage.title}
+                  </h3>
+
+                  <p className="mt-2 max-w-[54ch] font-sans text-[14.5px] leading-relaxed text-ivory-muted">
+                    {stage.desc}
+                  </p>
+
+                  <span className="mt-4 inline-flex items-center gap-2 font-sans text-[13px] font-semibold text-saffron">
+                    {stage.cta}
+                    <ArrowRight
+                      size={14}
+                      className="transition-transform group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </span>
+              </button>
+
+              {/* A rule between stations, never after the last. */}
+              {i < stages.length - 1 && (
+                <span className="ml-[60px] block h-px bg-white/[0.06] sm:ml-[76px]" aria-hidden="true" />
+              )}
+            </Motion.li>
           );
         })}
+        </ol>
       </div>
     </div>
   );
