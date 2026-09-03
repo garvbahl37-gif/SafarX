@@ -519,16 +519,21 @@ export default function SafetyAdvisor({
  {/* Submit Safety Feedback Form */}
  <form
  onSubmit={handleSubmitReview}
- className="bg-ink-950/80 border border-white/10 rounded-2xl p-5 space-y-4"
+ className="rounded-[26px] border border-white/[0.08] bg-ink-950/70 p-6 sm:p-8 space-y-7"
  >
- <h4 className="text-sm font-bold text-ivory flex items-center gap-2">
- <Star className="w-4 h-4 text-saffron-bright fill-saffron-bright" />
- Rate & Review Destination Safety
+ <div className="mb-1">
+ <p className="eyebrow mb-2">Community</p>
+ <h4 className="font-display text-[1.35rem] font-medium leading-snug text-ivory">
+ Rate the safety of somewhere you have been
  </h4>
+ <p className="mt-1.5 font-sans text-[13px] leading-relaxed text-ivory-muted">
+ Other travellers read these before they book. Say what you actually found.
+ </p>
+ </div>
 
  {/* Custom Location Field with GPS Autofill */}
  <div className="space-y-1.5">
- <label className="block text-[11px] text-ivory-muted font-semibold uppercase tracking-wider">
+ <label className="mb-2 block font-data text-[10px] font-medium uppercase tracking-[0.18em] text-ivory-muted">
  Location / Monument / City Visited
  </label>
  <div className="flex items-center gap-2">
@@ -557,7 +562,7 @@ export default function SafetyAdvisor({
 
  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
  <div>
- <label className="block text-[11px] text-ivory-muted mb-1 font-semibold">
+ <label className="mb-2 block font-data text-[10px] font-medium uppercase tracking-[0.18em] text-ivory-muted">
  Overall Safety Rating (1-5)
  </label>
  <select
@@ -565,16 +570,16 @@ export default function SafetyAdvisor({
  onChange={(e) => setReviewForm({ ...reviewForm, rating: Number(e.target.value) })}
  className="w-full bg-ink-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-ivory focus:outline-none focus:border-ivory-muted"
  >
- <option value={5}>⭐⭐⭐⭐⭐ (5/5) Exceptionally Safe</option>
- <option value={4}>⭐⭐⭐⭐ (4/5) Very Safe</option>
- <option value={3}>⭐⭐⭐ (3/5) Moderate Safety</option>
- <option value={2}>⭐⭐ (2/5) Needs Caution</option>
- <option value={1}>⭐ (1/5) Unsafe / Challenging</option>
+ <option value={5}>5 / 5 — Exceptionally safe</option>
+ <option value={4}>4 / 5 — Very safe</option>
+ <option value={3}>3 / 5 — Moderate</option>
+ <option value={2}>2 / 5 — Needs caution</option>
+ <option value={1}>1 / 5 — Unsafe</option>
  </select>
  </div>
 
  <div>
- <label className="block text-[11px] text-ivory-muted mb-1 font-semibold">
+ <label className="mb-2 block font-data text-[10px] font-medium uppercase tracking-[0.18em] text-ivory-muted">
  Women Safety Comfort
  </label>
  <select
@@ -590,7 +595,7 @@ export default function SafetyAdvisor({
  </div>
 
  <div>
- <label className="block text-[11px] text-ivory-muted mb-1 font-semibold">
+ <label className="mb-2 block font-data text-[10px] font-medium uppercase tracking-[0.18em] text-ivory-muted">
  Did you encounter any touts/scams?
  </label>
  <select
@@ -606,7 +611,7 @@ export default function SafetyAdvisor({
  </div>
 
  <div>
- <label className="block text-[11px] text-ivory-muted mb-1 font-semibold">
+ <label className="mb-2 block font-data text-[10px] font-medium uppercase tracking-[0.18em] text-ivory-muted">
  Your Safety Experience & Community Tips
  </label>
  <textarea
@@ -629,10 +634,12 @@ export default function SafetyAdvisor({
 
  {/* Community Verified Safety Feed */}
  <div className="space-y-3">
- <h4 className="font-data text-[11px] font-medium uppercase tracking-[0.18em] text-ivory-muted flex items-center gap-2">
- <Sparkles className="w-4 h-4 text-saffron-bright" />
- Community Safety Insights & Verified Reports
+ <div className="mb-5">
+ <p className="eyebrow mb-2">From other travellers</p>
+ <h4 className="font-display text-[1.35rem] font-medium leading-snug text-ivory">
+ What people found on the ground
  </h4>
+ </div>
 
  <div className="space-y-2.5">
  {submittedReviews.map((rev) => (<div
