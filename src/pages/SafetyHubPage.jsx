@@ -97,18 +97,42 @@ export default function SafetyHubPage() {
  const handleSyncCurrentLocation = async () => {
  setGpsLoading(true);
  toast.loading("Detecting your live GPS location…", { id: "gps-sync" });
+
+ /* The fix and the place name are separate failures and used to be caught
+    together, so a rate-limited geocoder reported itself as "check your
+    browser location permissions" — advice that could not fix it, for a
+    problem that was not the browser's. */
+ let coords;
  try {
- const coords = await getCurrentDeviceLocation();
- const geocoded = await reverseGeocodeCoords(coords.latitude, coords.longitude);
- setGpsLocation({ ...coords, ...geocoded });
- const locationName = geocoded.city ? `${geocoded.city}, ${geocoded.state}` : (geocoded.state || "Delhi");
- setSelectedDestination(locationName);
- setCustomInput(locationName);
- toast.dismiss("gps-sync");
- toast.success(`Safety feed updated to your live location: ${locationName}`);
+ coords = await getCurrentDeviceLocation();
  } catch (err) {
  toast.dismiss("gps-sync");
- toast.error("Could not access GPS. Please check browser location permissions.");
+ // Say what actually went wrong; the helper already worked it out.
+ toast.error(err.message || "Could not get your location.");
+ setGpsLoading(false);
+ return;
+ }
+
+ try {
+ const geocoded = await reverseGeocodeCoords(coords.latitude, coords.longitude);
+ setGpsLocation({ ...coords, ...geocoded });
+ const locationName = geocoded.resolved
+ ? (geocoded.city ? `${geocoded.city}, ${geocoded.state}` : geocoded.state)
+ : null;
+ toast.dismiss("gps-sync");
+ if (locationName) {
+ setSelectedDestination(locationName);
+ setCustomInput(locationName);
+ toast.success(`Safety feed updated to your live location: ${locationName}`);
+ } else {
+ /* Located, but unnamed. Never fall back to Delhi — the whole point of
+    this button is that it tells you where you actually are. */
+ toast.success("Got your location, but could not name the area.");
+ }
+ } catch {
+ setGpsLocation(coords);
+ toast.dismiss("gps-sync");
+ toast("Found you, but the place name lookup is unavailable right now.");
  } finally {
  setGpsLoading(false);
  }

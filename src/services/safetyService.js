@@ -155,15 +155,21 @@ export function getCurrentDeviceLocation({ timeout = 30000 } = {}) {
       timestamp: new Date(position.timestamp).toISOString(),
     });
 
+    /* Three different things go wrong here and they need three different
+       instructions. Telling someone to "check browser location permissions"
+       when macOS has Location Services switched off for Chrome sends them
+       looking in the one place that cannot fix it — and that is the case
+       that produces kCLErrorLocationUnknown, which is what desktops mostly
+       hit. */
     const fail = (error) => {
       const kind =
         error.code === 1 ? "denied" : error.code === 3 ? "timeout" : "unavailable";
       const message =
         kind === "denied"
-          ? "Location permission is blocked. Allow it in your browser's site settings."
+          ? "Location is blocked for this site. Click the padlock in your address bar, allow Location, then try again."
           : kind === "timeout"
-            ? "Could not get a location in time. Move somewhere with a clearer view of the sky and try again."
-            : "Your device could not work out where it is. Try again, or check that location services are on.";
+            ? "Location is taking too long to arrive. Move near a window or outdoors and try again."
+            : "Your device could not work out where it is. Check that Location Services are switched on for your browser in your computer or phone's own settings.";
       reject(Object.assign(new Error(message), { kind, code: error.code }));
     };
 
@@ -259,6 +265,7 @@ export async function reverseGeocodeCoords(latitude, longitude) {
  const formattedAddress = data.display_name || `${city}, ${state}`;
 
  const result = {
+ resolved: true,
  formattedAddress,
  city,
  state,
@@ -270,7 +277,12 @@ export async function reverseGeocodeCoords(latitude, longitude) {
  return result;
  } catch (err) {
  console.warn("Reverse geocode failed, using coordinates fallback:", err);
+ /* `resolved` is the part callers need. This never threw, so a failed
+    lookup used to reach the UI as the perfectly plausible-looking place
+    "Current Location, India" and get set as the safety feed's
+    destination — a successful-looking result naming nowhere. */
  return {
+ resolved: false,
  formattedAddress: `Lat: ${latitude.toFixed(4)}, Long: ${longitude.toFixed(4)}`,
  city: "Current Location",
  state: "India",

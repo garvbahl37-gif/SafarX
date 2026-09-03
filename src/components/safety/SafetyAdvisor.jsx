@@ -111,16 +111,35 @@ export default function SafetyAdvisor({
 
  const handleFetchCurrentGPS = async () => {
  setLocLoading(true);
+ /* Finding you and naming where you are are two requests that fail for
+    unrelated reasons. Keeping them in one try meant a rate-limited
+    geocoder threw away a working GPS fix and reported itself as a
+    location error. */
+ let coords;
  try {
- const coords = await getCurrentDeviceLocation();
+ coords = await getCurrentDeviceLocation();
+ } catch (err) {
+ // The helper already distinguishes a block, a timeout and an OS-level
+ // failure; repeating one guess for all three helps nobody.
+ toast.error(err.message || "Could not get your location.");
+ setLocLoading(false);
+ return;
+ }
+
+ setDeviceLocation(coords);
+ try {
  const geocoded = await reverseGeocodeCoords(coords.latitude, coords.longitude);
  setDeviceLocation({ ...coords, ...geocoded });
+ if (!geocoded.resolved) {
+ toast("Found you, but the place name lookup is unavailable right now.");
+ return;
+ }
  const detectedName = geocoded.city ? `${geocoded.city}, ${geocoded.state}` : geocoded.state;
  setCurrentDestination(geocoded.state || geocoded.city);
  setReviewForm((prev) => ({ ...prev, location: detectedName }));
  toast.success(`Location synced: ${detectedName}`);
- } catch (err) {
- toast.error("Could not access GPS. Check browser location permissions.");
+ } catch {
+ toast("Found you, but the place name lookup is unavailable right now.");
  } finally {
  setLocLoading(false);
  }
@@ -128,14 +147,25 @@ export default function SafetyAdvisor({
 
  const handleUseCurrentLocForReview = async () => {
  setLocLoading(true);
+ let coords;
  try {
- const coords = await getCurrentDeviceLocation();
+ coords = await getCurrentDeviceLocation();
+ } catch (e) {
+ toast.error(e.message || "Could not get your location. Type the place name instead.");
+ setLocLoading(false);
+ return;
+ }
+ try {
  const geocoded = await reverseGeocodeCoords(coords.latitude, coords.longitude);
+ if (!geocoded.resolved) {
+ toast("Found you, but could not name the area — type the place name instead.");
+ return;
+ }
  const locStr = geocoded.city ? `${geocoded.city}, ${geocoded.state}` : geocoded.state;
  setReviewForm((prev) => ({ ...prev, location: locStr }));
  toast.success(`Review location set to: ${locStr}`);
- } catch (e) {
- toast.error("Could not fetch GPS. Please enter place name manually.");
+ } catch {
+ toast("Found you, but could not name the area — type the place name instead.");
  } finally {
  setLocLoading(false);
  }
