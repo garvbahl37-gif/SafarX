@@ -187,6 +187,9 @@ export default function App() {
  onSearchChange: setSearchQuery,
  onPageChange: handlePageChange,
  selectedItem,
+ /* So a page can hand someone to Srishti without making them find the
+    floating launcher in the corner. */
+ onAskSrishti: () => setSrishtiOpen(true),
  };
 
  // Cinematic boot sequence runs ~3.8s — never block the app on auth loading

@@ -22,6 +22,7 @@ import CurvedLoop from "../components/animations/CurvedLoop";
 import CountUp from "../components/ui/CountUp";
 import JourneyRoad from "../components/home/JourneyRoad";
 import vrToursData from "../data/vrTours.json";
+import AskSrishti from "../components/ui/AskSrishti";
 
 /* ------------------------------------------------------------------ */
 /* Hero slides — each slide is a place with real coordinates */
@@ -225,7 +226,7 @@ const STAGES = [
  icon: Compass,
  },
  {
- step: "04",
+ step: "07",
  phase: "Relive & Share",
  title: "Cinematic Reel & Digital Diary",
  desc: "Upload 15–20 photos from your trip. Get an instant 9:16 cinematic Reel with Ken Burns motion, Indian folk music, and a shareable QR story.",
@@ -323,7 +324,7 @@ const VOICES = [
 
 /* ================================================================== */
 
-const HomePage = ({ onPageChange }) => {
+const HomePage = ({ onPageChange, onAskSrishti }) => {
  const [activeSlide, setActiveSlide] = useState(0);
  const heroRef = useRef(null);
 
@@ -880,6 +881,10 @@ const HomePage = ({ onPageChange }) => {
  Explore in VR
  </button>
  </div>
+
+ {/* Under the buttons, not beside them: those are for people who already
+     know what they want. */}
+ <AskSrishti onAsk={onAskSrishti} className="mt-7" />
  </div>
  </section>
  </div>

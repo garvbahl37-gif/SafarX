@@ -9,6 +9,7 @@ import GeneratingRoute from "../components/planner/GeneratingRoute";
 import { EASE } from "../components/planner/plannerOptions";
 import JourneyStrip from "../components/planner/JourneyStrip";
 import { takeIntent, onIntent } from "../services/srishtiIntent";
+import AskSrishti from '../components/ui/AskSrishti';
 
 const ASSURANCES = [
   { icon: Route, title: "Hour by hour", copy: "Every day laid out with timings, travel legs, and how long each stop takes." },
@@ -16,7 +17,7 @@ const ASSURANCES = [
   { icon: Compass, title: "Season aware", copy: "SafarX checks the month against the region before it commits to a route." },
 ];
 
-const ItineraryPlanner = ({ selectedItem }) => {
+const ItineraryPlanner = ({ selectedItem, onAskSrishti }) => {
   const reduce = useReducedMotion();
 
   const [itinerary, setItinerary] = useState(null);
@@ -186,10 +187,19 @@ const ItineraryPlanner = ({ selectedItem }) => {
             <JourneyStrip className="mt-8" />
 
             {!itinerary && (
-              <p className="mt-4 flex items-center justify-center gap-2.5 font-data text-[11px] uppercase tracking-[0.22em] text-ivory-faint">
-                <ArrowDown size={14} className="text-saffron" aria-hidden="true" />
-                Five steps to a full plan
-              </p>
+              <>
+                <p className="mt-4 flex items-center justify-center gap-2.5 font-data text-[11px] uppercase tracking-[0.22em] text-ivory-faint">
+                  <ArrowDown size={14} className="text-saffron" aria-hidden="true" />
+                  Five steps to a full plan
+                </p>
+                {/* The five steps are the path; this is for anyone who would
+                    rather not walk it. */}
+                <AskSrishti
+                  onAsk={onAskSrishti}
+                  prompt="Would rather just describe the trip?"
+                  className="mt-5"
+                />
+              </>
             )}
           </Motion.div>
         </div>
