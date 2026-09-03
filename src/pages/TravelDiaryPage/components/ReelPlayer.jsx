@@ -14,6 +14,7 @@ import { exportReelVideo } from '../utils/videoExporter';
 import SafarXMark from '../../../components/ui/SafarXMark';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
+import StudioPanel from './StudioPanel';
 
 const formatTime = (secs) => {
  const s = Math.max(0, Math.floor(secs || 0));
@@ -777,52 +778,25 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, preset, onOpenShar
  <div className="lg:col-span-3 space-y-4">
           
  {/* Editing Style & FX Card */}
- <div className="bg-ink-900 border border-white/[0.07] rounded-3xl p-4 shadow-xl space-y-3">
- <div className="flex items-center gap-2.5 pb-2 border-b border-white/[0.07]">
- <div className="w-8 h-8 rounded-lg bg-saffron/15 flex items-center justify-center">
- <Clapperboard size={16} className="text-saffron-bright" />
- </div>
- <div>
- <p className="text-xs font-bold text-ivory">Editing Style & FX</p>
- <p className="text-[10px] text-ivory-muted">{selectedStyle.label} preset active</p>
- </div>
- </div>
+ <StudioPanel title="Editing style" status={selectedStyle.label}>
  <StyleSelector selectedStyle={selectedStyle} onSelect={handleStyleChange} />
- </div>
+ </StudioPanel>
 
  {/* Reel Size / Ratio Card */}
- <div className="bg-ink-900 border border-white/[0.07] rounded-3xl p-4 shadow-xl space-y-3">
- <div className="flex items-center gap-2.5 pb-2 border-b border-white/[0.07]">
- <div className="w-8 h-8 rounded-lg bg-saffron/15 flex items-center justify-center">
- <Layers size={16} className="text-saffron-bright" />
- </div>
- <div>
- <p className="text-xs font-bold text-ivory">Reel Size & Aspect Ratio</p>
- <p className="text-[10px] text-ivory-muted">{selectedRatio.label} ({selectedRatio.desc})</p>
- </div>
- </div>
+ <StudioPanel title="Reel size" status={`${selectedRatio.label} — ${selectedRatio.desc}`}>
  <RatioSelector selectedRatio={selectedRatio} onSelect={handleRatioChange} />
- </div>
+ </StudioPanel>
  </div>
 
  {/* ── RIGHT COLUMN: Soundtrack, Search & Audio Trimmer ── */}
  <div className="lg:col-span-4 space-y-4">
- <div className="bg-ink-900 border border-white/[0.07] rounded-3xl p-4 shadow-xl space-y-3.5">
-            
- {/* Header */}
- <div className="flex items-center justify-between pb-2 border-b border-white/[0.07]">
- <div className="flex items-center gap-2.5">
- <div className="w-8 h-8 rounded-lg bg-horizon/15 flex items-center justify-center">
- <Music size={16} className="text-horizon-bright" />
- </div>
- <div>
- <p className="text-xs font-bold text-ivory">Soundtrack & Trimmer</p>
- <p className="text-[10px] text-ivory-muted truncate max-w-[160px]">
- {audioMode === 'custom' ? ` ${customAudioFile?.name || 'Custom'}` : audioMode === 'none' ? 'Silent' : selectedTrack.title}
- </p>
- </div>
- </div>
- </div>
+ <StudioPanel
+ title="Soundtrack"
+ status={audioMode === 'custom'
+ ? (customAudioFile?.name || 'Your own audio')
+ : audioMode === 'none' ? 'Silent' : selectedTrack.title}
+ className="space-y-3.5"
+ >
 
  {/* Song Segment Trimmer (Sync with Reel Length) */}
  {audioMode !== 'none' && (<div className="p-3 rounded-2xl bg-saffron/10 border border-saffron/25 space-y-2">
@@ -995,7 +969,7 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, preset, onOpenShar
  <input id="custom-audio-upload" type="file" accept="audio/*" onChange={handleCustomAudioUpload} className="hidden" />
  </div>
 
- </div>
+ </StudioPanel>
  </div>
 
  </div>
