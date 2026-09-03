@@ -147,13 +147,21 @@ export default function SafetyHubPage() {
  {/* ======================================================== */}
  {/* HERO SECTION */}
  {/* ======================================================== */}
- <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-white/10 pb-8">
- <div className="max-w-3xl space-y-4">
+ {/* One centred column rather than two bottom-aligned ones. The copy and
+     the emergency card were set side by side with lg:items-end, so the card
+     hung off the bottom of a much taller left column and left a quarter of
+     the hero empty above it. Stacking them centres the weight and gives the
+     search — the thing this page is actually for — the middle of the page
+     instead of the left margin. */}
+ <div className="flex flex-col items-center gap-10 border-b border-white/10 pb-10 text-center">
+ <div className="w-full max-w-3xl space-y-4">
  {/* The app marks a section with a dashed route between two dots, not a
  pill. Same motif as the flight paths and the itinerary waypoints. */}
- <p className="flex items-center gap-3">
+ <p className="flex items-center justify-center gap-3">
+ <span className="route-line w-12 hidden sm:inline-block" aria-hidden="true" />
  <span className="route-dot" aria-hidden="true" />
  <span className="eyebrow">Tourist safety &amp; crowd intelligence</span>
+ <span className="route-dot" aria-hidden="true" />
  <span className="route-line w-12 hidden sm:inline-block" aria-hidden="true" />
  </p>
 
@@ -162,7 +170,7 @@ export default function SafetyHubPage() {
  <em className="not-italic font-display italic text-saffron">guarded everywhere.</em>
  </h1>
 
- <p className="text-ivory-muted text-sm sm:text-base leading-relaxed max-w-2xl">
+ <p className="mx-auto text-ivory-muted text-sm sm:text-base leading-relaxed max-w-2xl">
  Authentic multi-factor crowd forecasting to avoid suffocating queues, paired with verified 24x7 government emergency response, women safety ratings, and one-tap live WhatsApp location broadcasting.
  </p>
 
@@ -172,8 +180,8 @@ export default function SafetyHubPage() {
  Active Destination / Region / Monument
  </label>
 
- <div className="flex flex-col sm:flex-row sm:items-center gap-2.5">
- <div className="relative flex-1 max-w-md">
+ <div className="flex flex-col sm:flex-row sm:items-center justify-center gap-2.5">
+ <div className="relative w-full sm:w-auto sm:flex-1 sm:max-w-md text-left">
  <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-muted pointer-events-none" />
  <input
  type="text"
@@ -218,7 +226,7 @@ export default function SafetyHubPage() {
 
  {/* Quick Pills */}
  <div className="pt-1">
- <div className="flex flex-wrap items-center gap-2">
+ <div className="flex flex-wrap items-center justify-center gap-2">
  {POPULAR_DESTINATIONS.map((dest) => (<button
  key={dest}
  onClick={() => {
@@ -240,7 +248,7 @@ export default function SafetyHubPage() {
  </div>
 
  {/* Quick SOS Trigger Card */}
- <div className="bg-gradient-to-br from-danger-950/80 via-ink-900 to-ink-950 border-2 border-danger/40 rounded-3xl p-6 shadow-2xl flex flex-col justify-between gap-5 lg:min-w-[340px]">
+ <div className="w-full max-w-xl bg-gradient-to-br from-danger-950/80 via-ink-900 to-ink-950 border-2 border-danger/40 rounded-3xl p-6 shadow-2xl flex flex-col justify-between gap-5 text-left">
  <div className="flex items-center justify-between">
  <div className="flex items-center gap-2 text-xs font-data text-danger-bright font-bold uppercase tracking-wider">
  <Radio className="w-4 h-4 animate-ping" />
