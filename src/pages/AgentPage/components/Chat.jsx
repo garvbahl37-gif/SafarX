@@ -660,7 +660,15 @@ const Chat = ({
                                     the actual place rather than stock travel
                                     imagery chosen by keyword. */}
                                 {msg.photos?.length > 0 && (
-                                    <div className="mt-3 flex gap-2.5 overflow-x-auto pb-1 -mx-0.5 px-0.5">
+                                    <div
+                                        /* w-full and min-w-0 are load-bearing. The row above is a
+                                           flex column with items-start, so without an explicit
+                                           width this strip sizes to its content — 1014px of
+                                           photographs inside a 332px column — and overflow-x-auto
+                                           never engages. The overflow escaped up to the message
+                                           list instead, scrolling the whole conversation sideways. */
+                                        className="mt-3 flex w-full min-w-0 max-w-full gap-2.5 overflow-x-auto pb-1 -mx-0.5 px-0.5"
+                                    >
                                         {msg.photos.map((photo) => (
                                             <a
                                                 key={photo.name}

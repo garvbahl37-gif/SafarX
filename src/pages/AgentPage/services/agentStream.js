@@ -143,23 +143,61 @@ const wikiPhoto = async (name) => {
   return request;
 };
 
+/* Media lists carry more than photographs — locator maps, flags, coats of
+   arms, logos, diagrams. None of those are a picture of the place. */
+const NOT_A_PHOTO = /map|flag|coat[_\s-]?of[_\s-]?arms|logo|seal|icon|locator|emblem|distribution|graph|chart|signature|blank|symbol|\.svg$|\.gif$/i;
+
+/** Several photographs of one place, from its article's media list. */
+const wikiGallery = async (name, want) => {
+  try {
+    const res = await fetch(
+      `https://en.wikipedia.org/api/rest_v1/page/media-list/${encodeURIComponent(name.replace(/ /g, '_'))}`
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.items || [])
+      .filter((m) => m.type === 'image' && m.srcset?.length && !NOT_A_PHOTO.test(m.title || ''))
+      .slice(0, want)
+      .map((m, i) => ({
+        name: `${name}#${i}`,
+        title: (m.title || name)
+          .replace(/^File:/, '')
+          .replace(/\.[a-z]+$/i, '')
+          .replace(/[_-]+/g, ' ')
+          /* Filenames carry upload noise: bracketed counts, bare ids, "cropped". */
+          .replace(/\((?:\d+|cropped|closeup)\)/gi, '')
+          .replace(/\b\d{6,}\b/g, '')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 60) || name,
+        image: m.srcset[0].src.startsWith('http') ? m.srcset[0].src : `https:${m.srcset[0].src}`,
+        link: `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replace(/ /g, '_'))}`,
+      }));
+  } catch {
+    return [];
+  }
+};
+
 /**
- * The places a reply actually mentions, with a photograph each.
+ * The places a reply mentions, illustrated.
  *
- * Matched against SafarX's own index of Indian places rather than asking the
- * model to name them, so the pictures follow the text instead of being
- * decoration chosen separately from it.
+ * A lone photograph looks like an afterthought stuck to the bottom of a
+ * message — so this returns several or it returns none. When the answer names
+ * one place, the extras come from that article's own media list rather than
+ * from somewhere unrelated; when it names none, nothing is shown.
  *
  * @param {string} text a finished assistant reply
- * @param {number} limit how many photographs at most
+ * @param {object} [opts]
+ * @param {number} [opts.min] fewer than this and none are shown at all
+ * @param {number} [opts.max]
  */
-export const placePhotos = async (text, limit = 3) => {
+export const placePhotos = async (text, { min = 2, max = 6 } = {}) => {
   if (!text) return [];
   const haystack = text.toLowerCase();
   const found = [];
 
   for (const place of MATCHABLE) {
-    if (found.length >= limit * 2) break;
+    if (found.length >= max) break;
     const needle = place.name.toLowerCase();
     if (!haystack.includes(needle)) continue;
     // Whole words only: "Agra" should not match inside "Agrahara".
@@ -167,11 +205,37 @@ export const placePhotos = async (text, limit = 3) => {
     if (!bounded.test(text)) continue;
     // Skip a place already covered by a longer name matched earlier.
     if (found.some((f) => f.name.toLowerCase().includes(needle))) continue;
-    found.push(place);
+    /* How central the place is to the answer, not just that it appears:
+       how often it is named, and how early. */
+    const mentions = haystack.split(needle).length - 1;
+    found.push({ ...place, mentions, firstAt: haystack.indexOf(needle) });
   }
 
-  const photos = await Promise.all(found.slice(0, limit).map((p) => wikiPhoto(p.article || p.name)));
-  return photos.filter(Boolean);
+  if (!found.length) return [];
+
+  /* One good photograph each, which is the picture the article leads with. */
+  const summaries = (await Promise.all(found.map((p) => wikiPhoto(p.article || p.name)))).filter(Boolean);
+
+  /* Not enough places named to fill the strip — take the rest from the
+     gallery of whichever place the answer is actually about, so a
+     single-destination answer still gets a proper set.
+
+     Not simply the first match: that list is ordered longest-name-first, so
+     an answer about Hampi filled its strip with Hospet, the longer-named
+     railway town up the road that the reply mentioned once in passing. */
+  let photos = summaries;
+  if (photos.length < max && found.length) {
+    const subject = [...found].sort(
+      (a, b) => b.mentions - a.mentions || a.firstAt - b.firstAt
+    )[0];
+    const lead = subject.article || subject.name;
+    const gallery = await wikiGallery(lead, max - photos.length + 2);
+    const seen = new Set(photos.map((p) => p.image));
+    photos = [...photos, ...gallery.filter((g) => !seen.has(g.image))].slice(0, max);
+  }
+
+  /* Several or none. A single image reads as decoration. */
+  return photos.length >= min ? photos : [];
 };
 
 export default streamAgent;
