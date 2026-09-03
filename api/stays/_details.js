@@ -41,7 +41,7 @@ const bucket = (rows) => {
   };
 };
 
-export default async function handler(req, res) {
+export async function stayDetails(req, res) {
   /* These calls cost metered quota, and the endpoint is public. */
   const burst = rateLimit(`detail:${clientIp(req)}`, { limit: 30, windowMs: 60_000 });
   if (!burst.ok) {

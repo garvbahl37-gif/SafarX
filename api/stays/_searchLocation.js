@@ -10,7 +10,7 @@ import { findPlaces } from "./_places.js";
  * for the searches that actually need it, and means the field keeps working
  * when that plan is spent.
  */
-export default async function handler(req, res) {
+export async function searchLocation(req, res) {
   const query = String(req.query.query || "").trim();
   if (query.length < 2) return res.status(200).json({ data: [] });
 

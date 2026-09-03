@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
  Play, Pause, RotateCcw, Volume2, VolumeX,
- Download, Music, Sparkles, Share2,
+ Download, Music, Share2,
  Upload, ChevronDown, ChevronUp, Check,
  Layers, Clapperboard, Wand2, Smartphone,
  Search, Scissors, Sliders, X, Loader2
@@ -11,6 +11,7 @@ import { ReelRenderer, EDIT_PRESETS } from '../utils/reelRenderer';
 import { CURATED_TRACKS, fetchSongStreamUrl, searchOnlineSongs } from '../utils/audioTracks';
 import { REEL_RATIOS, detectBestRatio } from '../utils/reelRatios';
 import { exportReelVideo } from '../utils/videoExporter';
+import SafarXMark from '../../../components/ui/SafarXMark';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
 
@@ -1051,9 +1052,14 @@ export const ReelPlayer = ({ photos, tripTitle, travelerName, preset, onOpenShar
  <X size={16} />
  </button>
 
- <Sparkles className="animate-spin w-10 h-10 text-saffron mx-auto" />
+ {/* The app's own mark rather than a generic sparkle. The letters hold
+     still and an arc turns around them — spinning a wordmark makes it
+     unreadable. */}
+ <div className="flex justify-center">
+ <SafarXMark size="md" working />
+ </div>
  <div>
- <h4 className="text-lg font-bold text-ivory">Rendering Cinematic Reel</h4>
+ <h4 className="font-display text-[1.35rem] font-medium text-ivory">Rendering Cinematic Reel</h4>
  <p className="text-xs text-ivory-muted mt-1">{exportMessage}</p>
  </div>
 

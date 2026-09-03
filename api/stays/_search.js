@@ -30,7 +30,7 @@ const perks = (label = "") => {
  * Maps Booking's property rows onto the shape the result cards already use,
  * so the panel renders the same whichever provider is behind it.
  */
-export default async function handler(req, res) {
+export async function searchStays(req, res) {
   /* These calls cost metered quota, and the endpoint is public. */
   const burst = rateLimit(`stays:${clientIp(req)}`, { limit: 20, windowMs: 60_000 });
   if (!burst.ok) {
