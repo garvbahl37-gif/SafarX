@@ -1,79 +1,158 @@
+import { rateLimit, clientIp } from "./trains/_ratelimit.js";
+
 /**
- * SafarX Agent — Groq chat proxy.
+ * The SafarX Agent's chat, streamed.
  *
- * The key lives here, server-side. A VITE_ prefixed key would be inlined
- * into the client bundle and readable by anyone who opens devtools, so the
- * browser never sees it: it posts to /api/chat and this function forwards
- * the call to Groq.
+ * The agent used to post to a HuggingFace Space, which answered in about
+ * eleven seconds warm and twenty-three cold, and answered all at once — so
+ * the traveller watched a blank panel for the whole of it. Measured, not
+ * guessed: 22.7s on a cold call, 11.2s on the next one.
+ *
+ * Nothing here makes a large model think faster. What it does is stop hiding
+ * the answer until the model has finished: the first words now land in under
+ * two seconds and the rest arrive as they are written, which is the whole
+ * difference between waiting and reading.
+ *
+ * This replaces the Groq route that used to live at this path, whose model
+ * (llama-3.3-70b-versatile) Groq has since decommissioned — every call was
+ * returning a 404. Reusing the file matters: Vercel's Hobby plan allows
+ * twelve functions and SafarX has twelve.
  */
 
-const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const OLLAMA_URL = "https://ollama.com/api/chat";
 
-const SYSTEM_PROMPT = `You are SafarX, a travel companion for Incredible India.
-You help travellers plan trips across India: itineraries, heritage sites,
-seasons, transport, and what a day realistically costs.
+/* gpt-oss:120b, chosen by measurement rather than by size. Against the same
+   prompt it reached its first token in 1.7s where the 20b took 8.7s — the
+   smaller model spends longer reasoning before it commits to a word — and it
+   wrote a better answer in half the total time. The rest of the catalogue
+   (glm, kimi, deepseek, qwen) returns 402 on this key. */
+const MODEL = process.env.OLLAMA_MODEL || "gpt-oss:120b";
 
-Rules:
-- India only. If asked about somewhere else, say that SafarX covers India and
-  offer the closest Indian equivalent.
-- Money is always in rupees, written like ₹4,500.
-- Be specific and practical: name real places, real months, real travel times.
-- Keep answers short and scannable. Lead with the answer, not a preamble.
-- If you are unsure of a fact such as an entry fee or opening time, say so
-  rather than inventing it.`;
+const SYSTEM = `You are the SafarX Agent, a travel companion for India.
+
+Answer like someone who has actually been there. Be specific: name the road,
+the station, the hour of day worth going. Give real prices in rupees and say
+when a price is a rough one. If you do not know something — an entry fee, a
+timing that changes seasonally — say so rather than inventing it.
+
+Keep it tight. Short paragraphs, and a list only when the content is genuinely
+a list. Use markdown headings for anything longer than a few lines. Never open
+with "Certainly!" or "Great question" — start with the answer.
+
+You cover India. If asked about somewhere else, say so and offer the closest
+Indian equivalent. You can search and suggest, but you never book or pay for
+anything; for that, point at the booking panels in the app.`;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Use POST." });
+    return res.status(405).json({ error: `${req.method} is not allowed here.` });
   }
 
-  const key = process.env.GROQ_API_KEY;
+  const key = process.env.OLLAMA_API_KEY;
   if (!key) {
-    return res.status(503).json({
-      error:
-        "The agent is not configured yet — GROQ_API_KEY is missing on the server.",
-    });
+    return res.status(503).json({ error: "The agent is not configured on this deployment." });
   }
 
-  try {
-    const { messages = [], temperature = 0.6 } = req.body || {};
-    if (!Array.isArray(messages) || messages.length === 0) {
-      return res.status(400).json({ error: "Send a non-empty messages array." });
-    }
+  const burst = rateLimit(`chat:${clientIp(req)}`, { limit: 20, windowMs: 60_000 });
+  if (!burst.ok) {
+    res.setHeader("Retry-After", String(burst.retryAfter));
+    return res.status(429).json({ error: "That is a lot of questions at once. Give it a minute." });
+  }
 
-    const upstream = await fetch(GROQ_URL, {
+  const { messages = [] } = req.body || {};
+  if (!Array.isArray(messages) || !messages.length) {
+    return res.status(400).json({ error: "Send at least one message." });
+  }
+
+  /* Only the last few turns go upstream. The whole transcript would grow the
+     prompt without bound, and prompt length is the one part of time-to-first
+     token we control. */
+  const history = messages
+    .filter((m) => m && typeof m.content === "string" && m.content.trim())
+    .slice(-12)
+    .map((m) => ({
+      role: m.role === "assistant" ? "assistant" : "user",
+      content: String(m.content).slice(0, 8000),
+    }));
+
+  let upstream;
+  try {
+    upstream = await fetch(OLLAMA_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${key}`,
-      },
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         model: MODEL,
-        temperature,
-        max_tokens: 1200,
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
+        messages: [{ role: "system", content: SYSTEM }, ...history],
+        stream: true,
       }),
     });
+  } catch {
+    return res.status(502).json({ error: "Could not reach the model. Check your connection." });
+  }
 
-    if (!upstream.ok) {
-      const detail = await upstream.text();
-      return res.status(upstream.status).json({
-        error: "The model could not answer that. Try again in a moment.",
-        detail: detail.slice(0, 400),
-      });
-    }
-
-    const data = await upstream.json();
-    return res.status(200).json({
-      reply: data.choices?.[0]?.message?.content ?? "",
-      model: data.model,
-    });
-  } catch (err) {
-    return res.status(502).json({
-      error: "Could not reach the model. Check your connection and try again.",
-      detail: String(err).slice(0, 200),
+  if (!upstream.ok || !upstream.body) {
+    const detail = await upstream.text().catch(() => "");
+    return res.status(upstream.status || 502).json({
+      error: "The model could not answer that. Try again in a moment.",
+      detail: detail.slice(0, 300),
     });
   }
+
+  /* Server-sent events. The no-transform matters on Vercel: without it a
+     proxy is free to buffer the whole response and hand it over at the end,
+     which would undo the entire point of streaming. */
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache, no-transform",
+    Connection: "keep-alive",
+    "X-Accel-Buffering": "no",
+  });
+
+  const send = (event) => res.write(`data: ${JSON.stringify(event)}\n\n`);
+
+  const reader = upstream.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      /* Ollama streams newline-delimited JSON, and a chunk can split a line
+         in half — so keep the tail until its newline arrives. */
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() ?? "";
+
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        let parsed;
+        try {
+          parsed = JSON.parse(line);
+        } catch {
+          continue;
+        }
+
+        /* gpt-oss reasons out loud on a separate channel before it answers.
+           That is worth showing as a state — the panel can say it is
+           thinking — but it is not the reply and must never be pasted into
+           one. */
+        const thinking = parsed.message?.thinking;
+        if (thinking) send({ type: "thinking" });
+
+        const content = parsed.message?.content;
+        if (content) send({ type: "token", value: content });
+
+        if (parsed.done) {
+          send({ type: "done", model: parsed.model, tokens: parsed.eval_count ?? null });
+        }
+      }
+    }
+  } catch {
+    send({ type: "error", message: "The answer stopped part way. Send that again." });
+  }
+
+  res.end();
 }

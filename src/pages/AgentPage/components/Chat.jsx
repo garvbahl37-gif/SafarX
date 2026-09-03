@@ -19,7 +19,7 @@ import {
     Route,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { sendMessage } from '../api';
+import { streamAgent, placePhotos } from '../services/agentStream';
 import { useSpeechInput } from '../../../hooks/useSpeechInput';
 import ListeningOrb from '../../../components/ui/ListeningOrb';
 
@@ -191,6 +191,9 @@ const StreamedBody = memo(function StreamedBody({ content, stream, onAdvance }) 
     );
 });
 
+let messageSeq = 0;
+const nextMessageId = () => `m${Date.now().toString(36)}-${(messageSeq += 1)}`;
+
 const Chat = ({
     onSearchResults,
     onOpenFlightPanel,
@@ -203,7 +206,17 @@ const Chat = ({
     const navigate = useNavigate();
     const reduce = useReducedMotion();
 
+    /* The model reasons on a separate channel before it writes anything; that
+       gap is what the panel reports while it lasts. */
+    const [isThinking, setIsThinking] = useState(false);
+    const abortRef = useRef(null);
+    /* The turn reads history without re-creating itself on every token. */
+    const messagesRef = useRef([]);
+
     const [messages, setMessages] = useState([]);
+    /* Kept in a ref so the send handler can read the transcript without
+       being rebuilt on every streamed token. */
+    messagesRef.current = messages;
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     /* Dictation. Finals are appended to whatever is already typed so you can
@@ -308,42 +321,79 @@ const Chat = ({
         setActiveTool(tool);
         setStepIndex(0);
 
+        /* Completed steps travel with the reply so the trail stays visible */
+        const steps = [];
+        if (tool === 'flight') steps.push({ icon: Plane, label: 'Flight search ready' });
+        if (tool === 'hotel') steps.push({ icon: Hotel, label: 'Stay search ready' });
+
+        /* The bubble is placed empty and filled as the tokens land, rather
+           than held back until the model has finished writing. */
+        const replyId = nextMessageId();
+        setMessages((prev) => [
+            ...prev,
+            { id: replyId, type: 'ai', content: '', steps, streaming: true, timestamp: new Date() },
+        ]);
+
+        const controller = new AbortController();
+        abortRef.current = controller;
+
         try {
-            const response = await sendMessage(text);
+            const history = [...messagesRef.current, { role: 'user', content: text }]
+                .slice(-12)
+                .map((m) => (m.role ? m : { role: m.type === 'user' ? 'user' : 'assistant', content: m.content }))
+                .filter((m) => m.content);
 
-            /* Completed steps travel with the reply so the trail stays visible */
-            const steps = [];
-            if (tool === 'flight') steps.push({ icon: Plane, label: 'Flight search ready' });
-            if (tool === 'hotel') steps.push({ icon: Hotel, label: 'Stay search ready' });
-            const found = response.search_results?.results?.length;
-            if (found) steps.push({ icon: MapPin, label: `Found ${found} sources` });
-
-            const aiMessage = {
-                id: Date.now() + 1,
-                type: 'ai',
-                content: response.response,
-                search_results: response.search_results,
-                itinerary: response.itinerary,
-                steps,
-                stream: true,
-                timestamp: new Date(),
-            };
-            setMessages((prev) => [...prev, aiMessage]);
-
-            if (response.search_results) onSearchResults?.(response.search_results);
-        } catch {
-            setMessages((prev) => [
-                ...prev,
-                {
-                    id: Date.now() + 1,
-                    type: 'ai',
-                    content:
-                        "I couldn't reach the network just now. Give it a moment and send that again.",
-                    isError: true,
-                    timestamp: new Date(),
+            const reply = await streamAgent(history, {
+                signal: controller.signal,
+                onThinking: () => setIsThinking(true),
+                onToken: (_chunk, whole) => {
+                    setIsThinking(false);
+                    setMessages((prev) =>
+                        prev.map((m) => (m.id === replyId ? { ...m, content: whole } : m))
+                    );
                 },
-            ]);
+            });
+
+            setMessages((prev) =>
+                prev.map((m) => (m.id === replyId ? { ...m, content: reply, streaming: false } : m))
+            );
+
+            /* Photographs of whatever places the answer actually named. Fetched
+               after the text so they never hold the words back. */
+            const photos = await placePhotos(reply);
+            if (photos.length) {
+                setMessages((prev) =>
+                    prev.map((m) => (m.id === replyId ? { ...m, photos } : m))
+                );
+            }
+        } catch (err) {
+            /* Stopping generation is a choice, not a failure: keep whatever
+               was written and drop the bubble only if it is still empty. */
+            if (err.name === 'AbortError') {
+                setMessages((prev) =>
+                    prev
+                        .map((m) => (m.id === replyId ? { ...m, streaming: false } : m))
+                        .filter((m) => m.id !== replyId || m.content)
+                );
+            } else {
+                setMessages((prev) =>
+                    prev.map((m) =>
+                        m.id === replyId
+                            ? {
+                                ...m,
+                                content:
+                                    err.message ||
+                                    "I couldn't reach the network just now. Give it a moment and send that again.",
+                                isError: true,
+                                streaming: false,
+                            }
+                            : m
+                    )
+                );
+            }
         } finally {
+            abortRef.current = null;
+            setIsThinking(false);
             setIsLoading(false);
             setActiveTool(null);
             setStepIndex(0);
@@ -356,7 +406,7 @@ const Chat = ({
 
         setMessages((prev) => [
             ...prev,
-            { id: Date.now(), type: 'user', content: text, timestamp: new Date() },
+            { id: nextMessageId(), type: 'user', content: text, timestamp: new Date() },
         ]);
         setInput('');
         setJustSent(true);
@@ -604,6 +654,36 @@ const Chat = ({
                                         <span className="agent-prose" dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
                                     )}
                                 </div>
+
+                                {/* Photographs of the places the reply named.
+                                    Wikipedia summaries, so they are pictures of
+                                    the actual place rather than stock travel
+                                    imagery chosen by keyword. */}
+                                {msg.photos?.length > 0 && (
+                                    <div className="mt-3 flex gap-2.5 overflow-x-auto pb-1 -mx-0.5 px-0.5">
+                                        {msg.photos.map((photo) => (
+                                            <a
+                                                key={photo.name}
+                                                href={photo.link || undefined}
+                                                target={photo.link ? '_blank' : undefined}
+                                                rel="noreferrer"
+                                                className="group/photo relative w-40 shrink-0 overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-900"
+                                            >
+                                                <img
+                                                    src={photo.image}
+                                                    alt={photo.title}
+                                                    loading="lazy"
+                                                    className="h-24 w-full object-cover transition-transform duration-500 group-hover/photo:scale-[1.06]"
+                                                />
+                                                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950 via-ink-950/80 to-transparent px-2.5 pb-1.5 pt-5 block">
+                                                    <span className="block truncate font-sans text-[11.5px] font-semibold text-ivory">
+                                                        {photo.title}
+                                                    </span>
+                                                </span>
+                                            </a>
+                                        ))}
+                                    </div>
+                                )}
 
                                 {/* Completed tool steps */}
                                 {msg.steps?.length > 0 && (

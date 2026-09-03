@@ -129,11 +129,22 @@ const vercelApiDev = () => ({
         });
 
         const mod = await server.ssrLoadModule(file);
+        /* Mirrors the shape Vercel hands a Node function. writeHead and write
+           are here because the agent's chat streams its answer, and without
+           them dev would throw where production works — the worst kind of
+           difference to discover after deploying. */
         const shimRes = {
           statusCode: 200,
           setHeader: (k, v) => res.setHeader(k, v),
           status(code) { this.statusCode = code; return this; },
           json(payload) { send(this.statusCode, payload); return this; },
+          writeHead(code, headers) {
+            this.statusCode = code;
+            res.writeHead(code, headers);
+            return this;
+          },
+          write: (chunk) => res.write(chunk),
+          flushHeaders: () => res.flushHeaders?.(),
           end: (payload) => res.end(payload),
         };
         await mod.default(
