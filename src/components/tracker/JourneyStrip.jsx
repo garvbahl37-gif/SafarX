@@ -39,6 +39,7 @@ const JourneyStrip = ({
   mode = 'flight',
   code, operator, statusLabel, statusTone = 'text-ivory-muted',
   from, to, progress = null, progressNote = null, delayMinutes = null,
+  continuous = false,
 }) => {
   const reduce = useReducedMotion();
   const Icon = mode === 'train' ? TrainFront : Plane;
@@ -67,16 +68,41 @@ const JourneyStrip = ({
 
         <div className="relative flex-1 pt-1">
           <span className="route-line block w-full" aria-hidden="true" />
+          {/* The part of the line already travelled, so progress reads at a
+              glance rather than only from where the marker happens to sit. */}
+          {at != null && (
+            <motion.span
+              initial={reduce ? false : { width: 0 }}
+              animate={{ width: `${at * 100}%` }}
+              transition={{
+                duration: reduce ? 0 : continuous ? 1.05 : 1.1,
+                ease: continuous ? 'linear' : [0.22, 1, 0.36, 1],
+              }}
+              className="absolute left-0 top-1/2 h-px -translate-y-1/2 bg-saffron/60"
+              aria-hidden="true"
+            />
+          )}
+
           {at != null && (
             <motion.span
               initial={reduce ? false : { left: '6%', opacity: 0 }}
               animate={{ left: `${at * 100}%`, opacity: 1 }}
-              transition={{ duration: reduce ? 0 : 1.1, ease: [0.22, 1, 0.36, 1] }}
+              /* Between halts the position is recomputed every second, so the
+                 marker eases linearly across each of those steps and reads as
+                 a slow crawl instead of a heartbeat. Arriving somewhere new
+                 still gets the softer curve. */
+              transition={{
+                duration: reduce ? 0 : continuous ? 1.05 : 1.1,
+                ease: continuous ? 'linear' : [0.22, 1, 0.36, 1],
+              }}
               className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
               aria-hidden="true"
             >
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-saffron text-ink-950 shadow-[0_0_0_5px_rgba(6,20,18,0.9)]">
-                <Icon size={14} className={mode === 'flight' ? 'rotate-90' : ''} />
+              <span className="relative flex h-7 w-7 items-center justify-center rounded-full bg-saffron text-ink-950 shadow-[0_0_0_5px_rgba(6,20,18,0.9)]">
+                {continuous && !reduce && (
+                  <span className="absolute inset-0 animate-ping rounded-full bg-saffron opacity-60" />
+                )}
+                <Icon size={14} className={`relative ${mode === 'flight' ? 'rotate-90' : ''}`} />
               </span>
             </motion.span>
           )}

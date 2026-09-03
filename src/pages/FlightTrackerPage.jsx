@@ -5,6 +5,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Search, Plane, TrainFront, RefreshCw, AlertCircle } from 'lucide-react';
 import JourneyStrip from '../components/tracker/JourneyStrip';
+import { useLiveTrain, haltsOf } from '../hooks/useLiveTrain';
 
 /**
  * Track a flight or a train.
@@ -91,10 +92,9 @@ const FlightTrackerPage = () => {
         if (!res.ok) throw new Error(body.error || 'That flight could not be found.');
         setResult({ kind: 'flight', flight: body.flights[0], alternates: body.flights.slice(1) });
       } else {
-        const res = await fetch(`/api/trains/live?trainNo=${encodeURIComponent(value)}`);
-        const body = await res.json();
-        if (!res.ok) throw new Error(body.error || 'That train could not be found.');
-        setResult({ kind: 'train', train: body.data });
+        /* The train view keeps itself current, so the page only has to
+           hand it the number. */
+        setResult({ kind: 'train', trainNo: value });
       }
     } catch (err) {
       setError(err.message || 'Nothing came back. Try again in a moment.');
@@ -221,7 +221,7 @@ const FlightTrackerPage = () => {
             <FlightResult key="flight" data={result.flight} />
           )}
           {result?.kind === 'train' && (
-            <TrainResult key="train" data={result.train} />
+            <TrainResult key="train" trainNo={result.trainNo} />
           )}
         </AnimatePresence>
       </main>
@@ -290,14 +290,25 @@ const FlightResult = ({ data }) => {
 
 /* ── Trains ───────────────────────────────────────────────────────────── */
 
-const TrainResult = ({ data }) => {
-  const status = TRAIN_STATUS[data.status?.state] || { label: data.status?.state || 'Unknown', tone: 'text-ivory-muted' };
+const TrainResult = ({ trainNo }) => {
+  const { data, error, loading, fetchedAt, position, refresh, isLive } = useLiveTrain(trainNo);
 
-  /* Progress from the route: how many halts are behind it. Real, because
-     RailRadar reports actual times per station. */
-  const route = data.route || [];
-  const done = route.filter((s) => s.actual).length;
-  const progress = route.length > 1 ? done / route.length : null;
+  if (error) {
+    return (
+      <div className="flex items-start gap-3 rounded-2xl border border-danger/30 bg-danger/10 p-5" role="alert">
+        <AlertCircle size={17} className="mt-0.5 shrink-0 text-danger-bright" />
+        <p className="font-sans text-[14px] text-ivory">{error}</p>
+      </div>
+    );
+  }
+  if (!data) {
+    return <p className="font-sans text-[14px] text-ivory-muted">Finding {trainNo}…</p>;
+  }
+
+  const status = TRAIN_STATUS[data.status?.state] || {
+    label: data.status?.state || 'Unknown', tone: 'text-ivory-muted',
+  };
+  const halts = haltsOf(data.route);
 
   return (
     <motion.section
@@ -312,69 +323,105 @@ const TrainResult = ({ data }) => {
         statusLabel={status.label}
         statusTone={status.tone}
         delayMinutes={data.status?.delayMinutes}
-        from={{ code: data.from?.code, name: data.from?.name, scheduled: route[0]?.scheduled, actual: route[0]?.actual }}
-        to={{ code: data.to?.code, name: data.to?.name, scheduled: route[route.length - 1]?.scheduled, actual: route[route.length - 1]?.actual }}
-        progress={progress}
+        from={{ code: data.from?.code, name: data.from?.name, scheduled: halts[0]?.scheduled, actual: halts[0]?.actual }}
+        to={{
+          code: data.to?.code, name: data.to?.name,
+          scheduled: halts[halts.length - 1]?.scheduled,
+          actual: halts[halts.length - 1]?.actual,
+        }}
+        progress={position.progress}
+        /* Between halts the marker is moving on the clock, so say so rather
+           than let a creeping dot imply a GPS fix. */
+        continuous={position.betweenHalts}
         progressNote={
-          data.status?.at
-            ? `Last reported at ${data.status.at}${data.status.next ? `, next stop ${data.status.next}` : ''}.`
-            : null
+          position.betweenHalts && position.nextHalt
+            ? `Left ${position.lastHalt?.name}, due into ${position.nextHalt.name} at ${stopClock(position.nextHalt.actual)}.`
+            : data.status?.at
+              ? `Last reported at ${data.status.at}${data.status.next ? `, next stop ${data.status.next}` : ''}.`
+              : null
         }
       />
 
-      {route.length > 0 && <Halts route={route} />}
+      <LiveBar isLive={isLive} fetchedAt={fetchedAt} loading={loading} onRefresh={refresh} />
 
+      {halts.length > 0 && <Halts halts={halts} total={data.route?.length || 0} now={position.tick} />}
     </motion.section>
   );
 };
 
 /**
- * The stations, but only the ones anyone is looking for.
+ * Whether what is on screen is current, and how current.
  *
- * RailRadar returns every station the train passes — 221 of them for a
- * Mumbai–Delhi Rajdhani, most of which it does not stop at and none of which
- * are flagged as halts. Printing all of them is a wall nobody reads. What a
- * person waiting actually wants is where it has just been and what is coming,
- * so that is what opens; the rest is one click away.
+ * A tracker that silently stops updating is worse than one that never
+ * claimed to, so this says when it last heard anything and lets you ask
+ * again. It counts up from the last answer rather than showing a clock time,
+ * because "40 seconds ago" is the question being asked.
  */
-const Halts = ({ route }) => {
-  const [all, setAll] = useState(false);
+const LiveBar = ({ isLive, fetchedAt, loading, onRefresh }) => {
+  const reduce = useReducedMotion();
+  const [, setNow] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setNow((n) => n + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
 
-  const lastPassed = route.reduce((acc, s, i) => (s.actual ? i : acc), -1);
-  const shown = all
-    ? route
-    : (() => {
-        /* Clamped at both ends so the window keeps its size. Without the
-           upper clamp a train one stop from its destination showed three
-           rows, because the slice ran off the end of the route. */
-        const size = 8;
-        const start = Math.min(
-          Math.max(0, lastPassed - 2),
-          Math.max(0, route.length - size)
-        );
-        const window = route.slice(start, start + size);
-        /* Keep the two ends visible: they are the journey. */
-        const withEnds = [route[0], ...window, route[route.length - 1]];
-        return withEnds.filter((s, i, arr) => s && arr.indexOf(s) === i);
-      })();
+  const ago = fetchedAt ? Math.round((Date.now() - fetchedAt) / 1000) : null;
+  const agoText = ago == null ? 'never' : ago < 60 ? `${ago}s ago` : `${Math.floor(ago / 60)} min ago`;
 
   return (
+    <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/[0.07] bg-ink-900/50 px-5 py-3">
+      <span className="flex items-center gap-2.5">
+        <span className="relative flex h-2 w-2" aria-hidden="true">
+          {isLive && !reduce && (
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-horizon-bright opacity-75" />
+          )}
+          <span className={`relative inline-flex h-2 w-2 rounded-full ${isLive ? 'bg-horizon-bright' : 'bg-ivory-faint'}`} />
+        </span>
+        <span className="font-sans text-[13px] text-ivory-muted">
+          {isLive ? 'Following live' : 'Not running right now'} · updated {agoText}
+        </span>
+      </span>
+      <button
+        onClick={onRefresh}
+        disabled={loading}
+        className="flex items-center gap-1.5 font-sans text-[12.5px] text-saffron-bright transition-colors hover:text-saffron disabled:opacity-50"
+      >
+        <RefreshCw size={12} className={loading ? 'animate-spin' : ''} />
+        {loading ? 'Checking' : 'Check now'}
+      </button>
+    </div>
+  );
+};
+
+/**
+ * The stations the train actually stops at.
+ *
+ * RailRadar returns every station on the line — 221 rows for a Mumbai–Delhi
+ * Rajdhani — and puts an `actual` time only on the commercial halts, which is
+ * eight of them. Earlier this list showed all 221 and treated that field as
+ * proof a station had been passed; it is neither. Whether a halt is behind the
+ * train is a question about the clock.
+ */
+const Halts = ({ halts, total }) => {
+  const now = Date.now();
+  return (
     <div className="rounded-[26px] border border-white/[0.08] bg-ink-900/60 p-6">
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <p className="eyebrow">{all ? `All ${route.length} stations` : 'Where it is now'}</p>
-        <button
-          onClick={() => setAll((v) => !v)}
-          className="font-sans text-[12.5px] text-saffron-bright transition-colors hover:text-saffron"
-        >
-          {all ? 'Show less' : `Show all ${route.length}`}
-        </button>
+      <div className="mb-4 flex items-baseline justify-between gap-4">
+        <p className="eyebrow">Stops</p>
+        {total > halts.length && (
+          <p className="font-sans text-[12px] text-ivory-faint">
+            {halts.length} of {total} stations on the line
+          </p>
+        )}
       </div>
 
-      <ol className={all ? 'max-h-[26rem] space-y-0 overflow-y-auto pr-1' : 'space-y-0'}>
-        {shown.map((stop, i) => {
-          const passed = Boolean(stop.actual);
+      <ol className="max-h-[26rem] space-y-0 overflow-y-auto pr-1">
+        {halts.map((stop, i) => {
+          const at = stop.actual ? new Date(stop.actual).getTime() : null;
+          const passed = at != null && at <= now;
+          const moved = stop.actual && stop.scheduled && stop.actual !== stop.scheduled;
           return (
-            <li key={`${stop.code}-${i}`} className="flex items-baseline gap-3 py-2 sm:gap-4">
+            <li key={`${stop.code}-${i}`} className="flex items-baseline gap-3 py-2.5 sm:gap-4">
               <span
                 className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${passed ? 'bg-saffron' : 'bg-white/20'}`}
                 aria-hidden="true"
@@ -383,8 +430,11 @@ const Halts = ({ route }) => {
               <span className={`flex-1 truncate font-sans text-[13.5px] ${passed ? 'text-ivory' : 'text-ivory-muted'}`}>
                 {stop.name}
               </span>
-              <span className="font-data text-[12.5px] text-ivory-faint">
-                {stopClock(stop.actual || stop.scheduled)}
+              <span className="flex items-baseline gap-2 font-data text-[12.5px]">
+                {moved && <span className="text-ivory-faint line-through">{stopClock(stop.scheduled)}</span>}
+                <span className={moved ? 'text-saffron-bright' : 'text-ivory-faint'}>
+                  {stopClock(stop.actual || stop.scheduled)}
+                </span>
               </span>
               {stop.delayMinutes > 0 && (
                 <span className="w-9 shrink-0 text-right font-data text-[11.5px] text-saffron-bright">
