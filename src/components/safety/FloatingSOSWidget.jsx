@@ -9,7 +9,10 @@ export default function FloatingSOSWidget({ defaultDestination = "Current Locati
  const [isHovered, setIsHovered] = useState(false);
 
  return (<>
- <div className="fixed bottom-20 left-6 z-40 flex items-center gap-3">
+ {/* The corner itself, vacated by the music toggle. It used to sit at
+     bottom-20, stacked above it — the emergency control shunted upward by a
+     speaker button. */}
+ <div className="fixed bottom-6 left-6 z-40 flex items-center gap-3">
  {/* SOS Action Button */}
  <motion.button
  whileHover={{ scale: 1.08 }}

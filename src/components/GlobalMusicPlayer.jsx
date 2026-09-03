@@ -79,8 +79,16 @@ const GlobalMusicPlayer = () => {
         onPause={() => setIsPlaying(false)}
       />
 
-      {/* Compact circular button, bottom-left so it stays clear of page controls */}
-      <div className="fixed bottom-6 left-6 z-50 select-none">
+      {/* Top right, below the header rather than beside it: the navbar pill is
+          centred and grows with the viewport, and at around 1024px its right
+          edge comes within 26px of the screen — close enough that a button at
+          the same height would sit on top of it. Dropping to 96px clears the
+          pill's 72px underside at every width.
+
+          It moved off the bottom-left corner so the SOS beacon can have it.
+          A music toggle should not be occupying the easiest corner to reach
+          while the emergency control is pushed up out of the way. */}
+      <div className="fixed top-24 right-6 z-50 select-none">
         <button
           onClick={togglePlay}
           className="w-10 h-10 rounded-full bg-ink-900/85 backdrop-blur-md text-ivory shadow-2xl flex items-center justify-center border border-white/10 hover:border-saffron/50 transition-all duration-300 hover:scale-105"
