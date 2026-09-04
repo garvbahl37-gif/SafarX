@@ -8,7 +8,7 @@
     "region": "north",
     "description": "A mesmerizing 10th-century stepwell with geometric precision featuring 3,500 narrow steps arranged in perfect symmetry. This architectural marvel descends 13 stories into the earth.",
     "images": [
-      "chand-baori.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Abhaneri-Chand_Baori-04-Galerie-2018-gje.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Few tourists",
@@ -39,7 +39,7 @@
     "region": "northeast",
     "description": "Asia's cleanest village with living root bridges, bamboo dustbins, and pristine natural beauty. Experience sustainable living at its finest.",
     "images": [
-      "mawlynnong.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Mawlynnong_-_Cleanest_village_of_Asia.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Off the beaten path",
@@ -71,7 +71,7 @@
     "region": "south",
     "description": "Architectural marvel with a hanging pillar that defies gravity, intricate stone carvings, and the world's largest monolithic Nandi sculpture.",
     "images": [
-      "lepakshi.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Front_side_of_Veerabhadra_Temple%2C_Lepakshi.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Underexplored",
@@ -102,7 +102,8 @@
     "region": "south",
     "description": "Abandoned town at India's southernmost tip, destroyed by 1964 cyclone. Now a hauntingly beautiful landscape where Bay of Bengal meets Indian Ocean.",
     "images": [
-      "dhanushkodi.avif"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Dhanushkodi_Old_Railway_Station_02.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Dhan6.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Growing popularity",
@@ -133,7 +134,9 @@
     "region": "north",
     "description": "India's most haunted fort with stunning architecture. ASI prohibited entry after sunset, adding to its mysterious allure and historical significance.",
     "images": [
-      "bhangarh.webp"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bhangarh_Fort_-_Royal_Palace_Bhangarh_(July_2022)_-_img_16.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bhangarh_Fort_-_Royal_Palace_Bhangarh_(July_2022)_-_img_22.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bazaar_ki_Bhangarh_Durg_-_Market_street%2C_Bhangarh_(July_2021)_-_img_08.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Popular but restricted",
@@ -164,7 +167,9 @@
     "region": "northeast",
     "description": "UNESCO World Heritage site with pine-covered hills, bamboo groves, and Apatani tribal culture. Home to unique agricultural practices and festivals.",
     "images": [
-      "ziro-valley.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/A_cross_section_of_luch_green_valley_of_Ziro.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Old_Ziro.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Apatani_tribal_women.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Limited tourists",
@@ -195,7 +200,8 @@
     "region": "north",
     "description": "Mini Switzerland of India with lush meadows, dense forests, and pristine lake. Perfect blend of natural beauty and adventure activities.",
     "images": [
-      "khajjiar.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Khajjiar.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/A_view_of_Khajjiar_%2CChamba%2CHimachal_Pradesh%2CIndia_02.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Moderate crowds",
@@ -227,7 +233,8 @@
     "region": "south",
     "description": "India's Grand Canyon with stunning gorge formations carved by Pennar River. Ancient fort ruins add historical charm to natural beauty.",
     "images": [
-      "gandikota.jpeg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Indian_Grand_Canyon_Sudhakar_Bichali.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Ranganatha_Swamy_Temple_Distant.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Growing popularity",
@@ -258,7 +265,9 @@
     "region": "northeast",
     "description": "World's largest river island in Brahmaputra River, famous for Vaishnavite monasteries, traditional crafts, and unique culture of Mising tribe.",
     "images": [
-      "majuli.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Doriya_River_of_Majuli.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Sky_lamps_at_Sri_Sri_Auniati_Satra%2C_Majuli.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Majuli_-_The_largest_river_island.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Limited infrastructure",
@@ -290,7 +299,9 @@
     "region": "central",
     "description": "India's Niagara Falls with horseshoe-shaped cascade. Most spectacular during monsoons when Indravati River is in full flow.",
     "images": [
-      "chitrakote.jpeg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Chitrakot_waterfalls.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Chitrakote_Falls.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/The_Chitrakote_Falls.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Seasonal crowds",
@@ -321,7 +332,7 @@
     "region": "south",
     "description": "UNESCO World Heritage site with magnificent ruins of Vijayanagara Empire. Boulder landscape creates surreal setting for ancient temples.",
     "images": [
-      "hampi.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Hampi%2C_India%2C_View_of_Hampi_Bazaar_from_Matanga_Hill.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Popular destination",
@@ -353,7 +364,8 @@
     "region": "north",
     "description": "UNESCO World Heritage site with endemic alpine flowers, pristine meadows, and Himalayan wildlife. A trekker's paradise in Garhwal Himalayas.",
     "images": [
-      "valley-of-flowers.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Valley_of_flowers_national_park%2C_Uttarakhand%2C_India_03_(edit).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Vof13082010.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Restricted season",
@@ -384,7 +396,9 @@
     "region": "west",
     "description": "World's largest salt desert with white crystalline landscape. Experience unique culture of Kutchi people and vibrant Rann Utsav festival.",
     "images": [
-      "rann-of-kutch.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Rann_of_Kutch_-_White_Desert.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kachch.png?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Nilgai_group_at_Little_Rann_of_kutch.JPG?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Seasonal tourism",
@@ -416,7 +430,8 @@
     "region": "north",
     "description": "Cold desert mountain valley with ancient Tibetan Buddhist monasteries, barren landscapes that resemble moonscape, and resilient local culture.",
     "images": [
-      "spiti-valley.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Spiti_River_Kaza_Himachal_Jun18_D72_7232.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kee_monastery_Spiti_Valley_(edited).jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Adventure seekers",
@@ -448,7 +463,8 @@
     "region": "south",
     "description": "Cherrapunji of South India with dense rainforests, king cobra research station, and stunning sunset views from Western Ghats hilltop.",
     "images": [
-      "agumbe.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Agumbe_View_point.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Someshwara_From_Agumbe_Ghat.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Nature enthusiasts",
@@ -480,7 +496,8 @@
     "region": "northeast",
     "description": "India's largest monastery and world's second-largest, perched at 10,000 feet. Birthplace of 6th Dalai Lama with 300-year-old Buddhist heritage.",
     "images": [
-      "tawang.jpeg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/TawangMonastery.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Tawang%2C_Arunachal_Pradesh_(21).jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Pilgrims and tourists",
@@ -512,7 +529,7 @@
     "region": "north",
     "description": "High-altitude cold desert with sand dunes, double-humped camels, and ancient Silk Route history. Valley of flowers surrounded by snow-capped peaks.",
     "images": [
-      "nubra-valley.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/5_Nubra_valley.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Adventure travelers",
@@ -544,7 +561,8 @@
     "region": "northeast",
     "description": "Valley of flowers in Northeast India with rolling hills, seasonal blooms, and pristine natural beauty. Paradise for trekkers and nature lovers.",
     "images": [
-      "dzukou-valley.jpeg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Breathtaking_beauty_of_Dzukou_Valley_in_Manipur-Nagaland_border_(edit).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Dzuko_Valley_Guest_House.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Limited access",
@@ -575,7 +593,8 @@
     "region": "west",
     "description": "World's third-largest natural saltwater crater lake formed by meteor impact 52,000 years ago. Unique ecosystem with alkaline water and rare microorganisms.",
     "images": [
-      "lonar-crater.jpeg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Lonar_Crater%2C_Panorama.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Lonar_Crater_Lake_NASA.png?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Scientific interest",
@@ -607,7 +626,8 @@
     "region": "north",
     "description": "Mysterious hill where vehicles appear to roll uphill defying gravity. Optical illusion created by landscape layout attracts curious visitors worldwide.",
     "images": [
-      "magnetic-hill.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Magnetic_Hill%2C_New_Brunswick.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Magnetic_Hill-Moncton-New_Brunswick-20170620.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Tourist attraction",
@@ -638,7 +658,9 @@
     "region": "northeast",
     "description": "Bioengineered bridges made from rubber tree roots, grown over decades by Khasi tribe. UNESCO-worthy example of indigenous sustainable architecture.",
     "images": [
-      "root-bridges.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Living_root_bridges%2C_Nongriat_village%2C_Meghalaya2.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/10_Shnongpdei_1.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/LIVING_ROOT_BRIDGE_H_YULE.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Adventure seekers",
@@ -669,7 +691,9 @@
     "region": "south",
     "description": "World's highest organic tea plantation at 8000 feet elevation. Spectacular views of Western Ghats and traditional tea processing methods.",
     "images": [
-      "kolukkumalai.jpg"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Suryanelli_-_panoramio_(1).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Tea_Sapling.jpeg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Tribal_temple_at_Rajakumari%2C_Idukki_district.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Tea enthusiasts",
@@ -701,7 +725,9 @@
     "region": "north",
     "description": "One of the last Indian villages before the Line of Control, Turtuk was part of Baltistan until 1971. Apricot orchards, buckwheat terraces and Balti stone houses sit above the Shyok river in a pocket of Ladakh that feels nothing like the rest of it.",
     "images": [
-      "https://images.unsplash.com/photo-1558187424-f786111643b0?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/River_Shyok%2C_Turtuk_Village%2C_Ladakh.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/War_Memorial_in_Turtuk_Village%2C_Ladakh%2C_India.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Children_in_Turtuk.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Few tourists",
@@ -733,7 +759,7 @@
     "region": "north",
     "description": "At 4,500 m on the Changthang plateau, Hanle holds India's first dark sky reserve and one of the world's highest observatories. On a moonless night the Milky Way throws a shadow, and the whole village dims its lights to keep it that way.",
     "images": [
-      "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Rise_of_the_Milky_Way.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Limited access",
@@ -765,7 +791,8 @@
     "region": "north",
     "description": "Ladakh's wealthiest gompa hides in a side gorge so narrow you do not see it until you are inside it. Behind the courtyard sits a museum of gold statues and thangkas, and above it a national park where snow leopards still hunt blue sheep.",
     "images": [
-      "https://images.unsplash.com/photo-1536295243470-d7cba4efab7b?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Hemis_Monastery_02.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/17th_century_Hemis_Monastery_in_Ladakh.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Seasonal crowds",
@@ -797,7 +824,8 @@
     "region": "north",
     "description": "The last inhabited village on the old Indo-Tibetan trade route, where slate roofs and carved wooden balconies face a river running white off the Kinner Kailash range. Beyond Chitkul the road simply stops.",
     "images": [
-      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Temple_at_Chitkul.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Baspa_River_flowing_next_to_Chitkul.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Growing popularity",
@@ -829,7 +857,9 @@
     "region": "north",
     "description": "An apple-orchard village staring straight across the Sutlej gorge at the Kinner Kailash massif. At sunrise the whole wall of rock turns copper for about four minutes, which is the reason most people come.",
     "images": [
-      "https://images.unsplash.com/photo-1516406742981-2b7d67ec4ae8?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kalpa_(8512894537).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kinner_Kailash_Mountain_Range_(edited).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kalpa_2015.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Limited tourists",
@@ -861,7 +891,7 @@
     "region": "north",
     "description": "A twelve-kilometre climb through pine and waterfall spray ends at a meadow with a hot spring at 2,960 m. Steam rises off the pool while the Parvati range stands up behind it, which is a strange and very good way to end a walk.",
     "images": [
-      "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kalga.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Adventure seekers",
@@ -893,7 +923,8 @@
     "region": "north",
     "description": "Three villages strung above 4,400 m on the Spiti plateau: Langza with its giant Buddha looking over fossil beds, Komic with one of the world's highest monasteries, and Hikkim with a post office that still franks letters by hand.",
     "images": [
-      "https://images.unsplash.com/photo-1532503344276-8f089fe4e51f?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Spiti_River_Kaza_Himachal_Jun18_D72_7232.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kee_monastery_Spiti_Valley_(edited).jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Underexplored",
@@ -925,7 +956,7 @@
     "region": "north",
     "description": "A short, steep climb past Tungnath, the highest Shiva temple on earth, to a 3,690 m summit that opens on Nanda Devi, Trishul and Chaukhamba in one sweep. In winter the last kilometre is pure snow.",
     "images": [
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/AjitHota-ChandrasilaPeak.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Adventure travelers",
@@ -957,7 +988,9 @@
     "region": "north",
     "description": "A ridge town facing the five peaks of Panchachuli across the Gori Ganga gorge. It was a stop on the old salt route to Tibet, and the Johari Bhotia families who ran that trade still weave and still remember it.",
     "images": [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Munsiari_IMG_20160617_132452119_(32987221606).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Munsiari_IMG_20160618_083018683_(32646969070)_(2).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Nanda_devi_tample%2C_munsiyari_-_panoramio.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Off the beaten path",
@@ -989,7 +1022,7 @@
     "region": "north",
     "description": "Eighty-odd Paliwal Brahmin villages emptied in a single night around 1825 and were never reoccupied. What remains of the ghost village of Kuldhara is a grid of roofless sandstone houses, a temple, and a very specific silence at noon.",
     "images": [
-      "https://images.unsplash.com/photo-1564509261027-29e141e2c598?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kuldhara%2C_an_abandoned_village_(30738705327).jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Growing popularity",
@@ -1021,7 +1054,7 @@
     "region": "north",
     "description": "A blue town under a hill fort that Kipling called the work of goblins rather than men. Taragarh's ramparts are half-swallowed by fig roots, and the Chitrashala below holds some of the finest surviving Rajput murals in India.",
     "images": [
-      "https://images.unsplash.com/photo-1561312514-1d71b2b7e495?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bundi_palace.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Limited tourists",
@@ -1053,7 +1086,8 @@
     "region": "north",
     "description": "Granite hills the colour of old bone, a reservoir full of crocodiles, and roughly sixty leopards living alongside Rabari herders who have never fenced them out. There is no national park here, only an arrangement that has held for generations.",
     "images": [
-      "https://images.unsplash.com/photo-1456926631375-92c8ce872def?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Breathtaking_Jawai.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Jawai_Dam_capturing_Rajasthan.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Nature enthusiasts",
@@ -1085,7 +1119,9 @@
     "region": "north",
     "description": "A valley on the old Silk Route that stayed closed to visitors until 2007, where the Kishanganga runs green past log houses and the pyramid of Habba Khatoon peak. Dardi Shina is still the language spoken in the fields.",
     "images": [
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Habba_Khatoon.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Habba_Khatoon_Dramatic_club.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Hajji_Abdul_Aziz_Samoon_at_a_press_conference.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Restricted season",
@@ -1117,7 +1153,9 @@
     "region": "north",
     "description": "India's oldest surviving brick fort, raised around 90 CE from Kushana-era bricks and still standing 118 feet over the flat Malwa plain. Razia Sultan, the only woman to rule the Delhi Sultanate, was imprisoned inside it.",
     "images": [
-      "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Qila_Mubarak_in_2015(2).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bhatinda_Fort_1906-_pg_78_-_India_under_royal_eyes-_Henry_Francis_Prevost_Battersby.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Qila_Mubarak_in_Bathinda.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Few tourists",
@@ -1149,7 +1187,7 @@
     "region": "south",
     "description": "Two black karst monoliths, Bhairaveshwara and Mohini, push 120 metres out of dense Sahyadri rainforest. Getting there means a wet walk through leech country, and the reward is a cave shrine at the base of a limestone tower.",
     "images": [
-      "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Yana_Rocks_-_5.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Underexplored",
@@ -1181,7 +1219,8 @@
     "region": "south",
     "description": "Two Hoysala temple complexes carved out of soapstone so soft it took jewellery-grade detail and so durable it survived eight centuries. The Hoysaleswara frieze at Halebidu runs unbroken around the plinth with thousands of elephants, none identical.",
     "images": [
-      "https://images.unsplash.com/photo-1585560897379-f03558b96b00?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Belur_street_towards_Chennakesava_temple.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Belur%2C_Hassan_district.png?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Moderate crowds",
@@ -1213,7 +1252,7 @@
     "region": "south",
     "description": "A crescent of sand between Om Beach and Paradise Beach that you can only reach by boat or by scrambling the cliff path. No road, no hotels, a handful of shacks and a rock headland that takes the sunset straight on.",
     "images": [
-      "https://images.unsplash.com/photo-1567098628209-d182949882b0?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Delight_india.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Off the beaten path",
@@ -1245,7 +1284,8 @@
     "region": "south",
     "description": "The Chalakudy river drops 24 metres across a broad rock lip into evergreen forest, throwing spray far enough to soak the viewing path. Four species of hornbill nest in the canopy on either side, which is why the valley is still fought over.",
     "images": [
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/The_View_of_the_Athirapally_Falls_during_the_onset_of_Monsoon.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/When_nature_steals_the_scene._Athirappilly_Waterfalls_has_been_the_scenic_backdrop_for_many_movie_moments._And_we%E2%80%99re_happy_to_say_that_Kerala%E2%80%99s_largest_waterfall_is_just_as_breathtaking_in_real_life_as_it_is_in_reel_life.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Popular destination",
@@ -1277,7 +1317,9 @@
     "region": "south",
     "description": "A forest settlement inside the Periyar tiger reserve, reachable only with a permit and a booking. Cardamom hills, a lake with no boats but the forest department's, and a night list that regularly includes Nilgiri tahr and lion-tailed macaque.",
     "images": [
-      "https://images.unsplash.com/photo-1529057299613-a565b7ce93aa?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Gavi_Eco_tourism_center_kochupamba.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Gavi_KSRTC.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Vallakkadavu_check_post.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Limited access",
@@ -1309,7 +1351,9 @@
     "region": "south",
     "description": "The only place on the Kerala coast where laterite cliffs meet the sea head-on. Freshwater springs seep out of the red rock face onto the sand below, and a 2,000-year-old Vishnu temple sits at the north end of the same shoreline.",
     "images": [
-      "https://images.unsplash.com/photo-1539622504902-f275cddf49a5?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Varkala_Beach%2C_Varkala%2C_Kerala.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Varkala_Promenade.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Papanasam_beach%2C_Varkala.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Growing popularity",
@@ -1341,7 +1385,9 @@
     "region": "south",
     "description": "Wayanad's highest point, reached past a heart-shaped tarn that has never been recorded dry. Above it the grassland runs out onto a ridge with the whole Nilgiri escarpment on one side and tea estates on the other.",
     "images": [
-      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Chembra.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Chembra_lake.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Chembra_Peak.JPG?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Adventure seekers",
@@ -1373,7 +1419,8 @@
     "region": "south",
     "description": "Not really caves but a cleft where a boulder wedged between two rock walls, roofing a chamber whose sides carry petroglyphs up to eight thousand years old. Human figures, wheels, and a script nobody has fully read.",
     "images": [
-      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Edakkal_caves.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Cave_at_Edakkal(Inside).JPG?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Moderate crowds",
@@ -1405,7 +1452,9 @@
     "region": "south",
     "description": "The Kaveri hits a carbonatite gorge and shatters into dozens of chutes, which is what hogenakkal means: smoking rocks. Boatmen take you through it in coracles made of bamboo and hide, spinning deliberately in the eddies.",
     "images": [
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Hogenakkal_Falls_Close.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Parisal_Boating_in_Hogenakkal_falls_in_tamil_nadu.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Mountain_near_the_hogenakkal_falls.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Seasonal tourism",
@@ -1437,7 +1486,9 @@
     "region": "south",
     "description": "A coffee-and-pepper village in the Eastern Ghats where the temperature drops near zero in December, which almost never happens this far south. Locals call it Korra Bayalu, the place where a man left outside overnight freezes.",
     "images": [
-      "https://images.unsplash.com/photo-1513494620969-1e35db419529?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Valley_near_lambasinghi.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Lambasinghi_on_a_cloudy_day.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Lambasinghi_Forest.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Growing popularity",
@@ -1469,7 +1520,7 @@
     "region": "south",
     "description": "A million-year-old karst system 80 metres under the Ananthagiri hills, with stalagmites the locals read as Shiva and a stream that vanishes into the floor. The train that gets you there crosses 58 tunnels to do it.",
     "images": [
-      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Katiki_Waterfall.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Popular but restricted",
@@ -1501,7 +1552,7 @@
     "region": "south",
     "description": "Telangana's highest waterfall, where the Kadam river drops 45 metres in two stages into a teak forest gorge. Four hundred steps take you to the base, and in full monsoon you feel the impact through the rock.",
     "images": [
-      "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kuntala-waterfalls1.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Seasonal crowds",
@@ -1533,7 +1584,8 @@
     "region": "south",
     "description": "The only temple in India named after its sculptor. Built in 1213 on a sandbox foundation that has absorbed eight centuries of earthquakes, with roof bricks light enough to float and basalt Nagini brackets polished to a mirror.",
     "images": [
-      "https://images.unsplash.com/photo-1598797369458-efbff9e6dc22?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Temple_-_Front_view.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Temples_of_India.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Few tourists",
@@ -1565,7 +1617,7 @@
     "region": "east",
     "description": "Twice a day the sea walks five kilometres out and leaves the seabed dry enough to drive on. Then it comes back. Between tides you can stand where the water was, among horseshoe crabs that have not changed in 400 million years.",
     "images": [
-      "https://images.unsplash.com/photo-1576258714516-bef9f77b1b96?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Chandipur_sea_beach_Baleswar.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Few tourists",
@@ -1597,7 +1649,7 @@
     "region": "east",
     "description": "Odisha's only hill station that reliably sees frost, sitting at 915 m among pine plantations, coffee and turmeric fields. The Kandha villages around it grow some of the best organic turmeric in the country.",
     "images": [
-      "https://images.unsplash.com/photo-1476231682828-37e571bc172f?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Lover's_point%2C_Daringbadi.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Underexplored",
@@ -1629,7 +1681,7 @@
     "region": "east",
     "description": "The Mahanadi narrows into a 22-kilometre gorge between the Eastern Ghats and the Chota Nagpur plateau, deep enough for gharial and mugger to share the same water. You sleep in tents on the sandbank and hear the forest change shift at dusk.",
     "images": [
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Satkosia_gorge.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Nature enthusiasts",
@@ -1661,7 +1713,9 @@
     "region": "east",
     "description": "A low granite plateau on the Chota Nagpur edge that goes blood-red every March when the palash trees flower. The rest of the year it is climbing rock, waterfalls in the gullies, and Chhau mask villages at the foot of the hill.",
     "images": [
-      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Ayodha_Hills.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Ajodhya_(2).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Rock_cut_art%2C_Pakhi_Pahar.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Off the beaten path",
@@ -1693,7 +1747,7 @@
     "region": "east",
     "description": "A 24-square-kilometre island in the Sundarbans delta that is visibly losing to the sea. Tents on the sand, a drowned casuarina forest standing in the surf, and a village economy rebuilding itself around visitors after the embankments failed.",
     "images": [
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/LakshadweepIsland.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Growing popularity",
@@ -1725,7 +1779,9 @@
     "region": "east",
     "description": "One of the last undisturbed forests in the eastern Himalaya, where the range of the red panda overlaps with that of the clouded leopard. The interior is dense enough that parts of it have still not been properly surveyed.",
     "images": [
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Sun_set_in_neora_valley.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Neora_river.png?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Neora_Valley_National_Park%2C_Kurseong.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Limited access",
@@ -1757,7 +1813,8 @@
     "region": "east",
     "description": "West Bengal's highest point at 3,636 m, and the only place on earth where you can see four of the five tallest mountains in one horizon: Everest, Kangchenjunga, Lhotse and Makalu. The Singalila ridge trail walks the India-Nepal border for days.",
     "images": [
-      "https://images.unsplash.com/photo-1545324367-8997ba3b801e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Sandakphu.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/From_Sandakphu_trek.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Adventure travelers",
@@ -1821,7 +1878,7 @@
     "region": "east",
     "description": "The excavated remains of a Pala university that rivalled Nalanda, laid out as a huge cruciform stupa ringed by 208 monastic cells. Atisha, who carried Buddhism into Tibet, was its abbot. Almost nobody visits.",
     "images": [
-      "https://images.unsplash.com/photo-1538122538818-ab5426a4d5ba?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Vikramshila_2012-08-10-17.14.08.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Underexplored",
@@ -1853,7 +1910,8 @@
     "region": "west",
     "description": "A hill fort with a sixth-century rock-cut Shiva temple, a cave-pool you wade to reach the lingam, and the Konkan Kada, a 1,200-foot concave cliff that generates its own updraft strong enough to throw a stone back at you.",
     "images": [
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kalbhairav_pinnacle_Scj.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kedareshwar.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Adventure seekers",
@@ -1885,7 +1943,9 @@
     "region": "west",
     "description": "For about three weeks after the monsoon a lateritic plateau with barely an inch of soil turns into a sheet of flowers, and the dominant colour changes every few days as one species finishes and the next starts.",
     "images": [
-      "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kaas-7016.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Cynotis_tuberosa.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Murdannia_lanuginosa.JPG?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Restricted season",
@@ -1917,7 +1977,7 @@
     "region": "west",
     "description": "A canyon two hundred feet deep and in places barely wide enough for two people abreast, cut into the Sahyadris behind Samrad village. Sunlight reaches the floor for perhaps an hour a day, which is how it earned the name valley of shadows.",
     "images": [
-      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kalbhairav_pinnacle_Scj.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Adventure travelers",
@@ -1949,7 +2009,9 @@
     "region": "west",
     "description": "Gujarat's only hill station, sitting at 1,000 m in the Dang forests where the state meets Maharashtra. A lake at the centre, a ropeway to the sunset point, and Dangi Adivasi villages whose bamboo craft has its own museum.",
     "images": [
-      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Lake_Saputara.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Saputara%2C_Gujarat%2C_India_-_panoramio_(5).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Valley_view.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Moderate crowds",
@@ -1981,7 +2043,8 @@
     "region": "west",
     "description": "A teak and bamboo forest on the Harnav river hiding a scatter of 15th-century Jain and Shiva temples, deliberately built in a valley that gets almost no direct sun. Vijaynagar's ruins are still half-buried and largely unsupervised.",
     "images": [
-      "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Polo_Forest_Area.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Sarneshwar%2C_Polo_Forest.JPG?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Underexplored",
@@ -2013,7 +2076,9 @@
     "region": "west",
     "description": "Five thousand square kilometres of cracked salt flat that floods in the monsoon and bakes solid by winter, holding the last wild population of the Asiatic wild ass. Agariya families still farm salt out here in pans they inherit.",
     "images": [
-      "https://images.unsplash.com/photo-1549468057-5b7fa1a41d7a?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Asiatic_Wild_ass.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/IndianWildAss1.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Salt_Well_Kutch_Gujarat_India_1891.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Nature enthusiasts",
@@ -2045,7 +2110,9 @@
     "region": "west",
     "description": "The oldest building in Goa and the only temple the Portuguese never found, hidden in the Bhagwan Mahavir sanctuary at the end of a forest track. Black basalt, carried in from elsewhere, assembled without mortar in the 12th century.",
     "images": [
-      "https://images.unsplash.com/photo-1631102006950-64c80c08681e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Shri_Mahadev_Temple%2C_Tambdi_Surla%2C_Goa.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Mahadeva_Temple_sign.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Tambdi_Surla_Mahadev_temple.JPG?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Few tourists",
@@ -2077,7 +2144,8 @@
     "region": "northeast",
     "description": "The largest freshwater lake in the northeast, covered in phumdis, floating mats of vegetation and soil that fishermen live on. One of them carries Keibul Lamjao, the only floating national park on earth, and the last of the sangai deer.",
     "images": [
-      "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/The_Loktak_Lake.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/A_part_of_Loktak_Lake.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Underexplored",
@@ -2109,7 +2177,8 @@
     "region": "northeast",
     "description": "A hillside of colossal Shaiva rock reliefs carved straight into the cliff, some over nine metres tall, dated between the 7th and 9th centuries. The name means one less than a crore, which is how many figures the legend says are here.",
     "images": [
-      "https://images.unsplash.com/photo-1631102006950-64c80c08681e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Unakoti_3.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Unakoti_5.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Off the beaten path",
@@ -2141,7 +2210,9 @@
     "region": "northeast",
     "description": "A village on the Umngot river where the water is clear enough that boats appear to hover above their own shadows on the riverbed. Camping is on the bank, and the border with Bangladesh is a few kilometres downstream.",
     "images": [
-      "https://images.unsplash.com/photo-1552978534-9d01e1f91517?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Living_root_bridges%2C_Nongriat_village%2C_Meghalaya2.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/10_Shnongpdei_1.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/LIVING_ROOT_BRIDGE_H_YULE.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Growing popularity",
@@ -2173,7 +2244,7 @@
     "region": "northeast",
     "description": "Three thousand five hundred steps down from Tyrna to a village where two living bridges of ficus root are grown one above the other across the same stream. Past it, Rainbow Falls throws a permanent arc in the afternoon spray.",
     "images": [
-      "https://images.unsplash.com/photo-1587623345880-c8ec53847c25?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Double_Decker_Living_Tree_Root_Bridges%2C_Meghalaya.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Adventure seekers",
@@ -2205,7 +2276,8 @@
     "region": "northeast",
     "description": "A wide grassy valley at 1,900 m, 29 km from the Chinese border, with the Siyom river running through it and a 400-year-old Buddhist monastery on a hill above. The Memba people here are Tibetan in language and Arunachali in everything else.",
     "images": [
-      "https://images.unsplash.com/photo-1531252582519-2d7e6795be96?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Mechuka_overview_2.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Mechuka_landscape_1.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Limited access",
@@ -2237,7 +2309,9 @@
     "region": "northeast",
     "description": "An Angami village that fought the British for forty years and then, in 1998, banned hunting and logging across its entire 70 square kilometres. Terraced rice fields step down the whole hillside in a system worked for seven hundred years.",
     "images": [
-      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/View_of_Khonoma_(2024).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Streetscape_of_Khonoma_(2024).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Full_view_of_Khonoma_Fort_(2024).jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Few tourists",
@@ -2269,7 +2343,7 @@
     "region": "northeast",
     "description": "Mizoram's highest peak at 2,157 m, wrapped in a national park of rhododendron and orchid, with a sheer cliff face called Thlazuang Khàm dropping into the Chhimtuipui gorge. The Mizo regard the summit as the home of the spirits.",
     "images": [
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/2007-blue-mountain-np.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Underexplored",
@@ -2301,7 +2375,8 @@
     "region": "northeast",
     "description": "A reserve set aside for the Lepcha, Sikkim's earliest inhabitants, where outsiders need a permit to stay a night. Cardamom terraces, hot springs beside the Teesta, and a view of Kangchenjunga the Lepcha call their ancestral origin.",
     "images": [
-      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Gurudongmar_Lake_Sikkim%2C_India_(edit).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Buddha_statue_at_Buddha_Park_of_Ravangla%2C_Sikkim%2C_India_(1).jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Limited access",
@@ -2333,7 +2408,8 @@
     "region": "northeast",
     "description": "Assam's only hill station, and just below it the ridge village of Jatinga, where on foggy nights in the late monsoon migratory birds fly down into the village lights. Ornithologists spent decades working out why.",
     "images": [
-      "https://images.unsplash.com/photo-1735566993787-20572d53001b?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Black_drongo_in_action.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Overhead_view_of_Jatinga_village%2C_Assam.jpg?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Off the beaten path",
@@ -2365,7 +2441,7 @@
     "region": "central",
     "description": "A horseshoe valley sunk 1,200 feet below the surrounding plateau, so deep that sunlight reaches the floor only for a few hours. Twelve Bharia and Gond villages inside it were effectively cut off from the rest of India until the 1990s.",
     "images": [
-      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/An_aerial_view_of_Patalkot.jpg?width=1200"
     ],
     "difficulty": "difficult",
     "visitors": "Underexplored",
@@ -2397,7 +2473,7 @@
     "region": "central",
     "description": "The Narmada runs for three kilometres between hundred-foot cliffs of magnesium limestone that glow white in daylight and turn silver under a full moon. Upstream, the same river drops through a chute called Dhuandhar, the smoke cascade.",
     "images": [
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bhedaghat_Jbp.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Moderate crowds",
@@ -2429,7 +2505,8 @@
     "region": "central",
     "description": "A 45-kilometre fortified plateau holding the ruins of an Afghan sultanate city: a marble tomb that Shah Jahan's architects came to study, a palace built between two lakes, and baobab trees that arrived from Africa centuries ago.",
     "images": [
-      "https://images.unsplash.com/photo-1598797369458-efbff9e6dc22?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/JahazMahal.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Rupmati_Mahal.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Limited tourists",
@@ -2461,7 +2538,9 @@
     "region": "central",
     "description": "Seven hundred sandstone shelters in the Vindhya foothills, more than four hundred of them painted. The oldest images are around ten thousand years old and the newest are medieval, layered on the same rock walls.",
     "images": [
-      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Rock_Shelter_8%2C_Bhimbetka_02.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Path_way_Bhembetika_(2).jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Information_Palette_Bhimbetka_(3).jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Few tourists",
@@ -2493,7 +2572,7 @@
     "region": "central",
     "description": "Kutumsar runs 4,500 feet into limestone with blind cave fish in its pools, and Kailash cave next door holds formations that ring when struck. Above them Tirathgarh drops through the forest in a wide milky staircase.",
     "images": [
-      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Kanger_valley_National_Park.png?width=1200"
     ],
     "difficulty": "moderate",
     "visitors": "Limited access",
@@ -2525,7 +2604,9 @@
     "region": "central",
     "description": "An 11th-century Nagara temple in the Maikal hills, carved with the same erotic and celestial registers as Khajuraho but standing in near silence at the edge of a forest. Locals call it the Khajuraho of Chhattisgarh and mean it literally.",
     "images": [
-      "https://images.unsplash.com/photo-1585560897379-f03558b96b00?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bhoramdeo_Temple%2C_Kawardha.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bhoramdeo_Temple.JPG?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bhoramdeo_Temple2.JPG?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Few tourists",
@@ -2557,7 +2638,8 @@
     "region": "central",
     "description": "A sandstone fort on a spur where the Ganga bends hard against the Vindhyas, held in turn by Sher Shah Suri, the Mughals and the British. Inside are a solar clock, a stepwell, and a colonial cemetery nobody tends.",
     "images": [
-      "https://images.unsplash.com/photo-1561361058-c24cecae35ca?w=1200&auto=format&fit=crop&q=80"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/North_view_of_the_fort_of_Chunargarh_on_the_Ganges_from_across_the_river..jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/The_Fort%2C_Chunar_(U.P.)._12_September_1803.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Underexplored",
@@ -2589,9 +2671,7 @@
     "region": "east",
     "description": "The College Street coffee house, run by a workers' co-operative, where Bengali student politics has argued itself hoarse for generations.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Indian_Coffee_House_Cutlets.jpg/500px-Indian_Coffee_House_Cutlets.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Menu_displayed_at_Indian_Coffee_House%2C_Mananthawady%2C_Wayanad%2C_Kerala.jpg/500px-Menu_displayed_at_Indian_Coffee_House%2C_Mananthawady%2C_Wayanad%2C_Kerala.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Tvdnindiancoffeehouse_%2889%29.JPG/500px-Tvdnindiancoffeehouse_%2889%29.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Menu_displayed_at_Indian_Coffee_House%2C_Mananthawady%2C_Wayanad%2C_Kerala.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2619,9 +2699,8 @@
     "region": "west",
     "description": "On Colaba Causeway since 1871, and one of the first places attacked in 2008 — the bullet holes were left in the walls.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/LeopoldCafe_gobeirne.jpg/330px-LeopoldCafe_gobeirne.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/LeopoldCafe_gobeirne.jpg/500px-LeopoldCafe_gobeirne.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/LeopoldCafe2_gobeirne.jpg/500px-LeopoldCafe2_gobeirne.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/LeopoldCafe_gobeirne.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/LeopoldCafe2_gobeirne.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2649,8 +2728,8 @@
     "region": "south",
     "description": "The MTR on Lalbagh Road, where rava idli was invented during wartime rice rationing.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Parampalli_Yajnanarayana_Maiya_%28cropped%29.jpg/250px-Parampalli_Yajnanarayana_Maiya_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Idli_at_MTR.jpg/250px-Idli_at_MTR.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Parampalli_Yajnanarayana_Maiya_%28cropped%29.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Idli_at_MTR.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2678,8 +2757,7 @@
     "region": "south",
     "description": "A tiffin room in Basavanagudi whose masala dosa has had the same queue outside it for eighty years.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/VidyarthiBhavanEntrance.jpg/330px-VidyarthiBhavanEntrance.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/VidyarthiBhavanEntrance.jpg/500px-VidyarthiBhavanEntrance.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/VidyarthiBhavanEntrance.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2707,8 +2785,7 @@
     "region": "east",
     "description": "A Raj-era bakery and cafe founded by an Italian family around 1885, looking down the ridge at Kanchenjunga.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/2024-03-05_Glenary%27s_Bakery_and_Restaurant_in_Darjeeling_Mall.jpg/330px-2024-03-05_Glenary%27s_Bakery_and_Restaurant_in_Darjeeling_Mall.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/2024-03-05_Glenary%27s_Bakery_and_Restaurant_in_Darjeeling_Mall.jpg/500px-2024-03-05_Glenary%27s_Bakery_and_Restaurant_in_Darjeeling_Mall.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/2024-03-05_Glenary%27s_Bakery_and_Restaurant_in_Darjeeling_Mall.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2736,9 +2813,8 @@
     "region": "east",
     "description": "The Park Street tearoom, Swiss in origin, that has been serving breakfast to Calcutta since 1927.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flurys%2C_Park_Street%2C_Kolkata%2C_Street_View.jpg/330px-Flurys%2C_Park_Street%2C_Kolkata%2C_Street_View.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flurys%2C_Park_Street%2C_Kolkata%2C_Street_View.jpg/500px-Flurys%2C_Park_Street%2C_Kolkata%2C_Street_View.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Flurys%2C_Park_Street%2C_Kolkata%2C_Interior%2C_Sales_Counter.jpg/500px-Flurys%2C_Park_Street%2C_Kolkata%2C_Interior%2C_Sales_Counter.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Flurys%2C_Park_Street%2C_Kolkata%2C_Street_View.jpg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Flurys%2C_Park_Street%2C_Kolkata%2C_Interior%2C_Sales_Counter.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2766,9 +2842,7 @@
     "region": "north",
     "description": "Mughlai cooking beside Jama Masjid, run by the same family since 1913 and reached down an alley named for its kebabs.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Karim%27s.jpg/330px-Karim%27s.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Karim%27s.jpg/330px-Karim%27s.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Karim%27s_Hotel%2C_Delhi%284%29_%28cropped%29.jpg/500px-Karim%27s_Hotel%2C_Delhi%284%29_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Karim%27s_Hotel%2C_Delhi%284%29_%28cropped%29.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2796,7 +2870,7 @@
     "region": "east",
     "description": "Park Street fine dining from 1956, unchanged down to the red upholstery and the devilled crab.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Deviled_Crab_Mocambo_%281%29.jpg/500px-Deviled_Crab_Mocambo_%281%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Deviled_Crab_Mocambo_%281%29.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2824,8 +2898,7 @@
     "region": "north",
     "description": "The Lucknow institution behind galouti kebab — minced meat cooked so soft it was made for a Nawab who had lost his teeth.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Tunday_Kebabs.jpg/330px-Tunday_Kebabs.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Tunday_Kebabs.jpg/500px-Tunday_Kebabs.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Tunday_Kebabs.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2853,9 +2926,8 @@
     "region": "north",
     "description": "A lane off Chandni Chowk given over entirely to parathas, fried in ghee by shops that have held the same spots for a century.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Paratha_wali_gali.jpeg/330px-Paratha_wali_gali.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Paratha_wali_gali.jpeg/500px-Paratha_wali_gali.jpeg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Paratha_stall_in_Parathe_wali_gali%2C_Delhi%2C_India.JPG/500px-Paratha_stall_in_Parathe_wali_gali%2C_Delhi%2C_India.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Paratha_wali_gali.jpeg?width=1200",
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Paratha_stall_in_Parathe_wali_gali%2C_Delhi%2C_India.JPG?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2883,8 +2955,7 @@
     "region": "south",
     "description": "The St Mark's Road cafe where Bengaluru's writers, lawyers and film people have taken their afternoons since 1940.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Koshys.jpg/330px-Koshys.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Koshys.jpg/500px-Koshys.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Koshys.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2912,9 +2983,7 @@
     "region": "south",
     "description": "Idlis served on banana leaf with a row of chutneys, from a shop that started in Madurai and kept the recipe.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Murugan_Idly_kadai.jpg/330px-Murugan_Idly_kadai.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Murugan_Idly_kadai.jpg/500px-Murugan_Idly_kadai.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Murugan_Idli_Shop_Nanganallur_Chennai.jpg/500px-Murugan_Idli_Shop_Nanganallur_Chennai.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Murugan_Idli_Shop_Nanganallur_Chennai.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2942,8 +3011,7 @@
     "region": "west",
     "description": "A late-night seekh kebab stall behind the Taj that has been feeding Colaba from the kerb for decades.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Bademiya_restaurant%2C_Mumbai.jpg/330px-Bademiya_restaurant%2C_Mumbai.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Bademiya_restaurant%2C_Mumbai.jpg/500px-Bademiya_restaurant%2C_Mumbai.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/Bademiya_restaurant%2C_Mumbai.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -2971,8 +3039,7 @@
     "region": "east",
     "description": "The confectioner descended from the family that invented the rosogolla, still tinning it on Esplanade.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/Krishna_Chandra_Das_%28K.C.Das%29.jpg/330px-Krishna_Chandra_Das_%28K.C.Das%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-      "https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/Krishna_Chandra_Das_%28K.C.Das%29.jpg/500px-Krishna_Chandra_Das_%28K.C.Das%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://en.wikipedia.org/wiki/Special:FilePath/Krishna_Chandra_Das_%28K.C.Das%29.jpg?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",
@@ -3000,7 +3067,7 @@
     "region": "north",
     "description": "The Daryaganj kitchen that put butter chicken and dal makhani on menus everywhere, opened by refugees from Peshawar.",
     "images": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/A_piece_of_a_tandoori_chicken.JPG/500px-A_piece_of_a_tandoori_chicken.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail"
+      "https://commons.wikimedia.org/wiki/Special:FilePath/A_piece_of_a_tandoori_chicken.JPG?width=1200"
     ],
     "difficulty": "easy",
     "visitors": "Locals and travellers",

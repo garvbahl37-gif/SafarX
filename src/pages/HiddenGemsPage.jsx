@@ -576,14 +576,13 @@ const HiddenGemsPage = ({ onPageChange }) => {
             >
               {/* Header image */}
               <div className="relative h-56 md:h-64 shrink-0">
-                <img
-                  src={imageFor(openGem)}
+                {/* The detail view cycles too, and a little slower: someone
+                    who has opened a place is reading, not scanning. */}
+                <GemThumbnail
+                  images={imagesFor(openGem)}
                   alt={`${openGem.title}, ${openGem.location}`}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = FALLBACK_IMAGE;
-                  }}
+                  fallback={FALLBACK_IMAGE}
+                  interval={4200}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/30 to-transparent" />
                 <button
