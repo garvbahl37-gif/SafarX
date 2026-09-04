@@ -21,12 +21,17 @@ import { useLiveTrain, haltsOf } from '../hooks/useLiveTrain';
  * cards, because that is what the subject actually is.
  */
 
-/* Changing this changes the hero. It is the one thing on this page I could
-   not source: Pexels needs an API key, and Mixkit and Coverr both refuse
-   hotlinking. Drop a Cloudinary URL here — the project's other backdrops all
-   live in that account. */
+/* Looking down at the ground from altitude, through breaks in the cloud —
+   which is the view this page is about. A cabin-window shot was the obvious
+   alternative and the wrong one: the window surround reads as a black
+   letterbox once the footage is stretched full-bleed, and a jet centred on a
+   runway fights the hero type for the middle of the frame. This has no
+   subject to compete with, and the land moving underneath is the same idea as
+   the route drawn across the map below.
+
+   1080p at 8.1MB rather than the 4K rendition at 36. */
 const HERO_VIDEO =
-  'https://res.cloudinary.com/dnmhqosoa/video/upload/v1772188206/bgvideo_rzovxb.mp4';
+  'https://videos.pexels.com/video-files/4070515/4070515-hd_1920_1080_30fps.mp4';
 
 const EASE = [0.22, 1, 0.36, 1];
 

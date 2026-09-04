@@ -673,7 +673,12 @@ const HomePage = ({ onPageChange, onAskSrishti }) => {
  preload="metadata"
  poster="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&auto=format&fit=crop&q=75"
  className="absolute inset-0 w-full h-full object-cover video-crisp"
- src="https://videos.pexels.com/video-files/19717370/19717370-uhd_3840_2160_30fps.mp4"
+ /* A different angle on the Taj from the one the hero opens with.
+    Both were the same three-second clip, so scrolling this page played
+    it to you twice. This is a low, close view where the hero is a wide
+    one — and 1080p at 3.8MB rather than 4K at 9.3, since the card is a
+    16:10 panel in a column and never runs full width. */
+ src="https://videos.pexels.com/video-files/19705899/19705899-hd_1920_1080_30fps.mp4"
  />
  <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-transparent to-ink-950/25" />
 

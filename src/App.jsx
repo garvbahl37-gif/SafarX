@@ -281,7 +281,12 @@ export default function App() {
  <Route path="*" element={<HomePage {...pageProps} />} />
  </Routes>
  </main>
+ {/* Not in that room either. It mounts outside <Routes>, so it was the one
+ piece of chrome the auth pages never excluded — and on the sign-in screen
+ it sat squarely on top of the vista's strapline. */}
+ {!AUTH_PAGES.has(currentPage) && (
  <FloatingSOSWidget defaultDestination="Current Location" />
+ )}
  <Toaster
  position="top-right"
  toastOptions={{

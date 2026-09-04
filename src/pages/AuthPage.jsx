@@ -20,10 +20,20 @@ import { ArrowRight, ArrowLeft, Eye, EyeOff } from "lucide-react";
 const EASE = [0.22, 1, 0.36, 1];
 
 /* Three places, moving, with the still from the tour library behind each one.
-   Every clip is a 1080p rendition rather than the 4K files the rest of the app
-   opens with: the same Taj footage is 2.3MB at 1080p and 8.8MB at 4K, and a
-   sign-in screen that spends eight megabytes before you can type your password
-   is a worse screen, not a richer one. Sizes were curl-checked. */
+   Each now has footage of its own. All three used to borrow: the Taj ran the
+   home page's clip, Jodhpur ran the one World Tours opens with, and Jaipur
+   shared a second home-page file — so signing in showed you the same three
+   seconds you had already seen, and the Taj clip was three seconds against an
+   eleven-second slide, looping itself nearly four times over.
+
+   The rule is a ceiling of about eight megabytes a slide, and then the largest
+   rendition that fits under it. That is why Jodhpur and Jaipur are 720p while
+   the Taj is 1080p: Mehrangarh exists on Pexels only as 60fps aerials, 13.9MB
+   at 1080p against 7.1MB at 720p, and behind a scrim with a form over it the
+   difference is invisible where the download is not. A sign-in screen that
+   spends eight megabytes before you can type your password is a worse screen,
+   not a richer one — and only the slide on screen ever fetches, so the ceiling
+   is per slide rather than a sum. Sizes were curl-checked. */
 const VISTAS = [
   {
     id: "taj-mahal",
@@ -32,7 +42,7 @@ const VISTAS = [
     lat: 27.17501,
     lng: 78.0421,
     still: "/images/vr_thumbnails/taj-mahal.jpg",
-    video: "https://videos.pexels.com/video-files/19717370/19717370-hd_1920_1080_30fps.mp4",
+    video: "https://videos.pexels.com/video-files/38063500/16158880_1920_1080_30fps.mp4",
   },
   {
     id: "jodhpur",
@@ -41,7 +51,7 @@ const VISTAS = [
     lat: 26.29785,
     lng: 73.01862,
     still: "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1600&auto=format&fit=crop&q=70",
-    video: "https://videos.pexels.com/video-files/17453762/17453762-hd_1920_1080_24fps.mp4",
+    video: "https://videos.pexels.com/video-files/31031041/13262888_1280_720_60fps.mp4",
   },
   {
     id: "jaipur",
@@ -50,7 +60,7 @@ const VISTAS = [
     lat: 26.98631,
     lng: 75.85066,
     still: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=1600&auto=format&fit=crop&q=70",
-    video: "https://videos.pexels.com/video-files/37056813/15698517_1920_1080_50fps.mp4",
+    video: "https://videos.pexels.com/video-files/35220778/14920850_1280_720_24fps.mp4",
   },
 ];
 const VISTA_MS = 11000;
