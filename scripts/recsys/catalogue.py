@@ -46,6 +46,108 @@ def _js_source():
     return json.loads(f.read_text())
 
 
+
+# Every state and union territory placed in a region, so an item harvested
+# from Wikidata can be reasoned about geographically even when the app's own
+# files have never heard of it. The app's data wins where the two disagree:
+# whatever region hiddengems.json assigns to Rajasthan is the region every
+# Rajasthan item gets, so the catalogue never contradicts itself.
+REGION_FALLBACK = {
+    "Delhi": "north", "Haryana": "north", "Punjab": "north",
+    "Himachal Pradesh": "north", "Uttarakhand": "north",
+    "Uttar Pradesh": "north", "Jammu and Kashmir": "north",
+    "Ladakh": "north", "Chandigarh": "north", "Rajasthan": "north",
+    "Gujarat": "west", "Maharashtra": "west", "Goa": "west",
+    "Dadra and Nagar Haveli and Daman and Diu": "west",
+    "Karnataka": "south", "Kerala": "south", "Tamil Nadu": "south",
+    "Andhra Pradesh": "south", "Telangana": "south", "Puducherry": "south",
+    "Lakshadweep": "south", "Andaman and Nicobar Islands": "south",
+    "West Bengal": "east", "Bihar": "east", "Jharkhand": "east",
+    "Odisha": "east",
+    "Madhya Pradesh": "central", "Chhattisgarh": "central",
+    "Assam": "northeast", "Arunachal Pradesh": "northeast",
+    "Manipur": "northeast", "Meghalaya": "northeast", "Mizoram": "northeast",
+    "Nagaland": "northeast", "Sikkim": "northeast", "Tripura": "northeast",
+}
+
+WIKIDATA_DIR = ROOT / "data" / "recsys" / "_wikidata"
+OSM_DIR = ROOT / "data" / "recsys" / "_osm"
+
+# Which source wins when two of them describe the same place. The app's own
+# record has photographs, costs and a page behind it; Wikidata has a curated
+# entity and often an image; OSM has a name and a point. Highest wins.
+SOURCE_RANK = {"app": 3, "wikidata": 2, "osm": 1}
+
+# A place of worship is not a useful category on its own — OSM files a
+# cathedral and a village shrine under the same tag — so the religion refines
+# it into something a traveller would recognise.
+WORSHIP = {
+    "hindu": "temple", "muslim": "mosque", "christian": "church",
+    "sikh": "gurdwara", "jain": "jain temple", "buddhist": "monastery",
+    "zoroastrian": "fire temple", "jewish": "synagogue", "bahai": "temple",
+}
+
+
+def _wikidata_items():
+    """The harvested entities, if wikidata.py has been run."""
+    if not WIKIDATA_DIR.exists():
+        return []
+    out = []
+    for path in sorted(WIKIDATA_DIR.glob("Q*.jsonl")):
+        for line in path.open():
+            r = json.loads(line)
+            out.append({
+                "item_id": f"wd-{r['qid']}",
+                "kind": r["kind"],
+                "title": r["title"],
+                "state": r["state"],
+                "region": "",
+                "category": r["category"],
+                "lat": r["lat"], "lng": r["lng"],
+                # A Wikidata entity carries at most one photograph, so this is
+                # 1 or 2 where an app gem reaches 7. That is the right ordering:
+                # the places SafarX has actually built pages for should surface
+                # above the ones it merely knows the name of.
+                "media_count": 1 + (1 if r.get("image") else 0),
+                "difficulty": "easy",
+                "cost_per_day": None,
+                "duration_days": None,
+                "_source": "wikidata",
+            })
+    return out
+
+
+def _osm_items():
+    """Named POIs harvested from OpenStreetMap, if osm.py has been run."""
+    if not OSM_DIR.exists():
+        return []
+    out = []
+    for path in sorted(OSM_DIR.glob("*.jsonl")):
+        for line in path.open():
+            r = json.loads(line)
+            kind = r["kind"]
+            if kind == "place of worship":
+                kind = WORSHIP.get((r.get("religion") or "").lower(), "shrine")
+            out.append({
+                "item_id": f"osm-{r['osm_id']}",
+                "kind": kind,
+                "title": r["title"],
+                "state": r["state"],
+                "region": "",
+                "category": r["category"],
+                "lat": r["lat"], "lng": r["lng"],
+                # No photograph, so the thinnest card in the catalogue — which
+                # is the right place for a POI we know only the name of.
+                "media_count": 1,
+                "difficulty": "easy",
+                "cost_per_day": None,
+                "duration_days": None,
+                "cuisine": r.get("cuisine", ""),
+                "_source": "osm",
+            })
+    return out
+
+
 def build_items():
     """Every recommendable thing SafarX holds, in one flat shape."""
     items = []
@@ -111,6 +213,13 @@ def build_items():
             "duration_days": a.get("duration"),
         })
 
+    # Everything the app knows is in by now. The harvest goes on top: far more
+    # of it, but thinner, and it loses every tie below.
+    for it in items:
+        it["_source"] = "app"
+    items += _wikidata_items()
+    items += _osm_items()
+
     # An attraction has no coordinates, but its state's largest place does,
     # and geography is one of the strongest signals a travel recommender has.
     by_state = {}
@@ -126,14 +235,25 @@ def build_items():
     # item can be reasoned about geographically.
     for it in items:
         if not it["region"]:
-            it["region"] = REGION_OF_STATE.get(it["state"], "north")
+            it["region"] = (REGION_OF_STATE.get(it["state"])
+                            or REGION_FALLBACK.get(it["state"], "pan-india"))
 
-    # Two sources can describe the same place. Keep the richer record.
+    # Two sources can describe the same place — the Taj is a VR tour, an
+    # attraction and a Wikidata entity. Keep one, and prefer the app's own
+    # record: it has the photographs, the costs and the page behind it, where
+    # the harvested twin has a name and a point on a map.
     best = {}
     for it in items:
         key = (_slug(it["title"]), it["state"].lower())
-        if key not in best or it["media_count"] > best[key]["media_count"]:
+        prior = best.get(key)
+        # Source rank first, then whichever carries more media. Comparing the
+        # pair in one go avoids the ordering bug the long-hand version had,
+        # where the first item seen never recorded its origin and a harvested
+        # twin could quietly displace the real page.
+        rank = (SOURCE_RANK[it["_source"]], it["media_count"])
+        if prior is None or rank > (SOURCE_RANK[prior["_source"]], prior["media_count"]):
             best[key] = it
+
     return sorted(best.values(), key=lambda x: x["item_id"])
 
 

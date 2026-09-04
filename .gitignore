@@ -52,3 +52,7 @@ server/.env.local
 # Regenerates byte-for-byte from the seed in scripts/recsys/generate.py, so
 # the recipe is committed and the ~85MB of output is not.
 data/recsys/interactions_*.csv
+# Raw harvest caches. Regenerable from wikidata.py / osm.py, and only there so
+# a long sweep can resume where it stopped.
+data/recsys/_wikidata/
+data/recsys/_osm/

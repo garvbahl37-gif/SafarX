@@ -151,7 +151,7 @@ def item_scores(items, rng):
     return prior
 
 
-def affinity(user, item, prior, distance_cache):
+def affinity(user, item, prior, _unused=None):
     """How likely this user is to touch this item at all."""
     score = prior[item["item_id"]]
 
@@ -168,12 +168,12 @@ def affinity(user, item, prior, distance_cache):
     if item["state"] == user["home_state"]:
         score *= 2.6
 
-    key = (user["user_id"], item["item_id"])
-    d = distance_cache.get(key)
-    if d is None:
-        d = haversine(user["home_lat"], user["home_lng"], item["lat"], item["lng"])
-        distance_cache[key] = d if d is not None else -1
-    if d is not None and d >= 0:
+    # Computed, not cached. Memoising on (user, item) was fine against 522
+    # items and becomes a liability against tens of thousands: forty thousand
+    # users browsing a few hundred places each is millions of live entries and
+    # gigabytes of dictionary, to avoid a haversine that costs a microsecond.
+    d = haversine(user["home_lat"], user["home_lng"], item["lat"], item["lng"])
+    if d is not None:
         reach = PERSONAS[user["persona"]][2]
         # Interest decays with distance and falls away past the persona's reach.
         score *= math.exp(-d / (reach * 1.6))
@@ -200,7 +200,6 @@ def generate(batches, users_count, seed, since):
     items = build_items()
     users = make_users(users_count, items, rng)
     prior = item_scores(items, rng)
-    distance_cache = {}
 
     OUT.mkdir(parents=True, exist_ok=True)
     write_items(items)
@@ -281,7 +280,7 @@ def generate(batches, users_count, seed, since):
                     pick, best = None, 0.0
                     for _try in range(6):
                         cand = rng.choice(item_list)
-                        s = affinity(user, cand, prior, distance_cache) * season_weight(cand, when)
+                        s = affinity(user, cand, prior) * season_weight(cand, when)
                         if s > best:
                             pick, best = cand, s
                     if pick is None:
@@ -364,6 +363,10 @@ def write_users(users):
 
 
 def write_readme(items, users, batches, rows, stats, seed, since, span):
+    from collections import Counter as _C
+    src = _C(i.get("_source", "app") for i in items)
+    cats = _C(i["category"] for i in items)
+    kinds = _C(i["kind"] for i in items)
     (OUT / "README.md").write_text(f"""# SafarX recommender dataset
 
 **The interactions in here are synthetic. No row describes a real person or a
@@ -371,14 +374,32 @@ real session.** They exist so the recommender can be built and measured before
 SafarX has traffic of its own. Do not quote any number from this directory as
 a usage figure.
 
-The **items are real** — every one is a place SafarX actually holds, exported
-from the app's own data files.
+The **items are real**. Every one is a genuine place, dish or festival, from
+three sources:
+
+| source | items | what it contributes |
+|---|---|---|
+| SafarX's own data | {src.get("app", 0):,} | the gems, VR tours, cities and attractions the app has built pages for |
+| Wikidata | {src.get("wikidata", 0):,} | the famous things — forts, national parks, monuments, dishes, festivals |
+| OpenStreetMap | {src.get("osm", 0):,} | the ordinary ones — restaurants, viewpoints, neighbourhood temples |
+
+Where two sources describe the same place, the richer record wins: SafarX's own
+first, then Wikidata, then OSM. Nothing was invented. There is no
+two-hundred-thousand-row list of real Indian tourist attractions to be had —
+Wikidata's entire tourism universe for India is about 38,000 — so the scale
+comes from OSM's named POIs rather than from padding the table with plausible
+fiction, which would have made the catalogue as synthetic as the behaviour and
+left nothing worth training against.
+
+Categories: {", ".join(f"{c} {n:,}" for c, n in cats.most_common())}.
+
+The commonest kinds: {", ".join(f"{k} {n:,}" for k, n in kinds.most_common(8))}.
 
 ## Files
 
 | file | rows | what it is |
 |---|---|---|
-| `items.csv` | {len(items):,} | the real catalogue: gems, VR tours, cities, attractions |
+| `items.csv` | {len(items):,} | the real catalogue: everything below |
 | `users.csv` | {len(users):,} | synthetic travellers, each anchored to a real Indian city |
 | `interactions_*.csv` | {rows:,} across {batches} | synthetic events, {BATCH_ROWS:,} per file |
 
@@ -425,7 +446,9 @@ measure the sampler. These are the structures that make it trainable:
 
 ## Reproducing
 
-    node scripts/recsys/export-js-data.mjs
+    node scripts/recsys/export-js-data.mjs      # the app's own data
+    python3 scripts/recsys/wikidata.py harvest  # slow, resumable, cached
+    python3 scripts/recsys/osm.py               # slower, resumable, cached
     python3 scripts/recsys/generate.py --batches {batches} --seed {seed}
 
 Deterministic: seed `{seed}`, clock starting `{since}`, spanning {span} days.
