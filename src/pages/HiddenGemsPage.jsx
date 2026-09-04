@@ -21,6 +21,7 @@ import SectionHeading from "../components/ui/SectionHeading";
 import GemSearchBar from "../components/gems/GemSearchBar";
 import gemsData from "../data/hiddengems.json";
 import { useBookmarks } from "../hooks/useBookmarks";
+import GemThumbnail from "../components/gems/GemThumbnail";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -32,8 +33,11 @@ const gemImageModules = import.meta.glob("../assets/hidden-gems/*", {
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&auto=format&fit=crop&q=80";
 
-const imageFor = (gem) => {
-  const file = gem.images?.[0];
+/** Every photograph a gem has, resolved. */
+const imagesFor = (gem) =>
+  (gem.images || []).map((file) => resolveImage(file)).filter(Boolean);
+
+const resolveImage = (file) => {
   if (!file) return FALLBACK_IMAGE;
   // Entries added after the local asset set use a full remote URL.
   if (/^https?:\/\//i.test(file)) return file;
@@ -42,6 +46,8 @@ const imageFor = (gem) => {
   );
   return hit ? hit[1] : FALLBACK_IMAGE;
 };
+
+const imageFor = (gem) => resolveImage(gem.images?.[0]);
 
 const CATEGORY_LABELS = {
   All: "All",
@@ -53,6 +59,7 @@ const CATEGORY_LABELS = {
   beach: "Beaches",
   wildlife: "Wildlife",
   cave: "Caves",
+  eatery: "Classic tables",
 };
 
 const REGION_LABELS = {
@@ -403,15 +410,11 @@ const HiddenGemsPage = ({ onPageChange }) => {
               >
                 {/* Image */}
                 <div className="relative h-60 overflow-hidden">
-                  <img
-                    src={imageFor(gem)}
+                  <GemThumbnail
+                    images={imagesFor(gem)}
                     alt={`${gem.title}, ${gem.location}`}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = FALLBACK_IMAGE;
-                    }}
+                    fallback={FALLBACK_IMAGE}
+                    className="transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/20 to-transparent" />
 
