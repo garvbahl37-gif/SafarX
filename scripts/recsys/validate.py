@@ -33,6 +33,7 @@ def load(name):
 
 
 def main():
+    from generate import PERSONAS
     items = {r["item_id"]: r for r in load("items.csv")}
     users = {r["user_id"]: r for r in load("users.csv")}
 
@@ -50,6 +51,7 @@ def main():
     sessions = Counter()
     ev_cat = Counter()
     home_hits = 0
+    persona_hits = 0
     out_of_order = 0
     # Both keyed by hash rather than by the tuple itself. A set of two million
     # four-string tuples is around 400MB and a dict of them more; the hashes
@@ -89,6 +91,8 @@ def main():
                     hill_month[month] += 1
                 if item["state"] and item["state"] == user["home_state"]:
                     home_hits += 1
+                if item["category"] in PERSONAS[user["persona"]][1]:
+                    persona_hits += 1
 
                 ui = hash((u, i))
                 if ev == "view":
@@ -133,7 +137,15 @@ def main():
     home_share = home_hits / max(1, n)
     states = Counter(i["state"] for i in items.values() if i["state"])
     total_placed = sum(states.values()) or 1
-    baseline = sum(c * c for c in states.values()) / (total_placed ** 2)
+    # The null is "events picked with no regard for where the user lives", so
+    # it has to combine where users actually live with where items actually
+    # are. Squaring the item shares instead — as this did — silently assumes
+    # users are distributed like the catalogue, and the catalogue is lopsided:
+    # one state can hold a third of the items while holding few of the users.
+    home_states = Counter(u["home_state"] for u in users.values())
+    n_users_placed = sum(home_states.values()) or 1
+    baseline = sum((c / n_users_placed) * (states.get(st, 0) / total_placed)
+                   for st, c in home_states.items())
     check("distance decay", home_share > baseline * 3,
           f"home state {home_share:.1%} vs {baseline:.1%} if geography were ignored")
 
@@ -151,13 +163,11 @@ def main():
     check("sessions are sessions", multi > 0.4,
           f"{multi:.0%} of sessions hold 2+ events, mean {n / max(1, len(sessions)):.1f}")
 
-    from generate import PERSONAS
-    on = sum(v for c, v in ev_cat.items()
-             if any(c in p[1] for p in PERSONAS.values()))
-    # A weaker statement than the per-user version, but it streams: every
-    # category counted here is one some persona actively leans towards.
-    check("persona affinity", on / max(1, n) > 0.5,
-          f"{on / max(1, n):.0%} of events land in categories personas seek")
+    # Measured per user against their own persona. The earlier version asked
+    # whether the category was sought by ANY persona, which every category is,
+    # so it reported 100% and tested nothing.
+    check("persona affinity", persona_hits / max(1, n) > 0.45,
+          f"{persona_hits / max(1, n):.0%} of events land in the user's own categories")
 
     seen_share = len(pop) / max(1, len(items))
     check("catalogue covered", seen_share > 0.60,

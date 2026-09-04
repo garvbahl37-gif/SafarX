@@ -70,6 +70,38 @@ REGION_FALLBACK = {
     "Nagaland": "northeast", "Sikkim": "northeast", "Tripura": "northeast",
 }
 
+# Wikidata writes some state names with an ampersand and files a handful of
+# items under states that were dissolved in the 1950s. Left alone these split
+# a state in two — an item in "Jammu & Kashmir" never matches a user whose
+# home is "Jammu and Kashmir" — which quietly weakens the geography signal
+# that is the strongest feature a travel recommender has.
+STATE_ALIASES = {
+    "Jammu & Kashmir": "Jammu and Kashmir",
+    "Andaman & Nicobar Islands": "Andaman and Nicobar Islands",
+    "Andaman & Nicobar": "Andaman and Nicobar Islands",
+    "Dadra & Nagar Haveli & Daman & Diu": "Dadra and Nagar Haveli and Daman and Diu",
+    # Successor states, so the place keeps a location that exists today.
+    "Ajmer State": "Rajasthan",
+    "Bombay State": "Maharashtra",
+    "Madras State": "Tamil Nadu",
+    "Mysore State": "Karnataka",
+    "Hyderabad State (1948-1956)": "Telangana",
+    "Madhya Bharat": "Madhya Pradesh",
+    "Travancore-Cochin": "Kerala",
+    "East Punjab": "Punjab",
+    "Vindhya Pradesh": "Madhya Pradesh",
+    "Saurashtra State": "Gujarat",
+    "Coorg State": "Karnataka",
+    "Bhopal State (1949–1956)": "Madhya Pradesh",
+    "Bilaspur State": "Himachal Pradesh",
+    "Patiala and East Punjab States Union": "Punjab",
+    "Undivided Assam": "Assam",
+    "National Capital Territory of Delhi": "Delhi",
+    "Andhra State": "Andhra Pradesh",
+    "Andhra Pradesh (1956–2014)": "Andhra Pradesh",
+    "Goa, Daman and Diu": "Goa",
+}
+
 WIKIDATA_DIR = ROOT / "data" / "recsys" / "_wikidata"
 OSM_DIR = ROOT / "data" / "recsys" / "_osm"
 
@@ -230,6 +262,10 @@ def build_items():
         if not it["lat"]:
             it["lat"], it["lng"] = by_state.get(it["state"], (None, None))
             it["coords_from_state"] = bool(it["lat"])
+
+    # One spelling per state, before anything is keyed on it.
+    for it in items:
+        it["state"] = STATE_ALIASES.get(it["state"], it["state"])
 
     # Regions are only recorded on gems; carry them across by state so every
     # item can be reasoned about geographically.

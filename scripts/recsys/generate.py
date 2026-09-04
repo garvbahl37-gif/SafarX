@@ -361,12 +361,25 @@ def generate(batches, users_count, seed, since):
                     # view. Demoting starved the deep end of the funnel: rate
                     # events came out at a quarter of their intended rate, and
                     # those are the strongest signal a ranking model has.
-                    if event in ("book", "rate", "plan"):
+                    if event != "view":
                         history = first_seen[user["user_id"]]
                         if history.get(pick["item_id"], when) >= when:
                             earlier = [i for i, t in history.items() if t < when]
                             if earlier:
-                                pick = by_id[rng.choice(earlier)]
+                                # Weighted by how much they actually like it,
+                                # not drawn at random. Picking uniformly made
+                                # every save, plan and booking an arbitrary
+                                # item from the user's history — which is
+                                # precisely the set a recommender is scored
+                                # on, so the deep funnel carried no preference
+                                # at all and item-based CF lost to a
+                                # popularity ranking by 24%. What someone
+                                # saves is the strongest statement of taste
+                                # they make; it cannot be a coin toss.
+                                cands = [by_id[i] for i in earlier]
+                                like = [affinity(user, c) for c in cands]
+                                pick = (rng.choices(cands, weights=like)[0]
+                                        if sum(like) > 0 else rng.choice(cands))
                             else:
                                 event = "view"
 
@@ -374,7 +387,13 @@ def generate(batches, users_count, seed, since):
                     if key in seen:
                         continue
                     seen.add(key)
-                    first_seen[user["user_id"]].setdefault(pick["item_id"], when)
+                    # Only a view establishes that a place has been seen. Letting
+                    # any event do it meant an item first touched by a save
+                    # could then be booked with no view anywhere in the
+                    # history — 5,109 rows deep in a run, and a straight
+                    # contradiction of what this file claims about itself.
+                    if event == "view":
+                        first_seen[user["user_id"]].setdefault(pick["item_id"], when)
 
                     dwell = max(2, int(rng.lognormvariate(3.1, 0.9)))
                     w.writerow([
