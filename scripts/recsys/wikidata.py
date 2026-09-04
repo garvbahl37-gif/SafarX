@@ -80,7 +80,16 @@ CLASSES = [
     ("Q12518",   "heritage",  "tower"),
     ("Q570116",  "heritage",  "attraction"),  # tourist attraction
 
-    ("Q44539",   "spiritual", "temple"),
+    # Q44539 (temple) is deliberately absent. It is Wikidata's largest Indian
+    # class at 22,160, and every query for it times out — nationwide, split by
+    # state, and stripped back to the bare minimum, each returning nothing
+    # after two to four minutes. Its subclass tree is simply too wide to walk
+    # against a state. Nothing is lost: OSM tags places of worship far more
+    # thoroughly and with coordinates on every one, returning 2,225 for Andhra
+    # Pradesh alone, and the religion tag sorts them into temples, mosques and
+    # churches afterwards. It sat at the head of the queue for an hour and a
+    # half producing zero rows while the food and culture classes behind it
+    # waited.
     ("Q32815",   "spiritual", "mosque"),
     ("Q16970",   "spiritual", "church"),
     ("Q1128397", "spiritual", "convent"),

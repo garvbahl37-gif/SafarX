@@ -254,7 +254,10 @@ def build_items():
         if prior is None or rank > (SOURCE_RANK[prior["_source"]], prior["media_count"]):
             best[key] = it
 
-    return sorted(best.values(), key=lambda x: x["item_id"])
+    out = sorted(best.values(), key=lambda x: x["item_id"])
+    for it in out:
+        it.setdefault("cuisine", "")
+    return out
 
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@ Two rules keep the catalogue honest:
     python3 scripts/recsys/osm.py harvest    # pull it down (slow, resumable)
 """
 import json
+import os
 import pathlib
 import subprocess
 import sys
@@ -29,7 +30,13 @@ import time
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "recsys" / "_osm"
-ENDPOINT = "https://overpass-api.de/api/interpreter"
+# Overridable so the sweep can be split across providers. One state takes
+# minutes and there are thirty-six, so a single worker on a single endpoint is
+# most of a day. Two workers on two different Overpass instances halves that
+# without exceeding either provider's two-slot-per-IP guidance — which running
+# both against the same host would.
+ENDPOINT = os.environ.get("OVERPASS_ENDPOINT",
+                          "https://overpass-api.de/api/interpreter")
 AGENT = "SafarX-SIH-dataset/1.0 (student project; github.com/garvbahl37-gif)"
 
 # The same 36 names Wikidata uses, so the two harvests merge without a
@@ -121,8 +128,12 @@ def area(state):
 def harvest():
     """One request per state, cached per state so the run can resume."""
     RAW.mkdir(parents=True, exist_ok=True)
+    # A worker takes every Nth state, so two of them share the list without
+    # racing for the same one.
+    offset = int(sys.argv[1]) if len(sys.argv) > 1 else 0
+    stride = int(sys.argv[2]) if len(sys.argv) > 2 else 1
     grand, failed = 0, []
-    for state in STATES:
+    for state in STATES[offset::stride]:
         cache = RAW / (state.replace(" ", "_") + ".jsonl")
         if cache.exists():
             n = sum(1 for _ in cache.open())

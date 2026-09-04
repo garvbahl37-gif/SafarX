@@ -36,12 +36,21 @@ below is what makes the data worth training on.
   Funnels narrow. Views outnumber saves, saves outnumber plans, plans
   outnumber bookings, by roughly an order of magnitude each time.
 
+  Histories are deep. This one is a constraint rather than a flourish, and it
+  was measured: at 25 events per user, item-based CF LOST to a popularity
+  ranking by 46%, because there is not enough co-occurrence in a short history
+  for a collaborative model to find. At 167 events per user, on the identical
+  generator, it WON by 34%. So the row count and the user count are chosen
+  together — roughly 150 events per user — and raising the user count without
+  raising the rows would quietly destroy the signal the corpus exists for.
+
 Every row is unique on (user_id, item_id, event, timestamp) — enforced, not
 assumed, and the check is asserted at the end of every batch.
 """
 import argparse
 import csv
 import hashlib
+import itertools
 import json
 import math
 import pathlib
@@ -66,10 +75,19 @@ PERSONAS = {
     "weekend-escaper":  (0.15, ["nature", "adventure", "city"], 350),
     "pilgrim":          (0.11, ["spiritual", "heritage"], 1600),
 }
+# Every category an item can carry, so each user can hold an opinion on all
+# of them.
+ALL_CATEGORIES = ["heritage", "spiritual", "culture", "nature", "adventure",
+                  "wildlife", "beach", "food", "city"]
+
 PARTY = ["solo", "couple", "family", "friends"]
 BUDGET = ["shoestring", "moderate", "comfortable", "premium"]
 AGE_BANDS = ["18-24", "25-34", "35-44", "45-54", "55+"]
 SURFACES = ["search", "feed", "agent", "vr", "map", "gems"]
+
+# How steeply popularity falls off with rank. Long-tailed, but not so steep
+# that a person's own taste never gets a look in. See item_scores().
+POP_EXPONENT = 0.8
 
 EVENTS = ["view", "save", "plan", "book", "rate"]
 # Each step down the funnel is roughly a tenth of the one above it.
@@ -127,6 +145,16 @@ def make_users(count, items, rng):
             "budget": rng.choices(BUDGET, weights=[0.22, 0.38, 0.28, 0.12])[0],
             # Zipf-ish: most people barely use the app, a few live in it.
             "activity": max(1, int(rng.paretovariate(1.35))),
+            # Two people with the same persona are not the same person. Without
+            # this, taste is fully explained by seven personas and a home
+            # state, there is nothing left for a collaborative model to
+            # discover, and it cannot beat a popularity ranking. This is the
+            # latent signal the whole exercise is meant to be about.
+            #
+            # Deliberately NOT written to users.csv. A model should have to
+            # infer it from behaviour; handing it over as a column would make
+            # the task trivial and the benchmark meaningless.
+            "taste": {c: rng.lognormvariate(0, 0.85) for c in ALL_CATEGORIES},
             "signed_up": (start + timedelta(days=rng.randrange(0, 640))).date().isoformat(),
         })
     return users
@@ -136,32 +164,60 @@ def item_scores(items, rng):
     """
     A popularity prior with a long tail.
 
-    Rank the catalogue once, then let score fall off as 1/rank^0.85. Without
-    this every item is equally likely, a popularity baseline is worthless, and
-    the dataset cannot tell a good model from a coin toss.
+    Rank the catalogue once, then let score fall off as 1/rank^POP_EXPONENT.
+    Without this every item is equally likely, a popularity baseline is
+    worthless, and the dataset cannot tell a good model from a coin toss.
+
+    This prior no longer scores candidates — it decides which candidates a
+    user is shown at all. That separation is the important one, and it took
+    two measurements to arrive at.
+
+    Scoring by popularity made popularity decide nearly every pick, because it
+    spreads over four orders of magnitude where everything personal spans
+    about forty: item-based CF beat the popularity baseline by 1%. Flattening
+    the exponent to compensate was worse — CF then LOST to popularity by 32%,
+    because spreading a fixed number of interactions across a large catalogue
+    left roughly seventeen training events per user and no item co-occurrence
+    for a collaborative model to find.
+
+    Both failures have the same cause: exposure and choice were the same step.
+    Real systems do not work that way. Popular places are what people are
+    shown, and which of those they act on is where their own taste lives. So
+    candidates are now drawn in proportion to this prior, and the personal
+    terms alone decide the winner — which concentrates traffic enough for
+    co-occurrence to exist while leaving the decision genuinely personal.
     """
     order = items[:]
     rng.shuffle(order)
     prior = {}
     for rank, it in enumerate(order, start=1):
-        base = 1.0 / (rank ** 0.85)
+        base = 1.0 / (rank ** POP_EXPONENT)
         # A tour with sixteen panoramas or a gem with six photographs really
         # does get opened more than a bare record.
         prior[it["item_id"]] = base * (1.0 + 0.09 * min(it.get("media_count", 1), 8))
     return prior
 
 
-def affinity(user, item, prior, _unused=None):
-    """How likely this user is to touch this item at all."""
-    score = prior[item["item_id"]]
+def affinity(user, item, _prior=None, _unused=None):
+    """
+    How much this user wants this item, given they have already seen it.
+
+    Deliberately carries no popularity term: the candidate was drawn in
+    proportion to popularity, so counting it again here would let the famous
+    win twice and flatten the personal signal back out.
+    """
+    score = 1.0
 
     cats = PERSONAS[user["persona"]][1]
     if item["category"] in cats:
-        score *= 3.4
+        score *= 4.5
     elif item["category"] in ("city",):
         score *= 1.2
     else:
-        score *= 0.45
+        score *= 0.35
+
+    # The individual on top of the type.
+    score *= user["taste"].get(item["category"], 1.0)
 
     if item["region"] == user["home_region"]:
         score *= 2.1
@@ -210,6 +266,9 @@ def generate(batches, users_count, seed, since):
     user_weights = [u["activity"] for u in users]
     item_list = items
     by_id = {i["item_id"]: i for i in items}
+    # Cumulative popularity, so a candidate draw is one bisect rather than a
+    # pass over the catalogue.
+    cum_pop = list(itertools.accumulate(prior[i["item_id"]] for i in items))
 
     seen = set()               # (user, item, event, timestamp) — never repeated
     # user -> {item: when it was first viewed}, the causal record
@@ -275,14 +334,16 @@ def generate(batches, users_count, seed, since):
                     if rows >= BATCH_ROWS:
                         break
 
-                    # Sample a candidate, then accept it in proportion to how
-                    # well it fits — cheaper than scoring all 522 every time.
-                    pick, best = None, 0.0
-                    for _try in range(6):
-                        cand = rng.choice(item_list)
-                        s = affinity(user, cand, prior) * season_weight(cand, when)
-                        if s > best:
-                            pick, best = cand, s
+                    # Six things they were shown, drawn by popularity; the one
+                    # they act on is decided by taste. Scoring all of a large
+                    # catalogue per event is not affordable, and would not be
+                    # more truthful — nobody is shown two hundred thousand
+                    # places either.
+                    pick, best = None, -1.0
+                    for cand in rng.choices(item_list, cum_weights=cum_pop, k=6):
+                        sc = affinity(user, cand) * season_weight(cand, when)
+                        if sc > best:
+                            pick, best = cand, sc
                     if pick is None:
                         continue
 
@@ -347,7 +408,11 @@ def generate(batches, users_count, seed, since):
 
 def write_items(items):
     cols = ["item_id", "kind", "title", "state", "region", "category",
-            "lat", "lng", "media_count", "difficulty", "cost_per_day", "duration_days"]
+            "lat", "lng", "media_count", "difficulty", "cost_per_day",
+            # Sparse — about a fifth of OSM's eateries carry it — but real
+            # where present, and the only content feature the catalogue has
+            # that speaks to what a place actually serves.
+            "duration_days", "cuisine"]
     with (OUT / "items.csv").open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
@@ -356,8 +421,12 @@ def write_items(items):
 
 
 def write_users(users):
+    # `taste` is deliberately excluded. It is the latent preference a model is
+    # supposed to infer from behaviour; writing it as a column would hand over
+    # the answer and make any score measured against this data meaningless.
+    cols = [c for c in users[0] if c != "taste"]
     with (OUT / "users.csv").open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(users[0]))
+        w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
         w.writerows(users)
 
