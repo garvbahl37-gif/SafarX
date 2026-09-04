@@ -1,63 +1,124 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion as Motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, MapPin } from "lucide-react";
 
 /**
- * JourneyRoad — the trip stages told as a drive across India.
+ * JourneyRoad — the seven stages of a trip, told as a drive.
  *
- * A winding road is painted in as you scroll, a car drives it, and each stage
- * lights up as the car reaches its waypoint. Car and pin positions come from
- * the real SVG path via getPointAtLength, so nothing drifts off the tarmac
- * when the viewBox scales.
+ * The road is the section, not an illustration above it. It runs down the
+ * page: a straight, a bend into the other lane, another straight, and so on,
+ * with a stage waiting at each straight and a car that travels the whole
+ * thing as you scroll — forwards when you scroll down, back when you scroll
+ * up, because it is tied to where the page is rather than to an animation
+ * that has been triggered.
+ *
+ * The road and the stages come from one geometry function. When the earlier
+ * version drew the road separately from the cards beneath it, the two could
+ * disagree and did; here a stage cannot sit anywhere the road does not go.
+ *
+ * A phone gets the same road drawn straight. Snaking across a 390px screen
+ * leaves no width for the words, and the previous build's answer — hiding the
+ * road below lg — meant the progress it drove never worked on a phone at all.
  */
 
+/* One lane each side on desktop, one lane full stop on a phone.
+   Each geometry carries its own viewBox width, so its numbers mean roughly
+   what they will measure on screen. Sharing a 1000-wide box across both put
+   the phone at a 0.39 scale, where 280 units of spacing came out as 109
+   pixels and every stage sat on top of the next. */
+const DESKTOP = { view: 1000, left: 300, right: 700, straight: 210, curve: 150, stroke: 34 };
+const MOBILE = { view: 390, left: 34, right: 34, straight: 210, curve: 44, stroke: 14 };
 
-// A longer road with enough bends to carry six stops.
+/**
+ * The road, and the point on it where each stage waits.
+ * @returns {{d: string, height: number, anchors: {x: number, y: number, side: "left"|"right"}[]}}
+ */
+const buildRoad = (count, g) => {
+  const anchors = [];
+  let x = g.left;
+  let y = 0;
+  let d = `M ${x} ${y}`;
 
-// Where each stage sits along the road (0–1 of its length).
+  for (let i = 0; i < count; i += 1) {
+    /* The straight this stage stands beside. */
+    const from = y;
+    y += g.straight;
+    d += ` L ${x} ${y}`;
+    anchors.push({ x, y: (from + y) / 2, side: x === g.left ? "left" : "right" });
+
+    if (i < count - 1) {
+      /* Into the other lane. Control points held level with each end so the
+         bend leaves and arrives travelling straight down — a road, not a
+         zigzag with rounded corners. */
+      const next = x === g.left ? g.right : g.left;
+      const mid = y + g.curve / 2;
+      d += ` C ${x} ${mid}, ${next} ${mid}, ${next} ${y + g.curve}`;
+      x = next;
+      y += g.curve;
+    }
+  }
+
+  return { d, height: y, anchors };
+};
 
 const JourneyRoad = ({ stages, onPageChange }) => {
   const reduce = useReducedMotion();
   const sectionRef = useRef(null);
-  /* How far down the list you have read.
-     This used to be measured along the road's SVG path — which meant it only
-     worked at lg and above, since the road was hidden below that, so on a
-     phone no station ever lit up. Watching the stations themselves is both
-     simpler and correct at every width: one is reached when it reaches the
-     middle of the screen. */
-  /* How far down the list you have read.
-     This used to be measured along the road's SVG path, which meant it only
-     worked at lg and above — the road was hidden below that, so on a phone no
-     station ever lit up. Measuring the stations themselves is simpler and
-     correct at every width.
+  const pathRef = useRef(null);
+  const carRef = useRef(null);
 
-     A scroll listener rather than an IntersectionObserver, deliberately: an
-     observer only fires when an element crosses its boundary, so jumping the
-     page — an anchor link, a restored scroll position, a fast flick — skips
-     stations that never report and leaves the count stale. Reading seven
-     rectangles on a frame we were painting anyway is cheaper than being
-     wrong. */
+  const [narrow, setNarrow] = useState(false);
   const [passed, setPassed] = useState(0);
-  const listRef = useRef(null);
 
   useEffect(() => {
-    const list = listRef.current;
-    if (!list) return undefined;
+    const check = () => setNarrow(window.matchMedia("(max-width: 1023px)").matches);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
+  const geometry = narrow ? MOBILE : DESKTOP;
+  const road = useMemo(
+    () => buildRoad(stages.length, geometry),
+    [stages.length, geometry]
+  );
+
+  /* Where the page is, turned into a position on the road.
+     A scroll listener rather than an IntersectionObserver: an observer only
+     reports when something crosses its edge, so jumping the page leaves the
+     car parked where it last saw one. */
+  useEffect(() => {
+    const section = sectionRef.current;
+    const path = pathRef.current;
+    if (!section || !path) return undefined;
+
+    const total = path.getTotalLength();
     let frame = 0;
+
     const measure = () => {
       frame = 0;
-      const items = list.querySelectorAll("[data-stage]");
-      if (!items.length) return;
-      const line = window.innerHeight * 0.62;
-      let reached = 0;
-      items.forEach((el) => {
-        if (el.getBoundingClientRect().top < line) reached += 1;
-      });
+      const box = section.getBoundingClientRect();
+      /* 0 as the section's top reaches the lower third of the screen, 1 once
+         its bottom has passed the upper third — so the drive happens while
+         the section is the thing being looked at. */
+      const span = box.height + window.innerHeight * 0.34;
+      const travelled = window.innerHeight * 0.66 - box.top;
+      const t = Math.max(0, Math.min(1, travelled / span));
+
+      const at = total * t;
+      const p = path.getPointAtLength(at);
+      const ahead = path.getPointAtLength(Math.min(at + 4, total));
+      const angle = (Math.atan2(ahead.y - p.y, ahead.x - p.x) * 180) / Math.PI;
+      /* +90 because the car is drawn nose-up and the road runs downward. */
+      carRef.current?.setAttribute(
+        "transform",
+        `translate(${p.x} ${p.y}) rotate(${angle + 90})`
+      );
+
+      const reached = road.anchors.filter((a) => a.y <= p.y).length;
       setPassed((was) => (was === reached ? was : reached));
     };
 
-    /* One measurement per frame at most, however fast the wheel turns. */
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(measure);
     };
@@ -70,98 +131,147 @@ const JourneyRoad = ({ stages, onPageChange }) => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [stages.length]);
+  }, [road]);
 
   return (
-    <div ref={sectionRef}>
-      {/* ── The drive (desktop) ── */}
+    <div ref={sectionRef} className="relative mx-auto max-w-5xl">
+      {/* The road. Sized by its own viewBox so the stages, positioned as
+          percentages of the same geometry, always land on it. */}
+      <svg
+        viewBox={`0 0 ${geometry.view} ${road.height}`}
+        className="w-full"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="jr-edge" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="rgba(212,168,67,0.05)" />
+            <stop offset="18%" stopColor="rgba(212,168,67,0.30)" />
+            <stop offset="82%" stopColor="rgba(212,168,67,0.30)" />
+            <stop offset="100%" stopColor="rgba(212,168,67,0.05)" />
+          </linearGradient>
+        </defs>
 
-      {/* ── The stages, threaded on the road rather than parked under it ──
-          Seven of them in a three-column grid left a last row holding one
-          card beside two empty slots, which is what made the section read as
-          loose blocks. They are stations on a line now: the count stops
-          mattering, each one is lighter than a bordered box, and the dashed
-          rule continues the road drawn above instead of restarting the
-          composition. Numbering earns its place here because this genuinely
-          is a sequence. */}
-      <div ref={listRef} className="relative mx-auto max-w-3xl">
-        {/* The route itself, behind the nodes. It lives out here rather than
-            inside the list: an ol may only contain li elements, and a stray
-            span in there is invalid markup that a screen reader has to
-            reconcile. */}
-        <span
-          className="absolute left-[19px] top-2 bottom-2 w-px bg-[repeating-linear-gradient(to_bottom,rgba(212,168,67,0.34)_0_6px,transparent_6px_13px)] sm:left-[23px]"
-          aria-hidden="true"
+        {/* Carriageway, then the dashed centre line inside it. */}
+        <path
+          ref={pathRef}
+          d={road.d}
+          fill="none"
+          stroke="rgba(255,255,255,0.045)"
+          strokeWidth={geometry.stroke}
+          strokeLinecap="round"
+        />
+        <path
+          d={road.d}
+          fill="none"
+          stroke="url(#jr-edge)"
+          strokeWidth="1.25"
+          strokeLinecap="round"
+        />
+        <path
+          d={road.d}
+          fill="none"
+          stroke="rgba(212,168,67,0.42)"
+          strokeWidth="2"
+          strokeDasharray="14 20"
+          strokeLinecap="round"
         />
 
-        <ol>
+        {/* A milestone where each stage waits. */}
+        {road.anchors.map((a, i) => (
+          <circle
+            key={i}
+            cx={a.x}
+            cy={a.y}
+            r={passed > i ? 9 : 6}
+            fill={passed > i ? "#E5BE5C" : "#0A1D1A"}
+            stroke={passed > i ? "#E5BE5C" : "rgba(255,255,255,0.22)"}
+            strokeWidth="2"
+            style={{ transition: "r .35s ease, fill .35s ease, stroke .35s ease" }}
+          />
+        ))}
+
+        {/* The car. Drawn small and plain: at this size a silhouette reads
+            better than a vehicle with windows. */}
+        <g ref={carRef}>
+          <g transform="translate(-11 -17)">
+            <rect
+              x="0" y="0" width="22" height="34" rx="8"
+              fill="#E5BE5C"
+              stroke="#061412"
+              strokeWidth="2.5"
+            />
+            <rect x="4.5" y="5" width="13" height="9" rx="3" fill="#061412" opacity="0.65" />
+            <rect x="4.5" y="20" width="13" height="7" rx="3" fill="#061412" opacity="0.4" />
+          </g>
+        </g>
+      </svg>
+
+      {/* The stages, each pinned to its own straight. */}
+      <ol className="absolute inset-0">
         {stages.map((stage, i) => {
+          const anchor = road.anchors[i];
           const active = passed > i;
           const Icon = stage.icon || MapPin;
+          /* On desktop a stage sits in the empty half opposite its lane; on a
+             phone the road hugs the left edge and everything sits to its
+             right. */
+          const rightOfRoad = narrow || anchor.side === "left";
+
           return (
             <Motion.li
               key={stage.step}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-70px" }}
-              transition={{ duration: 0.5, delay: Math.min(i * 0.05, 0.3), ease: [0.22, 1, 0.36, 1] }}
               data-stage=""
-              className="relative"
+              initial={reduce ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute"
+              style={{
+                top: `${(anchor.y / road.height) * 100}%`,
+                [rightOfRoad ? "left" : "right"]: `${
+                  narrow
+                    ? (anchor.x / geometry.view) * 100 + 7
+                    : ((rightOfRoad ? geometry.view - anchor.x : anchor.x) / geometry.view) * 100 - 42
+                }%`,
+                width: narrow ? "78%" : "36%",
+                transform: "translateY(-50%)",
+              }}
             >
               <button
                 type="button"
                 onClick={() => onPageChange(stage.page)}
-                className="group flex w-full items-start gap-5 rounded-2xl py-6 pl-0 pr-4 text-left transition-colors duration-300 sm:gap-7"
+                className={`group block w-full text-left ${rightOfRoad ? "" : "lg:text-right"}`}
               >
-                {/* The node sits on the line, so it has to hide the dashes
-                    behind it — hence the solid ink fill. */}
                 <span
-                  className={`relative z-10 mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border bg-ink-950 transition-colors duration-500 sm:h-12 sm:w-12 ${
-                    active
-                      ? "border-saffron/50 text-saffron"
-                      : "border-white/[0.1] text-ivory/40 group-hover:border-white/25"
+                  className={`inline-flex items-center gap-2 font-data text-[10px] uppercase tracking-[0.24em] transition-colors duration-500 ${
+                    active ? "text-saffron" : "text-ivory-faint"
                   }`}
                 >
-                  <Icon size={17} aria-hidden="true" />
+                  <Icon size={13} aria-hidden="true" />
+                  {stage.step} · {stage.phase}
                 </span>
 
-                <span className="min-w-0 flex-1 pt-1">
-                  <span
-                    className={`font-data text-[10px] uppercase tracking-[0.24em] transition-colors duration-500 ${
-                      active ? "text-saffron" : "text-ivory-faint"
-                    }`}
-                  >
-                    {stage.step} · {stage.phase}
-                  </span>
+                <h3 className="mt-2 font-display text-[1.2rem] font-medium leading-snug text-ivory md:text-[1.4rem]">
+                  {stage.title}
+                </h3>
 
-                  <h3 className="mt-2 font-display text-[1.35rem] font-medium leading-snug text-ivory md:text-[1.5rem]">
-                    {stage.title}
-                  </h3>
+                <p className="mt-1.5 font-sans text-[13.5px] leading-relaxed text-ivory-muted">
+                  {stage.desc}
+                </p>
 
-                  <p className="mt-2 max-w-[54ch] font-sans text-[14.5px] leading-relaxed text-ivory-muted">
-                    {stage.desc}
-                  </p>
-
-                  <span className="mt-4 inline-flex items-center gap-2 font-sans text-[13px] font-semibold text-saffron">
-                    {stage.cta}
-                    <ArrowRight
-                      size={14}
-                      className="transition-transform group-hover:translate-x-1"
-                      aria-hidden="true"
-                    />
-                  </span>
+                <span className="mt-2.5 inline-flex items-center gap-2 font-sans text-[12.5px] font-semibold text-saffron">
+                  {stage.cta}
+                  <ArrowRight
+                    size={13}
+                    className="transition-transform group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
                 </span>
               </button>
-
-              {/* A rule between stations, never after the last. */}
-              {i < stages.length - 1 && (
-                <span className="ml-[60px] block h-px bg-white/[0.06] sm:ml-[76px]" aria-hidden="true" />
-              )}
             </Motion.li>
           );
         })}
-        </ol>
-      </div>
+      </ol>
     </div>
   );
 };
