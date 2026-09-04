@@ -580,6 +580,7 @@ const HiddenGemsPage = ({ onPageChange }) => {
                     who has opened a place is reading, not scanning. */}
                 <GemThumbnail
                   images={imagesFor(openGem)}
+                  video={openGem.video || null}
                   alt={`${openGem.title}, ${openGem.location}`}
                   fallback={FALLBACK_IMAGE}
                   interval={4200}

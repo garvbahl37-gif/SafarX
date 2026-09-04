@@ -66,6 +66,8 @@ const JourneyRoad = ({ stages, onPageChange }) => {
   const sectionRef = useRef(null);
   const pathRef = useRef(null);
   const carRef = useRef(null);
+  const travelledRef = useRef(null);
+  const dashRef = useRef(null);
 
   const [narrow, setNarrow] = useState(false);
   const [passed, setPassed] = useState(0);
@@ -115,6 +117,21 @@ const JourneyRoad = ({ stages, onPageChange }) => {
         `translate(${p.x} ${p.y}) rotate(${angle + 90})`
       );
 
+      /* One dash as long as the whole road, retracted to expose exactly the
+         stretch already driven. A dash *pattern* scrubbed this way slides,
+         which reads as the surface moving under a stationary car; a single
+         dash draws. */
+      if (travelledRef.current) {
+        travelledRef.current.style.strokeDasharray = `${total}`;
+        travelledRef.current.style.strokeDashoffset = `${total - at}`;
+      }
+      /* Lane markings appear only where the road has been drawn, so they
+         arrive with it rather than sitting on tarmac nobody has reached. */
+      if (dashRef.current) {
+        dashRef.current.style.strokeDasharray = `0 ${Math.max(0, at)} 14 20`;
+        dashRef.current.style.strokeDashoffset = "0";
+      }
+
       const reached = road.anchors.filter((a) => a.y <= p.y).length;
       setPassed((was) => (was === reached ? was : reached));
     };
@@ -143,69 +160,113 @@ const JourneyRoad = ({ stages, onPageChange }) => {
         aria-hidden="true"
       >
         <defs>
-          <linearGradient id="jr-edge" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="rgba(212,168,67,0.05)" />
-            <stop offset="18%" stopColor="rgba(212,168,67,0.30)" />
-            <stop offset="82%" stopColor="rgba(212,168,67,0.30)" />
-            <stop offset="100%" stopColor="rgba(212,168,67,0.05)" />
+          {/* The tarmac has a sheen down its length rather than a flat fill,
+              which is what stops a 30px stroke reading as a grey bar. */}
+          <linearGradient id="jr-tarmac" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.02)" />
+            <stop offset="45%" stopColor="rgba(255,255,255,0.07)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0.02)" />
           </linearGradient>
+          <linearGradient id="jr-travelled" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#D4A843" />
+            <stop offset="100%" stopColor="#E5BE5C" />
+          </linearGradient>
+          <filter id="jr-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="6" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
         </defs>
 
-        {/* Carriageway, then the dashed centre line inside it. */}
+        {/* Road not yet reached: an outline, not a surface. */}
         <path
-          ref={pathRef}
           d={road.d}
           fill="none"
-          stroke="rgba(255,255,255,0.045)"
+          stroke="rgba(255,255,255,0.05)"
           strokeWidth={geometry.stroke}
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
         />
         <path
+          ref={pathRef}
           d={road.d}
           fill="none"
-          stroke="url(#jr-edge)"
-          strokeWidth="1.25"
+          stroke="url(#jr-tarmac)"
+          strokeWidth={geometry.stroke}
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
         />
+
+        {/* Road already driven, drawn by retracting one dash the length of
+            the whole path. This is the difference between a road that exists
+            and waits for you, and one you are making by travelling it — and
+            it is a real reveal rather than a dash pattern sliding along,
+            which only ever looks like the surface is moving. */}
         <path
+          ref={travelledRef}
           d={road.d}
           fill="none"
-          stroke="rgba(212,168,67,0.42)"
-          strokeWidth="2"
-          strokeDasharray="14 20"
+          stroke="url(#jr-travelled)"
+          strokeWidth="2.5"
           strokeLinecap="round"
+          opacity="0.85"
+          vectorEffect="non-scaling-stroke"
+          filter="url(#jr-glow)"
+        />
+
+        {/* Lane markings, only on the stretch behind the car. */}
+        <path
+          ref={dashRef}
+          d={road.d}
+          fill="none"
+          stroke="rgba(6,20,18,0.55)"
+          strokeWidth="2"
+          strokeLinecap="butt"
           vectorEffect="non-scaling-stroke"
         />
 
-        {/* A milestone where each stage waits. */}
-        {road.anchors.map((a, i) => (
-          <circle
-            key={i}
-            cx={a.x}
-            cy={a.y}
-            r={passed > i ? 9 : 6}
-            fill={passed > i ? "#E5BE5C" : "#0A1D1A"}
-            stroke={passed > i ? "#E5BE5C" : "rgba(255,255,255,0.22)"}
-            strokeWidth="2"
-            style={{ transition: "r .35s ease, fill .35s ease, stroke .35s ease" }}
-          />
-        ))}
+        {/* Kilometre stones, the way an Indian highway marks them: a yellow
+            cap over a white body. A numbered stone says how far along you
+            are; a plain dot says only that something is there. */}
+        {road.anchors.map((a, i) => {
+          const on = passed > i;
+          return (
+            <g key={i} transform={`translate(${a.x} ${a.y})`} style={{ transition: 'opacity .4s ease' }}>
+              <rect
+                x="-13" y="-17" width="26" height="34" rx="12"
+                fill={on ? '#F2EFE6' : '#0A1D1A'}
+                stroke={on ? '#E5BE5C' : 'rgba(255,255,255,0.2)'}
+                strokeWidth="2"
+                style={{ transition: 'fill .45s ease, stroke .45s ease' }}
+              />
+              <path
+                d="M -13 -5 L -13 -5 A 13 12 0 0 1 13 -5 Z"
+                fill={on ? '#E5BE5C' : 'rgba(255,255,255,0.14)'}
+                style={{ transition: 'fill .45s ease' }}
+              />
+              <text
+                x="0" y="9"
+                textAnchor="middle"
+                className="font-data"
+                fontSize="11"
+                fontWeight="700"
+                fill={on ? '#0A1D1A' : 'rgba(242,239,230,0.45)'}
+                style={{ transition: 'fill .45s ease' }}
+              >
+                {i + 1}
+              </text>
+            </g>
+          );
+        })}
 
-        {/* The car. Drawn small and plain: at this size a silhouette reads
-            better than a vehicle with windows. */}
+        {/* The car. */}
         <g ref={carRef}>
           <g transform="translate(-11 -17)">
-            <rect
-              x="0" y="0" width="22" height="34" rx="8"
-              fill="#E5BE5C"
-              stroke="#061412"
-              strokeWidth="2.5"
-            />
+            <rect x="0" y="0" width="22" height="34" rx="8" fill="#E5BE5C" stroke="#061412" strokeWidth="2.5" />
             <rect x="4.5" y="5" width="13" height="9" rx="3" fill="#061412" opacity="0.65" />
             <rect x="4.5" y="20" width="13" height="7" rx="3" fill="#061412" opacity="0.4" />
           </g>
+          {/* Headlights on the road ahead. */}
+          <path d="M -9 -20 L -20 -54 L 20 -54 L 9 -20 Z" fill="#E5BE5C" opacity="0.09" />
         </g>
       </svg>
 

@@ -15,7 +15,7 @@ import { useReducedMotion } from 'framer-motion';
  * @param {string[]} images already-resolved URLs, first one leading
  * @param {number} [interval] ms between frames
  */
-const GemThumbnail = ({ images = [], alt, fallback, interval = 2600, className = '' }) => {
+const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 2600, className = '' }) => {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
 
@@ -41,7 +41,12 @@ const GemThumbnail = ({ images = [], alt, fallback, interval = 2600, className =
           src={src}
           alt={i === 0 ? alt : ''}
           aria-hidden={i === 0 ? undefined : true}
-          loading={i === 0 ? 'lazy' : undefined}
+          /* Every frame lazy, not just the first. This said the opposite —
+             frame one deferred and the other five fetched eagerly — which on
+             a grid of ninety-six cards is well over five hundred images
+             requested up front. */
+          loading="lazy"
+          decoding="async"
           /* Stacked and cross-faded rather than swapped, so a slow image
              never leaves a hole where the picture was. */
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
@@ -53,6 +58,25 @@ const GemThumbnail = ({ images = [], alt, fallback, interval = 2600, className =
           }}
         />
       ))}
+
+      {/* Commons footage of the place, over the stills, muted and looping.
+          It is an extra rather than the picture: Safari plays neither webm
+          nor ogv, so the photographs underneath are what everyone is
+          guaranteed to see, and onError simply leaves them showing. */}
+      {video && !reduce && (
+        <video
+          src={video.url}
+          poster={frames[0]}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover"
+          onError={(e) => e.currentTarget.remove()}
+        />
+      )}
 
       {/* Which frame, for anyone counting. Hidden when there is only one. */}
       {frames.length > 1 && (
