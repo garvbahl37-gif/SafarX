@@ -26,8 +26,8 @@ import { ArrowRight, MapPin } from "lucide-react";
    what they will measure on screen. Sharing a 1000-wide box across both put
    the phone at a 0.39 scale, where 280 units of spacing came out as 109
    pixels and every stage sat on top of the next. */
-const DESKTOP = { view: 1000, left: 300, right: 700, straight: 210, curve: 150, stroke: 34 };
-const MOBILE = { view: 390, left: 34, right: 34, straight: 210, curve: 44, stroke: 14 };
+const DESKTOP = { view: 1000, left: 400, right: 600, straight: 200, curve: 150, stroke: 30, gutter: 62 };
+const MOBILE = { view: 390, left: 34, right: 34, straight: 214, curve: 44, stroke: 22, gutter: 62 };
 
 /**
  * The road, and the point on it where each stage waits.
@@ -159,6 +159,7 @@ const JourneyRoad = ({ stages, onPageChange }) => {
           stroke="rgba(255,255,255,0.045)"
           strokeWidth={geometry.stroke}
           strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
         />
         <path
           d={road.d}
@@ -166,6 +167,7 @@ const JourneyRoad = ({ stages, onPageChange }) => {
           stroke="url(#jr-edge)"
           strokeWidth="1.25"
           strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
         />
         <path
           d={road.d}
@@ -174,6 +176,7 @@ const JourneyRoad = ({ stages, onPageChange }) => {
           strokeWidth="2"
           strokeDasharray="14 20"
           strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
         />
 
         {/* A milestone where each stage waits. */}
@@ -226,14 +229,22 @@ const JourneyRoad = ({ stages, onPageChange }) => {
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="absolute"
+              /* The carriageway is the strip between the two lanes, so text
+                 belongs outside both — not merely on the far side of the one
+                 lane this stage happens to sit in. Measuring from the wider
+                 lane is what keeps a paragraph off the road when the road
+                 bends back under it. */
               style={{
                 top: `${(anchor.y / road.height) * 100}%`,
                 [rightOfRoad ? "left" : "right"]: `${
-                  narrow
-                    ? (anchor.x / geometry.view) * 100 + 7
-                    : ((rightOfRoad ? geometry.view - anchor.x : anchor.x) / geometry.view) * 100 - 42
+                  ((rightOfRoad
+                    ? geometry.right + geometry.gutter
+                    : geometry.view - (geometry.left - geometry.gutter)) /
+                    geometry.view) *
+                  100
                 }%`,
-                width: narrow ? "78%" : "36%",
+                width: narrow ? undefined : "31%",
+                right: rightOfRoad && narrow ? "5%" : undefined,
                 transform: "translateY(-50%)",
               }}
             >
