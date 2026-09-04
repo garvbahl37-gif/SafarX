@@ -1,4 +1,9 @@
-# Nothing under data/ is imported by the app; it is training data for the
-# recommender. Keeping it out of the upload keeps deploys fast.
-data/
-scripts/
+# Keep the recommender corpus and the dev tooling out of the deploy upload.
+#
+# The leading slashes matter and their absence broke a build. These patterns
+# follow gitignore rules, where a bare `data/` matches a directory of that
+# name at ANY depth — so it silently took `src/data/` with it, and the app
+# could not resolve vrTours.json. Anchored to the repo root, it means only
+# the top-level directories.
+/data/
+/scripts/
