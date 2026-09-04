@@ -1,0 +1,4 @@
+# Nothing under data/ is imported by the app; it is training data for the
+# recommender. Keeping it out of the upload keeps deploys fast.
+data/
+scripts/

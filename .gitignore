@@ -47,3 +47,8 @@ server/.env.local
 .playwright-mcp/
 .vercel
 .env*
+
+# Recommender interaction data.
+# Regenerates byte-for-byte from the seed in scripts/recsys/generate.py, so
+# the recipe is committed and the ~85MB of output is not.
+data/recsys/interactions_*.csv

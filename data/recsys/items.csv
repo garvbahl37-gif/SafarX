@@ -1,0 +1,523 @@
+item_id,kind,title,state,region,category,lat,lng,media_count,difficulty,cost_per_day,duration_days
+attr-1,attraction,Tirumala Venkateswara Temple,Andhra Pradesh,south,heritage,13.8018,77.6095,1,easy,1500,2
+attr-100,attraction,Gwalior Fort,Madhya Pradesh,central,heritage,22.5078,78.6684,1,easy,1100,1
+attr-101,attraction,Orchha Fort Complex,Madhya Pradesh,central,heritage,22.5078,78.6684,1,easy,1100,1
+attr-102,attraction,Ujjain Mahakaleshwar Temple,Madhya Pradesh,central,heritage,22.5078,78.6684,1,easy,1000,1
+attr-103,attraction,Mandu (Mandavgad) Ruins,Madhya Pradesh,central,heritage,22.5078,78.6684,1,easy,1100,1
+attr-104,attraction,Panna & Ken Gharial Sanctuary (heritage),Madhya Pradesh,central,heritage,22.5078,78.6684,1,easy,1300,2
+attr-107,attraction,Gateway of India,Maharashtra,west,heritage,19.9831,76.4911,1,easy,1200,1
+attr-108,attraction,Shaniwar Wada,Maharashtra,west,heritage,19.9831,76.4911,1,easy,1000,1
+attr-109,attraction,Aga Khan Palace,Maharashtra,west,heritage,19.9831,76.4911,1,easy,1000,1
+attr-11,attraction,Bomdila Monastery,Arunachal Pradesh,northeast,heritage,27.5387,93.8154,1,easy,1300,1
+attr-110,attraction,Raigad Fort,Maharashtra,west,heritage,19.9831,76.4911,1,easy,1300,2
+attr-111,attraction,Elephanta Caves,Maharashtra,west,heritage,19.9831,76.4911,1,easy,1300,1
+attr-112,attraction,Kolhapur Mahalakshmi Temple,Maharashtra,west,heritage,19.9831,76.4911,1,easy,1100,1
+attr-113,attraction,Kangla Fort,Manipur,northeast,heritage,24.5584,93.8132,1,easy,1000,1
+attr-114,attraction,Loktak Lake & Keibul Lamjao,Manipur,northeast,heritage,24.5584,93.8132,1,easy,1400,2
+attr-115,attraction,Imphal War Cemetery,Manipur,northeast,heritage,24.5584,93.8132,1,easy,1200,1
+attr-116,attraction,Shree Govindajee Temple,Manipur,northeast,heritage,24.5584,93.8132,1,easy,900,1
+attr-117,attraction,Andro Heritage Village,Manipur,northeast,heritage,24.5584,93.8132,1,easy,1100,1
+attr-118,attraction,Khongjom War Memorial,Manipur,northeast,heritage,24.5584,93.8132,1,easy,900,1
+attr-119,attraction,Tharon Cave (local heritage),Manipur,northeast,heritage,24.5584,93.8132,1,easy,1000,1
+attr-12,attraction,Ita Fort,Arunachal Pradesh,northeast,heritage,27.5387,93.8154,1,easy,1000,1
+attr-120,attraction,Manipur State Museum,Manipur,northeast,heritage,24.5584,93.8132,1,easy,800,1
+attr-122,attraction,Mawphlang Sacred Grove,Meghalaya,northeast,heritage,25.202,91.9155,1,easy,1200,1
+attr-123,attraction,Nartiang Monoliths,Meghalaya,northeast,heritage,25.202,91.9155,1,easy,1200,1
+attr-124,attraction,Shillong Cathedral & Colonial Sites,Meghalaya,northeast,heritage,25.202,91.9155,1,easy,1100,1
+attr-125,attraction,Mawsmai Caves,Meghalaya,northeast,heritage,25.202,91.9155,1,easy,1200,1
+attr-126,attraction,Umiam Lake Cultural Spots,Meghalaya,northeast,heritage,25.202,91.9155,1,easy,1100,1
+attr-127,attraction,Double Decker Living Root Bridge,Meghalaya,northeast,heritage,25.202,91.9155,1,easy,1400,1
+attr-128,attraction,Kyllang Rock & Heritage,Meghalaya,northeast,heritage,25.202,91.9155,1,easy,1100,1
+attr-129,attraction,Reiek Heritage Village,Mizoram,northeast,heritage,22.6552,93.0465,1,easy,1200,1
+attr-13,attraction,Bhismaknagar Ruins,Arunachal Pradesh,northeast,heritage,27.5387,93.8154,1,easy,1200,1
+attr-130,attraction,Tam Dil Lake,Mizoram,northeast,heritage,22.6552,93.0465,1,easy,1300,1
+attr-131,attraction,Hmuifang Cultural Park,Mizoram,northeast,heritage,22.6552,93.0465,1,easy,1200,1
+attr-132,attraction,Vantawng Falls area,Mizoram,northeast,heritage,22.6552,93.0465,1,easy,1200,1
+attr-133,attraction,Mizo Heritage Village (Aizawl),Mizoram,northeast,heritage,22.6552,93.0465,1,easy,1100,1
+attr-134,attraction,Dampa Tiger Reserve (cultural fringes),Mizoram,northeast,heritage,22.6552,93.0465,1,easy,1400,1
+attr-135,attraction,Solomon Temple Ruins (local sites),Mizoram,northeast,heritage,22.6552,93.0465,1,easy,1100,1
+attr-136,attraction,Lungsen Hill & War Memorials,Mizoram,northeast,heritage,22.6552,93.0465,1,easy,1100,1
+attr-137,attraction,Kohima War Cemetery,Nagaland,northeast,heritage,25.5517,94.1217,1,easy,1200,1
+attr-139,attraction,Khonoma Heritage Village,Nagaland,northeast,heritage,25.5517,94.1217,1,easy,1200,1
+attr-14,attraction,Mechuka Cultural Village,Arunachal Pradesh,northeast,heritage,27.5387,93.8154,1,easy,1500,1
+attr-140,attraction,Nagaland State Museum,Nagaland,northeast,heritage,25.5517,94.1217,1,easy,900,1
+attr-141,attraction,Tuophema Cultural Sites (Hornbill),Nagaland,northeast,heritage,25.5517,94.1217,1,easy,1300,1
+attr-142,attraction,Mokokchung Ao Heritage,Nagaland,northeast,heritage,25.5517,94.1217,1,easy,1200,1
+attr-143,attraction,Phek Traditional Trails,Nagaland,northeast,heritage,25.5517,94.1217,1,easy,1200,1
+attr-144,attraction,Wokha Traditional Villages,Nagaland,northeast,heritage,25.5517,94.1217,1,easy,1100,1
+attr-145,attraction,Konark Sun Temple,Odisha,east,heritage,21.47,87.02,1,easy,1200,1
+attr-146,attraction,Jagannath Temple,Odisha,east,heritage,21.47,87.02,1,easy,1200,1
+attr-147,attraction,Lingaraj Temple,Odisha,east,heritage,21.47,87.02,1,easy,1000,1
+attr-148,attraction,Chilika Lake & Birds,Odisha,east,heritage,21.47,87.02,1,easy,1400,2
+attr-149,attraction,Udayagiri & Khandagiri Caves,Odisha,east,heritage,21.47,87.02,1,easy,1000,1
+attr-15,attraction,Gelling Village,Arunachal Pradesh,northeast,heritage,27.5387,93.8154,1,easy,1400,1
+attr-150,attraction,Rajarani Temple,Odisha,east,heritage,21.47,87.02,1,easy,900,1
+attr-151,attraction,Hirakud Dam & Heritage,Odisha,east,heritage,21.47,87.02,1,easy,1000,1
+attr-152,attraction,Similipal Cultural & Wildlife,Odisha,east,heritage,21.47,87.02,1,easy,1400,2
+attr-153,attraction,Golden Temple (Harmandir Sahib),Punjab,north,heritage,30.2081,74.9375,1,easy,1200,1
+attr-154,attraction,Jallianwala Bagh,Punjab,north,heritage,30.2081,74.9375,1,easy,900,1
+attr-155,attraction,Wagah Border Ceremony,Punjab,north,heritage,30.2081,74.9375,1,easy,800,1
+attr-156,attraction,Qila Mubarak (Patiala),Punjab,north,heritage,30.2081,74.9375,1,easy,900,1
+attr-157,attraction,Sheesh Mahal (Patiala),Punjab,north,heritage,30.2081,74.9375,1,easy,900,1
+attr-158,attraction,Gobindgarh Fort,Punjab,north,heritage,30.2081,74.9375,1,easy,1000,1
+attr-159,attraction,Khalsa College Heritage,Punjab,north,heritage,30.2081,74.9375,1,easy,800,1
+attr-16,attraction,Namsai Golden Pagoda,Arunachal Pradesh,northeast,heritage,27.5387,93.8154,1,easy,1200,1
+attr-160,attraction,Anandpur Sahib,Punjab,north,heritage,30.2081,74.9375,1,easy,1000,1
+attr-161,attraction,Amber Fort,Rajasthan,north,heritage,27.0073,76.6066,1,easy,1300,2
+attr-162,attraction,City Palace (Udaipur),Rajasthan,north,heritage,27.0073,76.6066,1,easy,1300,1
+attr-163,attraction,Hawa Mahal,Rajasthan,north,heritage,27.0073,76.6066,1,easy,1000,1
+attr-164,attraction,Mehrangarh Fort,Rajasthan,north,heritage,27.0073,76.6066,1,easy,1300,2
+attr-165,attraction,Jaisalmer Fort,Rajasthan,north,heritage,27.0073,76.6066,1,easy,1400,2
+attr-166,attraction,Kumbhalgarh Fort,Rajasthan,north,heritage,27.0073,76.6066,1,easy,1200,1
+attr-167,attraction,Chittorgarh Fort,Rajasthan,north,heritage,27.0073,76.6066,1,easy,1200,1
+attr-168,attraction,Jantar Mantar (Jaipur),Rajasthan,north,heritage,27.0073,76.6066,1,easy,1000,1
+attr-169,attraction,Rumtek Monastery,Sikkim,northeast,heritage,27.5348,88.4891,1,easy,1300,1
+attr-17,attraction,Kamakhya Temple,Assam,northeast,heritage,26.9803,94.1574,1,easy,1100,1
+attr-170,attraction,Pemayangtse Monastery,Sikkim,northeast,heritage,27.5348,88.4891,1,easy,1200,1
+attr-171,attraction,Tsomgo Lake (Changu),Sikkim,northeast,heritage,27.5348,88.4891,1,easy,1400,1
+attr-172,attraction,Nathula Pass Heritage,Sikkim,northeast,heritage,27.5348,88.4891,1,easy,1500,1
+attr-173,attraction,Enchey Monastery,Sikkim,northeast,heritage,27.5348,88.4891,1,easy,1100,1
+attr-174,attraction,Rabdentse Ruins,Sikkim,northeast,heritage,27.5348,88.4891,1,easy,1100,1
+attr-175,attraction,Yuksom Cultural Sites,Sikkim,northeast,heritage,27.5348,88.4891,1,easy,1200,1
+attr-176,attraction,Khecheopalri Lake,Sikkim,northeast,heritage,27.5348,88.4891,1,easy,1200,1
+attr-177,attraction,Meenakshi Amman Temple,Tamil Nadu,south,heritage,9.1778,79.4178,1,easy,1200,2
+attr-178,attraction,Brihadeeswarar Temple,Tamil Nadu,south,heritage,9.1778,79.4178,1,easy,1200,1
+attr-179,attraction,Mahabalipuram Shore Temple,Tamil Nadu,south,heritage,9.1778,79.4178,1,easy,1100,1
+attr-18,attraction,Kaziranga National Park,Assam,northeast,heritage,26.9803,94.1574,1,easy,1600,2
+attr-180,attraction,Ramanathaswamy Temple,Tamil Nadu,south,heritage,9.1778,79.4178,1,easy,1100,1
+attr-181,attraction,Gangaikonda Cholapuram,Tamil Nadu,south,heritage,9.1778,79.4178,1,easy,1000,1
+attr-182,attraction,Chettinad Heritage Mansions,Tamil Nadu,south,heritage,9.1778,79.4178,1,easy,1100,1
+attr-183,attraction,Thanjavur Palace & Museum,Tamil Nadu,south,heritage,9.1778,79.4178,1,easy,1000,1
+attr-184,attraction,Kanyakumari Vivekananda Rock Memorial,Tamil Nadu,south,heritage,9.1778,79.4178,1,easy,1000,1
+attr-185,attraction,Charminar,Telangana,south,heritage,19.285,78.503,1,easy,1100,1
+attr-186,attraction,Golconda Fort,Telangana,south,heritage,19.285,78.503,1,easy,1200,1
+attr-187,attraction,Salar Jung Museum,Telangana,south,heritage,19.285,78.503,1,easy,1000,1
+attr-189,attraction,Qutb Shahi Tombs,Telangana,south,heritage,19.285,78.503,1,easy,1000,1
+attr-190,attraction,Mecca Masjid,Telangana,south,heritage,19.285,78.503,1,easy,900,1
+attr-191,attraction,Paigah Tombs,Telangana,south,heritage,19.285,78.503,1,easy,900,1
+attr-192,attraction,Warangal Fort Ruins,Telangana,south,heritage,19.285,78.503,1,easy,1100,1
+attr-193,attraction,Ujjayanta Palace,Tripura,northeast,heritage,24.3167,92.0667,1,easy,1000,1
+attr-194,attraction,Neermahal Palace,Tripura,northeast,heritage,24.3167,92.0667,1,easy,1100,1
+attr-195,attraction,Unakoti Hills,Tripura,northeast,heritage,24.3167,92.0667,1,easy,1200,1
+attr-196,attraction,Pilak Archaeological Park,Tripura,northeast,heritage,24.3167,92.0667,1,easy,1000,1
+attr-197,attraction,Jampui Hills Cultural Trails,Tripura,northeast,heritage,24.3167,92.0667,1,easy,1200,1
+attr-198,attraction,Chabimura Rock Carvings,Tripura,northeast,heritage,24.3167,92.0667,1,easy,1100,1
+attr-199,attraction,Agartala Palace Museum,Tripura,northeast,heritage,24.3167,92.0667,1,easy,900,1
+attr-2,attraction,Undavalli Caves,Andhra Pradesh,south,heritage,13.8018,77.6095,1,easy,900,1
+attr-20,attraction,Sivasagar Ahom Monuments,Assam,northeast,heritage,26.9803,94.1574,1,easy,1000,1
+attr-200,attraction,Sepahijala Wildlife & Tribal Museum,Tripura,northeast,heritage,24.3167,92.0667,1,easy,1000,1
+attr-202,attraction,Agra Fort,Uttar Pradesh,central,heritage,25.1233,82.8762,1,easy,1200,1
+attr-203,attraction,Fatehpur Sikri,Uttar Pradesh,central,heritage,25.1233,82.8762,1,easy,1100,1
+attr-204,attraction,Varanasi Ghats & Kashi Vishwanath,Uttar Pradesh,central,heritage,25.1233,82.8762,1,easy,1300,2
+attr-205,attraction,Sarnath,Uttar Pradesh,central,heritage,25.1233,82.8762,1,easy,1100,1
+attr-206,attraction,Jhansi Fort,Uttar Pradesh,central,heritage,25.1233,82.8762,1,easy,1000,1
+attr-207,attraction,Bara & Chota Imambara,Uttar Pradesh,central,heritage,25.1233,82.8762,1,easy,1000,1
+attr-208,attraction,Ayodhya (Ram Janmabhoomi area),Uttar Pradesh,central,heritage,25.1233,82.8762,1,easy,1000,1
+attr-209,attraction,Haridwar & Har Ki Pauri,Uttarakhand,north,heritage,30.7431,79.6177,1,easy,1100,1
+attr-21,attraction,Manas National Park,Assam,northeast,heritage,26.9803,94.1574,1,easy,1600,2
+attr-210,attraction,Rishikesh (ashrams & ghats),Uttarakhand,north,heritage,30.7431,79.6177,1,easy,1100,1
+attr-211,attraction,Kedarnath Temple,Uttarakhand,north,heritage,30.7431,79.6177,1,easy,1500,2
+attr-212,attraction,Badrinath Temple,Uttarakhand,north,heritage,30.7431,79.6177,1,easy,1500,2
+attr-213,attraction,Nainital Lake & Mall Road,Uttarakhand,north,heritage,30.7431,79.6177,1,easy,1200,1
+attr-214,attraction,Jim Corbett National Park (heritage),Uttarakhand,north,heritage,30.7431,79.6177,1,easy,1500,2
+attr-215,attraction,Mussoorie Colonial Sites,Uttarakhand,north,heritage,30.7431,79.6177,1,easy,1200,1
+attr-216,attraction,Auli (heritage skiing & temples),Uttarakhand,north,heritage,30.7431,79.6177,1,easy,1400,1
+attr-217,attraction,Victoria Memorial,West Bengal,east,heritage,23.2867,86.1156,1,easy,1000,1
+attr-218,attraction,Dakshineswar Kali Temple,West Bengal,east,heritage,23.2867,86.1156,1,easy,900,1
+attr-219,attraction,Sundarbans & Mangrove Heritage,West Bengal,east,heritage,23.2867,86.1156,1,easy,1500,2
+attr-22,attraction,Rang Ghar,Assam,northeast,heritage,26.9803,94.1574,1,easy,900,1
+attr-220,attraction,Darjeeling Himalayan Railway (Toy Train),West Bengal,east,heritage,23.2867,86.1156,1,easy,1400,1
+attr-221,attraction,Jorasanko Thakur Bari,West Bengal,east,heritage,23.2867,86.1156,1,easy,900,1
+attr-222,attraction,Belur Math,West Bengal,east,heritage,23.2867,86.1156,1,easy,800,1
+attr-223,attraction,Hazarduari Palace,West Bengal,east,heritage,23.2867,86.1156,1,easy,900,1
+attr-224,attraction,Bishnupur Terracotta Temples,West Bengal,east,heritage,23.2867,86.1156,1,easy,1000,1
+attr-225,attraction,Cellular Jail,Andaman & Nicobar Islands,north,heritage,,,1,easy,1600,1
+attr-226,attraction,Ross Island Ruins,Andaman & Nicobar Islands,north,heritage,,,1,easy,1500,1
+attr-227,attraction,Havelock (Swaraj Dweep) Heritage Beaches,Andaman & Nicobar Islands,north,heritage,,,1,easy,1800,2
+attr-228,attraction,Neil Island (Shaheed Dweep),Andaman & Nicobar Islands,north,heritage,,,1,easy,1600,1
+attr-229,attraction,Barren Island (volcanic landscape),Andaman & Nicobar Islands,north,heritage,,,1,easy,2000,2
+attr-23,attraction,Hajo Historic Sites,Assam,northeast,heritage,26.9803,94.1574,1,easy,900,1
+attr-230,attraction,Chidiya Tapu,Andaman & Nicobar Islands,north,heritage,,,1,easy,1400,1
+attr-231,attraction,Baratang Island Limestone Caves,Andaman & Nicobar Islands,north,heritage,,,1,easy,1500,1
+attr-232,attraction,Anthropological Museum,Andaman & Nicobar Islands,north,heritage,,,1,easy,1200,1
+attr-233,attraction,Rock Garden,Chandigarh,north,heritage,30.7333,76.7794,1,easy,1000,1
+attr-234,attraction,Sukhna Lake,Chandigarh,north,heritage,30.7333,76.7794,1,easy,900,1
+attr-235,attraction,Capitol Complex (Le Corbusier Heritage),Chandigarh,north,heritage,30.7333,76.7794,1,easy,1000,1
+attr-236,attraction,Government Museum & Art Gallery,Chandigarh,north,heritage,30.7333,76.7794,1,easy,800,1
+attr-237,attraction,Rose Garden,Chandigarh,north,heritage,30.7333,76.7794,1,easy,800,1
+attr-238,attraction,Terraced Garden,Chandigarh,north,heritage,30.7333,76.7794,1,easy,800,1
+attr-239,attraction,Open Hand Monument,Chandigarh,north,heritage,30.7333,76.7794,1,easy,800,1
+attr-24,attraction,Umananda Temple,Assam,northeast,heritage,26.9803,94.1574,1,easy,800,1
+attr-240,attraction,Leisure Valley,Chandigarh,north,heritage,30.7333,76.7794,1,easy,800,1
+attr-241,attraction,Diu Fort,Dadra & Nagar Haveli & Daman & Diu,north,heritage,,,1,easy,1100,1
+attr-242,attraction,St. Paul's Church (Diu),Dadra & Nagar Haveli & Daman & Diu,north,heritage,,,1,easy,1000,1
+attr-243,attraction,Silvassa Tribal & Heritage Village,Dadra & Nagar Haveli & Daman & Diu,north,heritage,,,1,easy,900,1
+attr-244,attraction,Ghoghla Beach & Lighthouse,Dadra & Nagar Haveli & Daman & Diu,north,heritage,,,1,easy,1000,1
+attr-245,attraction,Dadra Heritage Walks,Dadra & Nagar Haveli & Daman & Diu,north,heritage,,,1,easy,900,1
+attr-246,attraction,St. Thomas Church (Daman),Dadra & Nagar Haveli & Daman & Diu,north,heritage,,,1,easy,900,1
+attr-247,attraction,Moti Daman Fort,Dadra & Nagar Haveli & Daman & Diu,north,heritage,,,1,easy,900,1
+attr-248,attraction,Philippines Garden & Local Museums,Dadra & Nagar Haveli & Daman & Diu,north,heritage,,,1,easy,900,1
+attr-249,attraction,Red Fort,Delhi,north,heritage,28.65068,77.23296,1,easy,1200,1
+attr-25,attraction,Mahabodhi Temple,Bihar,east,heritage,25.3191,87.2956,1,easy,1500,2
+attr-250,attraction,Qutub Minar,Delhi,north,heritage,28.65068,77.23296,1,easy,1100,1
+attr-251,attraction,India Gate & Rajpath,Delhi,north,heritage,28.65068,77.23296,1,easy,900,1
+attr-252,attraction,Humayun's Tomb,Delhi,north,heritage,28.65068,77.23296,1,easy,1000,1
+attr-253,attraction,Lotus Temple,Delhi,north,heritage,28.65068,77.23296,1,easy,800,1
+attr-254,attraction,Jama Masjid,Delhi,north,heritage,28.65068,77.23296,1,easy,800,1
+attr-255,attraction,Humayun's Tomb Museum & Gardens,Delhi,north,heritage,28.65068,77.23296,1,easy,900,1
+attr-256,attraction,National Museum,Delhi,north,heritage,28.65068,77.23296,1,easy,900,1
+attr-257,attraction,Dal Lake & Shikara Heritage,Jammu & Kashmir,north,heritage,34.0837,74.7973,1,easy,1600,1
+attr-258,attraction,Shankaracharya Temple,Jammu & Kashmir,north,heritage,34.0837,74.7973,1,easy,1200,1
+attr-259,attraction,"Mughal Gardens (Shalimar, Nishat)",Jammu & Kashmir,north,heritage,34.0837,74.7973,1,easy,1200,1
+attr-26,attraction,Nalanda Ruins,Bihar,east,heritage,25.3191,87.2956,1,easy,1200,1
+attr-260,attraction,Jamia Masjid & Old City,Jammu & Kashmir,north,heritage,34.0837,74.7973,1,easy,1000,1
+attr-261,attraction,Vaishno Devi (Katra),Jammu & Kashmir,north,heritage,34.0837,74.7973,1,easy,1300,1
+attr-262,attraction,Gurez Valley cultural sites,Jammu & Kashmir,north,heritage,34.0837,74.7973,1,easy,1500,2
+attr-263,attraction,Pahalgam local heritage & temples,Jammu & Kashmir,north,heritage,34.0837,74.7973,1,easy,1300,1
+attr-264,attraction,Srinagar Crafts & Paper Market (heritage),Jammu & Kashmir,north,heritage,34.0837,74.7973,1,easy,900,1
+attr-265,attraction,Pangong Tso,Ladakh,north,heritage,34.5512,77.5507,1,easy,2200,2
+attr-266,attraction,Leh Palace & Shanti Stupa,Ladakh,north,heritage,34.5512,77.5507,1,easy,1800,1
+attr-268,attraction,Nubra Valley & Diskit Monastery,Ladakh,north,heritage,34.5512,77.5507,1,easy,2000,2
+attr-269,attraction,Tso Moriri,Ladakh,north,heritage,34.5512,77.5507,1,easy,2200,2
+attr-27,attraction,Vishnupad Temple,Bihar,east,heritage,25.3191,87.2956,1,easy,900,1
+attr-270,attraction,Alchi Monastery,Ladakh,north,heritage,34.5512,77.5507,1,easy,1500,1
+attr-271,attraction,Spituk Monastery & Local Markets,Ladakh,north,heritage,34.5512,77.5507,1,easy,1500,1
+attr-272,attraction,Magnetic Hill & Gurudwara Pathar Sahib,Ladakh,north,heritage,34.5512,77.5507,1,easy,1600,1
+attr-273,attraction,Bangaram & Agatti Islands,Lakshadweep,north,heritage,,,1,easy,2400,2
+attr-274,attraction,Minicoy Island cultural sites,Lakshadweep,north,heritage,,,1,easy,2200,2
+attr-275,attraction,Kavaratti Mosque & Aquarium,Lakshadweep,north,heritage,,,1,easy,2000,1
+attr-276,attraction,Kadmat Island reef heritage,Lakshadweep,north,heritage,,,1,easy,2200,2
+attr-277,attraction,Andrott Island village heritage,Lakshadweep,north,heritage,,,1,easy,1800,1
+attr-278,attraction,Biodiversity & Marine Museum (Kavaratti),Lakshadweep,north,heritage,,,1,easy,1600,1
+attr-279,attraction,Coral Conservation Sites,Lakshadweep,north,heritage,,,1,easy,2000,1
+attr-28,attraction,Rajgir,Bihar,east,heritage,25.3191,87.2956,1,easy,1100,1
+attr-280,attraction,Local Handicraft Villages,Lakshadweep,north,heritage,,,1,easy,1600,1
+attr-281,attraction,French Quarter (White Town),Puducherry,north,heritage,11.9416,79.8083,1,easy,1100,1
+attr-282,attraction,Sri Aurobindo Ashram,Puducherry,north,heritage,11.9416,79.8083,1,easy,900,1
+attr-283,attraction,Auroville (Matri Mandir area),Puducherry,north,heritage,11.9416,79.8083,1,easy,1000,1
+attr-284,attraction,Puducherry Museum & Promenade,Puducherry,north,heritage,11.9416,79.8083,1,easy,800,1
+attr-285,attraction,Arikamedu Archaeological Site,Puducherry,north,heritage,11.9416,79.8083,1,easy,900,1
+attr-286,attraction,Serenity Beach & Coastal Heritage,Puducherry,north,heritage,11.9416,79.8083,1,easy,900,1
+attr-287,attraction,Botanical Garden,Puducherry,north,heritage,11.9416,79.8083,1,easy,800,1
+attr-288,attraction,Old Lighthouse & Harbor Area,Puducherry,north,heritage,11.9416,79.8083,1,easy,800,1
+attr-29,attraction,Kesaria Stupa,Bihar,east,heritage,25.3191,87.2956,1,easy,1000,1
+attr-3,attraction,Belum Caves,Andhra Pradesh,south,heritage,13.8018,77.6095,1,easy,1100,1
+attr-30,attraction,Sher Shah Suri Tomb,Bihar,east,heritage,25.3191,87.2956,1,easy,900,1
+attr-31,attraction,Barabar Caves,Bihar,east,heritage,25.3191,87.2956,1,easy,1000,1
+attr-32,attraction,Patna Museum,Bihar,east,heritage,25.3191,87.2956,1,easy,800,1
+attr-35,attraction,Kanger Valley & Kutumsar Caves,Chhattisgarh,central,heritage,19.1962,81.7152,1,easy,1300,2
+attr-36,attraction,Sirpur Archaeological Site,Chhattisgarh,central,heritage,19.1962,81.7152,1,easy,1000,1
+attr-37,attraction,Danteshwari Temple,Chhattisgarh,central,heritage,19.1962,81.7152,1,easy,900,1
+attr-38,attraction,Malhar Archaeological Site,Chhattisgarh,central,heritage,19.1962,81.7152,1,easy,1000,1
+attr-39,attraction,Rajim Temples,Chhattisgarh,central,heritage,19.1962,81.7152,1,easy,900,1
+attr-40,attraction,Barnawapara Wildlife & Tribal Sites,Chhattisgarh,central,heritage,19.1962,81.7152,1,easy,1100,1
+attr-41,attraction,Basilica of Bom Jesus,Goa,west,heritage,15.4434,74.2454,1,easy,1200,1
+attr-42,attraction,Se Cathedral,Goa,west,heritage,15.4434,74.2454,1,easy,1100,1
+attr-43,attraction,Aguada Fort,Goa,west,heritage,15.4434,74.2454,1,easy,1000,1
+attr-44,attraction,Chapora Fort,Goa,west,heritage,15.4434,74.2454,1,easy,900,1
+attr-45,attraction,Fontainhas (Latin Quarter),Goa,west,heritage,15.4434,74.2454,1,easy,1100,1
+attr-46,attraction,Reis Magos Fort,Goa,west,heritage,15.4434,74.2454,1,easy,1000,1
+attr-47,attraction,Tambdi Surla Temple,Goa,west,heritage,15.4434,74.2454,1,easy,1000,1
+attr-48,attraction,Arvalem Caves & Waterfall,Goa,west,heritage,15.4434,74.2454,1,easy,900,1
+attr-49,attraction,Rani ki Vav,Gujarat,west,heritage,23.7585,69.5106,1,easy,1200,1
+attr-5,attraction,Borra Caves,Andhra Pradesh,south,heritage,13.8018,77.6095,1,easy,1200,1
+attr-50,attraction,Somnath Temple,Gujarat,west,heritage,23.7585,69.5106,1,easy,1100,1
+attr-51,attraction,Dwarka & Dwarkadhish Temple,Gujarat,west,heritage,23.7585,69.5106,1,easy,1200,1
+attr-52,attraction,"Sun Temple, Modhera",Gujarat,west,heritage,23.7585,69.5106,1,easy,1000,1
+attr-53,attraction,Champaner-Pavagadh,Gujarat,west,heritage,23.7585,69.5106,1,easy,1200,1
+attr-54,attraction,Dholavira (Harappan site),Gujarat,west,heritage,23.7585,69.5106,1,easy,1400,2
+attr-55,attraction,Sabarmati Ashram,Gujarat,west,heritage,23.7585,69.5106,1,easy,900,1
+attr-56,attraction,Gir National Park & Junagadh Sites,Gujarat,west,heritage,23.7585,69.5106,1,easy,1500,2
+attr-57,attraction,Kurukshetra (Brahma Sarovar & Jyotisar),Haryana,north,heritage,,,1,easy,900,1
+attr-58,attraction,Panipat Battlefields & Museum,Haryana,north,heritage,,,1,easy,900,1
+attr-59,attraction,Pinjore Gardens,Haryana,north,heritage,,,1,easy,1000,1
+attr-6,attraction,Gandikota Fort,Andhra Pradesh,south,heritage,13.8018,77.6095,1,easy,1200,1
+attr-60,attraction,Firoz Shah Palace Remains,Haryana,north,heritage,,,1,easy,900,1
+attr-61,attraction,Sheikh Chilli Tomb,Haryana,north,heritage,,,1,easy,800,1
+attr-62,attraction,Nahar Singh Palace,Haryana,north,heritage,,,1,easy,900,1
+attr-63,attraction,Sultanpur Bird Sanctuary (heritage surroundings),Haryana,north,heritage,,,1,easy,800,1
+attr-64,attraction,Kurukshetra Archaeological Museum,Haryana,north,heritage,,,1,easy,800,1
+attr-65,attraction,Hidimba Devi Temple,Himachal Pradesh,north,heritage,32.5486,76.0597,1,easy,1200,1
+attr-66,attraction,Kangra Fort,Himachal Pradesh,north,heritage,32.5486,76.0597,1,easy,1000,1
+attr-67,attraction,Shimla Ridge & Christ Church,Himachal Pradesh,north,heritage,32.5486,76.0597,1,easy,1200,1
+attr-68,attraction,Tabo Monastery,Himachal Pradesh,north,heritage,32.5486,76.0597,1,easy,1500,2
+attr-69,attraction,Key Monastery,Himachal Pradesh,north,heritage,32.5486,76.0597,1,easy,1500,2
+attr-7,attraction,Amaravati Stupa,Andhra Pradesh,south,heritage,13.8018,77.6095,1,easy,900,1
+attr-70,attraction,Chail Palace,Himachal Pradesh,north,heritage,32.5486,76.0597,1,easy,1100,1
+attr-71,attraction,Naggar Castle,Himachal Pradesh,north,heritage,32.5486,76.0597,1,easy,1100,1
+attr-72,attraction,Jwalamukhi Temple,Himachal Pradesh,north,heritage,32.5486,76.0597,1,easy,900,1
+attr-73,attraction,Baidyanath (Deoghar) Temple,Jharkhand,east,heritage,23.4746,84.2678,1,easy,1000,1
+attr-74,attraction,Jagannath Temple (Ranchi),Jharkhand,east,heritage,23.4746,84.2678,1,easy,900,1
+attr-75,attraction,Netarhat Plateau,Jharkhand,east,heritage,23.4746,84.2678,1,easy,1100,1
+attr-76,attraction,Betla Fort (Palamu),Jharkhand,east,heritage,23.4746,84.2678,1,easy,1000,1
+attr-77,attraction,Parasnath Hill,Jharkhand,east,heritage,23.4746,84.2678,1,easy,1200,1
+attr-78,attraction,Jonha & Hundru Falls,Jharkhand,east,heritage,23.4746,84.2678,1,easy,900,1
+attr-79,attraction,Malhar Archaeological Site,Jharkhand,east,heritage,23.4746,84.2678,1,easy,1000,1
+attr-8,attraction,Srisailam Mallikarjuna Temple,Andhra Pradesh,south,heritage,13.8018,77.6095,1,easy,1400,2
+attr-80,attraction,Maithon Dam & Temple Area,Jharkhand,east,heritage,23.4746,84.2678,1,easy,900,1
+attr-81,attraction,Hampi (Group of Monuments),Karnataka,south,heritage,15.3358,76.461,1,easy,1400,2
+attr-82,attraction,Mysore Palace,Karnataka,south,heritage,15.3358,76.461,1,easy,1200,1
+attr-83,attraction,Belur Chennakeshava Temple,Karnataka,south,heritage,15.3358,76.461,1,easy,1100,1
+attr-84,attraction,Halebidu Temples,Karnataka,south,heritage,15.3358,76.461,1,easy,1100,1
+attr-85,attraction,Gol Gumbaz,Karnataka,south,heritage,15.3358,76.461,1,easy,1000,1
+attr-86,attraction,Badami Cave Temples,Karnataka,south,heritage,15.3358,76.461,1,easy,1000,1
+attr-87,attraction,Shravanabelagola,Karnataka,south,heritage,15.3358,76.461,1,easy,1100,1
+attr-88,attraction,Vijayanagara Archaeological Museum,Karnataka,south,heritage,15.3358,76.461,1,easy,900,1
+attr-89,attraction,Padmanabhaswamy Temple,Kerala,south,heritage,10.2881,76.5585,1,easy,1300,1
+attr-90,attraction,Mattancherry Palace,Kerala,south,heritage,10.2881,76.5585,1,easy,1100,1
+attr-91,attraction,Fort Kochi & Chinese Fishing Nets,Kerala,south,heritage,10.2881,76.5585,1,easy,1000,1
+attr-92,attraction,Kumarakom Backwater Heritage,Kerala,south,heritage,10.2881,76.5585,1,easy,1400,2
+attr-93,attraction,Bekal Fort,Kerala,south,heritage,10.2881,76.5585,1,easy,1000,1
+attr-94,attraction,Thrissur Pooram Grounds & Temple,Kerala,south,heritage,10.2881,76.5585,1,easy,1100,1
+attr-95,attraction,Hill Palace Museum,Kerala,south,heritage,10.2881,76.5585,1,easy,900,1
+attr-96,attraction,Athirapally Falls & Vazhachal,Kerala,south,heritage,10.2881,76.5585,1,easy,1200,1
+attr-97,attraction,Khajuraho Temples,Madhya Pradesh,central,heritage,22.5078,78.6684,1,easy,1400,2
+attr-98,attraction,Sanchi Stupa,Madhya Pradesh,central,heritage,22.5078,78.6684,1,easy,1200,1
+gem-1,gem,Chand Baori Stepwell,Rajasthan,north,spiritual,27.0073,76.6066,6,easy,,
+gem-10,gem,Chitrakote Falls,Chhattisgarh,central,nature,19.1962,81.7152,6,easy,,
+gem-11,gem,Hampi Ruins,Karnataka,south,spiritual,15.3358,76.461,7,easy,,
+gem-12,gem,Valley of Flowers,Uttarakhand,north,nature,30.7431,79.6177,6,difficult,,
+gem-13,gem,Rann of Kutch,Gujarat,west,nature,23.7585,69.5106,6,easy,,
+gem-14,gem,Spiti Valley,Himachal Pradesh,north,culture,32.2244,78.0723,7,difficult,,
+gem-15,gem,Agumbe Rainforest,Karnataka,south,nature,13.5085,75.0963,6,moderate,,
+gem-16,gem,Tawang Monastery,Arunachal Pradesh,northeast,spiritual,27.5866,91.8574,7,moderate,,
+gem-17,gem,Nubra Valley,Ladakh,north,nature,34.5512,77.5507,7,difficult,,
+gem-18,gem,Dzukou Valley,Nagaland,northeast,nature,25.5517,94.1217,6,moderate,,
+gem-19,gem,Lonar Crater Lake,Maharashtra,west,nature,19.9831,76.4911,6,easy,,
+gem-2,gem,Mawlynnong Village,Meghalaya,northeast,culture,25.202,91.9155,6,moderate,,
+gem-20,gem,Magnetic Hill,Ladakh,north,nature,34.171,77.3525,6,easy,,
+gem-21,gem,Living Root Bridges,Meghalaya,northeast,nature,25.2065,91.8978,6,difficult,,
+gem-22,gem,Kolukkumalai Tea Estate,Tamil Nadu,south,nature,10.0827,77.2218,3,moderate,,
+gem-23,gem,Turtuk Village,Ladakh,north,culture,34.8447,76.828,6,moderate,,
+gem-24,gem,Hanle Dark Sky Reserve,Ladakh,north,nature,32.7715,78.9832,1,difficult,,
+gem-25,gem,Hemis Monastery,Ladakh,north,spiritual,33.9127,77.7032,7,easy,,
+gem-26,gem,Chitkul,Himachal Pradesh,north,culture,31.3518,78.4359,7,moderate,,
+gem-27,gem,Kalpa,Himachal Pradesh,north,culture,31.5778,78.2286,6,easy,,
+gem-28,gem,Kheerganga,Himachal Pradesh,north,adventure,31.9994,77.4703,6,difficult,,
+gem-29,gem,"Langza, Komic and Hikkim",Himachal Pradesh,north,culture,32.2756,78.0858,2,difficult,,
+gem-3,gem,Lepakshi Temple,Andhra Pradesh,south,spiritual,13.8018,77.6095,6,easy,,
+gem-30,gem,Chandrashila Summit,Uttarakhand,north,adventure,30.4865,79.2212,6,moderate,,
+gem-31,gem,Munsiyari,Uttarakhand,north,nature,30.0655,80.2345,6,moderate,,
+gem-32,gem,Kuldhara,Rajasthan,north,culture,26.8699,70.7851,6,easy,,
+gem-33,gem,Bundi,Rajasthan,north,heritage,25.4368,75.7361,7,moderate,,
+gem-34,gem,Jawai Bandh,Rajasthan,north,wildlife,25.1144,73.1475,6,easy,,
+gem-35,gem,Gurez Valley,Jammu and Kashmir,north,nature,34.6337,74.83,6,difficult,,
+gem-36,gem,Qila Mubarak,Punjab,north,heritage,30.2081,74.9375,7,easy,,
+gem-37,gem,Yana Rocks,Karnataka,south,nature,14.5786,74.5598,6,moderate,,
+gem-38,gem,Halebidu and Belur,Karnataka,south,spiritual,13.2168,75.9919,6,easy,,
+gem-39,gem,Half Moon Beach,Karnataka,south,beach,14.518,74.3309,1,moderate,,
+gem-4,gem,Dhanushkodi Ghost Town,Tamil Nadu,south,culture,9.1778,79.4178,6,moderate,,
+gem-40,gem,Athirappilly Falls,Kerala,south,nature,10.2881,76.5585,7,easy,,
+gem-41,gem,Gavi,Kerala,south,wildlife,9.4357,77.1595,6,moderate,,
+gem-42,gem,Varkala Cliffs,Kerala,south,beach,8.734,76.7253,7,easy,,
+gem-43,gem,Chembra Peak,Kerala,south,adventure,11.5123,76.0896,6,difficult,,
+gem-44,gem,Edakkal Caves,Kerala,south,heritage,11.6267,76.2355,6,moderate,,
+gem-45,gem,Hogenakkal Falls,Tamil Nadu,south,nature,12.1214,77.7777,6,moderate,,
+gem-46,gem,Lambasingi,Andhra Pradesh,south,nature,17.8182,82.4927,6,easy,,
+gem-47,gem,Borra Caves and Araku,Andhra Pradesh,south,heritage,18.2939,83.0597,6,moderate,,
+gem-48,gem,Kuntala Falls,Telangana,south,nature,19.285,78.503,3,moderate,,
+gem-49,gem,Ramappa Temple,Telangana,south,spiritual,18.2593,79.9432,1,easy,,
+gem-5,gem,Bhangarh Fort,Rajasthan,north,heritage,27.0955,76.2878,6,easy,,
+gem-50,gem,Chandipur Beach,Odisha,east,beach,21.47,87.02,6,easy,,
+gem-51,gem,Daringbadi,Odisha,east,nature,19.9161,84.1165,6,easy,,
+gem-52,gem,Satkosia Gorge,Odisha,east,wildlife,20.6041,84.9006,5,moderate,,
+gem-53,gem,Ajodhya Hills,West Bengal,east,nature,23.2867,86.1156,7,moderate,,
+gem-54,gem,Mousuni Island,West Bengal,east,beach,21.6597,88.2077,2,moderate,,
+gem-55,gem,Neora Valley National Park,West Bengal,east,wildlife,27.0548,88.7713,6,difficult,,
+gem-56,gem,Sandakphu,West Bengal,east,adventure,27.1044,88.0005,6,difficult,,
+gem-57,gem,Netarhat,Jharkhand,east,nature,23.4746,84.2678,6,easy,,
+gem-58,gem,Vikramshila Ruins,Bihar,east,spiritual,25.3191,87.2956,6,easy,,
+gem-59,gem,Harishchandragad,Maharashtra,west,adventure,19.3915,73.7939,6,difficult,,
+gem-6,gem,Ziro Valley,Arunachal Pradesh,northeast,nature,27.5387,93.8154,6,moderate,,
+gem-60,gem,Kaas Plateau,Maharashtra,west,nature,17.7224,73.8168,6,easy,,
+gem-61,gem,Sandhan Valley,Maharashtra,west,adventure,19.5136,73.6863,2,difficult,,
+gem-62,gem,Saputara,Gujarat,west,nature,20.5797,73.7479,6,easy,,
+gem-63,gem,Polo Forest,Gujarat,west,nature,23.9532,73.2815,6,moderate,,
+gem-64,gem,Little Rann of Kutch,Gujarat,west,wildlife,23.3,71.2,6,moderate,,
+gem-65,gem,Tambdi Surla Mahadev Temple,Goa,west,spiritual,15.4434,74.2454,6,easy,,
+gem-66,gem,Loktak Lake,Manipur,northeast,nature,24.5584,93.8132,6,moderate,,
+gem-67,gem,Unakoti,Tripura,northeast,spiritual,24.3167,92.0667,6,moderate,,
+gem-68,gem,Shnongpdeng,Meghalaya,northeast,nature,25.2076,92.0088,2,easy,,
+gem-69,gem,Nongriat Double-Decker Root Bridge,Meghalaya,northeast,adventure,25.251,91.6714,6,difficult,,
+gem-7,gem,Khajjiar,Himachal Pradesh,north,nature,32.5486,76.0597,6,easy,,
+gem-70,gem,Mechuka Valley,Arunachal Pradesh,northeast,culture,28.5987,94.1336,2,difficult,,
+gem-71,gem,Khonoma Green Village,Nagaland,northeast,culture,25.6543,94.022,1,moderate,,
+gem-72,gem,Phawngpui Blue Mountain,Mizoram,northeast,nature,22.6552,93.0465,6,difficult,,
+gem-73,gem,Dzongu,Sikkim,northeast,culture,27.5348,88.4891,6,moderate,,
+gem-74,gem,Haflong and Jatinga,Assam,northeast,culture,25.1645,93.0176,1,moderate,,
+gem-75,gem,Patalkot,Madhya Pradesh,central,nature,22.5078,78.6684,3,difficult,,
+gem-76,gem,Bhedaghat Marble Rocks,Madhya Pradesh,central,nature,23.1317,79.801,6,easy,,
+gem-77,gem,Mandu,Madhya Pradesh,central,heritage,22.3398,75.4055,6,easy,,
+gem-78,gem,Bhimbetka Rock Shelters,Madhya Pradesh,central,heritage,22.9374,77.6112,6,easy,,
+gem-79,gem,Kanger Valley Caves,Chhattisgarh,central,heritage,18.834,82.0201,3,moderate,,
+gem-8,gem,Gandikota Grand Canyon,Andhra Pradesh,south,nature,14.815,78.287,6,moderate,,
+gem-80,gem,Bhoramdeo Temple,Chhattisgarh,central,spiritual,22.1154,81.1483,6,easy,,
+gem-81,gem,Chunar Fort,Uttar Pradesh,central,heritage,25.1233,82.8762,6,easy,,
+gem-82,gem,Indian Coffee House,West Bengal,east,food,22.5761,88.36389,6,easy,,
+gem-83,gem,Leopold Cafe,Maharashtra,west,food,18.92271,72.83176,6,easy,,
+gem-85,gem,Mavalli Tiffin Rooms,Karnataka,south,food,12.95504,77.58543,6,easy,,
+gem-86,gem,Vidyarthi Bhavan,Karnataka,south,food,12.94501,77.57147,2,easy,,
+gem-87,gem,Glenary's,West Bengal,east,food,27.04301,88.26693,6,easy,,
+gem-88,gem,Flurys,West Bengal,east,food,22.55273,88.35259,6,easy,,
+gem-89,gem,Karim's,Delhi,north,food,28.65068,77.23296,6,easy,,
+gem-9,gem,Majuli Island,Assam,northeast,culture,26.9803,94.1574,7,easy,,
+gem-90,gem,Mocambo,West Bengal,east,food,22.5532545,88.3505349,5,easy,,
+gem-91,gem,Tunday Kababi,Uttar Pradesh,north,food,26.86179,80.90699,4,easy,,
+gem-92,gem,Paranthe Wali Gali,Delhi,north,food,28.65583333,77.22972222,6,easy,,
+gem-93,gem,Koshy's,Karnataka,south,food,12.9768336,77.60158093,6,easy,,
+gem-94,gem,Murugan Idli Shop,Tamil Nadu,south,food,13.03782,80.23016,3,easy,,
+gem-95,gem,Bademiya,Maharashtra,west,food,18.921936,72.834573,1,easy,,
+gem-96,gem,K. C. Das,West Bengal,east,food,23.2867,86.1156,6,easy,,
+gem-97,gem,Moti Mahal,Delhi,north,food,28.6465,77.2401,6,easy,,
+place-agartala,place,Agartala,Tripura,northeast,city,23.8315,91.2868,1,easy,,
+place-agra,place,Agra,Uttar Pradesh,central,city,27.1767,78.0081,1,easy,,
+place-ahmedabad,place,Ahmedabad,Gujarat,west,city,23.0225,72.5714,1,easy,,
+place-aizawl,place,Aizawl,Mizoram,northeast,city,23.7271,92.7176,1,easy,,
+place-ajmer,place,Ajmer,Rajasthan,north,city,26.4499,74.6399,1,easy,,
+place-alappuzha,place,Alappuzha,Kerala,south,city,9.4981,76.3388,1,easy,,
+place-alibaug,place,Alibaug,Maharashtra,west,city,18.6414,72.8722,1,easy,,
+place-amaravati,place,Amaravati,Andhra Pradesh,south,city,16.5062,80.648,1,easy,,
+place-amritsar,place,Amritsar,Punjab,north,city,31.634,74.8723,1,easy,,
+place-auli,place,Auli,Uttarakhand,north,city,30.529,79.5666,1,easy,,
+place-aurangabad,place,Aurangabad,Maharashtra,west,city,19.8762,75.3433,1,easy,,
+place-ayodhya,place,Ayodhya,Uttar Pradesh,central,city,26.7922,82.1998,1,easy,,
+place-badami,place,Badami,Karnataka,south,city,15.918,75.685,1,easy,,
+place-bengaluru,place,Bengaluru,Karnataka,south,city,12.9716,77.5946,1,easy,,
+place-bhopal,place,Bhopal,Madhya Pradesh,central,city,23.2599,77.4126,1,easy,,
+place-bhubaneswar,place,Bhubaneswar,Odisha,east,city,20.2961,85.8245,1,easy,,
+place-bikaner,place,Bikaner,Rajasthan,north,city,28.0229,73.3119,1,easy,,
+place-bodh-gaya,place,Bodh Gaya,Bihar,east,city,24.6961,84.9911,1,easy,,
+place-chandigarh,place,Chandigarh,Chandigarh,north,city,30.7333,76.7794,1,easy,,
+place-chennai,place,Chennai,Tamil Nadu,south,city,13.0827,80.2707,1,easy,,
+place-cherrapunji,place,Cherrapunji,Meghalaya,northeast,city,25.27,91.732,1,easy,,
+place-chikmagalur,place,Chikmagalur,Karnataka,south,city,13.3161,75.772,1,easy,,
+place-chittorgarh,place,Chittorgarh,Rajasthan,north,city,24.8887,74.6269,1,easy,,
+place-coimbatore,place,Coimbatore,Tamil Nadu,south,city,11.0168,76.9558,1,easy,,
+place-coonoor,place,Coonoor,Tamil Nadu,south,city,11.3494,76.7956,1,easy,,
+place-coorg,place,Coorg,Karnataka,south,city,12.3375,75.8069,1,easy,,
+place-dalhousie,place,Dalhousie,Himachal Pradesh,north,city,32.5387,75.9707,1,easy,,
+place-darjeeling,place,Darjeeling,West Bengal,east,city,27.041,88.2663,1,easy,,
+place-dehradun,place,Dehradun,Uttarakhand,north,city,30.3165,78.0322,1,easy,,
+place-dharamshala,place,Dharamshala,Himachal Pradesh,north,city,32.219,76.3234,1,easy,,
+place-digha,place,Digha,West Bengal,east,city,21.627,87.509,1,easy,,
+place-dwarka,place,Dwarka,Gujarat,west,city,22.2394,68.9678,1,easy,,
+place-gandhinagar,place,Gandhinagar,Gujarat,west,city,23.2156,72.6369,1,easy,,
+place-gangtok,place,Gangtok,Sikkim,northeast,city,27.3314,88.6138,1,easy,,
+place-gokarna,place,Gokarna,Karnataka,south,city,14.5479,74.3188,1,easy,,
+place-guwahati,place,Guwahati,Assam,northeast,city,26.1445,91.7362,1,easy,,
+place-gwalior,place,Gwalior,Madhya Pradesh,central,city,26.2183,78.1828,1,easy,,
+place-hampi,place,Hampi,Karnataka,south,city,15.335,76.46,1,easy,,
+place-hospet,place,Hospet,Karnataka,south,city,15.2689,76.3909,1,easy,,
+place-hyderabad,place,Hyderabad,Telangana,south,city,17.385,78.4867,1,easy,,
+place-imphal,place,Imphal,Manipur,northeast,city,24.817,93.9368,1,easy,,
+place-indore,place,Indore,Madhya Pradesh,central,city,22.7196,75.8577,1,easy,,
+place-itanagar,place,Itanagar,Arunachal Pradesh,northeast,city,27.0844,93.6053,1,easy,,
+place-jabalpur,place,Jabalpur,Madhya Pradesh,central,city,23.1815,79.9864,1,easy,,
+place-jaisalmer,place,Jaisalmer,Rajasthan,north,city,26.9157,70.9083,1,easy,,
+place-jaisalmer-desert,place,Jaisalmer Desert,Rajasthan,north,city,26.838,70.9,1,easy,,
+place-jammu,place,Jammu,Jammu & Kashmir,north,city,32.7266,74.857,1,easy,,
+place-jim-corbett,place,Jim Corbett,Uttarakhand,north,city,29.53,78.7747,1,easy,,
+place-jodhpur,place,Jodhpur,Rajasthan,north,city,26.2389,73.0243,1,easy,,
+place-kalimpong,place,Kalimpong,West Bengal,east,city,27.06,88.47,1,easy,,
+place-kanpur,place,Kanpur,Uttar Pradesh,central,city,26.4499,80.3319,1,easy,,
+place-kanyakumari,place,Kanyakumari,Tamil Nadu,south,city,8.0883,77.5385,1,easy,,
+place-kasol,place,Kasol,Himachal Pradesh,north,city,32.01,77.3152,1,easy,,
+place-kaziranga,place,Kaziranga,Assam,northeast,city,26.5775,93.1711,1,easy,,
+place-khajuraho,place,Khajuraho,Madhya Pradesh,central,city,24.8318,79.9199,1,easy,,
+place-kochi,place,Kochi,Kerala,south,city,9.9312,76.2673,1,easy,,
+place-kodaikanal,place,Kodaikanal,Tamil Nadu,south,city,10.2381,77.4892,1,easy,,
+place-kohima,place,Kohima,Nagaland,northeast,city,25.6751,94.11,1,easy,,
+place-kolkata,place,Kolkata,West Bengal,east,city,22.5726,88.3639,1,easy,,
+place-konark,place,Konark,Odisha,east,city,19.8876,86.0945,1,easy,,
+place-kovalam,place,Kovalam,Kerala,south,city,8.4004,76.9784,1,easy,,
+place-kozhikode,place,Kozhikode,Kerala,south,city,11.2588,75.7804,1,easy,,
+place-leh,place,Leh,Ladakh,north,city,34.1526,77.5771,1,easy,,
+place-lonavala,place,Lonavala,Maharashtra,west,city,18.7546,73.4062,1,easy,,
+place-lucknow,place,Lucknow,Uttar Pradesh,central,city,26.8467,80.9462,1,easy,,
+place-madurai,place,Madurai,Tamil Nadu,south,city,9.9252,78.1198,1,easy,,
+place-mahabaleshwar,place,Mahabaleshwar,Maharashtra,west,city,17.9307,73.6477,1,easy,,
+place-mahabalipuram,place,Mahabalipuram,Tamil Nadu,south,city,12.6269,80.1927,1,easy,,
+place-majuli,place,Majuli,Assam,northeast,city,26.95,94.17,1,easy,,
+place-manali,place,Manali,Himachal Pradesh,north,city,32.2432,77.1892,1,easy,,
+place-mangaluru,place,Mangaluru,Karnataka,south,city,12.9141,74.856,1,easy,,
+place-mathura,place,Mathura,Uttarakhand,north,city,27.4924,77.6737,1,easy,,
+place-mount-abu,place,Mount Abu,Rajasthan,north,city,24.5926,72.7156,1,easy,,
+place-mumbai,place,Mumbai,Maharashtra,west,city,19.076,72.8777,1,easy,,
+place-munnar,place,Munnar,Kerala,south,city,10.0889,77.0595,1,easy,,
+place-mussoorie,place,Mussoorie,Uttarakhand,north,city,30.4598,78.0644,1,easy,,
+place-mysuru,place,Mysuru,Karnataka,south,city,12.2958,76.6394,1,easy,,
+place-nagpur,place,Nagpur,Maharashtra,west,city,21.1458,79.0882,1,easy,,
+place-nainital,place,Nainital,Uttarakhand,north,city,29.3803,79.4636,1,easy,,
+place-nalanda,place,Nalanda,Bihar,east,city,25.1367,85.4438,1,easy,,
+place-nashik,place,Nashik,Maharashtra,west,city,19.9975,73.7898,1,easy,,
+place-new-delhi,place,New Delhi,Delhi,north,city,28.6139,77.209,1,easy,,
+place-ooty,place,Ooty,Tamil Nadu,south,city,11.4102,76.695,1,easy,,
+place-orchha,place,Orchha,Madhya Pradesh,central,city,25.3518,78.6417,1,easy,,
+place-panaji,place,Panaji,Goa,west,city,15.4909,73.8278,1,easy,,
+place-patna,place,Patna,Bihar,east,city,25.5941,85.1376,1,easy,,
+place-pelling,place,Pelling,Sikkim,northeast,city,27.3,88.24,1,easy,,
+place-port-blair,place,Port Blair,Andaman & Nicobar,north,city,11.6234,92.7265,1,easy,,
+place-prayagraj,place,Prayagraj,Uttar Pradesh,central,city,25.4358,81.8463,1,easy,,
+place-puducherry,place,Puducherry,Puducherry,north,city,11.9416,79.8083,1,easy,,
+place-pune,place,Pune,Maharashtra,west,city,18.5204,73.8567,1,easy,,
+place-puri,place,Puri,Odisha,east,city,19.8135,85.8312,1,easy,,
+place-pushkar,place,Pushkar,Rajasthan,north,city,26.4899,74.5511,1,easy,,
+place-raipur,place,Raipur,Chhattisgarh,central,city,21.2514,81.6296,1,easy,,
+place-ranchi,place,Ranchi,Jharkhand,east,city,23.3441,85.3096,1,easy,,
+place-sanchi,place,Sanchi,Madhya Pradesh,central,city,23.4794,77.7392,1,easy,,
+place-shillong,place,Shillong,Meghalaya,northeast,city,25.5788,91.8933,1,easy,,
+place-shimla,place,Shimla,Himachal Pradesh,north,city,31.1048,77.1734,1,easy,,
+place-shirdi,place,Shirdi,Maharashtra,west,city,19.7645,74.4762,1,easy,,
+place-siliguri,place,Siliguri,West Bengal,east,city,26.7271,88.3953,1,easy,,
+place-somnath,place,Somnath,Gujarat,west,city,20.888,70.401,1,easy,,
+place-spiti,place,Spiti,Himachal Pradesh,north,city,32.2464,78.0349,1,easy,,
+place-srinagar,place,Srinagar,Jammu & Kashmir,north,city,34.0837,74.7973,1,easy,,
+place-surat,place,Surat,Gujarat,west,city,21.1702,72.8311,1,easy,,
+place-tawang,place,Tawang,Arunachal Pradesh,northeast,city,27.586,91.859,1,easy,,
+place-thanjavur,place,Thanjavur,Tamil Nadu,south,city,10.787,79.1378,1,easy,,
+place-thekkady,place,Thekkady,Kerala,south,city,9.5916,77.1603,1,easy,,
+place-thiruvananthapuram,place,Thiruvananthapuram,Kerala,south,city,8.5241,76.9366,1,easy,,
+place-tiruchirappalli,place,Tiruchirappalli,Tamil Nadu,south,city,10.7905,78.7047,1,easy,,
+place-tirupati,place,Tirupati,Andhra Pradesh,south,city,13.6288,79.4192,1,easy,,
+place-udaipur,place,Udaipur,Rajasthan,north,city,24.5854,73.7125,1,easy,,
+place-udupi,place,Udupi,Karnataka,south,city,13.3409,74.7421,1,easy,,
+place-ujjain,place,Ujjain,Madhya Pradesh,central,city,23.1765,75.7885,1,easy,,
+place-vadodara,place,Vadodara,Gujarat,west,city,22.3072,73.1812,1,easy,,
+place-varkala,place,Varkala,Kerala,south,city,8.7379,76.7163,1,easy,,
+place-visakhapatnam,place,Visakhapatnam,Andhra Pradesh,south,city,17.6868,83.2185,1,easy,,
+place-vrindavan,place,Vrindavan,Uttar Pradesh,central,city,27.5806,77.7006,1,easy,,
+place-wayanad,place,Wayanad,Kerala,south,city,11.6854,76.132,1,easy,,
+tour-ahmedabad,tour,Ahmedabad Old City,Gujarat,west,heritage,23.0243,72.5806,5,easy,,
+tour-ajanta,tour,Ajanta Caves,Maharashtra,west,heritage,20.55194,75.70333,8,easy,,
+tour-aurangabad-caves,tour,Aurangabad Caves,Maharashtra,west,heritage,19.90639,75.32056,9,easy,,
+tour-bedse-caves,tour,Bedse Caves,Maharashtra,west,heritage,18.74771,73.53264,3,easy,,
+tour-bengaluru,tour,"Cubbon Park, Bengaluru",Karnataka,south,nature,12.9763,77.5929,1,easy,,
+tour-bhubaneswar,tour,"Siddheswara Temple, Bhubaneswar",Odisha,east,spiritual,20.24274,85.84079,1,easy,,
+tour-damdama-sahib,tour,Takht Sri Damdama Sahib,Punjab,north,spiritual,29.97833,75.08444,1,easy,,
+tour-darasuram,tour,"Airavatesvara Temple, Darasuram",Tamil Nadu,south,spiritual,10.94842,79.35613,1,easy,,
+tour-delhi,tour,"Qutub Minar, Delhi",Delhi,north,heritage,28.52441,77.18545,2,easy,,
+tour-ellora,tour,Ellora Caves,Maharashtra,west,heritage,20.02675,75.17752,9,easy,,
+tour-goa,tour,Goa,Goa,west,beach,15.54249,73.75556,1,easy,,
+tour-haridwar,tour,Haridwar,Uttarakhand,north,spiritual,29.9558,78.1706,1,easy,,
+tour-humayuns-tomb,tour,"Humayun's Tomb, Delhi",Delhi,north,heritage,28.59331,77.25065,1,easy,,
+tour-jaipur,tour,Jaipur,Rajasthan,north,heritage,26.98631,75.85066,1,easy,,
+tour-jaisalmer,tour,"Nathmal ki Haveli, Jaisalmer",Rajasthan,north,heritage,26.91536,70.91344,1,easy,,
+tour-jodhpur,tour,"Mehrangarh Fort, Jodhpur",Rajasthan,north,heritage,26.29785,73.01862,4,easy,,
+tour-karla-bhaja,tour,Karla & Bhaja Caves,Maharashtra,west,heritage,18.78235,73.47212,6,easy,,
+tour-kerala,tour,Kerala Backwaters,Kerala,south,nature,9.19893,76.4856,1,easy,,
+tour-kolkata,tour,"Currency Building, Kolkata",West Bengal,east,heritage,22.57139,88.34889,3,easy,,
+tour-kondana-caves,tour,Kondana Caves,Maharashtra,west,heritage,18.83929,73.38437,3,easy,,
+tour-ladakh,tour,Ladakh,Ladakh,north,adventure,34.1642,77.58481,1,easy,,
+tour-lotus-temple,tour,"Lotus Temple, Delhi",Delhi,north,spiritual,28.5535,77.2588,1,easy,,
+tour-madurai,tour,"Meenakshi Temple, Madurai",Tamil Nadu,south,spiritual,9.91889,78.11955,2,easy,,
+tour-mahabalipuram,tour,"Shore Temple, Mahabalipuram",Tamil Nadu,south,heritage,12.61686,80.19925,1,easy,,
+tour-mumbai,tour,"Gateway of India, Mumbai",Maharashtra,west,heritage,18.92198,72.83467,3,easy,,
+tour-nashik-caves,tour,"Pandavleni Caves, Nashik",Maharashtra,west,heritage,19.94055,73.74963,8,easy,,
+tour-prachi-valley,tour,Prachi Valley Temples,Odisha,east,spiritual,20.135,86.025,2,easy,,
+tour-rishikesh,tour,Rishikesh,Uttarakhand,north,spiritual,30.1225,78.3157,1,easy,,
+tour-sanchi,tour,Sanchi Stupas,Madhya Pradesh,central,heritage,23.47929,77.73963,11,easy,,
+tour-satdhara,tour,Satdhara Stupas,Madhya Pradesh,central,heritage,23.48694,77.65139,2,easy,,
+tour-taj-mahal,tour,Taj Mahal,Uttar Pradesh,central,heritage,27.17501,78.0421,3,easy,,
+tour-thanjavur,tour,"Brihadeeswarar Temple, Thanjavur",Tamil Nadu,south,spiritual,10.78278,79.13167,3,easy,,
+tour-udayagiri-caves,tour,"Udayagiri Caves, Vidisha",Madhya Pradesh,central,heritage,23.53683,77.77199,4,easy,,
+tour-varanasi,tour,Varanasi,Uttar Pradesh,central,spiritual,25.3068,83.0104,7,easy,,
