@@ -273,20 +273,30 @@ const HiddenGemsPage = ({ onPageChange }) => {
       <section className="relative h-[68vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none bg-ink-900">
           {/* Nohkalikai Falls, Meghalaya — one of the gems in our own data,
-              and about as off-the-tourist-map as India gets. */}
+              and about as off-the-tourist-map as India gets.
+
+              Self-hosted rather than pulled from the stock CDN. The clip was
+              being served at 640x360 and stretched across a 68vh hero, which
+              is roughly a 3x upscale — the mush you could see in the rock and
+              the spray. The CDN's own 1080p master of the same shot is 31s of
+              60fps at 20 Mbps, i.e. 75MB, which is no kind of thing to put in
+              front of someone arriving on the page. This is that master cut to
+              a 12s loop at 24fps and re-encoded: full 1080p, 4.4MB. A light
+              denoise does most of the work, because falling water is mostly
+              high-entropy noise and the encoder spends its whole budget there.
+
+              The poster is the clip's own first frame, so it no longer cuts
+              from an unrelated stock photograph to the video. */}
           <video
             autoPlay
             loop
             muted
             playsInline
             preload="metadata"
-            poster="https://images.unsplash.com/photo-1571536802807-30451e3955d8?w=1600&auto=format&fit=crop&q=70"
+            poster="/media/gems-hero-poster.jpg"
             className="absolute top-1/2 left-1/2 w-[177.77vh] min-w-full min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 object-cover video-crisp"
           >
-            <source
-              src="https://videos.pexels.com/video-files/33560749/14268656_640_360_60fps.mp4"
-              type="video/mp4"
-            />
+            <source src="/media/gems-hero.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/28 to-ink-950/25" />
         </div>
