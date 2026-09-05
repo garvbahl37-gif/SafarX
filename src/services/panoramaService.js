@@ -39,12 +39,20 @@ import {
     clearPanoramaCache as clearMapillaryCache,
     MAPILLARY_ATTRIBUTION,
 } from "./mapillaryService";
+import {
+    findStreetViewVantages,
+    formatCaptureDate as formatStreetViewDate,
+    hasGoogleMapsKey,
+    clearStreetViewCache,
+    STREET_VIEW_ATTRIBUTION,
+} from "./googleStreetViewService";
 
 /* ── Source tags ────────────────────────────────────────────────────── */
 
 export const PanoramaSource = {
     CURATED: "curated",
     MAPILLARY: "mapillary",
+    STREET_VIEW: "streetview",
 };
 
 /* ── Curated index ──────────────────────────────────────────────────── */
@@ -64,6 +72,16 @@ const coordKey = (lat, lng) => {
 
 const byId = new Map();
 const byCoord = new Map();
+/**
+ * Tours that opt into Google Street View, by id and by coordinate.
+ *
+ * A tour declares `"streetView": { … }` in `vrTours.json` when no freely
+ * licensed panorama of the site exists. It is consulted only *after* the
+ * curated lookup comes back empty, so no tour that already ships a verified
+ * Wikimedia image can ever be moved onto Google imagery by accident.
+ */
+const svById = new Map();
+const svByCoord = new Map();
 
 /**
  * Normalises a tour's panorama fields into a list of vantage points.
@@ -100,6 +118,20 @@ function readVantages(tour) {
 }
 
 for (const tour of vrTours) {
+    // Read before the early exit below: a Street View tour is precisely one
+    // with no curated vantages, so it would otherwise never be indexed.
+    if (tour?.streetView) {
+        const config = {
+            ...(typeof tour.streetView === "object" ? tour.streetView : {}),
+            name: tour.name,
+            lat: tour.latitude,
+            lng: tour.longitude,
+        };
+        if (tour.id) svById.set(tour.id, config);
+        const svKey = coordKey(tour.latitude, tour.longitude);
+        if (svKey && !svByCoord.has(svKey)) svByCoord.set(svKey, config);
+    }
+
     const vantages = readVantages(tour);
     if (!vantages.length) continue;
     const entry = {
@@ -155,6 +187,18 @@ export const curatedPanoramaCount = () => byId.size;
 export const curatedVantageCount = () =>
     [...byId.values()].reduce((n, e) => n + e.vantages.length, 0);
 
+/** The Street View opt-in for a tour, looked up by id first, then coordinates. */
+function getStreetViewConfig({ tourId, latitude, longitude } = {}) {
+    if (tourId && svById.has(tourId)) return svById.get(tourId);
+    const key = coordKey(latitude, longitude);
+    if (key && svByCoord.has(key)) return svByCoord.get(key);
+    return null;
+}
+
+/** Whether a tour is served by Street View rather than a curated panorama. */
+export const isStreetViewTour = (options = {}) =>
+    !getCuratedPanoramas(options).length && Boolean(getStreetViewConfig(options));
+
 /* ── Shaping ────────────────────────────────────────────────────────── */
 
 const shapeCurated = (entry, overrides = {}) => ({
@@ -186,6 +230,26 @@ const shapeMapillary = (result) => ({
     mapillaryId: result.mapillaryId ?? null,
     lat: result.lat ?? null,
     lng: result.lng ?? null,
+});
+
+/**
+ * Street View vantages carry no `imageUrl`: there is no file for us to fetch,
+ * only an id that Google's own renderer resolves. `StreetViewStage` reads
+ * `panoId`, and the viewer branches on `source` to decide which stage to mount.
+ */
+const shapeStreetView = (vantage) => ({
+    imageUrl: null,
+    panoId: vantage.panoId,
+    heading: vantage.centerHeading ?? 0,
+    source: PanoramaSource.STREET_VIEW,
+    provider: PanoramaSource.STREET_VIEW,
+    attribution: STREET_VIEW_ATTRIBUTION,
+    label: vantage.label || "Street View",
+    captureLabel: formatStreetViewDate(vantage.imageDate),
+    capturedAt: vantage.imageDate ?? null,
+    mapillaryId: null,
+    lat: vantage.lat ?? null,
+    lng: vantage.lng ?? null,
 });
 
 /* ── Public API ─────────────────────────────────────────────────────── */
@@ -293,13 +357,29 @@ export async function resolvePanoramaSet({
         );
     }
 
-    // 2 — no curated image for this site yet, so ask Mapillary for live ones.
+    // 2 — a site the free sources never covered, which has opted into Street
+    //     View. Google's imagery is still a real, draggable panorama rather
+    //     than a video, so rule #1 holds — it is just painted by Google's
+    //     renderer instead of ours, because their terms require that.
+    const streetView = getStreetViewConfig({ tourId, latitude, longitude });
+    if (streetView && hasGoogleMapsKey()) {
+        const found = await findStreetViewVantages(latitude, longitude, {
+            panoId: streetView.panoId ?? null,
+            radius: streetView.radius ?? undefined,
+            limit: streetView.limit ?? 5,
+            label: streetView.label ?? null,
+            signal,
+        });
+        if (found.length) return found.map(shapeStreetView);
+    }
+
+    // 3 — no curated image for this site yet, so ask Mapillary for live ones.
     //     A place is worth more than one viewpoint, so take several captures
     //     spread around the site rather than only the closest.
     const live = await findPanoramasNear(latitude, longitude, { signal, limit: 6 });
     if (live.length) return live.map(shapeMapillary);
 
-    // 3 — the honest empty state.
+    // 4 — the honest empty state.
     return [];
 }
 
@@ -339,5 +419,8 @@ export async function findLiveVantages(latitude, longitude, { signal, limit = 4 
     }
 }
 
-/** Clears the Mapillary lookup cache. Curated entries are static, so untouched. */
-export const clearPanoramaCache = () => clearMapillaryCache();
+/** Clears the live-lookup caches. Curated entries are static, so untouched. */
+export const clearPanoramaCache = () => {
+    clearMapillaryCache();
+    clearStreetViewCache();
+};

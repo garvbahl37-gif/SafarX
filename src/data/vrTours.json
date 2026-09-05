@@ -3563,6 +3563,572 @@
           "full": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/BANGALORE_PALACE.jpg/1280px-BANGALORE_PALACE.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
         }
       ]
+    },
+    "streetView": {
+      "radius": 300,
+      "limit": 6
+    }
+  },
+  {
+    "id": "bangla-sahib",
+    "name": "Gurudwara Bangla Sahib",
+    "country": "Delhi, India",
+    "category": "Spiritual",
+    "latitude": 28.6258,
+    "longitude": 77.2089,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Front_view_of_Gurudwara_Bangla_Sahib%2C_Delhi.jpg/1280px-Front_view_of_Gurudwara_Bangla_Sahib%2C_Delhi.jpg",
+    "description": "A white marble gurdwara around a tank believed to heal, in the middle of Delhi.",
+    "highlights": [
+      "The sarovar",
+      "Golden dome",
+      "The langar hall"
+    ],
+    "gradient": "from-sky-100 via-amber-100 to-white",
+    "duration": "3:40",
+    "views": "1.2M",
+    "panoramaSource": "streetview",
+    "streetView": {
+      "panoId": "bLHUumE5w5-gFD4plVpzKQ",
+      "label": "At the gate on Baba Kharak Singh Marg",
+      "radius": 220,
+      "limit": 5
+    },
+    "story": {
+      "tagline": "A pool of water Delhi has trusted for three hundred years.",
+      "intro": "Bangla Sahib stands on Baba Kharak Singh Marg, a few minutes from Connaught Place, and is the busiest of Delhi's gurdwaras. The building is white marble under a gilded dome, but the thing people come for is the sarovar, the tank of water in the courtyard, and the langar kitchen that feeds anyone who walks in, all day, every day, without asking who they are.",
+      "history": "The site was a bungalow belonging to Raja Jai Singh, which is where the name comes from — Jaisinghpura Bangla. In 1664 the eighth Sikh Guru, Har Krishan, stayed here during a smallpox and cholera epidemic in the city, and gave water from the well to the sick until he contracted the illness himself and died at the age of eight. The bungalow became a shrine; the water became the sarovar. The present marble structure is largely a twentieth-century rebuilding.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "Open around the clock",
+        "duration": "About an hour",
+        "nearestAirport": "Indira Gandhi International (DEL), 15 km",
+        "nearestStation": "New Delhi, 3 km"
+      },
+      "seeThis": [
+        {
+          "title": "The sarovar",
+          "detail": "The tank fills the courtyard. People sit along its edge at any hour; some drink the water, which is what brought the shrine into being."
+        },
+        {
+          "title": "The langar",
+          "detail": "A kitchen serving tens of thousands of free meals a day. Volunteers roll roti in shifts and visitors are welcome to join."
+        },
+        {
+          "title": "The gold dome",
+          "detail": "Best at dusk, when the floodlights come up and the marble goes warm."
+        },
+        {
+          "title": "The nishan sahib",
+          "detail": "The tall saffron flagpole in the forecourt, visible from the road."
+        }
+      ],
+      "tips": [
+        "Cover your head — scarves are handed out free at the entrance — and leave shoes at the counter.",
+        "Wash your feet in the shallow trough on the way in; it is part of entering, not an optional courtesy.",
+        "Photography is fine in the courtyard, but read the room inside the prayer hall."
+      ],
+      "gallery": [
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/0/01/Bangla_Sahib_Gurdwara.jpg",
+          "caption": "The gurdwara from the forecourt",
+          "credit": "Ameesha Jaiswal — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Bangla_Sahib_Gurudwara_New_Delhi.jpg/960px-Bangla_Sahib_Gurudwara_New_Delhi.jpg",
+          "caption": "Marble and gold at the dome",
+          "credit": "Aloofmanish — CC0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Front_view_of_Gurudwara_Bangla_Sahib%2C_Delhi.jpg/960px-Front_view_of_Gurudwara_Bangla_Sahib%2C_Delhi.jpg",
+          "caption": "The sarovar in the courtyard",
+          "credit": "Ken Wieland from Philadelphia, USA — CC BY-SA 2.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Gurudwara_Bangla_Sahib%2C_New_Delhi_2.jpg/960px-Gurudwara_Bangla_Sahib%2C_New_Delhi_2.jpg",
+          "caption": "Evening light on the complex",
+          "credit": "Slyronit — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "hampi",
+    "name": "Hampi",
+    "country": "Karnataka, India",
+    "category": "Heritage",
+    "latitude": 15.3344,
+    "longitude": 76.4622,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Wide_angle_of_Galigopuram_of_Virupaksha_Temple%2C_Hampi_%2804%29_%28cropped%29.jpg/1280px-Wide_angle_of_Galigopuram_of_Virupaksha_Temple%2C_Hampi_%2804%29_%28cropped%29.jpg",
+    "description": "The boulder-strewn ruins of Vijayanagara, once one of the largest cities on earth.",
+    "highlights": [
+      "Virupaksha Temple",
+      "Stone chariot",
+      "Matanga Hill"
+    ],
+    "gradient": "from-orange-200 via-stone-200 to-emerald-100",
+    "duration": "6:20",
+    "views": "3.1M",
+    "panoramaSource": "streetview",
+    "streetView": {
+      "radius": 300,
+      "limit": 6
+    },
+    "story": {
+      "tagline": "A capital of half a million people, left to the boulders.",
+      "intro": "Hampi is what remains of Vijayanagara, the capital of the empire of the same name, spread across a landscape of granite boulders on the south bank of the Tungabhadra. At its height in the early sixteenth century it was among the largest cities in the world. Portuguese and Persian visitors wrote home about its markets, its irrigation and its scale. What is left is roughly forty square kilometres of temples, bazaars, aqueducts and palace platforms sitting in a geology that looks deliberately arranged.",
+      "history": "The city was founded in 1336 and grew for two centuries as the seat of an empire that controlled most of southern India. In 1565 a coalition of Deccan sultanates defeated the Vijayanagara army at Talikota, and the city was sacked over several months and never reoccupied. That abandonment is why so much survives: nobody built over it. It is a UNESCO World Heritage Site, and the Virupaksha temple at its centre has stayed in continuous worship throughout.",
+      "visiting": {
+        "bestTime": "November to February",
+        "hours": "Sites generally 6 am to 6 pm",
+        "duration": "Two days to do it properly",
+        "nearestAirport": "Hubballi (HBX), 145 km",
+        "nearestStation": "Hosapete, 13 km"
+      },
+      "seeThis": [
+        {
+          "title": "Virupaksha Temple",
+          "detail": "The one temple never abandoned — worship here predates the empire and outlasted it."
+        },
+        {
+          "title": "The stone chariot",
+          "detail": "In the Vittala complex. Its wheels were carved to turn, and once did."
+        },
+        {
+          "title": "The musical pillars",
+          "detail": "Also at Vittala: slender stone columns that ring at different pitches when struck."
+        },
+        {
+          "title": "Matanga Hill at dawn",
+          "detail": "The climb is short and steep, and the view over the boulder field at first light is the picture everyone comes for."
+        }
+      ],
+      "tips": [
+        "Hire a bicycle or a scooter — the site is far too spread out to walk end to end.",
+        "Carry water and start early; there is very little shade between the monuments.",
+        "The Vittala complex is a separate ticket from the Royal Enclosure; the same-day ticket covers both."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Complex_of_Virupaksha_Temple%2C_Hampi_%2801%29.jpg/960px-Complex_of_Virupaksha_Temple%2C_Hampi_%2801%29.jpg",
+          "caption": "The gopuram at Virupaksha",
+          "credit": "iMahesh — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Complex_of_Virupaksha_Temple%2C_Hampi_%2802%29.jpg/960px-Complex_of_Virupaksha_Temple%2C_Hampi_%2802%29.jpg",
+          "caption": "Granite boulders above the ruins",
+          "credit": "iMahesh — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Complex_of_Virupaksha_Temple%2C_Hampi_%2804%29.jpg/960px-Complex_of_Virupaksha_Temple%2C_Hampi_%2804%29.jpg",
+          "caption": "Carved colonnade",
+          "credit": "iMahesh — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Complex_of_Virupaksha_Temple%2C_Hampi_%2805%29.jpg/960px-Complex_of_Virupaksha_Temple%2C_Hampi_%2805%29.jpg",
+          "caption": "The river below the site",
+          "credit": "iMahesh — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "fatehpur-sikri",
+    "name": "Fatehpur Sikri",
+    "country": "Uttar Pradesh, India",
+    "category": "Heritage",
+    "latitude": 27.094,
+    "longitude": 77.667,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Fatehput_Sikiri_Buland_Darwaza_gate_2010.jpg/1280px-Fatehput_Sikiri_Buland_Darwaza_gate_2010.jpg",
+    "description": "Akbar's red sandstone capital, complete and abandoned within twenty years.",
+    "highlights": [
+      "Buland Darwaza",
+      "Panch Mahal",
+      "Jama Masjid"
+    ],
+    "gradient": "from-red-200 via-orange-100 to-stone-100",
+    "duration": "4:30",
+    "views": "1.8M",
+    "panoramaSource": "streetview",
+    "streetView": {
+      "radius": 260,
+      "limit": 6
+    },
+    "story": {
+      "tagline": "A city built to last, lived in for fourteen years.",
+      "intro": "Fatehpur Sikri sits on a ridge forty kilometres from Agra: a complete Mughal capital in red sandstone, courtyards and palaces and a great mosque, built by Akbar in the 1570s and largely abandoned by 1585. It is the most intact sixteenth-century city anywhere in India, precisely because nobody stayed long enough to alter it.",
+      "history": "Akbar built here after the Sufi saint Salim Chishti, who lived at Sikri, correctly foretold the birth of a son. The emperor moved his court to the new city and named it Fatehpur — city of victory — after the Gujarat campaign. Within about fourteen years the court moved on, to Lahore and then back to Agra. Water is the usual explanation: the lake that supplied the ridge was unreliable. The buildings were never demolished or rebuilt, and the site is now a UNESCO World Heritage Site.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "Sunrise to sunset; the mosque courtyard stays open later",
+        "duration": "Two to three hours",
+        "nearestAirport": "Agra (AGR), 45 km",
+        "nearestStation": "Fatehpur Sikri, 1 km"
+      },
+      "seeThis": [
+        {
+          "title": "Buland Darwaza",
+          "detail": "Fifty-four metres of gateway, built to mark the Gujarat victory. The steps up to it are part of the effect."
+        },
+        {
+          "title": "Panch Mahal",
+          "detail": "Five open storeys, each smaller than the one below, with no walls — built for wind."
+        },
+        {
+          "title": "Salim Chishti's tomb",
+          "detail": "White marble in the middle of a red sandstone courtyard, with jali screens cut like lace."
+        },
+        {
+          "title": "Diwan-i-Khas",
+          "detail": "One carved central pillar holding a platform where Akbar is said to have sat to debate theology."
+        }
+      ],
+      "tips": [
+        "The mosque complex is free; the palace complex is ticketed. They are separate entrances.",
+        "Guides at the gate are persistent — agree a price before you start walking.",
+        "Go late in the afternoon: the sandstone turns properly red about an hour before sunset."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Diwan-i-Khas-Fatehpur-Fatehpur_Sikri_India0013.JPG/960px-Diwan-i-Khas-Fatehpur-Fatehpur_Sikri_India0013.JPG",
+          "caption": "Buland Darwaza from the steps",
+          "credit": "Diego Delso — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Fatehpur-Fatehpur_Sikri_India0002.JPG/960px-Fatehpur-Fatehpur_Sikri_India0002.JPG",
+          "caption": "Red sandstone courtyards",
+          "credit": "Diego Delso — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Fatehpur-Fatehpur_Sikri_India0005.JPG/960px-Fatehpur-Fatehpur_Sikri_India0005.JPG",
+          "caption": "Carved detail in the palace",
+          "credit": "Diego Delso — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Fatehpur-Fatehpur_Sikri_India0006.JPG/960px-Fatehpur-Fatehpur_Sikri_India0006.JPG",
+          "caption": "The complex on its ridge",
+          "credit": "Diego Delso — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "amber-fort",
+    "name": "Amer Fort, Jaipur",
+    "country": "Rajasthan, India",
+    "category": "Heritage",
+    "latitude": 26.9855,
+    "longitude": 75.8513,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/20191219_Fort_Amber%2C_Amer%2C_Jaipur_0955_9481.jpg/1280px-20191219_Fort_Amber%2C_Amer%2C_Jaipur_0955_9481.jpg",
+    "description": "A hill fort of pale yellow and rose stone above Maota Lake, north of Jaipur.",
+    "highlights": [
+      "Sheesh Mahal",
+      "Ganesh Pol",
+      "Maota Lake"
+    ],
+    "gradient": "from-amber-200 via-yellow-100 to-stone-100",
+    "duration": "5:00",
+    "views": "2.6M",
+    "panoramaSource": "streetview",
+    "streetView": {
+      "radius": 260,
+      "limit": 6
+    },
+    "story": {
+      "tagline": "A palace that keeps its mirrors in the dark on purpose.",
+      "intro": "Amer — usually written Amber — is a fortified palace complex on a ridge eleven kilometres north of Jaipur, looking down over Maota Lake. It is built from pale yellow and rose sandstone with marble inlay, arranged in four courtyards climbing the hill, and it was the seat of the Kachwaha Rajputs before Jaipur itself existed.",
+      "history": "Construction began under Raja Man Singh I in 1592 and continued under his successors for a century and a half, notably Jai Singh I. The Kachwahas allied early with the Mughals, and the architecture shows it: Rajput layout with Mughal decoration, courtyards and mirror-work that would not look out of place in Agra. The court moved down to the new planned city of Jaipur in 1727. Amer is part of the UNESCO listing of the Hill Forts of Rajasthan.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "8 am to 5.30 pm, plus an evening light show",
+        "duration": "Two to three hours",
+        "nearestAirport": "Jaipur (JAI), 24 km",
+        "nearestStation": "Jaipur Junction, 12 km"
+      },
+      "seeThis": [
+        {
+          "title": "Sheesh Mahal",
+          "detail": "The mirror palace. Thousands of convex glass pieces set into the ceiling, built so a few candles read as a sky full of stars."
+        },
+        {
+          "title": "Ganesh Pol",
+          "detail": "The painted gate into the private courtyards, frescoed top to bottom."
+        },
+        {
+          "title": "Sukh Niwas",
+          "detail": "A hall cooled by water running in channels through the floor — sixteenth-century air conditioning."
+        },
+        {
+          "title": "The view over Maota",
+          "detail": "From the ramparts, with the Kesar Kyari garden laid out on the water below."
+        }
+      ],
+      "tips": [
+        "Walk up rather than taking an elephant; the ride is short, contested on welfare grounds, and the walk is fifteen minutes.",
+        "The composite ticket covers Amer, Jantar Mantar, Hawa Mahal and more over two days — worth it if you are in Jaipur anyway.",
+        "Get there at opening. By eleven the Sheesh Mahal is shoulder to shoulder."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/20191218_Jaigarh_Fort%2C_Amer%2C_Jaipur%2C_1613_9406.jpg/960px-20191218_Jaigarh_Fort%2C_Amer%2C_Jaipur%2C_1613_9406.jpg",
+          "caption": "The fort above Maota Lake",
+          "credit": "Jakub Hałun — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/20191218_Jaigarh_Fort%2C_Amer%2C_Jaipur_1551_9335.jpg/960px-20191218_Jaigarh_Fort%2C_Amer%2C_Jaipur_1551_9335.jpg",
+          "caption": "Courtyard and colonnades",
+          "credit": "Jakub Hałun — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/20191218_Jaigarh_Fort%2C_Amer%2C_Jaipur_1552_9340.jpg/960px-20191218_Jaigarh_Fort%2C_Amer%2C_Jaipur_1552_9340.jpg",
+          "caption": "Mirror and inlay work",
+          "credit": "Jakub Hałun — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/20191218_Jaigarh_Fort%2C_Amer%2C_Jaipur_1612_9401.jpg/960px-20191218_Jaigarh_Fort%2C_Amer%2C_Jaipur_1612_9401.jpg",
+          "caption": "Ramparts along the ridge",
+          "credit": "Jakub Hałun — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "golden-temple",
+    "name": "Harmandir Sahib, Amritsar",
+    "country": "Punjab, India",
+    "category": "Spiritual",
+    "latitude": 31.62,
+    "longitude": 74.8765,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/The_Golden_Temple_of_Amrithsar_7.jpg/1280px-The_Golden_Temple_of_Amrithsar_7.jpg",
+    "description": "The central gurdwara of Sikhism, gold-leafed, standing in the middle of its own tank.",
+    "highlights": [
+      "The sarovar",
+      "Akal Takht",
+      "The world's largest langar"
+    ],
+    "gradient": "from-yellow-200 via-amber-100 to-sky-100",
+    "duration": "4:50",
+    "views": "4.4M",
+    "panoramaSource": "streetview",
+    "streetView": {
+      "radius": 240,
+      "limit": 6
+    },
+    "story": {
+      "tagline": "Four doors, one for each direction, and nobody turned away.",
+      "intro": "Harmandir Sahib sits on a platform in the middle of the Amrit Sarovar, the pool that gives Amritsar its name, reached by a causeway from the marble walkway that runs around the water. The lower storeys are marble, the upper are covered in gold leaf. It has doors on all four sides, which is the point: the building was designed to be entered from any direction, by anyone.",
+      "history": "The site was granted in the sixteenth century and the tank excavated under Guru Ram Das. Guru Arjan completed the temple in 1604 and installed the Adi Granth inside it. The complex was destroyed and rebuilt several times through the eighteenth century, and the gold and marble that define it now were added under Maharaja Ranjit Singh in the early nineteenth. It remains the holiest gurdwara in Sikhism, and the langar here serves free meals to somewhere between fifty and a hundred thousand people every day.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "Open around the clock",
+        "duration": "Two hours, longer if you eat",
+        "nearestAirport": "Amritsar (ATQ), 13 km",
+        "nearestStation": "Amritsar Junction, 2 km"
+      },
+      "seeThis": [
+        {
+          "title": "The causeway at dawn",
+          "detail": "The walk out to the sanctum as the first kirtan starts. Go before sunrise and the crowd is thin."
+        },
+        {
+          "title": "Akal Takht",
+          "detail": "Facing the temple across the water — the seat of temporal authority in Sikhism, and the counterweight to the spiritual one."
+        },
+        {
+          "title": "The langar hall",
+          "detail": "The largest free kitchen on earth. Sit on the floor in rows; the food comes to you."
+        },
+        {
+          "title": "The parikrama at night",
+          "detail": "The marble walkway with the gold reflected the length of the tank."
+        }
+      ],
+      "tips": [
+        "Head covering and bare feet are required; scarves and shoe deposit are free at every entrance.",
+        "No alcohol, tobacco or meat anywhere in the complex — including in your bag.",
+        "Volunteering in the langar for half an hour is welcomed and is the best way to understand the place."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Akal_Takht_and_Harmandir_Sahib%2C_Amritsar%2C_Punjab%2C_India.jpg/960px-Akal_Takht_and_Harmandir_Sahib%2C_Amritsar%2C_Punjab%2C_India.jpg",
+          "caption": "The temple across the sarovar",
+          "credit": "Jasleen Kaur — CC BY-SA 2.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Golden_Temple%2C_Amritsar_01.jpg/960px-Golden_Temple%2C_Amritsar_01.jpg",
+          "caption": "Gold leaf at close range",
+          "credit": "Bernard Gagnon — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Golden_Temple%2C_Amritsar_02.jpg/960px-Golden_Temple%2C_Amritsar_02.jpg",
+          "caption": "The marble parikrama",
+          "credit": "Bernard Gagnon — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Golden_Temple_%28Darbar_Sahib%29.jpg/960px-Golden_Temple_%28Darbar_Sahib%29.jpg",
+          "caption": "The complex lit at night",
+          "credit": "Ffgghhjj123 — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "khajuraho",
+    "name": "Khajuraho",
+    "country": "Madhya Pradesh, India",
+    "category": "Heritage",
+    "latitude": 24.8318,
+    "longitude": 79.9199,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/1_Khajuraho.jpg/1280px-1_Khajuraho.jpg",
+    "description": "Chandela temples carved on every surface, of which the erotic panels are a small fraction.",
+    "highlights": [
+      "Kandariya Mahadeva",
+      "Western Group",
+      "Lakshmana Temple"
+    ],
+    "gradient": "from-stone-200 via-amber-100 to-emerald-100",
+    "duration": "5:15",
+    "views": "2.2M",
+    "panoramaSource": "streetview",
+    "streetView": {
+      "radius": 280,
+      "limit": 6
+    },
+    "story": {
+      "tagline": "Famous for a tenth of what is actually carved there.",
+      "intro": "Khajuraho is a group of Hindu and Jain temples in northern Madhya Pradesh, built by the Chandela dynasty between roughly 950 and 1050. Around twenty-five survive of an original eighty-five, in three clusters. They are known internationally for their erotic sculpture, which is real but accounts for perhaps a tenth of the carving; the rest is gods, musicians, dancers, animals, and an enormous amount of everyday life rendered in sandstone.",
+      "history": "The Chandelas ruled Bundelkhand and built the temples across a century of unusual prosperity. After the dynasty declined the site was left to the forest, which is what preserved it — it was largely forgotten until a British engineer, T. S. Burt, was led to it in 1838. The temples share a distinctive north Indian form: raised platforms, no boundary walls, and towers built as clustered rising peaks meant to read as a mountain range. It became a UNESCO World Heritage Site in 1986.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "Sunrise to sunset",
+        "duration": "Half a day for the Western Group",
+        "nearestAirport": "Khajuraho (HJR), 5 km",
+        "nearestStation": "Khajuraho, 6 km"
+      },
+      "seeThis": [
+        {
+          "title": "Kandariya Mahadeva",
+          "detail": "The largest and most refined of them — over eight hundred sculptures on one building."
+        },
+        {
+          "title": "Lakshmana Temple",
+          "detail": "The most complete, platform and subsidiary shrines intact, with a frieze of daily life running round the base."
+        },
+        {
+          "title": "The Eastern Group",
+          "detail": "The Jain temples, quieter and much less visited than the Western cluster."
+        },
+        {
+          "title": "Chausath Yogini",
+          "detail": "The oldest structure on the site, granite rather than sandstone, and a ruin."
+        }
+      ],
+      "tips": [
+        "The Western Group is ticketed and holds most of the famous carving; the Eastern and Southern groups are free.",
+        "A guide genuinely helps here — the iconography is dense and rewards explanation.",
+        "The evening sound-and-light show at the Western Group is worth the hour."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/20120303_erotic_zoophilia_Lakshmana_Temple_Khajuraho_India.jpg/960px-20120303_erotic_zoophilia_Lakshmana_Temple_Khajuraho_India.jpg",
+          "caption": "Temple towers rising in tiers",
+          "credit": "User:Ggia — CC BY-SA 3.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/20120303_zoophilia_Lakshmana_Temple_Khajuraho_India_%28panoramic_version%29.jpg/960px-20120303_zoophilia_Lakshmana_Temple_Khajuraho_India_%28panoramic_version%29.jpg",
+          "caption": "Sandstone figures in relief",
+          "credit": "User:Ggia — CC BY-SA 3.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Homosexuality_in_Khajuraho_sculpture.jpg/960px-Homosexuality_in_Khajuraho_sculpture.jpg",
+          "caption": "A temple on its platform",
+          "credit": "Dey.sandip — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Khajuraho_Chaturbhuja_Temple.jpg/960px-Khajuraho_Chaturbhuja_Temple.jpg",
+          "caption": "Carving across the exterior wall",
+          "credit": "Sfu — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "konark",
+    "name": "Konark Sun Temple",
+    "country": "Odisha, India",
+    "category": "Heritage",
+    "latitude": 19.8876,
+    "longitude": 86.0945,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Konarka_Temple.jpg/1280px-Konarka_Temple.jpg",
+    "description": "A thirteenth-century temple built as the sun god's chariot, wheels and all.",
+    "highlights": [
+      "The stone wheels",
+      "Chariot horses",
+      "Jagamohana"
+    ],
+    "gradient": "from-amber-200 via-stone-200 to-sky-100",
+    "duration": "4:20",
+    "views": "2.0M",
+    "panoramaSource": "streetview",
+    "streetView": {
+      "radius": 260,
+      "limit": 6
+    },
+    "story": {
+      "tagline": "A temple built as a chariot, and meant to be seen moving.",
+      "intro": "Konark stands near the Odisha coast, about thirty-five kilometres from Puri. It was conceived as an enormous chariot for Surya, the sun god: twenty-four carved wheels along its base, and seven horses at the front straining to pull it. The main tower has collapsed, but the surviving hall gives the scale, and the wheels are among the most photographed sculpture in India — several of them work as sundials.",
+      "history": "It was built around 1250 under Narasimhadeva I of the Eastern Ganga dynasty. The great tower, said to have risen over sixty metres, fell at some point before the nineteenth century; the causes are argued over — foundations, a removed lodestone, deliberate damage. European sailors called it the Black Pagoda and used it to navigate. The Archaeological Survey filled the surviving hall with sand and sealed it in 1903 to stop it following the tower down. It has been a UNESCO World Heritage Site since 1984.",
+      "visiting": {
+        "bestTime": "October to February",
+        "hours": "6 am to 8 pm",
+        "duration": "Two hours",
+        "nearestAirport": "Bhubaneswar (BBI), 65 km",
+        "nearestStation": "Puri, 35 km"
+      },
+      "seeThis": [
+        {
+          "title": "The chariot wheels",
+          "detail": "Nearly three metres across, with spokes and hubs carved in full detail. The shadow on the axle tells the time."
+        },
+        {
+          "title": "The seven horses",
+          "detail": "At the eastern approach, one for each day of the week — one is largely intact."
+        },
+        {
+          "title": "The Jagamohana",
+          "detail": "The surviving assembly hall, sealed and sand-filled, still carrying tiers of musicians across its roof."
+        },
+        {
+          "title": "The Nata Mandir",
+          "detail": "The detached dance hall in front, where the carving is at its most exuberant."
+        }
+      ],
+      "tips": [
+        "Enter from the east so the horses and wheels come at you in the order they were composed.",
+        "The site museum next door holds the sculpture removed from the collapsed tower.",
+        "Chandrabhaga beach is three kilometres away and makes an easy pairing."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/13th_Century_Elephant_sculpture_at_Konark_Sun_Temple_Puri_district%2C_Odisha%2C_India.jpg/960px-13th_Century_Elephant_sculpture_at_Konark_Sun_Temple_Puri_district%2C_Odisha%2C_India.jpg",
+          "caption": "The temple from the approach",
+          "credit": "Joydeep — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/13th_Century_sculptures_at_Konark_Sun_Temple_Puri_district%2C_Odisha%2C_India.jpg/960px-13th_Century_sculptures_at_Konark_Sun_Temple_Puri_district%2C_Odisha%2C_India.jpg",
+          "caption": "A chariot wheel in detail",
+          "credit": "Joydeep — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/13th_Century_stone_architectures_at_Konark_Sun_Temple_Puri%2C_Odisha%2C_India.jpg/960px-13th_Century_stone_architectures_at_Konark_Sun_Temple_Puri%2C_Odisha%2C_India.jpg",
+          "caption": "Carved tiers on the hall",
+          "credit": "Joydeep — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/13th_Century_stone_curvings_at_Konark_Sun_Temple_Puri_district%2C_Odisha%2C_India.jpg/960px-13th_Century_stone_curvings_at_Konark_Sun_Temple_Puri_district%2C_Odisha%2C_India.jpg",
+          "caption": "The complex from the grounds",
+          "credit": "Joydeep — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
     }
   }
 ]

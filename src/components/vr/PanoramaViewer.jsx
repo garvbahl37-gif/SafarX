@@ -14,10 +14,17 @@
  * renderer before the next image is fetched — the same teardown an unmount
  * performs, so switching leaks nothing.
  *
- * There is deliberately no third-party viewer SDK here: no iframes, no vendor
- * buttons, no vendor logos. What we owe each source is attribution, and that is
- * rendered in our own type — the curated credit line for a curated image, the
- * Mapillary credit when a live capture is on screen.
+ * There is deliberately no third-party viewer SDK on that path: no iframes, no
+ * vendor buttons, no vendor logos. What we owe each source is attribution, and
+ * that is rendered in our own type — the curated credit line for a curated
+ * image, the Mapillary credit when a live capture is on screen.
+ *
+ * Google Street View is the one exception, and only for the sites the free
+ * sources never covered. Its terms allow the imagery on screen solely through
+ * Google's renderer and forbid removing the logo, so those vantages mount
+ * `StreetViewStage` instead of the sphere below. It is still a real panorama
+ * the visitor drags to look around — rule #1 holds — and every other piece of
+ * chrome on screen is still ours.
  */
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -44,8 +51,15 @@ import {
     resolvePanoramaSet,
     findLiveVantages,
     clearPanoramaCache,
+    isStreetViewTour,
     PanoramaSource,
 } from "../../services/panoramaService";
+import {
+    hasGoogleMapsKey,
+    GOOGLE_MAPS_KEY_ENV,
+    GOOGLE_MAPS_CONSOLE_URL,
+} from "../../services/googleStreetViewService";
+import StreetViewStage from "./StreetViewStage";
 import {
     CompassLoader,
     StateNotice,
@@ -177,6 +191,29 @@ const PanoramaViewer = ({
     const captureLabel = active?.captureLabel || null;
     // The switcher only earns its space when there is somewhere else to go.
     const hasVantages = vantages.length > 1;
+
+    /* Street View vantages carry a `panoId` and no image file, so they are
+       painted by `StreetViewStage` rather than by the three.js effect below —
+       which skips itself for exactly that reason, having no `imageUrl`. */
+    const isStreetView = active?.source === PanoramaSource.STREET_VIEW;
+
+    /* A tour that opted into Street View but has no key configured would
+       otherwise fall through to the generic "coming soon" state, which is the
+       wrong diagnosis: the imagery exists, the credential does not. */
+    const needsMapsKey =
+        phase === "empty" &&
+        !hasGoogleMapsKey() &&
+        isStreetViewTour({ tourId, latitude, longitude });
+
+    const onStageReady = useCallback(() => {
+        setPhase("ready");
+        setProgress(null);
+    }, []);
+
+    const onStageError = useCallback((err) => {
+        setError(err);
+        setPhase("error");
+    }, []);
 
     /* ── 1. Resolve the panorama this tour opens with ───────────────── */
     useEffect(() => {
@@ -616,6 +653,39 @@ const PanoramaViewer = ({
             );
         }
 
+        if (needsMapsKey) {
+            return (
+                <StateNotice
+                    icon={KeyRound}
+                    title="This tour needs a Google Maps key"
+                    body={
+                        <>
+                            No freely licensed 360° image of{" "}
+                            {name || "this site"} exists, so this tour is served
+                            by Street View. Add{" "}
+                            <code className="font-data text-saffron">
+                                {GOOGLE_MAPS_KEY_ENV}
+                            </code>{" "}
+                            to your <code className="font-data">.env</code> file
+                            with the Maps JavaScript API enabled, then restart
+                            the dev server — see{" "}
+                            <a
+                                href={GOOGLE_MAPS_CONSOLE_URL}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-saffron underline decoration-saffron/40 underline-offset-4 hover:decoration-saffron"
+                            >
+                                the Maps Platform console
+                            </a>
+                            .
+                        </>
+                    }
+                    actionLabel="Try again"
+                    onAction={retry}
+                />
+            );
+        }
+
         if (phase === "empty") {
             return (
                 <StateNotice
@@ -684,8 +754,21 @@ const PanoramaViewer = ({
             ref={shellRef}
             className={`relative h-full w-full overflow-hidden bg-ink-950 ${className}`}
         >
-            {/* The panorama itself */}
+            {/* The panorama itself — our sphere, or Google's renderer for the
+                handful of sites only Street View covers. */}
             <div ref={mountRef} className="absolute inset-0" aria-hidden="true" />
+            {isStreetView && (
+                <StreetViewStage
+                    key={active.panoId}
+                    panoId={active.panoId}
+                    heading={active.heading}
+                    autoRotate={autoRotate}
+                    reduceMotion={Boolean(reduce)}
+                    controlsRef={controlsRef}
+                    onReady={onStageReady}
+                    onError={onStageError}
+                />
+            )}
 
             {/* Screen-reader description of what the canvas shows */}
             <p className="sr-only">
@@ -742,7 +825,7 @@ const PanoramaViewer = ({
                         const isActive = i === vantageIndex;
                         return (
                             <button
-                                key={v.imageUrl}
+                                key={v.imageUrl || v.panoId}
                                 ref={isActive ? activeVantageRef : null}
                                 type="button"
                                 onClick={() => selectVantage(i)}
