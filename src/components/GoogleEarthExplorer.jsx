@@ -283,7 +283,7 @@ const GoogleEarthExplorer = ({ onBack }) => {
     : "";
 
   const BG_VIDEO_URL =
-    "https://videos.pexels.com/video-files/32485709/13852736_1920_1080_50fps.mp4";
+    "https://videos.pexels.com/video-files/32485709/13852725_960_540_50fps.mp4";
 
   const coordReadout = activeCoords
     ? formatCoords(activeCoords.lat, activeCoords.lng)

@@ -284,7 +284,7 @@ const HiddenGemsPage = ({ onPageChange }) => {
             className="absolute top-1/2 left-1/2 w-[177.77vh] min-w-full min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 object-cover video-crisp"
           >
             <source
-              src="https://videos.pexels.com/video-files/33560749/14268660_2560_1440_60fps.mp4"
+              src="https://videos.pexels.com/video-files/33560749/14268656_640_360_60fps.mp4"
               type="video/mp4"
             />
           </video>

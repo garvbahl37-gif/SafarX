@@ -142,7 +142,7 @@ const ItineraryPlanner = ({ selectedItem, onAskSrishti }) => {
             poster="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1600&auto=format&fit=crop&q=75"
             className="w-full h-full object-cover video-crisp"
           >
-            <source src="https://videos.pexels.com/video-files/15952999/15952999-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+            <source src="https://videos.pexels.com/video-files/15952999/15952999-sd_640_360_30fps.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-ink-950/15" />
           {/* Pool of shade behind the centred copy */}

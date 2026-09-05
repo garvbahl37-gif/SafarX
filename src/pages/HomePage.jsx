@@ -51,7 +51,7 @@ const SLIDES = [
  titleAccent: "history itself",
  description:
  "Dusk over the Ganga, five thousand years deep. Walk the ghats in 360° before your boat ever touches the water.",
- url: "https://videos.pexels.com/video-files/31033220/13263912_3840_2160_60fps.mp4",
+ url: "https://videos.pexels.com/video-files/31033220/13263909_1280_720_60fps.mp4",
  poster: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=160&auto=format&fit=crop&q=60",
  },
@@ -64,7 +64,7 @@ const SLIDES = [
  titleAccent: "God's own country",
  description:
  "Houseboats, palm canals, and slow water. Compare stays and seasons before you book a single night.",
- url: "https://videos.pexels.com/video-files/38298494/16262226_3840_2160_60fps.mp4",
+ url: "https://videos.pexels.com/video-files/38298494/16262224_1920_1080_60fps.mp4",
  poster: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=160&auto=format&fit=crop&q=60",
  },
@@ -77,7 +77,7 @@ const SLIDES = [
  titleAccent: "roof of India",
  description:
  "Mist over the high Himalaya. Scout altitude, weather, and routes in VR before you commit to the climb.",
- url: "https://videos.pexels.com/video-files/30152886/12929644_3840_2160_30fps.mp4",
+ url: "https://videos.pexels.com/video-files/30152886/12929643_2560_1440_30fps.mp4",
  poster: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=160&auto=format&fit=crop&q=60",
  },
@@ -860,7 +860,7 @@ const HomePage = ({ onPageChange, onAskSrishti }) => {
  loop
  playsInline
  className="w-full h-full object-cover video-crisp"
- src="https://videos.pexels.com/video-files/34456655/14600246_3840_2160_30fps.mp4"
+ src="https://videos.pexels.com/video-files/34456655/14600241_640_360_30fps.mp4"
  />
  <div className="absolute inset-0 bg-ink-950/58" />
  <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-transparent to-ink-950" />
