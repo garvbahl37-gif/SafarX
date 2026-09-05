@@ -6,6 +6,16 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **README rewritten around Srishti** — the front page never mentioned her,
+      which left the most distinctive thing in the product invisible to anyone
+      reading the repo. She now leads it: what she is, the nine Indian
+      languages she answers in, a table of all thirteen tools, and the two
+      behaviours worth explaining — that finding and showing are one intention,
+      and that the trip brief is filled in front of you rather than handed over
+      finished. Feature descriptions carry real counts (43 tours, 96 gems), and
+      the design section was corrected: it still described the retired "Night
+      Atlas" night-blue palette rather than Peacock & Gold
+
 - [x] **README banner** — the artwork now sits at `docs/banner.png` (2048x768)
       and heads the README, so the repo's front page opens on the product
       rather than on a heading. Alt text carries the seven features for anyone
