@@ -357,6 +357,18 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
+- [ ] **Local Language Survival Mode** — a phrasebook for the moment you are
+      standing in rather than a translation box. Per destination, the phrases
+      that matter ("where is the railway station", "how much is this", "I need
+      a doctor") in the language spoken there, with three uses: **tap to speak**
+      (the phone says it aloud so you need not attempt the pronunciation),
+      **show to local** (the phrase fills the screen in large type, for a loud
+      station or someone who would rather read), and **hear reply** (they
+      answer and it is translated back). The reply half is the hard one and is
+      the same pipeline Srishti already runs — nine Indian scripts, correct
+      Indian pronunciation, live audio socket — turned outward at the person in
+      front of you. Phrase set should work offline, since the moment you need
+      it most is usually the moment you have no signal
 - [ ] **Eight VR tours cannot open and should probably go** — `bangla-sahib`,
       `hampi`, `fatehpur-sikri`, `amber-fort`, `golden-temple`, `khajuraho`,
       `konark` and `bengaluru` carry a `streetView` block and no panorama.

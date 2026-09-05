@@ -154,6 +154,42 @@ python3 scripts/verify-panoramas.py    # prove every shipped panorama is real, r
 
 ---
 
+## Coming next
+
+Three features already specced, each building on something the app can already do.
+
+### Local Language Survival Mode
+
+The gap SafarX has not closed yet: you can plan a trip to Madurai in perfect detail and still be unable to ask where the railway station is.
+
+Survival Mode is a phrasebook built for the moment you are actually standing in, not a translation box. For any destination it carries the phrases that matter — *Where is the railway station? · How much is this? · I need a doctor · Is this vegetarian?* — in the language spoken there: Hindi, Marathi, Tamil, Bengali, Telugu, Kannada, Malayalam, Gujarati, Punjabi, Odia.
+
+What makes it more than translation is the three ways you use it:
+
+| | |
+|---|---|
+| **Tap to speak** | The phone says the phrase aloud, in the local language, so you do not have to attempt the pronunciation |
+| **Show to local** | The phrase fills the screen in large type — the fallback that works in a loud station, or when the person you are asking would rather read than listen |
+| **Hear reply** | They answer, and SafarX translates it back to you |
+
+That last one is the hard half, and it is where this meets Srishti: she already listens in nine Indian scripts, speaks with correct Indian pronunciation, and runs over a live audio socket. Survival Mode is that same pipeline turned outward — pointed at the person in front of you rather than at the app.
+
+Designed to work offline for the phrase set, because the moment you need it most is usually the moment you have no signal.
+
+### Recommender system — ~2,00,000 data points
+
+Implicit-ALS collaborative filtering, sentence-transformer content embeddings over FAISS, and seasonality priors — with a deliberate **long-tail floor** that reserves slots for lesser-known destinations.
+
+That floor is the point rather than a side effect. A recommender trained on where people already go will keep sending them to the same dozen places, which is precisely the problem the tourism brief asks us to solve. Pushing the long tail is how a hidden gem gets its first hundred visitors.
+
+### Kahani — the voice storyteller
+
+Narrated heritage stories in **22 Indian languages**, geo-triggered: the story of a monument begins when you arrive at it, and the same story plays inside its 360° tour.
+
+A plaque tells you a building's date. Kahani tells you why Shah Jahan built it, in the language you grew up in, while you are standing in front of it.
+
+---
+
 ## Roadmap
 
 Every workstream is owned end-to-end and maps back to the problem statement's goal of boosting the tourism industry. Full specs — data models, file structures, APIs and acceptance criteria — are in [ROADMAP.md](ROADMAP.md).
@@ -164,7 +200,7 @@ Every workstream is owned end-to-end and maps back to the problem statement's go
 | **Dhruv** | Safar Groups 2.0 (community) | Rebuild of the existing groups section into a real multi-user product: Supabase-backed membership, collaborative itineraries, live chat, expense splitting with settlements, polls, meetups, photo walls, verification and safety |
 | **Aryan** | SafarX Agent | Gemini **function calling** (search, plan and book from chat), RAG over an India heritage knowledge base, trip memory, a season-aware activities engine |
 | **Garv** | Recommender system (~2,00,000 data points) · Kahani voice storyteller | Implicit-ALS collaborative filtering + sentence-transformer content embeddings (FAISS) + seasonality priors, with a deliberate **long-tail floor** that pushes lesser-known destinations — plus **Kahani**, narrated heritage stories in 22 Indian languages, geo-triggered at monuments and inside VR tours |
-| **Rahul** | Confidence & safety | Crowd prediction with quiet-window nudges, SOS and offline emergency directory, regional-language UI, offline PWA mode, sustainability scores |
+| **Rahul** | Confidence & safety | Crowd prediction with quiet-window nudges, SOS and offline emergency directory, regional-language UI, **Local Language Survival Mode** (speak it, show it, hear the reply translated — offline-capable), offline PWA mode, sustainability scores |
 
 **Policy:** free-tier APIs only, no paid contracts.
 
