@@ -343,9 +343,16 @@ export const runTool = async (name, args, { origin }) => {
 
     case "find_vr_tour": {
       const q = String(args.place || "").toLowerCase();
+      /* A tour she can actually open. Some sites are listed but have no
+         panorama the app can paint — they were added against Google Street
+         View, which needs a billing-enabled key the browser may not have. She
+         must not offer those: announcing a tour and then showing "coming soon"
+         is the same broken promise as opening nothing at all. */
+      const showable = (t) => Boolean((t.panoramas || []).length || t.panorama || !t.streetView);
+      const pool = vrTours.filter(showable);
       const hit =
-        vrTours.find((t) => t.name.toLowerCase().includes(q)) ||
-        vrTours.find((t) => (t.country || "").toLowerCase().includes(q));
+        pool.find((t) => t.name.toLowerCase().includes(q)) ||
+        pool.find((t) => (t.country || "").toLowerCase().includes(q));
       if (!hit) return { unavailable: `There is no 360° tour of ${args.place} yet.` };
       /* Finding a tour and opening it are one intention, so this navigates by
          itself. Asking her to chain find_vr_tour into open_page meant that on
@@ -358,6 +365,8 @@ export const runTool = async (name, args, { origin }) => {
         name: hit.name,
         where: hit.country,
         about: hit.description,
+        // Say what is really there: a count when the tour ships verified
+        // images, otherwise the live capture it falls back to.
         vantages: (hit.panoramas || []).length || "live street captures",
       };
     }

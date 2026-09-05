@@ -38,6 +38,10 @@ const END_OF_SPEECH_MS = 800;
    enough to cover a hiccup, short enough that nobody notices her beginning. */
 const JITTER_BUFFER_S = 0.18;
 
+/* The first chunk of a turn waits a little longer, because that is where the
+   arrival gaps are widest. Still short enough to read as an immediate answer. */
+const TURN_OPENING_BUFFER_S = 0.32;
+
 /* Captures the microphone off the main thread and hands up 16kHz PCM16. */
 const WORKLET = `
 class Tap extends AudioWorkletProcessor {
@@ -248,9 +252,13 @@ export class LiveSession {
         break;
       case "turn-complete":
         this.herTurn = false;
-        this.herTurnEndedAt = Date.now();
         this.#endTurn();
+        /* Only stamp the echo tail if nothing is left to play. While audio is
+           still queued the guard above holds on its own, and the tail is
+           started when the queue actually drains — stamping it here started
+           the 500 ms countdown against audio that had not been heard yet. */
         if (!this.queued.size) {
+          this.herTurnEndedAt = Date.now();
           this.speaking = false;
           this.h.onState?.("listening");
         }
@@ -303,7 +311,14 @@ export class LiveSession {
        actually fallen behind — re-basing on every chunk was what made her
        stutter, because each new chunk restarted the clock a fraction late. */
     const now = this.out.currentTime;
-    if (this.playAt < now + 0.02) this.playAt = now + JITTER_BUFFER_S;
+    if (this.playAt < now + 0.02) {
+      /* Opening a turn gets a longer head start than continuing one. Chunks
+         arrive burstiest at the very beginning — the model is still spinning
+         up — and a buffer sized for mid-sentence flow underruns on the first
+         syllables, which is what made her first word stutter or vanish. Once
+         the queue is flowing, the shorter buffer keeps her replies prompt. */
+      this.playAt = now + (this.queued.size ? JITTER_BUFFER_S : TURN_OPENING_BUFFER_S);
+    }
     source.start(this.playAt);
     this.playAt += audio.duration;
 
@@ -315,6 +330,8 @@ export class LiveSession {
          timeline has actually run out. */
       if (!this.queued.size && this.out && this.out.currentTime >= this.playAt - 0.05) {
         this.speaking = false;
+        // Her voice leaves the speakers now, so the echo tail starts now.
+        this.herTurnEndedAt = Date.now();
         this.h.onState?.("listening");
       }
     };
@@ -343,7 +360,17 @@ export class LiveSession {
       this.floorSamples = [];
     }
 
-    const guarded = this.herTurn || Date.now() - this.herTurnEndedAt < ECHO_TAIL_MS;
+    /* The bar stays raised for as long as her voice can still reach the
+       microphone. `herTurn` alone is not that window: the server clears it when
+       it finishes *generating*, while the speakers keep playing whatever is
+       still queued — often seconds more. In that gap the bar dropped back to
+       SPEECH_LEVEL, the microphone heard her own voice, and the barge-in that
+       followed cut her off in the middle of her last sentence. */
+    const guarded =
+      this.herTurn ||
+      this.speaking ||
+      this.queued.size > 0 ||
+      Date.now() - this.herTurnEndedAt < ECHO_TAIL_MS;
     // Speech stands clear of the room; interrupting her has to stand clear of
     // her voice as well.
     const bar = Math.max(

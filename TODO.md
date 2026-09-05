@@ -6,6 +6,24 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Srishti stopped cutting herself off, and stopped promising tours that
+      cannot open** — three faults, one session. Her voice broke off before the
+      end of a sentence because the echo guard only stayed up while `herTurn`
+      was true, and the server clears that when it finishes *generating*, not
+      when the speakers finish *playing* — leaving seconds of her own audio
+      arriving at the microphone under the low bar, which the server read as a
+      barge-in and answered by flushing her mid-word. The guard now holds while
+      she is audible at all (`speaking`, or anything still queued), and the
+      500 ms echo tail is stamped when the last chunk actually ends rather than
+      when generation stops. Her opening syllables stuttered for a different
+      reason: chunk arrival is burstiest at the start of a turn, and a buffer
+      sized for mid-sentence flow underran on the first words, so a turn now
+      opens on a longer head start (0.32 s) and drops to the usual 0.18 s once
+      the queue is flowing. Separately, `find_vr_tour` was offering the eight
+      Street-View-backed tours, which need a billing-enabled Google key the
+      browser does not have — she announced them and the traveller landed on
+      "Panorama coming soon". She now declines them honestly
+
 - [x] **The journey section crosses instead of descending** — it was a 30px
       asphalt ribbon running top to bottom over 2,300 units: nearly four
       screens in which only one stage was ever visible, and on a phone the
@@ -308,6 +326,15 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
+- [ ] **Eight VR tours cannot open and should probably go** — `bangla-sahib`,
+      `hampi`, `fatehpur-sikri`, `amber-fort`, `golden-temple`, `khajuraho`,
+      `konark` and `bengaluru` carry a `streetView` block and no panorama.
+      Street View needs a Maps JavaScript API key with billing enabled; the
+      key on file is genuine but has no billing, so every one of them renders
+      "Panorama coming soon". Srishti no longer offers them, but they are still
+      cards in VR Tours. Either remove the eight, or attach billing. Their
+      thumbnails, stories and galleries are real and would be worth keeping if
+      a source is ever found
 - [ ] **Orbital view hero video** — the clip is measurably the dullest asset
       in the app: saturation 17/255 and contrast 29, against 44–118 and 59–72
       for the heroes that were signed off. No overlay tuning fixes footage
