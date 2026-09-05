@@ -6,6 +6,24 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **The trip planner could never generate anything** — `aiService.js` called
+      Gemini from the browser with `import.meta.env.VITE_GEMINI_API_KEY`, a
+      variable that was never set, so every brief ended in "Failed to generate
+      itinerary" no matter how complete it was. Setting it would have been the
+      wrong repair twice: Vite exposes a VITE_ variable by writing it into the
+      client bundle, where the key is readable in devtools and spendable by
+      anyone, and `api/_server.js` already states the rule that a secret must
+      never take a VITE_ prefix or reach the client. The model call moved to
+      `api/itinerary.js`, which holds `GEMINI_API_KEY` server-side and builds
+      the prompt itself rather than accepting one from the page — a
+      `{ prompt }` endpoint would have been an open Gemini proxy on the app's
+      quota. It retries Gemini's 503 UNAVAILABLE twice, which is what was
+      happening on the first live test and is explicitly temporary, and names
+      the side that failed instead of telling everyone to try again. Also fixed
+      the prompt introducing itself as an "expert global travel planner" and
+      offering to pick anywhere in the world, in an app whose first design rule
+      is that every destination is Indian
+
 - [x] **Hero videos were being played at a fraction of their size** — the
       Trip Planner's full-screen hero was a **640×360** file stretched across
       the viewport, a 1.86× upscale, and the home page's 360° card was the
