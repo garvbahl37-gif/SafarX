@@ -542,8 +542,16 @@ A recommender trained on uniformly random interactions learns nothing, because
 there is nothing there to learn — every model scores alike and the metrics
 measure the sampler. These are the structures that make it trainable:
 
-- **Long-tailed popularity.** Item score falls off as `1/rank^0.85`, so a
-  popularity baseline is genuinely hard to beat, and therefore worth beating.
+- **Long-tailed popularity, applied to exposure rather than to choice.** Item
+  weight falls off as `1/rank^{POP_EXPONENT}`, and that weight decides which
+  candidates a user is *shown*; which of those they act on is decided by their
+  own taste alone. Scoring by popularity instead made it decide nearly every
+  pick, because it spreads over four orders of magnitude where everything
+  personal spans about forty.
+- **A latent taste per user.** Two people with the same persona are not the
+  same person. This is deliberately absent from `users.csv`: a model should
+  infer it from behaviour, and handing it over as a column would make any
+  score measured here meaningless.
 - **Power-law attention.** User activity is Pareto-distributed: most users
   leave a few events, a few leave hundreds.
 - **Distance decay.** Interest falls off exponentially with kilometres from a
@@ -561,6 +569,35 @@ measure the sampler. These are the structures that make it trainable:
   more than one person is browsing at any given moment.
 - **A daily rhythm.** Trip planning peaks around 7pm and nearly stops at 4am,
   so an hour-of-day feature has something true to learn.
+- **Deep histories.** A constraint, not a flourish. At 25 events per user,
+  item-based CF *lost* to a popularity ranking by 46%; at 167 events per user,
+  on the identical generator, it *won* by 34%. Row count and user count are
+  therefore chosen together, at roughly 150 events per user. Raising the user
+  count without raising the rows will quietly destroy the signal this corpus
+  exists for.
+
+## Baselines
+
+    python3 scripts/recsys/baseline.py
+
+Splits temporally and runs the two models anything else has to beat: a
+popularity ranking, and item-based collaborative filtering. Use it before
+trusting a result from this data — it was written because a dataset nobody has
+trained on is a claim rather than a result, and it caught this one being
+barely learnable three separate times.
+
+Two findings from it are worth carrying:
+
+- **CF's margin over popularity shrinks as the catalogue grows** against a
+  fixed interaction budget. That is a real property of recommender data, not a
+  defect: a large catalogue is sparse, so the collaborative signal concentrates
+  in the head while the tail stays cold. Choose the interaction volume to give
+  the catalogue a fair chance.
+- **Fitting CF on intent only makes it much worse here**, despite being the
+  textbook move for implicit feedback. Views are drawn by exposure and do carry
+  popularity bias, but positives run to about thirty per user across tens of
+  thousands of items and there is nothing there to fit. `--signal intent`
+  reproduces the comparison.
 
 ## Reproducing
 
