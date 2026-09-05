@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import { originalFrom } from '../../utils/imageCdn';
 
@@ -39,22 +39,46 @@ const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 260
       ? i === index
       : i === index || i === (index + 1) % n || i === (index - 1 + n) % n;
 
-  /* One timer per multi-photo card, unconditionally.
-     This was gated behind an IntersectionObserver so that off-screen cards
-     did not tick — a saving worth nothing, since the observer never reported
-     and no card ever cycled at all. Browsers already throttle timers in
-     background tabs, which is the case that actually mattered. */
+  /* Cards tick only while they are on screen.
+     This was tried once before, never reported, and was removed because no
+     card cycled at all. It is back because it turned out to matter: a card
+     that advances off screen mounts its next frame, and a mounted frame near
+     the viewport gets fetched, so ninety-six cards quietly pulled 129 images
+     for the nine anybody could see. The difference this time is that the
+     observer watches a ref on this component's own root, and that the effect
+     re-runs when that ref is attached — the earlier version observed a node
+     that did not exist yet, which is why it never fired. */
+  const rootRef = useRef(null);
+  const [onScreen, setOnScreen] = useState(false);
+
   useEffect(() => {
-    if (!cycles) return undefined;
+    const node = rootRef.current;
+    if (!node) return undefined;
+    if (typeof IntersectionObserver === 'undefined') {
+      setOnScreen(true);            // no observer, no gating
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => setOnScreen(entry.isIntersecting),
+      /* A margin, so a card starts cycling just before it is scrolled to
+         rather than visibly waking up once it arrives. */
+      { rootMargin: '200px' }
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!cycles || !onScreen) return undefined;
     const id = setInterval(() => {
       setCycled(true);
       setIndex((n) => (n + 1) % frames.length);
     }, interval);
     return () => clearInterval(id);
-  }, [cycles, frames.length, interval]);
+  }, [cycles, onScreen, frames.length, interval]);
 
   return (
-    <div className={`relative h-full w-full ${className}`}>
+    <div ref={rootRef} className={`relative h-full w-full ${className}`}>
       {frames.map((src, i) => (
         /* Only the frame showing and the one after it are in the DOM.
            Stacking all of them put 504 <img> elements on the gems page — six
