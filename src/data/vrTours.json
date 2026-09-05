@@ -4130,5 +4130,157 @@
         }
       ]
     }
+  },
+  {
+    "id": "visakhapatnam",
+    "name": "Visakhapatnam Beach Road",
+    "country": "Andhra Pradesh, India",
+    "category": "Beach",
+    "latitude": 17.7175,
+    "longitude": 83.3154,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/What_is_Shipyard.jpg/1280px-What_is_Shipyard.jpg",
+    "description": "The Bay of Bengal on one side, the Eastern Ghats behind — Vizag's beach road.",
+    "highlights": [
+      "RK Beach",
+      "Kursura submarine",
+      "Kailasagiri"
+    ],
+    "gradient": "from-sky-200 via-cyan-100 to-amber-100",
+    "duration": "3:30",
+    "views": "410K",
+    "panoramaSource": "mapillary",
+    "story": {
+      "tagline": "A working port city that kept its beach.",
+      "intro": "Visakhapatnam — Vizag to almost everyone — is the largest city in Andhra Pradesh and one of India's busiest ports, but the stretch that defines it is the beach road along the Bay of Bengal. Ramakrishna Beach runs for several kilometres of promenade, sand and statuary, with the Eastern Ghats rising behind the city and shipyard cranes at the far end.",
+      "history": "The city grew around a natural harbour that the Eastern Ganga rulers, and later the Dutch, English and French, all took an interest in. Its modern shape comes from the twentieth century: the harbour opened in 1933, the shipyard followed, and the Eastern Naval Command made it a naval city. The submarine INS Kursura, decommissioned in 2001, was hauled onto the beach and opened as a museum — one of very few submarine museums anywhere, and the reason the promenade has a warship on it.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "The beach road is open at all hours",
+        "duration": "An afternoon",
+        "nearestAirport": "Visakhapatnam (VTZ), 12 km",
+        "nearestStation": "Visakhapatnam Junction, 5 km"
+      },
+      "seeThis": [
+        {
+          "title": "Ramakrishna Beach",
+          "detail": "The main promenade. Busiest at sunrise and again after five, when the whole city seems to walk it."
+        },
+        {
+          "title": "INS Kursura",
+          "detail": "A Soviet-built submarine beached and cut open as a museum. You walk the length of it, through the torpedo room."
+        },
+        {
+          "title": "Kailasagiri",
+          "detail": "The hilltop park above the bay, reached by ropeway, with the best view back over the coast."
+        },
+        {
+          "title": "The Ghats behind the city",
+          "detail": "Araku Valley and the Borra Caves are a few hours inland by a famously scenic railway."
+        }
+      ],
+      "tips": [
+        "Sunrise over the bay is the reason to set an alarm here; the light is gone by eight.",
+        "The submarine museum closes on Mondays.",
+        "Swimming is unsafe along much of RK Beach — the currents are strong and the promenade is the point."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Beach_Road%2C_Visakhapatnam.jpg/960px-Beach_Road%2C_Visakhapatnam.jpg",
+          "caption": "The bay from the beach road",
+          "credit": "Ashwin Kumar from Bangalore, India — CC BY-SA 2.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Beach_Road_%282_July_2025%29.jpg/960px-Beach_Road_%282_July_2025%29.jpg",
+          "caption": "Along the promenade",
+          "credit": "This photograph is created by Sbb1413. All photographs created by him  — CC BY 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Beach_Road_%282_July_2025%29_2.jpg/960px-Beach_Road_%282_July_2025%29_2.jpg",
+          "caption": "The city against the Ghats",
+          "credit": "This photograph is created by Sbb1413. All photographs created by him  — CC BY 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Beach_Road_%282_July_2025%29_3.jpg/960px-Beach_Road_%282_July_2025%29_3.jpg",
+          "caption": "Evening on the coast",
+          "credit": "This photograph is created by Sbb1413. All photographs created by him  — CC BY 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "hyderabad",
+    "name": "Hyderabad Old City",
+    "country": "Telangana, India",
+    "category": "Heritage",
+    "latitude": 17.3664,
+    "longitude": 78.4809,
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Aerial_view_of_Durgam_cheruvu_and_Hitech_CIty.jpg/1280px-Aerial_view_of_Durgam_cheruvu_and_Hitech_CIty.jpg",
+    "description": "The lanes around Charminar — bangles, biryani and four minarets.",
+    "highlights": [
+      "Charminar",
+      "Laad Bazaar",
+      "Mecca Masjid"
+    ],
+    "gradient": "from-amber-200 via-rose-100 to-stone-100",
+    "duration": "4:10",
+    "views": "1.5M",
+    "panoramaSource": "mapillary",
+    "story": {
+      "tagline": "Four minarets, and a market that has not stopped since 1591.",
+      "intro": "The old city of Hyderabad is laid out around Charminar, the four-arched, four-minaret monument Quli Qutb Shah built at the centre of his new capital in 1591. What surrounds it is the point as much as the monument: Laad Bazaar selling lacquer bangles by the thousand, Mecca Masjid a short walk south, and a dense grid of lanes where the pearl trade, the bangle trade and the city's biryani all live within a few hundred metres of each other.",
+      "history": "Hyderabad was founded in 1591 by Muhammad Quli Qutb Shah when Golconda, the fortress capital eleven kilometres away, ran short of water. Charminar was built at the founding, and the city grew outward from it on a planned grid. The Qutb Shahis gave way to the Mughals and then to the Asaf Jahi Nizams, who ruled one of the wealthiest princely states in India until it acceded in 1948. Mecca Masjid, begun in 1614, used bricks made from soil brought from Mecca — which is where the name comes from.",
+      "visiting": {
+        "bestTime": "October to February",
+        "hours": "Charminar 9.30 am to 5.30 pm; the bazaars run later",
+        "duration": "Half a day",
+        "nearestAirport": "Rajiv Gandhi International (HYD), 25 km",
+        "nearestStation": "Hyderabad Deccan (Nampally), 5 km"
+      },
+      "seeThis": [
+        {
+          "title": "Charminar",
+          "detail": "You can climb it — 149 winding steps to a gallery looking straight down the four roads it was built to anchor."
+        },
+        {
+          "title": "Laad Bazaar",
+          "detail": "The bangle market running west from Charminar. Lacquer, glass and stone, sold by the armful."
+        },
+        {
+          "title": "Mecca Masjid",
+          "detail": "One of the largest mosques in India, and the burial place of the Nizams."
+        },
+        {
+          "title": "Chowmahalla Palace",
+          "detail": "The Nizams' seat, a short walk away, with the durbar hall and the vintage car collection."
+        }
+      ],
+      "tips": [
+        "Go on a weekday morning — the lanes around Charminar are genuinely impassable on weekend evenings.",
+        "Haggle in Laad Bazaar; the first price is never the price.",
+        "Golconda Fort is worth a separate half-day, and the sound-and-light show there is good."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/CHARMINAR%2C_Hyderabad_01.jpg/960px-CHARMINAR%2C_Hyderabad_01.jpg",
+          "caption": "Charminar above the old city",
+          "credit": "Original: Nagalakshmikavuri Derivative work: UnpetitproleX — CC BY-SA 3.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Charminar%2C_Hyderabad%2C_India.jpg/960px-Charminar%2C_Hyderabad%2C_India.jpg",
+          "caption": "The lanes around the monument",
+          "credit": "Kishor Krishnamoorthi — CC BY-SA 3.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Charminar%2C_Hyderabad.jpg/960px-Charminar%2C_Hyderabad.jpg",
+          "caption": "Bazaar colour",
+          "credit": "Shilpa Venkat — CC BY-SA 3.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/9/92/Charminar_-_Hyderabad_01.JPG",
+          "caption": "The old city skyline",
+          "credit": "Moeezsabuwala — CC BY-SA 3.0 · Wikimedia Commons"
+        }
+      ]
+    }
   }
 ]
