@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
+import { useNavigate, useLocation, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { Scroll } from "lucide-react";
@@ -35,7 +35,6 @@ import FlightTrackerPage from "./pages/FlightTrackerPage";
 import ItineraryPlanner from "./pages/ItineraryPlanner";
 import PreTripChecklist from './components/PreTripChecklist';
 import DocumentVault from './pages/DocumentVault';
-import TourPage360 from './pages/TourPage360';
 import SocialPage from './pages/SocialPage';
 
 import TravelDiary from './pages/TravelDiaryPage/TravelDiary';
@@ -57,7 +56,6 @@ const ROUTES = {
  upload: "/upload",
  tracker: "/tracker",
  vault: "/vault",
- "360view": "/360view",
  social: "/social",
  diary: "/diary",
  safety: "/safety",
@@ -75,7 +73,6 @@ const PAGE_TITLES = {
  "/upload": "Share a Hidden Gem — SafarX",
  "/tracker": "Track a Flight or Train — SafarX",
  "/vault": "Document Vault — SafarX",
- "/360view": "360° Explorer — SafarX",
  "/social": "Safar Groups — SafarX",
  "/diary": "AI Cinematic Reel & Digital Diary — SafarX",
  "/safety": "Tourist Safety Hub & Live SOS — SafarX",
@@ -88,7 +85,7 @@ const INTRO_SKIP_PATHS = new Set(["/signin", "/signup", "/sso-callback"]);
 const INTRO_PLAYED = "safarx:intro-played";
 
 const FULL_BLEED_PAGES = new Set([
- "home", "tracker", "360tour", "gems", "itinerary", "360view", "map",
+ "home", "tracker", "360tour", "gems", "itinerary", "map",
   // The diary opens on a full-bleed hero that runs under the floating nav.
   "diary",
 ]);
@@ -266,7 +263,10 @@ export default function App() {
  <Route path="/upload" element={<UploadPage {...pageProps} />} />
  <Route path="/tracker" element={<FlightTrackerPage />} />
  <Route path="/vault" element={<DocumentVault {...pageProps} />} />
- <Route path="/360view" element={<TourPage360 onPageChange={handlePageChange} />} />
+ {/* 360° Explorer was a thinner second copy of VR Tours. Old links
+ and bookmarks land on the real thing rather than falling through to
+ the catch-all, which would have dropped them on the home page. */}
+ <Route path="/360view" element={<Navigate to="/360tour" replace />} />
  <Route path="/social" element={<SocialPage onBack={() => handlePageChange("home")} />} />
  <Route path="/signin" element={<AuthPage mode="signin" />} />
  <Route path="/signup" element={<AuthPage mode="signup" />} />

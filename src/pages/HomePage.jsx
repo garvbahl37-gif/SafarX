@@ -650,7 +650,7 @@ const HomePage = ({ onPageChange, onAskSrishti }) => {
  lede="Step inside the Taj before you ever queue for a ticket. Every heritage site on SafarX can be walked through in full 360° — so you know exactly what you are booking."
  />
  <button
- onClick={() => onPageChange("360view")}
+ onClick={() => onPageChange("360tour")}
  className="btn-primary mt-8"
  >
  Explore all 360° views

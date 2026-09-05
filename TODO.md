@@ -6,6 +6,19 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Removed the 360° Explorer page** — a thinner second copy of VR Tours,
+      which already does street-level and 360° properly. `TourPage360.jsx` is
+      gone along with its nav, footer and route entries; `/360view` now
+      redirects to `/360tour` so old links and bookmarks land on the real
+      thing rather than falling through to the home page. The home page's
+      "Explore all 360° views" button pointed at the removed page and now
+      goes to VR Tours (the Taj play button already did).
+- [x] **De-duplicated the "More" dropdown** — Safety Hub & SOS, Digital Diary
+      and Flight Tracker were all listed there *and* in the primary navbar, so
+      the menu was mostly a second route to places one click away. It now
+      holds only what the navbar does not: Safar Groups, Trip Checklist,
+      Local Insights, Share a Gem
+
 - [x] **Bug: every tour opened as the Taj Mahal** — she routed to the 360°
       explorer, which carries its own list of four places and always opens the
       first. Asking for the Taj looked right; asking for Varanasi quietly gave

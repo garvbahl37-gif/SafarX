@@ -12,7 +12,6 @@ const EXPLORE_LINKS = [
  { id: "360tour", label: "VR Tours" },
  { id: "gems", label: "Hidden Gems" },
  { id: "itinerary", label: "Trip Planner" },
- { id: "360view", label: "360° Explorer" },
  { id: "social", label: "Safar Groups" },
 ];
 

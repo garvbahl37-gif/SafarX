@@ -4,16 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
  Menu,
  X,
- Globe,
  MapPin,
  Users,
  CheckCircle,
  Upload,
  ChevronDown,
- Film,
  Sparkles,
- ShieldAlert,
- Plane,
 } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 import AccountMenu from "./AccountMenu";
@@ -30,7 +26,6 @@ const ROUTES = {
  upload: "/upload",
  tracker: "/tracker",
  vault: "/vault",
- "360view": "/360view",
  social: "/social",
  diary: "/diary",
  safety: "/safety",
@@ -54,10 +49,6 @@ const PRIMARY_LINKS = [
 ];
 
 const MORE_LINKS = [
- { id: "safety", label: "Safety Hub & SOS", icon: ShieldAlert, desc: "Crowd forecasts, 24x7 ERSS 112 & emergency SOS" },
- { id: "diary", label: "Digital Diary", icon: Film, desc: "Turn photos into cinematic reels & share" },
- { id: "tracker", label: "Flight Tracker", icon: Plane, desc: "Follow any flight live" },
- { id: "360view", label: "360° Explorer", icon: Globe, desc: "Street-level India views" },
  { id: "social", label: "Safar Groups", icon: Users, desc: "Travel with your people" },
  { id: "checklist", label: "Trip Checklist", icon: CheckCircle, desc: "Pack with confidence" },
  { id: "map", label: "Local Insights", icon: MapPin, desc: "Navigate like a local" },
