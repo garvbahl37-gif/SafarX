@@ -363,14 +363,24 @@ export async function resolvePanoramaSet({
     //     renderer instead of ours, because their terms require that.
     const streetView = getStreetViewConfig({ tourId, latitude, longitude });
     if (streetView && hasGoogleMapsKey()) {
-        const found = await findStreetViewVantages(latitude, longitude, {
-            panoId: streetView.panoId ?? null,
-            radius: streetView.radius ?? undefined,
-            limit: streetView.limit ?? 5,
-            label: streetView.label ?? null,
-            signal,
-        });
-        if (found.length) return found.map(shapeStreetView);
+        try {
+            const found = await findStreetViewVantages(latitude, longitude, {
+                panoId: streetView.panoId ?? null,
+                radius: streetView.radius ?? undefined,
+                limit: streetView.limit ?? 5,
+                label: streetView.label ?? null,
+                signal,
+            });
+            if (found.length) return found.map(shapeStreetView);
+        } catch {
+            /* A key that is present but unauthorised — the API not enabled on
+               the project, no billing account, a referrer restriction that does
+               not cover this host — must not take the viewer down with it. A
+               configured-but-rejected key is a deployment problem, not a reason
+               to deny the visitor the Mapillary capture below or the honest
+               empty state. Swallowed deliberately, exactly as Mapillary's own
+               enhancement path is. */
+        }
     }
 
     // 3 — no curated image for this site yet, so ask Mapillary for live ones.
