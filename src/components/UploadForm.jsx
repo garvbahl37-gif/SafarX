@@ -277,7 +277,7 @@ const UploadForm = ({ user, onSubmit, onCancel }) => {
       console.log("Successfully submitted heritage gem:", result);
 
       // Success!
-      toast.success(`🎉 "${formData.title}" submitted for review!`, {
+      toast.success(`"${formData.title}" submitted for review.`, {
         id: "upload",
         duration: 5000,
       });

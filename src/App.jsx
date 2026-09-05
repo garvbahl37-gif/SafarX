@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import Toast from "./components/ui/Toast";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { Scroll } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -287,23 +288,17 @@ export default function App() {
  {!AUTH_PAGES.has(currentPage) && (
  <FloatingSOSWidget defaultDestination="Current Location" />
  )}
+ {/* Every toast in the app renders through our own component, so the
+     ~130 existing toast.success / toast.error calls did not have to be
+     touched to be redressed. */}
  <Toaster
  position="top-right"
- toastOptions={{
- duration: 4000,
- style: {
- background: "rgba(10, 29, 26, 0.92)",
- color: "#F2EFE6",
- border: "1px solid rgba(242, 239, 230, 0.12)",
- backdropFilter: "blur(16px)",
- boxShadow: "0 20px 40px -8px rgba(0, 0, 0, 0.5)",
- borderRadius: "14px",
- padding: "14px 18px",
- fontSize: "14px",
- },
- success: { iconTheme: { primary: "#D4A843", secondary: "#0A1D1A" } },
- }}
- />
+ gutter={10}
+ containerStyle={{ top: 88, right: 20 }}
+ toastOptions={{ duration: 4000 }}
+ >
+ {(t) => <Toast t={t} />}
+ </Toaster>
  {!hideHeaderFooter && (<Footer onPageChange={handlePageChange} />
  )}
 

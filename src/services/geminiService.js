@@ -136,7 +136,7 @@ Generate NOW:
 `;
 
   try {
-    toast.loading("🚀 Planning your itinerary with AI...");
+    toast.loading("Planning your itinerary…");
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
@@ -149,17 +149,17 @@ Generate NOW:
     } catch (parseError) {
       console.error("JSON Parse Error:", parseError);
       console.error("Raw response:", text);
-      toast.error("⚠️ Response parsing failed. Please try again.");
+      toast.error("Could not read the response. Please try again.");
       throw new Error("Invalid JSON from Gemini");
     }
 
     toast.dismiss();
-    toast.success("✨ Itinerary generated successfully!");
+    toast.success("Your itinerary is ready.");
     return itinerary;
   } catch (error) {
     console.error("Gemini Error:", error);
     toast.dismiss();
-    toast.error("❌ Failed to generate itinerary. Check API key & internet.");
+    toast.error("Could not generate the itinerary. Check your connection and API key.");
     throw error;
   }
 }

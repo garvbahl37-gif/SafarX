@@ -202,7 +202,7 @@ export default function SOSBeaconModal({ isOpen, onClose, defaultDestination = "
  const handleSendWhatsApp = () => {
  const payload = getPayload();
  if (!selectedContactPhone) {
- toast("No emergency phone selected. Opening WhatsApp broadcast...", { icon: "ℹ" });
+ toast("No emergency contact selected — opening WhatsApp so you can pick one.");
  } else {
  toast.success(`Broadcasting SOS directly to ${formatWhatsAppPhoneNumber(selectedContactPhone)}...`);
  }

@@ -6,6 +6,28 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Notifications rebuilt** (`components/ui/Toast.jsx`) — react-hot-toast's
+      default is a white pill with a coloured tick, which on a dark teal
+      application looks like a browser alert nobody styled. The house toast is
+      a dark glass panel: the tone stated once down the leading edge rather
+      than by colouring the whole thing (which at that size reads as an error
+      even when it is not), a Lucide glyph in a tinted ring, the message, a
+      dismiss, and a hairline that runs out along the bottom so the time left
+      is visible without a number. Loading toasts get a spinner and no
+      countdown, because they are waiting on real work rather than a timer.
+      The shape is a capsule — fully rounded, wide and shallow — and the
+      countdown runs as a ring around the icon rather than a bar along the
+      bottom, because in a stadium the ends curve away and a straight bar
+      either pokes out of the shape or has to be inset far enough that it
+      reads as a stray line.
+      It is passed as the Toaster's render function, so all ~130 existing
+      `toast.success` / `toast.error` calls were redressed without one call
+      site being touched.
+      Emoji are gone from the six messages that carried them. They render
+      differently on every platform, sit at a different optical weight to the
+      type beside them, and a rocket in front of "Planning your itinerary" is
+      not a status — it is decoration standing where an icon should be.
+
 - [x] **The trip planner could never generate anything** — `aiService.js` called
       Gemini from the browser with `import.meta.env.VITE_GEMINI_API_KEY`, a
       variable that was never set, so every brief ended in "Failed to generate
