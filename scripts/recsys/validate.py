@@ -116,14 +116,21 @@ def main():
                 if item["category"] in PERSONAS[user["persona"]][1]:
                     persona_hits += 1
 
+                # The timestamp as a 14-digit integer rather than its ISO
+                # string. At ten million rows this map holds roughly eight
+                # million entries, and a str costs about sixty bytes against
+                # an int's twenty-eight — the difference between a validator
+                # that runs and one that exhausts memory partway through.
+                # Ordering is preserved: YYYYMMDDHHMMSS compares the same way.
+                tnum = int(ts[0:4] + ts[5:7] + ts[8:10] + ts[11:13] + ts[14:16] + ts[17:19])
                 ui = hash((u, i))
                 if ev == "view":
                     prev = first_view.get(ui)
-                    if prev is None or ts < prev:
-                        first_view[ui] = ts
+                    if prev is None or tnum < prev:
+                        first_view[ui] = tnum
                 elif ev in ("book", "rate"):
                     prev = first_view.get(ui)
-                    if prev is None or prev >= ts:
+                    if prev is None or prev >= tnum:
                         out_of_order += 1
 
     fails = []

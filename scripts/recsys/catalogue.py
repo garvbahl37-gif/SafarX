@@ -412,6 +412,14 @@ def build_items():
         if prior is None or rank > (SOURCE_RANK[prior["_source"]], prior["media_count"]):
             best[key] = it
 
+    # Titles on one line, always. Six OSM name tags carry an embedded newline
+    # — a bilingual name written across two lines — and while csv quotes them
+    # correctly, anything reading the file with split('\n') gets six broken
+    # rows. A title is a label; it does not need line breaks.
+    for it in items:
+        if it.get("title"):
+            it["title"] = " ".join(str(it["title"]).split())
+
     out = sorted(best.values(), key=lambda x: x["item_id"])
     # World Heritage status marked on whatever is already here, after dedupe
     # so it lands on the surviving record rather than a discarded twin.

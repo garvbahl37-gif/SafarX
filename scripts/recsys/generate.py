@@ -602,14 +602,31 @@ three sources:
 | SafarX's own data | {src.get("app", 0):,} | the gems, VR tours, cities and attractions the app has built pages for |
 | Wikidata | {src.get("wikidata", 0):,} | the famous things — forts, national parks, monuments, dishes, festivals |
 | OpenStreetMap | {src.get("osm", 0):,} | the ordinary ones — restaurants, viewpoints, neighbourhood temples |
+| Curated attractions table | {src.get("external", 0):,} | fees, durations, ratings, best time of day — the columns nothing else has |
+| Kaggle | {src.get("kaggle", 0):,} | hotels, restaurants with prices, railway stations, airports, dishes, cities |
 
 Where two sources describe the same place, the richer record wins: SafarX's own
-first, then Wikidata, then OSM. Nothing was invented. There is no
-two-hundred-thousand-row list of real Indian tourist attractions to be had —
-Wikidata's entire tourism universe for India is about 38,000 — so the scale
-comes from OSM's named POIs rather than from padding the table with plausible
-fiction, which would have made the catalogue as synthetic as the behaviour and
-left nothing worth training against.
+first, then the curated table, then Kaggle, then Wikidata, then OSM. Nothing was
+invented.
+
+There is no two-hundred-thousand-row list of real Indian tourist attractions to
+be had — Wikidata's entire tourism universe for India is about 38,000 — so the
+scale comes from named POIs and from tables that describe real businesses,
+never from padding, which would have made the catalogue as synthetic as the
+behaviour and left nothing worth training against.
+
+**Four datasets were checked and rejected**, which mattered more than some that
+were taken. A state-by-month tourism series had Goa peaking in the monsoon and
+Ladakh in February under snow: fabricated, and it would have replaced measured
+seasonality with noise. 190,665 LLM-generated itineraries and 1,001 generated
+Q&A pairs are model output, not observation. 148,544 Swiggy restaurants carry
+no coordinates, and distance is the strongest signal here, so they would have
+grown the catalogue by 80% while diluting it.
+
+{len([i for i in items if i.get("rating") not in ("", None)]):,} items carry a
+rating and {len([i for i in items if i.get("fee_inr") not in ("", None)]):,}
+carry a price. Those are content features a cold-start recommender has nothing
+else to work with.
 
 Categories: {", ".join(f"{c} {n:,}" for c, n in cats.most_common())}.
 
@@ -659,9 +676,15 @@ measure the sampler. These are the structures that make it trainable:
 - **Distance decay.** Interest falls off exponentially with kilometres from a
   user's home city, scaled by how far their persona travels. Geography is the
   strongest single feature in travel recommendation.
-- **Season, and its inversion.** Indian travel peaks October–March and drops
-  through the monsoon; the six Himalayan states invert it, because Ladakh in
-  January is not Ladakh in June.
+- **Season, measured rather than assumed.** Monthly weights come from India
+  Meteorological Department rainfall normals — 641 districts, twelve means
+  each, averaged to the state. This replaced a table written from general
+  knowledge, which had October as high season everywhere; October is the
+  wettest month of the year in Tamil Nadu, which the northeast monsoon reaches
+  as the rest of the country dries out. The six Himalayan states keep an
+  explicit summer preference on top, because altitude is the one thing rainfall
+  cannot express: Ladakh is dry all year and shut in January for reasons that
+  have nothing to do with rain.
 - **Persona affinity.** Seven personas each lean towards three categories, so
   the collaborative signal the model depends on actually exists.
 - **A narrowing funnel.** view → save → plan → book, each roughly a tenth of

@@ -18,6 +18,21 @@ Two rules keep the catalogue honest:
   endpoint's timeout, and it means every row knows which state it is in
   without any reverse geocoding.
 
+A KNOWN GAP, recorded rather than quietly left. Both passes ask only for
+`node`. A great many features are mapped in OSM as ways — a fort is usually
+the polygon of its walls, a park and a beach are areas, a large temple is a
+building outline — and none of those are collected here. Adding them means
+`way[...]` with `out center;` to get a representative point, which roughly
+doubles the cost of an already slow sweep.
+
+How much is missed is unmeasured: the attempt to count it ran while both
+Overpass slots were occupied by this same harvest and returned nothing. Some
+of it will be duplicates, since a well-mapped POI often carries both a node and
+a way, and the catalogue would merge those on name and position anyway. The
+honest summary is that the node-only sweep is a floor on what OSM holds, not a
+ceiling, and `adventure` at around a hundred items is the category where that
+shows most — trekking routes are relations, which this never asks for.
+
     python3 scripts/recsys/osm.py count      # what is out there
     python3 scripts/recsys/osm.py harvest    # pull it down (slow, resumable)
 """
