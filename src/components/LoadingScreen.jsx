@@ -1,25 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import PeacockLoader from "./PeacockLoader";
 
 /**
  * Cinematic boot sequence — a four-act film.
  *
- *   I   Waypoints ignite across a dark map and a flight path draws itself
- *   II  सफ़र ("safar" — journey) is inked in, then flooded with gold
- *   III The Devanagari dissolves and the SafarX wordmark assembles
+ *   I   Waypoints ignite across a dark map and gold dust drifts up
+ *   II  The peacock unfurls: tail first, then the gold S inks itself in
+ *   III सफ़र ("safar" — journey) gives way to the SafarX wordmark
  *   IV  Letterbox opens, the frame pushes in, and the app is revealed
+ *
+ * The bird is the mark from the app icon, built as live SVG rather than
+ * an image so it can be drawn rather than merely shown. See
+ * PeacockLoader for its own internal timeline (~4.1s); everything here
+ * is scheduled around it.
  */
 
-const TOTAL_MS = 3800;
-const MORPH_AT = 2150;
+export const INTRO_DURATION_MS = 5200;
+
+const TOTAL_MS = INTRO_DURATION_MS;
+const MORPH_AT = 3300;
 
 // Waypoints across the composition — deterministic, no Math.random
 const WAYPOINTS = [
-  { x: "12%", y: "34%", d: 0.35 },
-  { x: "31%", y: "58%", d: 0.5 },
-  { x: "50%", y: "28%", d: 0.65 },
-  { x: "69%", y: "62%", d: 0.8 },
-  { x: "88%", y: "40%", d: 0.95 },
+  { x: "9%", y: "24%", d: 0.35 },
+  { x: "24%", y: "68%", d: 0.5 },
+  { x: "50%", y: "13%", d: 0.65 },
+  { x: "77%", y: "70%", d: 0.8 },
+  { x: "91%", y: "30%", d: 0.95 },
 ];
 
 const MOTES = [
@@ -33,6 +41,8 @@ const MOTES = [
   { x: -14, y: -8, d: 0.3, s: 2 },
   { x: 46, y: -14, d: 2.1, s: 2 },
   { x: -33, y: 40, d: 1.9, s: 3 },
+  { x: -52, y: -30, d: 2.4, s: 2 },
+  { x: 54, y: 30, d: 2.7, s: 2 },
 ];
 
 const EASE_FILM = [0.76, 0, 0.24, 1];
@@ -84,7 +94,11 @@ const LoadingScreen = () => {
         filter: "blur(18px)",
         transition: { duration: 0.8, ease: EASE_FILM },
       }}
-      className="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-ink-950 text-ivory overflow-hidden film-grain vignette"
+      className="fixed inset-0 z-[10000] flex flex-col items-center justify-center text-ivory overflow-hidden film-grain vignette"
+      style={{
+        background:
+          "radial-gradient(circle at 50% 40%, #0B3C35 0%, #062B26 45%, #031915 100%)",
+      }}
       role="status"
       aria-label="Loading SafarX"
     >
@@ -154,21 +168,6 @@ const LoadingScreen = () => {
           />
         )}
 
-        {/* Ignition rings */}
-        {!reduce && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
-            {[0, 1, 2].map((i) => (
-              <motion.span
-                key={i}
-                initial={{ scale: 0.2, opacity: 0.55 }}
-                animate={{ scale: 5, opacity: 0 }}
-                transition={{ duration: 2.4, delay: 0.2 + i * 0.26, ease: "easeOut" }}
-                className="absolute w-40 h-40 rounded-full border border-saffron/35"
-              />
-            ))}
-          </div>
-        )}
-
         {/* Drifting gold dust */}
         {!reduce &&
           MOTES.map((m, i) => (
@@ -186,9 +185,23 @@ const LoadingScreen = () => {
 
       {/* ── Foreground stack ── */}
       <div className="relative z-10 flex flex-col items-center px-6 w-full">
-        {/* Wordmark: सफ़र → SafarX */}
+        {/* ── ACT II · the peacock ──
+            Sized against the viewport's short edge as well as its width,
+            so a laptop in landscape doesn't push the wordmark off-screen. */}
+        <motion.div
+          initial={{ opacity: 0, y: reduce ? 0 : 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE_OUT }}
+          className="pointer-events-none"
+          style={{ width: "min(540px, 88vw, 52vh)" }}
+          aria-hidden="true"
+        >
+          <PeacockLoader reduce={reduce} />
+        </motion.div>
+
+        {/* ── ACT III · wordmark: सफ़र → SafarX ── */}
         <div
-          className="relative h-[clamp(5rem,15vw,9rem)] flex items-center justify-center w-full transition-opacity duration-300"
+          className="relative -mt-4 h-[clamp(4.5rem,13vw,8rem)] flex items-center justify-center w-full transition-opacity duration-300"
           style={{ opacity: fontsReady ? 1 : 0 }}
         >
           <AnimatePresence mode="wait">
@@ -207,7 +220,7 @@ const LoadingScreen = () => {
                   initial={{ opacity: 0, letterSpacing: "0.55em" }}
                   animate={{ opacity: 1, letterSpacing: "0.06em" }}
                   transition={{ duration: 1.2, ease: EASE_OUT }}
-                  className="font-devanagari text-[clamp(3.5rem,11vw,7rem)] leading-none text-transparent block"
+                  className="font-devanagari text-[clamp(3rem,9.5vw,6rem)] leading-none text-transparent block"
                   style={{ WebkitTextStroke: "1.4px rgba(212,168,67,0.85)" }}
                 >
                   सफ़र
@@ -216,7 +229,7 @@ const LoadingScreen = () => {
                   initial={{ clipPath: "inset(0 100% 0 0)" }}
                   animate={{ clipPath: "inset(0 0% 0 0)" }}
                   transition={{ duration: 1, delay: 0.95, ease: EASE_FILM }}
-                  className="font-devanagari text-[clamp(3.5rem,11vw,7rem)] leading-none absolute inset-0 text-saffron"
+                  className="font-devanagari text-[clamp(3rem,9.5vw,6rem)] leading-none absolute inset-0 text-saffron"
                   style={{ letterSpacing: "0.06em" }}
                   aria-hidden="true"
                 >
@@ -245,7 +258,7 @@ const LoadingScreen = () => {
                     animate={{ opacity: 1, y: 0, rotateX: 0 }}
                     transition={{ duration: 0.6, delay: 0.04 + i * 0.055, ease: EASE_OUT }}
                     style={{ willChange: "transform, opacity", backfaceVisibility: "hidden" }}
-                    className="font-display italic font-medium text-[clamp(3rem,10vw,6.5rem)] leading-none tracking-tight inline-block"
+                    className="font-display italic font-medium text-[clamp(2.6rem,8.5vw,5.5rem)] leading-none tracking-tight inline-block"
                   >
                     {letter}
                   </motion.span>
@@ -263,7 +276,7 @@ const LoadingScreen = () => {
                     ],
                   }}
                   transition={{ duration: 0.7, delay: 0.36, ease: [0.34, 1.56, 0.64, 1] }}
-                  className="font-data font-bold text-saffron text-[clamp(2.6rem,8.5vw,5.4rem)] leading-none inline-block ml-1"
+                  className="font-data font-bold text-saffron text-[clamp(2.2rem,7vw,4.6rem)] leading-none inline-block ml-1"
                 >
                   X
                 </motion.span>
@@ -276,18 +289,18 @@ const LoadingScreen = () => {
         <motion.p
           initial={{ opacity: 0, letterSpacing: "0.75em" }}
           animate={{ opacity: 1, letterSpacing: "0.32em" }}
-          transition={{ duration: 1, delay: reduce ? 0.4 : 2.75, ease: EASE_OUT }}
-          className="font-data text-[10px] md:text-[11px] uppercase text-ivory-faint mt-6 text-center"
+          transition={{ duration: 1, delay: reduce ? 0.4 : 4.1, ease: EASE_OUT }}
+          className="font-data text-[10px] md:text-[11px] uppercase text-ivory-faint mt-4 text-center"
         >
           Discover Incredible India
         </motion.p>
 
-        {/* Progress — a discreet readout, no bar (the compass carries the wait) */}
+        {/* Progress — a discreet readout, no bar (the bird carries the wait) */}
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: reduce ? 0.4 : 2.9, duration: 0.8 }}
-          className="mt-9 font-data text-[11px] tracking-[0.34em] text-saffron/70 tabular-nums"
+          transition={{ delay: reduce ? 0.4 : 4.35, duration: 0.8 }}
+          className="mt-6 font-data text-[11px] tracking-[0.34em] text-saffron/70 tabular-nums"
           aria-hidden="true"
         >
           {String(Math.round(progress)).padStart(3, "0")}
@@ -321,14 +334,16 @@ const LoadingScreen = () => {
             initial={{ height: "22vh" }}
             animate={{ height: "0vh" }}
             transition={{ duration: 1.6, delay: 0.25, ease: EASE_FILM }}
-            className="absolute top-0 inset-x-0 bg-ink-950 pointer-events-none z-20"
+            className="absolute top-0 inset-x-0 pointer-events-none z-20"
+            style={{ background: "#031915" }}
             aria-hidden="true"
           />
           <motion.div
             initial={{ height: "22vh" }}
             animate={{ height: "0vh" }}
             transition={{ duration: 1.6, delay: 0.25, ease: EASE_FILM }}
-            className="absolute bottom-0 inset-x-0 bg-ink-950 pointer-events-none z-20"
+            className="absolute bottom-0 inset-x-0 pointer-events-none z-20"
+            style={{ background: "#031915" }}
             aria-hidden="true"
           />
         </>

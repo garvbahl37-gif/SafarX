@@ -6,7 +6,7 @@ import { Scroll } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import SrishtiLauncher from "./components/srishti/SrishtiLauncher";
 import SrishtiPanel from "./components/srishti/SrishtiPanel";
-import LoadingScreen from "./components/LoadingScreen";
+import LoadingScreen, { INTRO_DURATION_MS } from "./components/LoadingScreen";
 
 // IMPORT ANONYMOUS SUPABASE CLIENT (NO Clerk interference)
 import { supabase } from "./lib/supabaseClient";
@@ -192,7 +192,7 @@ export default function App() {
  onAskSrishti: () => setSrishtiOpen(true),
  };
 
- // Cinematic boot sequence runs ~3.8s — never block the app on auth loading
+ // The boot sequence owns its own length — never block the app on auth
  useEffect(() => {
  if (!isMainLoading) return undefined;
  const timer = setTimeout(() => {
@@ -202,7 +202,7 @@ export default function App() {
  } catch {
  /* private browsing — the intro simply plays again next load */
  }
- }, 3800);
+ }, INTRO_DURATION_MS);
  return () => clearTimeout(timer);
  }, [isMainLoading]);
 
