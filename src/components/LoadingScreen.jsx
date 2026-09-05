@@ -12,14 +12,14 @@ import PeacockLoader from "./PeacockLoader";
  *
  * The bird is the mark from the app icon, built as live SVG rather than
  * an image so it can be drawn rather than merely shown. See
- * PeacockLoader for its own internal timeline (~4.1s); everything here
+ * PeacockLoader for its own internal timeline (~4.4s); everything here
  * is scheduled around it.
  */
 
-export const INTRO_DURATION_MS = 5200;
+export const INTRO_DURATION_MS = 5600;
 
 const TOTAL_MS = INTRO_DURATION_MS;
-const MORPH_AT = 3300;
+const MORPH_AT = 3600;
 
 // Waypoints across the composition — deterministic, no Math.random
 const WAYPOINTS = [
@@ -289,7 +289,7 @@ const LoadingScreen = () => {
         <motion.p
           initial={{ opacity: 0, letterSpacing: "0.75em" }}
           animate={{ opacity: 1, letterSpacing: "0.32em" }}
-          transition={{ duration: 1, delay: reduce ? 0.4 : 4.1, ease: EASE_OUT }}
+          transition={{ duration: 1, delay: reduce ? 0.4 : 4.5, ease: EASE_OUT }}
           className="font-data text-[10px] md:text-[11px] uppercase text-ivory-faint mt-4 text-center"
         >
           Discover Incredible India
@@ -299,7 +299,7 @@ const LoadingScreen = () => {
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: reduce ? 0.4 : 4.35, duration: 0.8 }}
+          transition={{ delay: reduce ? 0.4 : 4.75, duration: 0.8 }}
           className="mt-6 font-data text-[11px] tracking-[0.34em] text-saffron/70 tabular-nums"
           aria-hidden="true"
         >

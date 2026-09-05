@@ -2,104 +2,109 @@ import React, { useEffect, useMemo, useRef } from "react";
 import "./PeacockLoader.css";
 
 /**
- * PeacockLoader — the SafarX mark, drawn and animated.
+ * PeacockLoader — the SafarX peacock, drawn and animated.
  *
- * The bird from the app icon: a gold "S" that is also a peacock's neck
- * — the S of Safar — crowned with a crest, one folded wing at its side,
- * and a train that unfurls behind it. A gold journey path runs beneath
- * the whole thing and draws itself first, so the sequence reads as a
- * journey unfolding rather than a logo appearing.
+ * A real peacock rather than an abstract mark: its own indigo neck and
+ * crested head, a scalloped covert wing over a teal body, gold legs, and
+ * a train of seventeen eyed feathers. The gold S of Safar is a separate
+ * ribbon woven through the bird — behind the neck at the top, across the
+ * body below — so the letter and the bird read as one emblem without the
+ * letter having to *be* the bird.
  *
- * The bird assembles before it displays, which is the order that makes
- * the train the hero rather than the opening act:
+ * The bird assembles before it displays, which is what makes the train
+ * the hero rather than the opening act:
  *
- *   0.10s  the journey path draws itself west to east, waypoints lighting
- *   0.35s  the S inks in as one stroke, sheen chasing it
- *   1.15s  head and beak, then the crest, plume by plume
- *   1.45s  the wing unfolds in four layered plates
- *   1.75s  the covert plumes fan out — the mass behind the train
- *   1.85s  the eyed feathers sweep over them, centre first
- *   2.4s   the ocelli bloom, each a beat behind its own feather
- *   3.6s   a ring of light crosses the train, a highlight rakes it,
- *          the head lifts a few degrees and the eye catches the light
+ *   0.10s  a gold journey path draws west to east, waypoints lighting,
+ *          and the horizon circle closes behind the bird
+ *   0.45s  the S ribbon inks in as one stroke, sheen chasing it
+ *   1.00s  legs, then the body settles onto them
+ *   1.25s  the wing builds row by row, scale over scale
+ *   1.60s  the neck grows up out of the body
+ *   1.85s  head, beak, eye flashes, then the crest plume by plume
+ *   2.10s  covert plumes fan out, then the eyed feathers over them
+ *   2.7s   the ocelli bloom, each a beat behind its own feather
+ *   3.9s   a ring of light crosses the train, a highlight rakes it,
+ *          the head lifts and the eye catches the light
  *
- * Roughly 4.1s to build, then it holds and breathes: the train sways,
- * the gold rims glint in a slow wave, and the whole thing answers the
- * pointer with a few pixels of parallax.
+ * Roughly 4.4s to build, then it holds and breathes.
  *
- * All geometry lives in one 520×470 viewBox, pivoting on (260, 396).
- * Nothing is animated but `transform`, `opacity` and `stroke-dashoffset`.
+ * All geometry lives in one 580×480 viewBox. The train pivots on
+ * (272, 375) — behind the bird's rump. Nothing is animated but
+ * `transform`, `opacity` and `stroke-dashoffset`.
  */
 
-const PIVOT_X = 260;
-const PIVOT_Y = 396;
+const PIVOT_X = 272;
+const PIVOT_Y = 375;
 
-const MAIN_COUNT = 21; // eyed feathers
-const COVERT_COUNT = 27; // filler plumes behind them
+const MAIN_COUNT = 17; // eyed feathers
+const COVERT_COUNT = 25; // filler plumes behind them
 
 /** When the build-in finishes, in ms. The loader holds after this. */
-export const PEACOCK_BUILD_MS = 4100;
+export const PEACOCK_BUILD_MS = 4400;
 
 // One place for the storyboard, so re-timing does not mean hunting
 // through JSX. Seconds, to match CSS.
 const T = {
   path: 0.1,
-  waypoint: 0.55,
-  body: 0.35,
-  sheen: 0.62,
-  head: 1.15,
-  crest: 1.35,
-  crestTip: 1.62,
-  wing: 1.45,
-  covert: 1.75,
-  main: 1.85,
-  ocellus: 0.48, // relative to its own feather
-  pulse: 3.55,
-  rake: 3.65,
-  lift: 3.5,
-  glint: 3.95,
-  birds: 3.85,
+  circle: 0.35,
+  waypoint: 0.8,
+  ribbon: 0.45,
+  sheen: 0.72,
+  legs: 1.0,
+  body: 1.1,
+  wing: 1.25,
+  neck: 1.6,
+  head: 1.85,
+  crest: 2.02,
+  crestTip: 2.28,
+  covert: 2.1,
+  main: 2.2,
+  ocellus: 0.5, // relative to its own feather
+  pulse: 3.85,
+  rake: 3.95,
+  lift: 3.8,
+  glint: 4.2,
 };
 
-/* ── Feather construction ─────────────────────────────────────── */
+/* ── Train construction ───────────────────────────────────────── */
 
 /**
- * The hairline barbs combed off the shaft. Nine pairs, each leaving the
- * quill and sweeping up and out — this is the detail that reads as a
- * feather rather than a leaf, and it costs one path node per feather.
+ * The fine barbs of a train feather leave the shaft at a steep angle and
+ * sweep up toward the eye, which is what makes it read as a frond rather
+ * than a leaf. Sixteen pairs, emitted as one path node per feather.
  */
-function barbStrands(len, lean) {
+function barbStrands(len) {
   const parts = [];
-  const N = 9;
+  const N = 24;
   for (let j = 0; j < N; j++) {
-    const u = 0.14 + (j / (N - 1)) * 0.76;
+    const u = 0.1 + (j / (N - 1)) * 0.82;
     const y0 = PIVOT_Y - len * u;
-    const y1 = PIVOT_Y - len * Math.min(u + 0.13, 0.99);
-    const w = 15.5 * Math.sin(Math.PI * Math.pow(u, 0.82));
-    const ym = (y0 + y1) / 2;
-    const bow = lean * 3.2 * u;
+    const w = 24 * Math.sin(Math.PI * Math.pow(u, 0.8));
+    const y1 = y0 - w * 0.95;
     parts.push(
-      `M${PIVOT_X + bow} ${y0.toFixed(1)}Q${(PIVOT_X - w * 0.5 + bow).toFixed(
-        1
-      )} ${ym.toFixed(1)} ${(PIVOT_X - w + bow).toFixed(1)} ${y1.toFixed(1)}`
+      `M${PIVOT_X} ${y0.toFixed(1)}Q${(PIVOT_X - w * 0.7).toFixed(1)} ${(
+        y0 -
+        w * 0.2
+      ).toFixed(1)} ${(PIVOT_X - w).toFixed(1)} ${y1.toFixed(1)}`
     );
     parts.push(
-      `M${PIVOT_X + bow} ${y0.toFixed(1)}Q${(PIVOT_X + w * 0.5 + bow).toFixed(
-        1
-      )} ${ym.toFixed(1)} ${(PIVOT_X + w + bow).toFixed(1)} ${y1.toFixed(1)}`
+      `M${PIVOT_X} ${y0.toFixed(1)}Q${(PIVOT_X + w * 0.7).toFixed(1)} ${(
+        y0 -
+        w * 0.2
+      ).toFixed(1)} ${(PIVOT_X + w).toFixed(1)} ${y1.toFixed(1)}`
     );
   }
   return parts.join("");
 }
 
-/** The indigo core of an ocellus is a heart, not a disc. */
-function heartPath(cx, cy) {
+/** The core of an ocellus is a heart, not a disc. */
+function heartPath(cx, cy, k) {
   return (
-    `M${cx} ${cy - 4.2}` +
-    `C${cx - 2.2} ${cy - 8.2} ${cx - 6.6} ${cy - 7.2} ${cx - 6.6} ${cy - 2.6}` +
-    `C${cx - 6.6} ${cy + 2.2} ${cx - 3} ${cy + 5.1} ${cx} ${cy + 7.9}` +
-    `C${cx + 3} ${cy + 5.1} ${cx + 6.6} ${cy + 2.2} ${cx + 6.6} ${cy - 2.6}` +
-    `C${cx + 6.6} ${cy - 7.2} ${cx + 2.2} ${cy - 8.2} ${cx} ${cy - 4.2}Z`
+    `M${cx} ${cy - 4.6 * k}` +
+    `C${cx - 2.6 * k} ${cy - 9 * k} ${cx - 7.6 * k} ${cy - 7.8 * k} ${cx - 7.6 * k} ${cy - 2.6 * k}` +
+    `C${cx - 7.6 * k} ${cy + 2.6 * k} ${cx - 3.4 * k} ${cy + 5.8 * k} ${cx} ${cy + 9 * k}` +
+    `C${cx + 3.4 * k} ${cy + 5.8 * k} ${cx + 7.6 * k} ${cy + 2.6 * k} ${cx + 7.6 * k} ${cy - 2.6 * k}` +
+    `C${cx + 7.6 * k} ${cy - 7.8 * k} ${cx + 2.6 * k} ${cy - 9 * k} ${cx} ${cy - 4.6 * k}Z`
   );
 }
 
@@ -109,34 +114,20 @@ function buildTrain() {
   const main = Array.from({ length: MAIN_COUNT }, (_, i) => {
     const t = (i - mid) / mid; // -1 … 1, 0 at the centre feather
     const spread = Math.abs(t);
-    const angle = t * 90;
+    const angle = t * 88;
 
-    // Longest at the centre, shortest at the rim — the silhouette of a
-    // real display is a rounded arc, not a half-disc. The wobble keeps
-    // the ocelli off a single circle, which otherwise reads as beads on
-    // a necklace rather than a train.
+    // Longest at the centre, shortest at the rim. The wobble keeps the
+    // ocelli off a single circle, which otherwise reads as beads on a
+    // necklace rather than a train.
     const len =
-      272 *
-      (0.62 + 0.38 * Math.cos(spread * 1.28)) *
-      (1 + 0.05 * Math.sin(i * 2.399));
+      306 *
+      (0.66 + 0.34 * Math.cos(spread * 1.22)) *
+      (1 + 0.04 * Math.sin(i * 2.399));
 
-    // Per-feather curvature and eye placement, deterministic so the
-    // layout is identical on every load.
-    const lean = Math.sin(i * 1.7) * 0.9;
-    const eyeNudge = Math.sin(i * 3.3) * 2.2;
-    const eyeScale = 1 + Math.sin(i * 1.13) * 0.06;
-
-    const eyeY = PIVOT_Y - len + 19 + eyeNudge;
+    const eyeScale = 1 + Math.sin(i * 1.13) * 0.05;
+    const eyeY = PIVOT_Y - len + 29;
     const tipY = PIVOT_Y - len;
-
-    // Emerald and teal at the centre walking to peacock blue at the rim,
-    // dimming as it goes so the outer feathers fall back into shadow.
-    const hue = 167 + 29 * Math.pow(spread, 1.15);
-    const sat = 78 - 6 * spread;
-    const lTip = 33 - 7 * spread;
-    const lMid = 21 - 5 * spread;
-
-    const delay = T.main + spread * 0.5;
+    const delay = T.main + spread * 0.48;
 
     return {
       i,
@@ -146,30 +137,19 @@ function buildTrain() {
       spread,
       delay,
       eyeDelay: delay + T.ocellus,
-      glintDelay: 3.9 + i * 0.1,
+      glintDelay: 4.2 + i * 0.12,
       grad: `px-p${i}`,
-      gradStops: [
-        { at: "0%", c: `hsl(${hue} ${sat}% ${lMid * 0.5}%)`, o: 0 },
-        { at: "26%", c: `hsl(${hue} ${sat}% ${lMid}%)`, o: 0.34 },
-        { at: "72%", c: `hsl(${hue} ${sat}% ${lTip}%)`, o: 0.62 },
-        { at: "100%", c: `hsl(${hue + 5} ${sat + 6}% ${lTip + 9}%)`, o: 0.72 },
-      ],
       gradY2: tipY,
-      quill: `M${PIVOT_X} ${PIVOT_Y}C${PIVOT_X - 5 + lean * 4} ${
-        PIVOT_Y - len * 0.42
-      } ${PIVOT_X + 5 + lean * 3} ${PIVOT_Y - len * 0.76} ${
-        PIVOT_X + lean * 2
-      } ${eyeY}`,
-      barb: `M${PIVOT_X} ${PIVOT_Y}C${PIVOT_X - 11 + lean * 3} ${
-        PIVOT_Y - len * 0.45
-      } ${PIVOT_X - 12 + lean * 3} ${PIVOT_Y - len * 0.83} ${
-        PIVOT_X + lean * 2
-      } ${tipY + 12}C${PIVOT_X + 12 + lean * 3} ${PIVOT_Y - len * 0.83} ${
-        PIVOT_X + 11 + lean * 3
-      } ${PIVOT_Y - len * 0.45} ${PIVOT_X} ${PIVOT_Y}Z`,
-      strands: barbStrands(len, lean),
-      heart: heartPath(PIVOT_X + lean * 2, eyeY + 1),
-      eyeX: PIVOT_X + lean * 2,
+      // A soft frond silhouette under the barbs, so the feather has body
+      // as well as texture.
+      frond: `M${PIVOT_X} ${PIVOT_Y}C${PIVOT_X - 17} ${PIVOT_Y - len * 0.45} ${
+        PIVOT_X - 24
+      } ${PIVOT_Y - len * 0.82} ${PIVOT_X} ${tipY + 24}C${PIVOT_X + 24} ${
+        PIVOT_Y - len * 0.82
+      } ${PIVOT_X + 17} ${PIVOT_Y - len * 0.45} ${PIVOT_X} ${PIVOT_Y}Z`,
+      strands: barbStrands(len),
+      shaft: `M${PIVOT_X} ${PIVOT_Y}L${PIVOT_X} ${eyeY}`,
+      heart: heartPath(PIVOT_X, eyeY + 1, 1.08),
     };
   });
 
@@ -177,10 +157,10 @@ function buildTrain() {
   const coverts = Array.from({ length: COVERT_COUNT }, (_, i) => {
     const t = (i - cMid) / cMid;
     const spread = Math.abs(t);
-    const angle = t * 99; // splayed wider than the eyed feathers
-    const len = 214 * (0.54 + 0.46 * Math.cos(spread * 1.4));
+    const angle = t * 100;
+    const len = 232 * (0.5 + 0.5 * Math.cos(spread * 1.45));
     const tipY = PIVOT_Y - len;
-    const hue = 168 + 26 * Math.pow(spread, 1.1);
+    const hue = 150 + 34 * Math.pow(spread, 1.1);
 
     return {
       i,
@@ -188,62 +168,125 @@ function buildTrain() {
       delay: T.covert + spread * 0.4,
       grad: `px-c${i}`,
       gradStops: [
-        { at: "0%", c: `hsl(${hue} 62% 8%)`, o: 0 },
-        { at: "55%", c: `hsl(${hue} 64% 15%)`, o: 0.5 },
-        { at: "100%", c: `hsl(${hue} 66% 23%)`, o: 0.72 },
+        { at: "0%", c: `hsl(${hue} 54% 8%)`, o: 0 },
+        { at: "55%", c: `hsl(${hue} 56% 15%)`, o: 0.5 },
+        { at: "100%", c: `hsl(${hue} 58% 23%)`, o: 0.7 },
       ],
       gradY2: tipY,
-      plume: `M${PIVOT_X} ${PIVOT_Y}C${PIVOT_X - 8} ${PIVOT_Y - len * 0.5} ${
-        PIVOT_X - 10
-      } ${PIVOT_Y - len * 0.85} ${PIVOT_X} ${tipY}C${PIVOT_X + 10} ${
+      plume: `M${PIVOT_X} ${PIVOT_Y}C${PIVOT_X - 9} ${PIVOT_Y - len * 0.5} ${
+        PIVOT_X - 12
+      } ${PIVOT_Y - len * 0.85} ${PIVOT_X} ${tipY}C${PIVOT_X + 12} ${
         PIVOT_Y - len * 0.85
-      } ${PIVOT_X + 8} ${PIVOT_Y - len * 0.5} ${PIVOT_X} ${PIVOT_Y}Z`,
+      } ${PIVOT_X + 9} ${PIVOT_Y - len * 0.5} ${PIVOT_X} ${PIVOT_Y}Z`,
     };
   });
 
   return { main, coverts };
 }
 
-/* ── Body geometry ────────────────────────────────────────────
-   Authored in its own space and placed with one group transform, so
-   these coordinates are also what the transform-origins below refer to.
-   ─────────────────────────────────────────────────────────────── */
 
-const S_PATH =
-  "M278 148C234 116 180 132 184 176C188 218 258 222 264 262C270 300 226 328 182 312";
+/**
+ * A covert scale: rounded at the crown, tapering to a soft point. Plain
+ * ellipses read as fish scales; a peacock's coverts are little feathers.
+ */
+function tongue(x, y, r) {
+  return (
+    `M${x - r} ${y - r * 0.15}` +
+    `C${x - r} ${y - r * 1.08} ${x + r} ${y - r * 1.08} ${x + r} ${y - r * 0.15}` +
+    `C${x + r} ${y + r * 0.58} ${x + r * 0.46} ${y + r * 1.06} ${x} ${y + r * 1.12}` +
+    `C${x - r * 0.46} ${y + r * 1.06} ${x - r} ${y + r * 0.58} ${x - r} ${y - r * 0.15}Z`
+  );
+}
 
-// The crest, arcing up and away from the crown.
-const CREST = [0, 1, 2, 3, 4].map((i) => ({
-  i,
-  stalk: `M${280 + i * 4} 119C${283 + i * 5} ${105 - i * 2} ${291 + i * 7} ${
-    97 - i * 4
-  } ${297 + i * 9} ${87 - i * 6}`,
-  tip: { cx: 297 + i * 9, cy: 87 - i * 6 },
-}));
+/**
+ * The fine scaling on the neck and breast, as one path of small arcs laid
+ * in offset rows. Emitted whole and clipped to the body part it belongs
+ * to, so 150-odd scales cost a single node.
+ */
+function scaleField({ x0, x1, y0, y1, stepX, stepY, r }) {
+  const parts = [];
+  let row = 0;
+  for (let y = y0; y <= y1; y += stepY, row++) {
+    const offset = row % 2 ? stepX / 2 : 0;
+    for (let x = x0 + offset; x <= x1; x += stepX) {
+      parts.push(`M${x - r} ${y}A${r} ${r * 1.15} 0 0 1 ${x + r} ${y}`);
+    }
+  }
+  return parts.join("");
+}
 
-// Four nested plates, outermost first — deep peacock through to blue.
-const WING = [
-  { d: "M240 208C204 218 174 244 162 298C198 288 228 256 246 222Z", f: "url(#px-wing-1)", o: 0.9 },
-  { d: "M240 214C209 224 184 248 174 290C204 278 228 252 245 224Z", f: "url(#px-wing-2)", o: 0.88 },
-  { d: "M241 220C215 228 194 250 186 282C212 270 229 250 244 226Z", f: "url(#px-wing-3)", o: 0.8 },
-  { d: "M241 226C221 232 204 250 198 274C219 264 230 250 243 230Z", f: "url(#px-wing-4)", o: 0.7 },
+const NECK_SCALE_FIELD = scaleField({
+  x0: 214, x1: 336, y0: 148, y1: 330, stepX: 12, stepY: 9, r: 6,
+});
+const BODY_SCALE_FIELD = scaleField({
+  x0: 142, x1: 324, y0: 280, y1: 418, stepX: 15, stepY: 11, r: 7.5,
+});
+
+/* ── The bird ─────────────────────────────────────────────────── */
+
+// The S of Safar, as its own ribbon: behind the neck at the top, across
+// the body below, so letter and bird interlock.
+const RIBBON =
+  "M366 226C316 180 232 190 214 236C198 278 300 296 318 336C336 378 292 424 232 410";
+
+// Indigo neck, drawn as a tapered outline rather than a stroke so it
+// narrows properly from shoulder to head.
+const NECK =
+  "M220 326C226 260 246 194 306 146L318 156C272 200 258 260 256 328Z";
+
+const HEAD =
+  "M316 150C308 124 324 104 348 104C370 104 384 119 382 137C380 153 366 164 347 164C330 164 320 160 316 150Z";
+const BEAK = "M380 132L407 141L379 148Z";
+
+// The covert wing: rows of overlapping scales, lower rows in front, so
+// they lie like roof tiles. Greens at the shoulder cooling to teal at
+// the edge.
+const WING_ROWS = [
+  { cy: 302, xs: [200, 228, 254], r: 17, fill: "url(#px-wing-0)" },
+  { cy: 324, xs: [180, 208, 236, 262], r: 19, fill: "url(#px-wing-1)" },
+  { cy: 348, xs: [164, 192, 220, 248], r: 21, fill: "url(#px-wing-2)" },
+  { cy: 374, xs: [156, 184, 212, 240], r: 23, fill: "url(#px-wing-3)" },
+  { cy: 400, xs: [154, 182, 210, 236], r: 24, fill: "url(#px-wing-4)" },
 ];
 
-// Thin linework suggesting the flights, running with the wing's spine.
-const WING_LINES = [
-  "M238 214C206 224 180 248 170 292",
-  "M240 220C212 230 190 252 182 284",
-  "M241 226C218 234 200 254 194 278",
+// The primaries trailing off the wing's lower edge.
+const WING_PRIMARIES = [
+  "M186 388C152 400 120 418 100 436C126 420 160 406 194 398Z",
+  "M198 400C170 412 144 428 126 444C150 438 180 424 206 412Z",
+  "M210 412C186 422 166 434 150 448C174 444 196 432 218 422Z",
 ];
 
-// The journey: a thin gold road running the width of the composition,
-// dipping under the bird. Authored in viewBox space, not body space.
+// Crest: seven racquet-tipped plumes, as a peacock's crown actually is.
+const CREST = Array.from({ length: 7 }, (_, k) => {
+  const ang = ((-42 + k * 11) * Math.PI) / 180;
+  const bx = 340 + k * 1.8;
+  const by = 104;
+  const L = 42 - Math.abs(k - 3) * 2;
+  const tx = bx + Math.sin(ang) * L;
+  const ty = by - Math.cos(ang) * L;
+  return {
+    k,
+    stalk: `M${bx} ${by}Q${bx + Math.sin(ang) * L * 0.45 - 1} ${
+      by - Math.cos(ang) * L * 0.5
+    } ${tx.toFixed(1)} ${ty.toFixed(1)}`,
+    tip: { cx: +tx.toFixed(1), cy: +ty.toFixed(1) },
+  };
+});
+
+const LEGS = ["M222 404L218 444", "M252 402L256 444"];
+const FEET = [
+  "M206 451L218 444L230 451M218 444L216 453",
+  "M244 451L256 444L268 451M256 444L254 453",
+];
+
+// The journey: a thin gold road across the composition, and the horizon
+// circle it crosses.
 const JOURNEY =
-  "M26 452C118 436 168 410 232 404C300 398 352 420 404 434C440 444 466 448 496 450";
+  "M28 448C128 432 190 412 250 408C320 403 382 420 442 434C492 445 522 448 556 450";
 const WAYPOINTS = [
-  { cx: 118, cy: 431, d: 0.72 },
-  { cx: 232, cy: 404, d: 0.94 },
-  { cx: 356, cy: 422, d: 1.16 },
+  { cx: 128, cy: 432, d: T.waypoint },
+  { cx: 250, cy: 408, d: T.waypoint + 0.22 },
+  { cx: 400, cy: 425, d: T.waypoint + 0.44 },
 ];
 
 /* ── Component ────────────────────────────────────────────────── */
@@ -254,7 +297,7 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
 
   // Pointer parallax. Writes two custom properties straight onto the
   // root on an animation frame — no React state, so moving the mouse
-  // never re-renders the 300-node tree. The depths live in the CSS.
+  // never re-renders the several-hundred-node tree. Depths live in CSS.
   useEffect(() => {
     if (reduce) return undefined;
     if (!window.matchMedia?.("(pointer: fine)").matches) return undefined;
@@ -288,17 +331,15 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
   return (
     <svg
       ref={rootRef}
-      viewBox="0 0 520 470"
+      viewBox="0 0 580 480"
       preserveAspectRatio="xMidYMid meet"
       className={`px-svg ${reduce ? "px-reduced" : ""} ${className}`}
       role="img"
       aria-label="SafarX"
     >
       <defs>
-        {/* One gradient per feather, spanning that feather's own length,
-            so a short rim feather is as saturated at its tip as a long
-            central one. */}
-        {[...coverts, ...main].map((f) => (
+        {/* One gradient per covert, spanning its own length. */}
+        {coverts.map((f) => (
           <linearGradient
             key={f.grad}
             id={f.grad}
@@ -313,98 +354,133 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
             ))}
           </linearGradient>
         ))}
+        {/* Train fronds share one green ramp — real train feathers are
+            all the same green; only the eyes carry the colour. */}
+        {main.map((f) => (
+          <linearGradient
+            key={f.grad}
+            id={f.grad}
+            gradientUnits="userSpaceOnUse"
+            x1={PIVOT_X}
+            y1={PIVOT_Y}
+            x2={PIVOT_X}
+            y2={f.gradY2}
+          >
+            <stop offset="0%" stopColor="#14472F" stopOpacity="0" />
+            <stop offset="30%" stopColor="#226B44" stopOpacity="0.6" />
+            <stop offset="78%" stopColor="#37A05A" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#4CBA6A" stopOpacity="0.95" />
+          </linearGradient>
+        ))}
 
-        {/* Quills — gold at the tip, dissolving into the base. */}
+        {/* Shafts — pale gold, brightening toward the eye. */}
         <linearGradient
-          id="px-quill"
+          id="px-shaft"
           gradientUnits="userSpaceOnUse"
           x1={PIVOT_X}
           y1={PIVOT_Y}
           x2={PIVOT_X}
-          y2="110"
+          y2="70"
         >
           <stop offset="0%" stopColor="#8E6A25" stopOpacity="0" />
-          <stop offset="42%" stopColor="#C99532" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#F2D27A" stopOpacity="0.8" />
+          <stop offset="40%" stopColor="#C9982F" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#F2DC9A" stopOpacity="0.95" />
         </linearGradient>
 
-        {/* The ocellus, outside in: bronze halo, gold, jade, indigo. */}
-        <radialGradient id="px-eye-bronze" cx="50%" cy="45%" r="60%">
-          <stop offset="0%" stopColor="#B98B38" stopOpacity="0.7" />
-          <stop offset="100%" stopColor="#6B4A18" stopOpacity="0" />
+        {/* The ocellus, outside in: cream halo, gold, green, cyan, navy. */}
+        <radialGradient id="px-eye-halo" cx="50%" cy="44%" r="60%">
+          <stop offset="0%" stopColor="#EFE0AE" stopOpacity="0.95" />
+          <stop offset="72%" stopColor="#D8C075" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="#9B7F35" stopOpacity="0.1" />
         </radialGradient>
         <radialGradient id="px-eye-gold" cx="50%" cy="40%" r="62%">
-          <stop offset="0%" stopColor="#F4D47A" />
-          <stop offset="48%" stopColor="#D6A84B" />
-          <stop offset="100%" stopColor="#8E6A25" />
+          <stop offset="0%" stopColor="#F2CE6B" />
+          <stop offset="60%" stopColor="#E3B84E" />
+          <stop offset="100%" stopColor="#B8862C" />
         </radialGradient>
-        <radialGradient id="px-eye-jade" cx="50%" cy="38%" r="64%">
-          <stop offset="0%" stopColor="#0FA88C" />
-          <stop offset="58%" stopColor="#0B6B57" />
-          <stop offset="100%" stopColor="#073B35" />
+        <radialGradient id="px-eye-green" cx="50%" cy="38%" r="64%">
+          <stop offset="0%" stopColor="#57B863" />
+          <stop offset="62%" stopColor="#2F8A4E" />
+          <stop offset="100%" stopColor="#17603C" />
         </radialGradient>
-        <radialGradient id="px-eye-indigo" cx="46%" cy="32%" r="72%">
-          <stop offset="0%" stopColor="#0E93BE" />
-          <stop offset="46%" stopColor="#086080" />
-          <stop offset="100%" stopColor="#052A3E" />
+        <radialGradient id="px-eye-cyan" cx="48%" cy="36%" r="66%">
+          <stop offset="0%" stopColor="#3FC4D2" />
+          <stop offset="60%" stopColor="#1BA3B8" />
+          <stop offset="100%" stopColor="#127A96" />
+        </radialGradient>
+        <radialGradient id="px-eye-navy" cx="44%" cy="30%" r="74%">
+          <stop offset="0%" stopColor="#2B4FB8" />
+          <stop offset="52%" stopColor="#14318A" />
+          <stop offset="100%" stopColor="#0A1B52" />
         </radialGradient>
 
         {/* Brushed gold: dark gold → warm → pale → warm. */}
         <linearGradient id="px-gold" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#8E6A25" />
-          <stop offset="26%" stopColor="#D6A84B" />
-          <stop offset="54%" stopColor="#F4D47A" />
-          <stop offset="80%" stopColor="#C99532" />
-          <stop offset="100%" stopColor="#E6C069" />
+          <stop offset="24%" stopColor="#D6A84B" />
+          <stop offset="52%" stopColor="#F4D47A" />
+          <stop offset="78%" stopColor="#C99532" />
+          <stop offset="100%" stopColor="#EBC96F" />
         </linearGradient>
-        <linearGradient id="px-gold-soft" x1="8%" y1="0%" x2="92%" y2="100%">
-          <stop offset="0%" stopColor="#D6A84B" />
-          <stop offset="100%" stopColor="#8E6A25" />
+
+        {/* The bird's own colours. */}
+        <linearGradient id="px-neck" x1="20%" y1="100%" x2="80%" y2="0%">
+          <stop offset="0%" stopColor="#0C2E56" />
+          <stop offset="50%" stopColor="#144C7E" />
+          <stop offset="100%" stopColor="#1B6A9C" />
         </linearGradient>
+        <linearGradient id="px-head" x1="10%" y1="90%" x2="90%" y2="10%">
+          <stop offset="0%" stopColor="#0E3A66" />
+          <stop offset="100%" stopColor="#1E6E9E" />
+        </linearGradient>
+        <radialGradient id="px-body" cx="62%" cy="32%" r="72%">
+          <stop offset="0%" stopColor="#1E7F72" />
+          <stop offset="60%" stopColor="#125A5C" />
+          <stop offset="100%" stopColor="#0A3340" />
+        </radialGradient>
+        <linearGradient id="px-wing-0" x1="30%" y1="0%" x2="70%" y2="100%">
+          <stop offset="0%" stopColor="#5FB86A" />
+          <stop offset="100%" stopColor="#2F7A46" />
+        </linearGradient>
+        <linearGradient id="px-wing-1" x1="30%" y1="0%" x2="70%" y2="100%">
+          <stop offset="0%" stopColor="#4CA85F" />
+          <stop offset="100%" stopColor="#256E4A" />
+        </linearGradient>
+        <linearGradient id="px-wing-2" x1="30%" y1="0%" x2="70%" y2="100%">
+          <stop offset="0%" stopColor="#369465" />
+          <stop offset="100%" stopColor="#1B6257" />
+        </linearGradient>
+        <linearGradient id="px-wing-3" x1="30%" y1="0%" x2="70%" y2="100%">
+          <stop offset="0%" stopColor="#238478" />
+          <stop offset="100%" stopColor="#145466" />
+        </linearGradient>
+        <linearGradient id="px-wing-4" x1="30%" y1="0%" x2="70%" y2="100%">
+          <stop offset="0%" stopColor="#18708C" />
+          <stop offset="100%" stopColor="#0E4460" />
+        </linearGradient>
+
         <linearGradient
           id="px-journey"
           gradientUnits="userSpaceOnUse"
-          x1="26"
+          x1="28"
           y1="0"
-          x2="496"
+          x2="556"
           y2="0"
         >
           <stop offset="0%" stopColor="#8E6A25" stopOpacity="0" />
-          <stop offset="24%" stopColor="#D6A84B" stopOpacity="0.75" />
-          <stop offset="76%" stopColor="#D6A84B" stopOpacity="0.75" />
+          <stop offset="24%" stopColor="#D6A84B" stopOpacity="0.8" />
+          <stop offset="76%" stopColor="#D6A84B" stopOpacity="0.8" />
           <stop offset="100%" stopColor="#8E6A25" stopOpacity="0" />
         </linearGradient>
 
-        {/* Wing plates, deep peacock out to peacock blue. */}
-        <linearGradient id="px-wing-1" x1="80%" y1="0%" x2="10%" y2="100%">
-          <stop offset="0%" stopColor="#0B6B57" />
-          <stop offset="100%" stopColor="#052722" />
-        </linearGradient>
-        <linearGradient id="px-wing-2" x1="80%" y1="0%" x2="10%" y2="100%">
-          <stop offset="0%" stopColor="#078B78" />
-          <stop offset="100%" stopColor="#073B35" />
-        </linearGradient>
-        <linearGradient id="px-wing-3" x1="80%" y1="0%" x2="10%" y2="100%">
-          <stop offset="0%" stopColor="#0A8F7C" />
-          <stop offset="100%" stopColor="#075558" />
-        </linearGradient>
-        <linearGradient id="px-wing-4" x1="80%" y1="0%" x2="10%" y2="100%">
-          <stop offset="0%" stopColor="#0B7E9C" />
-          <stop offset="100%" stopColor="#0A5F7E" />
-        </linearGradient>
-
         <radialGradient id="px-halo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#D6A84B" stopOpacity="0.22" />
-          <stop offset="40%" stopColor="#078B78" stopOpacity="0.13" />
-          <stop offset="100%" stopColor="#078B78" stopOpacity="0" />
+          <stop offset="0%" stopColor="#D6A84B" stopOpacity="0.2" />
+          <stop offset="40%" stopColor="#0B6B57" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="#0B6B57" stopOpacity="0" />
         </radialGradient>
         <radialGradient id="px-ground" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#010A08" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#010A08" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id="px-reflect" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#D6A84B" stopOpacity="0.17" />
-          <stop offset="100%" stopColor="#D6A84B" stopOpacity="0" />
+          <stop offset="0%" stopColor="#01100C" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#01100C" stopOpacity="0" />
         </radialGradient>
 
         {/* The raking highlight that crosses the open train. */}
@@ -421,8 +497,15 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
           <stop offset="55%" stopColor="#fff" />
           <stop offset="100%" stopColor="#000" />
         </radialGradient>
+        <clipPath id="px-neck-clip">
+          <path d={NECK} />
+        </clipPath>
+        <clipPath id="px-body-clip">
+          <ellipse cx="232" cy="344" rx="84" ry="68" transform="rotate(-10 232 344)" />
+        </clipPath>
+
         <mask id="px-fan-mask" maskUnits="userSpaceOnUse">
-          <circle cx={PIVOT_X} cy={PIVOT_Y} r="300" fill="url(#px-fan-mask-grad)" />
+          <circle cx={PIVOT_X} cy={PIVOT_Y} r="320" fill="url(#px-fan-mask-grad)" />
         </mask>
       </defs>
 
@@ -430,16 +513,28 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
       <g className="px-par-glow">
         <ellipse
           className="px-halo"
-          cx="260"
-          cy="308"
-          rx="256"
-          ry="224"
+          cx="272"
+          cy="300"
+          rx="280"
+          ry="238"
           fill="url(#px-halo)"
         />
       </g>
 
-      {/* ── The journey: drawn before anything else exists ────── */}
+      {/* ── The journey: drawn before the bird exists ─────────── */}
       <g id="journey-path">
+        <circle
+          className="px-ink"
+          style={{ "--d": `${T.circle}s`, "--dur": "1600ms" }}
+          pathLength="1"
+          cx="272"
+          cy="352"
+          r="120"
+          fill="none"
+          stroke="#D6A84B"
+          strokeWidth="1"
+          opacity="0.3"
+        />
         <path
           className="px-ink"
           style={{ "--d": `${T.path}s`, "--dur": "1400ms" }}
@@ -457,30 +552,21 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
             style={{ "--d": `${w.d}s`, transformOrigin: `${w.cx}px ${w.cy}px` }}
             cx={w.cx}
             cy={w.cy}
-            r="2.4"
+            r="2.6"
             fill="#F2D27A"
           />
         ))}
       </g>
 
-      {/* Ground shadow and the gold cast under the train */}
+      {/* Ground shadow the bird stands on */}
       <ellipse
         className="px-fade"
-        style={{ "--d": "1.6s", "--o": 1 }}
-        cx="260"
-        cy="408"
-        rx="132"
-        ry="16"
+        style={{ "--d": "1.3s", "--o": 1 }}
+        cx="238"
+        cy="456"
+        rx="112"
+        ry="12"
         fill="url(#px-ground)"
-      />
-      <ellipse
-        className="px-fade"
-        style={{ "--d": "3.2s", "--o": 1 }}
-        cx="260"
-        cy="420"
-        rx="212"
-        ry="26"
-        fill="url(#px-reflect)"
       />
 
       <g className="px-par-tail" id="tail">
@@ -510,20 +596,19 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
               id={`tail-feather-${String(f.i + 1).padStart(2, "0")}`}
               style={{ "--a": `${f.angle}deg`, "--d": `${f.delay}s` }}
             >
-              <path d={f.barb} fill={`url(#${f.grad})`} />
+              <path d={f.frond} fill={`url(#${f.grad})`} opacity="0.68" />
               <path
                 d={f.strands}
                 fill="none"
                 stroke={`url(#${f.grad})`}
-                strokeWidth="1.15"
+                strokeWidth="0.85"
                 strokeLinecap="round"
-                opacity={1 - f.spread * 0.22}
               />
               <path
-                d={f.quill}
+                d={f.shaft}
                 fill="none"
-                stroke="url(#px-quill)"
-                strokeWidth="1.5"
+                stroke="url(#px-shaft)"
+                strokeWidth="1.6"
                 strokeLinecap="round"
               />
               <g
@@ -531,37 +616,29 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
                 style={{
                   "--ed": `${f.eyeDelay}s`,
                   "--es": f.eyeScale,
-                  transformOrigin: `${f.eyeX}px ${f.eyeY}px`,
+                  transformOrigin: `${PIVOT_X}px ${f.eyeY}px`,
                 }}
               >
-                <ellipse cx={f.eyeX} cy={f.eyeY} rx="18" ry="22.5" fill="url(#px-eye-bronze)" />
-                <ellipse cx={f.eyeX} cy={f.eyeY} rx="13.2" ry="17" fill="url(#px-eye-gold)" />
-                <ellipse cx={f.eyeX} cy={f.eyeY} rx="10" ry="13.2" fill="url(#px-eye-jade)" />
-                <path d={f.heart} fill="url(#px-eye-indigo)" />
-                <path
-                  d={f.heart}
-                  fill="none"
-                  stroke="#5FB8D6"
-                  strokeWidth="0.9"
-                  opacity="0.4"
-                />
-                {/* The tiny gold accent at the centre of the eye */}
-                <circle cx={f.eyeX} cy={f.eyeY + 0.5} r="1.6" fill="#F2D27A" opacity="0.85" />
+                <ellipse cx={PIVOT_X} cy={f.eyeY} rx="24" ry="29" fill="url(#px-eye-halo)" />
+                <ellipse cx={PIVOT_X} cy={f.eyeY} rx="19.5" ry="24.5" fill="url(#px-eye-gold)" />
+                <ellipse cx={PIVOT_X} cy={f.eyeY} rx="14.8" ry="18.6" fill="url(#px-eye-green)" />
+                <ellipse cx={PIVOT_X} cy={f.eyeY + 0.4} rx="10.6" ry="13.4" fill="url(#px-eye-cyan)" />
+                <path d={f.heart} fill="url(#px-eye-navy)" />
                 <ellipse
-                  cx={f.eyeX - 1.8}
-                  cy={f.eyeY - 4.2}
-                  rx="1.8"
-                  ry="2.4"
-                  fill="#F5F0DF"
-                  opacity="0.4"
+                  cx={PIVOT_X - 2.8}
+                  cy={f.eyeY - 5.2}
+                  rx="2.2"
+                  ry="3"
+                  fill="#EAF4FF"
+                  opacity="0.32"
                 />
                 <ellipse
                   className="px-glint"
                   style={{ "--sd": `${f.glintDelay}s` }}
-                  cx={f.eyeX}
+                  cx={PIVOT_X}
                   cy={f.eyeY}
-                  rx="13.2"
-                  ry="17"
+                  rx="19.5"
+                  ry="24.5"
                   fill="none"
                   stroke="#F2D27A"
                   strokeWidth="1.2"
@@ -577,8 +654,8 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
           style={{ "--d": `${T.pulse}s` }}
           cx={PIVOT_X}
           cy={PIVOT_Y}
-          rx="248"
-          ry="248"
+          rx="296"
+          ry="296"
           fill="none"
           stroke="#D6A84B"
           strokeWidth="1.6"
@@ -589,10 +666,10 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
           <rect
             className="px-rake"
             style={{ "--d": `${T.rake}s` }}
-            x="-140"
-            y="60"
-            width="88"
-            height="440"
+            x="-150"
+            y="40"
+            width="92"
+            height="470"
             fill="url(#px-rake-grad)"
           />
         </g>
@@ -600,165 +677,227 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
 
       {/* ── The bird ──────────────────────────────────────────── */}
       <g className="px-par-body">
-        <g
-          id="peacock"
-          transform="translate(20 63) scale(0.98)"
-          style={{ filter: "drop-shadow(0 0 16px rgba(214,168,75,0.34))" }}
-        >
-          {/* The S — neck, breast and body in one stroke */}
-          <path
-            id="peacock-body"
-            className="px-ink"
-            style={{ "--d": `${T.body}s`, "--dur": "1150ms" }}
-            pathLength="1"
-            d={S_PATH}
-            fill="none"
-            stroke="url(#px-gold)"
-            strokeWidth="23"
-            strokeLinecap="round"
-          />
-          {/* Sheen chasing the stroke */}
-          <path
-            className="px-ink"
-            style={{ "--d": `${T.sheen}s`, "--dur": "1150ms" }}
-            pathLength="1"
-            d={S_PATH}
-            fill="none"
-            stroke="#F7EDCA"
-            strokeWidth="3.6"
-            strokeLinecap="round"
-            opacity="0.5"
-            transform="translate(-3.5 -3.5)"
-          />
-
-          {/* ── The folded wing ───────────────────────────────── */}
-          <g id="peacock-wing">
-            {WING.map((w, i) => (
-              <path
-                key={i}
-                className="px-wing"
-                style={{ "--d": `${T.wing + i * 0.09}s`, "--o": w.o }}
-                d={w.d}
-                fill={w.f}
-                opacity={w.o}
-              />
-            ))}
-            {/* Gold contour and the thin flight lines inside it */}
-            <path
-              className="px-ink"
-              style={{ "--d": `${T.wing + 0.3}s`, "--dur": "900ms" }}
-              pathLength="1"
-              d={WING[0].d}
-              fill="none"
-              stroke="#D6A84B"
-              strokeWidth="1"
-              opacity="0.55"
-            />
-            {WING_LINES.map((d, i) => (
+        <g id="peacock">
+          {/* Legs, then the body settling onto them */}
+          <g id="legs">
+            {LEGS.map((d, i) => (
               <path
                 key={i}
                 className="px-ink"
-                style={{ "--d": `${T.wing + 0.42 + i * 0.07}s`, "--dur": "760ms" }}
+                style={{ "--d": `${T.legs + i * 0.08}s`, "--dur": "620ms" }}
                 pathLength="1"
                 d={d}
                 fill="none"
-                stroke="#D6A84B"
-                strokeWidth="0.6"
-                opacity="0.32"
+                stroke="#C99532"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+            ))}
+            {FEET.map((d, i) => (
+              <path
+                key={i}
+                className="px-ink"
+                style={{ "--d": `${T.legs + 0.35 + i * 0.08}s`, "--dur": "480ms" }}
+                pathLength="1"
+                d={d}
+                fill="none"
+                stroke="#C99532"
+                strokeWidth="2.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             ))}
           </g>
 
-          {/* The sweep at the foot of the S */}
-          <path
-            className="px-pop"
-            style={{ "--d": `${T.wing + 0.1}s`, transformOrigin: "212px 316px" }}
-            d="M176 306C214 330 272 324 314 288C300 330 226 348 170 322Z"
-            fill="url(#px-gold-soft)"
-          />
+          <g
+            id="body"
+            className="px-rise"
+            style={{ "--d": `${T.body}s`, transformOrigin: "232px 410px" }}
+          >
+            <ellipse
+              cx="232"
+              cy="344"
+              rx="84"
+              ry="68"
+              transform="rotate(-10 232 344)"
+              fill="url(#px-body)"
+            />
+            <g clipPath="url(#px-body-clip)">
+              <path
+                d={BODY_SCALE_FIELD}
+                fill="none"
+                stroke="#3FA48E"
+                strokeWidth="0.9"
+                opacity="0.3"
+              />
+            </g>
+            {/* Rim light along the back, where the sky would catch it */}
+            <path
+              d="M162 320C180 284 214 266 256 272C288 277 306 296 310 320"
+              fill="none"
+              stroke="#5FD0B4"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.28"
+            />
+          </g>
 
-          {/* ── Head, beak and crest ──────────────────────────── */}
+          {/* ── The covert wing, laid on like roof tiles ───────── */}
+          <g id="peacock-wing">
+            {WING_PRIMARIES.map((d, i) => (
+              <path
+                key={i}
+                className="px-wing"
+                style={{ "--d": `${T.wing + 0.5 + i * 0.07}s`, "--o": 0.95 }}
+                d={d}
+                fill="url(#px-wing-4)"
+                opacity="0.95"
+              />
+            ))}
+            {WING_ROWS.map((row, r) =>
+              row.xs.map((x, c) => (
+                <g
+                  key={`${r}-${c}`}
+                  className="px-pop"
+                  style={{
+                    "--d": `${T.wing + r * 0.09 + c * 0.03}s`,
+                    transformOrigin: `${x}px ${row.cy}px`,
+                  }}
+                >
+                  <path
+                    d={tongue(x, row.cy, row.r)}
+                    fill={row.fill}
+                    stroke="#C9982F"
+                    strokeWidth="0.8"
+                    strokeOpacity="0.55"
+                  />
+                  <path
+                    d={`M${x} ${row.cy - row.r * 0.85}L${x} ${row.cy + row.r * 0.95}`}
+                    stroke="#0B3A31"
+                    strokeWidth="0.7"
+                    strokeLinecap="round"
+                    opacity="0.35"
+                  />
+                </g>
+              ))
+            )}
+          </g>
+
+          {/* ── The S of Safar, woven through the bird ─────────── */}
+          <g id="ribbon" style={{ filter: "drop-shadow(0 0 14px rgba(214,168,75,0.32))" }}>
+            <path
+              className="px-ink"
+              style={{ "--d": `${T.ribbon}s`, "--dur": "1150ms" }}
+              pathLength="1"
+              d={RIBBON}
+              fill="none"
+              stroke="url(#px-gold)"
+              strokeWidth="28"
+              strokeLinecap="round"
+            />
+            <path
+              className="px-ink"
+              style={{ "--d": `${T.sheen}s`, "--dur": "1150ms" }}
+              pathLength="1"
+              d={RIBBON}
+              fill="none"
+              stroke="#FBF3D8"
+              strokeWidth="3.4"
+              strokeLinecap="round"
+              opacity="0.5"
+              transform="translate(-4 -4)"
+            />
+          </g>
+          {/* The neck grows up out of the body, head and crest on top */}
           <g className="px-headlift" style={{ "--d": `${T.lift}s` }}>
+            <g className="px-neck" style={{ "--d": `${T.neck}s` }}>
+              <path d={NECK} fill="url(#px-neck)" />
+              <g clipPath="url(#px-neck-clip)">
+                <path
+                  d={NECK_SCALE_FIELD}
+                  fill="none"
+                  stroke="#4FA6D6"
+                  strokeWidth="0.85"
+                  opacity="0.38"
+                />
+                {/* The shaded side of the throat */}
+                <path
+                  d="M220 326C226 260 246 194 306 146L312 151C268 196 248 260 246 328Z"
+                  fill="#061F3C"
+                  opacity="0.34"
+                />
+              </g>
+              {/* Highlight down the front of the neck */}
+              <path
+                d="M316 156C278 198 262 254 258 320"
+                fill="none"
+                stroke="#6FC2E8"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                opacity="0.3"
+              />
+            </g>
+
             <g
               id="peacock-head"
               className="px-pop"
-              style={{ "--d": `${T.head}s`, transformOrigin: "288px 138px" }}
+              style={{ "--d": `${T.head}s`, transformOrigin: "349px 132px" }}
             >
+              <path d={HEAD} fill="url(#px-head)" />
+              <path d={BEAK} fill="#E9D9A8" />
               <path
-                d="M268 143C263 128 274 114 289 116C302 118 310 129 308 142C307 151 300 157 291 156L315 171L288 162C276 160 269 152 268 143Z"
-                fill="url(#px-gold)"
-              />
-              {/* A highlight on the beak */}
-              <path
-                d="M295 158L311 168"
-                stroke="#F4D47A"
-                strokeWidth="1.2"
+                d="M382 134L404 141"
+                stroke="#FBF3D8"
+                strokeWidth="1"
                 strokeLinecap="round"
                 opacity="0.7"
               />
-              <circle cx="291" cy="132" r="3.1" fill="#052A24" />
-              <circle cx="292.2" cy="130.9" r="1" fill="#F5F0DF" opacity="0.8" />
-              {/* One brief catchlight, late */}
+              {/* The white eye-stripes a real peacock has */}
+              <ellipse cx="350" cy="117" rx="9" ry="3.8" transform="rotate(-14 350 117)" fill="#F3EFE0" opacity="0.9" />
+              <ellipse cx="353" cy="146" rx="8" ry="3.4" transform="rotate(-8 353 146)" fill="#F3EFE0" opacity="0.85" />
+              <circle cx="355" cy="131" r="4.5" fill="#06121F" />
+              <circle cx="356.4" cy="129.4" r="1.3" fill="#F5F0DF" opacity="0.85" />
               <circle
                 className="px-eyeglint"
                 style={{ "--d": `${T.glint}s` }}
-                cx="290"
-                cy="133.4"
-                r="1.5"
+                cx="353"
+                cy="132"
+                r="2"
                 fill="#F4D47A"
               />
             </g>
 
             <g id="crest">
               {CREST.map((c) => (
-                <g key={c.i}>
+                <g key={c.k}>
                   <path
                     className="px-ink"
-                    style={{ "--d": `${T.crest + c.i * 0.065}s`, "--dur": "500ms" }}
+                    style={{ "--d": `${T.crest + c.k * 0.055}s`, "--dur": "460ms" }}
                     pathLength="1"
                     d={c.stalk}
                     fill="none"
-                    stroke="#D6A84B"
-                    strokeWidth="2.2"
+                    stroke="#1A5A8C"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                   />
-                  <ellipse
+                  <g
                     className="px-pop"
                     style={{
-                      "--d": `${T.crestTip + c.i * 0.065}s`,
+                      "--d": `${T.crestTip + c.k * 0.055}s`,
                       transformOrigin: `${c.tip.cx}px ${c.tip.cy}px`,
                     }}
-                    cx={c.tip.cx}
-                    cy={c.tip.cy}
-                    rx="3.2"
-                    ry="4.6"
-                    fill="#F2D27A"
-                  />
+                  >
+                    <ellipse cx={c.tip.cx} cy={c.tip.cy} rx="4" ry="5.4" fill="#E3B84E" />
+                    <ellipse cx={c.tip.cx} cy={c.tip.cy} rx="2.6" ry="3.6" fill="#1BA3B8" />
+                    <ellipse cx={c.tip.cx} cy={c.tip.cy + 0.4} rx="1.2" ry="1.8" fill="#14318A" />
+                  </g>
                 </g>
               ))}
             </g>
           </g>
+
         </g>
       </g>
-
-      {/* Two birds leaving, as on the icon */}
-      {[
-        { d: T.birds, x: 452, y: 132, s: 1 },
-        { d: T.birds + 0.18, x: 481, y: 106, s: 0.76 },
-      ].map((b, i) => (
-        <path
-          key={i}
-          className="px-bird"
-          style={{ "--d": `${b.d}s`, transformOrigin: `${b.x}px ${b.y}px` }}
-          d={`M${b.x - 10 * b.s} ${b.y}q${5 * b.s} ${-5.5 * b.s} ${10 * b.s} 0q${
-            5 * b.s
-          } ${-5.5 * b.s} ${10 * b.s} 0`}
-          fill="none"
-          stroke="#D6A84B"
-          strokeWidth={1.7 * b.s}
-          strokeLinecap="round"
-        />
-      ))}
     </svg>
   );
 };
@@ -766,8 +905,8 @@ const PeacockLoader = ({ reduce = false, className = "" }) => {
 /**
  * PeacockMark — the same bird reduced to what survives at 16px: the
  * S-neck, the head and crest, and seven plumes with a single eye ring
- * each. Static, no animation, no gradients per feather. Use it for the
- * favicon, the nav logo and anywhere the full loader is too much.
+ * each. Static, no animation. Use it for the favicon, the nav logo and
+ * anywhere the full loader is too much.
  */
 export const PeacockMark = ({ size = 32, className = "", title = "SafarX" }) => {
   const plumes = Array.from({ length: 7 }, (_, i) => {
@@ -794,7 +933,6 @@ export const PeacockMark = ({ size = 32, className = "", title = "SafarX" }) => 
         </linearGradient>
       </defs>
 
-      {/* Plumes, pivoting on the bird's base */}
       <g transform="translate(50 78)">
         {plumes.map((p) => (
           <g key={p.i} transform={`rotate(${p.angle})`}>
@@ -802,15 +940,15 @@ export const PeacockMark = ({ size = 32, className = "", title = "SafarX" }) => 
               d={`M0 0C-4 ${-p.len * 0.5} -5 ${-p.len * 0.85} 0 ${-p.len}C5 ${
                 -p.len * 0.85
               } 4 ${-p.len * 0.5} 0 0Z`}
-              fill="#0B6B57"
+              fill="#2F7A46"
             />
-            <circle cy={-p.len + 5} r="4.2" fill="#D6A84B" />
-            <circle cy={-p.len + 5} r="2.4" fill="#086080" />
+            <circle cy={-p.len + 5} r="4.2" fill="#E3B84E" />
+            <circle cy={-p.len + 5} r="2.4" fill="#14318A" />
           </g>
         ))}
       </g>
 
-      {/* The S-neck — the one shape the mark cannot lose */}
+      {/* The S — the one shape the mark cannot lose */}
       <path
         d="M62 26C51 18 38 22 39 33C40 43 57 44 58 54C60 63 49 70 38 66"
         fill="none"
@@ -818,19 +956,12 @@ export const PeacockMark = ({ size = 32, className = "", title = "SafarX" }) => 
         strokeWidth="9"
         strokeLinecap="round"
       />
-      {/* Head, beak, crest */}
       <path
         d="M56 25C55 19 59 14 65 15C70 16 73 20 72 25C72 29 69 31 65 31L74 35L64 33C59 32 57 29 56 25Z"
         fill="url(#pm-gold)"
       />
-      <circle cx="65" cy="22" r="1.5" fill="#052A24" />
-      <path
-        d="M63 14C65 9 69 6 73 3"
-        stroke="#D6A84B"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        fill="none"
-      />
+      <circle cx="65" cy="22" r="1.5" fill="#06121F" />
+      <path d="M63 14C65 9 69 6 73 3" stroke="#D6A84B" strokeWidth="1.8" strokeLinecap="round" fill="none" />
       <circle cx="73" cy="3" r="2" fill="#F2D27A" />
     </svg>
   );

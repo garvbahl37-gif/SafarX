@@ -61,17 +61,23 @@ Live task tracker for the current build push. Updated as work lands.
       सफ़र inked in Devanagari then morphed to SafarX, letterbox shutter,
       camera push-in, film framing marks
 - [x] **Animated peacock emblem on the boot screen** (`PeacockLoader.jsx` +
-      `.css`) — the icon's bird, built as live SVG so it can be drawn rather
-      than shown. A gold journey path draws itself first, then the S of Safar
-      inks in as one stroke, then head, crest and a folded wing, and only then
-      does the train unfurl: 27 covert plumes for mass and 21 eyed feathers
-      over them, each with combed hairline barbs and an ocellus (bronze halo,
-      gold ring, jade ring, indigo heart, gold pip). Emerald → teal → peacock
-      blue across the fan, deterministic per-feather variation in length,
-      curvature and eye placement. Then a light ring crosses the train, a
-      highlight rakes it, the head lifts and the eye catches the light. Holds
-      and breathes: sway, glint wave, and pointer parallax at three depths.
-      ~4.1s to build, 5.2s total, once per session. Everything is `transform`
+      `.css`) — an actual peacock in live SVG, so it can be drawn rather than
+      shown. The bird has its own scaled indigo neck, crested head with the
+      white eye-stripes, a covert wing of feather-shaped scales laid like
+      roof tiles, and gold legs; the S of Safar is a separate ribbon woven
+      through it — behind the neck at the top, across the body below — so the
+      letter and the bird interlock without the letter having to *be* the
+      bird. Neck and breast carry a real scale field (~150 arcs emitted as
+      one path, clipped to the part).
+      It assembles before it displays: journey path and horizon circle, then
+      the ribbon, legs, body, wing row by row, neck, head, crest — and only
+      then the train. 25 covert plumes for mass and 17 eyed feathers over
+      them, each a gold shaft with 24 pairs of barbs and a full ocellus
+      (cream halo, gold, green, cyan, indigo heart). Then a light ring
+      crosses the train, a highlight rakes it, the head lifts and the eye
+      catches the light. Holds and breathes: sway, glint wave, pointer
+      parallax at three depths.
+      ~4.4s to build, 5.6s total, once per session. Everything is `transform`
       / `opacity` / `stroke-dashoffset`; `prefers-reduced-motion` shows the
       finished bird. `PeacockMark` is the same bird reduced for favicon /
       nav use, exported but not yet wired in
