@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/banner.png" alt="SafarX — Discover Incredible India. 360° VR previews, AI trip planner, hidden gems, flight tracker, Safar Groups, document vault and an AI co-pilot." width="100%" />
+</p>
+
 # SafarX — Discover Incredible India
 
 **SafarX** is an AI-powered travel companion for Indian tourism, built for **Smart India Hackathon 2026** (Problem Statement **26204**, AICTE — *Student Innovation: boosting the tourism industry including hotels and travel*).

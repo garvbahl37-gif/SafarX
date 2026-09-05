@@ -6,6 +6,11 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **README banner** — the artwork now sits at `docs/banner.png` (2048x768)
+      and heads the README, so the repo's front page opens on the product
+      rather than on a heading. Alt text carries the seven features for anyone
+      reading without images
+
 - [x] **Srishti drives four more pages, and walks the trip brief instead of
       skipping it** — asked about hidden gems she now opens Hidden Gems with
       the three she named already picked out, behind a banner that says whose
@@ -342,9 +347,6 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
-- [ ] **README banner** — the artwork is drawn and approved but is not in the
-      repo; it has to be saved to `docs/banner.png` by hand before the README
-      can point at it, rather than shipping a broken image on the front page
 - [ ] **Eight VR tours cannot open and should probably go** — `bangla-sahib`,
       `hampi`, `fatehpur-sikri`, `amber-fort`, `golden-temple`, `khajuraho`,
       `konark` and `bengaluru` carry a `streetView` block and no panorama.
