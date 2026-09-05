@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { takeIntent, onIntent } from "../services/srishtiIntent";
 import {
   Heart,
   Share2,
@@ -104,6 +105,10 @@ const HiddenGemsPage = ({ onPageChange }) => {
   const [stateFilter, setStateFilter] = useState("All");
   const [openGem, setOpenGem] = useState(null);
   const [focusGemId, setFocusGemId] = useState(null);
+  /* The three gems Srishti just named, if she sent us here. Held as a list of
+     ids rather than a search string because her picks are chosen by distance
+     from a place, which no combination of the filters below can express. */
+  const [picked, setPicked] = useState(null);
 
   const cardRefs = useRef(new Map());
 
@@ -119,6 +124,12 @@ const HiddenGemsPage = ({ onPageChange }) => {
   );
 
   const displayGems = useMemo(() => {
+    if (picked?.ids?.length) {
+      const order = new Map(picked.ids.map((id, i) => [String(id), i]));
+      return gemsData
+        .filter((gem) => order.has(String(gem.id)))
+        .sort((a, b) => order.get(String(a.id)) - order.get(String(b.id)));
+    }
     const q = searchTerm.trim().toLowerCase();
     return gemsData.filter((gem) => {
       const matchesSearch =
@@ -133,11 +144,36 @@ const HiddenGemsPage = ({ onPageChange }) => {
       const matchesState = stateFilter === "All" || gem.state === stateFilter;
       return matchesSearch && matchesCategory && matchesRegion && matchesState;
     });
-  }, [searchTerm, category, region, stateFilter]);
+  }, [searchTerm, category, region, stateFilter, picked]);
+
+  /* Srishti has named some gems and sent the traveller here to look at them.
+     Her picks replace the filters rather than joining them: she chose by what
+     is near a place, and the controls below cannot say that. */
+  useEffect(() => {
+    const apply = (intent) => {
+      if (intent?.type !== "gems") return;
+      const ids = intent.payload?.ids || [];
+      if (!ids.length) return;
+      setSearchTerm("");
+      setCategory("All");
+      setRegion("All");
+      setStateFilter("All");
+      setPicked({ ids, near: intent.payload?.near || null });
+      setFocusGemId(ids[0] ?? null);
+    };
+    apply(takeIntent("gems"));
+    return onIntent(apply);
+  }, []);
+
+  const clearPicked = useCallback(() => {
+    setPicked(null);
+    setFocusGemId(null);
+  }, []);
 
   /* ---------------- filter handlers ---------------- */
 
   const handleRegionChange = useCallback((next) => {
+    setPicked(null);
     setRegion(next);
     setStateFilter("All");
   }, []);
@@ -428,6 +464,24 @@ const HiddenGemsPage = ({ onPageChange }) => {
 
       {/* ======================= GEMS GRID ======================= */}
       <div className="max-w-[1440px] mx-auto px-6 md:px-14 mt-14">
+        {/* What Srishti picked, and the way back to the whole list. Without
+            this the grid silently holds three of ninety-six and the filters
+            all read "All", which looks like a bug rather than a shortlist. */}
+        {picked && (
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-saffron/25 bg-saffron/[0.06] px-5 py-3.5">
+            <p className="text-sm text-ivory">
+              Srishti&rsquo;s picks
+              {picked.near ? ` near ${picked.near}` : ""} — {displayGems.length} of{" "}
+              {gemsData.length} places
+            </p>
+            <button
+              onClick={clearPicked}
+              className="rounded-full border border-white/15 px-4 py-1.5 text-[13px] text-ivory-muted transition-colors hover:border-saffron/40 hover:text-ivory"
+            >
+              Show all gems
+            </button>
+          </div>
+        )}
         {displayGems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {displayGems.map((gem, index) => (

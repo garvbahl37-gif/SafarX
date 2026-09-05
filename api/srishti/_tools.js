@@ -174,8 +174,63 @@ export const TOOL_DECLARATIONS = [
       required: ["page"],
     },
   },
+  {
+    name: "plan_local_route",
+    description:
+      "Draw a route between two Indian places on the Local Insights map, with the real road " +
+      "distance and driving time. Use it when someone asks how to get from one place to another, " +
+      "or how far apart two places are. This is a secondary skill — if they are asking you to " +
+      "plan a *trip* rather than a journey between two points, use plan_itinerary instead.",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        from: { type: "STRING", description: "Where they are starting, e.g. Jaipur" },
+        to: { type: "STRING", description: "Where they are going, e.g. Udaipur" },
+      },
+      required: ["from", "to"],
+    },
+  },
+  {
+    name: "export_itinerary_pdf",
+    description:
+      "Save the itinerary already on screen as a PDF the traveller can keep. Only use this once " +
+      "a plan has actually been written — there is nothing to export before that.",
+    parameters: { type: "OBJECT", properties: {} },
+  },
+  {
+    name: "itinerary_step",
+    description:
+      "Move the trip planner to one of its five legs and fill in what the traveller just told you. " +
+      "Use this *after* plan_itinerary has opened the planner, once per answer they give you: they " +
+      "say how long they have, you set the dates; they name what they like, you set the interests. " +
+      "Ask for one thing at a time and let them see it land on the form. Set submit only when every " +
+      "leg is answered and they are ready for the plan to be written.",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        leg: {
+          type: "STRING",
+          description:
+            "Which leg to show: destination, dates, interests, budget, or review. Omit to stay put.",
+        },
+        destination: { type: "STRING", description: "Where the trip is to" },
+        startDate: { type: "STRING", description: "First day as YYYY-MM-DD" },
+        endDate: { type: "STRING", description: "Last day as YYYY-MM-DD" },
+        pace: { type: "STRING", description: "Relaxed, Moderate or Packed" },
+        interests: {
+          type: "STRING",
+          description: "Comma separated, e.g. Heritage, Food, Nature",
+        },
+        budget: { type: "STRING", description: "Total budget in rupees, digits only" },
+        travellers: { type: "NUMBER", description: "How many adults" },
+        submit: {
+          type: "BOOLEAN",
+          description: "True only when the brief is complete and they want the plan written now",
+        },
+      },
+    },
+  },
 ];
-
 /* Every page a traveller can reach on their own, she can reach for them.
    `/360view` is deliberately absent: it carries its own fixed shortlist and
    ignores the tour asked for, so tours go through `/360tour`. */
@@ -375,9 +430,30 @@ export const runTool = async (name, args, { origin }) => {
       const place = findPlaces(args.place, 1)[0];
       if (!place) return { error: `I don't know ${args.place}.` };
       const found = near(place.lat, place.lng, gems, 3);
+      /* Describing a gem and showing it are one intention. Reading three names
+         out while the traveller looks at whatever page they were already on
+         makes them go and search for each by hand — so the page opens with
+         these already picked out. */
       return {
         near: place.name,
-        gems: found.map((g) => ({ name: g.name, state: g.state, about: g.description })),
+        /* The gems file calls it `title`; reading `name` gave her three
+           nameless results, which is a short step from her inventing names
+           for them. */
+        gems: found.map((g) => ({
+          name: g.title,
+          where: g.location,
+          state: g.state,
+          about: String(g.description || "").slice(0, 180),
+        })),
+        navigate: "/gems",
+        intent: {
+          type: "gems",
+          payload: {
+            near: place.name,
+            ids: found.map((g) => g.id).filter(Boolean),
+            names: found.map((g) => g.name),
+          },
+        },
       };
     }
 
@@ -425,6 +501,11 @@ export const runTool = async (name, args, { origin }) => {
             pace: ["Relaxed", "Moderate", "Packed"].includes(args.pace) ? args.pace : "Moderate",
             budget: String(args.budget || "").replace(/[^\d]/g, ""),
             adults: Math.max(1, Number(args.travellers) || 2),
+            /* Walk the five legs rather than landing on the last one. The
+               traveller should watch the brief being filled and be asked for
+               what is missing, not be shown a finished form they never saw
+               written. The planner stops at the first leg it cannot answer. */
+            walk: true,
           },
         },
       };
@@ -479,6 +560,87 @@ export const runTool = async (name, args, { origin }) => {
             ratio: RATIOS.includes(args.ratio) ? args.ratio : null,
             track: String(args.track || "").slice(0, 60) || null,
           },
+        },
+      };
+    }
+
+    case "plan_local_route": {
+      const from = findPlaces(args.from, 1)[0];
+      const to = findPlaces(args.to, 1)[0];
+      if (!from) return { unavailable: `I don't know ${args.from} in India.` };
+      if (!to) return { unavailable: `I don't know ${args.to} in India.` };
+
+      const stop = (p) => ({
+        id: p.id,
+        name: p.name,
+        lat: p.lat,
+        lng: p.lng,
+        categoryLabel: "Stop",
+        subtitle: p.secondaryText || "",
+      });
+      const km = Math.round(
+        6371 *
+          Math.acos(
+            Math.min(
+              1,
+              Math.sin((from.lat * Math.PI) / 180) * Math.sin((to.lat * Math.PI) / 180) +
+                Math.cos((from.lat * Math.PI) / 180) *
+                  Math.cos((to.lat * Math.PI) / 180) *
+                  Math.cos(((to.lng - from.lng) * Math.PI) / 180)
+            )
+          )
+      );
+
+      return {
+        from: from.name,
+        to: to.name,
+        straightLineKm: km,
+        navigate: "/map",
+        intent: {
+          type: "route",
+          payload: { stops: [stop(from), stop(to)], from: from.name, to: to.name },
+        },
+      };
+    }
+
+    case "export_itinerary_pdf": {
+      /* The page owns the export — it is the thing holding the rendered days.
+         This only asks for it, and says so plainly rather than claiming the
+         file exists. */
+      return {
+        exporting: true,
+        note: "Say the PDF is being put together and will download by itself.",
+        navigate: "/itinerary",
+        intent: { type: "itinerary-pdf", payload: {} },
+      };
+    }
+
+    case "itinerary_step": {
+      const leg = String(args.leg || "").toLowerCase().trim();
+      const LEGS = ["destination", "dates", "interests", "budget", "review"];
+      if (leg && !LEGS.includes(leg)) {
+        return { error: `The legs are ${LEGS.join(", ")}.` };
+      }
+      const fill = {};
+      if (args.destination) fill.destination = String(args.destination).trim();
+      if (args.startDate) fill.startDate = String(args.startDate).trim();
+      if (args.endDate) fill.endDate = String(args.endDate).trim();
+      if (args.pace && ["Relaxed", "Moderate", "Packed"].includes(args.pace)) fill.pace = args.pace;
+      if (args.budget) fill.budget = String(args.budget).replace(/[^\d]/g, "");
+      if (args.travellers) fill.adults = Math.max(1, Number(args.travellers) || 2);
+      if (args.interests) {
+        fill.interests = String(args.interests)
+          .split(",")
+          .map((i) => i.trim())
+          .filter(Boolean);
+      }
+      return {
+        movedTo: leg || "next",
+        filled: Object.keys(fill),
+        navigate: "/itinerary",
+        intent: {
+          type: "itinerary-step",
+          payload: { leg: leg || null, fill, submit: Boolean(args.submit) },
         },
       };
     }

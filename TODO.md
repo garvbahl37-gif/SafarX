@@ -6,6 +6,22 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Srishti drives four more pages, and walks the trip brief instead of
+      skipping it** — asked about hidden gems she now opens Hidden Gems with
+      the three she named already picked out, behind a banner that says whose
+      shortlist it is and offers the way back to all ninety-six; asked how to
+      get from one place to another she draws it on Local Insights and frames
+      both ends; asked for the itinerary as a file she triggers the PDF export
+      the page already had. Route drawing is deliberately secondary in her
+      tool descriptions — a request to plan a *trip* still goes to the planner,
+      not the map. The planner itself no longer jumps to the last leg: it fills
+      what she understood, walks the five legs one at a time so each is seen
+      being written, and stops at the first leg she has no answer for, which is
+      the one she asks about. Each answer lands through `itinerary_step` and
+      moves the form on, so the conversation and the page stay in step. Also
+      fixed `hidden_gems_near` reading `name` off a file whose field is
+      `title`, which had been handing her three nameless gems to describe
+
 - [x] **Srishti stopped cutting herself off, and stopped promising tours that
       cannot open** — three faults, one session. Her voice broke off before the
       end of a sentence because the echo guard only stayed up while `herTurn`
@@ -326,6 +342,9 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Queued
 
+- [ ] **README banner** — the artwork is drawn and approved but is not in the
+      repo; it has to be saved to `docs/banner.png` by hand before the README
+      can point at it, rather than shipping a broken image on the front page
 - [ ] **Eight VR tours cannot open and should probably go** — `bangla-sahib`,
       `hampi`, `fatehpur-sikri`, `amber-fort`, `golden-temple`, `khajuraho`,
       `konark` and `bengaluru` carry a `streetView` block and no panorama.

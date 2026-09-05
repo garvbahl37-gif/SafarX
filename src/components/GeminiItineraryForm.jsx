@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { takeIntent, onIntent } from "../services/srishtiIntent";
 import { motion as Motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import toast from "react-hot-toast";
 import {
@@ -29,6 +30,10 @@ import {
  *   specialRequests } — traveller counts are UI state only and are folded back
  * into the two booleans the Gemini prompt expects.
  */
+/* The five legs, in the order the form walks them. Named the same way in
+   `itinerary_step` so Srishti and the form mean one thing by "dates". */
+const LEG_ORDER = ["destination", "dates", "interests", "budget", "review"];
+
 const GeminiItineraryForm = ({ onItineraryGenerated, onLoadingChange, regenerateSignal = 0, brief = null }) => {
   const reduce = useReducedMotion();
 
@@ -177,28 +182,105 @@ const GeminiItineraryForm = ({ onItineraryGenerated, onLoadingChange, regenerate
   // Track the signal VALUE, not a "first run" flag: StrictMode invokes effects
   // twice on mount, so a boolean guard gets consumed by the first pass and the
   // second pass fires a submit against an empty form.
-  /* Srishti has taken the brief already. Fill it in, jump to the end of the
-     form so the traveller can see what she understood, and start writing. */
+  /* Srishti has taken the brief. She used to fill every field and drop the
+     traveller on the last leg, which showed them a finished form they never
+     saw being written — and gave them no moment to correct a date she had
+     misheard. So the form walks the legs instead: it fills what she already
+     knows, moves through those legs one at a time so each is seen, and stops
+     at the first leg she has no answer for, which is the one she then asks
+     about. `walkTo` is that stopping point. */
   const briefRan = useRef(null);
+  const [walkTo, setWalkTo] = useState(null);
+
   useEffect(() => {
     if (!brief?.destination) return;
     const signature = JSON.stringify(brief);
     if (briefRan.current === signature) return;
     briefRan.current = signature;
 
+    const filled = {
+      destination: brief.destination,
+      startDate: brief.startDate || "",
+      endDate: brief.endDate || "",
+      pace: brief.pace || "",
+      budget: brief.budget || "",
+      interests: brief.interests?.length ? brief.interests : [],
+    };
     setForm((prev) => ({
       ...prev,
-      destination: brief.destination,
-      startDate: brief.startDate || prev.startDate,
-      endDate: brief.endDate || prev.endDate,
-      pace: brief.pace || prev.pace,
-      budget: brief.budget || prev.budget,
-      interests: brief.interests?.length ? brief.interests : prev.interests,
+      destination: filled.destination,
+      startDate: filled.startDate || prev.startDate,
+      endDate: filled.endDate || prev.endDate,
+      pace: filled.pace || prev.pace,
+      budget: filled.budget || prev.budget,
+      interests: filled.interests.length ? filled.interests : prev.interests,
     }));
     if (brief.adults) setCounts((prev) => ({ ...prev, adults: brief.adults }));
-    setStep(lastStep);
-    setFurthest(lastStep);
+
+    if (!brief.walk) {
+      setStep(lastStep);
+      setFurthest(lastStep);
+      return;
+    }
+
+    /* The first leg she cannot answer from what was said. Dates count only
+       when both ends are known — half a date range is not an answer. */
+    const answered = [
+      Boolean(filled.destination),
+      Boolean(filled.startDate && filled.endDate),
+      filled.interests.length > 0,
+      Boolean(filled.budget),
+    ];
+    let stop = answered.findIndex((ok) => !ok);
+    if (stop === -1) stop = lastStep;
+
+    setStep(0);
+    setFurthest(0);
+    setWalkTo(stop);
   }, [brief, lastStep]);
+
+  /* One leg at a time, slowly enough to be read. Jumping straight to the
+     stopping point would be the old behaviour with extra steps. */
+  useEffect(() => {
+    if (walkTo === null) return undefined;
+    if (step >= walkTo) {
+      setWalkTo(null);
+      return undefined;
+    }
+    const timer = setTimeout(() => goToStep(step + 1), reduce ? 300 : 1500);
+    return () => clearTimeout(timer);
+  }, [walkTo, step, goToStep, reduce]);
+
+  /* Each answer she collects lands on the form and moves it on. This is how
+     the conversation and the page stay in step: she asks for one thing, the
+     traveller says it, and they watch it be written down. */
+  useEffect(() => {
+    const apply = (intent) => {
+      if (intent?.type !== "itinerary-step") return;
+      const { leg, fill = {}, submit } = intent.payload || {};
+
+      setForm((prev) => ({
+        ...prev,
+        ...(fill.destination ? { destination: fill.destination } : null),
+        ...(fill.startDate ? { startDate: fill.startDate } : null),
+        ...(fill.endDate ? { endDate: fill.endDate } : null),
+        ...(fill.pace ? { pace: fill.pace } : null),
+        ...(fill.budget ? { budget: fill.budget } : null),
+        ...(fill.interests?.length ? { interests: fill.interests } : null),
+      }));
+      if (fill.adults) setCounts((prev) => ({ ...prev, adults: fill.adults }));
+
+      const index = LEG_ORDER.indexOf(leg);
+      if (index >= 0) goToStep(index);
+
+      /* Submitting is deferred a beat so the fields above have rendered —
+         otherwise the plan is written from the state as it was before her
+         last answer landed. */
+      if (submit) setTimeout(() => submitRef.current(), 350);
+    };
+    apply(takeIntent("itinerary-step"));
+    return onIntent(apply);
+  }, [goToStep]);
 
   const lastSignal = useRef(regenerateSignal);
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useEffect, useCallback, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion as Motion, useReducedMotion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import { takeIntent, onIntent } from "../services/srishtiIntent";
 import CrowdPredictionCard from "./safety/CrowdPredictionCard";
 
 import DayCard from "./planner/DayCard";
@@ -105,6 +106,18 @@ const GeminiItineraryDisplay = ({ itinerary, formData, onRegenerate, onTweak }) 
  setIsDownloading(false);
  }
  }, [itinerary, setAll]);
+
+  /* Srishti can ask for the same export the buttons trigger. She has no way to
+     reach into the DOM herself — the rendered days live here — so she raises
+     an intent and this runs the identical path, toast and all. */
+  useEffect(() => {
+    const apply = (intent) => {
+      if (intent?.type !== "itinerary-pdf") return;
+      handleDownloadPDF();
+    };
+    apply(takeIntent("itinerary-pdf"));
+    return onIntent(apply);
+  }, [handleDownloadPDF]);
 
  const handleCopy = useCallback(async () => {
  try {

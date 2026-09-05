@@ -39,6 +39,7 @@ import RoutePanel from "../components/map/RoutePanel";
 import MapControls from "../components/map/MapControls";
 import { useOverpass } from "../components/map/useOverpass";
 import { useOsrmRoute } from "../components/map/useOsrmRoute";
+import { takeIntent, onIntent } from "../services/srishtiIntent";
 import { CATEGORY_BY_ID, SAFARX_LAYERS } from "../components/map/categories";
 import { SAFARX_POINTS_BY_LAYER } from "../components/map/safarxData";
 import { GlassIconButton } from "../components/VirtualTour/ImmersiveChrome";
@@ -81,6 +82,38 @@ const MapPage = ({ onPageChange }) => {
   const [locating, setLocating] = useState(false);
 
   const [panelOpen, setPanelOpen] = useState(true);
+
+  /* Srishti has been asked how to get from one place to another. The stops
+     arrive already resolved — she looks them up in the same gazetteer this
+     page searches — so the route panel opens on them and the map frames both
+     ends, rather than dropping the traveller on an empty map of India with
+     the answer only spoken aloud. */
+  useEffect(() => {
+    const apply = (intent) => {
+      if (intent?.type !== "route") return;
+      const stops = (intent.payload?.stops || []).filter(
+        (st) => Number.isFinite(st?.lat) && Number.isFinite(st?.lng)
+      );
+      if (stops.length < 2) return;
+      setRouteStops(stops);
+      setRouteOpen(true);
+      setPanelOpen(true);
+      setSheetOpen(false);
+      const lat = stops.reduce((n, st) => n + st.lat, 0) / stops.length;
+      const lng = stops.reduce((n, st) => n + st.lng, 0) / stops.length;
+      const spread = Math.max(
+        ...stops.map((st) => Math.abs(st.lat - lat) + Math.abs(st.lng - lng))
+      );
+      setView({
+        center: [lat, lng],
+        // Two stops a state apart need a different frame from two in one city.
+        zoom: spread > 4 ? 5 : spread > 1.5 ? 6 : spread > 0.4 ? 8 : 10,
+        radius: 12000,
+      });
+    };
+    apply(takeIntent("route"));
+    return onIntent(apply);
+  }, []);
   const [layersOpen, setLayersOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [sheetExpanded, setSheetExpanded] = useState(false);
