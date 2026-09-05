@@ -82,7 +82,7 @@ def ndcg_at_k(ranked, truth, k):
     return sum(gains) / ideal if ideal else 0.0
 
 
-def evaluate(sample_users, train_csr, truth_by_user, n_items, k, popular):
+def evaluate(sample_users, train_csr, seen_csr, truth_by_user, n_items, k, popular):
     """Recall@k and NDCG@k for popularity and for item-based CF."""
     pop_recall = pop_ndcg = cf_recall = cf_ndcg = 0.0
     counted = 0
@@ -91,7 +91,7 @@ def evaluate(sample_users, train_csr, truth_by_user, n_items, k, popular):
         truth = truth_by_user.get(u)
         if not truth:
             continue
-        seen = train_csr[u].indices
+        seen = seen_csr[u].indices
         counted += 1
 
         # Popularity: the same list for everyone, minus what they have seen.
@@ -120,7 +120,7 @@ def evaluate(sample_users, train_csr, truth_by_user, n_items, k, popular):
     }
 
 
-def main(n_sample, k, seed):
+def main(n_sample, k, seed, signal):
     print("  loading…", flush=True)
     users, items, stamps, positive, uidx, iidx = load_interactions()
     n_users, n_items = len(uidx), len(iidx)
@@ -129,16 +129,32 @@ def main(n_sample, k, seed):
     tr, va, te = temporal_split(stamps)
     print(f"  train {tr.sum():,} · val {va.sum():,} · test {te.sum():,}  (temporal)")
 
-    # Confidence-weighted implicit matrix: a save or a booking is worth more
-    # than a glance, but a glance is not worth nothing.
-    weight = np.where(positive[tr], 3.0, 1.0)
+    # Built from everything, views included, and that was tested rather than
+    # assumed.
+    #
+    # The argument for intent only is good: views are drawn by exposure, which
+    # here means popularity, so feeding them in lets the item-item matrix
+    # re-derive the popularity ranking and call it collaborative filtering.
+    # Measured, it is badly wrong — CF went from +4% to -89%. Positives run to
+    # about thirty per user across tens of thousands of items, which is far too
+    # sparse to fit anything on. The views are what carry the density, and
+    # their exposure bias is the price of it. `--signal intent` keeps the
+    # comparison reproducible.
+    keep = tr & positive if signal == "intent" else tr
+    weight = np.where(positive[keep], 3.0, 1.0)
     train_csr = sparse.csr_matrix(
-        (weight, (users[tr], items[tr])), shape=(n_users, n_items))
+        (weight, (users[keep], items[keep])), shape=(n_users, n_items))
     train_csr.data = train_csr.data / np.maximum(
         1e-9, np.sqrt(np.asarray(train_csr.multiply(train_csr).sum(axis=0)).ravel()
                       )[train_csr.indices])   # cosine over items
 
+    # The popularity floor still ranks by everything, because that is what a
+    # popularity baseline is.
     popular = [i for i, _ in Counter(items[tr].tolist()).most_common(k * 40)]
+    # Seen-in-training, for masking: a model must not re-recommend those,
+    # whichever matrix it was fitted on.
+    seen_csr = sparse.csr_matrix(
+        (np.ones(tr.sum()), (users[tr], items[tr])), shape=(n_users, n_items))
 
     truth = {}
     for u, i, p in zip(users[te], items[te], positive[te]):
@@ -151,7 +167,7 @@ def main(n_sample, k, seed):
     sample = rng.choice(candidates, size=min(n_sample, len(candidates)), replace=False)
 
     print(f"  scoring {len(sample):,} of them…", flush=True)
-    r = evaluate(sample, train_csr, truth, n_items, k, popular)
+    r = evaluate(sample, train_csr, seen_csr, truth, n_items, k, popular)
     if not r:
         print("  no evaluable users")
         return
@@ -173,5 +189,7 @@ if __name__ == "__main__":
     ap.add_argument("--users", type=int, default=3000)
     ap.add_argument("--k", type=int, default=20)
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--signal", choices=["intent", "all"], default="all",
+                    help="build the CF matrix from intent events only, or from everything")
     a = ap.parse_args()
-    main(a.users, a.k, a.seed)
+    main(a.users, a.k, a.seed, a.signal)

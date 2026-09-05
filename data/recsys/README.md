@@ -12,7 +12,7 @@ three sources:
 |---|---|---|
 | SafarX's own data | 522 | the gems, VR tours, cities and attractions the app has built pages for |
 | Wikidata | 14,698 | the famous things — forts, national parks, monuments, dishes, festivals |
-| OpenStreetMap | 19,043 | the ordinary ones — restaurants, viewpoints, neighbourhood temples |
+| OpenStreetMap | 23,084 | the ordinary ones — restaurants, viewpoints, neighbourhood temples |
 
 Where two sources describe the same place, the richer record wins: SafarX's own
 first, then Wikidata, then OSM. Nothing was invented. There is no
@@ -22,15 +22,15 @@ comes from OSM's named POIs rather than from padding the table with plausible
 fiction, which would have made the catalogue as synthetic as the behaviour and
 left nothing worth training against.
 
-Categories: food 11,675, nature 8,308, spiritual 6,811, heritage 3,705, culture 3,308, wildlife 179, beach 141, city 118, adventure 18.
+Categories: food 14,619, nature 8,544, spiritual 7,407, heritage 3,845, culture 3,419, wildlife 182, beach 150, city 118, adventure 20.
 
-The commonest kinds: restaurant 6,673, temple 3,201, mountain 2,525, lake 2,209, street food 2,048, cafe 1,831, heritage 1,604, park 1,421.
+The commonest kinds: restaurant 8,758, temple 3,497, mountain 2,525, cafe 2,380, street food 2,358, lake 2,209, heritage 1,604, park 1,496.
 
 ## Files
 
 | file | rows | what it is |
 |---|---|---|
-| `items.csv` | 34,263 | the real catalogue: everything below |
+| `items.csv` | 38,304 | the real catalogue: everything below |
 | `users.csv` | 10,000 | synthetic travellers, each anchored to a real Indian city |
 | `interactions_*.csv` | 1,500,000 across 30 | synthetic events, 50,000 per file |
 
@@ -44,7 +44,7 @@ they reappear exactly as they were.
 
 `user_id, item_id, event, rating, timestamp, session_id, surface, dwell_seconds`
 
-Events: view 1,193,807, save 171,446, plan 82,308, book 29,845, rate 22,594
+Events: view 1,194,198, save 171,443, plan 82,266, book 29,586, rate 22,507
 
 Every row is unique on `(user_id, item_id, event, timestamp)`. That is asserted
 at the end of generation, not assumed.
@@ -82,7 +82,7 @@ measure the sampler. These are the structures that make it trainable:
     python3 scripts/recsys/osm.py               # slower, resumable, cached
     python3 scripts/recsys/generate.py --batches 30 --seed 20260904
 
-Deterministic: seed `20260904`, clock starting `2024-01-01`, spanning 586 days.
+Deterministic: seed `20260904`, clock starting `2024-01-01`, spanning 588 days.
 Same seed, same rows, every time — which is why the files themselves need not
 be committed.
 

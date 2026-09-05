@@ -85,6 +85,19 @@ BUDGET = ["shoestring", "moderate", "comfortable", "premium"]
 AGE_BANDS = ["18-24", "25-34", "35-44", "45-54", "55+"]
 SURFACES = ["search", "feed", "agent", "vr", "map", "gems"]
 
+# How many past views a user carries. It bounds the run — without it, users at
+# a few hundred events each hold millions of live entries for the whole
+# generation — and forgetting the oldest is closer to the truth than a
+# traveller with perfect recall of every place they ever glanced at.
+#
+# There is no sampling knob any more. Weighting a random forty of the history
+# instead of all of it was tried as a cost saving and measured: item-based CF
+# went from beating the popularity baseline to losing to it by 29%. Which item
+# a person saves is the sharpest signal in the corpus, and choosing it from a
+# reshuffled subset each time blurs exactly the consistency a collaborative
+# model looks for. The cost is paid by caching instead — see below.
+HISTORY_CAP = 400
+
 # How steeply popularity falls off with rank. Long-tailed, but not so steep
 # that a person's own taste never gets a look in. See item_scores().
 POP_EXPONENT = 0.8
@@ -270,7 +283,10 @@ def generate(batches, users_count, seed, since):
     # pass over the catalogue.
     cum_pop = list(itertools.accumulate(prior[i["item_id"]] for i in items))
 
-    seen = set()               # (user, item, event, timestamp) — never repeated
+    # Hashes, not the tuples themselves: six million four-string tuples is
+    # well over a gigabyte held for the whole run, purely to answer "have I
+    # written this row before".
+    seen = set()               # hash of (user, item, event, timestamp)
     # user -> {item: when it was first viewed}, the causal record
     first_seen = defaultdict(dict)
     written = 0
@@ -291,9 +307,10 @@ def generate(batches, users_count, seed, since):
     # A single advancing clock fixes both. The gap to the next session is
     # exponential — a Poisson arrival process, which is what site traffic
     # actually is — with its mean divided by the month's seasonal weight, so
-    # busy months simply have sessions closer together. Rows land in
-    # chronological order, which also makes the temporal split a matter of
-    # taking the last file rather than re-sorting a million rows.
+    # busy months simply have sessions closer together. Session starts are
+    # ordered, so files come out in clock order; the rows themselves interleave
+    # slightly because sessions overlap, so sort by timestamp if you need an
+    # exact split boundary.
     per_session = 3.13         # mean of the session-length weights below
     est_sessions = max(1, int(batches * BATCH_ROWS / per_session))
     # E[1/season] and the share of sessions the night filter keeps, so the run
@@ -363,8 +380,10 @@ def generate(batches, users_count, seed, since):
                     # those are the strongest signal a ranking model has.
                     if event != "view":
                         history = first_seen[user["user_id"]]
-                        if history.get(pick["item_id"], when) >= when:
-                            earlier = [i for i, t in history.items() if t < when]
+                        prior_view = history.get(pick["item_id"])
+                        if prior_view is None or prior_view[0] >= when:
+                            earlier = [(i, a) for i, (t, a) in history.items()
+                                       if t < when]
                             if earlier:
                                 # Weighted by how much they actually like it,
                                 # not drawn at random. Picking uniformly made
@@ -376,14 +395,15 @@ def generate(batches, users_count, seed, since):
                                 # popularity ranking by 24%. What someone
                                 # saves is the strongest statement of taste
                                 # they make; it cannot be a coin toss.
-                                cands = [by_id[i] for i in earlier]
-                                like = [affinity(user, c) for c in cands]
+                                cands = [by_id[i] for i, _a in earlier]
+                                like = [a for _i, a in earlier]
                                 pick = (rng.choices(cands, weights=like)[0]
                                         if sum(like) > 0 else rng.choice(cands))
                             else:
                                 event = "view"
 
-                    key = (user["user_id"], pick["item_id"], event, when.isoformat(timespec="seconds"))
+                    stamp = when.isoformat(timespec="seconds")
+                    key = hash((user["user_id"], pick["item_id"], event, stamp))
                     if key in seen:
                         continue
                     seen.add(key)
@@ -393,14 +413,24 @@ def generate(batches, users_count, seed, since):
                     # history — 5,109 rows deep in a run, and a straight
                     # contradiction of what this file claims about itself.
                     if event == "view":
-                        first_seen[user["user_id"]].setdefault(pick["item_id"], when)
+                        hist = first_seen[user["user_id"]]
+                        # Affinity is stored with the view, not recomputed
+                        # later. It depends only on the user and the item, so
+                        # it is the same value every time — and recomputing it
+                        # across the whole history on every save, plan and
+                        # booking was tens of millions of calls a run.
+                        hist.setdefault(pick["item_id"], (when, affinity(user, pick)))
+                        if len(hist) > HISTORY_CAP:
+                            # Oldest out. dicts keep insertion order, and views
+                            # are inserted in clock order, so the first key is
+                            # the oldest.
+                            del hist[next(iter(hist))]
 
                     dwell = max(2, int(rng.lognormvariate(3.1, 0.9)))
                     w.writerow([
                         user["user_id"], pick["item_id"], event,
                         rating_for(user, pick, event, rng),
-                        when.isoformat(timespec="seconds"),
-                        session, surface, dwell,
+                        stamp, session, surface, dwell,
                     ])
                     stats[event] += 1
                     rows += 1
