@@ -1,7 +1,7 @@
 {
-  "name": "SafarX — Discover Incredible India",
+  "name": "SafarX \u2014 Discover Incredible India",
   "short_name": "SafarX",
-  "description": "Your companion for Incredible India — preview heritage in 360° VR, plan trips with AI, and travel with confidence.",
+  "description": "Your companion for Incredible India \u2014 preview heritage in 360\u00b0 VR, plan trips with AI, and travel with confidence.",
   "theme_color": "#061412",
   "background_color": "#061412",
   "display": "standalone",
@@ -9,10 +9,16 @@
   "scope": "/",
   "icons": [
     {
-      "src": "/vite.svg",
-      "sizes": "192x192",
+      "src": "/favicon.svg",
+      "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ]
 }
