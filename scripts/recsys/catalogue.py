@@ -103,7 +103,10 @@ STATE_ALIASES = {
 }
 
 WIKIDATA_DIR = ROOT / "data" / "recsys" / "_wikidata"
-OSM_DIR = ROOT / "data" / "recsys" / "_osm"
+# Two harvest passes: attractions and eateries first, then where a traveller
+# sleeps and shops. Separate caches, read as one.
+OSM_DIRS = [ROOT / "data" / "recsys" / "_osm",
+            ROOT / "data" / "recsys" / "_osm2"]
 
 # Which source wins when two of them describe the same place. The app's own
 # record has photographs, costs and a page behind it; Wikidata has a curated
@@ -151,32 +154,34 @@ def _wikidata_items():
 
 def _osm_items():
     """Named POIs harvested from OpenStreetMap, if osm.py has been run."""
-    if not OSM_DIR.exists():
-        return []
     out = []
-    for path in sorted(OSM_DIR.glob("*.jsonl")):
-        for line in path.open():
-            r = json.loads(line)
-            kind = r["kind"]
-            if kind == "place of worship":
-                kind = WORSHIP.get((r.get("religion") or "").lower(), "shrine")
-            out.append({
-                "item_id": f"osm-{r['osm_id']}",
-                "kind": kind,
-                "title": r["title"],
-                "state": r["state"],
-                "region": "",
-                "category": r["category"],
-                "lat": r["lat"], "lng": r["lng"],
-                # No photograph, so the thinnest card in the catalogue — which
-                # is the right place for a POI we know only the name of.
-                "media_count": 1,
-                "difficulty": "easy",
-                "cost_per_day": None,
-                "duration_days": None,
-                "cuisine": r.get("cuisine", ""),
-                "_source": "osm",
-            })
+    for d in OSM_DIRS:
+        if not d.exists():
+            continue
+        for path in sorted(d.glob("*.jsonl")):
+            for line in path.open():
+                r = json.loads(line)
+                kind = r["kind"]
+                if kind == "place of worship":
+                    kind = WORSHIP.get((r.get("religion") or "").lower(), "shrine")
+                out.append({
+                    "item_id": f"osm-{r['osm_id']}",
+                    "kind": kind,
+                    "title": r["title"],
+                    "state": r["state"],
+                    "region": "",
+                    "category": r["category"],
+                    "lat": r["lat"], "lng": r["lng"],
+                    # No photograph, so the thinnest card in the catalogue —
+                    # which is the right place for a POI we know only the name
+                    # of.
+                    "media_count": 1,
+                    "difficulty": "easy",
+                    "cost_per_day": None,
+                    "duration_days": None,
+                    "cuisine": r.get("cuisine", ""),
+                    "_source": "osm",
+                })
     return out
 
 

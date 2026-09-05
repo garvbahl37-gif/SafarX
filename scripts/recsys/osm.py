@@ -29,7 +29,11 @@ import sys
 import time
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-RAW = ROOT / "data" / "recsys" / "_osm"
+# Two passes, two caches. The second sweeps tags the first deliberately left
+# out; keeping them apart means pass one's twenty-three finished states are not
+# thrown away to add them.
+PASS = os.environ.get("OSM_PASS", "1")
+RAW = ROOT / "data" / "recsys" / ("_osm" if PASS == "1" else "_osm2")
 # Overridable so the sweep can be split across providers. One state takes
 # minutes and there are thirty-six, so a single worker on a single endpoint is
 # most of a day. Two workers on two different Overpass instances halves that
@@ -82,6 +86,50 @@ TAG_MAP = [
     (("leisure",  "park"),                "nature",    "park"),
     (("amenity",  "place_of_worship"),    "spiritual", "place of worship"),
 ]
+
+# Pass two: where a traveller sleeps, shops and buys things made locally.
+#
+# Left out of pass one on the grounds that a catalogue of shops is not a
+# catalogue of attractions, which is right for supermarkets and wrong for
+# these. Somewhere to stay is half of planning a trip and SafarX already has a
+# stays feature; a handicraft workshop or a spice market is exactly the
+# "culture" and "food" a visitor travels for. Hostels and campsites belong for
+# the same reason forts do — they are the trip.
+TAG_MAP_2 = [
+    (("tourism",  "hotel"),          "stay",    "hotel"),
+    (("tourism",  "guest_house"),    "stay",    "guest house"),
+    (("tourism",  "hostel"),         "stay",    "hostel"),
+    (("tourism",  "apartment"),      "stay",    "apartment"),
+    (("tourism",  "chalet"),         "stay",    "chalet"),
+    (("tourism",  "camp_site"),      "stay",    "campsite"),
+    (("tourism",  "alpine_hut"),     "stay",    "mountain hut"),
+    (("tourism",  "wilderness_hut"), "stay",    "hut"),
+    (("amenity",  "marketplace"),    "culture", "market"),
+    (("shop",     "handicraft"),     "culture", "handicraft"),
+    (("shop",     "art"),            "culture", "art shop"),
+    (("shop",     "craft"),          "culture", "craft shop"),
+    (("shop",     "musical_instrument"), "culture", "instrument maker"),
+    (("shop",     "spices"),         "food",    "spice shop"),
+    (("shop",     "tea"),            "food",    "tea shop"),
+    (("shop",     "coffee"),         "food",    "coffee shop"),
+    (("shop",     "bakery"),         "food",    "bakery"),
+    (("shop",     "confectionery"),  "food",    "sweet shop"),
+    (("amenity",  "ice_cream"),      "food",    "ice cream"),
+    (("amenity",  "food_court"),     "food",    "food court"),
+    (("amenity",  "biergarten"),     "food",    "biergarten"),
+    (("historic", "wayside_shrine"), "spiritual", "wayside shrine"),
+    (("historic", "tomb"),           "heritage", "tomb"),
+    (("historic", "city_gate"),      "heritage", "city gate"),
+    (("historic", "aqueduct"),       "heritage", "aqueduct"),
+    (("natural",  "hot_spring"),     "nature",  "hot spring"),
+    (("natural",  "spring"),         "nature",  "spring"),
+    (("leisure",  "water_park"),     "adventure", "water park"),
+    (("tourism",  "aquarium"),       "wildlife", "aquarium"),
+    (("tourism",  "information"),    "heritage", "visitor centre"),
+]
+
+if PASS != "1":
+    TAG_MAP = TAG_MAP_2
 
 # Every filter in one union, so a state costs one request instead of
 # twenty-five. Sweeping tag-by-tag would have been 900 requests against a

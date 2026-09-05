@@ -78,17 +78,33 @@ PERSONAS = {
 # Every category an item can carry, so each user can hold an opinion on all
 # of them.
 ALL_CATEGORIES = ["heritage", "spiritual", "culture", "nature", "adventure",
-                  "wildlife", "beach", "food", "city"]
+                  "wildlife", "beach", "food", "city", "stay"]
+
+# Categories nobody is indifferent to but nobody travels *for*. A pilgrim still
+# needs a bed and still passes through a city, so penalising these the way a
+# beach is penalised for a heritage-seeker would be wrong — they are the
+# scaffolding of a trip rather than its point.
+NEUTRAL_CATEGORIES = {"city", "stay"}
 
 PARTY = ["solo", "couple", "family", "friends"]
 BUDGET = ["shoestring", "moderate", "comfortable", "premium"]
 AGE_BANDS = ["18-24", "25-34", "35-44", "45-54", "55+"]
 SURFACES = ["search", "feed", "agent", "vr", "map", "gems"]
 
-# How many past views a user carries. It bounds the run — without it, users at
-# a few hundred events each hold millions of live entries for the whole
-# generation — and forgetting the oldest is closer to the truth than a
-# traveller with perfect recall of every place they ever glanced at.
+# How many past views a user carries, and therefore what a save chooses
+# between. Roughly the last few months of browsing for an active user.
+#
+# It also bounds the run — without it, users at a few hundred events each hold
+# millions of live entries for the whole generation; at 150 the peak resident
+# size of a 4.5M-row run is 734MB.
+#
+# A caution for anyone tempted to tune this. Dropping it from 400 to 150 moved
+# item-based CF from +85% over the popularity floor to +209%, and that is NOT
+# a reason to keep going. A shorter pool concentrates each user's saves on
+# fewer items and makes them easier to predict; at a cap of five the benchmark
+# would look magnificent and mean nothing. The number belongs to how much a
+# traveller plausibly still has in mind, not to how good it makes the score
+# look.
 #
 # There is no sampling knob any more. Weighting a random forty of the history
 # instead of all of it was tried as a cost saving and measured: item-based CF
@@ -96,7 +112,7 @@ SURFACES = ["search", "feed", "agent", "vr", "map", "gems"]
 # a person saves is the sharpest signal in the corpus, and choosing it from a
 # reshuffled subset each time blurs exactly the consistency a collaborative
 # model looks for. The cost is paid by caching instead — see below.
-HISTORY_CAP = 400
+HISTORY_CAP = 150
 
 # How steeply popularity falls off with rank. Long-tailed, but not so steep
 # that a person's own taste never gets a look in. See item_scores().
@@ -224,7 +240,7 @@ def affinity(user, item, _prior=None, _unused=None):
     cats = PERSONAS[user["persona"]][1]
     if item["category"] in cats:
         score *= 4.5
-    elif item["category"] in ("city",):
+    elif item["category"] in NEUTRAL_CATEGORIES:
         score *= 1.2
     else:
         score *= 0.35
