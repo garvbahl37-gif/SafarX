@@ -58,6 +58,7 @@ import random
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 
+import rainfall
 from catalogue import build_items
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -78,13 +79,13 @@ PERSONAS = {
 # Every category an item can carry, so each user can hold an opinion on all
 # of them.
 ALL_CATEGORIES = ["heritage", "spiritual", "culture", "nature", "adventure",
-                  "wildlife", "beach", "food", "city", "stay"]
+                  "wildlife", "beach", "food", "city", "stay", "transport"]
 
 # Categories nobody is indifferent to but nobody travels *for*. A pilgrim still
 # needs a bed and still passes through a city, so penalising these the way a
 # beach is penalised for a heritage-seeker would be wrong — they are the
 # scaffolding of a trip rather than its point.
-NEUTRAL_CATEGORIES = {"city", "stay"}
+NEUTRAL_CATEGORIES = {"city", "stay", "transport"}
 
 PARTY = ["solo", "couple", "family", "friends"]
 BUDGET = ["shoestring", "moderate", "comfortable", "premium"]
@@ -305,7 +306,30 @@ def affinity(user, item, _prior=None, _unused=None):
     return score
 
 
+# Measured seasonality, per state, from IMD rainfall normals — 641 districts,
+# twelve monthly means each. Empty if the data has not been fetched, in which
+# case the hand-written tables below still apply.
+STATE_SEASON = rainfall.state_weights()
+
+
 def season_weight(item, when):
+    """
+    How attractive this item's state is in this month.
+
+    Rainfall decides it where rainfall is known, because it is measured and the
+    hand-written table was not. The difference is not cosmetic: the table had
+    October as high season everywhere, and October is the wettest month of the
+    year in Tamil Nadu, which the northeast monsoon reaches when the rest of
+    the country is drying out.
+
+    States the rainfall file does not name fall back to the old tables. Ladakh
+    is the case that matters — the file predates its separation from Jammu and
+    Kashmir in 2019 — and it is exactly the state where rain explains least
+    anyway, being a high desert that closes for snow rather than for monsoon.
+    """
+    measured = STATE_SEASON.get(item["state"])
+    if measured:
+        return measured[when.month - 1]
     table = HILL_SEASON if item["state"] in HILL_STATES else SEASON
     return table[when.month]
 

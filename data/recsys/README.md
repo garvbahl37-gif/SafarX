@@ -11,8 +11,8 @@ three sources:
 | source | items | what it contributes |
 |---|---|---|
 | SafarX's own data | 530 | the gems, VR tours, cities and attractions the app has built pages for |
-| Wikidata | 14,927 | the famous things — forts, national parks, monuments, dishes, festivals |
-| OpenStreetMap | 91,836 | the ordinary ones — restaurants, viewpoints, neighbourhood temples |
+| Wikidata | 14,916 | the famous things — forts, national parks, monuments, dishes, festivals |
+| OpenStreetMap | 89,705 | the ordinary ones — restaurants, viewpoints, neighbourhood temples |
 
 Where two sources describe the same place, the richer record wins: SafarX's own
 first, then Wikidata, then OSM. Nothing was invented. There is no
@@ -22,20 +22,20 @@ comes from OSM's named POIs rather than from padding the table with plausible
 fiction, which would have made the catalogue as synthetic as the behaviour and
 left nothing worth training against.
 
-Categories: food 52,020, spiritual 32,086, stay 14,657, nature 14,005, heritage 6,747, culture 5,383, wildlife 272, beach 216, city 133, adventure 106.
+Categories: food 102,787, spiritual 32,086, stay 14,637, nature 14,005, transport 8,651, heritage 6,745, culture 5,382, wildlife 272, beach 216, city 133, adventure 106.
 
-The commonest kinds: restaurant 32,931, temple 17,531, street food 8,957, cafe 7,924, church 4,996, 1-star hotel 4,917, mosque 4,822, shrine 3,423.
+The commonest kinds: restaurant 84,331, temple 17,531, railway station 8,651, street food 8,510, cafe 7,562, church 4,996, 1-star hotel 4,917, mosque 4,822.
 
 ## Files
 
 | file | rows | what it is |
 |---|---|---|
-| `items.csv` | 125,625 | the real catalogue: everything below |
-| `users.csv` | 8,000 | synthetic travellers, each anchored to a real Indian city |
-| `interactions_*.csv` | 4,000,000 across 80 | synthetic events, 50,000 per file |
+| `items.csv` | 185,020 | the real catalogue: everything below |
+| `users.csv` | 12,000 | synthetic travellers, each anchored to a real Indian city |
+| `interactions_*.csv` | 6,000,000 across 120 | synthetic events, 50,000 per file |
 
 `items.csv` and `users.csv` are committed. The interaction files are **not** —
-they are git-ignored. They come to roughly 272 MB, they
+they are git-ignored. They come to roughly 408 MB, they
 regenerate byte-for-byte from the seed below, and a deploying repo should not
 carry that in its history for ever. Run the command under *Reproducing* and
 they reappear exactly as they were.
@@ -44,7 +44,7 @@ they reappear exactly as they were.
 
 `user_id, item_id, event, rating, timestamp, session_id, surface, dwell_seconds`
 
-Events: view 3,181,865, save 459,378, plan 219,295, book 79,596, rate 59,866
+Events: view 4,772,400, save 689,200, plan 328,844, book 119,366, rate 90,190
 
 Every row is unique on `(user_id, item_id, event, timestamp)`. That is asserted
 at the end of generation, not assumed.
@@ -117,7 +117,7 @@ Two findings from it are worth carrying:
     node scripts/recsys/export-js-data.mjs      # the app's own data
     python3 scripts/recsys/wikidata.py harvest  # slow, resumable, cached
     python3 scripts/recsys/osm.py               # slower, resumable, cached
-    python3 scripts/recsys/generate.py --batches 80 --seed 20260904
+    python3 scripts/recsys/generate.py --batches 120 --seed 20260904
 
 Deterministic: seed `20260904`, clock starting `2024-01-01`, spanning 588 days.
 Same seed, same rows, every time — which is why the files themselves need not

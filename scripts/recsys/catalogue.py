@@ -21,6 +21,18 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Counters the CLI prints, so the merge is visible rather than silent.
 _STATS = {}
+
+# The 28 states and 8 union territories, and nothing else.
+INDIAN_STATES = {
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
+    "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim",
+    "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand",
+    "West Bengal", "Andaman and Nicobar Islands", "Chandigarh",
+    "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir",
+    "Ladakh", "Lakshadweep", "Puducherry",
+}
 SRC = ROOT / "src" / "data"
 
 # Nine gem categories, five tour categories and a mixed bag of attractions
@@ -82,6 +94,11 @@ REGION_FALLBACK = {
 # home is "Jammu and Kashmir" — which quietly weakens the geography signal
 # that is the strongest feature a travel recommender has.
 STATE_ALIASES = {
+    # Picked up from the Kaggle and rainfall tables: an old name, two ways of
+    # writing Delhi, and one row that is not in India at all.
+    "Orissa": "Odisha",
+    "Delhi NCT": "Delhi",
+    "NCT of Delhi": "Delhi",
     "Jammu & Kashmir": "Jammu and Kashmir",
     "Andaman & Nicobar Islands": "Andaman and Nicobar Islands",
     "Andaman & Nicobar": "Andaman and Nicobar Islands",
@@ -323,6 +340,14 @@ def build_items():
     for it in items:
         it["state"] = STATE_ALIASES.get(it["state"], it["state"])
 
+    # And nothing outside India. The nearest-neighbour locator works on
+    # coordinates, so a border town's restaurant can resolve to a state that
+    # does not exist here — one row came back as "Bangladesh". A catalogue of
+    # Indian travel should not quietly contain it.
+    before = len(items)
+    items = [it for it in items if not it["state"] or it["state"] in INDIAN_STATES]
+    _STATS["dropped_non_indian"] = before - len(items)
+
     # Regions are only recorded on gems; carry them across by state so every
     # item can be reasoned about geographically.
     for it in items:
@@ -388,6 +413,9 @@ def build_items():
             best[key] = it
 
     out = sorted(best.values(), key=lambda x: x["item_id"])
+    # World Heritage status marked on whatever is already here, after dedupe
+    # so it lands on the surviving record rather than a discarded twin.
+    _STATS["unesco_marked"] = kaggle_sets.mark_unesco(out)
 
     # Borrowed coordinates, AFTER deduplication rather than before.
     #
