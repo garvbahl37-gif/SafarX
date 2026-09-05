@@ -13,6 +13,7 @@ produces would be measuring the generator rather than the model.
 import json
 
 import external
+import kaggle_sets
 import pathlib
 import re
 
@@ -116,7 +117,7 @@ OSM_DIRS = [ROOT / "data" / "recsys" / "_osm",
 # Which source wins when two of them describe the same place. The app's own
 # record has photographs, costs and a page behind it; Wikidata has a curated
 # entity and often an image; OSM has a name and a point. Highest wins.
-SOURCE_RANK = {"app": 4, "external": 3, "wikidata": 2, "osm": 1}
+SOURCE_RANK = {"app": 5, "external": 4, "kaggle": 3, "wikidata": 2, "osm": 1}
 
 # A place of worship is not a useful category on its own — OSM files a
 # cathedral and a village shrine under the same tag — so the religion refines
@@ -308,6 +309,15 @@ def build_items():
         })
     _STATS["enriched"] = enriched
     _STATS["from_external"] = len(ext)
+
+    # Hotels and restaurants, which carry a price and a rating where OSM
+    # carries only a name. Their state is read off the nearest already-placed
+    # item, so this has to run after everything with real coordinates is in.
+    locator = kaggle_sets.StateLocator(items)
+    kag, dropped = kaggle_sets.load(locator)
+    items += kag
+    _STATS["from_kaggle"] = len(kag)
+    _STATS["kaggle_unplaceable"] = dropped
 
     # One spelling per state, before anything is keyed on it.
     for it in items:

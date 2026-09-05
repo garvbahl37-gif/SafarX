@@ -56,3 +56,10 @@ data/recsys/interactions_*.csv
 # a long sweep can resume where it stopped.
 data/recsys/_wikidata/
 data/recsys/_osm/
+data/recsys/_osm2/
+# Raw third-party downloads. Re-fetchable with the tokens in .env via
+# scripts/recsys/fetch-external.sh; the curated table stays committed because
+# it was supplied directly and is small.
+data/recsys/_external/kg_*/
+data/recsys/_external/hf_*.csv
+data/recsys/_external/*.zip
