@@ -57,7 +57,10 @@ const imagesFor = (gem) =>
   (gem.images || [])
     .map((file) => resolveImage(file))
     .filter(Boolean)
-    .map((url) => cdnImage(url, 640));
+    /* 360, not 640. The card is 344 CSS pixels wide; asking for 640 meant a
+       1280px file — 178KB each and 14MB for the page — to fill a space barely
+       a quarter of that. */
+    .map((url) => cdnImage(url, 360));
 
 const resolveImage = (file) => {
   if (!file) return FALLBACK_IMAGE;
@@ -69,7 +72,7 @@ const resolveImage = (file) => {
   return hit ? hit[1] : FALLBACK_IMAGE;
 };
 
-const imageFor = (gem) => cdnImage(resolveImage(gem.images?.[0]), 640);
+const imageFor = (gem) => cdnImage(resolveImage(gem.images?.[0]), 360);
 
 const CATEGORY_LABELS = {
   All: "All",
@@ -436,6 +439,10 @@ const HiddenGemsPage = ({ onPageChange }) => {
                     images={imagesFor(gem)}
                     alt={`${gem.title}, ${gem.location}`}
                     fallback={FALLBACK_IMAGE}
+                    /* The first rows are on screen when the page opens, so
+                       they are fetched at once instead of being queued behind
+                       everything else as lazy images are. */
+                    priority={index < 6}
                     className="transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/20 to-transparent" />

@@ -16,9 +16,15 @@ import { originalFrom } from '../../utils/imageCdn';
  * @param {string[]} images already-resolved URLs, first one leading
  * @param {number} [interval] ms between frames
  */
-const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 2600, className = '' }) => {
+const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 2600, priority = false, className = '' }) => {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
+  /* Nothing but the first picture exists until the card has ticked once.
+     Mounting the queued and outgoing frames up front tripled the number of
+     images the page asks for before it can show anything — 270 requests for
+     90 cards, when 90 would have done. The extra frames are only needed once
+     something is actually cycling, and by then the visible one has arrived. */
+  const [cycled, setCycled] = useState(false);
 
   const frames = images.length ? images : [fallback];
   const cycles = frames.length > 1 && !reduce;
@@ -29,7 +35,9 @@ const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 260
      card instead of dissolving. */
   const n = frames.length;
   const visible = (i) =>
-    i === index || i === (index + 1) % n || i === (index - 1 + n) % n;
+    !cycled
+      ? i === index
+      : i === index || i === (index + 1) % n || i === (index - 1 + n) % n;
 
   /* One timer per multi-photo card, unconditionally.
      This was gated behind an IntersectionObserver so that off-screen cards
@@ -38,7 +46,10 @@ const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 260
      background tabs, which is the case that actually mattered. */
   useEffect(() => {
     if (!cycles) return undefined;
-    const id = setInterval(() => setIndex((n) => (n + 1) % frames.length), interval);
+    const id = setInterval(() => {
+      setCycled(true);
+      setIndex((n) => (n + 1) % frames.length);
+    }, interval);
     return () => clearInterval(id);
   }, [cycles, frames.length, interval]);
 
@@ -61,11 +72,13 @@ const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 260
              the ones no longer mounted. */
           alt={i === index ? alt : ''}
           aria-hidden={i === index ? undefined : true}
-          /* Every frame lazy, not just the first. This said the opposite —
-             frame one deferred and the other five fetched eagerly — which on
-             a grid of ninety-six cards is well over five hundred images
-             requested up front. */
-          loading="lazy"
+          /* Lazy everywhere except the cards already on screen. Marking those
+             lazy too is what made the grid look slow: the browser treats a
+             lazy image as low priority and starts it after the rest of the
+             page, so the first row — the only part anyone is looking at —
+             arrived last. */
+          loading={priority ? 'eager' : 'lazy'}
+          fetchpriority={priority && i === index ? 'high' : 'auto'}
           decoding="async"
           /* Stacked and cross-faded rather than swapped, so a slow image
              never leaves a hole where the picture was. */

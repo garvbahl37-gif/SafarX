@@ -573,9 +573,10 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                                                landscape card loses its top and bottom, which is how Qutub
                                                                Minar arrived without the top of the minaret; `a=attention`
                                                                keeps whatever part of the frame carries the detail. */
-                                                            src={cdnImageCropped(tour.thumbnail, 460, 1.45)}
+                                                            src={cdnImageCropped(tour.thumbnail, 380, 1.45)}
                                                             alt={`${tour.name}, ${tour.country}`}
-                                                            loading="lazy"
+                                                            loading={i < 6 ? 'eager' : 'lazy'}
+                                                            fetchpriority={i < 3 ? 'high' : 'auto'}
                                                             decoding="async"
                                                             onError={(e) => {
                                                                 /* Try the original before giving up on the picture. */
