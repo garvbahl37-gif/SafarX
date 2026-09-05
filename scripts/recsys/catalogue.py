@@ -278,9 +278,31 @@ def build_items():
     # attraction and a Wikidata entity. Keep one, and prefer the app's own
     # record: it has the photographs, the costs and the page behind it, where
     # the harvested twin has a name and a point on a map.
+    # Keyed on name, state AND position, not name and state alone.
+    #
+    # Name-and-state threw away 12,599 real places: Maharashtra has 135
+    # distinct Hanuman Mandirs and Karnataka 130 Domino's, and 11,579 of the
+    # same-name pairs sit more than two kilometres apart. Those are different
+    # buildings in different neighbourhoods, not duplicate records, and a
+    # recommender that cannot tell one from another is no use to anyone
+    # standing in a city.
+    #
+    # A cell of 0.01 degrees is about 1.1km. It merged 1,014 rows against the
+    # 1,020 same-name pairs measured within two kilometres, so it collapses
+    # what genuinely is one place and keeps what is not — and it is still
+    # coarse enough to merge the Taj across all three sources, which was the
+    # point of deduping at all. Two records either side of a cell boundary
+    # will survive as two; that error keeps a real place, where the old key's
+    # error destroyed eleven thousand of them.
     best = {}
     for it in items:
-        key = (_slug(it["title"]), it["state"].lower())
+        # A title in Devanagari slugs to nothing, and 97 such rows would
+        # otherwise share one empty key and collapse into a single item.
+        name = _slug(it["title"]) or it["title"].strip().casefold()
+        cell = ((round(it["lat"], 2), round(it["lng"], 2))
+                if it.get("lat") is not None and it.get("lng") is not None
+                else None)
+        key = (name, it["state"].lower(), cell)
         prior = best.get(key)
         # Source rank first, then whichever carries more media. Comparing the
         # pair in one go avoids the ordering bug the long-hand version had,
