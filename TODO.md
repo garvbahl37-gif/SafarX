@@ -6,6 +6,21 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **The journey section crosses instead of descending** — it was a 30px
+      asphalt ribbon running top to bottom over 2,300 units: nearly four
+      screens in which only one stage was ever visible, and on a phone the
+      stages overlapped each other. It is now a mountain pass crossed west to
+      east in **0.9 of a screen** — a dotted surveyor's line with three
+      hairpins between each stage (one bend per stage, stretched over the
+      height a paragraph needs, comes out as a meander), a deterministic
+      wobble on each turn so it answers a hillside rather than looking wound
+      onto a spool, seven milestones with the phase named above or below its
+      own, and one panel underneath carrying whichever stage you have reached.
+      The animation is its own now rather than welded to the scrollbar, which
+      used to mean the journey only happened while you kept scrolling and ran
+      backwards if you scrolled up: a marker crosses on a loop trailing a lit
+      comet, and parks on any milestone you point at
+
 - [x] **Removed the 360° Explorer page** — a thinner second copy of VR Tours,
       which already does street-level and 360° properly. `TourPage360.jsx` is
       gone along with its nav, footer and route entries; `/360view` now
