@@ -17,6 +17,7 @@ import {
     IndianRupee,
     CalendarRange,
     Route,
+    ArrowDown,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { streamAgent, placePhotos } from '../services/agentStream';
@@ -25,6 +26,9 @@ import ListeningOrb from '../../../components/ui/ListeningOrb';
 import { cdnImage, originalFrom } from "../../../utils/imageCdn";
 
 const EASE = [0.22, 1, 0.36, 1];
+
+/* How close to the bottom still counts as following the conversation. */
+const PIN_THRESHOLD = 120;
 
 /* ── Openers, grouped by intent. All Indian, all in ₹ ── */
 const PROMPT_GROUPS = [
@@ -248,25 +252,67 @@ const Chat = ({
     const [stepIndex, setStepIndex] = useState(0);
     const [copiedId, setCopiedId] = useState(null);
     const [justSent, setJustSent] = useState(false);
-    const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
+    const scrollerRef = useRef(null);
+
+    /* ── Following the stream without trapping the reader ──
+       A reply ticks the message list on every token, and this used to answer
+       each tick with a smooth scrollIntoView. Two consequences: the smooth
+       animations queued on top of one another, which is the jerk, and any
+       attempt to scroll up was hauled back to the bottom within a frame — so
+       you could not read the beginning of an answer until it had finished
+       arriving.
+
+       Now the view follows the stream only while you are already at the
+       bottom. Scroll away and it lets go; a button offers the way back. */
+    const [pinned, setPinned] = useState(true);
+    const pinnedRef = useRef(true);
+    /* Where our own last jump landed. An instant scroll comes to rest exactly
+       here, which is how a scroll we caused is told apart from one the reader
+       caused — including a scrollbar drag, which fires no wheel or touch
+       event to give itself away. */
+    const autoTopRef = useRef(-1);
+    /* A smooth scroll passes through positions far from the bottom on its way
+       there, and would otherwise unpin itself en route. */
+    const suppressUntilRef = useRef(0);
+
+    const setPinnedTo = useCallback((next) => {
+        pinnedRef.current = next;
+        setPinned(next);
+    }, []);
 
     const scrollToEnd = useCallback(
-        (smooth = true) => {
-            messagesEndRef.current?.scrollIntoView({
-                behavior: smooth && !reduce ? 'smooth' : 'auto',
-                block: 'end',
-            });
+        (smooth = false) => {
+            const el = scrollerRef.current;
+            if (!el) return;
+            const top = el.scrollHeight - el.clientHeight;
+            autoTopRef.current = top;
+            const animate = smooth && !reduce;
+            if (animate) suppressUntilRef.current = Date.now() + 700;
+            el.scrollTo({ top, behavior: animate ? 'smooth' : 'auto' });
         },
         [reduce]
     );
 
-    /* During a stream we tick often — keep it instant so it never fights itself */
-    const scrollToEndInstant = useCallback(() => scrollToEnd(false), [scrollToEnd]);
+    /* For anything that grows the transcript on its own: follow, but only if
+       the reader has not moved away. Instant, because during a stream this
+       fires far too often to animate. */
+    const followEnd = useCallback(() => {
+        if (pinnedRef.current) scrollToEnd(false);
+    }, [scrollToEnd]);
+
+    const handleScroll = useCallback(() => {
+        const el = scrollerRef.current;
+        if (!el) return;
+        if (Date.now() < suppressUntilRef.current) return;
+        if (Math.abs(el.scrollTop - autoTopRef.current) <= 2) return;
+        const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+        setPinnedTo(distance <= PIN_THRESHOLD);
+    }, [setPinnedTo]);
 
     useEffect(() => {
-        scrollToEnd();
-    }, [messages, isLoading, scrollToEnd]);
+        followEnd();
+    }, [messages, isLoading, followEnd]);
 
     /* Report the session's prompts up to the rail */
     useEffect(() => {
@@ -423,6 +469,10 @@ const Chat = ({
             { id: nextMessageId(), type: 'user', content: text, timestamp: new Date() },
         ]);
         setInput('');
+        /* Sending is an explicit request to see the newest thing, so it
+           re-arms following even if you had scrolled back to re-read. */
+        setPinnedTo(true);
+        scrollToEnd(true);
         setJustSent(true);
         setTimeout(() => setJustSent(false), 520);
 
@@ -546,6 +596,8 @@ const Chat = ({
 
             {/* ══════════ Message canvas ══════════ */}
             <div
+                ref={scrollerRef}
+                onScroll={handleScroll}
                 className="agent-scroll flex-1 overflow-y-auto px-4 md:px-8 py-6"
                 aria-live="polite"
                 aria-relevant="additions text"
@@ -666,7 +718,7 @@ const Chat = ({
                                         <StreamedBody
                                             content={msg.content}
                                             stream={Boolean(msg.stream) && !reduce}
-                                            onAdvance={scrollToEndInstant}
+                                            onAdvance={followEnd}
                                         />
                                     ) : (
                                         <span className="agent-prose" dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
@@ -818,11 +870,36 @@ const Chat = ({
                     </AnimatePresence>
                 </div>
 
-                <div ref={messagesEndRef} />
             </div>
 
             {/* ══════════ Composer ══════════ */}
             <div className="relative z-10 px-4 md:px-8 pt-3 pb-4 border-t border-white/[0.07] bg-ink-950/40">
+
+                {/* Only once you have scrolled away from the newest message.
+                    Hidden while dictating, where the orb owns this airspace. */}
+                <AnimatePresence>
+                    {!pinned && !listening && (
+                        <Motion.button
+                            type="button"
+                            initial={{ opacity: 0, y: 8, scale: 0.94 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 8, scale: 0.94 }}
+                            transition={{ duration: 0.22, ease: EASE }}
+                            onClick={() => {
+                                setPinnedTo(true);
+                                scrollToEnd(true);
+                            }}
+                            className="absolute left-1/2 bottom-full z-20 mb-3 flex -translate-x-1/2
+                                       items-center gap-1.5 whitespace-nowrap rounded-full border
+                                       border-white/[0.12] bg-ink-900/95 px-3.5 py-2 text-xs font-medium
+                                       text-ivory shadow-[0_10px_30px_rgba(6,20,18,0.6)] backdrop-blur-xl
+                                       transition hover:border-saffron/40"
+                        >
+                            <ArrowDown className="h-3.5 w-3.5 text-saffron" />
+                            {isLoading ? 'Jump to the reply' : 'Jump to latest'}
+                        </Motion.button>
+                    )}
+                </AnimatePresence>
 
                 {/* While dictating, the orb takes over the composer's airspace.
                     It sits above the field rather than replacing it so the text
