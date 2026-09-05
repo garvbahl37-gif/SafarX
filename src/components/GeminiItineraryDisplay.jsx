@@ -7,8 +7,7 @@ import {
  ShieldAlert, Download, Loader, Copy, RefreshCw, SlidersHorizontal, Users,
  ArrowRight,
 } from "lucide-react";
-import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
+import { exportItineraryPdf } from "../utils/itineraryPdf";
 import { takeIntent, onIntent } from "../services/srishtiIntent";
 import CrowdPredictionCard from "./safety/CrowdPredictionCard";
 
@@ -63,38 +62,11 @@ const GeminiItineraryDisplay = ({ itinerary, formData, onRegenerate, onTweak }) 
  await new Promise((resolve) => setTimeout(resolve, 700));
 
  try {
- const element = itineraryRef.current;
- const canvas = await html2canvas(element, {
- scale: 2, // Higher resolution
- useCORS: true,
- backgroundColor: "#061412", // Match ink-950 background
- logging: false
- });
-
- const imgData = canvas.toDataURL("image/png");
- const pdf = new jsPDF("p", "mm", "a4");
- const pdfWidth = pdf.internal.pageSize.getWidth();
- const pdfHeight = pdf.internal.pageSize.getHeight();
-
- const imgWidth = pdfWidth;
- const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
- let heightLeft = imgHeight;
- let position = 0;
-
- // First page
- pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
- heightLeft -= pdfHeight;
-
- // Subsequent pages if content overflows
- while (heightLeft > 0) {
- position = heightLeft - imgHeight;
- pdf.addPage();
- pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
- heightLeft -= pdfHeight;
- }
-
- pdf.save(`SafarX-Itinerary-${itinerary?.selectedState}.pdf`);
+ const safeName = String(itinerary?.selectedState || "trip")
+ .replace(/[^\w\s-]/g, "")
+ .trim()
+ .replace(/\s+/g, "-");
+ await exportItineraryPdf(itineraryRef.current, `SafarX-Itinerary-${safeName}.pdf`);
 
  toast.dismiss("pdf-toast");
  toast.success("PDF saved to your downloads", { duration: 3000 });

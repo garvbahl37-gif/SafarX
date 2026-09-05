@@ -6,6 +6,26 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **The itinerary PDF was cutting days in half, and printing blank pages** —
+      two faults with one symptom. The exporter drew the same full-height
+      capture onto every page at a negative offset, so the page boundary fell at
+      a fixed height with no relationship to the content: headings sliced along
+      their middle, sentences severed between ascender and baseline. Pagination
+      is now chosen rather than assumed — `src/utils/itineraryPdf.js` measures
+      every atom (a run of text, an image, an icon) and treats a line as
+      cuttable only when nothing straddles it, preferring a card edge so an
+      activity is not split from its own start time, and preferring the top of a
+      card when a day heading would otherwise be stranded at the foot of a page.
+      The second fault was older and invisible in the app: `DayCard` animates in
+      with `whileInView` from `opacity: 0`, so any day the reader had not
+      scrolled to was captured transparent while still occupying its full
+      height — pages two and three of a seven-day Kerala trip came out
+      completely empty. The export now scrolls the itinerary past the viewport
+      to trigger those animations, with an inline-style pass as the safety net.
+      Measured on that same trip: before, two blank pages and text 24px from a
+      page edge; after, five pages all carrying content with no text nearer than
+      30px to any edge
+
 - [x] **Notifications rebuilt** (`components/ui/Toast.jsx`) — react-hot-toast's
       default is a white pill with a coloured tick, which on a dark teal
       application looks like a browser alert nobody styled. The house toast is
