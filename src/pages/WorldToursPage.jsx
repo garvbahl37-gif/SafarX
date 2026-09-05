@@ -26,6 +26,7 @@ import SectionHeading from "../components/ui/SectionHeading";
 import vrTours from "../data/vrTours.json";
 import PanoramaViewer from "../components/vr/PanoramaViewer";
 import TourStory from "../components/vr/TourStory";
+import { cdnImageCropped, originalFrom } from "../utils/imageCdn";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -567,10 +568,22 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                                                 >
                                                     <div className="relative h-[300px] overflow-hidden bg-ink-800">
                                                         <img
-                                                            src={tour.thumbnail}
+                                                            /* Cropped by the CDN to the card's own shape rather than by
+                                                               object-cover taking the middle. A portrait photograph in a
+                                                               landscape card loses its top and bottom, which is how Qutub
+                                                               Minar arrived without the top of the minaret; `a=attention`
+                                                               keeps whatever part of the frame carries the detail. */
+                                                            src={cdnImageCropped(tour.thumbnail, 460, 1.45)}
                                                             alt={`${tour.name}, ${tour.country}`}
                                                             loading="lazy"
+                                                            decoding="async"
                                                             onError={(e) => {
+                                                                /* Try the original before giving up on the picture. */
+                                                                const source = originalFrom(e.target.src);
+                                                                if (source) {
+                                                                    e.target.src = source;
+                                                                    return;
+                                                                }
                                                                 e.target.onerror = null;
                                                                 e.target.style.opacity = "0";
                                                             }}

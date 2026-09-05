@@ -22,6 +22,7 @@ import GemSearchBar from "../components/gems/GemSearchBar";
 import gemsData from "../data/hiddengems.json";
 import { useBookmarks } from "../hooks/useBookmarks";
 import GemThumbnail from "../components/gems/GemThumbnail";
+import { cdnImage } from "../utils/imageCdn";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -30,12 +31,33 @@ const gemImageModules = import.meta.glob("../assets/hidden-gems/*", {
   eager: true,
   import: "default",
 });
+/* What a card shows when it has no photograph.
+   This was a stock shot of the Taj Mahal, and when Wikimedia started
+   rate-limiting the grid every gem on the page fell back to it — ninety-six
+   cards captioned Chand Baori and Sandakphu, all showing the Taj. A fallback
+   that depicts a real, identifiable place will eventually be shown under the
+   wrong name, so this one depicts nothing: an inline gradient in the app's own
+   ink and saffron, which also cannot itself fail to load. */
 const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1200&auto=format&fit=crop&q=80";
+  "data:image/svg+xml;charset=utf-8," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="10">
+       <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+         <stop offset="0" stop-color="#102822"/>
+         <stop offset="1" stop-color="#0A1D1A"/>
+       </linearGradient></defs>
+       <rect width="16" height="10" fill="url(#g)"/>
+     </svg>`
+  );
 
-/** Every photograph a gem has, resolved. */
+/** Every photograph a gem has, resolved and served through the image CDN.
+    503 photographs hotlinked from Wikimedia is precisely the pattern it
+    rate-limits — see src/utils/imageCdn.js. */
 const imagesFor = (gem) =>
-  (gem.images || []).map((file) => resolveImage(file)).filter(Boolean);
+  (gem.images || [])
+    .map((file) => resolveImage(file))
+    .filter(Boolean)
+    .map((url) => cdnImage(url, 640));
 
 const resolveImage = (file) => {
   if (!file) return FALLBACK_IMAGE;
@@ -47,7 +69,7 @@ const resolveImage = (file) => {
   return hit ? hit[1] : FALLBACK_IMAGE;
 };
 
-const imageFor = (gem) => resolveImage(gem.images?.[0]);
+const imageFor = (gem) => cdnImage(resolveImage(gem.images?.[0]), 640);
 
 const CATEGORY_LABELS = {
   All: "All",

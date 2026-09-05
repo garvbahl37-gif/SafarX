@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { streamAgent, placePhotos } from '../services/agentStream';
 import { useSpeechInput } from '../../../hooks/useSpeechInput';
 import ListeningOrb from '../../../components/ui/ListeningOrb';
+import { cdnImage, originalFrom } from "../../../utils/imageCdn";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -695,9 +696,25 @@ const Chat = ({
                                                 className="group/photo relative w-40 shrink-0 overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-900"
                                             >
                                                 <img
-                                                    src={photo.image}
+                                                    /* Through the image CDN, like every other Wikimedia
+                                                       picture in the app. Six at once is far below the
+                                                       volume that broke the gems grid, but it is the same
+                                                       endpoint with the same rate limit, and these arrive
+                                                       at whatever size Wikipedia happened to render — a
+                                                       160px-wide card does not need 100KB of it. */
+                                                    src={cdnImage(photo.image, 160)}
                                                     alt={photo.title}
                                                     loading="lazy"
+                                                    decoding="async"
+                                                    onError={(e) => {
+                                                        const source = originalFrom(e.currentTarget.src);
+                                                        if (source) {
+                                                            e.currentTarget.src = source;
+                                                            return;
+                                                        }
+                                                        e.currentTarget.onerror = null;
+                                                        e.currentTarget.style.opacity = "0";
+                                                    }}
                                                     className="h-24 w-full object-cover transition-transform duration-500 group-hover/photo:scale-[1.06]"
                                                 />
                                                 <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950 via-ink-950/80 to-transparent px-2.5 pb-1.5 pt-5 block">

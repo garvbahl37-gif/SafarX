@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
+import { originalFrom } from '../../utils/imageCdn';
 
 /**
  * A gem's photograph, or its photographs.
@@ -22,6 +23,14 @@ const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 260
   const frames = images.length ? images : [fallback];
   const cycles = frames.length > 1 && !reduce;
 
+  /* Three frames stay mounted: the one leaving, the one showing, and the one
+     queued behind it. The outgoing frame matters — drop it and there is
+     nothing to cross-fade *from*, so the picture blinks through the empty
+     card instead of dissolving. */
+  const n = frames.length;
+  const visible = (i) =>
+    i === index || i === (index + 1) % n || i === (index - 1 + n) % n;
+
   /* One timer per multi-photo card, unconditionally.
      This was gated behind an IntersectionObserver so that off-screen cards
      did not tick — a saving worth nothing, since the observer never reported
@@ -36,11 +45,22 @@ const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 260
   return (
     <div className={`relative h-full w-full ${className}`}>
       {frames.map((src, i) => (
+        /* Only the frame showing and the one after it are in the DOM.
+           Stacking all of them put 504 <img> elements on the gems page — six
+           per card across ninety-six cards — and the browser will not decode
+           five hundred images quickly however small each one is, so the grid
+           filled in slowly even once the photographs themselves were fast.
+           Two is all a cross-fade needs: the next frame is already loaded by
+           the time it becomes the current one. */
+        !visible(i) ? null : (
         <img
           key={src}
           src={src}
-          alt={i === 0 ? alt : ''}
-          aria-hidden={i === 0 ? undefined : true}
+          /* The alt belongs to whichever frame is actually showing. Pinning
+             it to frame 0 left the card unnamed whenever frame 0 was one of
+             the ones no longer mounted. */
+          alt={i === index ? alt : ''}
+          aria-hidden={i === index ? undefined : true}
           /* Every frame lazy, not just the first. This said the opposite —
              frame one deferred and the other five fetched eagerly — which on
              a grid of ninety-six cards is well over five hundred images
@@ -52,11 +72,22 @@ const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 260
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
             i === index ? 'opacity-100' : 'opacity-0'
           }`}
+          /* Three steps down, not one. The CDN first; if that fails, the
+             original Wikimedia file, which is slower but real; only then the
+             placeholder. Going straight to the placeholder made a proxy
+             outage look identical to having no photograph at all. */
           onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = fallback;
+            const el = e.currentTarget;
+            const source = originalFrom(el.src);
+            if (source) {
+              el.src = source;
+              return;
+            }
+            el.onerror = null;
+            el.src = fallback;
           }}
         />
+        )
       ))}
 
       {/* Commons footage of the place, over the stills, muted and looping.
