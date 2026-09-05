@@ -1,0 +1,616 @@
+{"osm_id": 975645115, "title": "Hotel Mayuri", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.356227, "lng": 95.322114, "cuisine": "", "religion": ""}
+{"osm_id": 1013048392, "title": "Prarthana Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.3467258, "lng": 95.3177047, "cuisine": "", "religion": ""}
+{"osm_id": 1015801509, "title": "Hotel Aroma Residency", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.4965455, "lng": 95.3443766, "cuisine": "", "religion": ""}
+{"osm_id": 1015801512, "title": "Hotel Highway", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.4827564, "lng": 95.3425956, "cuisine": "", "religion": ""}
+{"osm_id": 1021860630, "title": "Honey Dew Bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 27.3609481, "lng": 95.3130108, "cuisine": "", "religion": ""}
+{"osm_id": 1124867446, "title": "Wild Mahseer", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.820864, "lng": 92.7985097, "cuisine": "", "religion": ""}
+{"osm_id": 1577816064, "title": "Hotel Blue Moon", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1913525, "lng": 91.7532184, "cuisine": "", "religion": ""}
+{"osm_id": 1577848345, "title": "Loyans bakery & confectionery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1905297, "lng": 91.7539376, "cuisine": "", "religion": ""}
+{"osm_id": 1578252819, "title": "Hotel Brahmaputra Ashok", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1909754, "lng": 91.7508093, "cuisine": "", "religion": ""}
+{"osm_id": 2383182477, "title": "Labour Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.7517288, "lng": 94.1979028, "cuisine": "", "religion": ""}
+{"osm_id": 2387271266, "title": "Fish Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 24.7923792, "lng": 93.0018645, "cuisine": "", "religion": ""}
+{"osm_id": 2388176738, "title": "Fulertal Vag & Fish Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 24.7901718, "lng": 93.0180347, "cuisine": "", "religion": ""}
+{"osm_id": 2389289040, "title": "Pailapool Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 24.8280946, "lng": 93.0213805, "cuisine": "", "religion": ""}
+{"osm_id": 2595622977, "title": "Bansbari Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6587632, "lng": 91.0005568, "cuisine": "", "religion": ""}
+{"osm_id": 2595622987, "title": "Florican Cottage", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6592285, "lng": 90.9944181, "cuisine": "", "religion": ""}
+{"osm_id": 3464362253, "title": "Hotel Vishal", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.4847523, "lng": 94.9029154, "cuisine": "", "religion": ""}
+{"osm_id": 3546963014, "title": "Fransalian Boy's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 27.8160125, "lng": 95.2187758, "cuisine": "", "religion": ""}
+{"osm_id": 3547327332, "title": "Telam Weekly Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 27.7642459, "lng": 95.0017795, "cuisine": "", "religion": ""}
+{"osm_id": 3547340612, "title": "SFS Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 27.7642597, "lng": 95.00703, "cuisine": "", "religion": ""}
+{"osm_id": 3547429771, "title": "Niribili Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.7018843, "lng": 92.8290719, "cuisine": "", "religion": ""}
+{"osm_id": 3547482482, "title": "Nilachal Men's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.7022677, "lng": 92.8351444, "cuisine": "", "religion": ""}
+{"osm_id": 3547482483, "title": "Kanchenjungha Men's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.702814, "lng": 92.8340179, "cuisine": "", "religion": ""}
+{"osm_id": 3547482485, "title": "Charaideu Men's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.7015776, "lng": 92.8361422, "cuisine": "", "religion": ""}
+{"osm_id": 3547490573, "title": "Patkai Men's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.7003124, "lng": 92.8360027, "cuisine": "", "religion": ""}
+{"osm_id": 3547490574, "title": "Saraighat C. V. Raman Men's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.6999578, "lng": 92.8369039, "cuisine": "", "religion": ""}
+{"osm_id": 3547490575, "title": "New Women's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.7006958, "lng": 92.8367108, "cuisine": "", "religion": ""}
+{"osm_id": 3547490577, "title": "Suwansiri Women's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.7011176, "lng": 92.831915, "cuisine": "", "religion": ""}
+{"osm_id": 3547490578, "title": "Kopili Women's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.7005425, "lng": 92.8318828, "cuisine": "", "religion": ""}
+{"osm_id": 3547490579, "title": "Pobitara Madam Curie Women's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.6999865, "lng": 92.8319365, "cuisine": "", "religion": ""}
+{"osm_id": 3553930557, "title": "Chakrashilla Wildlife Sanctuary", "category": "heritage", "kind": "visitor centre", "state": "Assam", "lat": 26.3817154, "lng": 90.3339174, "cuisine": "", "religion": ""}
+{"osm_id": 3637659871, "title": "Bhutia Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.7593154, "lng": 94.2096525, "cuisine": "", "religion": ""}
+{"osm_id": 3637659880, "title": "Hotel Heritage", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7612075, "lng": 94.2058427, "cuisine": "", "religion": ""}
+{"osm_id": 3637659881, "title": "Hotel Landmark", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7612046, "lng": 94.2061004, "cuisine": "", "religion": ""}
+{"osm_id": 3637659882, "title": "Hotel Paradise", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7611486, "lng": 94.2059729, "cuisine": "", "religion": ""}
+{"osm_id": 3881985576, "title": "Hotel Jahnabee Regency", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.4908153, "lng": 90.5514234, "cuisine": "", "religion": ""}
+{"osm_id": 3914776964, "title": "Hotel Borail View", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 24.8259918, "lng": 92.7969164, "cuisine": "", "religion": ""}
+{"osm_id": 3914776965, "title": "Hotel Ria Palace and Restaurant", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 24.826985, "lng": 92.7988851, "cuisine": "", "religion": ""}
+{"osm_id": 3921076867, "title": "Birbal Bazaar", "category": "culture", "kind": "market", "state": "Assam", "lat": 24.7900403, "lng": 92.7933525, "cuisine": "", "religion": ""}
+{"osm_id": 4192839813, "title": "Blue Moon Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.2898563, "lng": 95.6812044, "cuisine": "", "religion": ""}
+{"osm_id": 4196334689, "title": "Singpho Eco-Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.3305939, "lng": 95.6958336, "cuisine": "", "religion": ""}
+{"osm_id": 4196339703, "title": "Segunbari Tiniali", "category": "culture", "kind": "market", "state": "Assam", "lat": 27.293615, "lng": 95.6591061, "cuisine": "", "religion": ""}
+{"osm_id": 4282136389, "title": "Hotel Biswanath", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1797559, "lng": 91.7525509, "cuisine": "", "religion": ""}
+{"osm_id": 4290772890, "title": "h b lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6218642, "lng": 92.7977296, "cuisine": "", "religion": ""}
+{"osm_id": 4304148496, "title": "Ygdrasill Bamboo Cottage", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.9658266, "lng": 94.1587707, "cuisine": "", "religion": ""}
+{"osm_id": 4307250790, "title": "hotel picollo", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9834754, "lng": 94.6342744, "cuisine": "", "religion": ""}
+{"osm_id": 4544266989, "title": "Subansiri Lodge", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.9849211, "lng": 94.1692592, "cuisine": "", "religion": ""}
+{"osm_id": 4573850557, "title": "Guest house", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1322171, "lng": 91.8101336, "cuisine": "", "religion": ""}
+{"osm_id": 4618338605, "title": "D Mukta Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1840021, "lng": 91.7698601, "cuisine": "", "religion": ""}
+{"osm_id": 4634061589, "title": "MD 's", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7611767, "lng": 94.2164053, "cuisine": "", "religion": ""}
+{"osm_id": 4681491693, "title": "Mona Lisa", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.3507514, "lng": 92.6777173, "cuisine": "", "religion": ""}
+{"osm_id": 4681491694, "title": "Janata Paradise", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7607767, "lng": 94.2058894, "cuisine": "", "religion": ""}
+{"osm_id": 4681502996, "title": "Monodrome", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1233441, "lng": 92.1990103, "cuisine": "", "religion": ""}
+{"osm_id": 4689353602, "title": "RCC 2 Boy's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1531187, "lng": 91.6640338, "cuisine": "", "religion": ""}
+{"osm_id": 4720041990, "title": "Green Reed Resort", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.5893438, "lng": 93.4128355, "cuisine": "", "religion": ""}
+{"osm_id": 4741392531, "title": "Crescend lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6246901, "lng": 92.7948903, "cuisine": "", "religion": ""}
+{"osm_id": 4868269923, "title": "Hotel City Park", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1813384, "lng": 91.7411759, "cuisine": "", "religion": ""}
+{"osm_id": 4925694415, "title": "game village", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.109811, "lng": 91.7873435, "cuisine": "", "religion": ""}
+{"osm_id": 5023586422, "title": "Wild Grass", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.595293, "lng": 93.451587, "cuisine": "", "religion": ""}
+{"osm_id": 5143067524, "title": "HOTEL J.C. INTERNATIONAL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 24.8286939, "lng": 92.7989253, "cuisine": "", "religion": ""}
+{"osm_id": 5187895521, "title": "Town bakery Udalguri", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.7436284, "lng": 92.094946, "cuisine": "", "religion": ""}
+{"osm_id": 5238269934, "title": "Borgos Resort", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.600961, "lng": 93.3961515, "cuisine": "", "religion": ""}
+{"osm_id": 5265475222, "title": "Kamalabari satra guest house", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.9369044, "lng": 94.1565916, "cuisine": "", "religion": ""}
+{"osm_id": 5459478932, "title": "Jyoti home", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.947806, "lng": 94.166079, "cuisine": "", "religion": ""}
+{"osm_id": 5464060735, "title": "Police Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 27.5021941, "lng": 95.3287748, "cuisine": "", "religion": ""}
+{"osm_id": 5486215222, "title": "Damali lodge", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 25.970751, "lng": 93.4358445, "cuisine": "", "religion": ""}
+{"osm_id": 5486219521, "title": "Bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 25.9707878, "lng": 93.435795, "cuisine": "", "religion": ""}
+{"osm_id": 5926899104, "title": "Monoranjan Apartment", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.1227379, "lng": 91.7975082, "cuisine": "", "religion": ""}
+{"osm_id": 6028755985, "title": "Hotel Swagatham", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7545342, "lng": 94.2119462, "cuisine": "", "religion": ""}
+{"osm_id": 6063537485, "title": "Sundarban Guest House", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1792898, "lng": 91.7528794, "cuisine": "", "religion": ""}
+{"osm_id": 6089170185, "title": "H.B. Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1349631, "lng": 91.8103635, "cuisine": "", "religion": ""}
+{"osm_id": 6089194686, "title": "River View Bamboo Cottage", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9913874, "lng": 94.1584928, "cuisine": "", "religion": ""}
+{"osm_id": 6089210486, "title": "Hote Majestic Palace", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.235521, "lng": 94.1049434, "cuisine": "", "religion": ""}
+{"osm_id": 6093127316, "title": "Hotel Red Rose", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.209115, "lng": 91.6861006, "cuisine": "", "religion": ""}
+{"osm_id": 6093127322, "title": "Hotel KRC Palace", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6264988, "lng": 92.790122, "cuisine": "", "religion": ""}
+{"osm_id": 6096313420, "title": "Maha Maya Sweets", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 26.6265009, "lng": 92.800353, "cuisine": "", "religion": ""}
+{"osm_id": 6098791676, "title": "Prem Tea Stall", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.6274709, "lng": 92.7896187, "cuisine": "", "religion": ""}
+{"osm_id": 6110416388, "title": "Hotel Basant", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6252627, "lng": 92.7969511, "cuisine": "", "religion": ""}
+{"osm_id": 6132668196, "title": "Dakhingaon Tiniali", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1356764, "lng": 91.7622007, "cuisine": "", "religion": ""}
+{"osm_id": 6241259485, "title": "Praashanti Tourist Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6192855, "lng": 92.7946457, "cuisine": "", "religion": ""}
+{"osm_id": 6248454786, "title": "Hotel Kaustav", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6244875, "lng": 92.799818, "cuisine": "", "religion": ""}
+{"osm_id": 6251721585, "title": "Aranya Tourist Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.5823466, "lng": 93.4034962, "cuisine": "", "religion": ""}
+{"osm_id": 6282633286, "title": "Gateway", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 24.8263118, "lng": 92.7989095, "cuisine": "", "religion": ""}
+{"osm_id": 6282668385, "title": "Medzi's lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 24.8260467, "lng": 92.7991043, "cuisine": "", "religion": ""}
+{"osm_id": 6347019885, "title": "The Ornate", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1783312, "lng": 91.7566559, "cuisine": "", "religion": ""}
+{"osm_id": 6472916085, "title": "Maa Vaishnavi Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7646663, "lng": 94.2031976, "cuisine": "", "religion": ""}
+{"osm_id": 6485709285, "title": "Hotel Aryan", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9868907, "lng": 94.6384558, "cuisine": "", "religion": ""}
+{"osm_id": 6533205085, "title": "Assam State Tourist Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9901529, "lng": 94.6290755, "cuisine": "", "religion": ""}
+{"osm_id": 6875345286, "title": "Hotel Ellora - Ellora Tower", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 24.8302504, "lng": 92.8004546, "cuisine": "", "religion": ""}
+{"osm_id": 6878704685, "title": "Indian sweets", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 26.1832353, "lng": 91.7825751, "cuisine": "", "religion": ""}
+{"osm_id": 6880249685, "title": "Shaikh Brothers", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1867558, "lng": 91.7433489, "cuisine": "", "religion": ""}
+{"osm_id": 6880540986, "title": "Keventers", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1549618, "lng": 91.7822956, "cuisine": "", "religion": ""}
+{"osm_id": 6884187085, "title": "hotel N.C. 600 rupees", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6201104, "lng": 92.794926, "cuisine": "", "religion": ""}
+{"osm_id": 6884187185, "title": "Kaziranga wildlife society guesthouse 600rupee", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.5833108, "lng": 93.4029643, "cuisine": "", "religion": ""}
+{"osm_id": 6885826585, "title": "Chandratara Inn (Rest house for Travellers)", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 27.8393072, "lng": 95.2217569, "cuisine": "", "religion": ""}
+{"osm_id": 6964082554, "title": "Tourist Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.020174, "lng": 89.9953837, "cuisine": "", "religion": ""}
+{"osm_id": 6964083215, "title": "Brahmaputra Guest House", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.0202533, "lng": 89.9899358, "cuisine": "", "religion": ""}
+{"osm_id": 6964084687, "title": "The Town Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.0205192, "lng": 89.9886163, "cuisine": "", "religion": ""}
+{"osm_id": 6972034385, "title": "Manas Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.3284963, "lng": 91.0072939, "cuisine": "", "religion": ""}
+{"osm_id": 6972034485, "title": "Hotel Plaza", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.3290744, "lng": 91.0065262, "cuisine": "", "religion": ""}
+{"osm_id": 6979246185, "title": "Government funded ferry to Majuli 15 rupees", "category": "heritage", "kind": "visitor centre", "state": "Assam", "lat": 26.8616643, "lng": 94.2416872, "cuisine": "", "religion": ""}
+{"osm_id": 6979388885, "title": "Janata sweets", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 26.9469101, "lng": 94.1658909, "cuisine": "", "religion": ""}
+{"osm_id": 6979540399, "title": "Bongaon (Village)", "category": "heritage", "kind": "visitor centre", "state": "Assam", "lat": 26.9546631, "lng": 94.2875353, "cuisine": "", "religion": ""}
+{"osm_id": 6979540987, "title": "Majuli Ferry Service", "category": "heritage", "kind": "visitor centre", "state": "Assam", "lat": 26.9153585, "lng": 94.2988386, "cuisine": "", "religion": ""}
+{"osm_id": 6979563285, "title": "Boat to Majuli Ferry Service 10 rupees", "category": "heritage", "kind": "visitor centre", "state": "Assam", "lat": 26.8612591, "lng": 94.2434757, "cuisine": "", "religion": ""}
+{"osm_id": 6986458601, "title": "Indian sweets and tea", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 26.9553834, "lng": 94.1702761, "cuisine": "", "religion": ""}
+{"osm_id": 6986506585, "title": "Dimpi sweets & bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.9454375, "lng": 94.1645849, "cuisine": "", "religion": ""}
+{"osm_id": 6989175185, "title": "Majuli Music Festival Artists Camp", "category": "stay", "kind": "campsite", "state": "Assam", "lat": 27.0949498, "lng": 94.2695638, "cuisine": "", "religion": ""}
+{"osm_id": 6991577685, "title": "Ice Station", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.7571425, "lng": 94.2153277, "cuisine": "", "religion": ""}
+{"osm_id": 6991582535, "title": "Scoops", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.7619519, "lng": 94.2160975, "cuisine": "", "religion": ""}
+{"osm_id": 6991586585, "title": "Ice cream roll cafe", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.7563608, "lng": 94.2151645, "cuisine": "", "religion": ""}
+{"osm_id": 6991820585, "title": "Government funded ferry to Nimati 15 rupees", "category": "heritage", "kind": "visitor centre", "state": "Assam", "lat": 26.9152319, "lng": 94.1565678, "cuisine": "", "religion": ""}
+{"osm_id": 7006997535, "title": "PWD Bungalow", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.5115653, "lng": 93.9718812, "cuisine": "", "religion": ""}
+{"osm_id": 7006997537, "title": "Chowk Bazaar", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.5106988, "lng": 93.9717981, "cuisine": "", "religion": ""}
+{"osm_id": 7069483485, "title": "Royal Palace Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.0919811, "lng": 91.5544946, "cuisine": "", "religion": ""}
+{"osm_id": 7080101386, "title": "LUHIT RIVER VIEW BAMBOO COTTAGE", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9964082, "lng": 94.1626406, "cuisine": "", "religion": ""}
+{"osm_id": 7080101585, "title": "AYANG: OKUM", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9924336, "lng": 94.1500734, "cuisine": "", "religion": ""}
+{"osm_id": 7138558928, "title": "Meera Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 24.8705509, "lng": 92.5580916, "cuisine": "", "religion": ""}
+{"osm_id": 7142134187, "title": "Big Market", "category": "heritage", "kind": "visitor centre", "state": "Assam", "lat": 26.9707479, "lng": 94.6835067, "cuisine": "", "religion": ""}
+{"osm_id": 7196104986, "title": "Blissful Eyrie", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1578522, "lng": 91.8170066, "cuisine": "", "religion": ""}
+{"osm_id": 7197474186, "title": "Nature Hunt Eco Camp", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.5929147, "lng": 93.4454063, "cuisine": "", "religion": ""}
+{"osm_id": 7252064485, "title": "Manas Orchid Budget Stay", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.6587581, "lng": 90.9975371, "cuisine": "", "religion": ""}
+{"osm_id": 7332615886, "title": "Crappy motel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.0994751, "lng": 92.3091789, "cuisine": "", "religion": ""}
+{"osm_id": 7709638166, "title": "Nurses Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 27.3580868, "lng": 95.3236203, "cuisine": "", "religion": ""}
+{"osm_id": 8282887784, "title": "BVFC Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 27.1861807, "lng": 95.3482698, "cuisine": "", "religion": ""}
+{"osm_id": 9214231563, "title": "Goenka Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 27.4807933, "lng": 94.9067943, "cuisine": "", "religion": ""}
+{"osm_id": 9376045159, "title": "Hotel Singhason Diphu", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.8452987, "lng": 93.4428849, "cuisine": "", "religion": ""}
+{"osm_id": 9376045789, "title": "CEM Bungalow Diphu", "category": "stay", "kind": "chalet", "state": "Assam", "lat": 25.8472012, "lng": 93.4337214, "cuisine": "", "religion": ""}
+{"osm_id": 9376250053, "title": "Hotel Hambi", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.8466285, "lng": 93.4400072, "cuisine": "", "religion": ""}
+{"osm_id": 9376333074, "title": "Diphu Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 25.8438669, "lng": 93.4406189, "cuisine": "", "religion": ""}
+{"osm_id": 9376372870, "title": "Hanjangpi's Kitchen", "category": "stay", "kind": "chalet", "state": "Assam", "lat": 25.8554758, "lng": 93.4403456, "cuisine": "", "religion": ""}
+{"osm_id": 9378691457, "title": "Diphu Mahila Samiti", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 25.8448986, "lng": 93.4372765, "cuisine": "", "religion": ""}
+{"osm_id": 9378846475, "title": "Harsing Teron Apartment", "category": "stay", "kind": "chalet", "state": "Assam", "lat": 25.8349726, "lng": 93.4326119, "cuisine": "", "religion": ""}
+{"osm_id": 9507661351, "title": "Luit Vista", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1929529, "lng": 91.7671411, "cuisine": "", "religion": ""}
+{"osm_id": 10221832429, "title": "Tourist Lodge", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 25.1661931, "lng": 93.0207261, "cuisine": "", "religion": ""}
+{"osm_id": 10221832519, "title": "Sarkari Bagan Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 25.1837207, "lng": 93.014171, "cuisine": "", "religion": ""}
+{"osm_id": 10221832633, "title": "Mahadev tilla", "category": "culture", "kind": "market", "state": "Assam", "lat": 25.1561556, "lng": 93.0213342, "cuisine": "", "religion": ""}
+{"osm_id": 10222875626, "title": "Joyeswary Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1722043, "lng": 93.0153937, "cuisine": "", "religion": ""}
+{"osm_id": 10222875627, "title": "Kay Kay Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.172448, "lng": 93.0150917, "cuisine": "", "religion": ""}
+{"osm_id": 10222875631, "title": "Circuit House", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1634388, "lng": 93.0212105, "cuisine": "", "religion": ""}
+{"osm_id": 10222875919, "title": "Haflong Town Fish and Meat Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 25.168776, "lng": 93.0165275, "cuisine": "", "religion": ""}
+{"osm_id": 10222875920, "title": "Eastern Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1685079, "lng": 93.017441, "cuisine": "", "religion": ""}
+{"osm_id": 10222876018, "title": "Nothao Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1735367, "lng": 93.0145261, "cuisine": "", "religion": ""}
+{"osm_id": 10223118318, "title": "New Hotel", "category": "food", "kind": "food court", "state": "Assam", "lat": 25.1705015, "lng": 93.0158113, "cuisine": "", "religion": ""}
+{"osm_id": 10223178217, "title": "Elite Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1731897, "lng": 93.0149525, "cuisine": "", "religion": ""}
+{"osm_id": 10223210217, "title": "Tribal Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 25.1705348, "lng": 93.0159663, "cuisine": "", "religion": ""}
+{"osm_id": 10223244717, "title": "Nohshring Guest House", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1710473, "lng": 93.0123505, "cuisine": "", "religion": ""}
+{"osm_id": 10223253517, "title": "Landmark", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1644073, "lng": 93.0169452, "cuisine": "", "religion": ""}
+{"osm_id": 10223254518, "title": "Haflong Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1713968, "lng": 93.0160187, "cuisine": "", "religion": ""}
+{"osm_id": 10223275817, "title": "Disgao Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1711192, "lng": 93.01118, "cuisine": "", "religion": ""}
+{"osm_id": 10223282917, "title": "DSA Guest House", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1652168, "lng": 93.0146528, "cuisine": "", "religion": ""}
+{"osm_id": 10223296217, "title": "Lake View Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1680425, "lng": 93.0174237, "cuisine": "", "religion": ""}
+{"osm_id": 10223296317, "title": "Naorai Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1591305, "lng": 93.0176101, "cuisine": "", "religion": ""}
+{"osm_id": 10223335517, "title": "District Council Lake", "category": "nature", "kind": "spring", "state": "Assam", "lat": 25.1631291, "lng": 93.0168784, "cuisine": "", "religion": ""}
+{"osm_id": 10223352117, "title": "Heritage Naorai Thaothan", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.1650793, "lng": 93.0145334, "cuisine": "", "religion": ""}
+{"osm_id": 10271364509, "title": "MAHESWAR LAND", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9840944, "lng": 94.1650998, "cuisine": "", "religion": ""}
+{"osm_id": 10314150887, "title": "Chang Ghar", "category": "stay", "kind": "hut", "state": "Assam", "lat": 26.3885105, "lng": 90.5505353, "cuisine": "", "religion": ""}
+{"osm_id": 10314164829, "title": "Isolated hut", "category": "stay", "kind": "hut", "state": "Assam", "lat": 26.3892122, "lng": 90.5510399, "cuisine": "", "religion": ""}
+{"osm_id": 10794733106, "title": "Dhanshree Resort", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.5855372, "lng": 93.4100081, "cuisine": "", "religion": ""}
+{"osm_id": 10809942500, "title": "Ratanpur Weekly Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.2484686, "lng": 94.0420614, "cuisine": "", "religion": ""}
+{"osm_id": 11027590905, "title": "Sontila Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 25.2154663, "lng": 93.0175847, "cuisine": "", "religion": ""}
+{"osm_id": 11027613005, "title": "Sontila Veterinary Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 25.2178461, "lng": 93.0139418, "cuisine": "", "religion": ""}
+{"osm_id": 11127382948, "title": "Raha PWD Inspection Bunglow", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.2284158, "lng": 92.5190254, "cuisine": "", "religion": ""}
+{"osm_id": 11263711137, "title": "WAII International Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.0123699, "lng": 92.644932, "cuisine": "", "religion": ""}
+{"osm_id": 11263711138, "title": "Mom's Bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 27.011728, "lng": 92.644331, "cuisine": "", "religion": ""}
+{"osm_id": 11286198258, "title": "Manas view jungle resort", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6591735, "lng": 90.9980381, "cuisine": "", "religion": ""}
+{"osm_id": 11286208993, "title": "Camp Buffalo retreat", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6595212, "lng": 90.9912286, "cuisine": "", "religion": ""}
+{"osm_id": 11286212606, "title": "Daorai jungle resort", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6588343, "lng": 91.0047312, "cuisine": "", "religion": ""}
+{"osm_id": 11286212937, "title": "Beki jungle woods resort", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6586359, "lng": 91.0050914, "cuisine": "", "religion": ""}
+{"osm_id": 11286213790, "title": "Pigeon nature camp", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6576184, "lng": 90.9912749, "cuisine": "", "religion": ""}
+{"osm_id": 11288109094, "title": "Smiling Tusker elephant camp", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6590517, "lng": 91.0230121, "cuisine": "", "religion": ""}
+{"osm_id": 11288116598, "title": "Falcon jungle resort", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.664739, "lng": 91.0333581, "cuisine": "", "religion": ""}
+{"osm_id": 11301344511, "title": "Oriole DRDA Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.5847017, "lng": 93.4065595, "cuisine": "", "religion": ""}
+{"osm_id": 11350322887, "title": "ACCELCRAFT GIRLS HOSTEL", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1336952, "lng": 91.825206, "cuisine": "", "religion": ""}
+{"osm_id": 11351332649, "title": "Monisha Baery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.7581396, "lng": 94.2038935, "cuisine": "", "religion": ""}
+{"osm_id": 11356011334, "title": "Spk Daily Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 27.1046735, "lng": 95.1606401, "cuisine": "", "religion": ""}
+{"osm_id": 11356011356, "title": "Phukan market", "category": "culture", "kind": "market", "state": "Assam", "lat": 27.1039882, "lng": 95.1598558, "cuisine": "", "religion": ""}
+{"osm_id": 11356560157, "title": "BAMBOO ENTERPRISE", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.6854401, "lng": 94.3976522, "cuisine": "", "religion": ""}
+{"osm_id": 11356610328, "title": "SAHOR ADDA", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.6890111, "lng": 94.4007327, "cuisine": "", "religion": ""}
+{"osm_id": 11356647175, "title": "Girl's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.63858, "lng": 92.7972634, "cuisine": "", "religion": ""}
+{"osm_id": 11356647176, "title": "New Boy's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.6356358, "lng": 92.797184, "cuisine": "", "religion": ""}
+{"osm_id": 11356647177, "title": "Old Boy's Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.6357126, "lng": 92.7966175, "cuisine": "", "religion": ""}
+{"osm_id": 11356647320, "title": "Ursuline Sisters", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.6547843, "lng": 92.8013358, "cuisine": "", "religion": ""}
+{"osm_id": 11356647333, "title": "Paruwa Daily Bazar", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.6531802, "lng": 92.7989736, "cuisine": "", "religion": ""}
+{"osm_id": 11357212710, "title": "water resource inspection bungalow", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.2021797, "lng": 93.1244841, "cuisine": "", "religion": ""}
+{"osm_id": 11357212711, "title": "Langhin Municipal Board", "category": "heritage", "kind": "visitor centre", "state": "Assam", "lat": 26.201866, "lng": 93.1253826, "cuisine": "", "religion": ""}
+{"osm_id": 11357212739, "title": "daily market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.2041228, "lng": 93.1286353, "cuisine": "", "religion": ""}
+{"osm_id": 11357212740, "title": "daily market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.2031618, "lng": 93.1286697, "cuisine": "", "religion": ""}
+{"osm_id": 11357212789, "title": "anand ronghang", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.2015703, "lng": 93.1337715, "cuisine": "", "religion": ""}
+{"osm_id": 11357559359, "title": "CHITRALEKHA LODGE", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.137972, "lng": 91.7970351, "cuisine": "", "religion": ""}
+{"osm_id": 11357559361, "title": "THREE LITTLE BIRDS HOMESTAY", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.136567, "lng": 91.7995999, "cuisine": "", "religion": ""}
+{"osm_id": 11357588440, "title": "Jhanji HNS College Hostel 2", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.8655678, "lng": 94.5046554, "cuisine": "", "religion": ""}
+{"osm_id": 11491801169, "title": "Risong family guest house", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.9844895, "lng": 94.1538131, "cuisine": "", "religion": ""}
+{"osm_id": 11638123269, "title": "The Bhowmick's Bungalow", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.625198, "lng": 92.7998312, "cuisine": "", "religion": ""}
+{"osm_id": 11687800720, "title": "Bakery and Confectionary", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1685512, "lng": 91.7777947, "cuisine": "", "religion": ""}
+{"osm_id": 11687800724, "title": "The Springbuck Homestay", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1665186, "lng": 91.777922, "cuisine": "", "religion": ""}
+{"osm_id": 11687800725, "title": "Transit Backpacker Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1669922, "lng": 91.7787652, "cuisine": "", "religion": ""}
+{"osm_id": 11687965587, "title": "Jain Bakers", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1513918, "lng": 91.785555, "cuisine": "", "religion": ""}
+{"osm_id": 11690280917, "title": "Cake Corner", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.139054, "lng": 91.7982885, "cuisine": "", "religion": ""}
+{"osm_id": 11690372374, "title": "Chiffon Villa", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1393022, "lng": 91.8057269, "cuisine": "", "religion": ""}
+{"osm_id": 11690374722, "title": "Nizara Paying Guest", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1411316, "lng": 91.8038879, "cuisine": "", "religion": ""}
+{"osm_id": 11690381249, "title": "SB Boys", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.170772, "lng": 91.7726181, "cuisine": "", "religion": ""}
+{"osm_id": 11704866357, "title": "Banglabari Bazar", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.3965091, "lng": 90.0280152, "cuisine": "", "religion": ""}
+{"osm_id": 11711565461, "title": "Balapara Bazar", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.3355065, "lng": 90.0969169, "cuisine": "", "religion": ""}
+{"osm_id": 11747250669, "title": "KRC Homestay", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6260787, "lng": 92.7901672, "cuisine": "", "religion": ""}
+{"osm_id": 11757575468, "title": "Omsree Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.4053395, "lng": 90.2704975, "cuisine": "", "religion": ""}
+{"osm_id": 11829002098, "title": "Graham Sojourn Homestay", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1883975, "lng": 91.7539949, "cuisine": "", "religion": ""}
+{"osm_id": 11849336728, "title": "Kolkata Sweets", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1747919, "lng": 91.7583707, "cuisine": "", "religion": ""}
+{"osm_id": 11876655579, "title": "Mukta Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.18376, "lng": 91.771215, "cuisine": "", "religion": ""}
+{"osm_id": 11886084069, "title": "Hotel Prabesh", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.3086336, "lng": 92.7034264, "cuisine": "", "religion": ""}
+{"osm_id": 11896883245, "title": "Prime Bakes", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1844625, "lng": 91.7749266, "cuisine": "", "religion": ""}
+{"osm_id": 11896883246, "title": "Snowman", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1844928, "lng": 91.7749326, "cuisine": "", "religion": ""}
+{"osm_id": 11931242235, "title": "Hotel NE Gateway", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1580735, "lng": 91.6735367, "cuisine": "", "religion": ""}
+{"osm_id": 11931261867, "title": "Hotel Times", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1579963, "lng": 91.6744267, "cuisine": "", "religion": ""}
+{"osm_id": 11932409961, "title": "City Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1586471, "lng": 91.68467, "cuisine": "", "religion": ""}
+{"osm_id": 11932463744, "title": "Hotel Victoria Fooding and Lodging", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1805508, "lng": 91.7510694, "cuisine": "", "religion": ""}
+{"osm_id": 11932486754, "title": "Hotel Maitri Residency", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.180297, "lng": 91.7511331, "cuisine": "", "religion": ""}
+{"osm_id": 11932500556, "title": "Hotel Coronation", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1805014, "lng": 91.7511892, "cuisine": "", "religion": ""}
+{"osm_id": 11932509416, "title": "Hotel Classic", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1803381, "lng": 91.751099, "cuisine": "", "religion": ""}
+{"osm_id": 11932521054, "title": "Suro Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1797735, "lng": 91.7514749, "cuisine": "", "religion": ""}
+{"osm_id": 11932533836, "title": "Hotel MM", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.179701, "lng": 91.7516952, "cuisine": "", "religion": ""}
+{"osm_id": 11932538143, "title": "Kamakhya Tea Trading", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1787572, "lng": 91.7512989, "cuisine": "", "religion": ""}
+{"osm_id": 11932551852, "title": "Hotel Atithi", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1784673, "lng": 91.7509588, "cuisine": "", "religion": ""}
+{"osm_id": 11932566760, "title": "Mahabir Traders", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1787494, "lng": 91.7513646, "cuisine": "", "religion": ""}
+{"osm_id": 11933466042, "title": "Hotel Arya", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1765329, "lng": 91.7555671, "cuisine": "", "religion": ""}
+{"osm_id": 11933474272, "title": "Krishna Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1806309, "lng": 91.7498467, "cuisine": "", "religion": ""}
+{"osm_id": 11933477333, "title": "Hotel Daffodils", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1806511, "lng": 91.7497637, "cuisine": "", "religion": ""}
+{"osm_id": 11933494534, "title": "Hotel Santi", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1806667, "lng": 91.7498777, "cuisine": "", "religion": ""}
+{"osm_id": 11933510589, "title": "Hotel Bijoya", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1776475, "lng": 91.7544231, "cuisine": "", "religion": ""}
+{"osm_id": 11933524182, "title": "Hotlel Kalpan", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1758719, "lng": 91.7565331, "cuisine": "", "religion": ""}
+{"osm_id": 11933550671, "title": "G. Z. Complex", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1770554, "lng": 91.7547404, "cuisine": "", "religion": ""}
+{"osm_id": 11933578702, "title": "Naga Hotel Fooding", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1774333, "lng": 91.7544164, "cuisine": "", "religion": ""}
+{"osm_id": 11933604671, "title": "Aashi Apsara", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1777402, "lng": 91.7545612, "cuisine": "", "religion": ""}
+{"osm_id": 11934303328, "title": "Kasturi", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1805922, "lng": 91.7473455, "cuisine": "", "religion": ""}
+{"osm_id": 11934402310, "title": "Giridhar Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1781488, "lng": 91.7529201, "cuisine": "", "religion": ""}
+{"osm_id": 11934454380, "title": "N.E. Century Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1785356, "lng": 91.7523549, "cuisine": "", "religion": ""}
+{"osm_id": 11934637116, "title": "New Surasree", "category": "culture", "kind": "instrument maker", "state": "Assam", "lat": 26.1804768, "lng": 91.7461134, "cuisine": "", "religion": ""}
+{"osm_id": 11937535189, "title": "Didar Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1806632, "lng": 91.7501167, "cuisine": "", "religion": ""}
+{"osm_id": 11937538240, "title": "Hotel Griham Inn", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1807223, "lng": 91.750108, "cuisine": "", "religion": ""}
+{"osm_id": 11937542119, "title": "Probir Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1807933, "lng": 91.7502699, "cuisine": "", "religion": ""}
+{"osm_id": 11937542594, "title": "Hotel Bhargav", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1807232, "lng": 91.7500506, "cuisine": "", "religion": ""}
+{"osm_id": 11937548128, "title": "Hotel P.C.S.", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1806826, "lng": 91.7500558, "cuisine": "", "religion": ""}
+{"osm_id": 11937971155, "title": "Gajaraj Tea Company", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1805683, "lng": 91.7508407, "cuisine": "", "religion": ""}
+{"osm_id": 11939560477, "title": "Bhargav Inn", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1801988, "lng": 91.7509141, "cuisine": "", "religion": ""}
+{"osm_id": 11939568337, "title": "Spectra Inn", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1804362, "lng": 91.7508582, "cuisine": "", "religion": ""}
+{"osm_id": 11939583316, "title": "Janapriya Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.180021, "lng": 91.7509333, "cuisine": "", "religion": ""}
+{"osm_id": 11939591064, "title": "Bishram Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1799761, "lng": 91.7509494, "cuisine": "", "religion": ""}
+{"osm_id": 11939597452, "title": "Vijoya Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1798259, "lng": 91.7510445, "cuisine": "", "religion": ""}
+{"osm_id": 11939597456, "title": "Bhim Sain Verma Complex", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1798237, "lng": 91.7510208, "cuisine": "", "religion": ""}
+{"osm_id": 11939597582, "title": "Subha Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1799141, "lng": 91.751007, "cuisine": "", "religion": ""}
+{"osm_id": 11939624973, "title": "Hotel Ashok Palace", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1794853, "lng": 91.7511908, "cuisine": "", "religion": ""}
+{"osm_id": 11939630810, "title": "Hotel Gitanjali;Studio Melody", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1795341, "lng": 91.7511579, "cuisine": "", "religion": ""}
+{"osm_id": 11939638070, "title": "Hotel Maharaja", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.179376, "lng": 91.7512014, "cuisine": "", "religion": ""}
+{"osm_id": 11939685963, "title": "Hanuman Prasad Tea", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1791678, "lng": 91.7513293, "cuisine": "", "religion": ""}
+{"osm_id": 11940313414, "title": "Kejriwal Bhavan", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1787289, "lng": 91.7515779, "cuisine": "", "religion": ""}
+{"osm_id": 11942110749, "title": "Baskin Robbins", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1379883, "lng": 91.634101, "cuisine": "", "religion": ""}
+{"osm_id": 11942126042, "title": "Black Chicken", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1440938, "lng": 91.6440507, "cuisine": "", "religion": ""}
+{"osm_id": 11942126658, "title": "Padma bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1438279, "lng": 91.6438985, "cuisine": "", "religion": ""}
+{"osm_id": 11942127030, "title": "Foodisthan", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1376725, "lng": 91.6335416, "cuisine": "", "religion": ""}
+{"osm_id": 11942153792, "title": "Prime Bakes", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1441558, "lng": 91.6440943, "cuisine": "", "religion": ""}
+{"osm_id": 11942222510, "title": "Restro G-one", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1468722, "lng": 91.6461795, "cuisine": "", "religion": ""}
+{"osm_id": 11942234886, "title": "Maa bichitra hotel", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1497216, "lng": 91.6499361, "cuisine": "", "religion": ""}
+{"osm_id": 11942235969, "title": "Lankeswer cabin & restaurant", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1471301, "lng": 91.6463887, "cuisine": "", "religion": ""}
+{"osm_id": 11942263265, "title": "Aarti store", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1505671, "lng": 91.6516356, "cuisine": "", "religion": ""}
+{"osm_id": 11942296266, "title": "Kharoli traditional food", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1504094, "lng": 91.6513579, "cuisine": "", "religion": ""}
+{"osm_id": 11942550136, "title": "Hotel Rodali Residency", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1784832, "lng": 91.7519535, "cuisine": "", "religion": ""}
+{"osm_id": 11942561608, "title": "Music Planet", "category": "culture", "kind": "instrument maker", "state": "Assam", "lat": 26.1786987, "lng": 91.7517169, "cuisine": "", "religion": ""}
+{"osm_id": 11942563842, "title": "Hotel Trimury International", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1785895, "lng": 91.7518305, "cuisine": "", "religion": ""}
+{"osm_id": 11942569237, "title": "Hotel Ansuna Residency", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1777652, "lng": 91.7529946, "cuisine": "", "religion": ""}
+{"osm_id": 11942578901, "title": "Kamakhya Tea Trading", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1785124, "lng": 91.7519523, "cuisine": "", "religion": ""}
+{"osm_id": 11942582498, "title": "Hotel Mahalaxmi", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1784214, "lng": 91.7520655, "cuisine": "", "religion": ""}
+{"osm_id": 11942600345, "title": "Sangai Manipuri Rice Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1777792, "lng": 91.7531056, "cuisine": "", "religion": ""}
+{"osm_id": 11942602174, "title": "Hotel Nandan", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1782148, "lng": 91.7522489, "cuisine": "", "religion": ""}
+{"osm_id": 11942620549, "title": "Hotel Fame City", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1778819, "lng": 91.7529354, "cuisine": "", "religion": ""}
+{"osm_id": 11942680856, "title": "Hotel Haris", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1768918, "lng": 91.7541304, "cuisine": "", "religion": ""}
+{"osm_id": 11942684268, "title": "Hotel Puja Palace", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1766984, "lng": 91.7546273, "cuisine": "", "religion": ""}
+{"osm_id": 11942695610, "title": "Hotel Fortune", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1766495, "lng": 91.7545857, "cuisine": "", "religion": ""}
+{"osm_id": 11947807813, "title": "Hotel Brahmaputra", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.175262, "lng": 91.7568154, "cuisine": "", "religion": ""}
+{"osm_id": 11948027373, "title": "Rang De Basanti Dhaba", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1551746, "lng": 91.7789178, "cuisine": "", "religion": ""}
+{"osm_id": 11948108904, "title": "Keri Beri", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1597587, "lng": 91.7740803, "cuisine": "", "religion": ""}
+{"osm_id": 11952196778, "title": "Soma Sweets", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.4915288, "lng": 95.3511125, "cuisine": "", "religion": ""}
+{"osm_id": 11952201888, "title": "Kailash Sweets", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 27.4887727, "lng": 95.3551325, "cuisine": "", "religion": ""}
+{"osm_id": 11952203324, "title": "Hotel Vinayak", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.4914298, "lng": 95.3510049, "cuisine": "", "religion": ""}
+{"osm_id": 11952210956, "title": "Misti Mukh", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.4909958, "lng": 95.3516459, "cuisine": "", "religion": ""}
+{"osm_id": 12135370303, "title": "Gaurang Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1913613, "lng": 91.7008015, "cuisine": "", "religion": ""}
+{"osm_id": 12350496799, "title": "iti boys hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 25.8457363, "lng": 93.4265908, "cuisine": "", "religion": ""}
+{"osm_id": 12350496800, "title": "iti girls hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 25.8451384, "lng": 93.4282857, "cuisine": "", "religion": ""}
+{"osm_id": 12353852123, "title": "Hotel Skyline", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.4823861, "lng": 95.3421093, "cuisine": "", "religion": ""}
+{"osm_id": 12473749867, "title": "Katakhal Bazaar", "category": "culture", "kind": "market", "state": "Assam", "lat": 24.8324208, "lng": 92.6321531, "cuisine": "", "religion": ""}
+{"osm_id": 12545617001, "title": "Galaxy Apartment", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.150545, "lng": 91.6823756, "cuisine": "", "religion": ""}
+{"osm_id": 12595552573, "title": "orchid Apartment,Block-B,Flat no-07,3rd floor", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1809666, "lng": 91.7597277, "cuisine": "", "religion": ""}
+{"osm_id": 12595598487, "title": "concord apartment", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.1808352, "lng": 91.7601506, "cuisine": "", "religion": ""}
+{"osm_id": 12595601978, "title": "safarnama", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1808031, "lng": 91.7595186, "cuisine": "", "religion": ""}
+{"osm_id": 12595633945, "title": "Mahmud's PG", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1804373, "lng": 91.7595555, "cuisine": "", "religion": ""}
+{"osm_id": 12595635570, "title": "creams and cakes", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1798543, "lng": 91.759679, "cuisine": "", "religion": ""}
+{"osm_id": 12595635690, "title": "RASHID RESIDENCE", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1804993, "lng": 91.7608421, "cuisine": "", "religion": ""}
+{"osm_id": 12595641616, "title": "Quick Food", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1801127, "lng": 91.7595841, "cuisine": "", "religion": ""}
+{"osm_id": 12595641640, "title": "Solace manzil (SN farid's residence)", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1808353, "lng": 91.76049, "cuisine": "", "religion": ""}
+{"osm_id": 12595649318, "title": "BLENDED magic", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1800823, "lng": 91.7597938, "cuisine": "", "religion": ""}
+{"osm_id": 12595658131, "title": "new apartment", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.1811269, "lng": 91.7595592, "cuisine": "", "religion": ""}
+{"osm_id": 12595673758, "title": "concord apartment", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.180787, "lng": 91.7598336, "cuisine": "", "religion": ""}
+{"osm_id": 12595719686, "title": "tarka tarka tirtha nivas", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.1811074, "lng": 91.7618334, "cuisine": "", "religion": ""}
+{"osm_id": 12595719687, "title": "sunray boys PG", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1809789, "lng": 91.7617934, "cuisine": "", "religion": ""}
+{"osm_id": 12595734216, "title": "SRI KAPIL HOTEL & RESTAURANT", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1791486, "lng": 91.7565416, "cuisine": "", "religion": ""}
+{"osm_id": 12595741741, "title": "chinese hut", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1784897, "lng": 91.7566055, "cuisine": "", "religion": ""}
+{"osm_id": 12595800908, "title": "kohinoor apartment", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.1779353, "lng": 91.7562505, "cuisine": "", "religion": ""}
+{"osm_id": 12595803511, "title": "meet & eat", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1780803, "lng": 91.7566702, "cuisine": "", "religion": ""}
+{"osm_id": 12595814193, "title": "treebo hotel spring brook", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1776295, "lng": 91.7562254, "cuisine": "", "religion": ""}
+{"osm_id": 12595819089, "title": "hyderabadi biryani", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1768637, "lng": 91.7569166, "cuisine": "", "religion": ""}
+{"osm_id": 12595842034, "title": "Hatigaon sijubari Mazar", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1764006, "lng": 91.7569564, "cuisine": "", "religion": ""}
+{"osm_id": 12595842053, "title": "anuradh apartment", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.1759732, "lng": 91.7571675, "cuisine": "", "religion": ""}
+{"osm_id": 12595857902, "title": "Zaara hayaat biryani center", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1771635, "lng": 91.7570523, "cuisine": "", "religion": ""}
+{"osm_id": 12595866417, "title": "chinta nanda kutir", "category": "stay", "kind": "apartment", "state": "Assam", "lat": 26.1762181, "lng": 91.757006, "cuisine": "", "religion": ""}
+{"osm_id": 12663216296, "title": "P K G Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.5665881, "lng": 93.7742916, "cuisine": "", "religion": ""}
+{"osm_id": 12799040601, "title": "Hotel Hempi", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.8762542, "lng": 93.4413376, "cuisine": "", "religion": ""}
+{"osm_id": 12813845384, "title": "The Tea Cove", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.5890583, "lng": 93.3994097, "cuisine": "", "religion": ""}
+{"osm_id": 12813871581, "title": "Ticket office", "category": "heritage", "kind": "visitor centre", "state": "Assam", "lat": 26.5815786, "lng": 93.2908799, "cuisine": "", "religion": ""}
+{"osm_id": 12852927692, "title": "KAMAKHYA HOMESTAY NAZIRA", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.9084071, "lng": 94.7281301, "cuisine": "", "religion": ""}
+{"osm_id": 12897088964, "title": "Sowari Poitari Bazar", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1033758, "lng": 90.3738902, "cuisine": "", "religion": ""}
+{"osm_id": 12969139198, "title": "Shriji Point", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1804551, "lng": 91.7391616, "cuisine": "", "religion": ""}
+{"osm_id": 12969266126, "title": "Greentech residency", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1738856, "lng": 91.7575309, "cuisine": "", "religion": ""}
+{"osm_id": 12969266127, "title": "Park Plaza Hotels", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1737325, "lng": 91.7573255, "cuisine": "", "religion": ""}
+{"osm_id": 12969290348, "title": "Guwahati Bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.173476, "lng": 91.7772968, "cuisine": "", "religion": ""}
+{"osm_id": 12969290351, "title": "THE GUWAHATI ADDRESS", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1729432, "lng": 91.7775607, "cuisine": "", "religion": ""}
+{"osm_id": 12969290356, "title": "FREZA'S", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1723993, "lng": 91.777648, "cuisine": "", "religion": ""}
+{"osm_id": 12969290361, "title": "Baskin BR robbins", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1719812, "lng": 91.7778926, "cuisine": "", "religion": ""}
+{"osm_id": 12969334567, "title": "Bhogali food product PVT.LTD.", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1593391, "lng": 91.7876552, "cuisine": "", "religion": ""}
+{"osm_id": 12969334576, "title": "Randhoni ghor", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1584824, "lng": 91.7883578, "cuisine": "", "religion": ""}
+{"osm_id": 12969366948, "title": "NEIZLY", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1612377, "lng": 91.7849845, "cuisine": "", "religion": ""}
+{"osm_id": 12969373960, "title": "F N Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1815757, "lng": 91.7404656, "cuisine": "", "religion": ""}
+{"osm_id": 12969377963, "title": "the indian gravy house", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1567899, "lng": 91.7894329, "cuisine": "", "religion": ""}
+{"osm_id": 12969377966, "title": "hot", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.156708, "lng": 91.7894968, "cuisine": "", "religion": ""}
+{"osm_id": 12969377968, "title": "holy treat", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1562477, "lng": 91.7899046, "cuisine": "", "religion": ""}
+{"osm_id": 12969377970, "title": "shahi darbar", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1555289, "lng": 91.7904142, "cuisine": "", "religion": ""}
+{"osm_id": 12969378052, "title": "Comfort Pg", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1751203, "lng": 91.7596007, "cuisine": "", "religion": ""}
+{"osm_id": 12969385109, "title": "Magic Square", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.183466, "lng": 91.7417548, "cuisine": "", "religion": ""}
+{"osm_id": 12969418416, "title": "K.D's PG  FOR BOYS", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1674697, "lng": 91.7699706, "cuisine": "", "religion": ""}
+{"osm_id": 12969418424, "title": "M/S DURGA LODGE", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1672145, "lng": 91.769185, "cuisine": "", "religion": ""}
+{"osm_id": 12969418442, "title": "GAYATRI PAAN AND TEA STALL", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1686129, "lng": 91.7698403, "cuisine": "", "religion": ""}
+{"osm_id": 12969418457, "title": "JD GIRLS PG", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1703709, "lng": 91.7706187, "cuisine": "", "religion": ""}
+{"osm_id": 12970716166, "title": "OYO cozy home", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1552558, "lng": 91.7901514, "cuisine": "", "religion": ""}
+{"osm_id": 12970716167, "title": "delight heaven", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1552267, "lng": 91.7901138, "cuisine": "", "religion": ""}
+{"osm_id": 12970716175, "title": "bake story", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1536474, "lng": 91.7887826, "cuisine": "", "religion": ""}
+{"osm_id": 12970716198, "title": "tea stall", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1526596, "lng": 91.7879471, "cuisine": "", "religion": ""}
+{"osm_id": 12970716200, "title": "aashiana girls hostel & pg", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1523843, "lng": 91.7877772, "cuisine": "", "religion": ""}
+{"osm_id": 12970724104, "title": "kettle house", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1520147, "lng": 91.787457, "cuisine": "", "religion": ""}
+{"osm_id": 12970724108, "title": "Ngola mukh", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.151965, "lng": 91.7874007, "cuisine": "", "religion": ""}
+{"osm_id": 12970724109, "title": "fast food", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1518948, "lng": 91.7873028, "cuisine": "", "religion": ""}
+{"osm_id": 12970724111, "title": "the fresh cake shop", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1517643, "lng": 91.787224, "cuisine": "", "religion": ""}
+{"osm_id": 12971135208, "title": "MAA MANASHA SWEETS", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.161362, "lng": 91.7845433, "cuisine": "", "religion": ""}
+{"osm_id": 12971384658, "title": "RELISH PORK", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1620422, "lng": 91.7828756, "cuisine": "", "religion": ""}
+{"osm_id": 12971384659, "title": "GANGA TEA STORE", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1620868, "lng": 91.7828134, "cuisine": "", "religion": ""}
+{"osm_id": 12971384667, "title": "SANJIVANI TEA", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1624078, "lng": 91.7822611, "cuisine": "", "religion": ""}
+{"osm_id": 12972353861, "title": "Hotel Nova", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1819411, "lng": 91.7407506, "cuisine": "", "religion": ""}
+{"osm_id": 12972353864, "title": "City Center", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1818881, "lng": 91.7409033, "cuisine": "", "religion": ""}
+{"osm_id": 12972665661, "title": "MANGALAM MARKETING", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1720416, "lng": 91.7576247, "cuisine": "", "religion": ""}
+{"osm_id": 12972875420, "title": "Dynasty", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1818683, "lng": 91.7416706, "cuisine": "", "religion": ""}
+{"osm_id": 12973082026, "title": "ashok sweet", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1716153, "lng": 91.7686549, "cuisine": "", "religion": ""}
+{"osm_id": 12973082031, "title": "hungry delights", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.171428, "lng": 91.7694736, "cuisine": "", "religion": ""}
+{"osm_id": 12973082032, "title": "jestea corner", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1713914, "lng": 91.7695495, "cuisine": "", "religion": ""}
+{"osm_id": 12973082036, "title": "rumas cake", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1713586, "lng": 91.7699554, "cuisine": "", "religion": ""}
+{"osm_id": 12974493231, "title": "The guitar house", "category": "culture", "kind": "instrument maker", "state": "Assam", "lat": 26.1686927, "lng": 91.7477557, "cuisine": "", "religion": ""}
+{"osm_id": 12974493234, "title": "Maa kamakhya guesthouse", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1687464, "lng": 91.7476409, "cuisine": "", "religion": ""}
+{"osm_id": 12974493247, "title": "Shree Mangalam tea", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1688152, "lng": 91.7463173, "cuisine": "", "religion": ""}
+{"osm_id": 12974687077, "title": "SWEETS", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 26.1684565, "lng": 91.7541433, "cuisine": "", "religion": ""}
+{"osm_id": 12976225155, "title": "debraj sweets and grocery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.152251, "lng": 91.7874319, "cuisine": "", "religion": ""}
+{"osm_id": 12976225168, "title": "CAKE PRINCE", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1510929, "lng": 91.7863495, "cuisine": "", "religion": ""}
+{"osm_id": 12976250844, "title": "MAA SWEET CAKE", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1528901, "lng": 91.7879591, "cuisine": "", "religion": ""}
+{"osm_id": 12976283256, "title": "Nirmal Sweets", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 26.1803254, "lng": 91.739201, "cuisine": "", "religion": ""}
+{"osm_id": 12976302902, "title": "Rahul store", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1753272, "lng": 91.7623386, "cuisine": "", "religion": ""}
+{"osm_id": 12976302934, "title": "RAHUL HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1753269, "lng": 91.762325, "cuisine": "", "religion": ""}
+{"osm_id": 12976322142, "title": "Barman hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1447296, "lng": 91.7764966, "cuisine": "", "religion": ""}
+{"osm_id": 12976374605, "title": "THE PALM SUITES", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1756873, "lng": 91.7731994, "cuisine": "", "religion": ""}
+{"osm_id": 12976374640, "title": "BIBHASHREE GUEST HOUSE", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1708304, "lng": 91.7709808, "cuisine": "", "religion": ""}
+{"osm_id": 12976374641, "title": "HOTEL GALAXY INN", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1706754, "lng": 91.770931, "cuisine": "", "religion": ""}
+{"osm_id": 12976455558, "title": "HOTEL PALACE", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1817369, "lng": 91.7413945, "cuisine": "", "religion": ""}
+{"osm_id": 12976455563, "title": "HOTEL CITY PARK", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1817634, "lng": 91.7411967, "cuisine": "", "religion": ""}
+{"osm_id": 12976478116, "title": "BABU BAZAR", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1817723, "lng": 91.7407915, "cuisine": "", "religion": ""}
+{"osm_id": 12976577185, "title": "Hotel shibani", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1445006, "lng": 91.7773167, "cuisine": "", "religion": ""}
+{"osm_id": 12976804555, "title": "ASHIRWAD SWEETS AND SNACKS", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1511227, "lng": 91.7846332, "cuisine": "", "religion": ""}
+{"osm_id": 12976864917, "title": "LOKENATH MUSIC MART", "category": "culture", "kind": "instrument maker", "state": "Assam", "lat": 26.1769208, "lng": 91.7733857, "cuisine": "", "religion": ""}
+{"osm_id": 12976879924, "title": "Suraj Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1811887, "lng": 91.7402299, "cuisine": "", "religion": ""}
+{"osm_id": 12977012995, "title": "FOOFIE RIDERS", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1548868, "lng": 91.7835388, "cuisine": "", "religion": ""}
+{"osm_id": 12977012996, "title": "UJJONI NAMONI LITE", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1549295, "lng": 91.783524, "cuisine": "", "religion": ""}
+{"osm_id": 12977021869, "title": "MUSIC CORNER", "category": "culture", "kind": "instrument maker", "state": "Assam", "lat": 26.1681263, "lng": 91.76977, "cuisine": "", "religion": ""}
+{"osm_id": 12977182581, "title": "Rava baideo hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1445042, "lng": 91.7800466, "cuisine": "", "religion": ""}
+{"osm_id": 12977236619, "title": "LAKHI HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1447167, "lng": 91.7841292, "cuisine": "", "religion": ""}
+{"osm_id": 12977883470, "title": "arika art", "category": "culture", "kind": "art shop", "state": "Assam", "lat": 26.1166856, "lng": 91.7983854, "cuisine": "", "religion": ""}
+{"osm_id": 12978095774, "title": "sarma's mithai", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 26.112855, "lng": 91.7982683, "cuisine": "", "religion": ""}
+{"osm_id": 12978184758, "title": "m/s lakshmi tea & beverages store", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1130525, "lng": 91.7997247, "cuisine": "", "religion": ""}
+{"osm_id": 12978223010, "title": "J.L.HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.4558541, "lng": 91.447103, "cuisine": "", "religion": ""}
+{"osm_id": 12978271753, "title": "ANTARA HOTEL OR RESTAURANT", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.4621148, "lng": 91.4510245, "cuisine": "", "religion": ""}
+{"osm_id": 12978271755, "title": "MINI A/C LODGE", "category": "stay", "kind": "chalet", "state": "Assam", "lat": 26.4623402, "lng": 91.4511402, "cuisine": "", "religion": ""}
+{"osm_id": 12978320445, "title": "REDHEE'S BAKES", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1668586, "lng": 91.7795993, "cuisine": "", "religion": ""}
+{"osm_id": 13016658207, "title": "Gossains", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1801589, "lng": 91.7744457, "cuisine": "", "religion": ""}
+{"osm_id": 13016660405, "title": "New Barak Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1300148, "lng": 91.7795447, "cuisine": "", "religion": ""}
+{"osm_id": 13016660406, "title": "New Barak Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1296543, "lng": 91.7795487, "cuisine": "", "religion": ""}
+{"osm_id": 13016711413, "title": "Madhu sweets", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1698015, "lng": 91.8288232, "cuisine": "", "religion": ""}
+{"osm_id": 13016711415, "title": "SRI GANESH SWEETS", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1364995, "lng": 91.7245366, "cuisine": "", "religion": ""}
+{"osm_id": 13016711456, "title": "A.R. Store & Pan Shop", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 26.1583073, "lng": 91.838823, "cuisine": "", "religion": ""}
+{"osm_id": 13016714244, "title": "Green leaves", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1809529, "lng": 91.7364104, "cuisine": "", "religion": ""}
+{"osm_id": 13016714245, "title": "Sprite", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1810769, "lng": 91.7364915, "cuisine": "", "religion": ""}
+{"osm_id": 13016714257, "title": "Lohia House", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1818226, "lng": 91.7370031, "cuisine": "", "religion": ""}
+{"osm_id": 13016716593, "title": "NOMI'S ETHNICA", "category": "culture", "kind": "craft shop", "state": "Assam", "lat": 26.1786593, "lng": 91.815603, "cuisine": "", "religion": ""}
+{"osm_id": 13016725308, "title": "CHAI & CHID", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.178818, "lng": 91.8133879, "cuisine": "", "religion": ""}
+{"osm_id": 13016725318, "title": "BARBEE'S FOOD CORNER", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1789305, "lng": 91.8118951, "cuisine": "", "religion": ""}
+{"osm_id": 13016729799, "title": "Snowberry", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1855113, "lng": 91.7529562, "cuisine": "", "religion": ""}
+{"osm_id": 13016737143, "title": "Kutubbudin Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1281759, "lng": 91.7792785, "cuisine": "", "religion": ""}
+{"osm_id": 13016737151, "title": "Bismillah Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1288411, "lng": 91.779333, "cuisine": "", "religion": ""}
+{"osm_id": 13016737152, "title": "Hotel Sky Land", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1288642, "lng": 91.7793454, "cuisine": "", "religion": ""}
+{"osm_id": 13016737154, "title": "Hotel Tripti", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.128936, "lng": 91.7793737, "cuisine": "", "religion": ""}
+{"osm_id": 13016738657, "title": "PARAMPARA", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1790238, "lng": 91.8106282, "cuisine": "", "religion": ""}
+{"osm_id": 13016738658, "title": "ASARBAD HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1790384, "lng": 91.8106087, "cuisine": "", "religion": ""}
+{"osm_id": 13016745465, "title": "Ashik Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1290637, "lng": 91.7796569, "cuisine": "", "religion": ""}
+{"osm_id": 13016745468, "title": "Dispur Residency", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1290847, "lng": 91.7797438, "cuisine": "", "religion": ""}
+{"osm_id": 13016745469, "title": "Ganesh Mistan Bhandar", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1290718, "lng": 91.7797102, "cuisine": "", "religion": ""}
+{"osm_id": 13016755584, "title": "CITY HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1792323, "lng": 91.8063321, "cuisine": "", "religion": ""}
+{"osm_id": 13016771340, "title": "Munni Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1417616, "lng": 91.7863943, "cuisine": "", "religion": ""}
+{"osm_id": 13016771346, "title": "Orchard Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1419852, "lng": 91.78649, "cuisine": "", "religion": ""}
+{"osm_id": 13016771415, "title": "Srihari Food Grinder Cum D Corner Bake", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1775096, "lng": 91.8037778, "cuisine": "", "religion": ""}
+{"osm_id": 13016771431, "title": "Bipanchi hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1789838, "lng": 91.8051436, "cuisine": "", "religion": ""}
+{"osm_id": 13016771460, "title": "Kanchan Sweet And Foods", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1790275, "lng": 91.8125189, "cuisine": "", "religion": ""}
+{"osm_id": 13016771463, "title": "Samir Tea Stall", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1790246, "lng": 91.8126897, "cuisine": "", "religion": ""}
+{"osm_id": 13016775052, "title": "PARBEZ HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1248542, "lng": 91.7198344, "cuisine": "", "religion": ""}
+{"osm_id": 13016775090, "title": "BINA SWEETS HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1326307, "lng": 91.7222139, "cuisine": "", "religion": ""}
+{"osm_id": 13016779672, "title": "Alam Homoeo Clinic", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.129058, "lng": 91.7801466, "cuisine": "", "religion": ""}
+{"osm_id": 13016779674, "title": "Mariyam Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1290385, "lng": 91.7802023, "cuisine": "", "religion": ""}
+{"osm_id": 13016784504, "title": "NORTHEAST KITCHEN", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1780012, "lng": 91.8042074, "cuisine": "", "religion": ""}
+{"osm_id": 13016784558, "title": "Lakshmi Sweet Shop And Bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1609218, "lng": 91.734249, "cuisine": "", "religion": ""}
+{"osm_id": 13016784567, "title": "Adit Tea Store", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1594473, "lng": 91.7338977, "cuisine": "", "religion": ""}
+{"osm_id": 13016784570, "title": "Ananda Bekary And Gift Corner", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1592715, "lng": 91.7338607, "cuisine": "", "religion": ""}
+{"osm_id": 13016784572, "title": "Maa Durga", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1591718, "lng": 91.733841, "cuisine": "", "religion": ""}
+{"osm_id": 13016784584, "title": "Hanuman Cake Shop", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1576222, "lng": 91.7329634, "cuisine": "", "religion": ""}
+{"osm_id": 13016784595, "title": "Cake Street", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1564303, "lng": 91.7319679, "cuisine": "", "religion": ""}
+{"osm_id": 13016790558, "title": "BARBEE'S FOOD CORNER", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1727364, "lng": 91.7846733, "cuisine": "", "religion": ""}
+{"osm_id": 13016790560, "title": "PUDDIN TALES", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1726982, "lng": 91.7843596, "cuisine": "", "religion": ""}
+{"osm_id": 13016790568, "title": "C.P.W.D GUEST HOUSE", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1724752, "lng": 91.7822705, "cuisine": "", "religion": ""}
+{"osm_id": 13016790583, "title": "OM BISHNU HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.172595, "lng": 91.7809821, "cuisine": "", "religion": ""}
+{"osm_id": 13016790589, "title": "LOYAN'S", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1728326, "lng": 91.7830287, "cuisine": "", "religion": ""}
+{"osm_id": 13016798809, "title": "KAUSHIK SWEETS", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1363292, "lng": 91.7248064, "cuisine": "", "religion": ""}
+{"osm_id": 13016798815, "title": "Mamar Dukan", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.178984, "lng": 91.8131339, "cuisine": "", "religion": ""}
+{"osm_id": 13016798830, "title": "Maa Deuta Tea Stall", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.178818, "lng": 91.8154104, "cuisine": "", "religion": ""}
+{"osm_id": 13016799657, "title": "GUN GUN HOTEL & RESTAURENT", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1368363, "lng": 91.7248014, "cuisine": "", "religion": ""}
+{"osm_id": 13016799659, "title": "KAMKHYA SWEETS", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1386177, "lng": 91.7253417, "cuisine": "", "religion": ""}
+{"osm_id": 13016801062, "title": "Rizwan Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1288711, "lng": 91.7793798, "cuisine": "", "religion": ""}
+{"osm_id": 13016801065, "title": "Dosti Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1285823, "lng": 91.7793437, "cuisine": "", "religion": ""}
+{"osm_id": 13016801387, "title": "Qaragon", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1589886, "lng": 91.6965781, "cuisine": "", "religion": ""}
+{"osm_id": 13016801398, "title": "Sikder bakery and sweets", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1589742, "lng": 91.6967243, "cuisine": "", "religion": ""}
+{"osm_id": 13016803713, "title": "Prime bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.159095, "lng": 91.6977452, "cuisine": "", "religion": ""}
+{"osm_id": 13016844595, "title": "Durga Sweets", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1503678, "lng": 91.7295668, "cuisine": "", "religion": ""}
+{"osm_id": 13016846308, "title": "Durga Sweets and Snacks", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1486345, "lng": 91.7286328, "cuisine": "", "religion": ""}
+{"osm_id": 13016985804, "title": "City Arts", "category": "culture", "kind": "art shop", "state": "Assam", "lat": 26.1591124, "lng": 91.6979055, "cuisine": "", "religion": ""}
+{"osm_id": 13016985815, "title": "The cake factory", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1591705, "lng": 91.6982578, "cuisine": "", "religion": ""}
+{"osm_id": 13016985817, "title": "Prime cakes", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1591521, "lng": 91.6983552, "cuisine": "", "religion": ""}
+{"osm_id": 13016989449, "title": "BISWAS HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1740025, "lng": 91.7849844, "cuisine": "", "religion": ""}
+{"osm_id": 13016989454, "title": "MANISHA HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1737427, "lng": 91.7849813, "cuisine": "", "religion": ""}
+{"osm_id": 13016989457, "title": "BLUE HEAVEN", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1732318, "lng": 91.7850425, "cuisine": "", "religion": ""}
+{"osm_id": 13020524859, "title": "sandhiram Dainik Bazaar", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1213176, "lng": 91.7871688, "cuisine": "", "religion": ""}
+{"osm_id": 13020524860, "title": "Bakery Garden", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1211853, "lng": 91.7871791, "cuisine": "", "religion": ""}
+{"osm_id": 13022615299, "title": "Dharamshala market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1798377, "lng": 91.741418, "cuisine": "", "religion": ""}
+{"osm_id": 13022630803, "title": "Lala Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1800401, "lng": 91.741208, "cuisine": "", "religion": ""}
+{"osm_id": 13022630806, "title": "Mansarovar Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.180233, "lng": 91.7409013, "cuisine": "", "religion": ""}
+{"osm_id": 13022630811, "title": "Bee Gee Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1804306, "lng": 91.7406087, "cuisine": "", "religion": ""}
+{"osm_id": 13022649612, "title": "Bajoria Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1810941, "lng": 91.7395859, "cuisine": "", "religion": ""}
+{"osm_id": 13110495801, "title": "Gibbon Backpackers Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1846676, "lng": 91.7847289, "cuisine": "", "religion": ""}
+{"osm_id": 13152642501, "title": "Mayur Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 25.9154142, "lng": 92.9564238, "cuisine": "", "religion": ""}
+{"osm_id": 13176312401, "title": "S Delight Foods", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1580404, "lng": 91.6794061, "cuisine": "", "religion": ""}
+{"osm_id": 13204317260, "title": "Four Natives", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.4997687, "lng": 95.3416642, "cuisine": "", "religion": ""}
+{"osm_id": 13293941001, "title": "Hotel Prabesh", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.3088655, "lng": 92.7038815, "cuisine": "", "religion": ""}
+{"osm_id": 13296594801, "title": "Prashaanti Tourist Lodge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.3479628, "lng": 92.6807025, "cuisine": "", "religion": ""}
+{"osm_id": 13312442101, "title": "Living Hub", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.2357348, "lng": 94.1062414, "cuisine": "", "religion": ""}
+{"osm_id": 13359609101, "title": "Sui Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1842466, "lng": 91.7404102, "cuisine": "", "religion": ""}
+{"osm_id": 13369199001, "title": "Irroi Kaziranga", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6074353, "lng": 93.4637754, "cuisine": "", "religion": ""}
+{"osm_id": 13470328305, "title": "Morning Mist Homestay", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7421521, "lng": 94.2303977, "cuisine": "", "religion": ""}
+{"osm_id": 13473455645, "title": "Hotel Nilakhi", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9544948, "lng": 94.2875232, "cuisine": "", "religion": ""}
+{"osm_id": 13475298248, "title": "River Wind Cottage", "category": "stay", "kind": "chalet", "state": "Assam", "lat": 26.9738663, "lng": 94.1774654, "cuisine": "", "religion": ""}
+{"osm_id": 13475468736, "title": "Hotel Murari", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9528622, "lng": 94.2600933, "cuisine": "", "religion": ""}
+{"osm_id": 13506162740, "title": "Jaiswal Hotel & Meat House", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1714595, "lng": 91.7593166, "cuisine": "", "religion": ""}
+{"osm_id": 13506189522, "title": "VEGETABLE STALL", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1585601, "lng": 91.7820863, "cuisine": "", "religion": ""}
+{"osm_id": 13506197141, "title": "Sohum Tea", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1751998, "lng": 91.7620638, "cuisine": "", "religion": ""}
+{"osm_id": 13506197150, "title": "BAKE QUEEN", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1253699, "lng": 91.7866218, "cuisine": "", "religion": ""}
+{"osm_id": 13506197161, "title": "KAY DEE GUEST HOUSE", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1267838, "lng": 91.7865617, "cuisine": "", "religion": ""}
+{"osm_id": 13506225430, "title": "MAHBUB FAST FOOD HUB", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1252507, "lng": 91.7866437, "cuisine": "", "religion": ""}
+{"osm_id": 13506229576, "title": "Kay Dee Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1268091, "lng": 91.786542, "cuisine": "", "religion": ""}
+{"osm_id": 13506229584, "title": "madina hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1286549, "lng": 91.7863805, "cuisine": "", "religion": ""}
+{"osm_id": 13506229585, "title": "Pakija Hotel11", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.128692, "lng": 91.7863834, "cuisine": "", "religion": ""}
+{"osm_id": 13506229600, "title": "Hydrabadi chicken Biryani11", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1318463, "lng": 91.7860281, "cuisine": "", "religion": ""}
+{"osm_id": 13506243378, "title": "THE BAMBOO GROOVE GUEST HOUSE", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1571942, "lng": 91.7824576, "cuisine": "", "religion": ""}
+{"osm_id": 13506245539, "title": "KB's Night Food Hub", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1810173, "lng": 91.7561713, "cuisine": "", "religion": ""}
+{"osm_id": 13506245540, "title": "MD Guest House", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1809667, "lng": 91.756167, "cuisine": "", "religion": ""}
+{"osm_id": 13506245542, "title": "Hotel Prince B", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1808188, "lng": 91.756158, "cuisine": "", "religion": ""}
+{"osm_id": 13506245550, "title": "Blend and Brew (the tea Boutique", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1802839, "lng": 91.756327, "cuisine": "", "religion": ""}
+{"osm_id": 13506245551, "title": "Hotel orchid", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1801823, "lng": 91.7563754, "cuisine": "", "religion": ""}
+{"osm_id": 13506245561, "title": "The ornate", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1791845, "lng": 91.7565543, "cuisine": "", "religion": ""}
+{"osm_id": 13506276156, "title": "Miraya Homestay", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1914865, "lng": 91.7533244, "cuisine": "", "religion": ""}
+{"osm_id": 13506276171, "title": "Achala Home", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1917527, "lng": 91.7549622, "cuisine": "", "religion": ""}
+{"osm_id": 13506276187, "title": "Akshay Bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1913909, "lng": 91.7554216, "cuisine": "", "religion": ""}
+{"osm_id": 13506303014, "title": "Loyan's Bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1900204, "lng": 91.7534401, "cuisine": "", "religion": ""}
+{"osm_id": 13506845497, "title": "MYFROYOLAND", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1747381, "lng": 91.7495534, "cuisine": "frozen_yogurt", "religion": ""}
+{"osm_id": 13509359743, "title": "ACHYUT EXPRESS TOWER", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.177055, "lng": 91.7571352, "cuisine": "", "religion": ""}
+{"osm_id": 13511037728, "title": "Your Biryani Hub11", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1298338, "lng": 91.7862481, "cuisine": "", "religion": ""}
+{"osm_id": 13511120949, "title": "Hotel Sivsagar", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.0704182, "lng": 94.6891135, "cuisine": "", "religion": ""}
+{"osm_id": 13511238155, "title": "MATchaa", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1905472, "lng": 91.7529852, "cuisine": "", "religion": ""}
+{"osm_id": 13511273854, "title": "GOLDEN BALER", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1289384, "lng": 91.7859521, "cuisine": "", "religion": ""}
+{"osm_id": 13511289092, "title": "Prime Cakes", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1910693, "lng": 91.7563222, "cuisine": "", "religion": ""}
+{"osm_id": 13511363272, "title": "CAKE CORNER", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1650788, "lng": 91.7682295, "cuisine": "", "religion": ""}
+{"osm_id": 13511364139, "title": "N.B TEA STORE", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1224087, "lng": 91.8061522, "cuisine": "", "religion": ""}
+{"osm_id": 13511364155, "title": "BAKERS SPECIAL", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1730789, "lng": 91.7769506, "cuisine": "", "religion": ""}
+{"osm_id": 13511364164, "title": "GOLDEN BAKERY", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1752867, "lng": 91.7764605, "cuisine": "", "religion": ""}
+{"osm_id": 13511365119, "title": "LAKHI HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1662639, "lng": 91.7687474, "cuisine": "", "religion": ""}
+{"osm_id": 13511365120, "title": "HOTEL RASHMI", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1665896, "lng": 91.7689018, "cuisine": "", "religion": ""}
+{"osm_id": 13511376559, "title": "Purnima sweets", "category": "food", "kind": "sweet shop", "state": "Assam", "lat": 26.1756136, "lng": 91.776515, "cuisine": "", "religion": ""}
+{"osm_id": 13511399128, "title": "MINI SHAIKH BROTHERS", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1680191, "lng": 91.7789003, "cuisine": "", "religion": ""}
+{"osm_id": 13511399134, "title": "PUDDIN TALES", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1693488, "lng": 91.7784664, "cuisine": "", "religion": ""}
+{"osm_id": 13511399135, "title": "CAKE POINT", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1693857, "lng": 91.778446, "cuisine": "", "religion": ""}
+{"osm_id": 13511408501, "title": "Repose", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1894681, "lng": 91.75717, "cuisine": "", "religion": ""}
+{"osm_id": 13511408502, "title": "Nehalaya Girls' Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.18947, "lng": 91.7571279, "cuisine": "", "religion": ""}
+{"osm_id": 13511408511, "title": "Hot Cross Buns", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1875561, "lng": 91.757592, "cuisine": "", "religion": ""}
+{"osm_id": 13511408520, "title": "Standard Bakery", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1854972, "lng": 91.7579436, "cuisine": "", "religion": ""}
+{"osm_id": 13511599349, "title": "THE APPLE TREE", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1623914, "lng": 91.779954, "cuisine": "", "religion": ""}
+{"osm_id": 13511618571, "title": "Ruchi", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.165639, "lng": 91.7684611, "cuisine": "", "religion": ""}
+{"osm_id": 13511618582, "title": "Rongali Bhojanalaya", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1628301, "lng": 91.770893, "cuisine": "", "religion": ""}
+{"osm_id": 13511618586, "title": "hotel cozy home", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1632369, "lng": 91.7703885, "cuisine": "", "religion": ""}
+{"osm_id": 13511618591, "title": "usha louge", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1640077, "lng": 91.7695442, "cuisine": "", "religion": ""}
+{"osm_id": 13511618594, "title": "Food joint", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1643327, "lng": 91.7691714, "cuisine": "", "religion": ""}
+{"osm_id": 13511618596, "title": "Royal in guest house", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1644693, "lng": 91.7689952, "cuisine": "", "religion": ""}
+{"osm_id": 13511637344, "title": "oyo", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1786143, "lng": 91.751804, "cuisine": "", "religion": ""}
+{"osm_id": 13511648596, "title": "SHIVRANJANI", "category": "culture", "kind": "instrument maker", "state": "Assam", "lat": 26.1700677, "lng": 91.7627858, "cuisine": "", "religion": ""}
+{"osm_id": 13511655645, "title": "Baba Loknath Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1746302, "lng": 91.7312935, "cuisine": "", "religion": ""}
+{"osm_id": 13511655646, "title": "Baba Loknath Hotel & fast food", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.174819, "lng": 91.7312039, "cuisine": "", "religion": ""}
+{"osm_id": 13511655662, "title": "Hotel new Castle", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1759344, "lng": 91.7328009, "cuisine": "", "religion": ""}
+{"osm_id": 13511655673, "title": "Hotel Eureka grand", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1767975, "lng": 91.734175, "cuisine": "", "religion": ""}
+{"osm_id": 13511655678, "title": "Hotel Shah", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1771854, "lng": 91.7350472, "cuisine": "", "religion": ""}
+{"osm_id": 13511655680, "title": "Ankit foods", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1772851, "lng": 91.7351986, "cuisine": "", "religion": ""}
+{"osm_id": 13511670284, "title": "HOTEL COSY HOME", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1632539, "lng": 91.7703589, "cuisine": "", "religion": ""}
+{"osm_id": 13511670285, "title": "ASSAM FOREST SCHOOL BOYS HOSTEL", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1482105, "lng": 91.6526481, "cuisine": "", "religion": ""}
+{"osm_id": 13511687411, "title": "India guest house", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1644917, "lng": 91.7689526, "cuisine": "", "religion": ""}
+{"osm_id": 13511688915, "title": "LAKHI HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1662779, "lng": 91.7687369, "cuisine": "", "religion": ""}
+{"osm_id": 13511688919, "title": "HOTEL SAI NIVAS", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1665522, "lng": 91.768882, "cuisine": "", "religion": ""}
+{"osm_id": 13511702307, "title": "BAKER'S SPECIAL REPOSE", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1725695, "lng": 91.7567025, "cuisine": "", "religion": ""}
+{"osm_id": 13511702311, "title": "BABA LOKNATH HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1728861, "lng": 91.7548054, "cuisine": "", "religion": ""}
+{"osm_id": 13512249005, "title": "MINI SHAIKH BROTHERS", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1679574, "lng": 91.7787515, "cuisine": "", "religion": ""}
+{"osm_id": 13512401029, "title": "PRIME CAKES", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.17474, "lng": 91.7783699, "cuisine": "", "religion": ""}
+{"osm_id": 13512401030, "title": "LUIIT BAKERS", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.174724, "lng": 91.7783906, "cuisine": "", "religion": ""}
+{"osm_id": 13512664213, "title": "SNOWBERRY - ARTISANAL DESSERTS", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1856352, "lng": 91.7528274, "cuisine": "", "religion": ""}
+{"osm_id": 13512691427, "title": "BUTTER CREAM STATION", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1735436, "lng": 91.7799535, "cuisine": "", "religion": ""}
+{"osm_id": 13513757772, "title": "THE BAKING ROOM", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.157945, "lng": 91.7763905, "cuisine": "", "religion": ""}
+{"osm_id": 13514728535, "title": "APPLE PIE", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1921969, "lng": 91.7557576, "cuisine": "", "religion": ""}
+{"osm_id": 13514728541, "title": "AMUL SHOP", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1920822, "lng": 91.7552656, "cuisine": "", "religion": ""}
+{"osm_id": 13514744013, "title": "GUWAHATI TEA HUB", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1585874, "lng": 91.6837298, "cuisine": "", "religion": ""}
+{"osm_id": 13516352695, "title": "RUPANKAN ART", "category": "culture", "kind": "art shop", "state": "Assam", "lat": 26.130113, "lng": 91.8072136, "cuisine": "", "religion": ""}
+{"osm_id": 13516514278, "title": "AZGHYA", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.13138, "lng": 91.8080025, "cuisine": "", "religion": ""}
+{"osm_id": 13516514281, "title": "GUWAHATI BITES", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1277782, "lng": 91.805705, "cuisine": "", "religion": ""}
+{"osm_id": 13516553677, "title": "Akashi Ganga Restautant", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1751372, "lng": 91.7574753, "cuisine": "", "religion": ""}
+{"osm_id": 13516553680, "title": "sweet", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1749421, "lng": 91.7577535, "cuisine": "", "religion": ""}
+{"osm_id": 13516553681, "title": "Baruah's Inn", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1749123, "lng": 91.7577877, "cuisine": "", "religion": ""}
+{"osm_id": 13516553693, "title": "Mangalam Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1708416, "lng": 91.7554217, "cuisine": "", "religion": ""}
+{"osm_id": 13516553696, "title": "Chaturbhuj food mart", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1682316, "lng": 91.7369009, "cuisine": "", "religion": ""}
+{"osm_id": 13516749870, "title": "HARI OM HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1322057, "lng": 91.8067262, "cuisine": "", "religion": ""}
+{"osm_id": 13516749871, "title": "NISHA HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1321614, "lng": 91.8067574, "cuisine": "", "religion": ""}
+{"osm_id": 13516749877, "title": "RAHUL COMPLEX", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1321142, "lng": 91.806982, "cuisine": "", "religion": ""}
+{"osm_id": 13516772178, "title": "SEVEN SISTER GIRL'S HOSTEL", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.1869844, "lng": 91.7521635, "cuisine": "", "religion": ""}
+{"osm_id": 13516772187, "title": "SUBHA ENTERPRISE", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1871408, "lng": 91.7538116, "cuisine": "", "religion": ""}
+{"osm_id": 13516794541, "title": "HOTEL", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1832452, "lng": 91.745478, "cuisine": "", "religion": ""}
+{"osm_id": 13516794542, "title": "HOTEL RIALTO", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1834237, "lng": 91.7456192, "cuisine": "", "religion": ""}
+{"osm_id": 13516794544, "title": "HOTEL PRESIDENT", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1835414, "lng": 91.7457815, "cuisine": "", "religion": ""}
+{"osm_id": 13516794548, "title": "ZAIKA MURADABADI & HYDRABADI CHICKEN", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1837661, "lng": 91.7460319, "cuisine": "", "religion": ""}
+{"osm_id": 13516794552, "title": "SWAGATAM INN", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1840959, "lng": 91.7464943, "cuisine": "", "religion": ""}
+{"osm_id": 13516818147, "title": "ENERA HANDLOOM", "category": "culture", "kind": "craft shop", "state": "Assam", "lat": 26.1232503, "lng": 91.8000528, "cuisine": "", "religion": ""}
+{"osm_id": 13516823734, "title": "THE CAKE", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1763818, "lng": 91.7763568, "cuisine": "", "religion": ""}
+{"osm_id": 13516832948, "title": "Baskin robbins", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1377812, "lng": 91.6339944, "cuisine": "", "religion": ""}
+{"osm_id": 13516832954, "title": "PADMA BAKERY", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1437837, "lng": 91.6441022, "cuisine": "", "religion": ""}
+{"osm_id": 13516855310, "title": "Mangalam", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1782377, "lng": 91.7360786, "cuisine": "", "religion": ""}
+{"osm_id": 13516940935, "title": "Maa hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.171887, "lng": 91.7359541, "cuisine": "", "religion": ""}
+{"osm_id": 13516940937, "title": "Cake.com", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1716603, "lng": 91.7361406, "cuisine": "", "religion": ""}
+{"osm_id": 13516996104, "title": "SARADA TEA HOUSE", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1851627, "lng": 91.7634036, "cuisine": "", "religion": ""}
+{"osm_id": 13516996112, "title": "LUIT GUEST HOUSE", "category": "stay", "kind": "guest house", "state": "Assam", "lat": 26.1851178, "lng": 91.7638739, "cuisine": "", "religion": ""}
+{"osm_id": 13516996121, "title": "PJ'S FOOD", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1847161, "lng": 91.7668181, "cuisine": "", "religion": ""}
+{"osm_id": 13517102261, "title": "REPOSE", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1252896, "lng": 91.7975051, "cuisine": "", "religion": ""}
+{"osm_id": 13517182657, "title": "Babli Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1718783, "lng": 91.7402909, "cuisine": "", "religion": ""}
+{"osm_id": 13517213181, "title": "Abhay Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1691496, "lng": 91.7434689, "cuisine": "", "religion": ""}
+{"osm_id": 13517213188, "title": "Assam Tea", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1687056, "lng": 91.7468944, "cuisine": "", "religion": ""}
+{"osm_id": 13517680433, "title": "KARAK CHAA", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.1362074, "lng": 91.7915695, "cuisine": "", "religion": ""}
+{"osm_id": 13517680441, "title": "GIANI", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1371167, "lng": 91.791046, "cuisine": "", "religion": ""}
+{"osm_id": 13519311430, "title": "Pragati", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.7256161, "lng": 94.1888881, "cuisine": "", "religion": ""}
+{"osm_id": 13519576301, "title": "Shiva Palace", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9845376, "lng": 94.6370273, "cuisine": "", "religion": ""}
+{"osm_id": 13519576833, "title": "RITU'S KITCHEN", "category": "food", "kind": "food court", "state": "Assam", "lat": 26.1840144, "lng": 91.7781347, "cuisine": "", "religion": ""}
+{"osm_id": 13522423653, "title": "Bombay kulfi", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.180846, "lng": 91.7369404, "cuisine": "", "religion": ""}
+{"osm_id": 13522423663, "title": "G.D enterprises", "category": "food", "kind": "tea shop", "state": "Assam", "lat": 26.181321, "lng": 91.7363933, "cuisine": "", "religion": ""}
+{"osm_id": 13522626394, "title": "Rang Rup Art", "category": "culture", "kind": "art shop", "state": "Assam", "lat": 26.183728, "lng": 91.7798938, "cuisine": "", "religion": ""}
+{"osm_id": 13522630924, "title": "dewan market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1834245, "lng": 91.7823834, "cuisine": "", "religion": ""}
+{"osm_id": 13522630927, "title": "the jatli's food hub", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.183299, "lng": 91.7828929, "cuisine": "", "religion": ""}
+{"osm_id": 13522630943, "title": "purnima hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1839741, "lng": 91.7798484, "cuisine": "", "religion": ""}
+{"osm_id": 13523334673, "title": "Snowberry", "category": "food", "kind": "ice cream", "state": "Assam", "lat": 26.1853941, "lng": 91.7529994, "cuisine": "", "religion": ""}
+{"osm_id": 13523363767, "title": "GUWAHATI BAKERY", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1852784, "lng": 91.7599691, "cuisine": "", "religion": ""}
+{"osm_id": 13523381727, "title": "Puddin Tales", "category": "food", "kind": "bakery", "state": "Assam", "lat": 26.1869648, "lng": 91.7546245, "cuisine": "", "religion": ""}
+{"osm_id": 13523765801, "title": "Luit Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.9714303, "lng": 94.1570378, "cuisine": "", "religion": ""}
+{"osm_id": 13528704801, "title": "UG Girls Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.412535, "lng": 91.516568, "cuisine": "", "religion": ""}
+{"osm_id": 13528707501, "title": "Nurses Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.412827, "lng": 91.517008, "cuisine": "", "religion": ""}
+{"osm_id": 13528713501, "title": "UG Boys Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.412451, "lng": 91.51813, "cuisine": "", "religion": ""}
+{"osm_id": 13543346581, "title": "Mouchak Sweets And Savouires", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7545542, "lng": 94.2117893, "cuisine": "", "religion": ""}
+{"osm_id": 13620021759, "title": "Biponi Market", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.7250049, "lng": 94.1987942, "cuisine": "", "religion": ""}
+{"osm_id": 13660622601, "title": "Honest Hotel & Resort", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.2017095, "lng": 93.1363651, "cuisine": "", "religion": ""}
+{"osm_id": 13686381657, "title": "Hotel Nilkantha", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6417094, "lng": 93.5744888, "cuisine": "", "religion": ""}
+{"osm_id": 13686480389, "title": "Lambu Dhaba", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.6355765, "lng": 93.5555429, "cuisine": "", "religion": ""}
+{"osm_id": 13690641462, "title": "Maina Hotel", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7523722, "lng": 94.1824893, "cuisine": "", "religion": ""}
+{"osm_id": 13713242001, "title": "Waisong Boys' Hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 25.8405137, "lng": 93.4249136, "cuisine": "", "religion": ""}
+{"osm_id": 13744404567, "title": "Hotel Tibet", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1806075, "lng": 91.7491254, "cuisine": "", "religion": ""}
+{"osm_id": 13808177308, "title": "Borluit Dhaba", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.1277306, "lng": 94.8230905, "cuisine": "", "religion": ""}
+{"osm_id": 13952000201, "title": "Honest Hotel and Resort", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.2018802, "lng": 93.1364141, "cuisine": "", "religion": ""}
+{"osm_id": 14004834455, "title": "The Red Roof Inn", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.7359429, "lng": 94.2138108, "cuisine": "", "religion": ""}
+{"osm_id": 14027737402, "title": "Bajaao Music Store & Jampad", "category": "culture", "kind": "instrument maker", "state": "Assam", "lat": 26.1559166, "lng": 91.7809501, "cuisine": "", "religion": ""}
+{"osm_id": 14056346001, "title": "Kiranshree Grand", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 26.1155873, "lng": 91.5999722, "cuisine": "", "religion": ""}
+{"osm_id": 14081006402, "title": "Kanaklata Baruah Girls' hostel", "category": "stay", "kind": "hostel", "state": "Assam", "lat": 26.7049934, "lng": 92.8318535, "cuisine": "", "religion": ""}
+{"osm_id": 14088965501, "title": "LP Residency", "category": "stay", "kind": "hotel", "state": "Assam", "lat": 27.246111, "lng": 94.1053167, "cuisine": "", "religion": ""}
+{"osm_id": 14129265802, "title": "Podum Pukhuri (পদুম পুখুৰী)", "category": "adventure", "kind": "water park", "state": "Assam", "lat": 26.2514367, "lng": 92.340624, "cuisine": "", "religion": ""}
+{"osm_id": 14141524001, "title": "Radha Bazar", "category": "culture", "kind": "market", "state": "Assam", "lat": 26.1817667, "lng": 91.7390147, "cuisine": "", "religion": ""}

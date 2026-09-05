@@ -11,10 +11,15 @@ invented destinations learns an invented India, and every offline metric it
 produces would be measuring the generator rather than the model.
 """
 import json
+
+import external
 import pathlib
 import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
+
+# Counters the CLI prints, so the merge is visible rather than silent.
+_STATS = {}
 SRC = ROOT / "src" / "data"
 
 # Nine gem categories, five tour categories and a mixed bag of attractions
@@ -111,7 +116,7 @@ OSM_DIRS = [ROOT / "data" / "recsys" / "_osm",
 # Which source wins when two of them describe the same place. The app's own
 # record has photographs, costs and a page behind it; Wikidata has a curated
 # entity and often an image; OSM has a name and a point. Highest wins.
-SOURCE_RANK = {"app": 3, "wikidata": 2, "osm": 1}
+SOURCE_RANK = {"app": 4, "external": 3, "wikidata": 2, "osm": 1}
 
 # A place of worship is not a useful category on its own — OSM files a
 # cathedral and a village shrine under the same tag — so the religion refines
@@ -257,16 +262,52 @@ def build_items():
     items += _wikidata_items()
     items += _osm_items()
 
-    # An attraction has no coordinates, but its state's largest place does,
-    # and geography is one of the strongest signals a travel recommender has.
-    by_state = {}
+    # A curated table of well-known attractions, carrying the fields no
+    # harvest provides — fee, duration, rating, review count, best time of day.
+    # Matched by name and state onto what is already here, so the Taj gains its
+    # attributes rather than gaining a twin; anything unmatched joins as a new
+    # item, since these are real places too.
+    ext = external.load()
+    index, by_name = {}, {}
     for it in items:
-        if it["lat"] and it["state"]:
-            by_state.setdefault(it["state"], (it["lat"], it["lng"]))
-    for it in items:
-        if not it["lat"]:
-            it["lat"], it["lng"] = by_state.get(it["state"], (None, None))
-            it["coords_from_state"] = bool(it["lat"])
+        index.setdefault((_slug(it["title"]), it["state"].lower()), it)
+        by_name.setdefault(_slug(it["title"]), []).append(it)
+    enriched = 0
+    for row in ext:
+        attrs = {f: row.get(f) for f in external.FIELDS}
+        attrs = {k: ("" if v is None else v) for k, v in attrs.items()}
+        # State first. Failing that, a name that occurs exactly once in the
+        # whole catalogue is the same place under a differently-recorded
+        # state — 67 rows matched by name but disagreed on state, and adding
+        # them as new items would have duplicated real places rather than
+        # enriched them.
+        hit = index.get((_slug(row["title"]), row["state"].lower()))
+        if hit is None:
+            same_name = by_name.get(_slug(row["title"]))
+            if same_name and len(same_name) == 1:
+                hit = same_name[0]
+        if hit is not None:
+            hit.update(attrs)
+            enriched += 1
+            continue
+        items.append({
+            "item_id": f"ext-{_slug(row['title'])}-{_slug(row['state'])[:12]}",
+            "kind": row["type"].lower() or "attraction",
+            "title": row["title"],
+            "state": row["state"],
+            "region": "",
+            "category": row["category"],
+            "lat": None, "lng": None,
+            "media_count": 1,
+            "difficulty": "easy",
+            "cost_per_day": None,
+            "duration_days": None,
+            "cuisine": "",
+            "_source": "external",
+            **attrs,
+        })
+    _STATS["enriched"] = enriched
+    _STATS["from_external"] = len(ext)
 
     # One spelling per state, before anything is keyed on it.
     for it in items:
@@ -299,15 +340,34 @@ def build_items():
     # point of deduping at all. Two records either side of a cell boundary
     # will survive as two; that error keeps a real place, where the old key's
     # error destroyed eleven thousand of them.
+    # Two passes, because a record with coordinates and the same record
+    # without them are still the same place. Keying on position alone left
+    # three Taj Mahals: the VR tour, an attraction row carrying no coordinates,
+    # and an unrelated restaurant in Kerala that happens to share the name. The
+    # first two are one place; the third genuinely is not.
+    #
+    # So: placed items are keyed by name, state and cell as before. Unplaced
+    # ones then attach to a placed item of the same name and state if one
+    # exists, and only otherwise stand alone.
     best = {}
-    for it in items:
+    placed = [i for i in items if i.get("lat") is not None and i.get("lng") is not None]
+    unplaced = [i for i in items if i.get("lat") is None or i.get("lng") is None]
+    by_name_state = {}
+    for it in placed + unplaced:
         # A title in Devanagari slugs to nothing, and 97 such rows would
         # otherwise share one empty key and collapse into a single item.
         name = _slug(it["title"]) or it["title"].strip().casefold()
         cell = ((round(it["lat"], 2), round(it["lng"], 2))
                 if it.get("lat") is not None and it.get("lng") is not None
                 else None)
-        key = (name, it["state"].lower(), cell)
+        ns = (name, it["state"].lower())
+        if cell is None and ns in by_name_state:
+            # An unplaced twin of something already located.
+            key = by_name_state[ns]
+        else:
+            key = (name, it["state"].lower(), cell)
+            if cell is not None:
+                by_name_state.setdefault(ns, key)
         prior = best.get(key)
         # Source rank first, then whichever carries more media. Comparing the
         # pair in one go avoids the ordering bug the long-hand version had,
@@ -318,8 +378,28 @@ def build_items():
             best[key] = it
 
     out = sorted(best.values(), key=lambda x: x["item_id"])
+
+    # Borrowed coordinates, AFTER deduplication rather than before.
+    #
+    # An attraction carries no position of its own, so it inherits its state's
+    # largest place — geography being one of the strongest signals a travel
+    # recommender has. Doing that first was a mistake: it turned an unplaced
+    # record into a placed one sitting in the wrong cell, so the Taj Mahal
+    # attraction row stopped matching the Taj Mahal tour and the catalogue
+    # carried both. Dedupe first, borrow after.
+    by_state = {}
+    for it in out:
+        if it["lat"] and it["state"] and not it.get("coords_from_state"):
+            by_state.setdefault(it["state"], (it["lat"], it["lng"]))
+    for it in out:
+        if not it["lat"]:
+            it["lat"], it["lng"] = by_state.get(it["state"], (None, None))
+            it["coords_from_state"] = bool(it["lat"])
+
     for it in out:
         it.setdefault("cuisine", "")
+        for f in external.FIELDS:
+            it.setdefault(f, "")
     return out
 
 

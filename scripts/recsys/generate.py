@@ -88,6 +88,12 @@ NEUTRAL_CATEGORIES = {"city", "stay"}
 
 PARTY = ["solo", "couple", "family", "friends"]
 BUDGET = ["shoestring", "moderate", "comfortable", "premium"]
+# Roughly what each is willing to pay for one entrance ticket, in rupees.
+# Ranthambore is 500 and Rann Utsav 7,500; those are different decisions for
+# different people, and a recommender that cannot tell them apart will keep
+# suggesting the safari to somebody counting rupees.
+BUDGET_CEILING = {"shoestring": 60.0, "moderate": 250.0,
+                  "comfortable": 800.0, "premium": 3000.0}
 AGE_BANDS = ["18-24", "25-34", "35-44", "45-54", "55+"]
 SURFACES = ["search", "feed", "agent", "vr", "map", "gems"]
 
@@ -216,8 +222,27 @@ def item_scores(items, rng):
     terms alone decide the winner — which concentrates traffic enough for
     co-occurrence to exist while leaving the decision genuinely personal.
     """
-    order = items[:]
-    rng.shuffle(order)
+    # Real popularity first, invented popularity after.
+    #
+    # A few hundred items carry an actual Google review count, and those are
+    # India's most-visited places: the Gateway of India has 360,000 reviews,
+    # the Taj 225,000. Where a real number exists it decides the ranking, in
+    # descending order; everything else keeps the synthetic shuffle behind it.
+    # It is a small share of the catalogue and the most consequential part,
+    # because it is the head of the distribution that popularity-weighted
+    # exposure actually draws from — and it is now measured rather than made
+    # up.
+    def _reviews(it):
+        try:
+            return float(it.get("reviews") or 0)
+        except (TypeError, ValueError):
+            return 0.0
+
+    known = sorted((i for i in items if _reviews(i) > 0),
+                   key=_reviews, reverse=True)
+    unknown = [i for i in items if _reviews(i) <= 0]
+    rng.shuffle(unknown)
+    order = known + unknown
     prior = {}
     for rank, it in enumerate(order, start=1):
         base = 1.0 / (rank ** POP_EXPONENT)
@@ -247,6 +272,20 @@ def affinity(user, item, _prior=None, _unused=None):
 
     # The individual on top of the type.
     score *= user["taste"].get(item["category"], 1.0)
+
+    # What it costs to get in, against what they are willing to spend. Only a
+    # few hundred items state a fee, so this is a nudge on the places we
+    # actually know about rather than a rule over the catalogue.
+    fee = item.get("fee_inr")
+    if fee not in ("", None):
+        try:
+            fee = float(fee)
+        except (TypeError, ValueError):
+            fee = 0.0
+        if fee > 0:
+            ceiling = BUDGET_CEILING.get(user["budget"], 500.0)
+            # Above their ceiling interest falls away; well under it, no effect.
+            score *= 1.0 / (1.0 + (fee / ceiling) ** 1.5)
 
     if item["region"] == user["home_region"]:
         score *= 2.1
@@ -495,7 +534,12 @@ def write_items(items):
             # Sparse — about a fifth of OSM's eateries carry it — but real
             # where present, and the only content feature the catalogue has
             # that speaks to what a place actually serves.
-            "duration_days", "cuisine"]
+            "duration_days", "cuisine",
+            # From the curated attractions table. Sparse — a few hundred of
+            # the catalogue — but the only columns that say what a place costs,
+            # how long it takes and how well people rate it.
+            "rating", "reviews", "fee_inr", "visit_hours", "best_time",
+            "weekly_off", "dslr_allowed", "established", "significance"]
     with (OUT / "items.csv").open("w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
