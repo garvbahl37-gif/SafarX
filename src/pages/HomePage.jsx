@@ -132,6 +132,9 @@ const TOOLKIT = [
  desc: "Day-by-day itineraries tuned to your pace, budget, and interests.",
  icon: Calendar,
  image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1400&auto=format&fit=crop&q=80",
+ /* The Taj sits high in this frame. On a card this wide and short a centre
+    crop takes the dome clean off, which is what it was doing. */
+ focus: "center 22%",
  span: "md:col-span-2",
  },
  {
@@ -139,21 +142,21 @@ const TOOLKIT = [
  title: "Flight Tracker",
  desc: "Follow any aircraft live across the globe.",
  icon: Plane,
- image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&auto=format&fit=crop&q=80",
+ image: "https://images.unsplash.com/photo-1649478388995-b157c433db1a?w=1400&auto=format&fit=crop&q=80",
  },
  {
  id: "vault",
  title: "Document Vault",
  desc: "Tickets, visas, and IDs — secured and offline-ready.",
  icon: FolderOpen,
- image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1400&auto=format&fit=crop&q=80",
+ image: "https://images.unsplash.com/photo-1706880471208-88328ff11505?w=1400&auto=format&fit=crop&q=80",
  },
  {
  id: "social",
  title: "Safar Groups",
  desc: "Plan group trips and split the logistics, not the fun.",
  icon: Users,
- image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1400&auto=format&fit=crop&q=80",
+ image: "https://images.unsplash.com/photo-1604230006726-d288206e60ab?w=1400&auto=format&fit=crop&q=80",
  span: "md:col-span-2",
  },
  {
@@ -596,6 +599,7 @@ const HomePage = ({ onPageChange, onAskSrishti }) => {
  src={tool.image}
  alt=""
  loading="lazy"
+ style={tool.focus ? { objectPosition: tool.focus } : undefined}
  className="absolute inset-0 w-full h-full object-cover opacity-[0.78] saturate-[1.05] contrast-[1.06] group-hover:opacity-95 group-hover:scale-[1.06] transition-all duration-[900ms] ease-out"
  />
  {/* Legibility scrim — deep at the base, clear at the top */}
