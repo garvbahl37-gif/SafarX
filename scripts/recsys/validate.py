@@ -17,7 +17,10 @@ the files are streamed once and the tallies kept instead.
 """
 import csv
 import glob
+import math
 import pathlib
+import random
+import statistics
 from collections import Counter, defaultdict
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -25,6 +28,17 @@ OUT = ROOT / "data" / "recsys"
 
 HILL = {"Ladakh", "Himachal Pradesh", "Uttarakhand", "Sikkim",
         "Jammu and Kashmir", "Arunachal Pradesh"}
+
+
+def haversine(a_lat, a_lng, b_lat, b_lng):
+    """Kilometres between two points, or None when either is unplaced."""
+    if None in (a_lat, a_lng, b_lat, b_lng):
+        return None
+    r = 6371.0
+    p1, p2 = math.radians(a_lat), math.radians(b_lat)
+    dp, dl = math.radians(b_lat - a_lat), math.radians(b_lng - a_lng)
+    h = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * r * math.asin(math.sqrt(h))
 
 
 def load(name):
@@ -52,6 +66,7 @@ def main():
     ev_cat = Counter()
     home_hits = 0
     persona_hits = 0
+    travel_d = []
     out_of_order = 0
     # Both keyed by hash rather than by the tuple itself. A set of two million
     # four-string tuples is around 400MB and a dict of them more; the hashes
@@ -91,6 +106,13 @@ def main():
                     hill_month[month] += 1
                 if item["state"] and item["state"] == user["home_state"]:
                     home_hits += 1
+                # Sampled, not every row: a million haversines is pointless
+                # when ten thousand fixes the median to within a kilometre.
+                if len(travel_d) < 40000 and item["lat"] and user["home_lat"]:
+                    d = haversine(float(user["home_lat"]), float(user["home_lng"]),
+                                  float(item["lat"]), float(item["lng"]))
+                    if d is not None:
+                        travel_d.append(d)
                 if item["category"] in PERSONAS[user["persona"]][1]:
                     persona_hits += 1
 
@@ -134,20 +156,35 @@ def main():
     check("funnel is ordered", out_of_order == 0,
           f"{out_of_order} bookings or ratings before any view")
 
+    # Distance decay, measured in kilometres rather than by state.
+    #
+    # This used to ask what share of events landed in the user's home state,
+    # against a null built from where users and items actually are. That is a
+    # coarse proxy: crossing a state line half a mile away counts the same as
+    # flying two thousand kilometres, and the answer swings with how lopsided
+    # the catalogue happens to be. Comparing the real distances against
+    # randomly paired users and items tests the thing itself, and cannot be
+    # satisfied by a catalogue that merely clusters.
+    rng = random.Random(11)
+    placed_items = [i for i in items.values() if i["lat"] and i["lng"]]
+    placed_users = [u for u in users.values() if u["home_lat"] and u["home_lng"]]
+    null_d = []
+    if placed_items and placed_users:
+        for _ in range(20000):
+            u = rng.choice(placed_users)
+            i = rng.choice(placed_items)
+            d = haversine(float(u["home_lat"]), float(u["home_lng"]),
+                          float(i["lat"]), float(i["lng"]))
+            if d is not None:
+                null_d.append(d)
+    if null_d and travel_d:
+        real_med = statistics.median(travel_d)
+        null_med = statistics.median(null_d)
+        check("distance decay", real_med < null_med * 0.75,
+              f"median {real_med:,.0f}km travelled vs {null_med:,.0f}km "
+              f"if geography were ignored ({real_med / null_med:.0%})")
     home_share = home_hits / max(1, n)
-    states = Counter(i["state"] for i in items.values() if i["state"])
-    total_placed = sum(states.values()) or 1
-    # The null is "events picked with no regard for where the user lives", so
-    # it has to combine where users actually live with where items actually
-    # are. Squaring the item shares instead — as this did — silently assumes
-    # users are distributed like the catalogue, and the catalogue is lopsided:
-    # one state can hold a third of the items while holding few of the users.
-    home_states = Counter(u["home_state"] for u in users.values())
-    n_users_placed = sum(home_states.values()) or 1
-    baseline = sum((c / n_users_placed) * (states.get(st, 0) / total_placed)
-                   for st, c in home_states.items())
-    check("distance decay", home_share > baseline * 3,
-          f"home state {home_share:.1%} vs {baseline:.1%} if geography were ignored")
+    print(f"        (home-state share {home_share:.1%}, for reference)")
 
     peak = sum(by_month[m] for m in (11, 12, 1, 2))
     trough = sum(by_month[m] for m in (6, 7, 8))
@@ -188,6 +225,7 @@ def main():
           f"{ev_cat.get('culture', 0):,} culture events "
           f"({ev_cat.get('culture', 0) / max(1, n):.1%})")
 
+    states = Counter(i["state"] for i in items.values() if i["state"])
     check("states covered", len(states) >= 30,
           f"{len(states)} states/UTs, largest {states.most_common(1)[0][0]} "
           f"at {states.most_common(1)[0][1]:,}")
