@@ -6,6 +6,29 @@ Live task tracker for the current build push. Updated as work lands.
 
 ## Done
 
+- [x] **Hero videos were being played at a fraction of their size** — the
+      Trip Planner's full-screen hero was a **640×360** file stretched across
+      the viewport, a 1.86× upscale, and the home page's 360° card was the
+      same; one home hero slide was 720p. The stock CDN's own 1080p masters
+      of these run 22–106MB, so a swapped URL would have traded blur for a
+      hero that takes a minute to arrive. They are re-encoded to 1600×900 and
+      self-hosted at 2.3–5.5MB: on a scrimmed background the pixels above
+      1600 are invisible, but they cost a third of the bitrate, and it is
+      resolution the eye reads as sharpness rather than bitrate. Posters now
+      come from each clip's own first frame, so a hero no longer cuts from an
+      unrelated stock photograph to the footage.
+      Checked and left alone: the Hidden Gems hero. A 1600/CRF26 re-encode
+      was indistinguishable from the shipped 1080p/CRF32 at display size and
+      would have nearly doubled the file. Still lower-resolution and not
+      addressed: the two auth screens (720p) and Google Earth (960×540)
+- [x] **Toolkit cards show India, and show what they do** — Flight Tracker was
+      an anonymous wing over anonymous cloud, Document Vault was a hillside
+      with a stupa on it (neither a document nor a vault), and Safar Groups
+      was four Western friends against a Western sunset. Now: a wing over the
+      Himalaya, the Republic of India passport, and the Red Fort colonnade.
+      The Taj was also losing its dome to a centre crop on a wide short card,
+      so cards can now carry a focal point
+
 - [x] **README rewritten around Srishti** — the front page never mentioned her,
       which left the most distinctive thing in the product invisible to anyone
       reading the repo. She now leads it: what she is, the nine Indian

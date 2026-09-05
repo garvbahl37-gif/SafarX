@@ -51,7 +51,7 @@ const SLIDES = [
  titleAccent: "history itself",
  description:
  "Dusk over the Ganga, five thousand years deep. Walk the ghats in 360° before your boat ever touches the water.",
- url: "https://videos.pexels.com/video-files/31033220/13263909_1280_720_60fps.mp4",
+ url: "/media/hero-ladakh.mp4",
  poster: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=160&auto=format&fit=crop&q=60",
  },
@@ -156,7 +156,7 @@ const TOOLKIT = [
  title: "Safar Groups",
  desc: "Plan group trips and split the logistics, not the fun.",
  icon: Users,
- image: "https://images.unsplash.com/photo-1604230006726-d288206e60ab?w=1400&auto=format&fit=crop&q=80",
+ image: "https://images.unsplash.com/photo-1519955266818-0231b63402bc?w=1400&auto=format&fit=crop&q=80",
  span: "md:col-span-2",
  },
  {
@@ -864,7 +864,8 @@ const HomePage = ({ onPageChange, onAskSrishti }) => {
  loop
  playsInline
  className="w-full h-full object-cover video-crisp"
- src="https://videos.pexels.com/video-files/34456655/14600241_640_360_30fps.mp4"
+ src="/media/taj-window.mp4"
+ poster="/media/taj-window-poster.jpg"
  />
  <div className="absolute inset-0 bg-ink-950/58" />
  <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-transparent to-ink-950" />
