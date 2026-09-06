@@ -666,3 +666,19 @@ textarea.bg-transparent:focus {
      gets there without the sweep. */
   .toast-ring { animation-name: none; stroke-dashoffset: var(--c); }
 }
+
+/* ── Map basemap ──────────────────────────────────────────────────────────
+   OpenStreetMap tiles, darkened to match the app.
+
+   CARTO's dark basemap was free and is not any more: every tile now returns
+   stamped "API KEY REQUIRED" in white across the middle. It still answers with
+   HTTP 200 and a valid PNG, which is why nothing caught it — the map looked
+   like it worked right up until somebody looked at it.
+
+   OSM's own tiles need no key. They are light, and a light map inside a dark
+   app is worse than no map, so they are inverted here: invert plus a 180deg
+   hue rotation turns the basemap dark while leaving the colours the right way
+   round rather than psychedelic. */
+.leaflet-container .sx-dark-tiles {
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.92) saturate(0.55);
+}

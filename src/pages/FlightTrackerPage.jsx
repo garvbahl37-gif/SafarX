@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import DarkTiles from '../components/map/DarkTiles';
 import { Search, Plane, TrainFront, RefreshCw, AlertCircle } from 'lucide-react';
 import JourneyStrip from '../components/tracker/JourneyStrip';
 import { useLiveTrain, haltsOf } from '../hooks/useLiveTrain';
@@ -306,10 +307,7 @@ const FlightResult = ({ data }) => {
             center={points[0]} zoom={4} scrollWheelZoom={false}
             style={{ height: 340, width: '100%', background: '#061412' }}
           >
-            <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-              attribution='&copy; OpenStreetMap &copy; CARTO'
-            />
+            <DarkTiles />
             <Polyline positions={points} pathOptions={{ color: '#D4A843', weight: 1.5, dashArray: '5 7', opacity: 0.75 }} />
             {points.map((p, i) => <Marker key={i} position={p} icon={MARKER} />)}
             {live && <Marker position={[live.lat, live.lng]} icon={MARKER} />}
