@@ -168,11 +168,27 @@ const trackFlight = async (req, res) => {
 
   const flights = (body.data || []).map(shapeFlight).filter((f) => f.number);
   if (!flights.length) {
-    return res.status(404).json({ error: `Nothing scheduled for ${number} right now.` });
+    /* Say why, not just that. Aviation Stack only knows flights inside a
+       window around today, so a perfectly real flight number returns nothing
+       when it is not flying — which reads as a broken app rather than an
+       empty schedule. */
+    return res.status(404).json({
+      error: `No scheduled leg for ${number} today.`,
+      hint: "Flight data covers roughly today and tomorrow, so a number that is not flying right now comes back empty. Try one that is currently in the air.",
+    });
   }
 
   /* Newest first, so today's leg leads rather than last week's. */
   flights.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+
+  /* Aviation Stack answers a codeshare with the operating carrier's number, so
+     asking for 6E2341 comes back as VS8668 and the page showed a Virgin
+     Atlantic flight to somebody who typed an IndiGo one. Carry the number that
+     was asked for, so the interface can say which is which instead of quietly
+     swapping one for the other. */
+  for (const f of flights) {
+    if (f.number && f.number !== number) f.requestedAs = number;
+  }
   res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
   return res.status(200).json({ flights, liveDataAvailable: flights.some((f) => f.live && !f.live.estimated) });
 };

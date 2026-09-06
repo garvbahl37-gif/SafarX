@@ -79,22 +79,36 @@ const FlightTrackerPage = () => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [errorHint, setErrorHint] = useState(null);
   const resultRef = useRef(null);
 
-  const placeholder = mode === 'flight' ? 'AI 302, 6E 2341, UK 995' : '12951, 12009, 22691';
+  /* One example, not three. The old placeholder offered "AI 302, 6E 2341,
+     UK 995" and UK 995 is not scheduled most days — so the app suggested a
+     flight number that returns nothing, and the map never appeared for anyone
+     who took it at its word. */
+  const placeholder = mode === 'flight' ? 'Flight number, e.g. AI302' : 'Train number, e.g. 12951';
 
   const track = useCallback(async (raw) => {
     const value = String(raw ?? '').trim().toUpperCase().replace(/\s+/g, '');
     if (!value) return;
     setLoading(true);
     setError(null);
+    setErrorHint(null);
     setResult(null);
 
     try {
       if (mode === 'flight') {
         const res = await fetch(`/api/flights/track?flight=${encodeURIComponent(value)}`);
         const body = await res.json();
-        if (!res.ok) throw new Error(body.error || 'That flight could not be found.');
+        if (!res.ok) {
+          /* The API explains WHY a real flight number can come back empty.
+             Throwing away that hint left the page saying only that nothing was
+             found, which reads as a fault in the app rather than an empty
+             schedule. */
+          const err = new Error(body.error || 'That flight could not be found.');
+          err.hint = body.hint || null;
+          throw err;
+        }
         setResult({ kind: 'flight', flight: body.flights[0], alternates: body.flights.slice(1) });
       } else {
         /* The train view keeps itself current, so the page only has to
@@ -103,6 +117,7 @@ const FlightTrackerPage = () => {
       }
     } catch (err) {
       setError(err.message || 'Nothing came back. Try again in a moment.');
+      setErrorHint(err.hint || null);
     } finally {
       setLoading(false);
     }
@@ -218,7 +233,14 @@ const FlightTrackerPage = () => {
               role="alert"
             >
               <AlertCircle size={17} className="mt-0.5 shrink-0 text-danger-bright" />
-              <p className="font-sans text-[14px] text-ivory">{error}</p>
+              <div>
+                <p className="font-sans text-[14px] text-ivory">{error}</p>
+                {errorHint && (
+                  <p className="mt-1.5 font-sans text-[13px] leading-relaxed text-ivory-muted">
+                    {errorHint}
+                  </p>
+                )}
+              </div>
             </motion.div>
           )}
 
@@ -249,6 +271,16 @@ const FlightResult = ({ data }) => {
       transition={{ duration: 0.45, ease: EASE }}
       className="space-y-5"
     >
+      {data.requestedAs && (
+        /* Asked for one number, given another: Aviation Stack answers a
+           codeshare with the operating carrier's flight. Saying so is the
+           difference between a useful answer and an apparently wrong one. */
+        <p className="font-sans text-[13px] text-ivory-muted">
+          {data.requestedAs} is operated as {data.number}
+          {data.airline?.name ? ` by ${data.airline.name}` : ''}.
+        </p>
+      )}
+
       <JourneyStrip
         mode="flight"
         code={data.number}
