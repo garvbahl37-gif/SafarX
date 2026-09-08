@@ -53,9 +53,29 @@ export default async function handler(req, res) {
   const { data, error } = await db
     .from("documents")
     .insert({ user_id: userId, name, type: type || "Other", path, size: size || 0 })
-    .select("id")
+    .select("id, name, type, size, uploaded_at")
     .single();
 
   if (error) return send(res, 500, { error: error.message });
-  return send(res, 201, { success: true, id: data.id });
+
+  /* Hand back the finished row in the same shape GET uses, signed URL and
+     all. The browser used to re-fetch the whole vault after every upload,
+     which meant another round trip and a fresh signature for every document
+     already on screen, purely to learn about the one just added. */
+  const { data: signed } = await db.storage
+    .from(BUCKET)
+    .createSignedUrl(path, SIGNED_URL_TTL);
+
+  return send(res, 201, {
+    success: true,
+    id: data.id,
+    document: {
+      _id: data.id,
+      name: data.name,
+      type: data.type,
+      size: data.size,
+      uploadedAt: data.uploaded_at,
+      url: signed?.signedUrl || null,
+    },
+  });
 }

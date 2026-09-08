@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useUser, useAuth } from '@clerk/clerk-react';
 import { getDocuments, uploadDocument, deleteDocument } from '../services/documentService';
+import { compressImage, formatBytes } from '../utils/compressImage';
 
 const docTypes = [
   'Passport', 'Visa', 'Aadhaar Card', 'Vaccination Certificate',
@@ -24,6 +25,13 @@ export default function DocumentVault() {
   const [deletingId, setDeletingId] = useState(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [uploadError, setUploadError] = useState('');
+  /* null until the bytes start moving, then 0-1. Kept separate from `loading`
+     so the button can say "Preparing" while the photograph is being shrunk
+     and show a real percentage once it is actually being sent. */
+  const [progress, setProgress] = useState(null);
+  /* What the compression saved, so the panel can say so rather than silently
+     uploading something different from what was chosen. */
+  const [shrunk, setShrunk] = useState(null);
   // If auth never finishes loading (e.g. no Clerk key configured), fall
   // through to the signed-out state instead of spinning forever.
   const [authTimedOut, setAuthTimedOut] = useState(false);
@@ -53,16 +61,37 @@ export default function DocumentVault() {
     if (!file || !name) return;
     setLoading(true);
     setUploadError('');
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('name', name);
-    formData.append('type', type === 'Other' ? customType || 'Other' : type);
+    setProgress(null);
+    setShrunk(null);
 
     try {
+      /* Shrink first. A passport photographed on a phone is several megabytes
+         of detail nobody needs to read a document number, and on hotel wifi
+         those bytes are the entire wait — the three API calls around them are
+         a few hundred milliseconds together. PDFs and already-small files are
+         passed through untouched by compressImage. */
+      const sending = await compressImage(file);
+      if (sending !== file) setShrunk({ from: file.size, to: sending.size });
+
+      const formData = new FormData();
+      formData.append('file', sending);
+      formData.append('name', name);
+      formData.append('type', type === 'Other' ? customType || 'Other' : type);
+
       const token = await getToken();
       if (!token) throw new Error('No authentication token found');
-      await uploadDocument(formData, token);
-      loadDocuments();
+
+      setProgress(0);
+      const saved = await uploadDocument(formData, token, setProgress);
+
+      /* Add the row the server just handed back instead of re-fetching the
+         whole vault. The refetch cost another round trip and a fresh signed
+         URL for every document already on screen, to learn about one. */
+      if (saved?.document) {
+        setDocs((current) => [saved.document, ...current]);
+      } else {
+        loadDocuments();
+      }
       resetForm();
       setShowUploadModal(false);
     } catch (err) {
@@ -73,6 +102,7 @@ export default function DocumentVault() {
       setUploadError(err?.message || "The upload didn't go through — try again.");
     } finally {
       setLoading(false);
+      setProgress(null);
     }
   };
 
@@ -82,6 +112,8 @@ export default function DocumentVault() {
     setCustomType('');
     setType('Passport');
     setUploadError('');
+    setProgress(null);
+    setShrunk(null);
   };
 
   const handleDelete = async (id) => {
@@ -415,6 +447,31 @@ export default function DocumentVault() {
                     </p>
                   )}
 
+                  {/* Says plainly that the stored copy is not the original
+                      file, and by how much — a vault that quietly swaps your
+                      document for a smaller one should at least admit it. */}
+                  {shrunk && (
+                    <p className="font-data text-[10px] uppercase tracking-[0.14em] text-ivory-faint">
+                      Resized for upload · {formatBytes(shrunk.from)} → {formatBytes(shrunk.to)}
+                    </p>
+                  )}
+
+                  {progress !== null && (
+                    <div
+                      className="h-1 w-full overflow-hidden rounded-full bg-white/[0.08]"
+                      role="progressbar"
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={Math.round(progress * 100)}
+                      aria-label="Upload progress"
+                    >
+                      <div
+                        className="h-full rounded-full bg-saffron transition-[width] duration-200 ease-out"
+                        style={{ width: `${Math.max(4, progress * 100)}%` }}
+                      />
+                    </div>
+                  )}
+
                   <button
                     type="submit"
                     disabled={loading || !file || !name}
@@ -423,7 +480,14 @@ export default function DocumentVault() {
                     {loading ? (
                       <span className="flex items-center justify-center gap-2.5">
                         <span className="w-4 h-4 border-2 border-ink-950/40 border-t-ink-950 rounded-full animate-spin" aria-hidden="true" />
-                        Saving to vault…
+                        {/* Three states, because they take visibly different
+                            lengths of time and a single spinner made the whole
+                            thing read as stuck. */}
+                        {progress === null
+                          ? 'Preparing…'
+                          : progress < 1
+                            ? `Saving to vault… ${Math.round(progress * 100)}%`
+                            : 'Almost done…'}
                       </span>
                     ) : (
                       'Save to vault'

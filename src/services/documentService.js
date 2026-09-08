@@ -25,10 +25,35 @@ export const getDocuments = async (token) => {
 };
 
 /**
+ * Send the bytes with XMLHttpRequest rather than fetch.
+ *
+ * Only XHR reports how far a request body has got. The upload is the long
+ * part of storing a document, and without progress the panel sat on a spinner
+ * for however many seconds it took, which reads as broken rather than busy.
+ */
+const putWithProgress = (url, file, onProgress) =>
+  new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("PUT", url);
+    xhr.setRequestHeader("Content-Type", file.type || "application/octet-stream");
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress?.(e.loaded / e.total);
+    };
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300
+        ? resolve()
+        : reject(new Error("The file could not be stored. Try again."));
+    xhr.onerror = () => reject(new Error("The connection dropped while storing the file."));
+    xhr.onabort = () => reject(new Error("The upload was cancelled."));
+    xhr.send(file);
+  });
+
+/**
  * @param {FormData} formData with `file`, `name` and `type`
  * @param {string} token a Clerk session token
+ * @param {(fraction: number) => void} [onProgress] 0-1, over the byte transfer
  */
-export const uploadDocument = async (formData, token) => {
+export const uploadDocument = async (formData, token, onProgress) => {
   const file = formData.get("file");
   const name = formData.get("name");
   const type = formData.get("type");
@@ -46,14 +71,11 @@ export const uploadDocument = async (formData, token) => {
   const { path, signedUrl } = await ticketRes.json();
 
   // 2. Send the bytes straight to storage, not through the API.
-  const putRes = await fetch(signedUrl, {
-    method: "PUT",
-    headers: { "Content-Type": file.type || "application/octet-stream" },
-    body: file,
-  });
-  if (!putRes.ok) throw new Error("The file could not be stored. Try again.");
+  await putWithProgress(signedUrl, file, onProgress);
 
-  // 3. Record it.
+  // 3. Record it. The response carries the finished row, including a signed
+  //    URL, so the caller can add it to the list it already has rather than
+  //    re-fetching every document and re-signing every one of their URLs.
   const saveRes = await fetch(API, {
     method: "POST",
     headers: { ...auth, "Content-Type": "application/json" },
