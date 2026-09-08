@@ -110,15 +110,43 @@ const GoogleEarthExplorer = ({ onBack }) => {
   useEffect(() => {
     const titles = SUGGESTED_PLACES.map((p) => p.wiki).join("|");
     fetch(
-      `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(titles)}&prop=pageimages&pithumbsize=400&format=json&origin=*`
+      // `redirects=1` is not optional here. Several of the titles above are
+      // redirects — "Amer Fort" to "Amber Fort", "Nubra Valley" to "Nubra" —
+      // and without it the API answers with the redirect stub, which carries
+      // no pageimage of its own. Those two cards fell through to the globe
+      // placeholder for exactly that reason, while the ten titles that happen
+      // to be articles worked fine.
+      `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(titles)}&prop=pageimages&pithumbsize=400&format=json&redirects=1&origin=*`
     )
       .then((r) => r.json())
       .then((data) => {
         const pages = data?.query?.pages;
         if (!pages) return;
+
+        // Following a redirect means the page comes back under its target
+        // title, not the one we asked for, so the card lookup would miss it.
+        // Walk the redirect chain back to the requested title and key on that.
+        const requested = {};
+        (data?.query?.redirects || []).forEach((r) => {
+          requested[r.to] = r.from;
+        });
+        // Same for the normalisation the API applies to titles it tidies up.
+        (data?.query?.normalized || []).forEach((n) => {
+          requested[n.to] = n.from;
+        });
+
         const thumbMap = {};
         Object.values(pages).forEach((p) => {
-          if (p.thumbnail?.source) thumbMap[p.title] = p.thumbnail.source;
+          if (!p.thumbnail?.source) return;
+          let key = p.title;
+          // A title can be both normalised and redirected, so resolve the
+          // whole chain rather than a single hop.
+          const guard = new Set();
+          while (requested[key] && !guard.has(key)) {
+            guard.add(key);
+            key = requested[key];
+          }
+          thumbMap[key] = p.thumbnail.source;
         });
         setCardThumbs(thumbMap);
       })
