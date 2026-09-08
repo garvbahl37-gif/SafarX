@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { originalFrom } from '../../utils/imageCdn';
 
 /**
@@ -13,12 +14,22 @@ import { originalFrom } from '../../utils/imageCdn';
  *
  * Reduced motion stops the cycling entirely and shows the first frame.
  *
+ * With `controls`, the same stack becomes a carousel someone can drive:
+ * arrows, clickable dots, keyboard and swipe. Reaching for any of them stops
+ * the automatic advance for good — once a reader has taken hold of the
+ * pictures, having them keep moving underneath is the opposite of helpful.
+ * The grid leaves controls off, because a card is for scanning; the detail
+ * view turns them on, because by then someone is actually looking.
+ *
  * @param {string[]} images already-resolved URLs, first one leading
  * @param {number} [interval] ms between frames
+ * @param {boolean} [controls] arrows, dots, keyboard and swipe
  */
-const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 2600, priority = false, className = '' }) => {
+const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 2600, priority = false, controls = false, className = '' }) => {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
+  /* Set the moment anyone steers, and never unset: see the note above. */
+  const [taken, setTaken] = useState(false);
   /* Nothing but the first picture exists until the card has ticked once.
      Mounting the queued and outgoing frames up front tripled the number of
      images the page asks for before it can show anything — 270 requests for
@@ -69,16 +80,62 @@ const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 260
   }, []);
 
   useEffect(() => {
-    if (!cycles || !onScreen) return undefined;
+    if (!cycles || !onScreen || taken) return undefined;
     const id = setInterval(() => {
       setCycled(true);
       setIndex((n) => (n + 1) % frames.length);
     }, interval);
     return () => clearInterval(id);
-  }, [cycles, onScreen, frames.length, interval]);
+  }, [cycles, onScreen, frames.length, interval, taken]);
+
+  /* ── Manual steering ──────────────────────────────────────────────── */
+  const go = useCallback((delta) => {
+    setTaken(true);
+    setCycled(true);            // all three frames mount, so the move dissolves
+    setIndex((i) => (i + delta + n) % n);
+  }, [n]);
+
+  const jumpTo = useCallback((i) => {
+    setTaken(true);
+    setCycled(true);
+    setIndex(i);
+  }, []);
+
+  /* Arrow keys, but only while the pointer is over the picture — otherwise a
+     carousel in a scrolling dialog would swallow the arrows the reader is
+     using to scroll it. */
+  const hovering = useRef(false);
+  useEffect(() => {
+    if (!controls || n < 2) return undefined;
+    const onKey = (e) => {
+      if (!hovering.current) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [controls, n, go]);
+
+  /* Swipe. Tracked on the container rather than the image so a drag that
+     starts on an arrow still counts. */
+  const touchX = useRef(null);
+  const onTouchStart = (e) => { touchX.current = e.touches[0]?.clientX ?? null; };
+  const onTouchEnd = (e) => {
+    if (touchX.current == null) return;
+    const dx = (e.changedTouches[0]?.clientX ?? 0) - touchX.current;
+    touchX.current = null;
+    if (Math.abs(dx) > 45) go(dx < 0 ? 1 : -1);
+  };
 
   return (
-    <div ref={rootRef} className={`relative h-full w-full ${className}`}>
+    <div
+      ref={rootRef}
+      className={`relative h-full w-full ${className}`}
+      onMouseEnter={() => { hovering.current = true; }}
+      onMouseLeave={() => { hovering.current = false; }}
+      onTouchStart={controls ? onTouchStart : undefined}
+      onTouchEnd={controls ? onTouchEnd : undefined}
+    >
       {frames.map((src, i) => (
         /* Only the frame showing and the one after it are in the DOM.
            Stacking all of them put 504 <img> elements on the gems page — six
@@ -146,17 +203,64 @@ const GemThumbnail = ({ images = [], video = null, alt, fallback, interval = 260
         />
       )}
 
+      {/* Arrows, only where the pictures are meant to be driven. */}
+      {controls && n > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); go(-1); }}
+            aria-label="Previous photograph"
+            className="group/nav absolute left-3 top-1/2 z-20 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-ink-950/55 text-ivory backdrop-blur-md transition-colors hover:border-saffron/50 hover:bg-ink-950/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron/60"
+          >
+            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); go(1); }}
+            aria-label="Next photograph"
+            className="group/nav absolute right-3 top-1/2 z-20 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-ink-950/55 text-ivory backdrop-blur-md transition-colors hover:border-saffron/50 hover:bg-ink-950/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron/60"
+          >
+            <ChevronRight className="h-4 w-4" aria-hidden="true" />
+          </button>
+          <span className="absolute bottom-3 left-3 z-20 rounded-full bg-ink-950/55 px-2.5 py-1 font-data text-[10px] tracking-[0.14em] text-ivory/80 backdrop-blur-md">
+            {index + 1} / {n}
+          </span>
+        </>
+      )}
+
       {/* Which frame, for anyone counting. Hidden when there is only one. */}
       {frames.length > 1 && (
-        <span className="absolute bottom-3 right-3 z-10 flex gap-1.5" aria-hidden="true">
-          {frames.map((src, i) => (
-            <span
-              key={src}
-              className={`h-1 rounded-full transition-all duration-500 ${
-                i === index ? 'w-4 bg-ivory/90' : 'w-1 bg-ivory/40'
-              }`}
-            />
-          ))}
+        <span
+          className="absolute bottom-3 right-3 z-20 flex gap-1.5"
+          aria-hidden={controls ? undefined : true}
+        >
+          {frames.map((src, i) =>
+            controls ? (
+              <button
+                key={src}
+                type="button"
+                onClick={(e) => { e.stopPropagation(); jumpTo(i); }}
+                aria-label={`Photograph ${i + 1} of ${n}`}
+                aria-current={i === index ? 'true' : undefined}
+                /* A 1px bar is not a tap target, so the button is padded out
+                   to a usable height and the bar drawn inside it. */
+                className="flex h-4 items-center px-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-saffron/60 rounded"
+              >
+                <span
+                  className={`h-1 rounded-full transition-all duration-500 ${
+                    i === index ? 'w-4 bg-ivory/90' : 'w-1.5 bg-ivory/40 hover:bg-ivory/70'
+                  }`}
+                />
+              </button>
+            ) : (
+              <span
+                key={src}
+                className={`h-1 rounded-full transition-all duration-500 ${
+                  i === index ? 'w-4 bg-ivory/90' : 'w-1 bg-ivory/40'
+                }`}
+              />
+            )
+          )}
         </span>
       )}
     </div>

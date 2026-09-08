@@ -86,6 +86,30 @@ const CATEGORY_LABELS = {
   wildlife: "Wildlife",
   cave: "Caves",
   eatery: "Classic tables",
+  dish: "Dishes",
+};
+
+/* The detail rows carry the same six fields for every gem, but the words
+   around them only make sense for a place. For a dish the same slots hold
+   when it is made, where to eat it, and what is in it — so the labels change
+   and the data does not. */
+const DETAIL_LABELS = {
+  default: {
+    significance: "Why it matters",
+    season: "Best time to visit",
+    reach: "Getting there",
+    tips: "Local tips",
+    ground: "On the ground",
+    extra: "Connectivity",
+  },
+  dish: {
+    significance: "Why it matters",
+    season: "When to eat it",
+    reach: "Where to find it",
+    tips: "How to eat it",
+    ground: "What's in it",
+    extra: "Good to know",
+  },
 };
 
 const REGION_LABELS = {
@@ -111,6 +135,10 @@ const HiddenGemsPage = ({ onPageChange }) => {
   const [picked, setPicked] = useState(null);
 
   const cardRefs = useRef(new Map());
+
+  /* Which set of words the six detail rows use — see DETAIL_LABELS. */
+  const detailLabels =
+    DETAIL_LABELS[openGem?.category] || DETAIL_LABELS.default;
 
   const { addBookmark, removeBookmark, isBookmarked } = useBookmarks();
 
@@ -676,6 +704,7 @@ const HiddenGemsPage = ({ onPageChange }) => {
                   alt={`${openGem.title}, ${openGem.location}`}
                   fallback={FALLBACK_IMAGE}
                   interval={4200}
+                  controls
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/30 to-transparent" />
                 <button
@@ -726,32 +755,32 @@ const HiddenGemsPage = ({ onPageChange }) => {
                 <div className="grid sm:grid-cols-2 gap-4 mb-8">
                   <DetailBlock
                     icon={Landmark}
-                    label="Why it matters"
+                    label={detailLabels.significance}
                     text={openGem.cultural_significance}
                   />
                   <DetailBlock
                     icon={Calendar}
-                    label="Best time to visit"
+                    label={detailLabels.season}
                     text={openGem.best_time_visit}
                   />
                   <DetailBlock
                     icon={Route}
-                    label="Getting there"
+                    label={detailLabels.reach}
                     text={openGem.how_to_reach}
                   />
                   <DetailBlock
                     icon={Lightbulb}
-                    label="Local tips"
+                    label={detailLabels.tips}
                     text={openGem.local_tips}
                   />
                   <DetailBlock
                     icon={Footprints}
-                    label="On the ground"
+                    label={detailLabels.ground}
                     text={openGem.accessibility}
                   />
                   <DetailBlock
                     icon={Signal}
-                    label="Connectivity"
+                    label={detailLabels.extra}
                     text={openGem.connectivity}
                   />
                 </div>
