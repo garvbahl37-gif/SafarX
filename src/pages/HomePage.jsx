@@ -393,6 +393,27 @@ const HomePage = ({ onPageChange, onAskSrishti }) => {
  </motion.div>
  </motion.div>
  </AnimatePresence>
+ {/* The next slide's film, fetched while this one is still playing.
+ 
+     Only the active slide is mounted, so each rotation started its video
+     from cold and the poster sat there — a photograph, then a jump to
+     motion, every few seconds. Pulling the next one an interval early
+     means it is decoded before it is needed and the poster underneath
+     never gets its chance to show.
+ 
+     Hidden rather than absent: a browser will not preload what is not in
+     the document, and display:none lets it skip the fetch entirely. */}
+ <video
+   key={`preload-${(activeSlide + 1) % SLIDES.length}`}
+   src={SLIDES[(activeSlide + 1) % SLIDES.length].url}
+   preload="auto"
+   muted
+   playsInline
+   aria-hidden="true"
+   tabIndex={-1}
+   className="pointer-events-none absolute h-px w-px opacity-0"
+ />
+ 
  {/* Legibility scrims — bottom-heavy, teal-tinted */}
  <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/40 to-ink-950/25" />
  <div className="absolute inset-0 bg-gradient-to-r from-ink-950/65 via-ink-950/10 to-transparent" />
@@ -674,8 +695,7 @@ const HomePage = ({ onPageChange, onAskSrishti }) => {
  muted
  loop
  playsInline
- preload="metadata"
- poster="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&auto=format&fit=crop&q=75"
+ preload="auto"
  className="absolute inset-0 w-full h-full object-cover video-crisp"
  /* A different angle on the Taj from the one the hero opens with.
     Both were the same three-second clip, so scrolling this page played
@@ -865,7 +885,6 @@ const HomePage = ({ onPageChange, onAskSrishti }) => {
  playsInline
  className="w-full h-full object-cover video-crisp"
  src="/media/taj-window.mp4"
- poster="/media/taj-window-poster.jpg"
  />
  <div className="absolute inset-0 bg-ink-950/58" />
  <div className="absolute inset-0 bg-gradient-to-b from-ink-950 via-transparent to-ink-950" />

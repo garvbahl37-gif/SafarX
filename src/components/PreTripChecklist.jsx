@@ -325,8 +325,7 @@ const PreTripChecklist = () => {
           muted
           loop
           playsInline
-          preload="metadata"
-          poster="https://images.unsplash.com/photo-1553531384-cc64ac80f931?w=1600&auto=format&fit=crop&q=70"
+          preload="auto"
           src="https://videos.pexels.com/video-files/8197681/8197681-hd_1920_1080_30fps.mp4"
           className="h-full w-full object-cover object-center opacity-[0.5] video-crisp"
         />

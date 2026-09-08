@@ -328,8 +328,7 @@ const HiddenGemsPage = ({ onPageChange }) => {
             loop
             muted
             playsInline
-            preload="metadata"
-            poster="/media/gems-hero-poster.jpg"
+            preload="auto"
             className="absolute top-1/2 left-1/2 w-[177.77vh] min-w-full min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 object-cover video-crisp"
           >
             <source src="/media/gems-hero.mp4" type="video/mp4" />

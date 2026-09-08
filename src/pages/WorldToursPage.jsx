@@ -27,6 +27,7 @@ import vrTours from "../data/vrTours.json";
 import PanoramaViewer from "../components/vr/PanoramaViewer";
 import TourStory from "../components/vr/TourStory";
 import { cdnImageCropped, originalFrom } from "../utils/imageCdn";
+import LoopVideo from '../components/media/LoopVideo';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -460,15 +461,17 @@ const WorldToursPage = ({ onPageChange, setIsImmersiveMode, selectedItem }) => {
                             only pushes the centred copy clear of the overlaid
                             mode switcher, which sits at 104–156px. */}
                         <section className="relative isolate flex min-h-[62vh] items-center justify-center overflow-hidden pt-24 md:min-h-[72vh] md:pt-28">
-                            <video
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                preload="metadata"
-                                poster={HERO_POSTER}
+                            {/* Cross-faded rather than looped.
+                                `loop` cuts from the last frame back to the
+                                first, and this clip does not end where it
+                                begins — so every twelve seconds the picture
+                                jumped and read as the video restarting. Two
+                                stacked copies handing over to each other turn
+                                that cut into a dissolve. Same URL, so the
+                                second costs a cache hit rather than a
+                                download. */}
+                            <LoopVideo
                                 src={HERO_VIDEO}
-                                aria-hidden="true"
                                 className="absolute inset-0 -z-10 h-full w-full object-cover video-crisp"
                             />
                             <div
