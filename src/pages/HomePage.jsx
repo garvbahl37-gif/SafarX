@@ -38,7 +38,7 @@ const SLIDES = [
  titleAccent: "begins here",
  description:
  "Sunrise over the Taj. Preview India's heritage in immersive 360°, plan with AI, and carry everything you need in one place.",
- url: "https://videos.pexels.com/video-files/38264084/16247021_1920_1080_60fps.mp4",
+ url: "/media/hero-taj.mp4",
  thumb: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=160&auto=format&fit=crop&q=60",
  },
  {
