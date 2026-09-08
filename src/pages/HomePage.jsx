@@ -38,8 +38,7 @@ const SLIDES = [
  titleAccent: "begins here",
  description:
  "Sunrise over the Taj. Preview India's heritage in immersive 360°, plan with AI, and carry everything you need in one place.",
- url: "https://videos.pexels.com/video-files/19717370/19717370-hd_1920_1080_30fps.mp4",
- poster: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&auto=format&fit=crop&q=70",
+ url: "https://videos.pexels.com/video-files/38264084/16247021_1920_1080_60fps.mp4",
  thumb: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=160&auto=format&fit=crop&q=60",
  },
  {
@@ -52,7 +51,6 @@ const SLIDES = [
  description:
  "Dusk over the Ganga, five thousand years deep. Walk the ghats in 360° before your boat ever touches the water.",
  url: "/media/hero-ladakh.mp4",
- poster: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=160&auto=format&fit=crop&q=60",
  },
  {
@@ -65,7 +63,6 @@ const SLIDES = [
  description:
  "Houseboats, palm canals, and slow water. Compare stays and seasons before you book a single night.",
  url: "https://videos.pexels.com/video-files/38298494/16262224_1920_1080_60fps.mp4",
- poster: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=160&auto=format&fit=crop&q=60",
  },
  {
@@ -78,7 +75,6 @@ const SLIDES = [
  description:
  "Mist over the high Himalaya. Scout altitude, weather, and routes in VR before you commit to the climb.",
  url: "https://videos.pexels.com/video-files/30152886/12929642_1920_1080_30fps.mp4",
- poster: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=160&auto=format&fit=crop&q=60",
  },
  {
@@ -91,7 +87,6 @@ const SLIDES = [
  description:
  "Jaipur's streets at dusk — forts above, markets below. Local insights that guidebooks miss, from people who live there.",
  url: "https://videos.pexels.com/video-files/37056813/15698517_1920_1080_50fps.mp4",
- poster: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=160&auto=format&fit=crop&q=60",
  },
 ];
