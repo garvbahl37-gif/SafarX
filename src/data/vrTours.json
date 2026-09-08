@@ -4282,5 +4282,165 @@
         }
       ]
     }
+  },
+  {
+    "id": "india-gate",
+    "name": "India Gate, Delhi",
+    "country": "Delhi, India",
+    "category": "Heritage",
+    "latitude": 28.6129,
+    "longitude": 77.2295,
+    "thumbnail": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Early_Morning_view_of_India_Gate_Delhi.jpg/1280px-Early_Morning_view_of_India_Gate_Delhi.jpg",
+    "description": "Lutyens' war memorial on Kartavya Path, carrying the names of 13,300 dead.",
+    "highlights": [
+      "Kartavya Path",
+      "The memorial arch",
+      "Netaji's canopy"
+    ],
+    "gradient": "from-amber-100 via-stone-200 to-emerald-100",
+    "duration": "3:30",
+    "views": "2.4M",
+    "panoramaSource": "streetview",
+    "streetView": {
+      "radius": 300,
+      "limit": 6
+    },
+    "story": {
+      "tagline": "A memorial arch at the end of a ceremonial mile.",
+      "intro": "India Gate stands at the eastern end of Kartavya Path, a forty-two metre arch of Bharatpur sandstone on a low plinth, with lawns and water channels running away from it towards Rashtrapati Bhavan. It is a war memorial rather than a triumphal arch, and the difference is written on it: the whole surface is names.",
+      "history": "Edwin Lutyens designed it as the All India War Memorial, and the Duke of Connaught laid the foundation stone in 1921; it was completed in 1931, the year New Delhi was inaugurated as the capital. It commemorates around 70,000 soldiers of the Indian Army who died in the First World War and the Third Anglo-Afghan War, with 13,300 names inscribed on its faces. The Amar Jawan Jyoti, added beneath the arch in 1972 after the 1971 war, burned there until January 2022, when the flame was merged with the one at the National War Memorial nearby. The empty canopy behind the arch held a statue of George V until 1968; a statue of Subhas Chandra Bose was installed in it in 2022, the same year Rajpath was renamed Kartavya Path.",
+      "visiting": {
+        "bestTime": "October to March",
+        "hours": "Open at all hours; the arch is lit after dark",
+        "duration": "An hour, longer if you walk the length of Kartavya Path",
+        "nearestAirport": "Indira Gandhi International (DEL), 16 km",
+        "nearestStation": "New Delhi (NDLS), 5 km"
+      },
+      "seeThis": [
+        {
+          "title": "The inscribed names",
+          "detail": "13,300 of them, cut into every face of the arch. Worth walking all the way round rather than photographing the front."
+        },
+        {
+          "title": "Kartavya Path",
+          "detail": "The ceremonial axis west towards Rashtrapati Bhavan, lined with lawns and canals. The Republic Day parade comes down it."
+        },
+        {
+          "title": "The canopy",
+          "detail": "Lutyens' domed chhatri behind the arch, empty for over fifty years and now holding a statue of Subhas Chandra Bose."
+        },
+        {
+          "title": "The lawns after dark",
+          "detail": "The lit arch and the ice-cream carts are as much the experience as the monument."
+        }
+      ],
+      "tips": [
+        "The lawns are busiest on winter evenings and on Sundays — go early morning for the arch to yourself.",
+        "The Amar Jawan Jyoti flame is no longer here; the eternal flame now burns at the National War Memorial, a short walk east.",
+        "Vehicles cannot stop on the hexagon around the arch. Park towards the National War Memorial and walk."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/India_Gate_Sunset.jpg/960px-India_Gate_Sunset.jpg",
+          "caption": "The arch at sunset",
+          "credit": "Vinitsharma98 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/India_Gate_on_an_evening.jpg/960px-India_Gate_on_an_evening.jpg",
+          "caption": "Evening on the lawns",
+          "credit": "Deepak TL — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Neu-Delhi_2017-12-27d.jpg/960px-Neu-Delhi_2017-12-27d.jpg",
+          "caption": "Looking down Kartavya Path",
+          "credit": "Rabe! — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Talking_with_clouds_-_The_India_gate.jpg/960px-Talking_with_clouds_-_The_India_gate.jpg",
+          "caption": "Cloud over the memorial",
+          "credit": "Akhyar08 — CC BY-SA 4.0 · Wikimedia Commons"
+        }
+      ]
+    }
+  },
+  {
+    "id": "manali",
+    "name": "Manali, Himachal",
+    "country": "Himachal Pradesh, India",
+    "category": "Nature",
+    "latitude": 32.2432,
+    "longitude": 77.1892,
+    "thumbnail": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Snow_Rohtang_Range_Manali_May24_A7CR_00128.jpg/1280px-Snow_Rohtang_Range_Manali_May24_A7CR_00128.jpg",
+    "description": "A Beas valley town at 2,050 m, and the road-head for Lahaul, Spiti and Leh.",
+    "highlights": [
+      "Hadimba Devi Temple",
+      "Old Manali",
+      "The Rohtang range"
+    ],
+    "gradient": "from-sky-200 via-emerald-100 to-stone-100",
+    "duration": "4:00",
+    "views": "3.1M",
+    "panoramaSource": "streetview",
+    "streetView": {
+      "radius": 320,
+      "limit": 6
+    },
+    "story": {
+      "tagline": "Where the Kullu valley runs out and the passes begin.",
+      "intro": "Manali sits at about 2,050 metres on the Beas, at the head of the Kullu valley, with deodar forest on the slopes above it and snow on the Rohtang range to the north. It is two towns really: the bazaar and Mall Road on the valley floor, and Old Manali across the river, quieter and steeper. For most travellers it is also a road-head — the last proper town before Lahaul, Spiti and the long drive to Leh.",
+      "history": "The name is usually traced to Manu, the lawgiver of Hindu tradition, said to have stepped ashore here after the flood; the temple at Old Manali is dedicated to him. The Hadimba Devi Temple, built in 1553 by Raja Bahadur Singh, is the town's oldest structure — a four-tiered cedar pagoda over a boulder shrine, set in a grove of deodars. Manali stayed a small hill settlement until the roads came: the Kullu valley was opened up through the twentieth century, and Rohtang Pass at 3,978 m became the seasonal gateway north. The Atal Tunnel, opened in October 2020 and 9.02 km long, now runs beneath the pass and keeps Lahaul connected through the winter for the first time.",
+      "visiting": {
+        "bestTime": "March to June, and October to early December",
+        "hours": "The town is always open; Hadimba Devi Temple runs roughly 8am to 6pm",
+        "duration": "Two to three days, more if you go over the pass",
+        "nearestAirport": "Bhuntar (KUU), 50 km",
+        "nearestStation": "Joginder Nagar, 160 km — most arrive by road from Chandigarh or Delhi"
+      },
+      "seeThis": [
+        {
+          "title": "Hadimba Devi Temple",
+          "detail": "1553, cedar, four tiers of pagoda roof over a rock shrine, in a deodar grove a short walk above the town."
+        },
+        {
+          "title": "Old Manali",
+          "detail": "Across the Manalsu bridge — orchards, slate roofs and cafes, on a slope steep enough to be a different place from the bazaar."
+        },
+        {
+          "title": "Solang Valley",
+          "detail": "Thirteen kilometres up the road: paragliding and ropeway in summer, snow in winter."
+        },
+        {
+          "title": "The Atal Tunnel",
+          "detail": "Nine kilometres under Rohtang, and the reason Lahaul no longer closes for six months of the year."
+        }
+      ],
+      "tips": [
+        "Rohtang Pass needs a permit and is shut in winter; the Atal Tunnel does not and is not.",
+        "Mall Road is pedestrianised in the evenings and is where the town actually gathers.",
+        "May and June are peak season and the valley road backs up badly — travel midweek if you can."
+      ],
+      "gallery": [
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Manali_05.jpg/960px-Manali_05.jpg",
+          "caption": "The valley from above the town",
+          "credit": "Gannu03 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Manali_06.jpg/960px-Manali_06.jpg",
+          "caption": "Deodar slopes above the Beas",
+          "credit": "Gannu03 — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Snow_Rohtang_Range_Manali_May24_A7CR_00128.jpg/960px-Snow_Rohtang_Range_Manali_May24_A7CR_00128.jpg",
+          "caption": "The Rohtang range under snow",
+          "credit": "Timothy A. Gonsalves — CC BY-SA 4.0 · Wikimedia Commons"
+        },
+        {
+          "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Manali_night_view.jpg/960px-Manali_night_view.jpg",
+          "caption": "The town after dark",
+          "credit": "Kamalkant0411 — CC0 · Wikimedia Commons"
+        }
+      ]
+    }
   }
 ]
