@@ -38,7 +38,7 @@ const SLIDES = [
  titleAccent: "begins here",
  description:
  "Sunrise over the Taj. Preview India's heritage in immersive 360°, plan with AI, and carry everything you need in one place.",
- url: "https://videos.pexels.com/video-files/19717370/19717370-uhd_3840_2160_30fps.mp4",
+ url: "https://videos.pexels.com/video-files/19717370/19717370-hd_1920_1080_30fps.mp4",
  poster: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=160&auto=format&fit=crop&q=60",
  },
@@ -77,7 +77,7 @@ const SLIDES = [
  titleAccent: "roof of India",
  description:
  "Mist over the high Himalaya. Scout altitude, weather, and routes in VR before you commit to the climb.",
- url: "https://videos.pexels.com/video-files/30152886/12929643_2560_1440_30fps.mp4",
+ url: "https://videos.pexels.com/video-files/30152886/12929642_1920_1080_30fps.mp4",
  poster: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1600&auto=format&fit=crop&q=70",
  thumb: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=160&auto=format&fit=crop&q=60",
  },
@@ -386,7 +386,13 @@ const HomePage = ({ onPageChange, onAskSrishti }) => {
  loop
  playsInline
  preload="auto"
- poster={slide.poster}
+ /* No poster.
+    A poster is a still shown until the video can play, so the hero
+    opened on a photograph and swapped to motion — on the first load
+    and again on every rotation. Two things make dropping it safe:
+    the slide films are 1080p now rather than 4K, so the first frame
+    arrives in a quarter of the time, and the next slide is already
+    being fetched while this one is still playing. */
  className="w-full h-full object-cover video-crisp"
  src={slide.url}
  />
