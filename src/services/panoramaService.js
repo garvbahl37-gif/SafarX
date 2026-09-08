@@ -362,6 +362,10 @@ export async function resolvePanoramaSet({
     //     than a video, so rule #1 holds — it is just painted by Google's
     //     renderer instead of ours, because their terms require that.
     const streetView = getStreetViewConfig({ tourId, latitude, longitude });
+    /* Remembered so Mapillary's failure below cannot masquerade as the cause.
+       A Street View tour with no key has a known, fixable diagnosis, and the
+       viewer already has the right words for it. */
+    const streetViewLacksKey = Boolean(streetView) && !hasGoogleMapsKey();
     if (streetView && hasGoogleMapsKey()) {
         try {
             const found = await findStreetViewVantages(latitude, longitude, {
@@ -386,7 +390,18 @@ export async function resolvePanoramaSet({
     // 3 — no curated image for this site yet, so ask Mapillary for live ones.
     //     A place is worth more than one viewpoint, so take several captures
     //     spread around the site rather than only the closest.
-    const live = await findPanoramasNear(latitude, longitude, { signal, limit: 6 });
+    let live = [];
+    try {
+        live = await findPanoramasNear(latitude, longitude, { signal, limit: 6 });
+    } catch (err) {
+        /* Mapillary is the last resort, and for a tour that has nothing else
+           its failure is the honest answer — so it is rethrown. But for a
+           Street View tour running without a key, Mapillary was never the
+           point: reporting its 500 sends the reader off debugging the wrong
+           service. Fall through to the empty state instead, which the viewer
+           renders as "this tour needs a Google Maps key". */
+        if (!streetViewLacksKey) throw err;
+    }
     if (live.length) return live.map(shapeMapillary);
 
     // 4 — the honest empty state.

@@ -662,13 +662,15 @@ const PanoramaViewer = ({
                         <>
                             No freely licensed 360° image of{" "}
                             {name || "this site"} exists, so this tour is served
-                            by Street View. Add{" "}
+                            by Street View. Set{" "}
                             <code className="font-data text-saffron">
                                 {GOOGLE_MAPS_KEY_ENV}
                             </code>{" "}
-                            to your <code className="font-data">.env</code> file
-                            with the Maps JavaScript API enabled, then restart
-                            the dev server — see{" "}
+                            with the Maps JavaScript API enabled — in{" "}
+                            <code className="font-data">.env</code> locally, and
+                            in the host's environment variables for a deployed
+                            build, since the value is inlined at build time and
+                            a redeploy is needed to pick it up. See{" "}
                             <a
                                 href={GOOGLE_MAPS_CONSOLE_URL}
                                 target="_blank"
