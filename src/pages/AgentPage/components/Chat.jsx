@@ -77,7 +77,61 @@ const inlineMarkdown = (line) =>
         .replace(/(^|[\s(])\*([^*\n]+?)\*(?=[\s.,;:!?)]|$)/g, '$1<em>$2</em>')
         .replace(/`([^`\n]+?)`/g, '<code>$1</code>')
         .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-                 '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+                 '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+        /* The model writes <br> inside table cells to stack times in one box.
+           Escaping turned those into visible &lt;br&gt;, so put the real tag
+           back — a fixed string with no attributes, so nothing is smuggled
+           through by re-allowing it. */
+        .replace(/&lt;br\s*\/?&gt;/gi, '<br />')
+        /* A backslash-escaped mark is meant to be shown, not parsed. Done last
+           so the marks above have already had their turn. */
+        .replace(/\\([\\`*_{}[\]()#+\-.!|])/g, '$1');
+
+/* ── Tables ──────────────────────────────────────────────────────────
+   The model answers fare and timetable questions with a markdown table.
+   Without this they rendered as raw pipes and a row of dashes, which is
+   what the rest of the reply is at pains not to look like. */
+
+const isTableRow = (line) => /^\s*\|.*\|\s*$/.test(line);
+
+/* The row of dashes under the header, which also carries the alignment. */
+const isTableDivider = (line) =>
+    /^\s*\|(?:\s*:?-{2,}:?\s*\|)+\s*$/.test(line);
+
+const splitCells = (line) =>
+    line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim());
+
+const alignmentsFrom = (divider) =>
+    splitCells(divider).map((c) => {
+        const left = c.startsWith(':');
+        const right = c.endsWith(':');
+        if (left && right) return 'center';
+        if (right) return 'right';
+        return null;                       // default; no style attribute
+    });
+
+const renderTable = (header, divider, rows) => {
+    const align = alignmentsFrom(divider);
+    const cell = (tag, text, i) => {
+        const a = align[i];
+        const style = a ? ` style="text-align:${a}"` : '';
+        return `<${tag}${style}>${inlineMarkdown(text)}</${tag}>`;
+    };
+    const head = `<tr>${splitCells(header).map((c, i) => cell('th', c, i)).join('')}</tr>`;
+    const body = rows
+        .map((r) => {
+            const cells = splitCells(r);
+            /* A short row is padded rather than dropped: a ragged table is
+               still more readable than the raw pipes were. */
+            while (cells.length < align.length) cells.push('');
+            return `<tr>${cells.map((c, i) => cell('td', c, i)).join('')}</tr>`;
+        })
+        .join('');
+    /* Wrapped so a wide fare table scrolls inside the bubble instead of
+       stretching the whole conversation. */
+    return `<div class="agent-table-wrap"><table>`
+        + `<thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+};
 
 /**
  * The model answers in markdown — bullet lists, bold day headings, the odd
@@ -96,9 +150,27 @@ const formatMessage = (content) => {
         if (list !== kind) { closeList(); out.push(`<${kind}>`); list = kind; }
     };
 
-    for (const raw of lines) {
-        const line = raw.trimEnd();
+    for (let i = 0; i < lines.length; i += 1) {
+        const line = lines[i].trimEnd();
         if (!line.trim()) { closeList(); continue; }
+
+        /* A table is a header row, a divider, then rows until the block ends.
+           Checked before every inline rule so its pipes are never treated as
+           ordinary text. */
+        if (isTableRow(line) && isTableDivider(lines[i + 1] ?? '')) {
+            closeList();
+            const header = line;
+            const divider = lines[i + 1];
+            const rows = [];
+            let j = i + 2;
+            while (j < lines.length && isTableRow(lines[j])) {
+                rows.push(lines[j]);
+                j += 1;
+            }
+            out.push(renderTable(header, divider, rows));
+            i = j - 1;
+            continue;
+        }
 
         const heading = line.match(/^\s*#{1,4}\s+(.*)$/);
         if (heading) {
