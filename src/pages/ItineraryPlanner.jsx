@@ -138,8 +138,14 @@ const ItineraryPlanner = ({ selectedItem, onAskSrishti }) => {
             loop
             muted
             playsInline
-            preload="metadata"
-            poster="/media/itinerary-hero-poster.jpg"
+            /* No poster, and the file itself preloaded.
+               A poster is a still that sits there until the video is ready to
+               play, and with preload="metadata" the browser fetched only the
+               header — so the first thing anyone saw was a photograph, holding
+               until enough video arrived to replace it. The clip is local and
+               nine megabytes; preloading it means the motion starts straight
+               away and there is no still frame to sit through. */
+            preload="auto"
             className="w-full h-full object-cover video-crisp"
           >
             <source src="/media/itinerary-hero.mp4" type="video/mp4" />

@@ -236,20 +236,29 @@ const LoadingScreen = () => {
                 initial={{ opacity: 0, filter: "blur(14px)" }}
                 animate={{ opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 0.75, ease: EASE_OUT }}
-                className="flex items-baseline gap-1 px-[0.12em]"
+                className="flex items-baseline px-[0.12em]"
               >
-                {"Safar".split("").map((letter, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, y: "0.75em", rotateX: -75 }}
-                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                    transition={{ duration: 0.6, delay: 0.04 + i * 0.055, ease: EASE_OUT }}
-                    style={{ willChange: "transform, opacity", backfaceVisibility: "hidden" }}
-                    className="font-display italic font-medium text-[clamp(3rem,10vw,6.5rem)] leading-none tracking-tight inline-block"
-                  >
-                    {letter}
-                  </motion.span>
-                ))}
+                {/* One word, not five letters.
+                    Fraunces' italic f carries a long swash descender that
+                    sweeps left under the letter beside it. Split into
+                    per-letter inline-blocks with a gap between them, that tail
+                    landed in the empty space instead of under the following a,
+                    and read as a stray mark rather than part of the f — which
+                    is exactly how it looked on the loading screen.
+                    Setting the word as one run puts the kerning back and the
+                    swash where the typeface intends it. The letters no longer
+                    cascade in one at a time; the word arrives together, on the
+                    blur-and-fade the parent already performs, which is a
+                    quieter entrance and a correctly drawn one. */}
+                <motion.span
+                  initial={{ opacity: 0, y: "0.5em" }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.04, ease: EASE_OUT }}
+                  style={{ willChange: "transform, opacity" }}
+                  className="font-display italic font-medium text-[clamp(3rem,10vw,6.5rem)] leading-none tracking-tight inline-block"
+                >
+                  Safar
+                </motion.span>
                 <motion.span
                   initial={{ opacity: 0, scale: 0.35, filter: "blur(16px)" }}
                   animate={{
