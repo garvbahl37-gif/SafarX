@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { placesService } from "../../services/placesService";
 import { EASE, formatCoords } from "./immersiveUtils";
+import LoopVideo from '../media/LoopVideo';
 
 /** Hand-picked Indian starting points. */
 const QUICK_PLACES = [
@@ -29,8 +30,12 @@ export const SearchBar = ({ onSearch, isLoading }) => {
     const dropdownRef = useRef(null);
     const reduce = useReducedMotion();
 
-    const BG_VIDEO_URL =
-        "https://res.cloudinary.com/dnmhqosoa/video/upload/v1772206804/bg7-optimized-4k_blfunq.mp4";
+    /* Served from our own /public rather than Cloudinary: a background nobody
+       waits for should not depend on a third party staying up, and the local
+       copy is inside the same 12MB budget the rest of the app's backdrops keep
+       to. A lit bazaar after dark reads as "the street you are about to walk"
+       far better than the stock cityscape it replaces. */
+    const BG_VIDEO_URL = "/media/vr-street-bazaar.mp4";
 
     useEffect(() => {
         const t = setTimeout(() => ref.current?.focus(), 600);
@@ -110,14 +115,9 @@ export const SearchBar = ({ onSearch, isLoading }) => {
             {/* ── Background layer ── */}
             <div className="absolute inset-0 bg-ink-950 overflow-hidden">
                 {BG_VIDEO_URL && (
-                    <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="auto"
-                        className="absolute inset-0 w-full h-full object-cover opacity-90 video-crisp"
+                    <LoopVideo
                         src={BG_VIDEO_URL}
+                        className="absolute inset-0 w-full h-full object-cover opacity-90 video-crisp"
                     />
                 )}
 

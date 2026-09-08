@@ -33,6 +33,7 @@ import {
   StateNotice,
 } from "./VirtualTour/ImmersiveChrome";
 import { EASE, formatCoords } from "./VirtualTour/immersiveUtils";
+import LoopVideo from './media/LoopVideo';
 
 /** Indian landmarks the orbital view opens with. */
 const SUGGESTED_PLACES = [
@@ -282,8 +283,13 @@ const GoogleEarthExplorer = ({ onBack }) => {
     ? `https://www.google.com/maps?q=${encodeURIComponent(activeQuery)}&t=k&z=17&ie=UTF8&iwloc=&output=embed`
     : "";
 
-  const BG_VIDEO_URL =
-    "https://videos.pexels.com/video-files/32485709/13852725_960_540_50fps.mp4";
+  /* Mysore Palace and its formal gardens on a slow drone push — the frame the
+     headline is actually describing, and one that survives being blown up to
+     fill a hero. The two clips before it did not: a 960x540 remote file, then
+     a Charminar aerial that was mostly haze and grey rooftops. Palace footage
+     holds its colour and its symmetry, so the hero reads as heritage rather
+     than as a city seen through smog. */
+  const BG_VIDEO_URL = "/media/earth-mysore-palace.mp4";
 
   const coordReadout = activeCoords
     ? formatCoords(activeCoords.lat, activeCoords.lng)
@@ -293,17 +299,10 @@ const GoogleEarthExplorer = ({ onBack }) => {
     <div className="relative min-h-screen bg-ink-950 font-sans text-ivory">
       {/* ── Background ── */}
       <div className="absolute inset-0 z-0 overflow-hidden film-grain vignette" aria-hidden="true">
-        {/* Poster shows instantly so the hero is never a black rectangle
-            while a multi-megabyte video negotiates its first frames. */}
         {BG_VIDEO_URL && (
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="absolute inset-0 h-full w-full object-cover opacity-95 video-crisp"
+          <LoopVideo
             src={BG_VIDEO_URL}
+            className="absolute inset-0 h-full w-full object-cover opacity-95 video-crisp"
           />
         )}
 
