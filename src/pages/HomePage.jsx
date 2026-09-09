@@ -30,16 +30,16 @@ import AskSrishti from "../components/ui/AskSrishti";
 
 const SLIDES = [
  {
- id: "kerala",
- ghost: "केरल",
- coords: "9.50° N · 76.34° E",
- place: "Backwaters · Kerala",
- title: "Drift through",
- titleAccent: "God's own country",
+ id: "agra",
+ ghost: "आगरा",
+ coords: "27.17° N · 78.04° E",
+ place: "Taj Mahal · Agra",
+ title: "Every safar",
+ titleAccent: "begins here",
  description:
- "Houseboats, palm canals, and slow water. Compare stays and seasons before you book a single night.",
- url: "/media/hero-kerala.mp4",
- thumb: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=160&auto=format&fit=crop&q=60",
+ "Sunrise over the Taj. Preview India's heritage in immersive 360°, plan with AI, and carry everything you need in one place.",
+ url: "/media/hero-taj.mp4",
+ thumb: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=160&auto=format&fit=crop&q=60",
  },
  {
  id: "varanasi",
@@ -52,6 +52,18 @@ const SLIDES = [
  "Dusk over the Ganga, five thousand years deep. Walk the ghats in 360° before your boat ever touches the water.",
  url: "/media/hero-ladakh.mp4",
  thumb: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=160&auto=format&fit=crop&q=60",
+ },
+ {
+ id: "kerala",
+ ghost: "केरल",
+ coords: "9.50° N · 76.34° E",
+ place: "Backwaters · Kerala",
+ title: "Drift through",
+ titleAccent: "God's own country",
+ description:
+ "Houseboats, palm canals, and slow water. Compare stays and seasons before you book a single night.",
+ url: "https://videos.pexels.com/video-files/38298494/16262224_1920_1080_60fps.mp4",
+ thumb: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=160&auto=format&fit=crop&q=60",
  },
  {
  id: "himalaya",
@@ -76,18 +88,6 @@ const SLIDES = [
  "Jaipur's streets at dusk — forts above, markets below. Local insights that guidebooks miss, from people who live there.",
  url: "https://videos.pexels.com/video-files/37056813/15698517_1920_1080_50fps.mp4",
  thumb: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=160&auto=format&fit=crop&q=60",
- },
- {
- id: "agra",
- ghost: "आगरा",
- coords: "27.17° N · 78.04° E",
- place: "Taj Mahal · Agra",
- title: "Every safar",
- titleAccent: "begins here",
- description:
- "Sunrise over the Taj. Preview India's heritage in immersive 360°, plan with AI, and carry everything you need in one place.",
- url: "/media/hero-taj.mp4",
- thumb: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=160&auto=format&fit=crop&q=60",
  },
 ];
 
