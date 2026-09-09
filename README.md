@@ -102,7 +102,7 @@ Two rules shape the build. **A VR tour is never a video** — no embeds, no vend
 ## 7. Repository Structure
 
 ```text
-SafarX-SIH/
+SafarX/
 ├── README.md
 ├── ROADMAP.md                 # per-owner workstreams, specs, acceptance criteria
 ├── api/                       # Vercel serverless functions
@@ -156,8 +156,8 @@ The product is deployed and can be used directly at **https://safarx-sih.vercel.
 ## 11. Installation
 
 ```bash
-git clone https://github.com/garvbahl37-gif/SafarX-SIH.git
-cd SafarX-SIH
+git clone https://github.com/garvbahl37-gif/SafarX.git
+cd SafarX
 npm install
 ```
 
