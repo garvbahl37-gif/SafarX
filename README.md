@@ -18,6 +18,16 @@ Live: **https://safarx-sih.vercel.app**
 - **Theme:** Travel & Tourism
 - **Team:** Netaji Ninjas
 
+### Team members and roles
+
+| Member | Role | Responsibility on SafarX |
+|---|---|---|
+| **Garv** | Team Leader · AI/ML Engineer | Leads the team. Owns the recommender system — the 185,336-item catalogue, the interaction generator and its validation suite — and the long-tail ranking that pushes lesser-known destinations. |
+| **Aryan** | Core Backend Engineer | The serverless API under `api/` — Srishti's voice and text endpoints, the document vault's signed uploads, and the flights, trains, stays and groups services, with Clerk verification on every call. |
+| **Lucky** | Frontend Engineer | The React application and the "Peacock & Gold" design system — the 360° viewer surface, the trip planner, the hidden-gems catalogue and the Local Insights map. |
+| **Dhruv** | AI/ML Engineer | Gemini integration — itinerary generation from the five-step brief, the chat agent, and Srishti's tool calling over the Gemini Live WebSocket. |
+| **Mehak** | Video & Content Creation | The demo film and product walkthrough, and the written content across the platform — place descriptions, cultural notes and the travel guidance shown on every gem and tour. |
+
 ## 2. Problem Statement
 
 Indian tourism runs on uncertainty. Travellers book monuments, hotels and whole trips sight-unseen, with nothing to go on but a handful of thumbnails and someone else's review. The consequence is concentration: the same dozen names absorb the visitors, the spending and the crowding, while the places a few hours away stay empty — not because they are worse, but because nobody can picture them.
