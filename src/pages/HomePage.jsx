@@ -54,6 +54,18 @@ const SLIDES = [
  thumb: "https://images.unsplash.com/photo-1561359313-0639aad49ca6?w=160&auto=format&fit=crop&q=60",
  },
  {
+ id: "agra",
+ ghost: "आगरा",
+ coords: "27.17° N · 78.04° E",
+ place: "Taj Mahal · Agra",
+ title: "Every safar",
+ titleAccent: "begins here",
+ description:
+ "Sunrise over the Taj. Preview India's heritage in immersive 360°, plan with AI, and carry everything you need in one place.",
+ url: "/media/hero-taj.mp4",
+ thumb: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=160&auto=format&fit=crop&q=60",
+ },
+ {
  id: "himalaya",
  ghost: "हिमालय",
  coords: "34.15° N · 77.58° E",
@@ -76,18 +88,6 @@ const SLIDES = [
  "Jaipur's streets at dusk — forts above, markets below. Local insights that guidebooks miss, from people who live there.",
  url: "https://videos.pexels.com/video-files/37056813/15698517_1920_1080_50fps.mp4",
  thumb: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=160&auto=format&fit=crop&q=60",
- },
- {
- id: "agra",
- ghost: "आगरा",
- coords: "27.17° N · 78.04° E",
- place: "Taj Mahal · Agra",
- title: "Every safar",
- titleAccent: "begins here",
- description:
- "Sunrise over the Taj. Preview India's heritage in immersive 360°, plan with AI, and carry everything you need in one place.",
- url: "/media/hero-taj.mp4",
- thumb: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=160&auto=format&fit=crop&q=60",
  },
 ];
 
