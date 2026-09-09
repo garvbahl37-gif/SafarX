@@ -11,7 +11,7 @@ Live: **https://safarx-sih.vercel.app**
 ## 1. Project Information
 
 - **Project Title:** SafarX — Discover Incredible India
-- **PS ID:** 26204
+- **PS ID:** SIH26204
 - **PS Title:** Student Innovation — boosting the tourism industry, including hotels and travel
 - **Organisation:** AICTE
 - **Category:** Software
@@ -143,11 +143,15 @@ SafarX/
 
 ## 8. Final Presentation
 
-The SIH presentation is kept in the repository where file size allows; otherwise a viewer link is provided.
+**[SafarX — SIH 2026 presentation](https://drive.google.com/file/d/1hqqQfOrrW0rnUZ_0mzg0YzknNsPYcHW4/view?usp=sharing)** (Google Drive)
+
+The deck is hosted on Drive rather than committed, since the file is larger than is comfortable in a git repository.
 
 ## 9. Demo Video
 
-A 4K walkthrough of the platform is recorded and available on request. It covers the 360° tours, the planner, hidden gems, the map, the vault and Srishti.
+**[Watch the demo on YouTube](https://youtu.be/D3WiZ2NqoYU)**
+
+A walkthrough of the whole platform — the 360° tours, the AI trip planner, hidden gems, the Local Insights map, the document vault and Srishti.
 
 ## 10. Screenshots / Prototype Photos
 
