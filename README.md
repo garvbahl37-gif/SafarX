@@ -50,14 +50,16 @@ Two rules shape the build. **A VR tour is never a video** — no embeds, no vend
 ## 5. Technology Stack
 
 - **Frontend:** React 18, Vite 7, Tailwind CSS, Framer Motion, GSAP
-- **3D / Maps:** three.js + React Three Fiber (the 360° viewer), Leaflet + react-leaflet, OSRM (routing)
-- **State / Data:** Zustand, React Query, React Hook Form
+- **3D:** three.js, React Three Fiber, drei — the 360° panorama viewer
+- **Maps:** Leaflet + react-leaflet, OpenStreetMap tiles, OSRM (routing), Photon and Nominatim (geocoding)
 - **Backend:** Vercel Serverless Functions (`api/`), Node
 - **Database & Storage:** Supabase (Postgres + private object storage)
-- **Auth:** Clerk
-- **AI:** Google Gemini — itineraries and chat, and `gemini-3.1-flash-live-preview` for Srishti's voice; Hugging Face
-- **Imagery:** Wikimedia Commons, Mapillary, OpenStreetMap, Google Street View (official Maps JavaScript API)
-- **Data / ML tooling:** Python — pandas, NumPy, scikit-learn (`scripts/recsys/`)
+- **Auth:** Clerk (`@clerk/clerk-react` in the browser, `@clerk/backend` on every serverless call)
+- **AI:** Google Gemini — itineraries and chat, and `gemini-3.1-flash-live-preview` over a WebSocket for Srishti's voice
+- **Imagery:** Wikimedia Commons, Mapillary Graph API, Google Street View (official Maps JavaScript API)
+- **Live data:** AviationStack (flights), RailRadar (trains), OpenWeather
+- **Client utilities:** React Query, axios, jsPDF + html2canvas (itinerary export), qrcode.react, crypto-js
+- **Data tooling:** Python — NumPy, SciPy sparse (`scripts/recsys/`)
 - **Deployment:** Vercel
 
 ## 6. Architecture
