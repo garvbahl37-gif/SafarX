@@ -84,8 +84,17 @@ const SrishtiPanel = ({ open, onClose, onPageChange }) => {
         setState(s2 === "connecting" ? "thinking" : s2);
       },
       // The session assembles each turn; these are whole strings, not deltas.
-      onHeard: (text) => setHeard(text || null),
-      onSaid: (text) => setCaption(text || null),
+      /* A message on screen gives way the moment the conversation picks up
+         again. Errors outrank captions in the panel, so one left standing
+         would hide everything she said after it. */
+      onHeard: (text) => {
+        setHeard(text || null);
+        if (text) setError(null);
+      },
+      onSaid: (text) => {
+        setCaption(text || null);
+        if (text) setError(null);
+      },
       onNavigate: (to, tourId, intent) => {
         setDocked(true);
         // Published before navigating, so the page finds it as it mounts.

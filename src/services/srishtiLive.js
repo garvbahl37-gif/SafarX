@@ -57,6 +57,14 @@ const FLOOR_RISE = 0.0006;   // per frame, toward a louder one (~4s to settle)
    it lets her answer what she has rather than waiting indefinitely. */
 const MAX_UTTERANCE_MS = 20000;
 
+/* After someone stops speaking, something always comes back — at the very
+   least the words she heard, a second or two later and before any answer.
+   When nothing at all does, the turn was lost. Gemini rate-limits this way:
+   rather than hanging up, it can stay connected and silently ignore what it
+   is sent, which looks exactly like her not listening and gives nobody a
+   reason why. */
+const REPLY_TIMEOUT_MS = 12000;
+
 /* Audio arrives over the network in uneven bursts. Starting playback the
    instant the first chunk lands means the second one is late and you hear a
    gap — the flicker in her voice. A short head start absorbs the jitter; long
@@ -143,6 +151,8 @@ export class LiveSession {
     this.userSpeaking = false;
     this.lastLoudAt = 0;
     this.silenceTimer = null;
+    this.replyTimer = null;
+    this.missedReplies = 0;
     /* A fixed threshold suits one microphone and one room. This one settles on
        whatever it hears in the first moments and judges speech against that,
        so a quiet laptop mic is not ignored and a noisy hall is not permanently
@@ -223,6 +233,7 @@ export class LiveSession {
     this.socket.onmessage = (event) => this.#onMessage(event);
     this.socket.onerror = () => this.h.onError?.("I lost the connection. Try again?");
     this.socket.onclose = () => {
+      clearTimeout(this.replyTimer);
       this.h.onState?.("closed");
       this.#teardownAudio();
     };
@@ -251,6 +262,7 @@ export class LiveSession {
   }
 
   #onMessage(event) {
+    this.#alive();
     if (event.data instanceof ArrayBuffer) {
       this.#play(event.data);
       return;
@@ -307,11 +319,22 @@ export class LiveSession {
       case "error":
         this.h.onError?.(msg.message);
         break;
-      case "closed":
-        if (msg.reason === "session-limit") {
+      case "closed": {
+        /* Every way the conversation can end now says so. Only the session
+           limit used to: when Gemini ran out of quota, or dropped the line for
+           any other reason, she simply went quiet — which looks exactly like
+           not listening, and gives nobody anything to do about it. */
+        const why = String(msg.reason || "");
+        if (why === "session-limit") {
           this.h.onError?.("We've been talking a while — tap to start again.");
+        } else if (/^upstream-1011/.test(why) || /exhaust|quota|rate/i.test(why)) {
+          this.h.onError?.("I've had too many conversations just now. Give me a minute, then tap to try again.");
+        } else if (why.startsWith("upstream")) {
+          this.h.onError?.("I lost my connection. Tap to start again.");
         }
+        // "client-left" is them closing the panel: nothing to say.
         break;
+      }
       default:
         break;
     }
@@ -424,6 +447,29 @@ export class LiveSession {
     if (!this.userSpeaking) return;
     this.userSpeaking = false;
     this.#send({ type: "speech-end" });
+    clearTimeout(this.replyTimer);
+    this.replyTimer = setTimeout(() => this.#noReply(), REPLY_TIMEOUT_MS);
+  }
+
+  /** Something came back, so the line is alive. */
+  #alive() {
+    clearTimeout(this.replyTimer);
+    this.replyTimer = null;
+    this.missedReplies = 0;
+  }
+
+  /* Once could be a cough that gave Gemini nothing to answer, so she asks
+     again. Twice running, the line is dead: close it, so the next tap opens
+     a fresh one instead of talking into the same silence. */
+  #noReply() {
+    this.replyTimer = null;
+    this.missedReplies += 1;
+    if (this.missedReplies >= 2) {
+      this.h.onError?.("I've lost the thread. Tap the microphone to start again.");
+      this.stop();
+      return;
+    }
+    this.h.onError?.("I didn't catch that — could you say it again?");
   }
 
   #send(message) {
@@ -469,6 +515,7 @@ export class LiveSession {
 
   stop() {
     clearTimeout(this.silenceTimer);
+    clearTimeout(this.replyTimer);
     this.#flush();
     try {
       this.socket?.close();
