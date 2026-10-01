@@ -522,7 +522,18 @@ const HiddenGemsPage = ({ onPageChange }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.65, delay: (index % 3) * 0.08, ease: EASE }}
-                className="group relative bg-ink-800 rounded-2xl overflow-hidden border border-white/[0.07] hover:border-saffron/35 transition-colors duration-500 flex flex-col scroll-mt-28"
+                /* The whole card opens the place, not just the link at its
+                   foot — the photograph is what people reach for. Save and
+                   Share stop their own clicks, so they still only save and
+                   share. The card is not made a button itself, because it
+                   already contains buttons; keyboard users keep the real
+                   "View details" control below. */
+                onClick={() => {
+                  // Selecting a line of the description is not a request to open it.
+                  if (window.getSelection?.().toString()) return;
+                  setOpenGem(gem);
+                }}
+                className="group relative bg-ink-800 rounded-2xl overflow-hidden border border-white/[0.07] hover:border-saffron/35 transition-colors duration-500 flex flex-col scroll-mt-28 cursor-pointer"
               >
                 {/* Image */}
                 <div className="relative h-60 overflow-hidden">
@@ -607,7 +618,10 @@ const HiddenGemsPage = ({ onPageChange }) => {
                     </span>
 
                     <button
-                      onClick={() => setOpenGem(gem)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenGem(gem);
+                      }}
                       className="flex items-center gap-2 text-[13px] font-bold text-saffron hover:text-saffron-bright transition-colors group/btn"
                     >
                       View details
