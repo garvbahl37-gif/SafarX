@@ -32,6 +32,31 @@ const ECHO_TAIL_MS = 500;
 /* Quiet for this long ends an utterance. Long enough to pause mid-sentence. */
 const END_OF_SPEECH_MS = 800;
 
+/* The room's noise floor, tracked continuously rather than measured once.
+
+   It used to be calibrated from the first 25 frames the microphone produced —
+   about 67 milliseconds — and then fixed for the whole session. People tap the
+   button and start talking, so those 67ms were very often their own voice.
+   The floor came out at speaking level, the speech threshold (three times the
+   floor) at three times speaking level, and nothing said at a normal volume
+   ever crossed it again: she greeted them and then never heard another word.
+
+   So the floor now starts at a typical quiet room and follows the room as it
+   goes. It drops quickly into any pause — and speech is full of pauses, between
+   words and syllables — but climbs only slowly, so a voice cannot drag it up.
+   A room that really is louder still raises it within a few seconds. */
+const FLOOR_START = 0.006;
+const FLOOR_MIN = 0.002;
+/* Capped, so that whatever happens to the estimate, the bar a normal voice has
+   to clear can never end up out of its reach. */
+const FLOOR_MAX = 0.025;
+const FLOOR_FALL = 0.08;     // per frame, toward a quieter reading
+const FLOOR_RISE = 0.0006;   // per frame, toward a louder one (~4s to settle)
+
+/* An utterance this long is noise that never stopped, not a question. Ending
+   it lets her answer what she has rather than waiting indefinitely. */
+const MAX_UTTERANCE_MS = 20000;
+
 /* Audio arrives over the network in uneven bursts. Starting playback the
    instant the first chunk lands means the second one is late and you hear a
    gap — the flicker in her voice. A short head start absorbs the jitter; long
@@ -122,8 +147,8 @@ export class LiveSession {
        whatever it hears in the first moments and judges speech against that,
        so a quiet laptop mic is not ignored and a noisy hall is not permanently
        triggered. */
-    this.floor = null;
-    this.floorSamples = [];
+    this.floor = FLOOR_START;
+    this.speechStartedAt = 0;
 
     /* Transcripts arrive a few words at a time and have to be assembled, but
        only within one exchange: appending them forever ran every answer into
@@ -350,16 +375,6 @@ export class LiveSession {
   #hear(frame) {
     const level = rms(frame);
 
-    // Listen to the room before judging anything against it.
-    if (this.floor === null) {
-      this.floorSamples.push(level);
-      if (this.floorSamples.length < 25) return;
-      const sorted = [...this.floorSamples].sort((a, b) => a - b);
-      const median = sorted[Math.floor(sorted.length / 2)];
-      this.floor = Math.max(0.004, median);
-      this.floorSamples = [];
-    }
-
     /* The bar stays raised for as long as her voice can still reach the
        microphone. `herTurn` alone is not that window: the server clears it when
        it finishes *generating*, while the speakers keep playing whatever is
@@ -371,6 +386,16 @@ export class LiveSession {
       this.speaking ||
       this.queued.size > 0 ||
       Date.now() - this.herTurnEndedAt < ECHO_TAIL_MS;
+
+    /* Follow the room. Falling is always allowed. Rising is not while she is
+       talking: what the microphone hears then is her voice coming back, and it
+       must not teach the floor that the room is loud. */
+    if (level < this.floor) {
+      this.floor += (level - this.floor) * FLOOR_FALL;
+    } else if (!guarded) {
+      this.floor += (level - this.floor) * FLOOR_RISE;
+    }
+    this.floor = Math.min(FLOOR_MAX, Math.max(FLOOR_MIN, this.floor));
     // Speech stands clear of the room; interrupting her has to stand clear of
     // her voice as well.
     const bar = Math.max(
@@ -383,7 +408,12 @@ export class LiveSession {
       this.lastLoudAt = now;
       if (!this.userSpeaking) {
         this.userSpeaking = true;
+        this.speechStartedAt = now;
         this.#send({ type: "speech-start" });
+      } else if (now - this.speechStartedAt > MAX_UTTERANCE_MS) {
+        clearTimeout(this.silenceTimer);
+        this.#endUtterance();
+        return;
       }
       clearTimeout(this.silenceTimer);
       this.silenceTimer = setTimeout(() => this.#endUtterance(), END_OF_SPEECH_MS);

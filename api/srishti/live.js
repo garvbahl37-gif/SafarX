@@ -106,20 +106,49 @@ wss.on("connection", (client, req) => {
     );
   });
 
+  /* Gemini takes no input until it has acknowledged the setup, which is about
+     a second after the browser's socket opens. Everything sent in that second
+     used to be dropped on the floor — and that second is exactly when people
+     start talking, because they tap the button and speak. The start of their
+     first sentence vanished, and the turn marker that opens it could arrive
+     with its audio missing. So it is held here and passed on, in order, the
+     moment Gemini is ready. */
+  let setupDone = false;
+  const early = [];
+  let earlyAudioBytes = 0;
+  let earlyInput = false;
+  /* Six seconds of audio. Setup takes about one; anything longer means
+     something is wrong upstream, and the cap keeps memory bounded meanwhile. */
+  const EARLY_AUDIO_LIMIT = 16000 * 2 * 6 * (4 / 3);
+
+  const forward = (payload, { audio = false, input = false } = {}) => {
+    if (setupDone && upstream.readyState === WebSocket.OPEN) {
+      upstream.send(payload);
+      return;
+    }
+    if (input) earlyInput = true;
+    if (audio) {
+      // Audio past the cap is dropped; turn markers never are, because a lost
+      // end-of-speech would leave Gemini waiting for a turn that never closes.
+      if (earlyAudioBytes + payload.length > EARLY_AUDIO_LIMIT) return;
+      earlyAudioBytes += payload.length;
+    }
+    early.push(payload);
+  };
+
   /* Browser → Gemini. Binary frames are raw 16kHz PCM from the microphone. */
   client.on("message", (data, isBinary) => {
-    if (upstream.readyState !== WebSocket.OPEN) return;
-
     if (isBinary) {
       /* `audio`, not `mediaChunks` — the latter is deprecated and takes only
          the first chunk, which meant the stream was rejected and Gemini hung
          up as soon as the microphone opened. */
-      upstream.send(
+      forward(
         JSON.stringify({
           realtimeInput: {
             audio: { mimeType: "audio/pcm;rate=16000", data: Buffer.from(data).toString("base64") },
           },
-        })
+        }),
+        { audio: true }
       );
       return;
     }
@@ -129,21 +158,22 @@ wss.on("connection", (client, req) => {
       const msg = JSON.parse(data.toString());
       /* The browser tells us where an utterance starts and ends. */
       if (msg.type === "speech-start") {
-        upstream.send(JSON.stringify({ realtimeInput: { activityStart: {} } }));
+        forward(JSON.stringify({ realtimeInput: { activityStart: {} } }), { input: true });
         return;
       }
       if (msg.type === "speech-end") {
-        upstream.send(JSON.stringify({ realtimeInput: { activityEnd: {} } }));
+        forward(JSON.stringify({ realtimeInput: { activityEnd: {} } }));
         return;
       }
       if (msg.type === "text" && msg.text) {
-        upstream.send(
+        forward(
           JSON.stringify({
             clientContent: {
               turns: [{ role: "user", parts: [{ text: msg.text }] }],
               turnComplete: true,
             },
-          })
+          }),
+          { input: true }
         );
       }
     } catch {
@@ -161,7 +191,21 @@ wss.on("connection", (client, req) => {
     }
 
     if (msg.setupComplete) {
+      setupDone = true;
       client.send(JSON.stringify({ type: "ready" }));
+
+      /* They were already talking before she was ready. Answer them, rather
+         than talking over the start of their question with a greeting. */
+      if (earlyInput) {
+        for (const payload of early) upstream.send(payload);
+        early.length = 0;
+        earlyAudioBytes = 0;
+        return;
+      }
+      // Nothing but room tone arrived early; there is nothing in it to keep.
+      early.length = 0;
+      earlyAudioBytes = 0;
+
       /* She opens the conversation rather than waiting to be spoken to — a
          voice that says nothing when it appears reads as broken. This turn is
          text, so it produces no input transcription and never shows up as
