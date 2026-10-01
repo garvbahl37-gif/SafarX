@@ -62,6 +62,7 @@ wss.on("connection", (client, req) => {
     if (closed) return;
     closed = true;
     clearTimeout(lifetime);
+    for (const done of [...waiting.values()]) done({ unavailable: "The conversation ended." });
     try {
       client.readyState === WebSocket.OPEN &&
         client.send(JSON.stringify({ type: "closed", reason: why }));
@@ -121,6 +122,32 @@ wss.on("connection", (client, req) => {
      something is wrong upstream, and the cap keeps memory bounded meanwhile. */
   const EARLY_AUDIO_LIMIT = 16000 * 2 * 6 * (4 / 3);
 
+  /* Some of what she does only the browser can answer — which views the
+     open tour really has, for one. She asks, the browser replies, and the
+     reply is what goes back to her as the tool's result. */
+  const waiting = new Map();
+  let asked = 0;
+  const askBrowser = (message, timeoutMs = 4000) =>
+    new Promise((resolve) => {
+      const id = `ask-${(asked += 1)}`;
+      const timer = setTimeout(() => {
+        waiting.delete(id);
+        resolve({ unavailable: "The screen did not answer in time." });
+      }, timeoutMs);
+      waiting.set(id, (result) => {
+        clearTimeout(timer);
+        waiting.delete(id);
+        resolve(result);
+      });
+      try {
+        client.send(JSON.stringify({ ...message, id }));
+      } catch {
+        clearTimeout(timer);
+        waiting.delete(id);
+        resolve({ unavailable: "The screen is not connected." });
+      }
+    });
+
   const forward = (payload, { audio = false, input = false } = {}) => {
     if (setupDone && upstream.readyState === WebSocket.OPEN) {
       upstream.send(payload);
@@ -156,6 +183,11 @@ wss.on("connection", (client, req) => {
     // Text is only ever a control message or a typed question.
     try {
       const msg = JSON.parse(data.toString());
+      /* An answer to something we asked the browser. Not for Gemini. */
+      if (msg.type === "vr-result" && msg.id) {
+        waiting.get(msg.id)?.(msg.result || { unavailable: "The tour did not say." });
+        return;
+      }
       /* The browser tells us where an utterance starts and ends. */
       if (msg.type === "speech-start") {
         forward(JSON.stringify({ realtimeInput: { activityStart: {} } }), { input: true });
@@ -242,7 +274,10 @@ wss.on("connection", (client, req) => {
       for (const call of msg.toolCall.functionCalls) {
         let result;
         try {
-          result = await runTool(call.name, call.args || {}, { origin });
+          result =
+            call.name === "switch_vr_view"
+              ? await askBrowser({ type: "vr-view", view: String(call.args?.view || "next") })
+              : await runTool(call.name, call.args || {}, { origin });
         } catch (err) {
           result = { unavailable: String(err.message || "that isn't available right now").slice(0, 120) };
         }

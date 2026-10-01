@@ -67,6 +67,21 @@ export const TOOL_DECLARATIONS = [
     },
   },
   {
+    name: "switch_vr_view",
+    description:
+      "Move to a different view inside the 360° tour that is open on screen. Many tours were shot from several spots — Ellora from nine caves, the Taj from the plinth, the terrace and the charbagh. Say which: a view's name or what it shows, a position such as 'second' or '3', or 'next' / 'previous'. Use whenever someone wants to see another part of the place they are looking at. The result says where they are now and lists every view, so if the one asked for is not there, offer the ones that are.",
+    parameters: {
+      type: "OBJECT",
+      properties: {
+        view: {
+          type: "STRING",
+          description: "Which view: its name or what it shows ('the charbagh', 'cave 10'), a position ('second', '3'), or 'next' / 'previous'",
+        },
+      },
+      required: ["view"],
+    },
+  },
+  {
     name: "hidden_gems_near",
     description:
       "Find lesser-known places worth visiting near an Indian city or state — the ones guidebooks miss.",
@@ -423,8 +438,16 @@ export const runTool = async (name, args, { origin }) => {
         // Say what is really there: a count when the tour ships verified
         // images, otherwise the live capture it falls back to.
         vantages: (hit.panoramas || []).length || "live street captures",
+        /* The views by name, so she can offer them — "I can also take you to
+           the charbagh" — and switch between them with switch_vr_view. */
+        views: (hit.panoramas || []).map((p, i) => p.label || `View ${i + 1}`),
       };
     }
+
+    case "switch_vr_view":
+      /* Only the live conversation can reach the tour on screen; live.js
+         answers this one itself by asking the browser. */
+      return { unavailable: "Changing the view needs the live conversation." };
 
     case "hidden_gems_near": {
       const place = findPlaces(args.place, 1)[0];

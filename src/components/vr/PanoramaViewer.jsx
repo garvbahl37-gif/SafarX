@@ -60,6 +60,7 @@ import {
     GOOGLE_MAPS_CONSOLE_URL,
 } from "../../services/googleStreetViewService";
 import StreetViewStage from "./StreetViewStage";
+import { registerVrViewer, resolveView } from "../../services/vrControl";
 import {
     CompassLoader,
     StateNotice,
@@ -621,6 +622,39 @@ const PanoramaViewer = ({
         },
         [vantageIndex]
     );
+
+    /* Lets Srishti move between this tour's views the way a guide would.
+       The reply says what actually happened — where we are now, what else
+       there is — so she never announces a view the tour does not have. Only
+       this component knows that: live street captures are only found once
+       the tour has loaded, so no list on the server could. */
+    useEffect(() => {
+        return registerVrViewer((request) => {
+            const labels = vantages.map((v, i) => v.label || `View ${i + 1}`);
+            const tour = name || "this tour";
+            if (!labels.length) {
+                return { tour, unavailable: "The tour is still loading." };
+            }
+            if (labels.length === 1) {
+                return { tour, onlyView: labels[0], unavailable: "This tour was shot from a single spot." };
+            }
+            const { index } = resolveView(request, labels, vantageIndex);
+            if (index == null) {
+                return { tour, notFound: String(request || ""), current: labels[vantageIndex], available: labels };
+            }
+            if (index === vantageIndex) {
+                return { tour, already: true, now: labels[index], available: labels };
+            }
+            selectVantage(index);
+            return {
+                tour,
+                switched: true,
+                now: labels[index],
+                position: `${index + 1} of ${labels.length}`,
+                available: labels,
+            };
+        });
+    }, [vantages, vantageIndex, selectVantage, name]);
 
     /* Keep the selected vantage pill visible inside the scrolling strip. */
     useEffect(() => {

@@ -122,6 +122,7 @@ export class LiveSession {
    * @param {(text: string) => void} [handlers.onHeard] your words, as she hears them
    * @param {(to: string, tourId: string|null) => void} [handlers.onNavigate]
    * @param {(name: string) => void} [handlers.onTool]
+   * @param {(view: string) => object} [handlers.onVrView] change view in the open tour
    * @param {(message: string) => void} [handlers.onError]
    */
   constructor(handlers = {}) {
@@ -316,6 +317,20 @@ export class LiveSession {
       case "tool":
         this.h.onTool?.(msg.name);
         break;
+      case "vr-view": {
+        /* She asked the open tour to change view. Answer with what really
+           happened, which is what she tells the traveller. */
+        let result;
+        try {
+          result = this.h.onVrView
+            ? this.h.onVrView(msg.view)
+            : { unavailable: "No 360° tour is open on screen right now." };
+        } catch {
+          result = { unavailable: "The tour could not change view just then." };
+        }
+        this.#send({ type: "vr-result", id: msg.id, result });
+        break;
+      }
       case "error":
         this.h.onError?.(msg.message);
         break;

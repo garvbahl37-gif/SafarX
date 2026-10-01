@@ -5,6 +5,7 @@ import { X, Mic, MicOff, Keyboard, CornerDownLeft } from "lucide-react";
 import SrishtiRings from "./SrishtiRings";
 import vrTours from "../../data/vrTours.json";
 import { setIntent } from "../../services/srishtiIntent";
+import { commandVrView } from "../../services/vrControl";
 import { LiveSession } from "../../services/srishtiLive";
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -29,6 +30,7 @@ const TOOL_LABEL = {
   check_safety: "checked how safe it is",
   create_reel: "set up your reel",
   open_page: "opened the page",
+  switch_vr_view: "changed the view",
 };
 
 const SrishtiPanel = ({ open, onClose, onPageChange }) => {
@@ -109,6 +111,7 @@ const SrishtiPanel = ({ open, onClose, onPageChange }) => {
         else navigate(to);
       },
       onTool: (name) => setReceipts((prev) => [...new Set([...prev, TOOL_LABEL[name] || name])]),
+      onVrView: (view) => commandVrView(view),
       onError: (message) => setError(message),
     });
 
