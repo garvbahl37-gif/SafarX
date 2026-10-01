@@ -65,6 +65,9 @@ const MAX_UTTERANCE_MS = 20000;
    reason why. */
 const REPLY_TIMEOUT_MS = 12000;
 
+/* Five seconds of 16kHz PCM16, held while the socket opens. */
+const PREOPEN_AUDIO_BYTES = MIC_RATE * 2 * 5;
+
 /* Audio arrives over the network in uneven bursts. Starting playback the
    instant the first chunk lands means the second one is late and you hear a
    gap — the flicker in her voice. A short head start absorbs the jitter; long
@@ -154,6 +157,9 @@ export class LiveSession {
     this.silenceTimer = null;
     this.replyTimer = null;
     this.missedReplies = 0;
+    /* What was heard before the socket finished opening. */
+    this.outbox = [];
+    this.outboxBytes = 0;
     /* A fixed threshold suits one microphone and one room. This one settles on
        whatever it hears in the first moments and judges speech against that,
        so a quiet laptop mic is not ignored and a noisy hall is not permanently
@@ -239,27 +245,53 @@ export class LiveSession {
       this.#teardownAudio();
     };
 
-    await new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error("Srishti did not pick up.")), 12000);
-      this.socket.onopen = () => {
-        clearTimeout(timer);
-        resolve();
-      };
-    });
-
-    // Only start streaming once the socket is up, so nothing is lost.
+    /* Listen from the moment the microphone opens, not from the moment the
+       socket does. Waiting for the socket was meant to ensure nothing was
+       lost, and did the opposite: on the live site it takes about a second
+       to open, people speak as soon as they tap, and that first second never
+       left the browser — "Can you suggest a quiet place" arrived as "Suggest
+       a quiet place". What is heard before the socket opens is held in the
+       outbox and sent, in order, as soon as it does. */
     const source = this.micContext.createMediaStreamSource(this.mic);
     this.node = new AudioWorkletNode(this.micContext, "srishti-tap");
     this.node.port.onmessage = (e) => {
-      if (this.muted || this.socket?.readyState !== WebSocket.OPEN) return;
+      if (this.muted) return;
       this.#hear(e.data);
       // Audio always flows; only the activity markers gate a turn.
-      this.socket.send(e.data.buffer);
+      this.#post(e.data.buffer, true);
     };
     source.connect(this.node);
     // Kept out of the speakers — this node exists to read the microphone.
     this.node.connect(this.micContext.destination);
     this.node.disconnect(this.micContext.destination);
+
+    await new Promise((resolve, reject) => {
+      const timer = setTimeout(() => reject(new Error("Srishti did not pick up.")), 12000);
+      this.socket.onopen = () => {
+        clearTimeout(timer);
+        for (const item of this.outbox) this.socket.send(item);
+        this.outbox = [];
+        this.outboxBytes = 0;
+        resolve();
+      };
+    });
+  }
+
+  /* Audio and turn markers share one queue, so a marker can never overtake
+     the speech it marks. */
+  #post(payload, isAudio = false) {
+    if (this.socket?.readyState === WebSocket.OPEN) {
+      this.socket.send(payload);
+      return;
+    }
+    if (!this.socket || this.socket.readyState > WebSocket.OPEN) return; // closing or gone
+    if (isAudio) {
+      // Five seconds is far more than the socket takes; past that, drop audio
+      // rather than grow without bound. Markers are tiny and always kept.
+      if (this.outboxBytes + payload.byteLength > PREOPEN_AUDIO_BYTES) return;
+      this.outboxBytes += payload.byteLength;
+    }
+    this.outbox.push(payload);
   }
 
   #onMessage(event) {
@@ -488,9 +520,7 @@ export class LiveSession {
   }
 
   #send(message) {
-    if (this.socket?.readyState === WebSocket.OPEN) {
-      this.socket.send(JSON.stringify(message));
-    }
+    this.#post(JSON.stringify(message));
   }
 
   #flush() {
